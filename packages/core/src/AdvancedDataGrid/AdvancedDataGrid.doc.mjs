@@ -1,8 +1,8 @@
 export const docs = {
   name: 'AdvancedDataGrid',
   displayName: 'Advanced Data Grid',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Advanced Data & Visualization',
+  category: 'advanced-data',
   keywords: [
     'grid',
     'table',

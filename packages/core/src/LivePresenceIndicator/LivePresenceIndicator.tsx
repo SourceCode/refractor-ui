@@ -633,6 +633,8 @@ export function LivePresenceIndicator({
               const safeX = clampNumber(cursor.x, 0, 100);
               const safeY = clampNumber(cursor.y, 0, 100);
               const pillText = cursor.label ?? entry.displayName;
+              const flipLeft = safeX > 55;
+              const flipUp = safeY > 75;
 
               return (
                 <div
@@ -640,7 +642,11 @@ export function LivePresenceIndicator({
                   data-cursor-user={entry.user.id}
                   data-cursor-x={String(safeX)}
                   data-cursor-y={String(safeY)}
-                  className="absolute pointer-events-none select-none flex items-start gap-1 transition-all duration-150"
+                  className={cx(
+                    'absolute pointer-events-none select-none flex items-start gap-1 transition-all duration-150',
+                    flipLeft && 'flex-row-reverse -translate-x-full',
+                    flipUp && '-translate-y-full'
+                  )}
                   style={{
                     left: `${safeX}%`,
                     top: `${safeY}%`,

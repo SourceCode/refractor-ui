@@ -1,8 +1,8 @@
 export const docs = {
   name: 'GanttChart',
   displayName: 'Gantt Chart',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Advanced Data & Visualization',
+  category: 'advanced-data',
   keywords: ['gantt', 'timeline', 'schedule', 'dependencies', 'milestones', 'resource', 'roadmap', 'svg'],
   usage: {
     description:

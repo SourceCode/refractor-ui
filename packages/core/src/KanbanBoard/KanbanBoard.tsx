@@ -286,7 +286,13 @@ export function KanbanBoard({
           No workflow columns configured.
         </div>
       ) : (
-        <div className="flex items-start gap-4 min-w-max">
+        <div
+          className={
+            uniqueColumns.length <= 4
+              ? `grid grid-cols-1 md:grid-cols-2 ${uniqueColumns.length === 4 ? 'xl:grid-cols-4' : uniqueColumns.length === 3 ? 'lg:grid-cols-3' : ''} items-start gap-3.5`
+              : 'flex items-start gap-4 min-w-max'
+          }
+        >
           {uniqueColumns.map((column, colIndex) => {
             const columnCards = cardsByColumn.get(column.id) ?? [];
             const safeWipLimit =
@@ -321,7 +327,7 @@ export function KanbanBoard({
                 onDrop={(e) => handleColumnDrop(e, column.id)}
                 {...mergeProps({
                   themeTarget: columnTarget,
-                  baseClassName: `prism-slab p-3.5 w-72 shrink-0 flex flex-col gap-3 transition-all ${
+                  baseClassName: `prism-slab p-3.5 ${uniqueColumns.length <= 4 ? 'w-full min-w-0' : 'w-72 shrink-0'} flex flex-col gap-3 transition-all ${
                     isDropTarget
                       ? 'ring-2 ring-sky-400/80 dark:ring-sky-400/70 scale-[1.01]'
                       : wipExceeded

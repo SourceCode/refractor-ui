@@ -1,8 +1,8 @@
 export const docs = {
   name: 'VisualQueryBuilder',
   displayName: 'Visual Query Builder',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Advanced Search & Filtering',
+  category: 'search-filtering',
   keywords: [
     'query',
     'builder',

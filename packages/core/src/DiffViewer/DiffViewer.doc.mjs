@@ -1,8 +1,8 @@
 export const docs = {
   name: 'DiffViewer',
   displayName: 'Code & Text Diff Viewer',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Advanced Data & Visualization',
+  category: 'advanced-data',
   keywords: ['diff', 'compare', 'code', 'split', 'unified', 'patch', 'review', 'whitespace'],
   usage: {
     description:

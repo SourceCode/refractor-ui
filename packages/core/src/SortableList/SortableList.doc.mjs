@@ -1,8 +1,8 @@
 export const docs = {
   name: 'SortableList',
   displayName: 'Sortable Drag-and-Drop List',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Interactive & Drag-and-Drop',
+  category: 'drag-and-drop',
   keywords: ['sortable', 'drag-and-drop', 'reorder', 'priority', 'ranking', 'list', 'dnd'],
   usage: {
     description:

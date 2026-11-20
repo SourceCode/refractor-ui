@@ -1,8 +1,8 @@
 export const docs = {
   name: 'ProductTour',
   displayName: 'Product Tour (Guided Coachmark)',
-  group: 'Overlays & Floating Surfaces',
-  category: 'overlays',
+  group: 'Collaboration & Guidance',
+  category: 'collaboration-guidance',
   keywords: [
     'tour',
     'onboarding',

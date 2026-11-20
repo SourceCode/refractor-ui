@@ -1,8 +1,8 @@
 export const docs = {
   name: 'NotificationCenter',
   displayName: 'Notification Center (Activity Inbox)',
-  group: 'Feedback & Overlays',
-  category: 'feedback-overlays',
+  group: 'Collaboration & Guidance',
+  category: 'collaboration-guidance',
   keywords: ['notifications', 'inbox', 'activity', 'alerts', 'mentions', 'bell', 'drawer', 'dropdown'],
   usage: {
     description:

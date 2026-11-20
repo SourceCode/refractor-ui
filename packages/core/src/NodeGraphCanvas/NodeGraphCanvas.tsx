@@ -104,7 +104,7 @@ const MAX_COORD = 4000;
 const MIN_PAN = -4000;
 const MAX_PAN = 4000;
 
-const NODE_WIDTH = 200;
+const NODE_WIDTH = 176;
 const NODE_HEIGHT = 84;
 const PORT_OFFSET_Y = 42;
 const KEYBOARD_NUDGE_PX = 16;

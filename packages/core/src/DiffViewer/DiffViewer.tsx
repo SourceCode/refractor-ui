@@ -296,7 +296,7 @@ export function DiffViewer({
           <div className="overflow-x-auto max-h-[540px] overflow-y-auto">
             <table
               aria-label={`${title} side-by-side diff`}
-              className="w-full border-collapse table-fixed"
+              className="w-full min-w-full border-collapse table-auto"
             >
               <thead>
                 <tr className="border-b border-slate-300/40 dark:border-slate-700/50 bg-slate-200/40 dark:bg-slate-900/40 text-left text-[11px] font-semibold text-slate-600 dark:text-slate-300">
@@ -339,7 +339,7 @@ export function DiffViewer({
                       <td
                         data-diff-pane="original"
                         data-diff-kind={leftKind ?? 'empty'}
-                        className={`pr-3 pl-1 whitespace-pre-wrap break-all ${leftTone}`}
+                        className={`pr-3 pl-1 whitespace-pre ${leftTone}`}
                       >
                         {row.left ? row.left.content : ''}
                       </td>
@@ -358,7 +358,7 @@ export function DiffViewer({
                       <td
                         data-diff-pane="modified"
                         data-diff-kind={rightKind ?? 'empty'}
-                        className={`pr-3 pl-1 whitespace-pre-wrap break-all ${rightTone}`}
+                        className={`pr-3 pl-1 whitespace-pre ${rightTone}`}
                       >
                         {row.right ? row.right.content : ''}
                       </td>

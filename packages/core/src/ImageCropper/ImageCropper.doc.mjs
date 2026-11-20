@@ -1,8 +1,8 @@
 export const docs = {
   name: 'ImageCropper',
   displayName: 'Image Cropper & Media Editor',
-  group: 'Media & Creative Editors',
-  category: 'media-editors',
+  group: 'Rich Input & Content Creation',
+  category: 'rich-input',
   keywords: ['image', 'cropper', 'crop', 'media', 'editor', 'zoom', 'rotate', 'aspect-ratio'],
   usage: {
     description:

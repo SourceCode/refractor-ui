@@ -135,9 +135,20 @@ const systemSlice = createSlice({
     },
     setThemeMode(state, action: PayloadAction<ThemeMode>) {
       state.themeMode = action.payload;
+      if (action.payload === 'dark' && state.themePreset === 'alabaster') {
+        state.themePreset = 'obsidian';
+      } else if (action.payload === 'light' && state.themePreset === 'obsidian') {
+        state.themePreset = 'alabaster';
+      }
     },
     toggleThemeMode(state) {
-      state.themeMode = state.themeMode === 'light' ? 'dark' : 'light';
+      const nextMode: ThemeMode = state.themeMode === 'light' ? 'dark' : 'light';
+      state.themeMode = nextMode;
+      if (nextMode === 'dark' && state.themePreset === 'alabaster') {
+        state.themePreset = 'obsidian';
+      } else if (nextMode === 'light' && state.themePreset === 'obsidian') {
+        state.themePreset = 'alabaster';
+      }
     },
     setRefraction(state, action: PayloadAction<RefractionIntensity>) {
       state.refraction = action.payload;

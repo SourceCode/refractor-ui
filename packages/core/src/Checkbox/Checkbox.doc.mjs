@@ -1,8 +1,8 @@
 export const docs = {
   name: 'Checkbox',
   displayName: 'Optical Glass Checkbox',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Form Inputs & Selection Controls',
+  category: 'form-inputs',
   keywords: ['checkbox', 'check', 'toggle', 'indeterminate', 'mixed', 'form', 'emerald'],
   usage: {
     description:

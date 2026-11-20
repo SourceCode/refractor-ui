@@ -516,7 +516,7 @@ export function SignaturePad({
             type="button"
             disabled={disabled || isEmpty}
             onClick={handleSave}
-            className="prism-btn-primary prism-focus-ring h-9 px-5 inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="prism-btn-primary prism-focus-ring h-9 px-5 inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-70 disabled:saturate-50 disabled:cursor-not-allowed"
           >
             <Check className="w-3.5 h-3.5 relative z-10" aria-hidden="true" />
             <span className="relative z-10">Save Signature</span>

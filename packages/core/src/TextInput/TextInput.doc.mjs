@@ -1,8 +1,8 @@
 export const docs = {
   name: 'TextInput',
   displayName: 'Text Input Field',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Form Inputs & Selection Controls',
+  category: 'form-inputs',
   keywords: ['input', 'text', 'password', 'field', 'form', 'well', 'validation'],
   usage: {
     description:

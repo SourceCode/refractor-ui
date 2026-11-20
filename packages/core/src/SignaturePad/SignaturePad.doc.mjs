@@ -1,8 +1,8 @@
 export const docs = {
   name: 'SignaturePad',
   displayName: 'Signature Pad',
-  group: 'Form Inputs & Selection Controls',
-  category: 'form-inputs',
+  group: 'Rich Input & Content Creation',
+  category: 'rich-input',
   keywords: ['signature', 'pad', 'draw', 'ink', 'svg', 'vector', 'sign', 'approval'],
   usage: {
     description:

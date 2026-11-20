@@ -1,8 +1,8 @@
 export const docs = {
   name: 'VirtualizedList',
   displayName: 'Virtualized List / Infinite Scroller',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Layout & Workspace Controls',
+  category: 'layout-workspace',
   keywords: ['virtualized', 'list', 'windowing', 'infinite', 'scroll', 'performance', 'large-data'],
   usage: {
     description:

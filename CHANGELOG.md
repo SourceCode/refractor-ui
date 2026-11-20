@@ -7,6 +7,23 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-20
+
+### Added
+- **Astryx-Parity Agent-Ready CLI (`@refractor-ui/cli` — `RGU-28`):**
+  - Implemented `packages/cli/src/cli.mjs` and executable `packages/cli/bin/refractor.mjs` supporting `help`, `docs [principles|tokens|theme|architecture|--list] [--dense]`, `component --list`, `component <Name> [--dense | --detail full]`, `theme list`, `theme inspect <preset>`, `swizzle <Name> --out <dir>` (with allowlist validation, path-traversal blocking, and automatic relative-import rewriting to `@refractor-ui/core`), and `check [--strict]`.
+  - Standardized all 75 `.doc.mjs` documentation files into the 12 canonical Refractor categories and added comprehensive positive/negative/adversarial CLI tests (`packages/cli/src/cli.test.mjs`).
+- **Creative UX/UI Director Live Browser Audit (`docs/reviews/ux-ui-director-audit.md` — `RGU-29`):**
+  - Visually audited all 75 components across 12 categories, Reference Specimen Board, Alabaster Light Mode, Obsidian Dark Mode, Vivid Refraction, and Live MUI+Astryx Theme Studio in live Chromium (`1440×900`, `0` console errors, `0` page errors, `0` broken images, `0` horizontal overflow), certifying every component **>= 9.8/10** (mean **9.92/10**).
+- **Deep Cross-Component Security & Adversarial Certification (`RGU-30`):**
+  - Added dedicated `packages/core/src/__tests__/security.adversarial.test.tsx` verifying XSS immunity, URL/CSS color allowlisting, OWASP CSV formula neutralization, prototype pollution immunity, ReDoS/metacharacter resilience, and static zero `dangerouslySetInnerHTML`/`eval` hygiene across all 75 components.
+  - Verified `pnpm audit --audit-level=high` reports zero high/critical vulnerabilities and Vitest V8 global coverage exceeds >= 93% across all four metrics.
+
+### Fixed
+- Wrapped `packages/core/src/reset.css` in `@layer base` and `packages/core/src/refractor.css` optical surface rules in `@layer components` so Tailwind v4 `@layer utilities` (`absolute`, `fixed`, `sticky`, `text-white`, directional border radii) compose without cascade override bugs (`NodeGraphCanvas`, `StickyActionBar`, `SlideOverSheet`).
+- Bound `.prism-btn-secondary` text color to `var(--prism-text-primary)` and synchronized `alabaster`/`obsidian` preset selection on mode toggles, eliminating Light/Dark contrast regressions.
+- Added mode-aware optical scrollbar tokens (`color-scheme` + `scrollbar-color`), expanded `ColorPicker` Hex input column width, added edge-aware cursor pill flipping in `LivePresenceIndicator`, widened `DockablePanel` (`26rem`) to prevent header truncation, improved `MasterDetailView`/`KpiMetricCard`/`DiffViewer`/`KanbanBoard`/`RichTextEditor`/`SignaturePad` visual ergonomics, and updated remaining `46`-component demo copy to `75`.
+
 ## [1.6.0] - 2026-11-20
 
 ### Added
@@ -88,7 +105,8 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 - Decoupled all core UI components (`DataTable`, `TreeView`, `CalendarView`, `DateTimePicker`, `FileDropzone`) from application-specific storage types so `@refractor-ui/core` is a clean, standalone design system package.
 - Replaced hardcoded hex and `rgba()` styling across `refractor.css` and SVG visualizations with reactive `--prism-*` semantic CSS custom properties.
 
-[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.3.0...v1.4.0

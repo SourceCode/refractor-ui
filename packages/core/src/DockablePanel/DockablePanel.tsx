@@ -133,15 +133,15 @@ function detectEdgeSnap(
 function getDockLayoutClasses(position: DockPosition): string {
   switch (position) {
     case 'left':
-      return 'w-80 max-w-full rounded-r-[24px] rounded-l-none';
+      return 'w-[26rem] max-w-full rounded-r-[24px] rounded-l-none';
     case 'right':
-      return 'w-80 max-w-full rounded-l-[24px] rounded-r-none';
+      return 'w-[26rem] max-w-full rounded-l-[24px] rounded-r-none';
     case 'bottom':
       return 'w-full rounded-t-[24px] rounded-b-none';
     case 'center':
       return 'w-full';
     case 'floating':
-      return 'fixed z-40 w-96 max-w-[calc(100vw-2rem)] shadow-2xl';
+      return 'fixed z-40 w-[26rem] max-w-[calc(100vw-2rem)] shadow-2xl';
   }
 }
 
@@ -417,43 +417,43 @@ export function DockablePanel({
                   aria-pressed={active}
                   title={item.label}
                   onClick={() => setCurrentDock(item.zone)}
-                  className={cx(
-                    'prism-focus-ring p-1.5 rounded-lg cursor-pointer disabled:cursor-not-allowed transition-all',
-                    active
-                      ? 'prism-btn-primary text-white'
-                      : 'text-slate-600 dark:text-slate-300 hover:bg-white/65 dark:hover:bg-white/10'
-                  )}
-                >
-                  <span className="relative z-10 block">{item.icon}</span>
-                </button>
-              );
-            })}
-          </div>
+                    className={cx(
+                      'prism-focus-ring p-1 rounded-lg cursor-pointer disabled:cursor-not-allowed transition-all',
+                      active
+                        ? 'prism-btn-primary text-white'
+                        : 'text-slate-600 dark:text-slate-300 hover:bg-white/65 dark:hover:bg-white/10'
+                    )}
+                  >
+                    <span className="relative z-10 block">{item.icon}</span>
+                  </button>
+                );
+              })}
+            </div>
 
-          <button
-            type="button"
-            aria-expanded={!isCollapsed}
-            aria-controls={bodyId}
-            aria-label={isCollapsed ? 'Expand panel' : 'Collapse panel'}
-            title={isCollapsed ? 'Expand panel' : 'Collapse panel'}
-            onClick={() => setIsCollapsed((prev) => !prev)}
-            className="prism-focus-ring p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-white/10 cursor-pointer disabled:cursor-not-allowed"
-          >
-            {isCollapsed ? (
-              <ChevronDown className="w-4 h-4" aria-hidden="true" />
-            ) : (
-              <ChevronUp className="w-4 h-4" aria-hidden="true" />
-            )}
-          </button>
-
-          {onClose ? (
             <button
               type="button"
-              aria-label="Close panel"
-              title="Close panel"
-              onClick={onClose}
-              className="prism-focus-ring p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-white/10 cursor-pointer disabled:cursor-not-allowed"
+              aria-expanded={!isCollapsed}
+              aria-controls={bodyId}
+              aria-label={isCollapsed ? 'Expand panel' : 'Collapse panel'}
+              title={isCollapsed ? 'Expand panel' : 'Collapse panel'}
+              onClick={() => setIsCollapsed((prev) => !prev)}
+              className="prism-focus-ring p-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-white/10 cursor-pointer disabled:cursor-not-allowed"
             >
+              {isCollapsed ? (
+                <ChevronDown className="w-4 h-4" aria-hidden="true" />
+              ) : (
+                <ChevronUp className="w-4 h-4" aria-hidden="true" />
+              )}
+            </button>
+
+            {onClose ? (
+              <button
+                type="button"
+                aria-label="Close panel"
+                title="Close panel"
+                onClick={onClose}
+                className="prism-focus-ring p-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-white/10 cursor-pointer disabled:cursor-not-allowed"
+              >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
           ) : null}

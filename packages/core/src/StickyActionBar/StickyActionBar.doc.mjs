@@ -1,8 +1,8 @@
 export const docs = {
   name: 'StickyActionBar',
   displayName: 'Sticky Action Bar',
-  group: 'Buttons & Actions',
-  category: 'buttons-actions',
+  group: 'Layout & Workspace Controls',
+  category: 'layout-workspace',
   keywords: ['sticky', 'action', 'bar', 'toolbar', 'bulk', 'selection', 'floating', 'batch'],
   usage: {
     description:

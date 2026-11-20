@@ -1,8 +1,8 @@
 export const docs = {
   name: 'SearchWithSuggestions',
   displayName: 'Search Bar with Suggestions',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Form Inputs & Selection Controls',
+  category: 'form-inputs',
   keywords: ['search', 'autocomplete', 'combobox', 'suggestions', 'quick-add', 'filter'],
   usage: {
     description:

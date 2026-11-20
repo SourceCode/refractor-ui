@@ -1,6 +1,6 @@
 # Refractor Optical Glass UI Kit
 
-A tactile, prismatic optical-glass **React 19 & TypeScript** component library and interactive Optical Workbench featuring **Astryx-aligned Open-Internals architecture**, **MUI-ergonomic dynamic color & optical theming**, **zero `any`/`unknown` strictness**, **>= 93% adversarial unit test coverage**, and **75 accessible components across 12 categories** (planned through `v1.7.0`).
+A tactile, prismatic optical-glass **React 19 & TypeScript** component library and interactive Optical Workbench featuring **Astryx-aligned Open-Internals architecture**, **MUI-ergonomic dynamic color & optical theming**, **zero `any`/`unknown` strictness**, **>= 93% adversarial unit test coverage**, and **75 accessible components across 12 categories** (certified through `v1.7.0`).
 
 ---
 
@@ -46,7 +46,21 @@ pnpm lint:strict      # Run two-tier ESLint in CI/agent strict mode
 pnpm typecheck        # Run strict TypeScript checks
 pnpm test:coverage    # Run Vitest unit & adversarial suite (>= 93% gate)
 pnpm build            # Build all packages and documentation app
+pnpm refractor help   # Explore the agent-ready @refractor-ui/cli
 ```
+
+### Agent-Ready CLI (`@refractor-ui/cli`)
+
+```bash
+node packages/cli/bin/refractor.mjs component --list
+node packages/cli/bin/refractor.mjs component PrimaryButton --dense
+node packages/cli/bin/refractor.mjs docs theme --dense
+node packages/cli/bin/refractor.mjs theme list
+node packages/cli/bin/refractor.mjs swizzle PrimaryButton --out src/components
+node packages/cli/bin/refractor.mjs check --strict
+```
+
+> **GitHub Actions CI/Release Templates:** Ready-to-use workflows are stored in `.github/ci-templates/ci.yml` and `.github/ci-templates/release.yml`. Move them into `.github/workflows/` using a GitHub token with the `workflow` OAuth scope to activate automated Actions pipelines.
 
 ### MUI-Style & Astryx-Style Theming Example
 

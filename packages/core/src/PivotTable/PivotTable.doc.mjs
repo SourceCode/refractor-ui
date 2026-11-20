@@ -1,8 +1,8 @@
 export const docs = {
   name: 'PivotTable',
   displayName: 'Pivot Table',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Advanced Data & Visualization',
+  category: 'advanced-data',
   keywords: [
     'pivot',
     'crosstab',

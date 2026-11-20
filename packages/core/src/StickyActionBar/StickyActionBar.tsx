@@ -64,7 +64,7 @@ function getActionToneClass(tone: StickyActionTone): string {
     case 'cobalt':
       return 'prism-btn-cobalt';
     case 'destructive':
-      return 'rounded-full bg-gradient-to-b from-red-500 to-rose-600 text-white shadow-sm ring-1 ring-inset ring-white/30 enabled:hover:brightness-105 enabled:hover:-translate-y-0.5 enabled:active:scale-[0.99] transition-all';
+      return 'rounded-full bg-gradient-to-b from-red-600 to-rose-700 text-white shadow-sm ring-1 ring-inset ring-white/30 enabled:hover:brightness-105 enabled:hover:-translate-y-0.5 enabled:active:scale-[0.99] transition-all';
     case 'secondary':
     default:
       return 'prism-btn-secondary';

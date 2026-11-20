@@ -1,8 +1,8 @@
 export const docs = {
   name: 'ContextualPopover',
   displayName: 'Contextual Popover Card',
-  group: 'Overlays & Floating Surfaces',
-  category: 'overlays',
+  group: 'Overlays & Popups',
+  category: 'overlays-popups',
   keywords: ['popover', 'contextual', 'card', 'callout', 'upsell', 'floating'],
   usage: {
     description:

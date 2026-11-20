@@ -1,8 +1,8 @@
 export const docs = {
   name: 'GlobalSearchModal',
   displayName: 'Global Search Modal',
-  group: 'Navigation',
-  category: 'navigation',
+  group: 'Advanced Search & Filtering',
+  category: 'search-filtering',
   keywords: ['global search', 'modal', 'spotlight', 'cmd+k', 'filter', 'highlight', 'recent'],
   usage: {
     description:

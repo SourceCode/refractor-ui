@@ -1,8 +1,8 @@
 export const docs = {
   name: 'NodeGraphCanvas',
   displayName: 'Node Graph / Flow Canvas',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Interactive & Drag-and-Drop',
+  category: 'drag-and-drop',
   keywords: [
     'node',
     'graph',

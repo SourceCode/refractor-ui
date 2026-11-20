@@ -237,9 +237,11 @@ export function LayoutDemos({ componentId }: LayoutDemosProps) {
             itemHeight={46}
             height={280}
             renderItem={(row) => (
-              <div className="h-full px-4 flex items-center justify-between border-b border-slate-200/50 dark:border-slate-800/60 text-xs">
-                <span className="font-mono text-slate-800 dark:text-slate-100">{row.token}</span>
-                <span className="font-mono tabular-nums text-slate-500 dark:text-slate-400">
+              <div className="h-full px-4 flex items-center justify-between gap-4 border-b border-slate-200/50 dark:border-slate-800/60 text-xs">
+                <span className="font-mono text-slate-800 dark:text-slate-100 truncate">
+                  {row.token}
+                </span>
+                <span className="prism-crystal px-2.5 py-0.5 rounded-full font-mono tabular-nums text-[11px] text-slate-600 dark:text-slate-300 shrink-0 whitespace-nowrap">
                   #{row.index} · {row.latencyMs}ms
                 </span>
               </div>

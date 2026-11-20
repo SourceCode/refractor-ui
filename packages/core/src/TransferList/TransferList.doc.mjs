@@ -1,8 +1,8 @@
 export const docs = {
   name: 'TransferList',
   displayName: 'Transfer List (Dual Listbox)',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Interactive & Drag-and-Drop',
+  category: 'drag-and-drop',
   keywords: ['transfer', 'dual-listbox', 'listbox', 'shuttle', 'picklist', 'multi-select', 'assign'],
   usage: {
     description:

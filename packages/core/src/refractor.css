@@ -8,6 +8,7 @@
  */
 
 :root {
+  color-scheme: light;
   /* Typography */
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
@@ -106,6 +107,7 @@
 
 .dark,
 [data-color-mode="dark"] {
+  color-scheme: dark;
   --prism-secondary-contrast: #f1f5f9;
   --prism-bg-start: #0d121a;
   --prism-bg-mid: #121924;
@@ -126,22 +128,35 @@
   --prism-well-border: rgba(148, 163, 184, 0.2);
 }
 
-html {
-  font-family: var(--prism-font-sans);
+@layer base {
+  html {
+    font-family: var(--prism-font-sans);
+  }
+
+  body {
+    font-family: var(--prism-font-sans);
+    background: linear-gradient(145deg, var(--prism-bg-start) 0%, var(--prism-bg-mid) 48%, var(--prism-bg-end) 100%);
+    color: var(--prism-text-primary);
+  }
+
+  code,
+  pre,
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+  }
+
+  .dark *,
+  [data-color-mode="dark"] * {
+    scrollbar-color: rgba(148, 163, 184, 0.32) transparent;
+  }
 }
 
-body {
-  font-family: var(--prism-font-sans);
-  background: linear-gradient(145deg, var(--prism-bg-start) 0%, var(--prism-bg-mid) 48%, var(--prism-bg-end) 100%);
-  color: var(--prism-text-primary);
-}
-
-code,
-pre,
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
-}
-
+@layer components {
 /* Studio Specimen Backdrop */
 .prism-studio-surface {
   background:
@@ -216,7 +231,7 @@ pre,
 .prism-btn-secondary {
   position: relative;
   border-radius: var(--prism-radius-pill);
-  color: var(--prism-secondary-contrast);
+  color: var(--prism-text-primary);
   background:
     radial-gradient(92% 50% at 46% 9%, rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.38) 44%, rgba(255, 255, 255, 0) 68%),
     radial-gradient(82% 65% at 70% 96%, rgba(var(--prism-secondary-light-rgb), 0.78) 0%, rgba(var(--prism-secondary-light-rgb), 0) 72%),
@@ -234,7 +249,7 @@ pre,
 
 .dark .prism-btn-secondary,
 [data-color-mode="dark"] .prism-btn-secondary {
-  color: var(--prism-secondary-contrast);
+  color: var(--prism-text-primary);
   background:
     radial-gradient(95% 54% at 48% 10%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 62%),
     radial-gradient(80% 65% at 68% 95%, rgba(var(--prism-secondary-rgb), 0.34) 0%, rgba(var(--prism-secondary-rgb), 0) 72%),
@@ -402,4 +417,5 @@ pre,
 .prism-focus-ring:focus-visible {
   outline: 2px solid var(--prism-focus-ring);
   outline-offset: 2px;
+}
 }

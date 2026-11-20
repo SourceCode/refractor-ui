@@ -1,8 +1,8 @@
 export const docs = {
   name: 'RichTextEditor',
   displayName: 'Rich Text / WYSIWYG Editor',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Rich Input & Content Creation',
+  category: 'rich-input',
   keywords: [
     'rich text',
     'wysiwyg',

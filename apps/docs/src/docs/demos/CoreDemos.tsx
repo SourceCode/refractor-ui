@@ -234,7 +234,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
               dispatch(pushToast({ title: 'Started default optical project', tone: 'amber' }))
             }
             actions={[
-              { id: 'template', label: 'Start from UI Kit Template', description: 'Includes all 46 components' },
+              { id: 'template', label: 'Start from UI Kit Template', description: 'Includes all 75 components' },
               { id: 'import', label: 'Import Design Tokens JSON', description: 'Syncs palette & radii' },
               { id: 'blank', label: 'Empty TypeScript Workspace', description: 'Minimal Vite shell' },
             ]}
@@ -598,7 +598,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
             onStepClick={setStepIdx}
             steps={[
               { id: 's1', title: 'Token Calibration', subtitle: 'Refractive indices' },
-              { id: 's2', title: 'Component Assembly', subtitle: '46 accessible primitives' },
+              { id: 's2', title: 'Component Assembly', subtitle: '75 accessible primitives' },
               { id: 's3', title: 'Production Publish', subtitle: 'Verified bundle' },
             ]}
           />
@@ -893,7 +893,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
               {
                 id: 't2',
                 timestamp: '11:40 AM',
-                title: '46-Component Library Verification',
+                title: '75-Component Library Verification',
                 detail: 'Completed keyboard, ARIA role, and dual-theme contrast audit across all 6 categories.',
                 tone: 'cobalt',
               },
@@ -1019,7 +1019,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
           </div>
           <SkeletonLoader loading={isSkeleton}>
             <PrismCard kicker="Resolved Payload" title="Clara Vance · Design Systems">
-              All 46 optical components hydrated cleanly with zero layout shift.
+              All 75 optical components hydrated cleanly with zero layout shift.
             </PrismCard>
           </SkeletonLoader>
         </div>

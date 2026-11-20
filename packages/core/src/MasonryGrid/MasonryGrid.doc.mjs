@@ -1,8 +1,8 @@
 export const docs = {
   name: 'MasonryGrid',
   displayName: 'Masonry Grid',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Layout & Workspace Controls',
+  category: 'layout-workspace',
   keywords: ['masonry', 'grid', 'brickwork', 'cards', 'gallery', 'columns', 'layout', 'pinterest'],
   usage: {
     description:

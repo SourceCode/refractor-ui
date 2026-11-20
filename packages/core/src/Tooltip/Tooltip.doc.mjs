@@ -1,8 +1,8 @@
 export const docs = {
   name: 'Tooltip',
   displayName: 'Tooltip',
-  group: 'Overlays & Floating Surfaces',
-  category: 'overlays',
+  group: 'Overlays & Popups',
+  category: 'overlays-popups',
   keywords: ['tooltip', 'hint', 'hover', 'focus', 'popover', 'caption'],
   usage: {
     description:

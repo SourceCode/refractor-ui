@@ -1,8 +1,8 @@
 export const docs = {
   name: 'MultiSelectCombobox',
   displayName: 'Multi-Select Combobox / Token Input',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Advanced Search & Filtering',
+  category: 'search-filtering',
   keywords: ['combobox', 'multi-select', 'token', 'tags', 'autocomplete', 'creatable', 'pills'],
   usage: {
     description:

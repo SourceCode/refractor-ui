@@ -1,8 +1,8 @@
 export const docs = {
   name: 'LivePresenceIndicator',
   displayName: 'Live Presence Indicator',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Collaboration & Guidance',
+  category: 'collaboration-guidance',
   keywords: [
     'presence',
     'collaborators',

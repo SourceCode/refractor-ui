@@ -1,8 +1,8 @@
 export const docs = {
   name: 'KanbanBoard',
   displayName: 'Kanban Board',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Advanced Data & Visualization',
+  category: 'advanced-data',
   keywords: ['kanban', 'board', 'columns', 'cards', 'drag-and-drop', 'workflow', 'wip', 'agile'],
   usage: {
     description:

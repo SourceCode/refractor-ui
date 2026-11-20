@@ -1,8 +1,8 @@
 export const docs = {
   name: 'KpiMetricCard',
   displayName: 'KPI Metric Card',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Advanced Data & Visualization',
+  category: 'advanced-data',
   keywords: ['kpi', 'metric', 'card', 'sparkline', 'delta', 'telemetry', 'analytics', 'dashboard'],
   usage: {
     description:

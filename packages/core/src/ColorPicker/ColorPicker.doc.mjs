@@ -1,8 +1,8 @@
 export const docs = {
   name: 'ColorPicker',
   displayName: 'Color Picker',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Rich Input & Content Creation',
+  category: 'rich-input',
   keywords: [
     'color',
     'picker',

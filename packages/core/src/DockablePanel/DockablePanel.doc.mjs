@@ -1,8 +1,8 @@
 export const docs = {
   name: 'DockablePanel',
   displayName: 'Dockable / Floating Panel',
-  group: 'Overlays & Floating Surfaces',
-  category: 'overlays',
+  group: 'Layout & Workspace Controls',
+  category: 'layout-workspace',
   keywords: ['dockable', 'floating', 'panel', 'window', 'workspace', 'inspector', 'draggable'],
   usage: {
     description:

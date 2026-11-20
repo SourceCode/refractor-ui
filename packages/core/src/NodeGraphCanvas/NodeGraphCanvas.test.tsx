@@ -85,7 +85,7 @@ describe('NodeGraphCanvas', () => {
     // Verify token-driven SVG cubic bezier edges (no raw color literals)
     const edge1 = screen.getByTestId('flow-edge-path-e1');
     expect(edge1).toHaveAttribute('stroke', 'var(--prism-secondary-main)');
-    expect(edge1.getAttribute('d')).toMatch(/^M 240 122 C .+ 320 162$/);
+    expect(edge1.getAttribute('d')).toMatch(/^M 216 122 C .+ 320 162$/);
     expect(screen.getByTestId('flow-edge-badge-e1')).toHaveTextContent('JSON');
 
     // Selecting a node highlights incident edges with var(--prism-primary-main)

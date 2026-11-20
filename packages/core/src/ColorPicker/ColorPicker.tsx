@@ -494,7 +494,9 @@ export function ColorPicker({
         className={cx(
           inputsClass,
           'grid gap-2',
-          showAlpha ? 'grid-cols-[1.5fr_1fr_1fr_1fr_1fr]' : 'grid-cols-[1.6fr_1fr_1fr_1fr]'
+          showAlpha
+            ? 'grid-cols-[minmax(92px,2.1fr)_1fr_1fr_1fr_1fr]'
+            : 'grid-cols-[minmax(92px,2fr)_1fr_1fr_1fr]'
         )}
       >
         <div className="flex flex-col gap-1">

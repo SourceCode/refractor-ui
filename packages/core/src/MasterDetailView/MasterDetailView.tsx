@@ -259,8 +259,8 @@ export function MasterDetailView<T extends MasterDetailItem = MasterDetailItem>(
                     renderItem(item, isSelected)
                   ) : (
                     <div className="flex flex-col gap-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2 min-w-0">
-                        <span className="text-sm font-medium truncate">{item.title}</span>
+                      <div className="flex items-start justify-between gap-2 min-w-0">
+                        <span className="text-sm font-medium leading-snug">{item.title}</span>
                         {item.badge ? (
                           <span
                             className={cx(

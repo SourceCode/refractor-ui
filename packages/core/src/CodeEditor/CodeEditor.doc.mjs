@@ -1,8 +1,8 @@
 export const docs = {
   name: 'CodeEditor',
   displayName: 'Optical Glass Code Editor',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Rich Input & Content Creation',
+  category: 'rich-input',
   keywords: [
     'code',
     'editor',

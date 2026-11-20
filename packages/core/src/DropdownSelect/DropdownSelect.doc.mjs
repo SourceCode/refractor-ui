@@ -1,8 +1,8 @@
 export const docs = {
   name: 'DropdownSelect',
   displayName: 'Dropdown Select Menu',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Form Inputs & Selection Controls',
+  category: 'form-inputs',
   keywords: ['select', 'dropdown', 'listbox', 'menu', 'picker', 'options'],
   usage: {
     description:

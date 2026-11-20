@@ -1,8 +1,8 @@
 export const docs = {
   name: 'FacetedFilterBar',
   displayName: 'Faceted Search & Filter Bar',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Advanced Search & Filtering',
+  category: 'search-filtering',
   keywords: [
     'filter',
     'faceted',

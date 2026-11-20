@@ -276,7 +276,7 @@ export function KpiMetricCard({
 
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 space-y-1.5">
-          <div className="text-xs font-semibold uppercase tracking-[0.06em] text-slate-500 dark:text-slate-400 truncate">
+          <div className="text-xs font-semibold uppercase tracking-[0.06em] leading-snug text-slate-500 dark:text-slate-400">
             {label}
           </div>
           <div className="flex items-baseline gap-1 text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white tabular-nums leading-none">

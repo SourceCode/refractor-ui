@@ -1,8 +1,8 @@
 export const docs = {
   name: 'SlideOverSheet',
   displayName: 'Slide-Over Panel / Bottom Sheet',
-  group: 'Overlays & Floating Surfaces',
-  category: 'overlays',
+  group: 'Overlays & Popups',
+  category: 'overlays-popups',
   keywords: ['sheet', 'drawer', 'slide-over', 'bottom-sheet', 'panel', 'overlay'],
   usage: {
     description:

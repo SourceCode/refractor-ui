@@ -1,8 +1,8 @@
 export const docs = {
   name: 'ModalDialog',
   displayName: 'Modal Dialog',
-  group: 'Overlays & Floating Surfaces',
-  category: 'overlays',
+  group: 'Overlays & Popups',
+  category: 'overlays-popups',
   keywords: ['modal', 'dialog', 'overlay', 'confirm', 'alert', 'popup'],
   usage: {
     description:

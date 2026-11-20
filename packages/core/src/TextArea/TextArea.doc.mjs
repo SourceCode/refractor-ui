@@ -1,8 +1,8 @@
 export const docs = {
   name: 'TextArea',
   displayName: 'Multi-Line Text Area',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Form Inputs & Selection Controls',
+  category: 'form-inputs',
   keywords: ['textarea', 'multiline', 'notes', 'description', 'input', 'counter'],
   usage: {
     description:

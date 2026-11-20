@@ -1318,7 +1318,7 @@ export function RichTextEditor({
                 }
               }}
               className={cx(
-                'prism-focus-ring w-full min-h-[200px] rounded-[14px] bg-transparent px-3.5 py-3 text-sm leading-6 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 resize-y block focus:outline-none disabled:cursor-not-allowed',
+                'prism-focus-ring w-full min-h-[200px] rounded-[14px] bg-transparent px-3.5 py-3 text-sm leading-6 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 resize-none block focus:outline-none disabled:cursor-not-allowed',
                 readOnly && 'cursor-not-allowed opacity-75'
               )}
             />

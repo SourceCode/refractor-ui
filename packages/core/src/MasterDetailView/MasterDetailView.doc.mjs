@@ -1,8 +1,8 @@
 export const docs = {
   name: 'MasterDetailView',
   displayName: 'Master-Detail View',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Layout & Workspace Controls',
+  category: 'layout-workspace',
   keywords: ['master', 'detail', 'split', 'pane', 'inbox', 'inspector', 'listbox', 'workspace'],
   usage: {
     description:

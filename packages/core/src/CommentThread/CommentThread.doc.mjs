@@ -1,8 +1,8 @@
 export const docs = {
   name: 'CommentThread',
   displayName: 'Comment Thread (Nested Discussions & @Mentions)',
-  group: 'Collaboration & Activity',
-  category: 'collaboration',
+  group: 'Collaboration & Guidance',
+  category: 'collaboration-guidance',
   keywords: ['comments', 'thread', 'discussion', 'replies', 'mentions', 'reactions', 'resolve'],
   usage: {
     description:

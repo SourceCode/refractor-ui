@@ -46,9 +46,10 @@ export default defineConfig({
       include: [
         'packages/core/src/**/*.{ts,tsx}',
         'packages/themes/*/src/**/*.ts',
+        'packages/cli/src/**/*.mjs',
       ],
       exclude: [
-        '**/*.test.{ts,tsx}',
+        '**/*.test.{ts,tsx,mjs}',
         '**/*.doc.mjs',
         '**/index.ts',
         '**/types.ts',

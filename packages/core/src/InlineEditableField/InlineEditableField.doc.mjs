@@ -1,8 +1,8 @@
 export const docs = {
   name: 'InlineEditableField',
   displayName: 'Inline Editable Field',
-  group: 'Forms & Inputs',
-  category: 'forms-inputs',
+  group: 'Rich Input & Content Creation',
+  category: 'rich-input',
   keywords: [
     'inline',
     'editable',

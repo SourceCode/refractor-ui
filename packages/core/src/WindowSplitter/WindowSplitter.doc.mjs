@@ -1,8 +1,8 @@
 export const docs = {
   name: 'WindowSplitter',
   displayName: 'Window Splitter / Resizable Panes',
-  group: 'Data Display & Content',
-  category: 'data-display',
+  group: 'Layout & Workspace Controls',
+  category: 'layout-workspace',
   keywords: ['splitter', 'resizable', 'panes', 'layout', 'divider', 'workspace', 'panel'],
   usage: {
     description:

@@ -1,8 +1,8 @@
 export const docs = {
   name: 'ContextMenuDropdown',
   displayName: 'Context Menu & Dropdown',
-  group: 'Overlays & Floating Surfaces',
-  category: 'overlays',
+  group: 'Overlays & Popups',
+  category: 'overlays-popups',
   keywords: ['context-menu', 'dropdown', 'menu', 'actions', 'right-click', 'shortcuts'],
   usage: {
     description:
