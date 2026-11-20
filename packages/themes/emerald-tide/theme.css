@@ -1,0 +1,9 @@
+[data-refractor-theme="emerald-tide"] {
+  --prism-primary-main: #0d9488;
+  --prism-primary-light: #2dd4bf;
+  --prism-primary-dark: #115e59;
+  --prism-primary-rgb: 13, 148, 136;
+  --prism-primary-light-rgb: 45, 212, 191;
+  --prism-secondary-main: #0ea5e9;
+  --prism-secondary-rgb: 14, 165, 233;
+}

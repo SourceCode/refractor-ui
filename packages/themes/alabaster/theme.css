@@ -1,0 +1,11 @@
+[data-refractor-theme="alabaster"] {
+  --prism-primary-main: #e75c24;
+  --prism-primary-light: #f59c28;
+  --prism-primary-dark: #c94114;
+  --prism-primary-rgb: 231, 92, 36;
+  --prism-primary-light-rgb: 245, 156, 40;
+  --prism-secondary-main: #38bdf8;
+  --prism-secondary-rgb: 56, 189, 248;
+  --prism-caustic-warm-rgb: 245, 156, 40;
+  --prism-caustic-cool-rgb: 56, 189, 248;
+}

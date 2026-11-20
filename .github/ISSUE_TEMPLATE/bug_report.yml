@@ -1,0 +1,40 @@
+name: Bug Report
+description: Report a visual, accessibility, security, or behavioral defect in Refractor Glass UI
+title: '[Bug]: '
+labels: ['bug', 'triage']
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Affected Component or Package
+      description: e.g., PrimaryButton, AdvancedDataGrid, @refractor-ui/core, @refractor-ui/cli
+      placeholder: '@refractor-ui/core/Button'
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SemVer Release Version
+      placeholder: '1.7.0'
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Defect Summary & Reproduction Steps
+      description: Provide deterministic steps and minimal TSX snippet to reproduce.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs Actual Behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Verification Checklist
+      options:
+        - label: Checked WCAG contrast / keyboard navigation impact
+        - label: Verified with Alabaster (light) and Obsidian (dark) themes

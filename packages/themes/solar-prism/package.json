@@ -1,0 +1,14 @@
+{
+  "name": "@refractor-ui/theme-solar-prism",
+  "version": "1.0.0",
+  "description": "Solar Prism optical glass theme pairing golden amber lenses with royal cobalt refraction.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./theme.css": "./theme.css"
+  },
+  "peerDependencies": {
+    "@refractor-ui/core": "workspace:*"
+  }
+}

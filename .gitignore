@@ -1,8 +1,26 @@
+# Dependencies
 node_modules/
-build/
+.pnpm-store/
+
+# Build outputs
 dist/
+build/
 coverage/
-.DS_Store
+*.tsbuildinfo
+
+# Local environment & caches
+.env
+.env.local
+.env.*.local
+.eslintcache
+.vite/
+.turbo/
+
+# Logs & OS artifacts
 *.log
-.env*
-!.env.example
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+playwright-report/
+test-results/

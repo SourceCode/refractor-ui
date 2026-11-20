@@ -1,0 +1,277 @@
+{
+  "name": "@refractor-ui/core",
+  "version": "1.0.0",
+  "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./reset.css": "./src/reset.css",
+    "./refractor.css": "./src/refractor.css",
+    "./BaseProps": {
+      "source": "./src/BaseProps.ts",
+      "types": "./dist/BaseProps.d.ts",
+      "default": "./dist/BaseProps.js"
+    },
+    "./naming": {
+      "source": "./src/naming.ts",
+      "types": "./dist/naming.d.ts",
+      "default": "./dist/naming.js"
+    },
+    "./theme": {
+      "source": "./src/theme/index.ts",
+      "types": "./dist/theme/index.d.ts",
+      "default": "./dist/theme/index.js"
+    },
+    "./Accordion": {
+      "source": "./src/Accordion/index.ts",
+      "types": "./dist/Accordion/index.d.ts",
+      "default": "./dist/Accordion/index.js"
+    },
+    "./AlertBanner": {
+      "source": "./src/AlertBanner/index.ts",
+      "types": "./dist/AlertBanner/index.d.ts",
+      "default": "./dist/AlertBanner/index.js"
+    },
+    "./Avatar": {
+      "source": "./src/Avatar/index.ts",
+      "types": "./dist/Avatar/index.d.ts",
+      "default": "./dist/Avatar/index.js"
+    },
+    "./BadgeStatus": {
+      "source": "./src/BadgeStatus/index.ts",
+      "types": "./dist/BadgeStatus/index.d.ts",
+      "default": "./dist/BadgeStatus/index.js"
+    },
+    "./Breadcrumbs": {
+      "source": "./src/Breadcrumbs/index.ts",
+      "types": "./dist/Breadcrumbs/index.d.ts",
+      "default": "./dist/Breadcrumbs/index.js"
+    },
+    "./CalendarView": {
+      "source": "./src/CalendarView/index.ts",
+      "types": "./dist/CalendarView/index.d.ts",
+      "default": "./dist/CalendarView/index.js"
+    },
+    "./CarouselSlider": {
+      "source": "./src/CarouselSlider/index.ts",
+      "types": "./dist/CarouselSlider/index.d.ts",
+      "default": "./dist/CarouselSlider/index.js"
+    },
+    "./Checkbox": {
+      "source": "./src/Checkbox/index.ts",
+      "types": "./dist/Checkbox/index.d.ts",
+      "default": "./dist/Checkbox/index.js"
+    },
+    "./CommandPalette": {
+      "source": "./src/CommandPalette/index.ts",
+      "types": "./dist/CommandPalette/index.d.ts",
+      "default": "./dist/CommandPalette/index.js"
+    },
+    "./ContextMenuDropdown": {
+      "source": "./src/ContextMenuDropdown/index.ts",
+      "types": "./dist/ContextMenuDropdown/index.d.ts",
+      "default": "./dist/ContextMenuDropdown/index.js"
+    },
+    "./ContextualPopover": {
+      "source": "./src/ContextualPopover/index.ts",
+      "types": "./dist/ContextualPopover/index.d.ts",
+      "default": "./dist/ContextualPopover/index.js"
+    },
+    "./DataTable": {
+      "source": "./src/DataTable/index.ts",
+      "types": "./dist/DataTable/index.d.ts",
+      "default": "./dist/DataTable/index.js"
+    },
+    "./DateTimePicker": {
+      "source": "./src/DateTimePicker/index.ts",
+      "types": "./dist/DateTimePicker/index.d.ts",
+      "default": "./dist/DateTimePicker/index.js"
+    },
+    "./DropdownSelect": {
+      "source": "./src/DropdownSelect/index.ts",
+      "types": "./dist/DropdownSelect/index.d.ts",
+      "default": "./dist/DropdownSelect/index.js"
+    },
+    "./EmptyState": {
+      "source": "./src/EmptyState/index.ts",
+      "types": "./dist/EmptyState/index.d.ts",
+      "default": "./dist/EmptyState/index.js"
+    },
+    "./FileDropzone": {
+      "source": "./src/FileDropzone/index.ts",
+      "types": "./dist/FileDropzone/index.d.ts",
+      "default": "./dist/FileDropzone/index.js"
+    },
+    "./FloatingActionButton": {
+      "source": "./src/FloatingActionButton/index.ts",
+      "types": "./dist/FloatingActionButton/index.d.ts",
+      "default": "./dist/FloatingActionButton/index.js"
+    },
+    "./IconButton": {
+      "source": "./src/IconButton/index.ts",
+      "types": "./dist/IconButton/index.d.ts",
+      "default": "./dist/IconButton/index.js"
+    },
+    "./ModalDialog": {
+      "source": "./src/ModalDialog/index.ts",
+      "types": "./dist/ModalDialog/index.d.ts",
+      "default": "./dist/ModalDialog/index.js"
+    },
+    "./OpticalCharts": {
+      "source": "./src/OpticalCharts/index.ts",
+      "types": "./dist/OpticalCharts/index.d.ts",
+      "default": "./dist/OpticalCharts/index.js"
+    },
+    "./Pagination": {
+      "source": "./src/Pagination/index.ts",
+      "types": "./dist/Pagination/index.d.ts",
+      "default": "./dist/Pagination/index.js"
+    },
+    "./PrimaryButton": {
+      "source": "./src/PrimaryButton/index.ts",
+      "types": "./dist/PrimaryButton/index.d.ts",
+      "default": "./dist/PrimaryButton/index.js"
+    },
+    "./PrismCard": {
+      "source": "./src/PrismCard/index.ts",
+      "types": "./dist/PrismCard/index.d.ts",
+      "default": "./dist/PrismCard/index.js"
+    },
+    "./PrismList": {
+      "source": "./src/PrismList/index.ts",
+      "types": "./dist/PrismList/index.d.ts",
+      "default": "./dist/PrismList/index.js"
+    },
+    "./PrismTabs": {
+      "source": "./src/PrismTabs/index.ts",
+      "types": "./dist/PrismTabs/index.d.ts",
+      "default": "./dist/PrismTabs/index.js"
+    },
+    "./ProgressAndSpinner": {
+      "source": "./src/ProgressAndSpinner/index.ts",
+      "types": "./dist/ProgressAndSpinner/index.d.ts",
+      "default": "./dist/ProgressAndSpinner/index.js"
+    },
+    "./RadioGroup": {
+      "source": "./src/RadioGroup/index.ts",
+      "types": "./dist/RadioGroup/index.d.ts",
+      "default": "./dist/RadioGroup/index.js"
+    },
+    "./RangeSlider": {
+      "source": "./src/RangeSlider/index.ts",
+      "types": "./dist/RangeSlider/index.d.ts",
+      "default": "./dist/RangeSlider/index.js"
+    },
+    "./RatingControl": {
+      "source": "./src/RatingControl/index.ts",
+      "types": "./dist/RatingControl/index.d.ts",
+      "default": "./dist/RatingControl/index.js"
+    },
+    "./SearchWithSuggestions": {
+      "source": "./src/SearchWithSuggestions/index.ts",
+      "types": "./dist/SearchWithSuggestions/index.d.ts",
+      "default": "./dist/SearchWithSuggestions/index.js"
+    },
+    "./SecondaryButton": {
+      "source": "./src/SecondaryButton/index.ts",
+      "types": "./dist/SecondaryButton/index.d.ts",
+      "default": "./dist/SecondaryButton/index.js"
+    },
+    "./SegmentedControl": {
+      "source": "./src/SegmentedControl/index.ts",
+      "types": "./dist/SegmentedControl/index.d.ts",
+      "default": "./dist/SegmentedControl/index.js"
+    },
+    "./SidebarDrawer": {
+      "source": "./src/SidebarDrawer/index.ts",
+      "types": "./dist/SidebarDrawer/index.d.ts",
+      "default": "./dist/SidebarDrawer/index.js"
+    },
+    "./SkeletonLoader": {
+      "source": "./src/SkeletonLoader/index.ts",
+      "types": "./dist/SkeletonLoader/index.d.ts",
+      "default": "./dist/SkeletonLoader/index.js"
+    },
+    "./SlideOverSheet": {
+      "source": "./src/SlideOverSheet/index.ts",
+      "types": "./dist/SlideOverSheet/index.d.ts",
+      "default": "./dist/SlideOverSheet/index.js"
+    },
+    "./SplitButton": {
+      "source": "./src/SplitButton/index.ts",
+      "types": "./dist/SplitButton/index.d.ts",
+      "default": "./dist/SplitButton/index.js"
+    },
+    "./Stepper": {
+      "source": "./src/Stepper/index.ts",
+      "types": "./dist/Stepper/index.d.ts",
+      "default": "./dist/Stepper/index.js"
+    },
+    "./TagChip": {
+      "source": "./src/TagChip/index.ts",
+      "types": "./dist/TagChip/index.d.ts",
+      "default": "./dist/TagChip/index.js"
+    },
+    "./TextArea": {
+      "source": "./src/TextArea/index.ts",
+      "types": "./dist/TextArea/index.d.ts",
+      "default": "./dist/TextArea/index.js"
+    },
+    "./TextInput": {
+      "source": "./src/TextInput/index.ts",
+      "types": "./dist/TextInput/index.d.ts",
+      "default": "./dist/TextInput/index.js"
+    },
+    "./Timeline": {
+      "source": "./src/Timeline/index.ts",
+      "types": "./dist/Timeline/index.d.ts",
+      "default": "./dist/Timeline/index.js"
+    },
+    "./ToastSnackbar": {
+      "source": "./src/ToastSnackbar/index.ts",
+      "types": "./dist/ToastSnackbar/index.d.ts",
+      "default": "./dist/ToastSnackbar/index.js"
+    },
+    "./ToggleSwitch": {
+      "source": "./src/ToggleSwitch/index.ts",
+      "types": "./dist/ToggleSwitch/index.d.ts",
+      "default": "./dist/ToggleSwitch/index.js"
+    },
+    "./Tooltip": {
+      "source": "./src/Tooltip/index.ts",
+      "types": "./dist/Tooltip/index.d.ts",
+      "default": "./dist/Tooltip/index.js"
+    },
+    "./TopNavBar": {
+      "source": "./src/TopNavBar/index.ts",
+      "types": "./dist/TopNavBar/index.d.ts",
+      "default": "./dist/TopNavBar/index.js"
+    },
+    "./TreeView": {
+      "source": "./src/TreeView/index.ts",
+      "types": "./dist/TreeView/index.d.ts",
+      "default": "./dist/TreeView/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^0.546.0"
+  }
+}
