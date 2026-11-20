@@ -7,6 +7,16 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-20
+
+### Added
+- **Advanced Search & Filtering (4 new Astryx-standard optical-glass components):**
+  - `FacetedFilterBar`: Multi-criteria optical filtering bar with search, category multi-select chips, auto-clamped numeric/price range, date bounds, removable active-filter pills, and one-click reset (`RGU-16`).
+  - `VisualQueryBuilder`: Nested `AND`/`OR` logical rule composer with type-aware field/operator dropdowns, bounded recursion depth, and live expression + JSON AST preview without `eval()` (`RGU-17`).
+  - `MultiSelectCombobox`: Searchable WAI-ARIA combobox/token input stacking removable emerald pill tags inline, supporting Backspace removal, optional creatable custom tokens, and IME-safe Enter handling (`RGU-18`).
+  - `GlobalSearchModal`: Multi-entity search overlay grouping results across Files, People, Components, and Settings via prototype-safe `Map`s, literal substring match highlighting (zero regex injection), recent queries, and full keyboard navigation (`RGU-36`).
+- Interactive playground demos and prop specs in `apps/docs` under `Advanced Search & Filtering` (62 total components across 9 categories).
+
 ## [1.2.0] - 2026-11-20
 
 ### Added
@@ -47,7 +57,8 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 - Decoupled all core UI components (`DataTable`, `TreeView`, `CalendarView`, `DateTimePicker`, `FileDropzone`) from application-specific storage types so `@refractor-ui/core` is a clean, standalone design system package.
 - Replaced hardcoded hex and `rgba()` styling across `refractor.css` and SVG visualizations with reactive `--prism-*` semantic CSS custom properties.
 
-[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/SourceCode/glass-ui-v1/releases/tag/v1.0.0

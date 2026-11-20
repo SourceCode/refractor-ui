@@ -74,6 +74,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Data Viz',
     description: 'Enterprise inline-editable data grids, drag-and-drop pivot tables, Kanban workflow boards, Gantt schedulers, diff viewers, and KPI sparkline cards.',
   },
+  {
+    id: 'search-filtering',
+    title: 'Advanced Search & Filtering',
+    shortLabel: 'Search',
+    description: 'Multi-criteria faceted filter bars, nested AND/OR visual query builders, multi-select token inputs, and multi-entity global search modals.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -841,6 +847,61 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
       { name: 'value', type: 'string | number', defaultValue: 'required', description: 'Headline tabular KPI value.' },
       { name: 'deltaPercent', type: 'number', defaultValue: 'undefined', description: 'Signed percentage change badge.' },
       { name: 'sparkline', type: '(number | KpiSparklinePoint)[]', defaultValue: 'required', description: 'Trend series rendered as a token-driven SVG sparkline.' },
+    ],
+  },
+
+  /* ==================== ADVANCED SEARCH & FILTERING (4) ==================== */
+  {
+    id: 'faceted-filter-bar',
+    title: 'Faceted Search / Filter Bar',
+    exportName: 'FacetedFilterBar',
+    category: 'search-filtering',
+    categoryTitle: 'Advanced Search & Filtering',
+    summary: 'Multi-criteria optical filtering bar pairing search, category multi-select, numeric/price range, date bounds, active removable chips, and reset.',
+    codeSnippet: `<FacetedFilterBar\n  categories={categories}\n  value={filters}\n  onChange={setFilters}\n  resultCount={42}\n/>`,
+    props: [
+      { name: 'categories', type: 'FacetCategoryOption[]', defaultValue: 'required', description: 'Selectable facet categories with optional item counts.' },
+      { name: 'value / onChange', type: 'FacetedFilterState', defaultValue: 'optional', description: 'Controlled or uncontrolled multi-criteria filter state.' },
+    ],
+  },
+  {
+    id: 'visual-query-builder',
+    title: 'Visual Query Builder',
+    exportName: 'VisualQueryBuilder',
+    category: 'search-filtering',
+    categoryTitle: 'Advanced Search & Filtering',
+    summary: 'Structured optical interface for composing nested AND/OR logical rules using type-aware field and operator dropdowns with live expression & JSON AST preview.',
+    codeSnippet: `<VisualQueryBuilder\n  fields={queryFields}\n  defaultValue={initialGroup}\n  onChange={setAst}\n/>`,
+    props: [
+      { name: 'fields', type: 'QueryFieldSpec[]', defaultValue: 'required', description: 'Schema of text, number, date, and select fields.' },
+      { name: 'maxDepth', type: 'number', defaultValue: '3', description: 'Maximum nested logical group depth (1..4).' },
+    ],
+  },
+  {
+    id: 'multi-select-combobox',
+    title: 'Multi-Select Combobox / Token Input',
+    exportName: 'MultiSelectCombobox',
+    category: 'search-filtering',
+    categoryTitle: 'Advanced Search & Filtering',
+    summary: 'Frosted combobox input that searches, selects, and stacks multiple items as removable emerald pill tags directly inside the input chamber.',
+    codeSnippet: `<MultiSelectCombobox\n  options={options}\n  value={selected}\n  onChange={setSelected}\n  creatable\n/>`,
+    props: [
+      { name: 'options', type: 'ComboboxOption[]', defaultValue: 'required', description: 'Searchable candidate tokens.' },
+      { name: 'creatable', type: 'boolean', defaultValue: 'false', description: 'Allows pressing Enter to create custom tokens.' },
+      { name: 'maxSelected', type: 'number', defaultValue: 'undefined', description: 'Optional maximum token count cap.' },
+    ],
+  },
+  {
+    id: 'global-search-modal',
+    title: 'Global Search Modal',
+    exportName: 'GlobalSearchModal',
+    category: 'search-filtering',
+    categoryTitle: 'Advanced Search & Filtering',
+    summary: 'Full-featured search overlay querying across multiple content types simultaneously with category tabs, literal match highlighting, and arrow-key navigation.',
+    codeSnippet: `<GlobalSearchModal\n  open={open}\n  onClose={() => setOpen(false)}\n  items={searchableItems}\n  onSelectItem={openItem}\n/>`,
+    props: [
+      { name: 'open / onClose', type: 'boolean / () => void', defaultValue: 'required', description: 'Controls modal overlay visibility.' },
+      { name: 'items', type: 'GlobalSearchItem[]', defaultValue: 'required', description: 'Multi-entity items grouped automatically by type.' },
     ],
   },
 ];
