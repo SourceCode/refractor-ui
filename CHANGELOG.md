@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-20
+
+### Added
+- **Rich Input & Content Creation (6 new Astryx-standard optical-glass components):**
+  - `RichTextEditor`: Formatting toolbar (bold, italic, underline, H1/H2, lists, blockquote, URL-sanitized links & images, clear formatting) with Write/Split/Preview views and strict allowlist XSS protection with zero `dangerouslySetInnerHTML` (`RGU-19`).
+  - `CodeEditor`: Line-numbered optical IDE canvas with linear-time TypeScript/JSON/CSS syntax highlighting, Tab/Enter auto-indentation, and error/warning gutter markers (`RGU-37`).
+  - `ColorPicker`: Interactive 2D HSV spectrum, hue & alpha sliders, synchronized Hex/RGB inputs, optical preset swatches, and live WCAG contrast readout (`RGU-38`).
+  - `InlineEditableField`: In-place optical text-to-input editor with Save/Cancel controls, IME-safe Enter commit, Escape revert, multiline mode, and custom validation (`RGU-20`).
+  - `ImageCropper`: Draggable/resizable optical crop frame with Free/1:1/16:9/4:3 aspect-ratio locks, zoom slider, 90° rotation, keyboard nudging, and URL allowlist validation (`RGU-21`).
+  - `SignaturePad`: Pointer-event vector drawing canvas with Undo, Clear, ink presets, and deterministic SVG data URL export (`RGU-39`).
+- Interactive playground demos and prop specs in `apps/docs` under `Rich Input & Content Creation` (68 total components across 10 categories).
+
 ## [1.3.0] - 2026-11-20
 
 ### Added
@@ -57,7 +69,8 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 - Decoupled all core UI components (`DataTable`, `TreeView`, `CalendarView`, `DateTimePicker`, `FileDropzone`) from application-specific storage types so `@refractor-ui/core` is a clean, standalone design system package.
 - Replaced hardcoded hex and `rgba()` styling across `refractor.css` and SVG visualizations with reactive `--prism-*` semantic CSS custom properties.
 
-[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.0.0...v1.1.0

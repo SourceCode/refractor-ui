@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -77,6 +77,16 @@
       "types": "./dist/Checkbox/index.d.ts",
       "default": "./dist/Checkbox/index.js"
     },
+    "./CodeEditor": {
+      "source": "./src/CodeEditor/index.ts",
+      "types": "./dist/CodeEditor/index.d.ts",
+      "default": "./dist/CodeEditor/index.js"
+    },
+    "./ColorPicker": {
+      "source": "./src/ColorPicker/index.ts",
+      "types": "./dist/ColorPicker/index.d.ts",
+      "default": "./dist/ColorPicker/index.js"
+    },
     "./CommandPalette": {
       "source": "./src/CommandPalette/index.ts",
       "types": "./dist/CommandPalette/index.d.ts",
@@ -151,6 +161,16 @@
       "source": "./src/IconButton/index.ts",
       "types": "./dist/IconButton/index.d.ts",
       "default": "./dist/IconButton/index.js"
+    },
+    "./ImageCropper": {
+      "source": "./src/ImageCropper/index.ts",
+      "types": "./dist/ImageCropper/index.d.ts",
+      "default": "./dist/ImageCropper/index.js"
+    },
+    "./InlineEditableField": {
+      "source": "./src/InlineEditableField/index.ts",
+      "types": "./dist/InlineEditableField/index.d.ts",
+      "default": "./dist/InlineEditableField/index.js"
     },
     "./KanbanBoard": {
       "source": "./src/KanbanBoard/index.ts",
@@ -237,6 +257,11 @@
       "types": "./dist/RatingControl/index.d.ts",
       "default": "./dist/RatingControl/index.js"
     },
+    "./RichTextEditor": {
+      "source": "./src/RichTextEditor/index.ts",
+      "types": "./dist/RichTextEditor/index.d.ts",
+      "default": "./dist/RichTextEditor/index.js"
+    },
     "./SearchWithSuggestions": {
       "source": "./src/SearchWithSuggestions/index.ts",
       "types": "./dist/SearchWithSuggestions/index.d.ts",
@@ -256,6 +281,11 @@
       "source": "./src/SidebarDrawer/index.ts",
       "types": "./dist/SidebarDrawer/index.d.ts",
       "default": "./dist/SidebarDrawer/index.js"
+    },
+    "./SignaturePad": {
+      "source": "./src/SignaturePad/index.ts",
+      "types": "./dist/SignaturePad/index.d.ts",
+      "default": "./dist/SignaturePad/index.js"
     },
     "./SkeletonLoader": {
       "source": "./src/SkeletonLoader/index.ts",

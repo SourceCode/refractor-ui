@@ -80,6 +80,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Search',
     description: 'Multi-criteria faceted filter bars, nested AND/OR visual query builders, multi-select token inputs, and multi-entity global search modals.',
   },
+  {
+    id: 'rich-input',
+    title: 'Rich Input & Content Creation',
+    shortLabel: 'Rich Input',
+    description: 'XSS-sanitized WYSIWYG editors, syntax-highlighted code editors, HSV color pickers, inline editable fields, media croppers, and vector signature pads.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -902,6 +908,86 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'open / onClose', type: 'boolean / () => void', defaultValue: 'required', description: 'Controls modal overlay visibility.' },
       { name: 'items', type: 'GlobalSearchItem[]', defaultValue: 'required', description: 'Multi-entity items grouped automatically by type.' },
+    ],
+  },
+
+  /* ==================== RICH INPUT & CONTENT CREATION (6) ==================== */
+  {
+    id: 'rich-text-editor',
+    title: 'Rich Text / WYSIWYG Editor',
+    exportName: 'RichTextEditor',
+    category: 'rich-input',
+    categoryTitle: 'Rich Input & Content Creation',
+    summary: 'Optical formatting toolbar and writing canvas supporting bold, italic, underline, headings, lists, links, and embedded images with strict allowlist XSS sanitization.',
+    codeSnippet: `<RichTextEditor\n  label="Release Notes"\n  value={doc}\n  onChange={setDoc}\n/>`,
+    props: [
+      { name: 'value / onChange', type: 'string / (sanitized: string) => void', defaultValue: 'optional', description: 'Controlled or uncontrolled sanitized document content.' },
+      { name: 'showPreview', type: 'boolean', defaultValue: 'true', description: 'Enables Write / Split / Preview view switcher.' },
+    ],
+  },
+  {
+    id: 'code-editor',
+    title: 'Code Editor',
+    exportName: 'CodeEditor',
+    category: 'rich-input',
+    categoryTitle: 'Rich Input & Content Creation',
+    summary: 'Optical IDE editor featuring synchronized line numbers, linear-time syntax highlighting (TypeScript/JSON/CSS), Tab/Enter auto-indentation, and inline diagnostic markers.',
+    codeSnippet: `<CodeEditor\n  language="typescript"\n  value={code}\n  onChange={setCode}\n  diagnostics={diagnostics}\n/>`,
+    props: [
+      { name: 'language', type: "'typescript' | 'json' | 'css'", defaultValue: "'typescript'", description: 'Syntax tokenizer grammar.' },
+      { name: 'diagnostics', type: 'CodeDiagnostic[]', defaultValue: '[]', description: 'Error and warning gutter markers.' },
+    ],
+  },
+  {
+    id: 'color-picker',
+    title: 'Color Picker',
+    exportName: 'ColorPicker',
+    category: 'rich-input',
+    categoryTitle: 'Rich Input & Content Creation',
+    summary: 'Interactive HSV saturation/value spectrum, rainbow hue slider, alpha opacity control, synchronized Hex/RGB inputs, and live WCAG contrast readout.',
+    codeSnippet: `<ColorPicker\n  value={hex}\n  alpha={alpha}\n  onChange={(h, a) => { setHex(h); setAlpha(a); }}\n/>`,
+    props: [
+      { name: 'value / alpha', type: 'string / number', defaultValue: "'#E75C24' / 1", description: 'Controlled hex color and 0..1 opacity.' },
+      { name: 'presets', type: 'string[]', defaultValue: 'Refractor optical swatches', description: 'Quick-pick color pills.' },
+    ],
+  },
+  {
+    id: 'inline-editable-field',
+    title: 'Inline Editable Field',
+    exportName: 'InlineEditableField',
+    category: 'rich-input',
+    categoryTitle: 'Rich Input & Content Creation',
+    summary: 'Plain typography that transforms smoothly into a frosted optical input field when clicked or activated via keyboard, with inline Save/Cancel and validation.',
+    codeSnippet: `<InlineEditableField\n  value={title}\n  required\n  onSave={setTitle}\n/>`,
+    props: [
+      { name: 'value / onSave', type: 'string / (next: string) => void', defaultValue: 'optional', description: 'Commits validated edits on Enter or Save click.' },
+      { name: 'multiline', type: 'boolean', defaultValue: 'false', description: 'Switches editor to multi-line textarea.' },
+    ],
+  },
+  {
+    id: 'image-cropper',
+    title: 'Image Cropper & Media Editor',
+    exportName: 'ImageCropper',
+    category: 'rich-input',
+    categoryTitle: 'Rich Input & Content Creation',
+    summary: 'Interactive optical crop frame over uploaded media supporting drag/resize, aspect-ratio locks (Free, 1:1, 16:9, 4:3), zoom, and 90-degree rotation.',
+    codeSnippet: `<ImageCropper\n  src="/assets/specimen.jpg"\n  defaultAspectRatio="16:9"\n  onApplyCrop={saveCrop}\n/>`,
+    props: [
+      { name: 'src', type: 'string', defaultValue: 'required', description: 'Image URL validated by sanitizeUrl allowlist.' },
+      { name: 'defaultAspectRatio', type: "'free' | '1:1' | '16:9' | '4:3'", defaultValue: "'free'", description: 'Initial aspect-ratio lock.' },
+    ],
+  },
+  {
+    id: 'signature-pad',
+    title: 'Signature Pad',
+    exportName: 'SignaturePad',
+    category: 'rich-input',
+    categoryTitle: 'Rich Input & Content Creation',
+    summary: 'Touch- and mouse-enabled vector drawing pad capturing crisp handwritten signatures with Undo, Clear, ink color controls, and deterministic SVG data URL export.',
+    codeSnippet: `<SignaturePad\n  label="Authorizing Signature"\n  onSave={(data) => saveSvg(data.svgDataUrl)}\n/>`,
+    props: [
+      { name: 'strokeColor / strokeWidth', type: 'string / number', defaultValue: "'#18202C' / 2.5", description: 'Vector ink color and stroke thickness.' },
+      { name: 'onSave', type: '(data: SignatureExportData) => void', defaultValue: 'undefined', description: 'Receives vector strokes and SVG data URL.' },
     ],
   },
 ];
