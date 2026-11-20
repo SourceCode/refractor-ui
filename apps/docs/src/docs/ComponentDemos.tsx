@@ -1,4 +1,5 @@
 import { CoreDemos } from './demos/CoreDemos';
+import { DataVizDemos } from './demos/DataVizDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 
 export interface ComponentLiveDemoProps {
@@ -14,9 +15,21 @@ const LAYOUT_IDS = new Set([
   'sticky-action-bar',
 ]);
 
+const DATAVIZ_IDS = new Set([
+  'advanced-data-grid',
+  'pivot-table',
+  'kanban-board',
+  'gantt-chart',
+  'diff-viewer',
+  'kpi-metric-card',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
+  }
+  if (DATAVIZ_IDS.has(componentId)) {
+    return <DataVizDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

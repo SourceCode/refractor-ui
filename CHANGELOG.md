@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-20
+
+### Added
+- **Advanced Data & Visualization (6 new enterprise optical-glass components):**
+  - `AdvancedDataGrid`: Inline cell editing (IME-safe Enter/Escape), column resizing & drag/button reordering, left/right column pinning, prototype-safe `Map` row grouping, sorting, and OWASP formula-safe CSV/Excel export (`RGU-32`).
+  - `PivotTable`: Drag-and-drop & keyboard-accessible field assignment across Rows, Columns, and Values with Sum/Avg/Count/Min/Max aggregations and grand totals using prototype-pollution-immune `Map` storage (`RGU-33`).
+  - `KanbanBoard`: Multi-column optical workflow board with drag-and-drop cards, WIP limit indicators, quick-add composer, and keyboard stage transitions (`RGU-34`).
+  - `GanttChart`: Horizontal optical timeline scheduler with Days/Weeks/Months zoom scales, resource lane grouping, progress bars, today hairline, and SVG dependency connectors (`RGU-14`).
+  - `DiffViewer`: Side-by-side and unified inline LCS diff viewer with whitespace toggle and zero raw HTML injection (`RGU-35`).
+  - `KpiMetricCard`: Compact optical KPI dashboard card with headline tabular metric, inverted-semantics delta badge, and interactive token-driven SVG sparkline (`RGU-15`).
+- Interactive playground demos and prop specs in `apps/docs` under `Advanced Data & Visualization` (58 total components across 8 categories).
+
 ## [1.1.0] - 2026-11-20
 
 ### Added
@@ -35,6 +47,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 - Decoupled all core UI components (`DataTable`, `TreeView`, `CalendarView`, `DateTimePicker`, `FileDropzone`) from application-specific storage types so `@refractor-ui/core` is a clean, standalone design system package.
 - Replaced hardcoded hex and `rgba()` styling across `refractor.css` and SVG visualizations with reactive `--prism-*` semantic CSS custom properties.
 
-[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/SourceCode/glass-ui-v1/releases/tag/v1.0.0

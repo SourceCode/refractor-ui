@@ -1,6 +1,6 @@
 {
   "name": "refractor-glass-ui",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 & TypeScript optical glass design system monorepo",
   "license": "Apache-2.0",

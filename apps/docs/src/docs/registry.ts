@@ -68,6 +68,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Layout',
     description: 'Resizable refractive splitters, dockable floating panels, master-detail shells, 10k-row virtualized lists, masonry grids, and sticky bulk toolbars.',
   },
+  {
+    id: 'advanced-data',
+    title: 'Advanced Data & Visualization',
+    shortLabel: 'Data Viz',
+    description: 'Enterprise inline-editable data grids, drag-and-drop pivot tables, Kanban workflow boards, Gantt schedulers, diff viewers, and KPI sparkline cards.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -753,6 +759,88 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'selectedCount', type: 'number', defaultValue: 'required', description: 'Active selection count; bar auto-hides at 0 unless alwaysVisible.' },
       { name: 'actions', type: 'StickyActionItem[]', defaultValue: 'required', description: 'Bulk action buttons supporting primary, secondary, cobalt, and destructive tones.' },
+    ],
+  },
+
+  /* ==================== ADVANCED DATA & VISUALIZATION (6) ==================== */
+  {
+    id: 'advanced-data-grid',
+    title: 'Advanced Data Grid',
+    exportName: 'AdvancedDataGrid',
+    category: 'advanced-data',
+    categoryTitle: 'Advanced Data & Visualization',
+    summary: 'Enterprise optical-glass grid supporting inline cell editing, column resizing/reordering, sticky column pinning, row grouping, and formula-safe CSV export.',
+    codeSnippet: `<AdvancedDataGrid\n  columns={columns}\n  rows={rows}\n  onCellEdit={handleEdit}\n  onExportCsv={handleExport}\n/>`,
+    props: [
+      { name: 'columns', type: 'AdvancedGridColumn[]', defaultValue: 'required', description: 'Column descriptors supporting width, editable, pinned, and sortable.' },
+      { name: 'rows', type: 'GridRowRecord[]', defaultValue: 'required', description: 'Strongly typed row records.' },
+      { name: 'onExportCsv', type: '(csv, filename) => void', defaultValue: 'undefined', description: 'Formula-safe RFC 4180 CSV export callback.' },
+    ],
+  },
+  {
+    id: 'pivot-table',
+    title: 'Pivot Table',
+    exportName: 'PivotTable',
+    category: 'advanced-data',
+    categoryTitle: 'Advanced Data & Visualization',
+    summary: 'Interactive cross-tabulation table with draggable field chips for Rows, Columns, and Values plus Sum/Avg/Count/Min/Max aggregation.',
+    codeSnippet: `<PivotTable\n  data={records}\n  fields={fieldDefs}\n  defaultRowField="region"\n  defaultColumnField="quarter"\n  defaultValueField="revenue"\n/>`,
+    props: [
+      { name: 'data', type: 'PivotRecord[]', defaultValue: 'required', description: 'Flat dataset records aggregated using prototype-safe Maps.' },
+      { name: 'fields', type: 'PivotFieldDef[]', defaultValue: 'required', description: 'Assignable row, column, and numeric value dimensions.' },
+    ],
+  },
+  {
+    id: 'kanban-board',
+    title: 'Kanban Board',
+    exportName: 'KanbanBoard',
+    category: 'advanced-data',
+    categoryTitle: 'Advanced Data & Visualization',
+    summary: 'Multi-stage workflow board with draggable optical cards, WIP limit badges, quick-add composers, and full keyboard stage movement.',
+    codeSnippet: `<KanbanBoard\n  columns={stages}\n  cards={cards}\n  onCardsChange={setCards}\n/>`,
+    props: [
+      { name: 'columns', type: 'KanbanColumnDef[]', defaultValue: 'required', description: 'Ordered workflow columns with optional wipLimit.' },
+      { name: 'cards', type: 'KanbanCardItem[]', defaultValue: 'undefined', description: 'Controlled card records.' },
+    ],
+  },
+  {
+    id: 'gantt-chart',
+    title: 'Gantt Chart / Resource Scheduler',
+    exportName: 'GanttChart',
+    category: 'advanced-data',
+    categoryTitle: 'Advanced Data & Visualization',
+    summary: 'Horizontal optical timeline grid visualizing overlapping tasks, durations, SVG dependency arrows, and team resource lanes across days, weeks, or months.',
+    codeSnippet: `<GanttChart tasks={scheduleTasks} defaultScale="days" todayIso="2026-11-15" />`,
+    props: [
+      { name: 'tasks', type: 'GanttTaskItem[]', defaultValue: 'required', description: 'Scheduled tasks with dates, progress, assignee, and dependencies.' },
+      { name: 'scale', type: "'days' | 'weeks' | 'months'", defaultValue: "'days'", description: 'Active timeline zoom scale.' },
+    ],
+  },
+  {
+    id: 'diff-viewer',
+    title: 'Diff Viewer',
+    exportName: 'DiffViewer',
+    category: 'advanced-data',
+    categoryTitle: 'Advanced Data & Visualization',
+    summary: 'Side-by-side and unified comparison view powered by an LCS line diff engine highlighting additions, deletions, and line numbers safely.',
+    codeSnippet: `<DiffViewer\n  original={beforeCode}\n  modified={afterCode}\n  defaultViewMode="split"\n/>`,
+    props: [
+      { name: 'original / modified', type: 'string', defaultValue: 'required', description: 'Source strings compared as pure escaped text nodes.' },
+      { name: 'viewMode', type: "'split' | 'unified'", defaultValue: "'split'", description: 'Side-by-side or inline unified presentation.' },
+    ],
+  },
+  {
+    id: 'kpi-metric-card',
+    title: 'KPI Metric Card (with Sparkline)',
+    exportName: 'KpiMetricCard',
+    category: 'advanced-data',
+    categoryTitle: 'Advanced Data & Visualization',
+    summary: 'Compact optical dashboard card pairing a headline tabular figure, directional percentage delta pill, and interactive SVG optical sparkline.',
+    codeSnippet: `<KpiMetricCard\n  label="Weekly Downloads"\n  value="148.2K"\n  deltaPercent={18.6}\n  sparkline={[82, 91, 108, 134, 148]}\n/>`,
+    props: [
+      { name: 'value', type: 'string | number', defaultValue: 'required', description: 'Headline tabular KPI value.' },
+      { name: 'deltaPercent', type: 'number', defaultValue: 'undefined', description: 'Signed percentage change badge.' },
+      { name: 'sparkline', type: '(number | KpiSparklinePoint)[]', defaultValue: 'required', description: 'Trend series rendered as a token-driven SVG sparkline.' },
     ],
   },
 ];

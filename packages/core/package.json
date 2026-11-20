@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -36,6 +36,11 @@
       "source": "./src/Accordion/index.ts",
       "types": "./dist/Accordion/index.d.ts",
       "default": "./dist/Accordion/index.js"
+    },
+    "./AdvancedDataGrid": {
+      "source": "./src/AdvancedDataGrid/index.ts",
+      "types": "./dist/AdvancedDataGrid/index.d.ts",
+      "default": "./dist/AdvancedDataGrid/index.js"
     },
     "./AlertBanner": {
       "source": "./src/AlertBanner/index.ts",
@@ -97,6 +102,11 @@
       "types": "./dist/DateTimePicker/index.d.ts",
       "default": "./dist/DateTimePicker/index.js"
     },
+    "./DiffViewer": {
+      "source": "./src/DiffViewer/index.ts",
+      "types": "./dist/DiffViewer/index.d.ts",
+      "default": "./dist/DiffViewer/index.js"
+    },
     "./DockablePanel": {
       "source": "./src/DockablePanel/index.ts",
       "types": "./dist/DockablePanel/index.d.ts",
@@ -122,10 +132,25 @@
       "types": "./dist/FloatingActionButton/index.d.ts",
       "default": "./dist/FloatingActionButton/index.js"
     },
+    "./GanttChart": {
+      "source": "./src/GanttChart/index.ts",
+      "types": "./dist/GanttChart/index.d.ts",
+      "default": "./dist/GanttChart/index.js"
+    },
     "./IconButton": {
       "source": "./src/IconButton/index.ts",
       "types": "./dist/IconButton/index.d.ts",
       "default": "./dist/IconButton/index.js"
+    },
+    "./KanbanBoard": {
+      "source": "./src/KanbanBoard/index.ts",
+      "types": "./dist/KanbanBoard/index.d.ts",
+      "default": "./dist/KanbanBoard/index.js"
+    },
+    "./KpiMetricCard": {
+      "source": "./src/KpiMetricCard/index.ts",
+      "types": "./dist/KpiMetricCard/index.d.ts",
+      "default": "./dist/KpiMetricCard/index.js"
     },
     "./MasonryGrid": {
       "source": "./src/MasonryGrid/index.ts",
@@ -151,6 +176,11 @@
       "source": "./src/Pagination/index.ts",
       "types": "./dist/Pagination/index.d.ts",
       "default": "./dist/Pagination/index.js"
+    },
+    "./PivotTable": {
+      "source": "./src/PivotTable/index.ts",
+      "types": "./dist/PivotTable/index.d.ts",
+      "default": "./dist/PivotTable/index.js"
     },
     "./PrimaryButton": {
       "source": "./src/PrimaryButton/index.ts",
