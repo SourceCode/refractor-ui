@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -202,6 +202,11 @@
       "types": "./dist/MultiSelectCombobox/index.d.ts",
       "default": "./dist/MultiSelectCombobox/index.js"
     },
+    "./NodeGraphCanvas": {
+      "source": "./src/NodeGraphCanvas/index.ts",
+      "types": "./dist/NodeGraphCanvas/index.d.ts",
+      "default": "./dist/NodeGraphCanvas/index.js"
+    },
     "./OpticalCharts": {
       "source": "./src/OpticalCharts/index.ts",
       "types": "./dist/OpticalCharts/index.d.ts",
@@ -297,6 +302,11 @@
       "types": "./dist/SlideOverSheet/index.d.ts",
       "default": "./dist/SlideOverSheet/index.js"
     },
+    "./SortableList": {
+      "source": "./src/SortableList/index.ts",
+      "types": "./dist/SortableList/index.d.ts",
+      "default": "./dist/SortableList/index.js"
+    },
     "./SplitButton": {
       "source": "./src/SplitButton/index.ts",
       "types": "./dist/SplitButton/index.d.ts",
@@ -351,6 +361,11 @@
       "source": "./src/TopNavBar/index.ts",
       "types": "./dist/TopNavBar/index.d.ts",
       "default": "./dist/TopNavBar/index.js"
+    },
+    "./TransferList": {
+      "source": "./src/TransferList/index.ts",
+      "types": "./dist/TransferList/index.d.ts",
+      "default": "./dist/TransferList/index.js"
     },
     "./TreeView": {
       "source": "./src/TreeView/index.ts",

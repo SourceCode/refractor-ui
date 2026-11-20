@@ -1,5 +1,6 @@
 import { CoreDemos } from './demos/CoreDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
+import { DragDropDemos } from './demos/DragDropDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
@@ -42,6 +43,12 @@ const RICH_INPUT_IDS = new Set([
   'signature-pad',
 ]);
 
+const DRAG_DROP_IDS = new Set([
+  'transfer-list',
+  'sortable-list',
+  'node-graph-canvas',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -54,6 +61,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (RICH_INPUT_IDS.has(componentId)) {
     return <RichInputDemos componentId={componentId} />;
+  }
+  if (DRAG_DROP_IDS.has(componentId)) {
+    return <DragDropDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

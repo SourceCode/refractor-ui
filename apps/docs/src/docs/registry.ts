@@ -86,6 +86,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Rich Input',
     description: 'XSS-sanitized WYSIWYG editors, syntax-highlighted code editors, HSV color pickers, inline editable fields, media croppers, and vector signature pads.',
   },
+  {
+    id: 'drag-and-drop',
+    title: 'Interactive & Drag-and-Drop',
+    shortLabel: 'Drag & Drop',
+    description: 'Dual-listbox transfer controls, accessible sortable lists with grab handles, and infinite zoomable 2D node-graph flow canvases.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -988,6 +994,47 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'strokeColor / strokeWidth', type: 'string / number', defaultValue: "'#18202C' / 2.5", description: 'Vector ink color and stroke thickness.' },
       { name: 'onSave', type: '(data: SignatureExportData) => void', defaultValue: 'undefined', description: 'Receives vector strokes and SVG data URL.' },
+    ],
+  },
+
+  /* ==================== INTERACTIVE & DRAG-AND-DROP (3) ==================== */
+  {
+    id: 'transfer-list',
+    title: 'Transfer List (Dual Listbox)',
+    exportName: 'TransferList',
+    category: 'drag-and-drop',
+    categoryTitle: 'Interactive & Drag-and-Drop',
+    summary: 'Two side-by-side optical listboxes with search filters and center crystal arrow controls moving items cleanly between Available and Selected pools.',
+    codeSnippet: `<TransferList\n  items={items}\n  selectedIds={selected}\n  onChange={setSelected}\n/>`,
+    props: [
+      { name: 'items', type: 'TransferListItem[]', defaultValue: 'required', description: 'Master pool of transferable items supporting disabled guards.' },
+      { name: 'selectedIds / onChange', type: 'string[]', defaultValue: 'optional', description: 'IDs currently in the right Selected listbox.' },
+    ],
+  },
+  {
+    id: 'sortable-list',
+    title: 'Sortable Drag-and-Drop List',
+    exportName: 'SortableList',
+    category: 'drag-and-drop',
+    categoryTitle: 'Interactive & Drag-and-Drop',
+    summary: 'Optical crystal list equipped with grab handles, HTML5 drag-and-drop reordering, Alt+Arrow keyboard controls, and ARIA live announcements.',
+    codeSnippet: `<SortableList\n  items={priorities}\n  onReorder={(next) => setPriorities(next)}\n/>`,
+    props: [
+      { name: 'items / defaultItems', type: 'SortableListItem[]', defaultValue: 'optional', description: 'Ordered items supporting locked guards.' },
+      { name: 'onReorder', type: '(next, from, to) => void', defaultValue: 'undefined', description: 'Fired with immutably reordered items.' },
+    ],
+  },
+  {
+    id: 'node-graph-canvas',
+    title: 'Node Graph / Flow Canvas',
+    exportName: 'NodeGraphCanvas',
+    category: 'drag-and-drop',
+    categoryTitle: 'Interactive & Drag-and-Drop',
+    summary: 'Infinite, zoomable, pannable 2D optical workspace where users drag glass nodes and wire input/output ports with smooth SVG cubic bezier curves.',
+    codeSnippet: `<NodeGraphCanvas\n  defaultNodes={nodes}\n  defaultEdges={edges}\n  onNodesChange={setNodes}\n/>`,
+    props: [
+      { name: 'nodes / edges', type: 'FlowNode[] / FlowEdge[]', defaultValue: 'optional', description: 'Graph nodes and directed cubic bezier connections.' },
+      { name: 'readOnly', type: 'boolean', defaultValue: 'false', description: 'Locks node edits and edge wiring.' },
     ],
   },
 ];

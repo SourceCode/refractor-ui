@@ -7,6 +7,15 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-11-20
+
+### Added
+- **Interactive & Drag-and-Drop (3 new Astryx-standard optical-glass components):**
+  - `TransferList`: Side-by-side Available/Selected optical dual listbox with independent search wells, disabled-item protection, and Move Selected / Move All controls (`RGU-22`).
+  - `SortableList`: Grab-handle drag-and-drop priority list with Alt+Arrow keyboard parity, locked-item guards, and `aria-live` reorder announcements (`RGU-23`).
+  - `NodeGraphCanvas`: Infinite pan/zoom 2D optical workspace with draggable refractive glass nodes, interactive port-to-port bezier edge wiring, self-loop/duplicate edge guards, and keyboard node nudging (`RGU-24`).
+- Interactive playground demos and prop specs in `apps/docs` under `Interactive & Drag-and-Drop` (71 total components across 11 categories).
+
 ## [1.4.0] - 2026-11-20
 
 ### Added
@@ -69,7 +78,8 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 - Decoupled all core UI components (`DataTable`, `TreeView`, `CalendarView`, `DateTimePicker`, `FileDropzone`) from application-specific storage types so `@refractor-ui/core` is a clean, standalone design system package.
 - Replaced hardcoded hex and `rgba()` styling across `refractor.css` and SVG visualizations with reactive `--prism-*` semantic CSS custom properties.
 
-[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.1.0...v1.2.0
