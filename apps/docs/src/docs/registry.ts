@@ -62,6 +62,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Overlays',
     description: 'Layered contextual glass popovers, modal dialogs, hover tooltips, right-click menus, and responsive slide-over sheets.',
   },
+  {
+    id: 'layout-workspace',
+    title: 'Layout & Workspace Controls',
+    shortLabel: 'Layout',
+    description: 'Resizable refractive splitters, dockable floating panels, master-detail shells, 10k-row virtualized lists, masonry grids, and sticky bulk toolbars.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -665,6 +671,88 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     codeSnippet: `<SlideOverSheet\n  open={sheetOpen}\n  mode="right"\n  title="Inspector"\n  onClose={() => setSheetOpen(false)}\n>\n  ...\n</SlideOverSheet>`,
     props: [
       { name: 'mode', type: "'right' | 'bottom'", defaultValue: "'right'", description: 'Selects side Slide-Over or Bottom Sheet presentation.' },
+    ],
+  },
+
+  /* ==================== LAYOUT & WORKSPACE CONTROLS (6) ==================== */
+  {
+    id: 'window-splitter',
+    title: 'Window Splitter / Resizable Panes',
+    exportName: 'WindowSplitter',
+    category: 'layout-workspace',
+    categoryTitle: 'Layout & Workspace Controls',
+    summary: 'A draggable refractive divider bar placed between two or more panels for smooth manual and keyboard-accessible pane resizing.',
+    codeSnippet: `<WindowSplitter\n  orientation="horizontal"\n  defaultSizes={[35, 65]}\n  panes={[\n    { id: 'left', label: 'Explorer', content: <Explorer /> },\n    { id: 'right', label: 'Canvas', content: <Canvas /> },\n  ]}\n/>`,
+    props: [
+      { name: 'panes', type: 'WindowSplitterPane[]', defaultValue: 'required', description: 'Array of 2+ resizable panes with minSize/maxSize constraints.' },
+      { name: 'orientation', type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: 'Split axis direction.' },
+      { name: 'defaultSizes', type: 'number[]', defaultValue: 'equal split', description: 'Initial percentage sizes summing to 100.' },
+    ],
+  },
+  {
+    id: 'dockable-panel',
+    title: 'Dockable / Floating Panels',
+    exportName: 'DockablePanel',
+    category: 'layout-workspace',
+    categoryTitle: 'Layout & Workspace Controls',
+    summary: 'Modular optical-glass workspace window that users can dock to screen edges, collapse, or pop out and drag as a floating view.',
+    codeSnippet: `<DockablePanel\n  title="Shader Inspector"\n  dockPosition={dock}\n  onDockPositionChange={setDock}\n>\n  ...\n</DockablePanel>`,
+    props: [
+      { name: 'dockPosition', type: "'left' | 'right' | 'bottom' | 'center' | 'floating'", defaultValue: "'right'", description: 'Active docked edge or floating window mode.' },
+      { name: 'collapsed', type: 'boolean', defaultValue: 'false', description: 'Minimizes body to titlebar.' },
+    ],
+  },
+  {
+    id: 'master-detail-view',
+    title: 'Master-Detail View',
+    exportName: 'MasterDetailView',
+    category: 'layout-workspace',
+    categoryTitle: 'Layout & Workspace Controls',
+    summary: 'Split-screen optical layout where selecting an item from a searchable master list immediately loads its full detail view adjacently.',
+    codeSnippet: `<MasterDetailView\n  items={specs}\n  selectedId={selected}\n  onSelectItem={(item) => setSelected(item.id)}\n  renderDetail={(item) => <SpecDetail item={item} />}\n/>`,
+    props: [
+      { name: 'items', type: 'MasterDetailItem[]', defaultValue: 'required', description: 'Selectable records rendered in the master pane.' },
+      { name: 'renderDetail', type: '(item: T) => ReactNode', defaultValue: 'required', description: 'Renders the active detail canvas.' },
+    ],
+  },
+  {
+    id: 'virtualized-list',
+    title: 'Virtualized List / Infinite Scroller',
+    exportName: 'VirtualizedList',
+    category: 'layout-workspace',
+    categoryTitle: 'Layout & Workspace Controls',
+    summary: 'High-performance scrolling container rendering only the visible viewport window plus overscan across tens of thousands of rows.',
+    codeSnippet: `<VirtualizedList\n  items={tenThousandRows}\n  itemHeight={46}\n  height={320}\n  renderItem={(row) => <Row item={row} />}\n/>`,
+    props: [
+      { name: 'items', type: 'T[]', defaultValue: 'required', description: 'Large dataset array (10,000+ rows supported smoothly).' },
+      { name: 'itemHeight / height', type: 'number', defaultValue: '48 / 320', description: 'Fixed row height and scrollable viewport height in pixels.' },
+      { name: 'onEndReached', type: '() => void', defaultValue: 'undefined', description: 'Infinite scroll trigger near list bottom.' },
+    ],
+  },
+  {
+    id: 'masonry-grid',
+    title: 'Masonry Grid',
+    exportName: 'MasonryGrid',
+    category: 'layout-workspace',
+    categoryTitle: 'Layout & Workspace Controls',
+    summary: 'Multi-column optical brickwork layout packing variable-height cards tightly into shortest-column lanes without vertical gaps.',
+    codeSnippet: `<MasonryGrid items={cards} columns={3} gapPx={16} />`,
+    props: [
+      { name: 'items', type: 'MasonryItem[]', defaultValue: 'required', description: 'Variable-height cards distributed into balanced columns.' },
+      { name: 'columns', type: 'number', defaultValue: '3', description: 'Lane count clamped safely between 1 and 6.' },
+    ],
+  },
+  {
+    id: 'sticky-action-bar',
+    title: 'Sticky Action Bar',
+    exportName: 'StickyActionBar',
+    category: 'layout-workspace',
+    categoryTitle: 'Layout & Workspace Controls',
+    summary: 'Floating or anchored optical toolbar staying locked in view when multiple items are selected to offer bulk workflow actions.',
+    codeSnippet: `<StickyActionBar\n  selectedCount={selectedIds.length}\n  actions={bulkActions}\n  onClearSelection={clearAll}\n/>`,
+    props: [
+      { name: 'selectedCount', type: 'number', defaultValue: 'required', description: 'Active selection count; bar auto-hides at 0 unless alwaysVisible.' },
+      { name: 'actions', type: 'StickyActionItem[]', defaultValue: 'required', description: 'Bulk action buttons supporting primary, secondary, cobalt, and destructive tones.' },
     ],
   },
 ];

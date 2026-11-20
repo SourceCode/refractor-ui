@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -97,6 +97,11 @@
       "types": "./dist/DateTimePicker/index.d.ts",
       "default": "./dist/DateTimePicker/index.js"
     },
+    "./DockablePanel": {
+      "source": "./src/DockablePanel/index.ts",
+      "types": "./dist/DockablePanel/index.d.ts",
+      "default": "./dist/DockablePanel/index.js"
+    },
     "./DropdownSelect": {
       "source": "./src/DropdownSelect/index.ts",
       "types": "./dist/DropdownSelect/index.d.ts",
@@ -121,6 +126,16 @@
       "source": "./src/IconButton/index.ts",
       "types": "./dist/IconButton/index.d.ts",
       "default": "./dist/IconButton/index.js"
+    },
+    "./MasonryGrid": {
+      "source": "./src/MasonryGrid/index.ts",
+      "types": "./dist/MasonryGrid/index.d.ts",
+      "default": "./dist/MasonryGrid/index.js"
+    },
+    "./MasterDetailView": {
+      "source": "./src/MasterDetailView/index.ts",
+      "types": "./dist/MasterDetailView/index.d.ts",
+      "default": "./dist/MasterDetailView/index.js"
     },
     "./ModalDialog": {
       "source": "./src/ModalDialog/index.ts",
@@ -217,6 +232,11 @@
       "types": "./dist/Stepper/index.d.ts",
       "default": "./dist/Stepper/index.js"
     },
+    "./StickyActionBar": {
+      "source": "./src/StickyActionBar/index.ts",
+      "types": "./dist/StickyActionBar/index.d.ts",
+      "default": "./dist/StickyActionBar/index.js"
+    },
     "./TagChip": {
       "source": "./src/TagChip/index.ts",
       "types": "./dist/TagChip/index.d.ts",
@@ -261,6 +281,16 @@
       "source": "./src/TreeView/index.ts",
       "types": "./dist/TreeView/index.d.ts",
       "default": "./dist/TreeView/index.js"
+    },
+    "./VirtualizedList": {
+      "source": "./src/VirtualizedList/index.ts",
+      "types": "./dist/VirtualizedList/index.d.ts",
+      "default": "./dist/VirtualizedList/index.js"
+    },
+    "./WindowSplitter": {
+      "source": "./src/WindowSplitter/index.ts",
+      "types": "./dist/WindowSplitter/index.d.ts",
+      "default": "./dist/WindowSplitter/index.js"
     }
   },
   "scripts": {

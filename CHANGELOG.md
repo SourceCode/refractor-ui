@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-20
+
+### Added
+- **Layout & Workspace Controls (6 new Astryx-standard optical-glass components):**
+  - `WindowSplitter`: Draggable horizontal/vertical multi-pane optical splitter with pointer drag, double-click reset, min/max clamping, and full keyboard `role="separator"` support (`RGU-9`).
+  - `DockablePanel`: Modular workspace window supporting docked (`left`, `right`, `bottom`, `center`) and draggable floating modes, collapse/expand, and keyboard positioning (`RGU-10`).
+  - `MasterDetailView`: Searchable split-screen master-detail workspace with Arrow/Home/End keyboard selection and responsive mobile detail toggle (`RGU-11`).
+  - `VirtualizedList`: Windowed high-performance virtual scroller rendering only visible items + overscan across 10,000+ rows with infinite-scroll `onEndReached` and live telemetry pill (`RGU-12`).
+  - `MasonryGrid`: Shortest-column balanced multi-column optical brickwork layout (`RGU-13`).
+  - `StickyActionBar`: Floating/anchored optical bulk selection toolbar with tabular selection counter, Select All / Clear, Escape dismissal, and tone-aware action pills (`RGU-31`).
+- Interactive playground demos and prop specs in `apps/docs` under the new `Layout & Workspace Controls` category (52 total components across 7 categories).
+
 ## [1.0.0] - 2026-11-20
 
 ### Added
@@ -23,5 +35,6 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 - Decoupled all core UI components (`DataTable`, `TreeView`, `CalendarView`, `DateTimePicker`, `FileDropzone`) from application-specific storage types so `@refractor-ui/core` is a clean, standalone design system package.
 - Replaced hardcoded hex and `rgba()` styling across `refractor.css` and SVG visualizations with reactive `--prism-*` semantic CSS custom properties.
 
-[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/SourceCode/glass-ui-v1/releases/tag/v1.0.0
