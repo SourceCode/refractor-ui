@@ -92,6 +92,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Drag & Drop',
     description: 'Dual-listbox transfer controls, accessible sortable lists with grab handles, and infinite zoomable 2D node-graph flow canvases.',
   },
+  {
+    id: 'collaboration-guidance',
+    title: 'Collaboration & Guidance',
+    shortLabel: 'Collaboration',
+    description: 'Real-time notification feeds, nested @mention discussion threads, live collaborator presence & cursors, and spotlight product tours.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1035,6 +1041,63 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'nodes / edges', type: 'FlowNode[] / FlowEdge[]', defaultValue: 'optional', description: 'Graph nodes and directed cubic bezier connections.' },
       { name: 'readOnly', type: 'boolean', defaultValue: 'false', description: 'Locks node edits and edge wiring.' },
+    ],
+  },
+
+  /* ==================== COLLABORATION & GUIDANCE (4) ==================== */
+  {
+    id: 'notification-center',
+    title: 'Notification Center / Activity Feed',
+    exportName: 'NotificationCenter',
+    category: 'collaboration-guidance',
+    categoryTitle: 'Collaboration & Guidance',
+    summary: 'Chronological optical dropdown, drawer, or inline feed aggregating alerts, mentions, and system updates with read/unread states and inline quick actions.',
+    codeSnippet: `<NotificationCenter\n  items={notifications}\n  onItemsChange={setNotifications}\n  onActionClick={handleAction}\n/>`,
+    props: [
+      { name: 'items / defaultItems', type: 'NotificationItem[]', defaultValue: 'optional', description: 'Chronological notifications with category, read state, and actions.' },
+      { name: 'mode', type: "'dropdown' | 'drawer' | 'inline'", defaultValue: "'dropdown'", description: 'Controls anchored popover, side drawer, or inline panel layout.' },
+    ],
+  },
+  {
+    id: 'comment-thread',
+    title: 'Comment Thread',
+    exportName: 'CommentThread',
+    category: 'collaboration-guidance',
+    categoryTitle: 'Collaboration & Guidance',
+    summary: 'Nested optical discussion thread supporting inline replies, live @mentions autocomplete, emoji reaction toggle pills, and resolve tracking.',
+    codeSnippet: `<CommentThread\n  comments={comments}\n  mentionUsers={team}\n  onCommentsChange={setComments}\n/>`,
+    props: [
+      { name: 'comments / defaultComments', type: 'CommentItem[]', defaultValue: 'optional', description: 'Nested discussion comments with reactions and replies.' },
+      { name: 'mentionUsers', type: 'MentionUser[]', defaultValue: '[]', description: 'Teammates surfaced when typing @ in any composer.' },
+      { name: 'maxDepth', type: 'number', defaultValue: '3', description: 'Maximum reply nesting depth clamped safely between 1 and 6.' },
+    ],
+  },
+  {
+    id: 'live-presence-indicator',
+    title: 'Live Presence Indicator',
+    exportName: 'LivePresenceIndicator',
+    category: 'collaboration-guidance',
+    categoryTitle: 'Collaboration & Guidance',
+    summary: 'Overlapping crystal-bezel collaborator avatar stack with online/editing status rings, +N overflow popover, and optional live colored cursor stage.',
+    codeSnippet: `<LivePresenceIndicator\n  users={collaborators}\n  maxVisible={4}\n  showCursors\n/>`,
+    props: [
+      { name: 'users', type: 'PresenceUser[]', defaultValue: 'required', description: 'Active workspace collaborators with status and optional live cursor.' },
+      { name: 'maxVisible', type: 'number', defaultValue: '4', description: 'Maximum stacked avatars before rendering a +N overflow popover.' },
+      { name: 'showCursors', type: 'boolean', defaultValue: 'false', description: 'Renders the optical live cursor stage below the avatar cluster.' },
+    ],
+  },
+  {
+    id: 'product-tour',
+    title: 'Product Tour / Coachmarks',
+    exportName: 'ProductTour',
+    category: 'collaboration-guidance',
+    categoryTitle: 'Collaboration & Guidance',
+    summary: 'Guided sequence of optical spotlight frames and glass coachmark popovers walking first-time users step-by-step across workspace features.',
+    codeSnippet: `<ProductTour\n  open={tourOpen}\n  onOpenChange={setTourOpen}\n  steps={tourSteps}\n  onComplete={finishTour}\n/>`,
+    props: [
+      { name: 'steps', type: 'TourStep[]', defaultValue: 'required', description: 'Ordered onboarding steps with optional CSS targetSelector.' },
+      { name: 'mode', type: "'overlay' | 'inline'", defaultValue: "'overlay'", description: 'Full-screen spotlight scrim or embedded inline coachmark card.' },
+      { name: 'closeOnEscape', type: 'boolean', defaultValue: 'true', description: 'Dismisses the tour cleanly when pressing Escape.' },
     ],
   },
 ];

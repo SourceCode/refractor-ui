@@ -15,9 +15,9 @@ import {
 } from '../docs/registry';
 
 describe('Docs storage & component registry', () => {
-  it('registers all 46 core components across 6 initial categories', () => {
-    expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(6);
-    expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(46);
+  it('registers all 75 components across 12 complete categories', () => {
+    expect(DOC_CATEGORIES).toHaveLength(12);
+    expect(COMPONENT_REGISTRY).toHaveLength(75);
 
     const counts = getCategoryCounts(COMPONENT_REGISTRY);
     expect(counts['buttons-actions']).toBe(6);
@@ -26,6 +26,12 @@ describe('Docs storage & component registry', () => {
     expect(counts['data-display']).toBe(12);
     expect(counts['feedback-status']).toBe(5);
     expect(counts['overlays-popups']).toBe(5);
+    expect(counts['layout-workspace']).toBe(6);
+    expect(counts['advanced-data']).toBe(6);
+    expect(counts['search-filtering']).toBe(4);
+    expect(counts['rich-input']).toBe(6);
+    expect(counts['drag-and-drop']).toBe(3);
+    expect(counts['collaboration-guidance']).toBe(4);
 
     const uniqueIds = new Set(COMPONENT_REGISTRY.map((c) => c.id));
     expect(uniqueIds.size).toBe(COMPONENT_REGISTRY.length);

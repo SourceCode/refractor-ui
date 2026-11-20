@@ -1,3 +1,4 @@
+import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CoreDemos } from './demos/CoreDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
@@ -49,6 +50,13 @@ const DRAG_DROP_IDS = new Set([
   'node-graph-canvas',
 ]);
 
+const COLLABORATION_IDS = new Set([
+  'notification-center',
+  'comment-thread',
+  'live-presence-indicator',
+  'product-tour',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -64,6 +72,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (DRAG_DROP_IDS.has(componentId)) {
     return <DragDropDemos componentId={componentId} />;
+  }
+  if (COLLABORATION_IDS.has(componentId)) {
+    return <CollaborationDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

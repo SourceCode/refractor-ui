@@ -7,6 +7,16 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-20
+
+### Added
+- **Collaboration & Guidance (4 new Astryx-standard optical-glass components):**
+  - `NotificationCenter`: Chronological activity dropdown, drawer, and inline feed with All/Unread/Mentions filtering, Mark All Read, individual read toggling, dismissal, and inline quick-action buttons (`RGU-25`).
+  - `CommentThread`: Nested discussion threads with bounded depth, safe highlighted `@mentions` autocomplete, emoji reaction toggle pills, resolve state, URL-sanitized avatars, and zero `dangerouslySetInnerHTML` (`RGU-26`).
+  - `LivePresenceIndicator`: Overlapping crystal-bezel avatar stack with live online/editing/viewing/idle status rings, `+N` overflow popover, strict color/URL sanitization, and optional clamped live collaborator cursor stage (`RGU-27`).
+  - `ProductTour`: Guided sequence of optical spotlight frames and anchored glass coachmark popovers with resilient selector fallback, progress dots, keyboard navigation, and inline/overlay modes (`RGU-40`).
+- Interactive playground demos and prop specs in `apps/docs` under `Collaboration & Guidance` (**75 total components across 12 categories**).
+
 ## [1.5.0] - 2026-11-20
 
 ### Added
@@ -78,7 +88,8 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 - Decoupled all core UI components (`DataTable`, `TreeView`, `CalendarView`, `DateTimePicker`, `FileDropzone`) from application-specific storage types so `@refractor-ui/core` is a clean, standalone design system package.
 - Replaced hardcoded hex and `rgba()` styling across `refractor.css` and SVG visualizations with reactive `--prism-*` semantic CSS custom properties.
 
-[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/SourceCode/glass-ui-v1/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/SourceCode/glass-ui-v1/compare/v1.2.0...v1.3.0

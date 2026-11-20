@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -92,6 +92,11 @@
       "types": "./dist/CommandPalette/index.d.ts",
       "default": "./dist/CommandPalette/index.js"
     },
+    "./CommentThread": {
+      "source": "./src/CommentThread/index.ts",
+      "types": "./dist/CommentThread/index.d.ts",
+      "default": "./dist/CommentThread/index.js"
+    },
     "./ContextMenuDropdown": {
       "source": "./src/ContextMenuDropdown/index.ts",
       "types": "./dist/ContextMenuDropdown/index.d.ts",
@@ -182,6 +187,11 @@
       "types": "./dist/KpiMetricCard/index.d.ts",
       "default": "./dist/KpiMetricCard/index.js"
     },
+    "./LivePresenceIndicator": {
+      "source": "./src/LivePresenceIndicator/index.ts",
+      "types": "./dist/LivePresenceIndicator/index.d.ts",
+      "default": "./dist/LivePresenceIndicator/index.js"
+    },
     "./MasonryGrid": {
       "source": "./src/MasonryGrid/index.ts",
       "types": "./dist/MasonryGrid/index.d.ts",
@@ -206,6 +216,11 @@
       "source": "./src/NodeGraphCanvas/index.ts",
       "types": "./dist/NodeGraphCanvas/index.d.ts",
       "default": "./dist/NodeGraphCanvas/index.js"
+    },
+    "./NotificationCenter": {
+      "source": "./src/NotificationCenter/index.ts",
+      "types": "./dist/NotificationCenter/index.d.ts",
+      "default": "./dist/NotificationCenter/index.js"
     },
     "./OpticalCharts": {
       "source": "./src/OpticalCharts/index.ts",
@@ -241,6 +256,11 @@
       "source": "./src/PrismTabs/index.ts",
       "types": "./dist/PrismTabs/index.d.ts",
       "default": "./dist/PrismTabs/index.js"
+    },
+    "./ProductTour": {
+      "source": "./src/ProductTour/index.ts",
+      "types": "./dist/ProductTour/index.d.ts",
+      "default": "./dist/ProductTour/index.js"
     },
     "./ProgressAndSpinner": {
       "source": "./src/ProgressAndSpinner/index.ts",
