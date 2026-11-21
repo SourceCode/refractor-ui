@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.7.0",
+  "version": "1.9.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -37,15 +37,55 @@
       "types": "./dist/Accordion/index.d.ts",
       "default": "./dist/Accordion/index.js"
     },
+    "./ActiveSessionsList": {
+      "source": "./src/ActiveSessionsList/index.ts",
+      "types": "./dist/ActiveSessionsList/index.d.ts",
+      "default": "./dist/ActiveSessionsList/index.js"
+    },
     "./AdvancedDataGrid": {
       "source": "./src/AdvancedDataGrid/index.ts",
       "types": "./dist/AdvancedDataGrid/index.d.ts",
       "default": "./dist/AdvancedDataGrid/index.js"
     },
+    "./AgentControlBar": {
+      "source": "./src/AgentControlBar/index.ts",
+      "types": "./dist/AgentControlBar/index.d.ts",
+      "default": "./dist/AgentControlBar/index.js"
+    },
+    "./AgentExecutionTrace": {
+      "source": "./src/AgentExecutionTrace/index.ts",
+      "types": "./dist/AgentExecutionTrace/index.d.ts",
+      "default": "./dist/AgentExecutionTrace/index.js"
+    },
+    "./AgentPlanList": {
+      "source": "./src/AgentPlanList/index.ts",
+      "types": "./dist/AgentPlanList/index.d.ts",
+      "default": "./dist/AgentPlanList/index.js"
+    },
+    "./AgentRosterRail": {
+      "source": "./src/AgentRosterRail/index.ts",
+      "types": "./dist/AgentRosterRail/index.d.ts",
+      "default": "./dist/AgentRosterRail/index.js"
+    },
     "./AlertBanner": {
       "source": "./src/AlertBanner/index.ts",
       "types": "./dist/AlertBanner/index.d.ts",
       "default": "./dist/AlertBanner/index.js"
+    },
+    "./ApprovalGateCard": {
+      "source": "./src/ApprovalGateCard/index.ts",
+      "types": "./dist/ApprovalGateCard/index.d.ts",
+      "default": "./dist/ApprovalGateCard/index.js"
+    },
+    "./AttachedContextBar": {
+      "source": "./src/AttachedContextBar/index.ts",
+      "types": "./dist/AttachedContextBar/index.d.ts",
+      "default": "./dist/AttachedContextBar/index.js"
+    },
+    "./AudioWaveformPlayer": {
+      "source": "./src/AudioWaveformPlayer/index.ts",
+      "types": "./dist/AudioWaveformPlayer/index.d.ts",
+      "default": "./dist/AudioWaveformPlayer/index.js"
     },
     "./Avatar": {
       "source": "./src/Avatar/index.ts",
@@ -56,6 +96,16 @@
       "source": "./src/BadgeStatus/index.ts",
       "types": "./dist/BadgeStatus/index.d.ts",
       "default": "./dist/BadgeStatus/index.js"
+    },
+    "./BeforeAfterSlider": {
+      "source": "./src/BeforeAfterSlider/index.ts",
+      "types": "./dist/BeforeAfterSlider/index.d.ts",
+      "default": "./dist/BeforeAfterSlider/index.js"
+    },
+    "./BottomNavigationBar": {
+      "source": "./src/BottomNavigationBar/index.ts",
+      "types": "./dist/BottomNavigationBar/index.d.ts",
+      "default": "./dist/BottomNavigationBar/index.js"
     },
     "./Breadcrumbs": {
       "source": "./src/Breadcrumbs/index.ts",
@@ -72,10 +122,25 @@
       "types": "./dist/CarouselSlider/index.d.ts",
       "default": "./dist/CarouselSlider/index.js"
     },
+    "./ChatMessageStream": {
+      "source": "./src/ChatMessageStream/index.ts",
+      "types": "./dist/ChatMessageStream/index.d.ts",
+      "default": "./dist/ChatMessageStream/index.js"
+    },
     "./Checkbox": {
       "source": "./src/Checkbox/index.ts",
       "types": "./dist/Checkbox/index.d.ts",
       "default": "./dist/Checkbox/index.js"
+    },
+    "./CheckpointRollbackStrip": {
+      "source": "./src/CheckpointRollbackStrip/index.ts",
+      "types": "./dist/CheckpointRollbackStrip/index.d.ts",
+      "default": "./dist/CheckpointRollbackStrip/index.js"
+    },
+    "./CitationChip": {
+      "source": "./src/CitationChip/index.ts",
+      "types": "./dist/CitationChip/index.d.ts",
+      "default": "./dist/CitationChip/index.js"
     },
     "./CodeEditor": {
       "source": "./src/CodeEditor/index.ts",
@@ -87,6 +152,11 @@
       "types": "./dist/ColorPicker/index.d.ts",
       "default": "./dist/ColorPicker/index.js"
     },
+    "./CommandInputBar": {
+      "source": "./src/CommandInputBar/index.ts",
+      "types": "./dist/CommandInputBar/index.d.ts",
+      "default": "./dist/CommandInputBar/index.js"
+    },
     "./CommandPalette": {
       "source": "./src/CommandPalette/index.ts",
       "types": "./dist/CommandPalette/index.d.ts",
@@ -97,15 +167,45 @@
       "types": "./dist/CommentThread/index.d.ts",
       "default": "./dist/CommentThread/index.js"
     },
+    "./ConfidenceIndicator": {
+      "source": "./src/ConfidenceIndicator/index.ts",
+      "types": "./dist/ConfidenceIndicator/index.d.ts",
+      "default": "./dist/ConfidenceIndicator/index.js"
+    },
+    "./ConnectedToolsDrawer": {
+      "source": "./src/ConnectedToolsDrawer/index.ts",
+      "types": "./dist/ConnectedToolsDrawer/index.d.ts",
+      "default": "./dist/ConnectedToolsDrawer/index.js"
+    },
     "./ContextMenuDropdown": {
       "source": "./src/ContextMenuDropdown/index.ts",
       "types": "./dist/ContextMenuDropdown/index.d.ts",
       "default": "./dist/ContextMenuDropdown/index.js"
     },
+    "./ContextTokenMeter": {
+      "source": "./src/ContextTokenMeter/index.ts",
+      "types": "./dist/ContextTokenMeter/index.d.ts",
+      "default": "./dist/ContextTokenMeter/index.js"
+    },
     "./ContextualPopover": {
       "source": "./src/ContextualPopover/index.ts",
       "types": "./dist/ContextualPopover/index.d.ts",
       "default": "./dist/ContextualPopover/index.js"
+    },
+    "./CookieConsentBanner": {
+      "source": "./src/CookieConsentBanner/index.ts",
+      "types": "./dist/CookieConsentBanner/index.d.ts",
+      "default": "./dist/CookieConsentBanner/index.js"
+    },
+    "./CopyableCommandBlock": {
+      "source": "./src/CopyableCommandBlock/index.ts",
+      "types": "./dist/CopyableCommandBlock/index.d.ts",
+      "default": "./dist/CopyableCommandBlock/index.js"
+    },
+    "./CustomVideoPlayer": {
+      "source": "./src/CustomVideoPlayer/index.ts",
+      "types": "./dist/CustomVideoPlayer/index.d.ts",
+      "default": "./dist/CustomVideoPlayer/index.js"
     },
     "./DataTable": {
       "source": "./src/DataTable/index.ts",
@@ -162,6 +262,11 @@
       "types": "./dist/GlobalSearchModal/index.d.ts",
       "default": "./dist/GlobalSearchModal/index.js"
     },
+    "./HandoffDivider": {
+      "source": "./src/HandoffDivider/index.ts",
+      "types": "./dist/HandoffDivider/index.d.ts",
+      "default": "./dist/HandoffDivider/index.js"
+    },
     "./IconButton": {
       "source": "./src/IconButton/index.ts",
       "types": "./dist/IconButton/index.d.ts",
@@ -172,20 +277,40 @@
       "types": "./dist/ImageCropper/index.d.ts",
       "default": "./dist/ImageCropper/index.js"
     },
+    "./InlineDiffReviewer": {
+      "source": "./src/InlineDiffReviewer/index.ts",
+      "types": "./dist/InlineDiffReviewer/index.d.ts",
+      "default": "./dist/InlineDiffReviewer/index.js"
+    },
     "./InlineEditableField": {
       "source": "./src/InlineEditableField/index.ts",
       "types": "./dist/InlineEditableField/index.d.ts",
       "default": "./dist/InlineEditableField/index.js"
+    },
+    "./InteractiveMapViewer": {
+      "source": "./src/InteractiveMapViewer/index.ts",
+      "types": "./dist/InteractiveMapViewer/index.d.ts",
+      "default": "./dist/InteractiveMapViewer/index.js"
     },
     "./KanbanBoard": {
       "source": "./src/KanbanBoard/index.ts",
       "types": "./dist/KanbanBoard/index.d.ts",
       "default": "./dist/KanbanBoard/index.js"
     },
+    "./KeycapBadge": {
+      "source": "./src/KeycapBadge/index.ts",
+      "types": "./dist/KeycapBadge/index.d.ts",
+      "default": "./dist/KeycapBadge/index.js"
+    },
     "./KpiMetricCard": {
       "source": "./src/KpiMetricCard/index.ts",
       "types": "./dist/KpiMetricCard/index.d.ts",
       "default": "./dist/KpiMetricCard/index.js"
+    },
+    "./LiveLogStreamer": {
+      "source": "./src/LiveLogStreamer/index.ts",
+      "types": "./dist/LiveLogStreamer/index.d.ts",
+      "default": "./dist/LiveLogStreamer/index.js"
     },
     "./LivePresenceIndicator": {
       "source": "./src/LivePresenceIndicator/index.ts",
@@ -202,10 +327,25 @@
       "types": "./dist/MasterDetailView/index.d.ts",
       "default": "./dist/MasterDetailView/index.js"
     },
+    "./MediaLightbox": {
+      "source": "./src/MediaLightbox/index.ts",
+      "types": "./dist/MediaLightbox/index.d.ts",
+      "default": "./dist/MediaLightbox/index.js"
+    },
+    "./MemoryPersonaInspector": {
+      "source": "./src/MemoryPersonaInspector/index.ts",
+      "types": "./dist/MemoryPersonaInspector/index.d.ts",
+      "default": "./dist/MemoryPersonaInspector/index.js"
+    },
     "./ModalDialog": {
       "source": "./src/ModalDialog/index.ts",
       "types": "./dist/ModalDialog/index.d.ts",
       "default": "./dist/ModalDialog/index.js"
+    },
+    "./ModelParameterSwitcher": {
+      "source": "./src/ModelParameterSwitcher/index.ts",
+      "types": "./dist/ModelParameterSwitcher/index.d.ts",
+      "default": "./dist/ModelParameterSwitcher/index.js"
     },
     "./MultiSelectCombobox": {
       "source": "./src/MultiSelectCombobox/index.ts",
@@ -227,15 +367,40 @@
       "types": "./dist/OpticalCharts/index.d.ts",
       "default": "./dist/OpticalCharts/index.js"
     },
+    "./OtpCodeInput": {
+      "source": "./src/OtpCodeInput/index.ts",
+      "types": "./dist/OtpCodeInput/index.d.ts",
+      "default": "./dist/OtpCodeInput/index.js"
+    },
     "./Pagination": {
       "source": "./src/Pagination/index.ts",
       "types": "./dist/Pagination/index.d.ts",
       "default": "./dist/Pagination/index.js"
     },
+    "./ParallelComparisonView": {
+      "source": "./src/ParallelComparisonView/index.ts",
+      "types": "./dist/ParallelComparisonView/index.d.ts",
+      "default": "./dist/ParallelComparisonView/index.js"
+    },
+    "./PasswordStrengthMeter": {
+      "source": "./src/PasswordStrengthMeter/index.ts",
+      "types": "./dist/PasswordStrengthMeter/index.d.ts",
+      "default": "./dist/PasswordStrengthMeter/index.js"
+    },
+    "./PaymentCardInput": {
+      "source": "./src/PaymentCardInput/index.ts",
+      "types": "./dist/PaymentCardInput/index.d.ts",
+      "default": "./dist/PaymentCardInput/index.js"
+    },
     "./PivotTable": {
       "source": "./src/PivotTable/index.ts",
       "types": "./dist/PivotTable/index.d.ts",
       "default": "./dist/PivotTable/index.js"
+    },
+    "./PricingTierMatrix": {
+      "source": "./src/PricingTierMatrix/index.ts",
+      "types": "./dist/PricingTierMatrix/index.d.ts",
+      "default": "./dist/PricingTierMatrix/index.js"
     },
     "./PrimaryButton": {
       "source": "./src/PrimaryButton/index.ts",
@@ -257,15 +422,45 @@
       "types": "./dist/PrismTabs/index.d.ts",
       "default": "./dist/PrismTabs/index.js"
     },
+    "./ProcessStatusPill": {
+      "source": "./src/ProcessStatusPill/index.ts",
+      "types": "./dist/ProcessStatusPill/index.d.ts",
+      "default": "./dist/ProcessStatusPill/index.js"
+    },
+    "./Product360Viewer": {
+      "source": "./src/Product360Viewer/index.ts",
+      "types": "./dist/Product360Viewer/index.d.ts",
+      "default": "./dist/Product360Viewer/index.js"
+    },
     "./ProductTour": {
       "source": "./src/ProductTour/index.ts",
       "types": "./dist/ProductTour/index.d.ts",
       "default": "./dist/ProductTour/index.js"
     },
+    "./ProductVariantSelector": {
+      "source": "./src/ProductVariantSelector/index.ts",
+      "types": "./dist/ProductVariantSelector/index.d.ts",
+      "default": "./dist/ProductVariantSelector/index.js"
+    },
     "./ProgressAndSpinner": {
       "source": "./src/ProgressAndSpinner/index.ts",
       "types": "./dist/ProgressAndSpinner/index.d.ts",
       "default": "./dist/ProgressAndSpinner/index.js"
+    },
+    "./PromoCouponInput": {
+      "source": "./src/PromoCouponInput/index.ts",
+      "types": "./dist/PromoCouponInput/index.d.ts",
+      "default": "./dist/PromoCouponInput/index.js"
+    },
+    "./PromptComposer": {
+      "source": "./src/PromptComposer/index.ts",
+      "types": "./dist/PromptComposer/index.d.ts",
+      "default": "./dist/PromptComposer/index.js"
+    },
+    "./PullToRefresh": {
+      "source": "./src/PullToRefresh/index.ts",
+      "types": "./dist/PullToRefresh/index.d.ts",
+      "default": "./dist/PullToRefresh/index.js"
     },
     "./RadioGroup": {
       "source": "./src/RadioGroup/index.ts",
@@ -282,10 +477,25 @@
       "types": "./dist/RatingControl/index.d.ts",
       "default": "./dist/RatingControl/index.js"
     },
+    "./RecoveryRoutingCard": {
+      "source": "./src/RecoveryRoutingCard/index.ts",
+      "types": "./dist/RecoveryRoutingCard/index.d.ts",
+      "default": "./dist/RecoveryRoutingCard/index.js"
+    },
+    "./ResponseActionBar": {
+      "source": "./src/ResponseActionBar/index.ts",
+      "types": "./dist/ResponseActionBar/index.d.ts",
+      "default": "./dist/ResponseActionBar/index.js"
+    },
     "./RichTextEditor": {
       "source": "./src/RichTextEditor/index.ts",
       "types": "./dist/RichTextEditor/index.d.ts",
       "default": "./dist/RichTextEditor/index.js"
+    },
+    "./RolePermissionsMatrix": {
+      "source": "./src/RolePermissionsMatrix/index.ts",
+      "types": "./dist/RolePermissionsMatrix/index.d.ts",
+      "default": "./dist/RolePermissionsMatrix/index.js"
     },
     "./SearchWithSuggestions": {
       "source": "./src/SearchWithSuggestions/index.ts",
@@ -297,10 +507,20 @@
       "types": "./dist/SecondaryButton/index.d.ts",
       "default": "./dist/SecondaryButton/index.js"
     },
+    "./SecretKeyField": {
+      "source": "./src/SecretKeyField/index.ts",
+      "types": "./dist/SecretKeyField/index.d.ts",
+      "default": "./dist/SecretKeyField/index.js"
+    },
     "./SegmentedControl": {
       "source": "./src/SegmentedControl/index.ts",
       "types": "./dist/SegmentedControl/index.d.ts",
       "default": "./dist/SegmentedControl/index.js"
+    },
+    "./ShoppingCartDrawer": {
+      "source": "./src/ShoppingCartDrawer/index.ts",
+      "types": "./dist/ShoppingCartDrawer/index.d.ts",
+      "default": "./dist/ShoppingCartDrawer/index.js"
     },
     "./SidebarDrawer": {
       "source": "./src/SidebarDrawer/index.ts",
@@ -327,6 +547,11 @@
       "types": "./dist/SortableList/index.d.ts",
       "default": "./dist/SortableList/index.js"
     },
+    "./SplitArtifactCanvas": {
+      "source": "./src/SplitArtifactCanvas/index.ts",
+      "types": "./dist/SplitArtifactCanvas/index.d.ts",
+      "default": "./dist/SplitArtifactCanvas/index.js"
+    },
     "./SplitButton": {
       "source": "./src/SplitButton/index.ts",
       "types": "./dist/SplitButton/index.d.ts",
@@ -342,10 +567,30 @@
       "types": "./dist/StickyActionBar/index.d.ts",
       "default": "./dist/StickyActionBar/index.js"
     },
+    "./StructuredOutputViewer": {
+      "source": "./src/StructuredOutputViewer/index.ts",
+      "types": "./dist/StructuredOutputViewer/index.d.ts",
+      "default": "./dist/StructuredOutputViewer/index.js"
+    },
+    "./SwipeableActionRow": {
+      "source": "./src/SwipeableActionRow/index.ts",
+      "types": "./dist/SwipeableActionRow/index.d.ts",
+      "default": "./dist/SwipeableActionRow/index.js"
+    },
     "./TagChip": {
       "source": "./src/TagChip/index.ts",
       "types": "./dist/TagChip/index.d.ts",
       "default": "./dist/TagChip/index.js"
+    },
+    "./TerminalEmulator": {
+      "source": "./src/TerminalEmulator/index.ts",
+      "types": "./dist/TerminalEmulator/index.d.ts",
+      "default": "./dist/TerminalEmulator/index.js"
+    },
+    "./TerminalMultiplexer": {
+      "source": "./src/TerminalMultiplexer/index.ts",
+      "types": "./dist/TerminalMultiplexer/index.d.ts",
+      "default": "./dist/TerminalMultiplexer/index.js"
     },
     "./TextArea": {
       "source": "./src/TextArea/index.ts",
@@ -356,6 +601,11 @@
       "source": "./src/TextInput/index.ts",
       "types": "./dist/TextInput/index.d.ts",
       "default": "./dist/TextInput/index.js"
+    },
+    "./ThinkingAccordion": {
+      "source": "./src/ThinkingAccordion/index.ts",
+      "types": "./dist/ThinkingAccordion/index.d.ts",
+      "default": "./dist/ThinkingAccordion/index.js"
     },
     "./Timeline": {
       "source": "./src/Timeline/index.ts",
@@ -371,6 +621,11 @@
       "source": "./src/ToggleSwitch/index.ts",
       "types": "./dist/ToggleSwitch/index.d.ts",
       "default": "./dist/ToggleSwitch/index.js"
+    },
+    "./ToolCallCard": {
+      "source": "./src/ToolCallCard/index.ts",
+      "types": "./dist/ToolCallCard/index.d.ts",
+      "default": "./dist/ToolCallCard/index.js"
     },
     "./Tooltip": {
       "source": "./src/Tooltip/index.ts",
@@ -418,5 +673,39 @@
   },
   "dependencies": {
     "lucide-react": "^0.546.0"
+  },
+  "homepage": "https://sourcecode.github.io/refractor-ui/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/SourceCode/refractor-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "react-19",
+    "typescript",
+    "design-system",
+    "ui-kit",
+    "component-library",
+    "glassmorphism",
+    "optical-glass",
+    "tailwindcss",
+    "accessible",
+    "theming",
+    "refractor-ui",
+    "astryx",
+    "mui-theming"
+  ],
+  "files": [
+    "dist",
+    "src/reset.css",
+    "src/refractor.css",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

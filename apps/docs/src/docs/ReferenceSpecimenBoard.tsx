@@ -12,6 +12,7 @@ import {
   ToggleSwitch,
 } from '@refractor-ui/core';
 import { pushToast, setFocusedComponent, useAppDispatch } from '../system/store';
+import { assetUrl } from './assetUrl';
 import { COMPONENT_REGISTRY } from './registry';
 
 const SPECIMEN_SUGGESTIONS = [
@@ -253,7 +254,7 @@ export function ReferenceSpecimenBoard() {
         {showReferenceImage && (
           <figure className="prism-slab p-4 space-y-2.5">
             <img
-              src="/assets/aistudio/image_5a598908.png"
+              src={assetUrl('assets/aistudio/image_5a598908.png')}
               alt="Original optical glass UI reference specification"
               referrerPolicy="no-referrer"
               className="w-full rounded-[20px] object-contain max-h-[620px] mx-auto"

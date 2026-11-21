@@ -38,7 +38,23 @@ export type DocsCategoryFilter =
   | 'search-filtering'
   | 'rich-input'
   | 'drag-and-drop'
-  | 'collaboration-guidance';
+  | 'collaboration-guidance'
+  | 'ai-conversational'
+  | 'media-spatial'
+  | 'security-auth'
+  | 'commerce-billing'
+  | 'mobile-utilities'
+  | 'cli-terminal'
+  | 'ai-agent-control'
+  | 'ai-context-memory'
+  | 'multi-agent';
+
+export type DocsPageSection =
+  | 'catalog'
+  | 'getting-started'
+  | 'theming'
+  | 'cli'
+  | 'architecture';
 
 export interface CustomPaletteState {
   primaryMain: string;
@@ -57,6 +73,7 @@ interface SystemState {
   customPalette: CustomPaletteState;
   customizerOpen: boolean;
   studioGrid: boolean;
+  activeSection: DocsPageSection;
   activeCategory: DocsCategoryFilter;
   focusedComponentId: string | null;
   searchQuery: string;
@@ -85,6 +102,7 @@ const initialState: SystemState = {
   customPalette: DEFAULT_CUSTOM_PALETTE,
   customizerOpen: false,
   studioGrid: false,
+  activeSection: 'catalog',
   activeCategory: 'overview',
   focusedComponentId: null,
   searchQuery: '',
@@ -169,7 +187,14 @@ const systemSlice = createSlice({
     setStudioGrid(state, action: PayloadAction<boolean>) {
       state.studioGrid = action.payload;
     },
+    setActiveSection(state, action: PayloadAction<DocsPageSection>) {
+      state.activeSection = action.payload;
+      if (action.payload !== 'catalog') {
+        state.focusedComponentId = null;
+      }
+    },
     setActiveCategory(state, action: PayloadAction<DocsCategoryFilter>) {
+      state.activeSection = 'catalog';
       state.activeCategory = action.payload;
       state.focusedComponentId = null;
     },
@@ -177,6 +202,7 @@ const systemSlice = createSlice({
       state,
       action: PayloadAction<{ componentId: string | null; category?: DocsCategoryFilter }>
     ) {
+      state.activeSection = 'catalog';
       state.focusedComponentId = action.payload.componentId;
       if (action.payload.category) {
         state.activeCategory = action.payload.category;
@@ -261,6 +287,7 @@ export const {
   resetCustomPalette,
   setCustomizerOpen,
   setStudioGrid,
+  setActiveSection,
   setActiveCategory,
   setFocusedComponent,
   setSearchQuery,

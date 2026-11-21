@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   ArrowLeft,
+  BookOpen,
   ChevronRight,
+  ExternalLink,
   Grid,
   Menu,
   Moon,
   Palette,
   Search,
+  ShieldCheck,
   Sun,
+  Terminal,
   X,
 } from 'lucide-react';
 import {
@@ -23,8 +27,10 @@ import {
 import {
   dismissToast,
   type DocsCategoryFilter,
+  type DocsPageSection,
   pushToast,
   setActiveCategory,
+  setActiveSection,
   setCommandPaletteOpen,
   setCustomizerOpen,
   setFocusedComponent,
@@ -37,6 +43,8 @@ import {
 } from '../system/store';
 import { ComponentDocCard } from './ComponentDocCard';
 import { ComponentLiveDemo } from './ComponentDemos';
+import { DocsGuides } from './DocsGuides';
+import { DocsHeroBanner } from './DocsHeroBanner';
 import { ReferenceSpecimenBoard } from './ReferenceSpecimenBoard';
 import { ThemeCustomizerDrawer } from './ThemeCustomizerDrawer';
 import {
@@ -46,12 +54,31 @@ import {
   getCategoryCounts,
 } from './registry';
 
+const GUIDE_NAV_ITEMS: ReadonlyArray<{
+  id: Exclude<DocsPageSection, 'catalog'>;
+  label: string;
+  icon: 'book' | 'palette' | 'terminal' | 'shield';
+}> = [
+  { id: 'getting-started', label: 'Getting Started', icon: 'book' },
+  { id: 'theming', label: 'Theming & Colors', icon: 'palette' },
+  { id: 'cli', label: 'CLI & Swizzle', icon: 'terminal' },
+  { id: 'architecture', label: 'Architecture & Security', icon: 'shield' },
+];
+
+function renderGuideIcon(kind: 'book' | 'palette' | 'terminal' | 'shield') {
+  if (kind === 'book') return <BookOpen className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />;
+  if (kind === 'palette') return <Palette className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />;
+  if (kind === 'terminal') return <Terminal className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />;
+  return <ShieldCheck className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />;
+}
+
 export function DocsShell() {
   const dispatch = useAppDispatch();
   const {
     themeMode,
     refraction,
     studioGrid,
+    activeSection,
     activeCategory,
     focusedComponentId,
     searchQuery,
@@ -60,6 +87,67 @@ export function DocsShell() {
   } = useAppSelector((s) => s.system);
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  // Sync URL hash -> Redux state for shareable GitHub Pages deep links
+  useEffect(() => {
+    const applyHashRoute = () => {
+      const rawHash = window.location.hash.replace(/^#\/?/, '').trim();
+      if (!rawHash) {
+        dispatch(setActiveCategory('overview'));
+        return;
+      }
+
+      if (
+        rawHash === 'getting-started' ||
+        rawHash === 'theming' ||
+        rawHash === 'cli' ||
+        rawHash === 'architecture'
+      ) {
+        dispatch(setActiveSection(rawHash));
+        return;
+      }
+
+      if (rawHash.startsWith('component/')) {
+        const compId = rawHash.slice('component/'.length);
+        const match = COMPONENT_REGISTRY.find((entry) => entry.id === compId);
+        if (match) {
+          dispatch(setFocusedComponent({ componentId: match.id, category: match.category }));
+        }
+        return;
+      }
+
+      if (rawHash.startsWith('category/')) {
+        const catId = rawHash.slice('category/'.length);
+        const validCat = DOC_CATEGORIES.find((cat) => cat.id === catId);
+        if (validCat) {
+          dispatch(setActiveCategory(validCat.id));
+        }
+      }
+    };
+
+    applyHashRoute();
+    window.addEventListener('hashchange', applyHashRoute);
+    return () => window.removeEventListener('hashchange', applyHashRoute);
+  }, [dispatch]);
+
+  // Reflect active section / component cleanly in URL hash without history spam
+  useEffect(() => {
+    let targetHash = '';
+    if (activeSection !== 'catalog') {
+      targetHash = `#/${activeSection}`;
+    } else if (focusedComponentId) {
+      targetHash = `#/component/${focusedComponentId}`;
+    } else if (activeCategory !== 'overview') {
+      targetHash = `#/category/${activeCategory}`;
+    }
+
+    if (window.location.hash !== targetHash) {
+      const nextUrl = targetHash
+        ? `${window.location.pathname}${window.location.search}${targetHash}`
+        : `${window.location.pathname}${window.location.search}`;
+      window.history.replaceState(null, '', nextUrl);
+    }
+  }, [activeCategory, activeSection, focusedComponentId]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -96,6 +184,16 @@ export function DocsShell() {
   }, [focusedEntry]);
 
   const commandItems: CommandPaletteItem[] = useMemo(() => {
+    const guideCommands: CommandPaletteItem[] = GUIDE_NAV_ITEMS.map((guide) => ({
+      id: `guide-${guide.id}`,
+      label: `Guide: ${guide.label}`,
+      group: 'Documentation',
+      onSelect: () => {
+        dispatch(setActiveSection(guide.id));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+    }));
+
     const compCommands: CommandPaletteItem[] = COMPONENT_REGISTRY.map((entry) => ({
       id: `cmd-${entry.id}`,
       label: entry.title,
@@ -134,7 +232,7 @@ export function DocsShell() {
       },
     ];
 
-    return [...sysCommands, ...compCommands];
+    return [...guideCommands, ...sysCommands, ...compCommands];
   }, [dispatch, studioGrid, themeMode]);
 
   const jumpToComponent = (id: string, category: Exclude<DocsCategoryFilter, 'overview'>) => {
@@ -143,51 +241,80 @@ export function DocsShell() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const openGuide = (section: Exclude<DocsPageSection, 'catalog'>) => {
+    dispatch(setActiveSection(section));
+    setMobileNavOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-30 h-16 px-4 sm:px-8 border-b border-slate-300/60 dark:border-slate-800/80 bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl flex items-center justify-between gap-8">
+      <header className="sticky top-0 z-30 h-16 px-4 sm:px-8 border-b border-slate-300/60 dark:border-slate-800/80 bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl flex items-center justify-between gap-6">
         <a
-          href="#overview"
+          href="#/"
           onClick={(e) => {
             e.preventDefault();
             dispatch(setActiveCategory('overview'));
             dispatch(setSearchQuery(''));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="text-lg font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0"
+          className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0"
         >
-          Refractor UI
+          <span>Refractor UI</span>
+          <span className="prism-crystal px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold text-slate-700 dark:text-slate-200">
+            v1.9.0
+          </span>
         </a>
 
         <nav
           aria-label="Primary documentation sections"
           className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300"
         >
-          {[
-            { id: 'overview' as const, label: 'Overview' },
-            { id: 'buttons-actions' as const, label: 'Buttons' },
-            { id: 'form-inputs' as const, label: 'Inputs' },
-            { id: 'navigation' as const, label: 'Navigation' },
-            { id: 'data-display' as const, label: 'Data Display' },
-          ].map((nav) => {
-            const isCurrent = activeCategory === nav.id && !focusedComponentId;
+          <button
+            type="button"
+            onClick={() => {
+              dispatch(setActiveCategory('overview'));
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className={`whitespace-nowrap shrink-0 cursor-pointer transition-colors py-1 ${
+              activeSection === 'catalog' && activeCategory === 'overview' && !focusedComponentId
+                ? 'text-slate-900 dark:text-white font-semibold underline decoration-[var(--prism-primary-main)] decoration-2 underline-offset-8'
+                : 'hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Overview
+          </button>
+
+          {GUIDE_NAV_ITEMS.map((guide) => {
+            const isCurrent = activeSection === guide.id;
             return (
               <button
-                key={nav.id}
+                key={guide.id}
                 type="button"
-                onClick={() => dispatch(setActiveCategory(nav.id))}
+                onClick={() => openGuide(guide.id)}
                 className={`whitespace-nowrap shrink-0 cursor-pointer transition-colors py-1 ${
                   isCurrent
-                    ? 'text-slate-900 dark:text-white font-semibold underline decoration-orange-500 decoration-2 underline-offset-8'
+                    ? 'text-slate-900 dark:text-white font-semibold underline decoration-[var(--prism-primary-main)] decoration-2 underline-offset-8'
                     : 'hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
-                {nav.label}
+                {guide.label.replace(' & Security', '').replace(' & Colors', '')}
               </button>
             );
           })}
         </nav>
 
         <div className="flex items-center gap-2 shrink-0">
+          <a
+            href="https://github.com/SourceCode/refractor-ui"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex prism-crystal prism-focus-ring h-9 px-3.5 rounded-full items-center gap-1.5 text-xs font-medium text-slate-800 dark:text-slate-100 whitespace-nowrap"
+          >
+            <span>GitHub</span>
+            <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+          </a>
+
           <button
             type="button"
             aria-label="Toggle component sidebar"
@@ -225,6 +352,9 @@ export function DocsShell() {
                 value={searchQuery}
                 onChange={(e) => {
                   dispatch(setSearchQuery(e.target.value));
+                  if (activeSection !== 'catalog') {
+                    dispatch(setActiveSection('catalog'));
+                  }
                   if (focusedComponentId) {
                     dispatch(setFocusedComponent({ componentId: null }));
                   }
@@ -235,15 +365,40 @@ export function DocsShell() {
             </div>
           </div>
 
-          <div>
+          <div className="space-y-1">
+            <div className="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              Documentation Guides
+            </div>
+            {GUIDE_NAV_ITEMS.map((guide) => {
+              const selected = activeSection === guide.id;
+              return (
+                <button
+                  key={guide.id}
+                  type="button"
+                  onClick={() => openGuide(guide.id)}
+                  className={`w-full px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-medium cursor-pointer transition-all ${
+                    selected
+                      ? 'prism-emerald text-white font-semibold'
+                      : 'text-slate-700 dark:text-slate-200 hover:bg-white/60 dark:hover:bg-white/5'
+                  }`}
+                >
+                  {renderGuideIcon(guide.icon)}
+                  <span className="truncate">{guide.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="pt-1 border-t border-slate-300/45 dark:border-slate-800/80">
             <button
               type="button"
               onClick={() => {
                 dispatch(setActiveCategory('overview'));
                 setMobileNavOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className={`w-full px-3.5 py-2 rounded-2xl flex items-center justify-between text-xs font-semibold cursor-pointer transition-all ${
-                activeCategory === 'overview' && !focusedComponentId
+                activeSection === 'catalog' && activeCategory === 'overview' && !focusedComponentId
                   ? 'prism-btn-primary text-white'
                   : 'text-slate-700 dark:text-slate-200 hover:bg-white/60 dark:hover:bg-white/5'
               }`}
@@ -274,6 +429,7 @@ export function DocsShell() {
                     onClick={() => {
                       dispatch(setActiveCategory(cat.id));
                       setMobileNavOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className="w-full px-2 py-1 flex items-center justify-between text-xs font-semibold text-slate-900 dark:text-slate-100 hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer"
                   >
@@ -285,7 +441,7 @@ export function DocsShell() {
 
                   <ul className="space-y-0.5 border-l border-slate-300/60 dark:border-slate-800 ml-2 pl-2">
                     {catItems.map((comp) => {
-                      const selected = focusedComponentId === comp.id;
+                      const selected = activeSection === 'catalog' && focusedComponentId === comp.id;
                       return (
                         <li key={comp.id}>
                           <button
@@ -381,7 +537,9 @@ export function DocsShell() {
             </div>
           </div>
 
-          {focusedEntry ? (
+          {activeSection !== 'catalog' ? (
+            <DocsGuides section={activeSection} />
+          ) : focusedEntry ? (
             <div className="space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <Breadcrumbs
@@ -441,7 +599,12 @@ export function DocsShell() {
             </div>
           ) : (
             <>
-              {activeCategory === 'overview' && !searchQuery.trim() && <ReferenceSpecimenBoard />}
+              {activeCategory === 'overview' && !searchQuery.trim() && (
+                <>
+                  <DocsHeroBanner />
+                  <ReferenceSpecimenBoard />
+                </>
+              )}
 
               <div className="flex flex-wrap items-center gap-2 pt-2">
                 <button
@@ -484,7 +647,8 @@ export function DocsShell() {
                     No components matched &ldquo;{searchQuery}&rdquo;
                   </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Clear the search filter to browse all {COMPONENT_REGISTRY.length} optical UI primitives.
+                    Clear the search filter to browse all {COMPONENT_REGISTRY.length} optical UI
+                    primitives.
                   </p>
                   <PrimaryButton
                     size="sm"
@@ -534,23 +698,58 @@ export function DocsShell() {
 
           <footer className="pt-8 pb-6 border-t border-slate-300/55 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
             <span>
-              Refractor Optical Glass UI Kit · {COMPONENT_REGISTRY.length} Astryx-Standard React 19 Primitives
+              Refractor Optical Glass UI Kit v1.9.0 · {COMPONENT_REGISTRY.length} Astryx-Standard
+              React 19 Primitives · Apache-2.0
             </span>
-            <button
-              type="button"
-              onClick={() => {
-                dispatch(
-                  pushToast({
-                    title: 'Copied package import path',
-                    description: "import { PrimaryButton } from '@refractor-ui/core';",
-                    tone: 'emerald',
-                  })
-                );
-              }}
-              className="hover:text-slate-900 dark:hover:text-white underline underline-offset-4 cursor-pointer"
-            >
-              Copy Package Import
-            </button>
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="https://github.com/SourceCode/refractor-ui"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-slate-900 dark:hover:text-white underline underline-offset-4"
+              >
+                GitHub
+              </a>
+              <a
+                href="https://github.com/SourceCode/refractor-ui/blob/main/CHANGELOG.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-slate-900 dark:hover:text-white underline underline-offset-4"
+              >
+                Changelog
+              </a>
+              <a
+                href="https://github.com/SourceCode/refractor-ui/blob/main/SECURITY.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-slate-900 dark:hover:text-white underline underline-offset-4"
+              >
+                Security
+              </a>
+              <a
+                href="https://github.com/SourceCode/refractor-ui/blob/main/LICENSE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-slate-900 dark:hover:text-white underline underline-offset-4"
+              >
+                Apache-2.0
+              </a>
+              <button
+                type="button"
+                onClick={() => {
+                  dispatch(
+                    pushToast({
+                      title: 'Copied package import path',
+                      description: "import { PrimaryButton } from '@refractor-ui/core';",
+                      tone: 'emerald',
+                    })
+                  );
+                }}
+                className="hover:text-slate-900 dark:hover:text-white underline underline-offset-4 cursor-pointer"
+              >
+                Copy Package Import
+              </button>
+            </div>
           </footer>
         </main>
       </div>

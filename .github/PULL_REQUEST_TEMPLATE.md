@@ -1,9 +1,9 @@
 ## Summary
 
-<!-- Link the Pinnacle RGU ticket(s) and SemVer release version (e.g., RGU-12 / v1.1.0) -->
+<!-- Briefly explain what this PR changes and link related GitHub issues (e.g., Closes #42) -->
 
-- **Pinnacle Ticket(s):** `RGU-`
-- **Target SemVer Release:** `x.y.z`
+- **Related Issue(s):** `#`
+- **SemVer Impact:** `PATCH` / `MINOR` / `MAJOR`
 - **Primary Intent:** Feature / Bugfix / Architecture / Docs
 
 ## Architectural & Astryx Contract Checklist
@@ -18,8 +18,9 @@
 ## Verification Gates
 
 - [ ] `pnpm check:repo` exits 0
+- [ ] `pnpm lint:plugin` exits 0
 - [ ] `pnpm lint:strict` exits 0
 - [ ] `pnpm typecheck` exits 0
 - [ ] `pnpm test:coverage` passes with >= 93% statements, branches, functions, and lines (including positive, negative, and adversarial tests)
-- [ ] `pnpm build` exits 0
+- [ ] `pnpm build` and `pnpm build:pages` exit 0
 - [ ] Visual review verified >= 9.8/10 across composability, extendability, usability, and optical glass fidelity

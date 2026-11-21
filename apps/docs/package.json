@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/docs",
-  "version": "1.7.0",
+  "version": "1.9.0",
   "private": true,
   "description": "Refractor Optical Workbench — Interactive documentation playground & live MUI+Astryx Theme Customizer.",
   "license": "Apache-2.0",
@@ -29,5 +29,14 @@
     "@vitejs/plugin-react": "^6.3.0",
     "tailwindcss": "^4.3.5",
     "vite": "^8.3.8"
+  },
+  "homepage": "https://sourcecode.github.io/refractor-ui/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git",
+    "directory": "apps/docs"
+  },
+  "bugs": {
+    "url": "https://github.com/SourceCode/refractor-ui/issues"
   }
 }

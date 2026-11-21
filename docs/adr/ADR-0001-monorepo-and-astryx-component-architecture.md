@@ -3,7 +3,7 @@
 - **Status:** Accepted
 - **Date:** 2026-11-20
 - **Decision Makers:** Refractor Principal Architecture & UX/UI Direction
-- **Applies To:** Entire `glass-ui-v1` repository (`@refractor-ui/*`)
+- **Applies To:** Entire `refractor-ui` repository (`@refractor-ui/*`)
 
 ---
 

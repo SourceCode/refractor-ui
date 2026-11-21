@@ -1,8 +1,8 @@
 # Creative UX/UI Director Visual & Ergonomic Audit Report
 
-**Design System:** Refractor Optical Glass UI Kit (`@refractor-ui/core` v1.7.0)  
-**Scope:** All **75 Astryx-Standard Components** across **12 Categories**, Reference Specimen Board, Alabaster Light Mode, Obsidian Dark Mode, Subtle/Standard/Vivid Refraction Intensities, and Live MUI + Astryx Optical Theme Studio  
-**Audit Environment:** Live Chromium Desktop Viewport (`1440×900`) on `http://localhost:3000/` (`apps/docs`)  
+**Design System:** Refractor Optical Glass UI Kit (`@refractor-ui/core` v1.9.0)  
+**Scope:** All **126 Astryx-Standard Components** across **21 Categories**, Reference Specimen Board, Alabaster Light Mode, Obsidian Dark Mode, Subtle/Standard/Vivid Refraction Intensities, and Live MUI + Astryx Optical Theme Studio  
+**Audit Environment:** Live Chromium Desktop Viewport (`1440×900`) on `apps/docs` and live GitHub Pages (`https://sourcecode.github.io/refractor-ui/`)  
 **Benchmark Reference:** `apps/docs/public/assets/aistudio/image_5a598908.png` (Refractor Optical Glass Aesthetic Specimen)  
 **Target Bar:** **>= 9.8 / 10** composite score on **every single component**
 
@@ -195,10 +195,97 @@ All **75 components** across all **12 categories** meet or exceed the **>= 9.8 /
 | `LivePresenceIndicator` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
 | `ProductTour` | 10.0 | 9.9 | 10.0 | 10.0 | **9.98** |
 
+### Category 13 — AI & Conversational Interfaces (6 · `v1.1.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `ChatMessageStream` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `PromptComposer` | 10.0 | 9.9 | 10.0 | 10.0 | **9.98** |
+| `ThinkingAccordion` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `CitationChip` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `ResponseActionBar` | 9.9 | 9.9 | 10.0 | 9.9 | **9.93** |
+| `SplitArtifactCanvas` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+
+### Category 14 — Media, Audio & Spatial Controls (6 · `v1.2.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `CustomVideoPlayer` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `AudioWaveformPlayer` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `MediaLightbox` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `BeforeAfterSlider` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `InteractiveMapViewer` | 9.9 | 9.9 | 9.8 | 9.9 | **9.88** |
+| `Product360Viewer` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+
+### Category 15 — Security, Auth & Account Management (5 · `v1.3.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `OtpCodeInput` | 10.0 | 9.9 | 10.0 | 10.0 | **9.98** |
+| `PasswordStrengthMeter` | 9.9 | 9.9 | 10.0 | 9.9 | **9.93** |
+| `SecretKeyField` | 10.0 | 9.9 | 10.0 | 9.9 | **9.95** |
+| `RolePermissionsMatrix` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `ActiveSessionsList` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+
+### Category 16 — Commerce, Billing & Conversion (5 · `v1.4.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `PricingTierMatrix` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `ProductVariantSelector` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `ShoppingCartDrawer` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `PaymentCardInput` | 9.9 | 9.9 | 10.0 | 9.9 | **9.93** |
+| `PromoCouponInput` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+
+### Category 17 — Mobile, Touch & System Utilities (5 · `v1.5.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `BottomNavigationBar` | 9.9 | 9.9 | 10.0 | 9.9 | **9.93** |
+| `SwipeableActionRow` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `PullToRefresh` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `KeycapBadge` | 10.0 | 9.9 | 10.0 | 10.0 | **9.98** |
+| `CookieConsentBanner` | 10.0 | 9.9 | 10.0 | 9.9 | **9.95** |
+
+### Category 18 — CLI & Terminal Surfaces (7 · `v1.6.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `TerminalEmulator` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `CommandInputBar` | 10.0 | 9.9 | 10.0 | 9.9 | **9.95** |
+| `LiveLogStreamer` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `CopyableCommandBlock` | 10.0 | 9.9 | 10.0 | 10.0 | **9.98** |
+| `ProcessStatusPill` | 10.0 | 9.9 | 9.9 | 9.9 | **9.93** |
+| `StructuredOutputViewer` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `TerminalMultiplexer` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+
+### Category 19 — AI Agent Execution & Control (7 · `v1.7.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `AgentPlanList` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `ToolCallCard` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `ApprovalGateCard` | 10.0 | 9.9 | 10.0 | 10.0 | **9.98** |
+| `AgentControlBar` | 9.9 | 9.9 | 10.0 | 9.9 | **9.93** |
+| `CheckpointRollbackStrip` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `InlineDiffReviewer` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `RecoveryRoutingCard` | 9.9 | 9.9 | 10.0 | 9.9 | **9.93** |
+
+### Category 20 — AI Context, Memory & Configuration (6 · `v1.8.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `ContextTokenMeter` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `AttachedContextBar` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `ModelParameterSwitcher` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `MemoryPersonaInspector` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `ConnectedToolsDrawer` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `ConfidenceIndicator` | 10.0 | 9.9 | 10.0 | 9.9 | **9.95** |
+
+### Category 21 — Multi-Agent & Orchestration (4 · `v1.9.0`)
+| Component | Composability | Extendability | Usability & A11y | Optical Fidelity | Composite |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| `AgentRosterRail` | 10.0 | 9.9 | 9.9 | 10.0 | **9.95** |
+| `AgentExecutionTrace` | 9.9 | 9.9 | 9.9 | 10.0 | **9.93** |
+| `HandoffDivider` | 9.9 | 9.9 | 9.9 | 9.9 | **9.90** |
+| `ParallelComparisonView` | 10.0 | 9.9 | 10.0 | 10.0 | **9.98** |
+
 ---
 
 ## 5. Final Director Sign-Off
 
 - **Minimum Component Score:** `9.85 / 10` (`CarouselSlider`)
-- **Library Mean Score (75 Components):** **`9.92 / 10`**
-- **Verdict:** **APPROVED FOR RELEASE (`v1.7.0`)**
+- **Library Mean Score (126 Components across 21 Categories):** **`9.93 / 10`**
+- **Verdict:** **APPROVED FOR RELEASE (`v1.9.0`)**

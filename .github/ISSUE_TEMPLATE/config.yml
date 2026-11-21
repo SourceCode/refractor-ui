@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Live Documentation & Interactive Workbench
+    url: https://sourcecode.github.io/refractor-ui/
+    about: Browse all 75 live optical-glass components, Getting Started guides, and the Theme Studio.
+  - name: Questions & Community Discussions
+    url: https://github.com/SourceCode/refractor-ui/discussions
+    about: Ask usage questions, share custom optical themes, or discuss design patterns.
   - name: Security Vulnerability Disclosure
-    url: https://github.com/SourceCode/glass-ui-v1/security/policy
+    url: https://github.com/SourceCode/refractor-ui/security/policy
     about: Please report security issues privately using SECURITY.md instead of public issues.

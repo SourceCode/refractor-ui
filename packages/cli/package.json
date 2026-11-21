@@ -1,10 +1,44 @@
 {
   "name": "@refractor-ui/cli",
-  "version": "1.7.0",
+  "version": "1.9.0",
   "description": "Agent-ready CLI for Refractor Optical Glass UI Kit (docs, component, theme, swizzle, check).",
   "license": "Apache-2.0",
   "type": "module",
   "bin": {
     "refractor": "./bin/refractor.mjs"
+  },
+  "homepage": "https://sourcecode.github.io/refractor-ui/#/cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/SourceCode/refractor-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "react-19",
+    "typescript",
+    "design-system",
+    "ui-kit",
+    "component-library",
+    "glassmorphism",
+    "optical-glass",
+    "tailwindcss",
+    "accessible",
+    "theming",
+    "refractor-ui",
+    "cli",
+    "swizzle",
+    "ai-agent"
+  ],
+  "files": [
+    "bin",
+    "src/cli.mjs",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

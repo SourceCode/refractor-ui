@@ -8,6 +8,7 @@ import {
   SignaturePad,
 } from '@refractor-ui/core';
 import { pushToast, useAppDispatch } from '../../system/store';
+import { assetUrl } from '../assetUrl';
 
 export interface RichInputDemosProps {
   componentId: string;
@@ -108,7 +109,7 @@ export function RichInputDemos({ componentId }: RichInputDemosProps) {
       return (
         <div className="w-full max-w-xl">
           <ImageCropper
-            src="/src/assets/images/carousel_optical_glass_1_1795197571956.jpg"
+            src={assetUrl('src/assets/images/carousel_optical_glass_1_1795197571956.jpg')}
             alt="Dichroic Optical Crystal Study"
             onApplyCrop={(res) =>
               dispatch(

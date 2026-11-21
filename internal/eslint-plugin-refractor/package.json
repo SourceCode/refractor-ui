@@ -1,9 +1,14 @@
 {
   "name": "@refractor-ui/eslint-plugin-refractor",
-  "version": "1.7.0",
+  "version": "1.9.0",
   "private": true,
   "description": "Internal Astryx-aligned ESLint plugin enforcing Refractor design system contracts and zero any/unknown types.",
   "license": "Apache-2.0",
   "type": "module",
-  "main": "./index.js"
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git",
+    "directory": "internal/eslint-plugin-refractor"
+  }
 }

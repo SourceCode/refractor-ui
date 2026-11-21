@@ -71,6 +71,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../../system/store';
+import { assetUrl } from '../assetUrl';
 
 export interface CoreDemosProps {
   componentId: string;
@@ -762,14 +763,14 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
         <div className="flex flex-wrap items-center gap-5">
           <Avatar
             size="lg"
-            src="/src/assets/images/avatar_product_lead_1795197572008.jpg"
+            src={assetUrl('src/assets/images/avatar_product_lead_1795197572008.jpg')}
             alt="Clara Vance, Principal Product Designer"
             initials="CV"
           />
           <Avatar
             size="lg"
             shape="squircle"
-            src="/src/assets/images/avatar_design_engineer_1795197572097.jpg"
+            src={assetUrl('src/assets/images/avatar_design_engineer_1795197572097.jpg')}
             alt="Marcus Chen, Systems Architect"
             initials="MC"
           />
@@ -830,7 +831,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
               {
                 id: 'acc-2',
                 title: 'Are components decoupled from storage services?',
-                body: 'Yes. Components under src/os/ receive typed props and callbacks, while virtual file system and relational queries live inside src/system/storage.ts.',
+                body: 'Yes. Every component inside @refractor-ui/core receives pure typed props and callbacks with zero coupling to application state or storage engines.',
               },
               {
                 id: 'acc-3',
@@ -851,13 +852,13 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
                 id: 'slide-1',
                 title: 'Dichroic Optical Crystal Study',
                 caption: 'Warm amber and cool sky-cyan caustic dispersion on matte studio alabaster.',
-                imageSrc: '/src/assets/images/carousel_optical_glass_1_1795197571956.jpg',
+                imageSrc: assetUrl('src/assets/images/carousel_optical_glass_1_1795197571956.jpg'),
               },
               {
                 id: 'slide-2',
                 title: 'Tactile Frosted Lens & Precision Dials',
                 caption: 'Recessed frosted acrylic geometry paired with industrial precision controls.',
-                imageSrc: '/src/assets/images/carousel_optical_glass_2_1795197571569.jpg',
+                imageSrc: assetUrl('src/assets/images/carousel_optical_glass_2_1795197571569.jpg'),
               },
             ]}
           />

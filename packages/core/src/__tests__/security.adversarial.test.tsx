@@ -9,17 +9,25 @@ import {
   type GridCellValue,
   type GridRowRecord,
 } from '../AdvancedDataGrid';
+import { ChatMessageStream } from '../ChatMessageStream';
+import { CitationChip } from '../CitationChip';
 import { CodeEditor, type CodeDiagnostic } from '../CodeEditor';
 import { CommentThread, type CommentItem } from '../CommentThread';
+import { CookieConsentBanner } from '../CookieConsentBanner';
 import { DiffViewer } from '../DiffViewer';
 import { FacetedFilterBar, type FacetCategoryOption } from '../FacetedFilterBar';
 import { GlobalSearchModal, type GlobalSearchItem } from '../GlobalSearchModal';
 import { ImageCropper } from '../ImageCropper';
+import { InlineDiffReviewer } from '../InlineDiffReviewer';
 import { LivePresenceIndicator, type PresenceUser } from '../LivePresenceIndicator';
+import { MediaLightbox } from '../MediaLightbox';
 import { NotificationCenter, type NotificationItem } from '../NotificationCenter';
 import { PivotTable, type PivotField, type PivotRecord, type PivotScalar } from '../PivotTable';
 import { ProductTour, type TourStep } from '../ProductTour';
 import { RichTextEditor } from '../RichTextEditor';
+import { RolePermissionsMatrix } from '../RolePermissionsMatrix';
+import { StructuredOutputViewer, type JsonObject } from '../StructuredOutputViewer';
+import { TerminalEmulator } from '../TerminalEmulator';
 import {
   VisualQueryBuilder,
   formatQueryExpression,
@@ -794,8 +802,8 @@ describe('6. Static Source Hygiene Gate', () => {
     const coreSrcDir = path.resolve(testDir, '..');
     const tsxFiles = collectNonTestTsxFiles(coreSrcDir);
 
-    // Ensure the static scan covers all 75+ Refractor core components
-    expect(tsxFiles.length).toBeGreaterThanOrEqual(75);
+    // Ensure the static scan covers all 126+ Refractor core components
+    expect(tsxFiles.length).toBeGreaterThanOrEqual(126);
 
     const forbiddenSinks: ReadonlyArray<{ label: string; pattern: RegExp }> = [
       { label: 'dangerouslySetInnerHTML', pattern: /\bdangerouslySetInnerHTML\b/ },
@@ -817,5 +825,132 @@ describe('6. Static Source Hygiene Gate', () => {
     }
 
     expect(violations).toEqual([]);
+  });
+});
+
+describe('7. Phase 2 Expansion Security & Adversarial Verification (v1.1.0–v1.9.0)', () => {
+  it('ChatMessageStream, CitationChip, MediaLightbox, and CookieConsentBanner strip dangerous URL schemes and render XSS literals safely', () => {
+    const { container } = render(
+      <div>
+        <ChatMessageStream
+          messages={[
+            {
+              id: 'm-xss',
+              role: 'assistant',
+              author: '<script>alert(1)</script>',
+              content: '<img src=x onerror=alert(2)>',
+              avatarSrc: 'javascript:alert(3)',
+              timestamp: '10:00',
+            },
+          ]}
+        />
+        <CitationChip
+          index={1}
+          label="Hostile Source"
+          title="Hostile Source"
+          href="javascript:alert(4)"
+          snippet="<svg onload=alert(5)>"
+        />
+        <MediaLightbox
+          mode="inline"
+          items={[
+            {
+              id: 'media-xss',
+              kind: 'image',
+              src: 'data:image/svg+xml,<svg onload=alert(6)>',
+              title: 'Untrusted SVG',
+            },
+          ]}
+        />
+        <CookieConsentBanner
+          mode="inline"
+          policyHref="vbscript:msgbox(1)"
+        />
+      </div>
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /Hostile Source/i }));
+
+    expect(container.querySelectorAll('script')).toHaveLength(0);
+    expect(container.querySelectorAll('[onerror], [onload]')).toHaveLength(0);
+    expect(container.querySelectorAll('a[href^="javascript:"], a[href^="vbscript:"]')).toHaveLength(0);
+    expect(container.querySelectorAll('img')).toHaveLength(0);
+    expect(container.textContent).toContain('<img src=x onerror=alert(2)>');
+  });
+
+  it('TerminalEmulator and InlineDiffReviewer render hostile ANSI & HTML payloads as literal React text without script injection', () => {
+    const { container } = render(
+      <div>
+        <TerminalEmulator
+          defaultLines={[
+            {
+              id: 'ansi-xss',
+              text: '\u001b[31m<script>alert("ansi")</script>\u001b[0m \u001b[999;1m<img src=x onerror=alert(1)>',
+              kind: 'stdout',
+            },
+          ]}
+        />
+        <InlineDiffReviewer
+          filePath="src/evil.ts"
+          hunks={[
+            {
+              id: 'h-xss',
+              header: '@@ -1,1 +1,1 @@',
+              lines: [
+                { kind: 'remove', oldLine: 1, content: '<script>alert("old")</script>' },
+                { kind: 'add', newLine: 1, content: '<iframe src="javascript:alert(1)"></iframe>' },
+              ],
+            },
+          ]}
+        />
+      </div>
+    );
+
+    expect(container.querySelectorAll('script')).toHaveLength(0);
+    expect(container.querySelectorAll('iframe')).toHaveLength(0);
+    expect(container.querySelectorAll('img')).toHaveLength(0);
+    expect(container.textContent).toContain('<script>alert("ansi")</script>');
+    expect(container.textContent).toContain('<iframe src="javascript:alert(1)"></iframe>');
+  });
+
+  it('RolePermissionsMatrix and StructuredOutputViewer resist prototype-polluting keys without mutating Object.prototype', () => {
+    const baselineProtoKeys = Object.getOwnPropertyNames(Object.prototype).sort();
+
+    const hostileJson: JsonObject = {};
+    Object.defineProperty(hostileJson, '__proto__', {
+      value: 'polluted',
+      enumerable: true,
+      configurable: true,
+    });
+    Object.defineProperty(hostileJson, 'constructor', {
+      value: 'polluted',
+      enumerable: true,
+      configurable: true,
+    });
+    hostileJson.safeKey = 'clean';
+
+    expect(() => {
+      render(
+        <div>
+          <RolePermissionsMatrix
+            roles={[
+              { id: '__proto__', name: 'ProtoRole' },
+              { id: 'constructor', name: 'CtorRole' },
+            ]}
+            permissions={[
+              { id: 'prototype', label: 'ProtoPerm', category: 'System' },
+              { id: 'read', label: 'Read', category: 'Core' },
+            ]}
+            defaultGrants={{
+              __proto__: ['read'],
+            }}
+          />
+          <StructuredOutputViewer data={hostileJson} defaultMode="tree" />
+        </div>
+      );
+    }).not.toThrow();
+
+    expect(screen.getByText(/safeKey/)).toBeInTheDocument();
+    assertCleanObjectPrototype(baselineProtoKeys);
   });
 });

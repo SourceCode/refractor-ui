@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/theme-emerald-tide",
-  "version": "1.7.0",
+  "version": "1.9.0",
   "description": "Emerald Tide optical glass theme pairing seafoam jade refraction with deep ocean accents.",
   "license": "Apache-2.0",
   "type": "module",
@@ -10,5 +10,37 @@
   },
   "peerDependencies": {
     "@refractor-ui/core": "workspace:*"
+  },
+  "homepage": "https://sourcecode.github.io/refractor-ui/#/theming",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git",
+    "directory": "packages/themes/emerald-tide"
+  },
+  "bugs": {
+    "url": "https://github.com/SourceCode/refractor-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "react-19",
+    "typescript",
+    "design-system",
+    "ui-kit",
+    "component-library",
+    "glassmorphism",
+    "optical-glass",
+    "tailwindcss",
+    "accessible",
+    "theming",
+    "refractor-ui",
+    "theme",
+    "emerald-tide"
+  ],
+  "files": [
+    "src",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

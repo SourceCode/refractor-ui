@@ -7,10 +7,10 @@ This `AGENTS.md` is the canonical, tool-agnostic instruction surface for AI codi
 Refractor adopts the exact component architecture and engineering discipline of Meta's Astryx design system (`https://astryx.atmeta.com/`):
 
 - **Monorepo Layout:**
-  - `packages/core` (`@refractor-ui/core`): Production React 19 optical-glass component library, `BaseProps`, `themeProps`, `mergeProps`, `naming`, dual MUI+Astryx theme engine, and `refractor.css` token stylesheet.
+  - `packages/core` (`@refractor-ui/core`): Production React 19 optical-glass component library, `BaseProps`, `themeProps`, `mergeProps`, `naming`, dual MUI+Astryx theme engine, and `@layer`-scoped `reset.css` & `refractor.css` stylesheets.
   - `packages/themes/*`: Pre-built cascade optical themes (`alabaster`, `obsidian`, `amethyst`, `emerald-tide`, `solar-prism`).
   - `packages/cli` (`@refractor-ui/cli`): Agent-ready CLI (`docs`, `component`, `theme`, `swizzle`, `check`).
-  - `apps/docs` (`@refractor-ui/docs`): Interactive Optical Workbench playground & live MUI-style Theme Customizer.
+  - `apps/docs` (`@refractor-ui/docs`): Public GitHub Pages Documentation Portal, Interactive Optical Workbench, & Live MUI+Astryx Theme Studio.
   - `internal/eslint-plugin-refractor`: Custom AST ESLint rules enforcing Astryx contracts and zero `any`/`unknown`.
   - `docs/adr/`: Authoritative Architecture Decision Records (`ADR-0001` through `ADR-0006`).
 
@@ -30,13 +30,12 @@ Refractor adopts the exact component architecture and engineering discipline of 
    2. Theme Tokens (`createPrismTheme` MUI-style palette/typography/shape/optics OR `defineTheme`)
    3. Theme Component Overrides (`theme.components`)
    4. Stable `refractor-*` classes & `className` / `xstyle` composition
-   5. Swizzle (`node packages/cli/bin/refractor.mjs swizzle <Name>`)
+   5. Swizzle (`node packages/cli/bin/refractor.mjs swizzle <Name> --out <dir>`)
 5. **Coverage & Security Gate:**
    - Global & per-metric coverage MUST remain **>= 93%** (statements, branches, functions, lines).
    - Never use unsanitized HTML, regex-injection patterns, raw CSV exports without `sanitizeCsvCell`, or plain-object dynamic key indexing susceptible to prototype pollution.
-6. **SemVer 2.0.0 & Pinnacle Release-First Workflow:**
-   - Track all epics, releases, and tickets in Pinnacle project `RGU` on `nemesis` (`http://192.168.86.68:4201`).
-   - Keep `package.json`, `packages/*/package.json`, `CHANGELOG.md`, and Git tags strictly aligned to SemVer 2.0.0.
+6. **SemVer 2.0.0 & Release Discipline:**
+   - Keep root `package.json`, `packages/*/package.json`, `apps/docs/package.json`, `CHANGELOG.md`, and annotated Git tags strictly aligned to SemVer 2.0.0.
 
 ## Agent Bootstrap Commands
 
@@ -45,8 +44,10 @@ node packages/cli/bin/refractor.mjs help
 node packages/cli/bin/refractor.mjs component --list
 node packages/cli/bin/refractor.mjs component PrimaryButton --dense
 pnpm check:repo
+pnpm lint:plugin
 pnpm lint:strict
 pnpm typecheck
 pnpm test:coverage
 pnpm build
+pnpm build:pages
 ```

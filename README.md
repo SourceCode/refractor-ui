@@ -1,77 +1,72 @@
+<div align="center">
+
 # Refractor Optical Glass UI Kit
 
-A tactile, prismatic optical-glass **React 19 & TypeScript** component library and interactive Optical Workbench featuring **Astryx-aligned Open-Internals architecture**, **MUI-ergonomic dynamic color & optical theming**, **zero `any`/`unknown` strictness**, **>= 93% adversarial unit test coverage**, and **75 accessible components across 12 categories** (certified through `v1.7.0`).
+**A tactile, prismatic optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, MUI-simple theming, and 126 accessible components across 21 categories.**
+
+[![Release v1.9.0](https://img.shields.io/badge/release-v1.9.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.9.0)
+[![Live Docs](https://img.shields.io/badge/docs-GitHub%20Pages-38BDF8?style=flat-square)](https://sourcecode.github.io/refractor-ui/)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=000)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20(Zero%20any%2Funknown)-3178C6?style=flat-square&logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
+[![Coverage 99.5%](https://img.shields.io/badge/coverage-99.5%25-26BC92?style=flat-square)](./docs/adr/ADR-0005-testing-adversarial-coverage-and-security-verification.md)
+[![UX/UI Audit 9.93/10](https://img.shields.io/badge/UX%2FUI%20audit-9.93%2F10-26BC92?style=flat-square)](./docs/reviews/ux-ui-director-audit.md)
+[![License Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue?style=flat-square)](./LICENSE)
+
+[**Live Interactive Documentation & Optical Workbench →**](https://sourcecode.github.io/refractor-ui/)  
+[Getting Started](https://sourcecode.github.io/refractor-ui/#/getting-started) · [Theming & Theme Studio](https://sourcecode.github.io/refractor-ui/#/theming) · [CLI & Swizzle](https://sourcecode.github.io/refractor-ui/#/cli) · [Architecture & Security](https://sourcecode.github.io/refractor-ui/#/architecture)
+
+</div>
 
 ---
 
-## Key Capabilities
+<p align="center">
+  <img src="./apps/docs/public/assets/aistudio/image_5a598908.png" alt="Refractor Optical Glass UI Kit Reference Specimen" width="840" />
+</p>
 
-- **Astryx-Aligned Component Setup:** Every component lives in its own modular directory (`packages/core/src/<ComponentName>/`) containing `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts`, with React 19 `ref`-as-prop, `BaseProps` footgun filtering, `themeProps()` stable class + `data-*` reflection, `mergeProps()` non-clobbering overrides, and package subpath exports.
+## Why Refractor UI?
+
+- **126 Production Components Across 21 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, and multi-agent orchestration.
+- **Astryx-Aligned Open-Internals Architecture:** Every primitive lives in `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts` — using React 19 `ref`-as-prop (never `forwardRef`), `BaseProps<Element>`, `themeProps()`, `mergeProps()`, and tree-shakeable subpath exports.
 - **Dual MUI + Astryx Optical Theme Engine:**
-  - **MUI-style effortless color & style control:** Pass a single hex color to `createPrismTheme({ palette: { primary: { main: '#7C3AED' } }, shape: { borderRadius: 20 }, optics: { refraction: 'vivid', blurPx: 22 } })` and Refractor automatically computes `light`, `dark`, WCAG 4.5:1 `contrastText`, RGB caustic channels, and specular dispersion tokens.
-  - **Astryx-style CSS cascade theming:** Use `defineTheme({ name, extends, tokens, components })` or pre-compiled `@refractor-ui/theme-*` CSS files (`alabaster`, `obsidian`, `amethyst`, `emerald-tide`, `solar-prism`) with zero provider re-render cost.
-- **Strict Two-Tier ESLint Governance (`internal/eslint-plugin-refractor`):** Enforces Astryx component contracts (`require-base-props`, `require-ref-prop`, `no-classname-clobber`, `no-raw-color`, `no-hover-on-disabled`, `disabled-cursor`, `focus-outline-keyboard-only`, `no-unguarded-ime-keydown`, `no-dangerous-html`) plus **zero `any` and zero `unknown`** (`@refractor/no-unknown-type`).
-- **Agent-Ready CLI (`@refractor-ui/cli`):** Query docs, inspect component props, list themes, validate structural integrity, or `swizzle` any component's source code directly into your application.
-- **Deep Security & Adversarial Validation:** Built-in HTML/URL allowlist sanitization, CSV/Excel formula injection neutralization, prototype-pollution-safe `Map` aggregations, and >= 93% V8 coverage across statements, branches, functions, and lines.
+  - **MUI-Simple Color Control:** Pass a single hex color to `createPrismTheme({ palette: { primary: { main: '#7C3AED' } } })` and Refractor automatically computes `light`, `dark`, WCAG `>= 4.5:1` `contrastText`, and RGB caustic dispersion channels.
+  - **Astryx CSS Cascade Theming:** Compose themes via `defineTheme({ name, extends, tokens, components })` or adopt 5 official presets (`alabaster`, `obsidian`, `amethyst`, `emerald-tide`, `solar-prism`) scoped cleanly inside CSS `@layer components` for seamless Tailwind CSS v4 interoperability.
+- **Zero `any` and Zero `unknown` Strictness:** Enforced by `@typescript-eslint/no-explicit-any`, custom `@refractor/no-unknown-type`, and a 17-rule two-tier ESLint plugin (`internal/eslint-plugin-refractor`).
+- **Defense-in-Depth Security & 99.5%+ V8 Coverage:** Built-in XSS allowlist sanitization, URL protocol allowlisting, OWASP CSV formula neutralization, prototype-pollution-safe `Map` aggregations, ReDoS protection, path-traversal-hardened CLI swizzling, and `0` high/critical vulnerabilities.
+- **Creative UX/UI Director Certified (`9.93/10`):** Every component audited live across Light Mode, Dark Mode, Vivid Refraction, and custom palettes — see [`docs/reviews/ux-ui-director-audit.md`](./docs/reviews/ux-ui-director-audit.md).
 
 ---
 
-## Monorepo Structure
+## 30-Second Quick Start
 
-```text
-├── .github/                      # CI/CD workflows, issue/PR templates, CODEOWNERS, Dependabot
-├── docs/
-│   ├── adr/                      # Six authoritative Architecture Decision Records (ADR-0001..0006)
-│   └── reviews/                  # Creative UX/UI Director visual audit (>= 9.8/10)
-├── internal/
-│   └── eslint-plugin-refractor/  # Custom Astryx-aligned ESLint plugin (17 rules)
-├── packages/
-│   ├── core/                     # @refractor-ui/core — components, theme engine, CSS tokens
-│   ├── themes/                   # alabaster, obsidian, amethyst, emerald-tide, solar-prism
-│   └── cli/                      # @refractor-ui/cli — docs, component, theme, swizzle, check
-├── apps/
-│   └── docs/                     # Interactive Optical Workbench & Live Theme Customizer
-└── scripts/                      # Structural drift harness (check-repo) & export sync
-```
-
----
-
-## Quick Start
+### 1. Install
 
 ```bash
-pnpm install
-pnpm dev              # Launch interactive Optical Workbench (http://localhost:3000)
-pnpm check:repo       # Run Astryx structural & zero-any/unknown verification
-pnpm lint:strict      # Run two-tier ESLint in CI/agent strict mode
-pnpm typecheck        # Run strict TypeScript checks
-pnpm test:coverage    # Run Vitest unit & adversarial suite (>= 93% gate)
-pnpm build            # Build all packages and documentation app
-pnpm refractor help   # Explore the agent-ready @refractor-ui/cli
+pnpm add @refractor-ui/core lucide-react
+# Optional official optical theme presets:
+pnpm add @refractor-ui/theme-alabaster @refractor-ui/theme-obsidian @refractor-ui/theme-amethyst
 ```
 
-### Agent-Ready CLI (`@refractor-ui/cli`)
+### 2. Import Layered Optical Stylesheets (`src/index.css`)
 
-```bash
-node packages/cli/bin/refractor.mjs component --list
-node packages/cli/bin/refractor.mjs component PrimaryButton --dense
-node packages/cli/bin/refractor.mjs docs theme --dense
-node packages/cli/bin/refractor.mjs theme list
-node packages/cli/bin/refractor.mjs swizzle PrimaryButton --out src/components
-node packages/cli/bin/refractor.mjs check --strict
+```css
+@import "tailwindcss";
+@source "../node_modules/@refractor-ui/core/dist";
+@custom-variant dark (&:where(.dark, .dark *, [data-color-mode="dark"], [data-color-mode="dark"] *));
+
+/* @layer base reset & @layer components optical physics */
+@import "@refractor-ui/core/reset.css";
+@import "@refractor-ui/core/refractor.css";
 ```
 
-> **GitHub Actions CI/Release Templates:** Ready-to-use workflows are stored in `.github/ci-templates/ci.yml` and `.github/ci-templates/release.yml`. Move them into `.github/workflows/` using a GitHub token with the `workflow` OAuth scope to activate automated Actions pipelines.
-
-### MUI-Style & Astryx-Style Theming Example
+### 3. Theme & Render (`src/App.tsx`)
 
 ```tsx
-import '@refractor-ui/core/reset.css';
-import '@refractor-ui/core/refractor.css';
 import {
   PrismThemeProvider,
   createPrismTheme,
-  PrimaryButton,
   PrismCard,
+  PrimaryButton,
+  SecondaryButton,
 } from '@refractor-ui/core';
 
 const brandTheme = createPrismTheme({
@@ -81,27 +76,116 @@ const brandTheme = createPrismTheme({
     secondary: { main: '#06B6D4' },
     success: { main: '#10B981' },
   },
-  shape: { borderRadius: 18, slabRadius: 26 },
-  optics: { refraction: 'vivid', blurPx: 20 },
+  shape: { borderRadius: 18, slabRadius: 24 },
+  optics: { refraction: 'vivid', blurPx: 20, specularHighlight: true },
 });
 
 export function App() {
   return (
     <PrismThemeProvider theme={brandTheme}>
       <PrismCard title="Custom Prismatic Brand" kicker="MUI + Astryx Cascade">
-        <PrimaryButton size="md">Launch Studio</PrimaryButton>
+        <div className="flex gap-3 pt-2">
+          <PrimaryButton size="md">Launch Studio</PrimaryButton>
+          <SecondaryButton size="md">Explore Docs</SecondaryButton>
+        </div>
       </PrismCard>
     </PrismThemeProvider>
   );
 }
 ```
 
+You can also import any primitive via tree-shakeable subpaths:
+
+```tsx
+import { PrimaryButton } from '@refractor-ui/core/PrimaryButton';
+import { AdvancedDataGrid } from '@refractor-ui/core/AdvancedDataGrid';
+import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
+```
+
 ---
 
-## Versioning & Governance
+## Complete 126-Component Catalog (21 Categories)
 
-This project strictly adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html) and [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/). See [`CHANGELOG.md`](./CHANGELOG.md), [`docs/adr/README.md`](./docs/adr/README.md), [`CONTRIBUTING.md`](./CONTRIBUTING.md), and [`SECURITY.md`](./SECURITY.md).
+| Category | Count | Components |
+| --- | :---: | --- |
+| **Buttons & Actions** | 6 | `PrimaryButton`, `SecondaryButton`, `IconButton`, `SegmentedControl`, `SplitButton`, `FloatingActionButton` |
+| **Form Inputs & Selection Controls** | 11 | `TextInput`, `TextArea`, `SearchWithSuggestions`, `DropdownSelect`, `Checkbox`, `RadioGroup`, `ToggleSwitch`, `RangeSlider`, `DateTimePicker`, `FileDropzone`, `RatingControl` |
+| **Navigation** | 7 | `TopNavBar`, `SidebarDrawer`, `PrismTabs`, `Breadcrumbs`, `Pagination`, `Stepper`, `CommandPalette` |
+| **Data Display & Content** | 12 | `PrismCard`, `DataTable`, `PrismList`, `Avatar`, `BadgeStatus`, `TagChip`, `Accordion`, `CarouselSlider`, `TreeView`, `Timeline`, `CalendarView`, `OpticalCharts` |
+| **Feedback & System Status** | 5 | `ToastSnackbar`, `AlertBanner`, `ProgressAndSpinner`, `SkeletonLoader`, `EmptyState` |
+| **Overlays & Popups** | 5 | `ModalDialog`, `ContextualPopover`, `Tooltip`, `ContextMenuDropdown`, `SlideOverSheet` |
+| **Layout & Workspace Controls** | 6 | `WindowSplitter`, `DockablePanel`, `MasterDetailView`, `VirtualizedList`, `MasonryGrid`, `StickyActionBar` |
+| **Advanced Data & Visualization** | 6 | `AdvancedDataGrid`, `PivotTable`, `KanbanBoard`, `GanttChart`, `DiffViewer`, `KpiMetricCard` |
+| **Advanced Search & Filtering** | 4 | `FacetedFilterBar`, `VisualQueryBuilder`, `MultiSelectCombobox`, `GlobalSearchModal` |
+| **Rich Input & Content Creation** | 6 | `RichTextEditor`, `CodeEditor`, `ColorPicker`, `InlineEditableField`, `ImageCropper`, `SignaturePad` |
+| **Interactive & Drag-and-Drop** | 3 | `TransferList`, `SortableList`, `NodeGraphCanvas` |
+| **Collaboration & Guidance** | 4 | `NotificationCenter`, `CommentThread`, `LivePresenceIndicator`, `ProductTour` |
+| **AI & Conversational Interfaces** | 6 | `ChatMessageStream`, `PromptComposer`, `ThinkingAccordion`, `CitationChip`, `ResponseActionBar`, `SplitArtifactCanvas` |
+| **Media, Audio & Spatial Controls** | 6 | `CustomVideoPlayer`, `AudioWaveformPlayer`, `MediaLightbox`, `BeforeAfterSlider`, `InteractiveMapViewer`, `Product360Viewer` |
+| **Security, Auth & Account Management** | 5 | `OtpCodeInput`, `PasswordStrengthMeter`, `SecretKeyField`, `RolePermissionsMatrix`, `ActiveSessionsList` |
+| **Commerce, Billing & Conversion** | 5 | `PricingTierMatrix`, `ProductVariantSelector`, `ShoppingCartDrawer`, `PaymentCardInput`, `PromoCouponInput` |
+| **Mobile, Touch & System Utilities** | 5 | `BottomNavigationBar`, `SwipeableActionRow`, `PullToRefresh`, `KeycapBadge`, `CookieConsentBanner` |
+| **CLI & Terminal Surfaces** | 7 | `TerminalEmulator`, `CommandInputBar`, `LiveLogStreamer`, `CopyableCommandBlock`, `ProcessStatusPill`, `StructuredOutputViewer`, `TerminalMultiplexer` |
+| **AI Agent Execution & Control** | 7 | `AgentPlanList`, `ToolCallCard`, `ApprovalGateCard`, `AgentControlBar`, `CheckpointRollbackStrip`, `InlineDiffReviewer`, `RecoveryRoutingCard` |
+| **AI Context, Memory & Configuration** | 6 | `ContextTokenMeter`, `AttachedContextBar`, `ModelParameterSwitcher`, `MemoryPersonaInspector`, `ConnectedToolsDrawer`, `ConfidenceIndicator` |
+| **Multi-Agent & Orchestration** | 4 | `AgentRosterRail`, `AgentExecutionTrace`, `HandoffDivider`, `ParallelComparisonView` |
 
-## License
+---
 
-Apache License 2.0 — see [`LICENSE`](./LICENSE).
+## Agent-Ready CLI & Open Internals (`@refractor-ui/cli`)
+
+Refractor follows a 5-step Open Internals escalation path: **Typed Props → Theme Tokens → Theme Component Overrides → Stable `refractor-*` Classes & `xstyle` → CLI Swizzle**.
+
+```bash
+node packages/cli/bin/refractor.mjs component --list
+node packages/cli/bin/refractor.mjs component PrimaryButton --dense
+node packages/cli/bin/refractor.mjs component TransferList --detail full
+node packages/cli/bin/refractor.mjs docs theme --dense
+node packages/cli/bin/refractor.mjs theme list
+node packages/cli/bin/refractor.mjs swizzle PrimaryButton --out src/components/ui
+node packages/cli/bin/refractor.mjs check --strict
+```
+
+---
+
+## Monorepo Architecture & Local Development
+
+```text
+├── .github/                      # Issue/PR templates, SUPPORT, CODEOWNERS, Dependabot, CI/Pages templates
+├── docs/
+│   ├── adr/                      # Six authoritative Architecture Decision Records (ADR-0001..0006)
+│   └── reviews/                  # Creative UX/UI Director visual audit (9.93/10 mean)
+├── internal/
+│   └── eslint-plugin-refractor/  # Custom 17-rule two-tier Astryx + zero any/unknown ESLint plugin
+├── packages/
+│   ├── core/                     # @refractor-ui/core — 126 React 19 components, theme engine, CSS tokens
+│   ├── themes/                   # alabaster, obsidian, amethyst, emerald-tide, solar-prism
+│   └── cli/                      # @refractor-ui/cli — docs, component, theme, swizzle, check
+├── apps/
+│   └── docs/                     # GitHub Pages Documentation Portal & Interactive Optical Workbench
+└── scripts/                      # check-repo, sync-exports, run-strict-lint, build-pages
+```
+
+```bash
+pnpm install
+pnpm dev              # Launch Optical Workbench & Docs locally (http://localhost:3000)
+pnpm check:repo       # Verify Astryx structure, SemVer lockstep & zero any/unknown
+pnpm lint:plugin      # Run 16 unit tests for internal/eslint-plugin-refractor
+pnpm lint:strict      # Run two-tier ESLint in CI/agent strict mode
+pnpm typecheck        # Run strict TypeScript checks across core & docs
+pnpm test:coverage    # Run 760+ Vitest unit & adversarial tests (>= 93% gate)
+pnpm build            # Build packages/core and apps/docs
+pnpm build:pages      # Build production GitHub Pages bundle (/refractor-ui/)
+```
+
+> **GitHub Actions Templates:** Ready-to-use workflows for CI, SemVer Release verification, and GitHub Pages deployment are provided in [`.github/ci-templates/`](./.github/ci-templates/). Copy them into `.github/workflows/` to enable automated Actions pipelines.
+
+---
+
+## Governance, Security & License
+
+- **Versioning:** Strict [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html) & [Keep a Changelog 1.1.0](./CHANGELOG.md).
+- **Architecture Directives:** [`docs/adr/README.md`](./docs/adr/README.md) & [`AGENTS.md`](./AGENTS.md).
+- **Contributing & Community:** [`CONTRIBUTING.md`](./CONTRIBUTING.md), [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md), and [`.github/SUPPORT.md`](./.github/SUPPORT.md).
+- **Security Policy:** [`SECURITY.md`](./SECURITY.md).
+- **License:** Apache License 2.0 — see [`LICENSE`](./LICENSE) and [`NOTICE`](./NOTICE).

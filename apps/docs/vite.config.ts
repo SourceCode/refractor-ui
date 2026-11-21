@@ -5,11 +5,12 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base: process.env.VITE_BASE_PATH ?? '/',
   plugins: [
     react(),
     tailwindcss(),
     {
-      name: 'copy-unbundled-src-assets',
+      name: 'prepare-github-pages-dist',
       apply: 'build',
       closeBundle(error?: Error): void {
         if (error) return;
@@ -18,6 +19,13 @@ export default defineConfig({
         const distAssets = path.resolve(distDir, 'src/assets');
         if (fs.existsSync(distDir) && fs.existsSync(srcAssets)) {
           fs.cpSync(srcAssets, distAssets, { recursive: true, force: true });
+        }
+        if (fs.existsSync(distDir)) {
+          fs.writeFileSync(path.join(distDir, '.nojekyll'), '', 'utf8');
+          const indexHtml = path.join(distDir, 'index.html');
+          if (fs.existsSync(indexHtml)) {
+            fs.copyFileSync(indexHtml, path.join(distDir, '404.html'));
+          }
         }
       },
     },
