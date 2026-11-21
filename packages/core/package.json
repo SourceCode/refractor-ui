@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -156,6 +156,11 @@
       "source": "./src/CheckpointRollbackStrip/index.ts",
       "types": "./dist/CheckpointRollbackStrip/index.d.ts",
       "default": "./dist/CheckpointRollbackStrip/index.js"
+    },
+    "./ChordDiagram": {
+      "source": "./src/ChordDiagram/index.ts",
+      "types": "./dist/ChordDiagram/index.d.ts",
+      "default": "./dist/ChordDiagram/index.js"
     },
     "./CitationChip": {
       "source": "./src/CitationChip/index.ts",
@@ -472,6 +477,11 @@
       "types": "./dist/MultiStateCycleButton/index.d.ts",
       "default": "./dist/MultiStateCycleButton/index.js"
     },
+    "./NetworkForceGraph": {
+      "source": "./src/NetworkForceGraph/index.ts",
+      "types": "./dist/NetworkForceGraph/index.d.ts",
+      "default": "./dist/NetworkForceGraph/index.js"
+    },
     "./NodeGraphCanvas": {
       "source": "./src/NodeGraphCanvas/index.ts",
       "types": "./dist/NodeGraphCanvas/index.d.ts",
@@ -641,6 +651,11 @@
       "source": "./src/RotaryDial/index.ts",
       "types": "./dist/RotaryDial/index.d.ts",
       "default": "./dist/RotaryDial/index.js"
+    },
+    "./SankeyDiagram": {
+      "source": "./src/SankeyDiagram/index.ts",
+      "types": "./dist/SankeyDiagram/index.d.ts",
+      "default": "./dist/SankeyDiagram/index.js"
     },
     "./ScatterBubblePlot": {
       "source": "./src/ScatterBubblePlot/index.ts",

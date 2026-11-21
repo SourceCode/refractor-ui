@@ -194,6 +194,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Statistics',
     description: 'Scatter & 3-variable bubble plots, frequency histograms, Tukey box-and-whisker glyphs, 2D matrix heatmaps, and multi-axis radar spider charts.',
   },
+  {
+    id: 'relational-flow-charts',
+    title: 'Relational & Flow Visuals',
+    shortLabel: 'Flows & Graphs',
+    description: 'Proportional multi-stage Sankey diagrams, deterministic force-directed network graphs, and circular bi-directional chord diagrams.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2384,6 +2390,46 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'axes / series', type: 'string[] / RadarSeries[]', defaultValue: 'required', description: '3+ radiating variable labels and overlaid series values.' },
       { name: 'maxValue', type: 'number', defaultValue: '100', description: 'Outer polygon scale maximum.' },
+    ],
+  },
+  /* ==================== RELATIONAL & FLOW VISUALS (3) ==================== */
+  {
+    id: 'sankey-diagram',
+    title: 'Sankey Diagram',
+    exportName: 'SankeyDiagram',
+    category: 'relational-flow-charts',
+    categoryTitle: 'Relational & Flow Visuals',
+    summary: 'Multi-stage proportional flow diagram connecting nodes across columns with cubic-bezier ribbons whose thickness reflects volume.',
+    codeSnippet: `<SankeyDiagram nodes={stages} links={flows} valueUnit="k" />`,
+    props: [
+      { name: 'nodes / links', type: 'SankeyNode[] / SankeyLink[]', defaultValue: 'required', description: 'Stage-ordered nodes and positive directed flow volumes.' },
+      { name: 'onSelectLink', type: '(link, source, target) => void', defaultValue: 'undefined', description: 'Fires when a flow ribbon is selected.' },
+    ],
+  },
+  {
+    id: 'network-force-graph',
+    title: 'Network / Force-Directed Graph',
+    exportName: 'NetworkForceGraph',
+    category: 'relational-flow-charts',
+    categoryTitle: 'Relational & Flow Visuals',
+    summary: 'Deterministic seeded force-directed node-link diagram visualizing service clusters with group filters, zoom controls, and neighbor highlighting.',
+    codeSnippet: `<NetworkForceGraph nodes={services} edges={dependencies} />`,
+    props: [
+      { name: 'nodes / edges', type: 'NetworkNode[] / NetworkEdge[]', defaultValue: 'required', description: 'Clustered topology nodes and directed/undirected edges.' },
+      { name: 'onSelectNode', type: '(node, degree) => void', defaultValue: 'undefined', description: 'Fires with the selected node and connection degree.' },
+    ],
+  },
+  {
+    id: 'chord-diagram',
+    title: 'Chord Diagram',
+    exportName: 'ChordDiagram',
+    category: 'relational-flow-charts',
+    categoryTitle: 'Relational & Flow Visuals',
+    summary: 'Circular optical diagram connecting perimeter entities with proportional curved chords showing bi-directional volume and balance.',
+    codeSnippet: `<ChordDiagram entities={regions} flows={replication} valueUnit=" TB" />`,
+    props: [
+      { name: 'entities / flows', type: 'ChordEntity[] / ChordFlow[]', defaultValue: 'required', description: 'Circular entity definitions and positive directed flows.' },
+      { name: 'onSelectEntity', type: '(entity, inbound, outbound) => void', defaultValue: 'undefined', description: 'Fires when an entity arc or legend pill is focused.' },
     ],
   },
 ];

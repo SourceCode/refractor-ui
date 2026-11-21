@@ -17,6 +17,7 @@ import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
 import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
+import { RelationalFlowChartsDemos } from './demos/RelationalFlowChartsDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
@@ -211,6 +212,12 @@ const STATISTICAL_CHARTS_IDS = new Set([
   'radar-spider-chart',
 ]);
 
+const RELATIONAL_FLOW_CHARTS_IDS = new Set([
+  'sankey-diagram',
+  'network-force-graph',
+  'chord-diagram',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -277,6 +284,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (STATISTICAL_CHARTS_IDS.has(componentId)) {
     return <StatisticalChartsDemos componentId={componentId} />;
+  }
+  if (RELATIONAL_FLOW_CHARTS_IDS.has(componentId)) {
+    return <RelationalFlowChartsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
