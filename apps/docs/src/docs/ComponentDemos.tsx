@@ -6,6 +6,7 @@ import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
 import { CoreDemos } from './demos/CoreDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
+import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
@@ -144,6 +145,15 @@ const MULTI_AGENT_IDS = new Set([
   'parallel-comparison-view',
 ]);
 
+const DATE_TIME_SCHEDULING_IDS = new Set([
+  'date-range-picker',
+  'combined-date-time-picker',
+  'duration-input',
+  'recurrence-builder',
+  'month-quarter-year-picker',
+  'timezone-selector',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -189,6 +199,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (MULTI_AGENT_IDS.has(componentId)) {
     return <MultiAgentDemos componentId={componentId} />;
+  }
+  if (DATE_TIME_SCHEDULING_IDS.has(componentId)) {
+    return <DateTimeSchedulingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

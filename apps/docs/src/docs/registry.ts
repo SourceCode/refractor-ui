@@ -152,6 +152,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Multi-Agent',
     description: 'Specialized agent roster rails, execution waterfall trace timelines, delegation handoff dividers, and parallel candidate comparison grids.',
   },
+  {
+    id: 'date-time-scheduling',
+    title: 'Date, Time & Scheduling Fields',
+    shortLabel: 'Date & Time',
+    description: 'Dual-calendar range pickers with presets, combined date-time controls, structured duration inputs, visual recurrence/cron builders, period pickers, and live-offset timezone selectors.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1828,6 +1834,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'candidates', type: 'ComparisonCandidate[]', defaultValue: 'required', description: 'Competing agent or model outputs with optional latency, tokens, and score.' },
       { name: 'winnerId / onSelectWinner', type: 'string / callback', defaultValue: 'undefined', description: 'Controlled or uncontrolled winning candidate selection.' },
+    ],
+  },
+  /* ==================== DATE, TIME & SCHEDULING FIELDS (6) ==================== */
+  {
+    id: 'date-range-picker',
+    title: 'Date Range Picker (with Presets)',
+    exportName: 'DateRangePicker',
+    category: 'date-time-scheduling',
+    categoryTitle: 'Date, Time & Scheduling Fields',
+    summary: 'Dual-calendar optical range selector paired with quick-select presets (Last 7 Days, Last 30 Days, Month to Date, Last Quarter) and auto-swapping bounds.',
+    codeSnippet: `<DateRangePicker defaultValue={{ start: '2026-11-14', end: '2026-11-21' }} onChange={setRange} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'DateRangeValue', defaultValue: '{ start: null, end: null }', description: 'Start and end ISO YYYY-MM-DD dates.' },
+      { name: 'presets', type: 'DateRangePreset[]', defaultValue: '4 presets', description: 'Quick-select range shortcuts rendered beside the dual calendars.' },
+    ],
+  },
+  {
+    id: 'combined-date-time-picker',
+    title: 'Combined Date-Time Picker',
+    exportName: 'CombinedDateTimePicker',
+    category: 'date-time-scheduling',
+    categoryTitle: 'Date, Time & Scheduling Fields',
+    summary: 'Unified optical input pairing a calendar month grid with 12h/24h hour and minute controls to pinpoint an exact timestamp.',
+    codeSnippet: `<CombinedDateTimePicker clockFormat="12h" defaultValue="2026-11-21T14:30" onChange={setIso} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'string', defaultValue: "'2026-11-21T09:30'", description: 'Combined ISO YYYY-MM-DDTHH:mm timestamp string.' },
+      { name: 'clockFormat / minuteStep', type: "'12h' | '24h' / number", defaultValue: "'24h' / 5", description: 'Clock display mode and minute stepping increment.' },
+    ],
+  },
+  {
+    id: 'duration-input',
+    title: 'Duration / Interval Input',
+    exportName: 'DurationInput',
+    category: 'date-time-scheduling',
+    categoryTitle: 'Date, Time & Scheduling Fields',
+    summary: 'Structured time-length input supporting days, hours, minutes, and seconds steppers alongside natural shorthand parsing (e.g. 2h 30m or 4d 12h).',
+    codeSnippet: `<DurationInput defaultValueSeconds={9000} showDays onChange={setDuration} />`,
+    props: [
+      { name: 'valueSeconds / defaultValueSeconds', type: 'number', defaultValue: '9000', description: 'Total duration in seconds synchronized with segment wells.' },
+      { name: 'showDays / showSeconds', type: 'boolean', defaultValue: 'true / false', description: 'Toggles days and seconds segment steppers.' },
+    ],
+  },
+  {
+    id: 'recurrence-builder',
+    title: 'Recurrence / Schedule Builder',
+    exportName: 'RecurrenceBuilder',
+    category: 'date-time-scheduling',
+    categoryTitle: 'Date, Time & Scheduling Fields',
+    summary: 'Guided optical schedule designer constructing Daily/Weekly/Monthly/Yearly intervals, weekday selections, end rules, human summaries, and 5-field cron strings.',
+    codeSnippet: `<RecurrenceBuilder onChange={(rule, cron, summary) => saveSchedule(cron)} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'RecurrenceRule', defaultValue: 'weekly rule', description: 'Structured recurrence rule object.' },
+      { name: 'showCronPreview', type: 'boolean', defaultValue: 'true', description: 'Displays live 5-field monospace cron expression.' },
+    ],
+  },
+  {
+    id: 'month-quarter-year-picker',
+    title: 'Month / Quarter / Year Picker',
+    exportName: 'MonthQuarterYearPicker',
+    category: 'date-time-scheduling',
+    categoryTitle: 'Date, Time & Scheduling Fields',
+    summary: 'Zoomed-out period picker switching cleanly between Month, Quarter (Q1–Q4), and Decade Year grids for financial and archival reporting.',
+    codeSnippet: `<MonthQuarterYearPicker defaultValue={{ granularity: 'quarter', year: 2026, quarter: 4 }} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'PeriodValue', defaultValue: 'Q4 2026', description: 'Selected granularity, year, and month or quarter.' },
+      { name: 'allowedGranularities', type: 'PeriodGranularity[]', defaultValue: "['month','quarter','year']", description: 'Enabled period picker zoom levels.' },
+    ],
+  },
+  {
+    id: 'timezone-selector',
+    title: 'Timezone Selector (with Live Offset)',
+    exportName: 'TimezoneSelector',
+    category: 'date-time-scheduling',
+    categoryTitle: 'Date, Time & Scheduling Fields',
+    summary: 'Searchable global timezone selector pairing IANA zone identifiers with current UTC offsets and live local time readouts.',
+    codeSnippet: `<TimezoneSelector defaultValue="America/Los_Angeles" onChange={setTimezone} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'string', defaultValue: "'America/Los_Angeles'", description: 'Active IANA timezone identifier.' },
+      { name: 'timezones', type: 'TimezoneEntry[]', defaultValue: 'DEFAULT_TIMEZONES', description: 'Curated list of global timezones with region and UTC offset.' },
     ],
   },
 ];

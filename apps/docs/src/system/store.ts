@@ -47,7 +47,18 @@ export type DocsCategoryFilter =
   | 'cli-terminal'
   | 'ai-agent-control'
   | 'ai-context-memory'
-  | 'multi-agent';
+  | 'multi-agent'
+  | 'date-time-scheduling'
+  | 'number-currency-fields'
+  | 'complex-buttons'
+  | 'complex-controls'
+  | 'core-trend-charts'
+  | 'part-to-whole-charts'
+  | 'statistical-charts'
+  | 'relational-flow-charts'
+  | 'kpi-telemetry-charts'
+  | 'geospatial-charts'
+  | 'chart-chrome-controls';
 
 export type DocsPageSection =
   | 'catalog'

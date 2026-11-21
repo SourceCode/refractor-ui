@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-11-21
+
+### Added
+- **Date, Time & Scheduling Fields (6 new optical-glass components — 132 total across 22 categories):**
+  - `DateRangePicker`: Dual-calendar optical range selector with quick-select presets (`Last 7 Days`, `Last 30 Days`, `Month to Date`, `Last Quarter`) and auto-swapping bounds.
+  - `CombinedDateTimePicker`: Unified month calendar grid paired with 12h/24h hour and minute controls in a single optical slab.
+  - `DurationInput`: Structured days/hours/minutes/seconds stepper fields paired with linear-time natural shorthand parsing (`2h 30m`, `4d 12h`).
+  - `RecurrenceBuilder`: Visual repeating-interval and 5-field cron schedule constructor with weekday pills, end conditions, and live human-readable summary.
+  - `MonthQuarterYearPicker`: Zoomed-out period picker switching cleanly between Month, Quarter (`Q1`–`Q4`), and Decade Year grids.
+  - `TimezoneSelector`: Searchable global IANA timezone dropdown displaying live UTC offsets and current local time via `Intl.DateTimeFormat`.
+- Added interactive playground demos and prop specs in `apps/docs` under `Date, Time & Scheduling Fields`.
+
 ## [1.9.0] - 2026-11-21
 
 ### Added
@@ -147,7 +159,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.10.0...HEAD
+[1.10.0]: https://github.com/SourceCode/refractor-ui/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/SourceCode/refractor-ui/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/SourceCode/refractor-ui/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/SourceCode/refractor-ui/compare/v1.6.0...v1.7.0

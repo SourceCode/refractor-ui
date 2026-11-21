@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -152,6 +152,11 @@
       "types": "./dist/ColorPicker/index.d.ts",
       "default": "./dist/ColorPicker/index.js"
     },
+    "./CombinedDateTimePicker": {
+      "source": "./src/CombinedDateTimePicker/index.ts",
+      "types": "./dist/CombinedDateTimePicker/index.d.ts",
+      "default": "./dist/CombinedDateTimePicker/index.js"
+    },
     "./CommandInputBar": {
       "source": "./src/CommandInputBar/index.ts",
       "types": "./dist/CommandInputBar/index.d.ts",
@@ -212,6 +217,11 @@
       "types": "./dist/DataTable/index.d.ts",
       "default": "./dist/DataTable/index.js"
     },
+    "./DateRangePicker": {
+      "source": "./src/DateRangePicker/index.ts",
+      "types": "./dist/DateRangePicker/index.d.ts",
+      "default": "./dist/DateRangePicker/index.js"
+    },
     "./DateTimePicker": {
       "source": "./src/DateTimePicker/index.ts",
       "types": "./dist/DateTimePicker/index.d.ts",
@@ -231,6 +241,11 @@
       "source": "./src/DropdownSelect/index.ts",
       "types": "./dist/DropdownSelect/index.d.ts",
       "default": "./dist/DropdownSelect/index.js"
+    },
+    "./DurationInput": {
+      "source": "./src/DurationInput/index.ts",
+      "types": "./dist/DurationInput/index.d.ts",
+      "default": "./dist/DurationInput/index.js"
     },
     "./EmptyState": {
       "source": "./src/EmptyState/index.ts",
@@ -346,6 +361,11 @@
       "source": "./src/ModelParameterSwitcher/index.ts",
       "types": "./dist/ModelParameterSwitcher/index.d.ts",
       "default": "./dist/ModelParameterSwitcher/index.js"
+    },
+    "./MonthQuarterYearPicker": {
+      "source": "./src/MonthQuarterYearPicker/index.ts",
+      "types": "./dist/MonthQuarterYearPicker/index.d.ts",
+      "default": "./dist/MonthQuarterYearPicker/index.js"
     },
     "./MultiSelectCombobox": {
       "source": "./src/MultiSelectCombobox/index.ts",
@@ -482,6 +502,11 @@
       "types": "./dist/RecoveryRoutingCard/index.d.ts",
       "default": "./dist/RecoveryRoutingCard/index.js"
     },
+    "./RecurrenceBuilder": {
+      "source": "./src/RecurrenceBuilder/index.ts",
+      "types": "./dist/RecurrenceBuilder/index.d.ts",
+      "default": "./dist/RecurrenceBuilder/index.js"
+    },
     "./ResponseActionBar": {
       "source": "./src/ResponseActionBar/index.ts",
       "types": "./dist/ResponseActionBar/index.d.ts",
@@ -611,6 +636,11 @@
       "source": "./src/Timeline/index.ts",
       "types": "./dist/Timeline/index.d.ts",
       "default": "./dist/Timeline/index.js"
+    },
+    "./TimezoneSelector": {
+      "source": "./src/TimezoneSelector/index.ts",
+      "types": "./dist/TimezoneSelector/index.d.ts",
+      "default": "./dist/TimezoneSelector/index.js"
     },
     "./ToastSnackbar": {
       "source": "./src/ToastSnackbar/index.ts",

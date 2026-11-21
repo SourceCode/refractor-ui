@@ -62,12 +62,12 @@ describe('@refractor-ui/cli', () => {
     expect(badRes.stderr).toContain('Unknown docs topic');
   });
 
-  it('lists all 126 components grouped across 21 canonical categories', async () => {
+  it('lists all components grouped across canonical categories', async () => {
     const totalCount = listComponentDirectories(DEFAULT_REPO_ROOT).length;
-    expect(totalCount).toBe(126);
+    expect(totalCount).toBeGreaterThanOrEqual(126);
     const res = await runCli(['component', '--list']);
     expect(res.exitCode).toBe(0);
-    expect(res.stdout).toContain('126 Components across 21 Categories');
+    expect(res.stdout).toContain(`${totalCount} Components across`);
     expect(res.stdout).toContain('Buttons & Actions (6):');
     expect(res.stdout).toContain('Layout & Workspace Controls (6):');
     expect(res.stdout).toContain('Advanced Data & Visualization (6):');

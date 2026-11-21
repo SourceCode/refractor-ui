@@ -28,6 +28,17 @@ const CANONICAL_CATEGORY_ORDER = [
   'AI Agent Execution & Control',
   'AI Context, Memory & Configuration',
   'Multi-Agent & Orchestration',
+  'Date, Time & Scheduling Fields',
+  'Number, Currency & Formatted Type Fields',
+  'Complex Button & Action Variations',
+  'Complex Variations of Common Controls',
+  'Core & Trend Charts',
+  'Part-to-Whole & Hierarchical Visuals',
+  'Statistical & Distribution Visuals',
+  'Relational & Flow Visuals',
+  'KPI, Progress & Telemetry Visuals',
+  'Geospatial & Map Visuals',
+  'Chart Chrome & Interactive Controls',
 ];
 
 const DOC_TOPICS = {
