@@ -164,6 +164,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Numbers & Masks',
     description: 'Accessible numeric steppers, scrubbable studio sliders, multi-currency inputs, measurement unit fields, international phone masks, and strict pattern inputs.',
   },
+  {
+    id: 'complex-buttons',
+    title: 'Complex Button & Action Variations',
+    shortLabel: 'Action Controls',
+    description: 'Two-part combo split buttons, press-and-hold confirmation triggers, stateful async morph buttons, multi-state cycle toggles, and fan-out speed dials.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1998,6 +2004,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'preset / pattern', type: 'MaskPresetId / string', defaultValue: "'license'", description: 'Preset identifier or custom pattern (# digit, A letter, H hex, * alnum).' },
       { name: 'onChange', type: '(masked: string, meta: MaskedPatternMeta) => void', defaultValue: 'undefined', description: 'Receives masked output, unmasked characters, and completion state.' },
+    ],
+  },
+  /* ==================== COMPLEX BUTTON & ACTION VARIATIONS (5) ==================== */
+  {
+    id: 'combo-split-button',
+    title: 'Combo / Split Button',
+    exportName: 'ComboSplitButton',
+    category: 'complex-buttons',
+    categoryTitle: 'Complex Button & Action Variations',
+    summary: 'Joined two-part optical action capsule pairing a default primary click body with an attached dropdown menu of secondary and destructive actions.',
+    codeSnippet: `<ComboSplitButton label="Save Changes" onPrimaryClick={save} actions={secondaryActions} />`,
+    props: [
+      { name: 'label / onPrimaryClick', type: 'string / () => void', defaultValue: 'required', description: 'Primary button label and default action handler.' },
+      { name: 'actions', type: 'ComboSplitAction[]', defaultValue: 'required', description: 'Menu items revealed when toggling the attached chevron trigger.' },
+    ],
+  },
+  {
+    id: 'hold-to-confirm-button',
+    title: 'Hold-to-Confirm Button',
+    exportName: 'HoldToConfirmButton',
+    category: 'complex-buttons',
+    categoryTitle: 'Complex Button & Action Variations',
+    summary: 'Safety button for irreversible or destructive actions requiring sustained pointer or keyboard hold while an optical fill bar completes.',
+    codeSnippet: `<HoldToConfirmButton label="Hold to Purge" holdDurationMs={1200} onConfirm={purge} />`,
+    props: [
+      { name: 'holdDurationMs', type: 'number', defaultValue: '1200', description: 'Duration in milliseconds user must hold before firing onConfirm.' },
+      { name: 'onConfirm', type: '() => void', defaultValue: 'required', description: 'Executed only after progress reaches 100%.' },
+    ],
+  },
+  {
+    id: 'stateful-async-button',
+    title: 'Stateful Async Button',
+    exportName: 'StatefulAsyncButton',
+    category: 'complex-buttons',
+    categoryTitle: 'Complex Button & Action Variations',
+    summary: 'Morphing optical trigger transitioning through Idle, Loading spinner, Success emerald check, and Error alert while blocking duplicate submissions.',
+    codeSnippet: `<StatefulAsyncButton idleLabel="Publish" onAction={async () => publish()} />`,
+    props: [
+      { name: 'onAction', type: '() => void | Promise<void>', defaultValue: 'undefined', description: 'Sync or async callback driving loading, success, and error transitions.' },
+      { name: 'state / resetDelayMs', type: 'AsyncButtonState / number', defaultValue: 'uncontrolled / 1800', description: 'Optional controlled state override and auto-reset delay.' },
+    ],
+  },
+  {
+    id: 'multi-state-cycle-button',
+    title: 'Multi-State Cycle Button',
+    exportName: 'MultiStateCycleButton',
+    category: 'complex-buttons',
+    categoryTitle: 'Complex Button & Action Variations',
+    summary: 'Single tactile capsule rotating sequentially through three or more defined states on each click with miniature step-dot indicators.',
+    codeSnippet: `<MultiStateCycleButton states={sortStates} onChange={(id) => setSort(id)} />`,
+    props: [
+      { name: 'states', type: 'CycleButtonStateOption[]', defaultValue: 'required', description: 'Ordered array of 3+ states with labels, icons, and semantic tones.' },
+      { name: 'showStepDots', type: 'boolean', defaultValue: 'true', description: 'Displays visual cycle position dots inside the button.' },
+    ],
+  },
+  {
+    id: 'speed-dial-button',
+    title: 'Speed Dial / Fan-Out Button',
+    exportName: 'SpeedDialButton',
+    category: 'complex-buttons',
+    categoryTitle: 'Complex Button & Action Variations',
+    summary: 'Compact circular optical trigger expanding on click or hover into a stacked or radial cluster of secondary quick-action buttons.',
+    codeSnippet: `<SpeedDialButton direction="up" actions={quickActions} />`,
+    props: [
+      { name: 'direction', type: "'up' | 'down' | 'left' | 'right' | 'radial'", defaultValue: "'up'", description: 'Fan-out direction or radial arc geometry.' },
+      { name: 'openOnHover', type: 'boolean', defaultValue: 'false', description: 'Optionally expands quick actions on pointer hover.' },
     ],
   },
 ];

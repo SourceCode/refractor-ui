@@ -4,6 +4,7 @@ import { AiConversationalDemos } from './demos/AiConversationalDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
+import { ComplexButtonsDemos } from './demos/ComplexButtonsDemos';
 import { CoreDemos } from './demos/CoreDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
@@ -164,6 +165,14 @@ const NUMBER_CURRENCY_IDS = new Set([
   'masked-pattern-input',
 ]);
 
+const COMPLEX_BUTTONS_IDS = new Set([
+  'combo-split-button',
+  'hold-to-confirm-button',
+  'stateful-async-button',
+  'multi-state-cycle-button',
+  'speed-dial-button',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -215,6 +224,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (NUMBER_CURRENCY_IDS.has(componentId)) {
     return <NumberCurrencyDemos componentId={componentId} />;
+  }
+  if (COMPLEX_BUTTONS_IDS.has(componentId)) {
+    return <ComplexButtonsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

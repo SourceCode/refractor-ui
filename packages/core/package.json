@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -157,6 +157,11 @@
       "types": "./dist/CombinedDateTimePicker/index.d.ts",
       "default": "./dist/CombinedDateTimePicker/index.js"
     },
+    "./ComboSplitButton": {
+      "source": "./src/ComboSplitButton/index.ts",
+      "types": "./dist/ComboSplitButton/index.d.ts",
+      "default": "./dist/ComboSplitButton/index.js"
+    },
     "./CommandInputBar": {
       "source": "./src/CommandInputBar/index.ts",
       "types": "./dist/CommandInputBar/index.d.ts",
@@ -287,6 +292,11 @@
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
     },
+    "./HoldToConfirmButton": {
+      "source": "./src/HoldToConfirmButton/index.ts",
+      "types": "./dist/HoldToConfirmButton/index.d.ts",
+      "default": "./dist/HoldToConfirmButton/index.js"
+    },
     "./IconButton": {
       "source": "./src/IconButton/index.ts",
       "types": "./dist/IconButton/index.d.ts",
@@ -391,6 +401,11 @@
       "source": "./src/MultiSelectCombobox/index.ts",
       "types": "./dist/MultiSelectCombobox/index.d.ts",
       "default": "./dist/MultiSelectCombobox/index.js"
+    },
+    "./MultiStateCycleButton": {
+      "source": "./src/MultiStateCycleButton/index.ts",
+      "types": "./dist/MultiStateCycleButton/index.d.ts",
+      "default": "./dist/MultiStateCycleButton/index.js"
     },
     "./NodeGraphCanvas": {
       "source": "./src/NodeGraphCanvas/index.ts",
@@ -602,6 +617,11 @@
       "types": "./dist/SortableList/index.d.ts",
       "default": "./dist/SortableList/index.js"
     },
+    "./SpeedDialButton": {
+      "source": "./src/SpeedDialButton/index.ts",
+      "types": "./dist/SpeedDialButton/index.d.ts",
+      "default": "./dist/SpeedDialButton/index.js"
+    },
     "./SplitArtifactCanvas": {
       "source": "./src/SplitArtifactCanvas/index.ts",
       "types": "./dist/SplitArtifactCanvas/index.d.ts",
@@ -611,6 +631,11 @@
       "source": "./src/SplitButton/index.ts",
       "types": "./dist/SplitButton/index.d.ts",
       "default": "./dist/SplitButton/index.js"
+    },
+    "./StatefulAsyncButton": {
+      "source": "./src/StatefulAsyncButton/index.ts",
+      "types": "./dist/StatefulAsyncButton/index.d.ts",
+      "default": "./dist/StatefulAsyncButton/index.js"
     },
     "./Stepper": {
       "source": "./src/Stepper/index.ts",
