@@ -1,6 +1,6 @@
 # `@refractor-ui/cli`
 
-Agent-ready command-line interface for **Refractor Optical Glass UI Kit** — inspect documentation, browse all 75 components across 12 categories, explore optical theme presets, eject source code via `swizzle`, and run strict structural checks.
+Agent-ready command-line interface for **Refractor Optical Glass UI Kit** — inspect documentation, browse all 126 components across 21 categories, explore optical theme presets, eject source code via `swizzle`, and run strict structural checks.
 
 - **Live Docs:** https://sourcecode.github.io/refractor-ui/#/cli
 - **Repository:** https://github.com/SourceCode/refractor-ui
@@ -11,7 +11,7 @@ Agent-ready command-line interface for **Refractor Optical Glass UI Kit** — in
 # Show usage help
 npx @refractor-ui/cli help
 
-# Browse all 75 components grouped across 12 canonical categories
+# Browse all 126 components grouped across 21 canonical categories
 npx @refractor-ui/cli component --list
 
 # Inspect props, accessibility & usage (compact --dense mode for AI coding agents)

@@ -146,6 +146,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'AI Context',
     description: 'Segmented context token meters, attached context bars, model/parameter switchers, persistent memory inspectors, MCP tool drawers, and confidence indicators.',
   },
+  {
+    id: 'multi-agent',
+    title: 'Multi-Agent & Orchestration',
+    shortLabel: 'Multi-Agent',
+    description: 'Specialized agent roster rails, execution waterfall trace timelines, delegation handoff dividers, and parallel candidate comparison grids.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1769,6 +1775,59 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'score', type: 'number', defaultValue: 'required', description: 'Confidence score clamped to 0..100 used to derive level when omitted.' },
       { name: 'verified / onMarkVerified', type: 'boolean / () => void', defaultValue: 'false', description: 'Marks the claim as verified or offers one-click verification.' },
+    ],
+  },
+  /* ==================== MULTI-AGENT & ORCHESTRATION (4) ==================== */
+  {
+    id: 'agent-roster-rail',
+    title: 'Agent Roster / Active Agents Rail',
+    exportName: 'AgentRosterRail',
+    category: 'multi-agent',
+    categoryTitle: 'Multi-Agent & Orchestration',
+    summary: 'Horizontal strip or vertical sidebar listing specialized sub-agents with live status badges (idle, thinking, tool, waiting, done), current task, and keyboard navigation.',
+    codeSnippet: `<AgentRosterRail agents={roster} orientation="horizontal" onSelectAgent={inspect} />`,
+    props: [
+      { name: 'agents', type: 'AgentRosterMember[]', defaultValue: 'required', description: 'Specialized agents with role, live status, and current task.' },
+      { name: 'orientation', type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: 'Horizontal top rail or vertical sidebar stack.' },
+    ],
+  },
+  {
+    id: 'agent-execution-trace',
+    title: 'Agent Execution Trace / Waterfall',
+    exportName: 'AgentExecutionTrace',
+    category: 'multi-agent',
+    categoryTitle: 'Multi-Agent & Orchestration',
+    summary: 'Optical waterfall timeline mapping LLM, tool, handoff, and retrieval spans with scaled latency bars, token totals, kind filters, and span inspector.',
+    codeSnippet: `<AgentExecutionTrace spans={traceSpans} onSelectSpan={inspectSpan} />`,
+    props: [
+      { name: 'spans', type: 'TraceSpan[]', defaultValue: 'required', description: 'Timed execution spans with kind, status, startMs, durationMs, and tokens.' },
+      { name: 'onSelectSpan', type: '(span: TraceSpan) => void', defaultValue: 'undefined', description: 'Fired when selecting a waterfall span to inspect details.' },
+    ],
+  },
+  {
+    id: 'handoff-divider',
+    title: 'Handoff / Delegation Divider',
+    exportName: 'HandoffDivider',
+    category: 'multi-agent',
+    categoryTitle: 'Multi-Agent & Orchestration',
+    summary: 'Optical stream separator marking delegation from one agent to another with summary text, clickable artifact chips, and expandable literal JSON payload.',
+    codeSnippet: `<HandoffDivider fromAgent="Planner" toAgent="Builder" summary="..." artifacts={files} />`,
+    props: [
+      { name: 'fromAgent / toAgent', type: 'string', defaultValue: 'required', description: 'Source and target agent names framing the delegation badge.' },
+      { name: 'artifacts / payload', type: 'HandoffArtifact[] / string', defaultValue: 'undefined', description: 'Transferred artifact chips and optional inspectable payload.' },
+    ],
+  },
+  {
+    id: 'parallel-comparison-view',
+    title: 'Parallel Run / Candidate Comparison',
+    exportName: 'ParallelComparisonView',
+    category: 'multi-agent',
+    categoryTitle: 'Multi-Agent & Orchestration',
+    summary: 'Side-by-side optical candidate evaluation grid with latency, token, and score telemetry badges, Select Winner highlighting, and Copy Winner action.',
+    codeSnippet: `<ParallelComparisonView candidates={runs} onSelectWinner={pick} onCopyWinner={copy} />`,
+    props: [
+      { name: 'candidates', type: 'ComparisonCandidate[]', defaultValue: 'required', description: 'Competing agent or model outputs with optional latency, tokens, and score.' },
+      { name: 'winnerId / onSelectWinner', type: 'string / callback', defaultValue: 'undefined', description: 'Controlled or uncontrolled winning candidate selection.' },
     ],
   },
 ];

@@ -7,6 +7,17 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-11-21
+
+### Added
+- **Multi-Agent & Orchestration (4 new Astryx-standard optical-glass components — 126 total across 21 categories):**
+  - `AgentRosterRail`: Horizontal strip or vertical sidebar rail listing specialized sub-agents with live status badges (`idle`/`thinking`/`tool`/`waiting`/`done`), current task, and keyboard arrow navigation.
+  - `AgentExecutionTrace`: Optical waterfall timeline mapping LLM, tool, handoff, and retrieval spans with proportional latency bars, token totals, kind filters, and span detail inspector.
+  - `HandoffDivider`: Optical conversation separator framing `fromAgent → toAgent` delegation badges, summary text, clickable artifact chips, and expandable literal payload inspection.
+  - `ParallelComparisonView`: Side-by-side candidate output comparison grid with latency, token, and score badges, Select Winner highlighting, and Copy Winner clipboard confirmation.
+- Expanded cross-component adversarial security suite (`packages/core/src/__tests__/security.adversarial.test.tsx`) to verify XSS, URL scheme sanitization, ANSI literal escaping, and prototype-pollution immunity across all 126 components.
+- Updated GitHub Pages Documentation Portal, `README.md`, `@refractor-ui/core`, `@refractor-ui/cli`, and `docs/reviews/ux-ui-director-audit.md` for the full 126-component / 21-category catalog.
+
 ## [1.8.0] - 2026-11-21
 
 ### Added
@@ -136,7 +147,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.8.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.9.0...HEAD
+[1.9.0]: https://github.com/SourceCode/refractor-ui/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/SourceCode/refractor-ui/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/SourceCode/refractor-ui/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/SourceCode/refractor-ui/compare/v1.5.0...v1.6.0

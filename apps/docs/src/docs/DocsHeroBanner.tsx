@@ -30,8 +30,8 @@ const INSTALL_COMMANDS: Record<PackageManager, string> = {
 const TELEMETRY_PILLS = [
   { label: 'Components', value: `${COMPONENT_REGISTRY.length}` },
   { label: 'Categories', value: `${DOC_CATEGORIES.length}` },
-  { label: 'V8 Coverage', value: '99.4%' },
-  { label: 'UX/UI Audit', value: '9.92/10' },
+  { label: 'V8 Coverage', value: '99.5%' },
+  { label: 'UX/UI Audit', value: '9.93/10' },
   { label: 'any / unknown', value: '0' },
   { label: 'High CVEs', value: '0' },
 ] as const;
@@ -69,7 +69,7 @@ export function DocsHeroBanner() {
         <div className="inline-flex flex-wrap items-center gap-2">
           <span className="prism-emerald px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>v1.0.0 Public Release</span>
+            <span>v1.9.0 Public Release</span>
           </span>
           <span className="prism-crystal px-3 py-1 rounded-full text-xs font-medium text-slate-700 dark:text-slate-200">
             React 19 · TypeScript · Tailwind CSS v4 · Apache-2.0

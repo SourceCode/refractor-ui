@@ -10,6 +10,7 @@ import { DragDropDemos } from './demos/DragDropDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
+import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
@@ -136,6 +137,13 @@ const AI_CONTEXT_MEMORY_IDS = new Set([
   'confidence-indicator',
 ]);
 
+const MULTI_AGENT_IDS = new Set([
+  'agent-roster-rail',
+  'agent-execution-trace',
+  'handoff-divider',
+  'parallel-comparison-view',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -178,6 +186,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (AI_CONTEXT_MEMORY_IDS.has(componentId)) {
     return <AiContextMemoryDemos componentId={componentId} />;
+  }
+  if (MULTI_AGENT_IDS.has(componentId)) {
+    return <MultiAgentDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

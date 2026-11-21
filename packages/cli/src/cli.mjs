@@ -98,7 +98,7 @@ const DOC_TOPICS = {
   architecture: {
     title: 'Refractor Monorepo Architecture & ADRs',
     dense: [
-      '- packages/core (@refractor-ui/core): 75 React 19 components, theme engine, utils, refractor.css, reset.css.',
+      '- packages/core (@refractor-ui/core): 126 React 19 components, theme engine, utils, refractor.css, reset.css.',
       '- packages/themes/*: alabaster, obsidian, amethyst, emerald-tide, solar-prism.',
       '- packages/cli (@refractor-ui/cli): docs, component, theme, swizzle, check.',
       '- internal/eslint-plugin-refractor: 17 two-tier Astryx + zero-any/unknown rules.',
@@ -106,7 +106,7 @@ const DOC_TOPICS = {
     ].join('\n'),
     full: [
       'Monorepo Workspace Layout:',
-      '  - packages/core       : 75 Astryx-standard components across 12 categories with subpath exports',
+      '  - packages/core       : 126 Astryx-standard components across 21 categories with subpath exports',
       '  - packages/themes/*   : 5 official optical theme presets',
       '  - packages/cli        : Agent-ready CLI (@refractor-ui/cli)',
       '  - apps/docs           : Interactive Optical Workbench & MUI+Astryx Theme Studio',

@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -52,10 +52,20 @@
       "types": "./dist/AgentControlBar/index.d.ts",
       "default": "./dist/AgentControlBar/index.js"
     },
+    "./AgentExecutionTrace": {
+      "source": "./src/AgentExecutionTrace/index.ts",
+      "types": "./dist/AgentExecutionTrace/index.d.ts",
+      "default": "./dist/AgentExecutionTrace/index.js"
+    },
     "./AgentPlanList": {
       "source": "./src/AgentPlanList/index.ts",
       "types": "./dist/AgentPlanList/index.d.ts",
       "default": "./dist/AgentPlanList/index.js"
+    },
+    "./AgentRosterRail": {
+      "source": "./src/AgentRosterRail/index.ts",
+      "types": "./dist/AgentRosterRail/index.d.ts",
+      "default": "./dist/AgentRosterRail/index.js"
     },
     "./AlertBanner": {
       "source": "./src/AlertBanner/index.ts",
@@ -252,6 +262,11 @@
       "types": "./dist/GlobalSearchModal/index.d.ts",
       "default": "./dist/GlobalSearchModal/index.js"
     },
+    "./HandoffDivider": {
+      "source": "./src/HandoffDivider/index.ts",
+      "types": "./dist/HandoffDivider/index.d.ts",
+      "default": "./dist/HandoffDivider/index.js"
+    },
     "./IconButton": {
       "source": "./src/IconButton/index.ts",
       "types": "./dist/IconButton/index.d.ts",
@@ -361,6 +376,11 @@
       "source": "./src/Pagination/index.ts",
       "types": "./dist/Pagination/index.d.ts",
       "default": "./dist/Pagination/index.js"
+    },
+    "./ParallelComparisonView": {
+      "source": "./src/ParallelComparisonView/index.ts",
+      "types": "./dist/ParallelComparisonView/index.d.ts",
+      "default": "./dist/ParallelComparisonView/index.js"
     },
     "./PasswordStrengthMeter": {
       "source": "./src/PasswordStrengthMeter/index.ts",
