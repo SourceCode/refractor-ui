@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -36,6 +36,11 @@
       "source": "./src/Accordion/index.ts",
       "types": "./dist/Accordion/index.d.ts",
       "default": "./dist/Accordion/index.js"
+    },
+    "./ActiveSessionsList": {
+      "source": "./src/ActiveSessionsList/index.ts",
+      "types": "./dist/ActiveSessionsList/index.d.ts",
+      "default": "./dist/ActiveSessionsList/index.js"
     },
     "./AdvancedDataGrid": {
       "source": "./src/AdvancedDataGrid/index.ts",
@@ -262,10 +267,20 @@
       "types": "./dist/OpticalCharts/index.d.ts",
       "default": "./dist/OpticalCharts/index.js"
     },
+    "./OtpCodeInput": {
+      "source": "./src/OtpCodeInput/index.ts",
+      "types": "./dist/OtpCodeInput/index.d.ts",
+      "default": "./dist/OtpCodeInput/index.js"
+    },
     "./Pagination": {
       "source": "./src/Pagination/index.ts",
       "types": "./dist/Pagination/index.d.ts",
       "default": "./dist/Pagination/index.js"
+    },
+    "./PasswordStrengthMeter": {
+      "source": "./src/PasswordStrengthMeter/index.ts",
+      "types": "./dist/PasswordStrengthMeter/index.d.ts",
+      "default": "./dist/PasswordStrengthMeter/index.js"
     },
     "./PivotTable": {
       "source": "./src/PivotTable/index.ts",
@@ -337,6 +352,11 @@
       "types": "./dist/RichTextEditor/index.d.ts",
       "default": "./dist/RichTextEditor/index.js"
     },
+    "./RolePermissionsMatrix": {
+      "source": "./src/RolePermissionsMatrix/index.ts",
+      "types": "./dist/RolePermissionsMatrix/index.d.ts",
+      "default": "./dist/RolePermissionsMatrix/index.js"
+    },
     "./SearchWithSuggestions": {
       "source": "./src/SearchWithSuggestions/index.ts",
       "types": "./dist/SearchWithSuggestions/index.d.ts",
@@ -346,6 +366,11 @@
       "source": "./src/SecondaryButton/index.ts",
       "types": "./dist/SecondaryButton/index.d.ts",
       "default": "./dist/SecondaryButton/index.js"
+    },
+    "./SecretKeyField": {
+      "source": "./src/SecretKeyField/index.ts",
+      "types": "./dist/SecretKeyField/index.d.ts",
+      "default": "./dist/SecretKeyField/index.js"
     },
     "./SegmentedControl": {
       "source": "./src/SegmentedControl/index.ts",

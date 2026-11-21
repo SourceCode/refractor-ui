@@ -110,6 +110,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Media & 3D',
     description: 'Chapter-marked video players, audio waveform scrubbers, zoomable lightboxes, before/after comparison sliders, vector map viewers, and 360° orbit stages.',
   },
+  {
+    id: 'security-auth',
+    title: 'Security, Auth & Account Management',
+    shortLabel: 'Security',
+    description: 'OTP verification boxes, linear-time password strength meters, masked secret key fields, RBAC role permissions matrices, and active session managers.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1270,6 +1276,73 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'angle / defaultAngle', type: 'number', defaultValue: '0', description: 'Orbit azimuth normalized cleanly into 0..359 degrees.' },
       { name: 'autoRotate', type: 'boolean', defaultValue: 'false', description: 'Starts continuous 360° turntable rotation.' },
+    ],
+  },
+
+  /* ==================== SECURITY, AUTH & ACCOUNT MANAGEMENT (5) ==================== */
+  {
+    id: 'otp-code-input',
+    title: 'Verification Code (OTP) Input',
+    exportName: 'OtpCodeInput',
+    category: 'security-auth',
+    categoryTitle: 'Security, Auth & Account Management',
+    summary: 'Row of individual single-character optical input wells for 4–8 digit verification codes with auto-focus advancement, Backspace rewind, and paste distribution.',
+    codeSnippet: `<OtpCodeInput length={6} onComplete={(code) => verify(code)} />`,
+    props: [
+      { name: 'length', type: 'number', defaultValue: '6', description: 'Number of character cells clamped 4..8.' },
+      { name: 'onComplete', type: '(code: string) => void', defaultValue: 'undefined', description: 'Fired once all cells are populated.' },
+    ],
+  },
+  {
+    id: 'password-strength-meter',
+    title: 'Password Strength Meter',
+    exportName: 'PasswordStrengthMeter',
+    category: 'security-auth',
+    categoryTitle: 'Security, Auth & Account Management',
+    summary: 'Segmented optical strength progress meter and real-time checklist validating password length, case, numbers, and symbols in linear O(n) time.',
+    codeSnippet: `<PasswordStrengthMeter password={password} minLength={12} />`,
+    props: [
+      { name: 'password', type: 'string', defaultValue: 'required', description: 'Candidate password evaluated in real time.' },
+      { name: 'minLength', type: 'number', defaultValue: '12', description: 'Minimum required length (6..64).' },
+    ],
+  },
+  {
+    id: 'secret-key-field',
+    title: 'Secret / API Key Field',
+    exportName: 'SecretKeyField',
+    category: 'security-auth',
+    categoryTitle: 'Security, Auth & Account Management',
+    summary: 'Masked monospace credential display with Reveal/Hide toggle, one-click Copy-to-Clipboard confirmation, and optional key rotation action.',
+    codeSnippet: `<SecretKeyField label="API Key" value={secret} onRotate={rotate} />`,
+    props: [
+      { name: 'value', type: 'string', defaultValue: 'required', description: 'Secret token masked by default.' },
+      { name: 'onRotate', type: '() => void', defaultValue: 'undefined', description: 'Optional secret rotation callback.' },
+    ],
+  },
+  {
+    id: 'role-permissions-matrix',
+    title: 'Role & Permissions Matrix',
+    exportName: 'RolePermissionsMatrix',
+    category: 'security-auth',
+    categoryTitle: 'Security, Auth & Account Management',
+    summary: 'Optical RBAC checkbox matrix mapping roles against system capabilities with column toggle-all, locked-role guards, and prototype-safe Map state.',
+    codeSnippet: `<RolePermissionsMatrix roles={roles} permissions={perms} defaultGrants={grants} />`,
+    props: [
+      { name: 'roles / permissions', type: 'RoleColumn[] / PermissionRow[]', defaultValue: 'required', description: 'Role columns and capability rows.' },
+      { name: 'grants / onChange', type: 'RoleGrantsRecord', defaultValue: 'optional', description: 'Controlled or uncontrolled role-to-permission assignments.' },
+    ],
+  },
+  {
+    id: 'active-sessions-list',
+    title: 'Active Sessions List',
+    exportName: 'ActiveSessionsList',
+    category: 'security-auth',
+    categoryTitle: 'Security, Auth & Account Management',
+    summary: 'Security panel displaying active logged-in devices, locations, IP addresses, current-session badge, per-device Sign Out, and Sign Out All Others.',
+    codeSnippet: `<ActiveSessionsList defaultSessions={sessions} onSignOutSession={revoke} />`,
+    props: [
+      { name: 'sessions / defaultSessions', type: 'ActiveSessionItem[]', defaultValue: 'optional', description: 'Active authenticated sessions across desktop, mobile, tablet, or CLI.' },
+      { name: 'onSignOutAllOthers', type: '() => void', defaultValue: 'undefined', description: 'Revokes all non-current remote sessions.' },
     ],
   },
 ];

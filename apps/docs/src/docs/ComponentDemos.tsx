@@ -7,6 +7,7 @@ import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
+import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -77,6 +78,14 @@ const MEDIA_SPATIAL_IDS = new Set([
   'product-360-viewer',
 ]);
 
+const SECURITY_AUTH_IDS = new Set([
+  'otp-code-input',
+  'password-strength-meter',
+  'secret-key-field',
+  'role-permissions-matrix',
+  'active-sessions-list',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -101,6 +110,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (MEDIA_SPATIAL_IDS.has(componentId)) {
     return <MediaSpatialDemos componentId={componentId} />;
+  }
+  if (SECURITY_AUTH_IDS.has(componentId)) {
+    return <SecurityAuthDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

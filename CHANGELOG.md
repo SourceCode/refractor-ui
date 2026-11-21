@@ -7,6 +7,17 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-21
+
+### Added
+- **Security, Auth & Account Management (5 new Astryx-standard optical-glass components — 92 total across 15 categories):**
+  - `OtpCodeInput`: Individual 4–8 character verification wells with auto-advance, Backspace rewind, Arrow navigation, and multi-digit paste distribution.
+  - `PasswordStrengthMeter`: Linear-time O(n) segmented optical progress bar and real-time complexity checklist.
+  - `SecretKeyField`: Masked monospace credential display with Reveal/Hide toggle, clipboard copy confirmation, and optional Rotate action.
+  - `RolePermissionsMatrix`: Prototype-safe RBAC checkbox grid with locked-role protection and column Select All.
+  - `ActiveSessionsList`: Logged-in devices & geo-location panel with current-session badge, per-session Sign Out, and Sign Out All Others.
+- Added interactive playground demos and prop specs in `apps/docs` under `Security, Auth & Account Management`.
+
 ## [1.2.0] - 2026-11-21
 
 ### Added
@@ -65,7 +76,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/SourceCode/refractor-ui/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/SourceCode/refractor-ui/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/SourceCode/refractor-ui/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/SourceCode/refractor-ui/releases/tag/v1.0.0
