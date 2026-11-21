@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -126,6 +126,16 @@
       "source": "./src/Breadcrumbs/index.ts",
       "types": "./dist/Breadcrumbs/index.d.ts",
       "default": "./dist/Breadcrumbs/index.js"
+    },
+    "./BulletChart": {
+      "source": "./src/BulletChart/index.ts",
+      "types": "./dist/BulletChart/index.d.ts",
+      "default": "./dist/BulletChart/index.js"
+    },
+    "./CalendarHeatmap": {
+      "source": "./src/CalendarHeatmap/index.ts",
+      "types": "./dist/CalendarHeatmap/index.d.ts",
+      "default": "./dist/CalendarHeatmap/index.js"
     },
     "./CalendarView": {
       "source": "./src/CalendarView/index.ts",
@@ -417,6 +427,11 @@
       "types": "./dist/LivePresenceIndicator/index.d.ts",
       "default": "./dist/LivePresenceIndicator/index.js"
     },
+    "./LiveTelemetryChart": {
+      "source": "./src/LiveTelemetryChart/index.ts",
+      "types": "./dist/LiveTelemetryChart/index.d.ts",
+      "default": "./dist/LiveTelemetryChart/index.js"
+    },
     "./MaskedPatternInput": {
       "source": "./src/MaskedPatternInput/index.ts",
       "types": "./dist/MaskedPatternInput/index.d.ts",
@@ -601,6 +616,11 @@
       "source": "./src/RadarSpiderChart/index.ts",
       "types": "./dist/RadarSpiderChart/index.d.ts",
       "default": "./dist/RadarSpiderChart/index.js"
+    },
+    "./RadialGauge": {
+      "source": "./src/RadialGauge/index.ts",
+      "types": "./dist/RadialGauge/index.d.ts",
+      "default": "./dist/RadialGauge/index.js"
     },
     "./RadioGroup": {
       "source": "./src/RadioGroup/index.ts",

@@ -200,6 +200,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Flows & Graphs',
     description: 'Proportional multi-stage Sankey diagrams, deterministic force-directed network graphs, and circular bi-directional chord diagrams.',
   },
+  {
+    id: 'kpi-telemetry-charts',
+    title: 'KPI, Progress & Telemetry Visuals',
+    shortLabel: 'KPI & Telemetry',
+    description: 'Semi-circular radial gauges, qualitative target bullet charts, calendar activity heatmaps, and live scrolling telemetry monitors.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2430,6 +2436,59 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'entities / flows', type: 'ChordEntity[] / ChordFlow[]', defaultValue: 'required', description: 'Circular entity definitions and positive directed flows.' },
       { name: 'onSelectEntity', type: '(entity, inbound, outbound) => void', defaultValue: 'undefined', description: 'Fires when an entity arc or legend pill is focused.' },
+    ],
+  },
+  /* ==================== KPI, PROGRESS & TELEMETRY VISUALS (4) ==================== */
+  {
+    id: 'radial-gauge',
+    title: 'Radial Gauge / Speedometer',
+    exportName: 'RadialGauge',
+    category: 'kpi-telemetry-charts',
+    categoryTitle: 'KPI, Progress & Telemetry Visuals',
+    summary: 'Semi-circular or 270° optical SVG speedometer gauge showing a single live KPI against color-coded threshold bands and target tick.',
+    codeSnippet: `<RadialGauge value={74} target={80} unit="%" label="Compute Utilization" />`,
+    props: [
+      { name: 'value / min / max', type: 'number / number / number', defaultValue: 'required / 0 / 100', description: 'Live KPI metric and clamped gauge bounds.' },
+      { name: 'sweep / thresholds', type: '180 | 270 / RadialGaugeThreshold[]', defaultValue: '180 / 3 bands', description: 'Arc sweep angle and color-coded status zones.' },
+    ],
+  },
+  {
+    id: 'bullet-chart',
+    title: 'Bullet Chart',
+    exportName: 'BulletChart',
+    category: 'kpi-telemetry-charts',
+    categoryTitle: 'KPI, Progress & Telemetry Visuals',
+    summary: 'Compact horizontal KPI bullet graph comparing actual performance and target thresholds across shaded poor, satisfactory, and good ranges.',
+    codeSnippet: `<BulletChart items={kpiTargets} showVariance />`,
+    props: [
+      { name: 'items', type: 'BulletChartItem[]', defaultValue: 'required', description: 'KPI rows with actual, target, max, and 3-step qualitative ranges.' },
+      { name: 'onSelectItem', type: '(item, achievementPct) => void', defaultValue: 'undefined', description: 'Fires when a KPI row is selected.' },
+    ],
+  },
+  {
+    id: 'calendar-heatmap',
+    title: 'Calendar / Contribution Heatmap',
+    exportName: 'CalendarHeatmap',
+    category: 'kpi-telemetry-charts',
+    categoryTitle: 'KPI, Progress & Telemetry Visuals',
+    summary: 'GitHub-style day-by-day activity grid shading daily activity counts across five optical intensity steps with streak and total telemetry.',
+    codeSnippet: `<CalendarHeatmap entries={dailyActivity} weeks={12} tone="emerald" />`,
+    props: [
+      { name: 'entries / weeks', type: 'CalendarHeatmapEntry[] / number', defaultValue: 'required / 12', description: 'ISO YYYY-MM-DD counts and displayed week columns (4..26).' },
+      { name: 'tone / onSelectDay', type: "'emerald' | 'primary' | 'secondary' | 'rose' / (entry) => void", defaultValue: "'emerald' / undefined", description: 'Semantic optical intensity ramp and day selection callback.' },
+    ],
+  },
+  {
+    id: 'live-telemetry-chart',
+    title: 'Real-Time Streaming / Telemetry Chart',
+    exportName: 'LiveTelemetryChart',
+    category: 'kpi-telemetry-charts',
+    categoryTitle: 'KPI, Progress & Telemetry Visuals',
+    summary: 'Continuously scrolling real-time SVG telemetry chart with Pause/Resume snapshot freeze, rolling window switcher, and warning threshold marker.',
+    codeSnippet: `<LiveTelemetryChart samples={stream} warningThreshold={80} unit="ms" />`,
+    props: [
+      { name: 'samples / defaultWindowSize', type: 'TelemetrySample[] / 20 | 40 | 60', defaultValue: 'required / 40', description: 'Time-series sample stream and active rolling window length.' },
+      { name: 'paused / streamingIntervalMs', type: 'boolean / number', defaultValue: 'false / 0', description: 'Controls live streaming pause state and optional interval ticking.' },
     ],
   },
 ];

@@ -11,6 +11,7 @@ import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
+import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
@@ -218,6 +219,13 @@ const RELATIONAL_FLOW_CHARTS_IDS = new Set([
   'chord-diagram',
 ]);
 
+const KPI_TELEMETRY_CHARTS_IDS = new Set([
+  'radial-gauge',
+  'bullet-chart',
+  'calendar-heatmap',
+  'live-telemetry-chart',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -287,6 +295,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (RELATIONAL_FLOW_CHARTS_IDS.has(componentId)) {
     return <RelationalFlowChartsDemos componentId={componentId} />;
+  }
+  if (KPI_TELEMETRY_CHARTS_IDS.has(componentId)) {
+    return <KpiTelemetryChartsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

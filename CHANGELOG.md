@@ -7,6 +7,16 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.18.0] - 2026-11-21
+
+### Added
+- **KPI, Progress & Telemetry Visuals (4 new token-driven optical-glass monitoring visualizations — 172 total across 30 categories):**
+  - `RadialGauge`: Configurable `180°` / `270°` optical SVG speedometer gauge with interactive threshold bands, radial target tick, tapered needle, and ARIA `role="meter"` semantics.
+  - `BulletChart`: Compact horizontal bullet chart overlaying actual value bars and target threshold markers over 3 qualitative range bands with variance badges and band telemetry.
+  - `CalendarHeatmap`: Pure UTC day-by-day calendar activity heatmap with 5-level optical intensity ramp, streak/total summary pills, and prototype-safe date aggregation.
+  - `LiveTelemetryChart`: Continuously scrolling real-time SVG stream chart with `LIVE`/`PAUSED` snapshot freeze, rolling `20`/`40`/`60` sample window, warning threshold line, and live stats strip.
+- Added interactive playground demos and prop specs in `apps/docs` under `KPI, Progress & Telemetry Visuals`.
+
 ## [1.17.0] - 2026-11-21
 
 ### Added
@@ -237,7 +247,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.17.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.18.0...HEAD
+[1.18.0]: https://github.com/SourceCode/refractor-ui/compare/v1.17.0...v1.18.0
 [1.17.0]: https://github.com/SourceCode/refractor-ui/compare/v1.16.0...v1.17.0
 [1.16.0]: https://github.com/SourceCode/refractor-ui/compare/v1.15.0...v1.16.0
 [1.15.0]: https://github.com/SourceCode/refractor-ui/compare/v1.14.0...v1.15.0
