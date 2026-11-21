@@ -27,7 +27,7 @@ import {
 } from '../system/store';
 
 export interface DocsGuidesProps {
-  section: Exclude<DocsPageSection, 'catalog'>;
+  section: Exclude<DocsPageSection, 'catalog' | 'examples'>;
 }
 
 interface CodeBlockCardProps {

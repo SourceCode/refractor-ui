@@ -5,6 +5,7 @@ import {
   ChevronRight,
   ExternalLink,
   Grid,
+  LayoutGrid,
   Menu,
   Moon,
   Palette,
@@ -30,6 +31,7 @@ import {
   type DocsPageSection,
   pushToast,
   setActiveCategory,
+  setActiveExample,
   setActiveSection,
   setCommandPaletteOpen,
   setCustomizerOpen,
@@ -47,6 +49,8 @@ import { DocsGuides } from './DocsGuides';
 import { DocsHeroBanner } from './DocsHeroBanner';
 import { ReferenceSpecimenBoard } from './ReferenceSpecimenBoard';
 import { ThemeCustomizerDrawer } from './ThemeCustomizerDrawer';
+import { ExamplesStudio } from './examples/ExamplesStudio';
+import { EXAMPLE_SCREENS } from './examples/registry';
 import {
   COMPONENT_REGISTRY,
   DOC_CATEGORIES,
@@ -55,7 +59,7 @@ import {
 } from './registry';
 
 const GUIDE_NAV_ITEMS: ReadonlyArray<{
-  id: Exclude<DocsPageSection, 'catalog'>;
+  id: Exclude<DocsPageSection, 'catalog' | 'examples'>;
   label: string;
   icon: 'book' | 'palette' | 'terminal' | 'shield';
 }> = [
@@ -81,6 +85,7 @@ export function DocsShell() {
     activeSection,
     activeCategory,
     focusedComponentId,
+    activeExampleId,
     searchQuery,
     commandPaletteOpen,
     toasts,
@@ -94,6 +99,18 @@ export function DocsShell() {
       const rawHash = window.location.hash.replace(/^#\/?/, '').trim();
       if (!rawHash) {
         dispatch(setActiveCategory('overview'));
+        return;
+      }
+
+      if (rawHash === 'examples') {
+        dispatch(setActiveExample(null));
+        return;
+      }
+
+      if (rawHash.startsWith('examples/')) {
+        const exampleId = rawHash.slice('examples/'.length);
+        const match = EXAMPLE_SCREENS.find((ex) => ex.id === exampleId);
+        dispatch(setActiveExample(match ? match.id : null));
         return;
       }
 
@@ -133,7 +150,9 @@ export function DocsShell() {
   // Reflect active section / component cleanly in URL hash without history spam
   useEffect(() => {
     let targetHash = '';
-    if (activeSection !== 'catalog') {
+    if (activeSection === 'examples') {
+      targetHash = activeExampleId ? `#/examples/${activeExampleId}` : '#/examples';
+    } else if (activeSection !== 'catalog') {
       targetHash = `#/${activeSection}`;
     } else if (focusedComponentId) {
       targetHash = `#/component/${focusedComponentId}`;
@@ -147,7 +166,7 @@ export function DocsShell() {
         : `${window.location.pathname}${window.location.search}`;
       window.history.replaceState(null, '', nextUrl);
     }
-  }, [activeCategory, activeSection, focusedComponentId]);
+  }, [activeCategory, activeExampleId, activeSection, focusedComponentId]);
 
   useEffect(() => {
     if (!mobileNavOpen) return undefined;
@@ -216,7 +235,27 @@ export function DocsShell() {
       },
     }));
 
+    const exampleCommands: CommandPaletteItem[] = EXAMPLE_SCREENS.map((ex) => ({
+      id: `example-${ex.id}`,
+      label: `Example: ${ex.title}`,
+      group: `Example Screens · ${ex.domainTitle}`,
+      shortcut: ex.devices.join('/'),
+      onSelect: () => {
+        dispatch(setActiveExample(ex.id));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+    }));
+
     const sysCommands: CommandPaletteItem[] = [
+      {
+        id: 'sys-examples',
+        label: `Browse All ${EXAMPLE_SCREENS.length} Interactive Example Screens (Web, Tablet & Mobile)`,
+        group: 'Workspace',
+        onSelect: () => {
+          dispatch(setActiveExample(null));
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+      },
       {
         id: 'sys-overview',
         label: `Show All ${COMPONENT_REGISTRY.length} Components & Specimen Overview`,
@@ -243,7 +282,7 @@ export function DocsShell() {
       },
     ];
 
-    return [...guideCommands, ...sysCommands, ...compCommands];
+    return [...guideCommands, ...sysCommands, ...exampleCommands, ...compCommands];
   }, [dispatch, studioGrid, themeMode]);
 
   const jumpToComponent = (id: string, category: Exclude<DocsCategoryFilter, 'overview'>) => {
@@ -252,7 +291,7 @@ export function DocsShell() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const openGuide = (section: Exclude<DocsPageSection, 'catalog'>) => {
+  const openGuide = (section: Exclude<DocsPageSection, 'catalog' | 'examples'>) => {
     dispatch(setActiveSection(section));
     setMobileNavOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -273,7 +312,7 @@ export function DocsShell() {
         >
           <span>Refractor UI</span>
           <span className="prism-crystal px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold text-slate-700 dark:text-slate-200">
-            v1.21.0
+            v1.22.0
           </span>
         </a>
 
@@ -294,6 +333,21 @@ export function DocsShell() {
             }`}
           >
             Overview
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              dispatch(setActiveExample(null));
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className={`whitespace-nowrap shrink-0 cursor-pointer transition-colors py-1 ${
+              activeSection === 'examples'
+                ? 'text-slate-900 dark:text-white font-semibold underline decoration-[var(--prism-primary-main)] decoration-2 underline-offset-8'
+                : 'hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Examples
           </button>
 
           {GUIDE_NAV_ITEMS.map((guide) => {
@@ -410,7 +464,29 @@ export function DocsShell() {
             })}
           </div>
 
-          <div className="pt-1 border-t border-slate-300/45 dark:border-slate-800/80">
+          <div className="pt-1 border-t border-slate-300/45 dark:border-slate-800/80 space-y-1.5">
+            <button
+              type="button"
+              onClick={() => {
+                dispatch(setActiveExample(null));
+                setMobileNavOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`w-full px-3.5 py-2 rounded-2xl flex items-center justify-between text-xs font-semibold cursor-pointer transition-all ${
+                activeSection === 'examples'
+                  ? 'prism-emerald text-white'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-white/60 dark:hover:bg-white/5'
+              }`}
+            >
+              <span className="relative z-10 inline-flex items-center gap-2">
+                <LayoutGrid className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                <span>Example Screens</span>
+              </span>
+              <span className="relative z-10 font-mono tabular-nums">
+                {EXAMPLE_SCREENS.length}
+              </span>
+            </button>
+
             <button
               type="button"
               onClick={() => {
@@ -558,7 +634,13 @@ export function DocsShell() {
             </div>
           </div>
 
-          {activeSection !== 'catalog' ? (
+          {activeSection === 'examples' ? (
+            <ExamplesStudio
+              examples={EXAMPLE_SCREENS}
+              activeExampleId={activeExampleId}
+              onSelectExample={(id) => dispatch(setActiveExample(id))}
+            />
+          ) : activeSection !== 'catalog' ? (
             <DocsGuides section={activeSection} />
           ) : focusedEntry ? (
             <div className="space-y-6">
@@ -724,8 +806,8 @@ export function DocsShell() {
 
           <footer className="pt-8 pb-6 border-t border-slate-300/55 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
             <span>
-              Refractor Optical Glass UI Kit v1.21.0 · {COMPONENT_REGISTRY.length} Open-Internals
-              React 19 Primitives · Apache-2.0
+              Refractor Optical Glass UI Kit v1.22.0 · {COMPONENT_REGISTRY.length} Open-Internals
+              React 19 Primitives · {EXAMPLE_SCREENS.length} Example Screens · Apache-2.0
             </span>
             <div className="flex flex-wrap items-center gap-4">
               <a
