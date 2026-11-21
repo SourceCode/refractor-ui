@@ -49,7 +49,7 @@ export function SegmentedControl({
 
   const merged = mergeProps({
     themeTarget: themeProps('segmented-control', { disabled }),
-    baseClassName: 'prism-crystal inline-flex items-center p-1 rounded-full gap-1',
+    baseClassName: 'prism-crystal inline-flex items-center p-1 rounded-full gap-1 max-w-full overflow-x-auto',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,

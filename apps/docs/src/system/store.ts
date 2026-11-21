@@ -314,11 +314,15 @@ export const {
   addCollaborator,
 } = systemSlice.actions;
 
-export const store = configureStore({
-  reducer: {
-    system: systemSlice.reducer,
-  },
-});
+export function createDocsStore() {
+  return configureStore({
+    reducer: {
+      system: systemSlice.reducer,
+    },
+  });
+}
+
+export const store = createDocsStore();
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -36,8 +36,8 @@ export function ComponentDocCard({
       aria-labelledby={`heading-${entry.id}`}
       className="scroll-mt-24 border border-slate-300/65 dark:border-slate-800 rounded-[24px] bg-white/45 dark:bg-slate-900/45 overflow-hidden"
     >
-      <div className="px-6 py-4 border-b border-slate-200/80 dark:border-slate-800 flex flex-wrap items-start justify-between gap-4">
-        <div className="space-y-1 max-w-2xl">
+      <div className="px-4 sm:px-6 py-4 border-b border-slate-200/80 dark:border-slate-800 flex flex-wrap items-start justify-between gap-3 sm:gap-4">
+        <div className="space-y-1 max-w-2xl min-w-0">
           <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
             <span>{entry.categoryTitle}</span>
             <span aria-hidden="true">·</span>
@@ -112,9 +112,9 @@ export function ComponentDocCard({
         <div
           className={`${
             studioGrid ? 'prism-studio-grid' : 'prism-studio-surface'
-          } p-6 sm:p-8 min-h-[180px] flex items-center justify-center`}
+          } p-3.5 sm:p-8 min-h-[180px] flex items-center justify-center overflow-x-auto`}
         >
-          <div className="w-full max-w-4xl flex flex-wrap items-center justify-center gap-4">
+          <div className="w-full min-w-0 max-w-4xl flex flex-wrap items-center justify-center gap-4">
             {children}
           </div>
         </div>

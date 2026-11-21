@@ -552,10 +552,10 @@ export function GanttChart({
         </div>
       ) : (
         <div className="prism-well rounded-2xl overflow-hidden flex border border-slate-300/45 dark:border-slate-700/50">
-          <div className="w-56 shrink-0 border-r border-slate-300/50 dark:border-slate-700/60 bg-white/30 dark:bg-white/[0.02]">
-            <div className="h-10 px-3 flex items-center justify-between text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 border-b border-slate-300/50 dark:border-slate-700/60">
+          <div className="w-32 sm:w-48 md:w-56 shrink-0 border-r border-slate-300/50 dark:border-slate-700/60 bg-white/30 dark:bg-white/[0.02]">
+            <div className="h-10 px-2.5 sm:px-3 flex items-center justify-between text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 border-b border-slate-300/50 dark:border-slate-700/60">
               <span>Task</span>
-              <span>Assignee</span>
+              <span className="hidden sm:inline">Assignee</span>
             </div>
 
             <div>
@@ -566,7 +566,7 @@ export function GanttChart({
                       key={row.key}
                       data-resource-group={row.assignee}
                       style={{ height: `${row.heightPx}px` }}
-                      className="px-3 flex items-center justify-between gap-2 bg-white/45 dark:bg-white/[0.04] border-b border-slate-200/60 dark:border-slate-700/50"
+                      className="px-2.5 sm:px-3 flex items-center justify-between gap-2 bg-white/45 dark:bg-white/[0.04] border-b border-slate-200/60 dark:border-slate-700/50"
                     >
                       <span className="text-[11px] font-semibold text-slate-800 dark:text-slate-100 truncate">
                         {row.assignee}
@@ -587,7 +587,7 @@ export function GanttChart({
                     data-task-row={row.task.id}
                     onClick={() => handleSelectTask(row.task.raw)}
                     style={{ height: `${row.heightPx}px` }}
-                    className={`prism-focus-ring w-full px-3 flex items-center justify-between gap-2 text-left border-b border-slate-200/50 dark:border-slate-700/40 cursor-pointer transition-colors ${
+                    className={`prism-focus-ring w-full px-2.5 sm:px-3 flex items-center justify-between gap-2 text-left border-b border-slate-200/50 dark:border-slate-700/40 cursor-pointer transition-colors ${
                       isSelected
                         ? 'bg-sky-500/15 text-slate-900 dark:text-white'
                         : 'hover:bg-white/40 dark:hover:bg-white/[0.04]'
@@ -597,11 +597,11 @@ export function GanttChart({
                       <span className="block text-xs font-semibold text-slate-900 dark:text-white truncate">
                         {row.task.title}
                       </span>
-                      <span className="block text-[10px] font-mono tabular-nums text-slate-500 dark:text-slate-400">
+                      <span className="block text-[10px] font-mono tabular-nums text-slate-500 dark:text-slate-400 truncate">
                         {formatIsoDay(row.task.startDay)} · {row.task.durationDays}d
                       </span>
                     </span>
-                    <span className="text-[11px] text-slate-600 dark:text-slate-300 truncate max-w-[76px] shrink-0">
+                    <span className="hidden sm:inline text-[11px] text-slate-600 dark:text-slate-300 truncate max-w-[76px] shrink-0">
                       {row.task.assigneeLabel}
                     </span>
                   </button>
@@ -610,7 +610,7 @@ export function GanttChart({
             </div>
           </div>
 
-          <div className="flex-1 overflow-x-auto">
+          <div className="flex-1 min-w-0 overflow-x-auto">
             <div style={{ width: `${timelineRange.widthPx}px` }}>
               <div className="h-10 flex border-b border-slate-300/50 dark:border-slate-700/60 bg-white/25 dark:bg-white/[0.02]">
                 {timelineRange.ticks.map((tick) => (

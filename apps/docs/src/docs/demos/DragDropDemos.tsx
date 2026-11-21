@@ -70,10 +70,10 @@ export function DragDropDemos({ componentId }: DragDropDemosProps) {
           <NodeGraphCanvas
             height={400}
             defaultNodes={[
-              { id: 'n1', label: 'Theme Tokens', category: 'Input', x: 28, y: 158, tone: 'primary' },
-              { id: 'n2', label: 'Color Math Engine', category: 'Transform', x: 292, y: 84, tone: 'cobalt' },
-              { id: 'n3', label: 'Caustic Shader', category: 'Optics', x: 292, y: 232, tone: 'emerald' },
-              { id: 'n4', label: 'Optical Surface', category: 'Output', x: 560, y: 158, tone: 'crystal' },
+              { id: 'n1', label: 'Theme Tokens', category: 'Input', x: 16, y: 168, tone: 'primary' },
+              { id: 'n2', label: 'Color Math Engine', category: 'Transform', x: 214, y: 84, tone: 'cobalt' },
+              { id: 'n3', label: 'Caustic Shader', category: 'Optics', x: 214, y: 252, tone: 'emerald' },
+              { id: 'n4', label: 'Optical Surface', category: 'Output', x: 412, y: 168, tone: 'crystal' },
             ]}
             defaultEdges={[
               { id: 'e1', sourceId: 'n1', targetId: 'n2', label: 'RGB' },

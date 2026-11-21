@@ -44,7 +44,7 @@ const theme = createPrismTheme({
 export function Example() {
   return (
     <PrismThemeProvider theme={theme}>
-      <PrismCard title="Refractor Optical Glass" kicker="v1.20.0">
+      <PrismCard title="Refractor Optical Glass" kicker="v1.21.0">
         <PrimaryButton size="md">Start Project</PrimaryButton>
       </PrismCard>
     </PrismThemeProvider>

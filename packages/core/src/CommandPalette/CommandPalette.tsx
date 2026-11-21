@@ -124,7 +124,7 @@ export function CommandPalette({
               setActiveIndex(0);
             }}
             onKeyDown={handleInputKeyDown}
-            placeholder="Jump to any component or run a theme command..."
+            placeholder="Search components or commands..."
             aria-label="Filter commands"
             className="w-full bg-transparent text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
           />

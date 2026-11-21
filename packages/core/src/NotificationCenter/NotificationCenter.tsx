@@ -568,7 +568,7 @@ export function NotificationCenter({
           id={panelId}
           role="region"
           aria-labelledby={titleId}
-          className="prism-slab absolute right-0 mt-2.5 w-full min-w-[320px] max-w-md p-4 flex flex-col gap-3 z-40"
+          className="prism-slab absolute right-0 mt-2.5 w-[min(24rem,calc(100vw-2rem))] sm:min-w-[320px] max-w-md p-4 flex flex-col gap-3 z-40"
         >
           {panelBody}
         </div>

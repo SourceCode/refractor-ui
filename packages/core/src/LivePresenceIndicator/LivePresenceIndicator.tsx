@@ -419,7 +419,7 @@ export function LivePresenceIndicator({
                     role="dialog"
                     aria-label="Additional collaborators"
                     data-overflow-popover="true"
-                    className="prism-slab absolute left-0 top-full mt-2 z-40 w-72 p-3 space-y-2"
+                    className="prism-slab absolute left-0 top-full mt-2 z-40 w-72 max-w-[calc(100vw-2rem)] p-3 space-y-2"
                   >
                     <div
                       className="flex items-center justify-between gap-2 pb-1.5 border-b"

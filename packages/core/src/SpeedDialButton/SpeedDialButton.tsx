@@ -364,7 +364,7 @@ export function SpeedDialButton({
                   <span
                     className={cx(
                       labelClass,
-                      'prism-crystal absolute rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap leading-none pointer-events-auto',
+                      'prism-crystal absolute rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap max-w-[120px] truncate leading-none pointer-events-auto',
                       labelPositionClass
                     )}
                     style={{

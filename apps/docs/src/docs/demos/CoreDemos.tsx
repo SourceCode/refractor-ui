@@ -210,7 +210,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
 
     case 'button-group-segmented':
       return (
-        <div className="flex flex-col items-center gap-3">
+        <div className="w-full max-w-full min-w-0 flex flex-col items-center gap-3">
           <SegmentedControl
             value={segment}
             onChange={setSegment}
@@ -561,7 +561,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
 
     case 'breadcrumbs':
       return (
-        <div className="flex flex-col items-center gap-2.5">
+        <div className="w-full max-w-full min-w-0 flex flex-col items-center gap-2.5">
           <Breadcrumbs
             items={crumbPath.map((label, idx) => ({ id: String(idx), label }))}
             onNavigate={(id) => {
@@ -599,7 +599,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
             onStepClick={setStepIdx}
             steps={[
               { id: 's1', title: 'Token Calibration', subtitle: 'Refractive indices' },
-              { id: 's2', title: 'Component Assembly', subtitle: '75 accessible primitives' },
+              { id: 's2', title: 'Component Assembly', subtitle: '179 accessible primitives' },
               { id: 's3', title: 'Production Publish', subtitle: 'Verified bundle' },
             ]}
           />
@@ -1030,7 +1030,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
       return (
         <div className="w-full">
           {projectRecords.length > 0 ? (
-            <div className="flex flex-col items-center gap-3">
+            <div className="w-full max-w-full min-w-0 flex flex-col items-center gap-3">
               <EmptyState
                 title="No archived snapshots yet"
                 description="When you archive a component milestone or clear project records, helpful recovery guidance appears here."
