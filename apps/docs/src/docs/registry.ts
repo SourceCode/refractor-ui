@@ -182,6 +182,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Trend Charts',
     description: 'Token-driven multi-series line charts, stacked area volumes, grouped/stacked column & bar charts, dual-axis combo graphs, and inline sparklines.',
   },
+  {
+    id: 'part-to-whole-charts',
+    title: 'Part-to-Whole & Hierarchical Visuals',
+    shortLabel: 'Part-to-Whole',
+    description: 'Proportional donut/pie charts, space-filling treemaps, zoomable radial sunbursts, conversion funnels, and financial waterfall charts.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2240,6 +2246,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'variant / tone', type: "'line' | 'bar' / SparklineTone", defaultValue: "'line' / 'primary'", description: 'Inline line or bar presentation and semantic optical tone.' },
       { name: 'showEndpoints / showDelta', type: 'boolean', defaultValue: 'true / false', description: 'Highlights key vertices and renders percentage delta badge.' },
+    ],
+  },
+  /* ==================== PART-TO-WHOLE & HIERARCHICAL VISUALS (5) ==================== */
+  {
+    id: 'donut-pie-chart',
+    title: 'Donut & Pie Chart',
+    exportName: 'DonutPieChart',
+    category: 'part-to-whole-charts',
+    categoryTitle: 'Part-to-Whole & Hierarchical Visuals',
+    summary: 'Proportional SVG donut and pie chart with live center headline readout, interactive slice selection, and percentage share legend.',
+    codeSnippet: `<DonutPieChart slices={slices} variant="donut" centerLabel="Total" />`,
+    props: [
+      { name: 'slices', type: 'DonutSlice[]', defaultValue: 'required', description: 'Proportional slices with label, value, and semantic tone.' },
+      { name: 'variant', type: "'donut' | 'pie'", defaultValue: "'donut'", description: 'Ring cutout donut or solid circular pie geometry.' },
+    ],
+  },
+  {
+    id: 'treemap-chart',
+    title: 'Treemap',
+    exportName: 'TreemapChart',
+    category: 'part-to-whole-charts',
+    categoryTitle: 'Part-to-Whole & Hierarchical Visuals',
+    summary: 'Space-filling nested rectangle visualization sizing tiles proportionally by value and tinting by positive/negative change percentages.',
+    codeSnippet: `<TreemapChart tiles={allocations} valueUnit="k" onSelectTile={inspect} />`,
+    props: [
+      { name: 'tiles', type: 'TreemapTile[]', defaultValue: 'required', description: 'Hierarchical tiles with value and optional changePct delta.' },
+      { name: 'height', type: 'number', defaultValue: '240', description: 'SVG treemap viewport height in pixels.' },
+    ],
+  },
+  {
+    id: 'sunburst-chart',
+    title: 'Sunburst Chart',
+    exportName: 'SunburstChart',
+    category: 'part-to-whole-charts',
+    categoryTitle: 'Part-to-Whole & Hierarchical Visuals',
+    summary: 'Multi-layered radial ring hierarchy supporting click-to-zoom drill-down into sub-categories with live breadcrumb navigation and Reset Zoom.',
+    codeSnippet: `<SunburstChart root={hierarchyTree} onZoomNode={(node) => focus(node)} />`,
+    props: [
+      { name: 'root', type: 'SunburstNode', defaultValue: 'required', description: 'Recursive hierarchy root node with nested children or leaf values.' },
+      { name: 'onZoomNode', type: '(node: SunburstNode, breadcrumb: SunburstNode[]) => void', defaultValue: 'undefined', description: 'Fired when zooming into or out of a radial ring.' },
+    ],
+  },
+  {
+    id: 'funnel-chart',
+    title: 'Funnel Chart',
+    exportName: 'FunnelChart',
+    category: 'part-to-whole-charts',
+    categoryTitle: 'Part-to-Whole & Hierarchical Visuals',
+    summary: 'Progressively narrowing conversion stage visualization tracking overall retention and stage-to-stage drop-off percentages.',
+    codeSnippet: `<FunnelChart stages={conversionStages} showDropoff />`,
+    props: [
+      { name: 'stages', type: 'FunnelStage[]', defaultValue: 'required', description: 'Ordered sequential funnel stages and counts.' },
+      { name: 'showDropoff', type: 'boolean', defaultValue: 'true', description: 'Displays stage-to-stage drop-off percentage indicators.' },
+    ],
+  },
+  {
+    id: 'waterfall-chart',
+    title: 'Waterfall Chart',
+    exportName: 'WaterfallChart',
+    category: 'part-to-whole-charts',
+    categoryTitle: 'Part-to-Whole & Hierarchical Visuals',
+    summary: 'Floating vertical bridge bars showing how initial values accumulate positive gains and negative deductions to reach a closing total.',
+    codeSnippet: `<WaterfallChart steps={pnlSteps} valuePrefix="$" valueSuffix="k" />`,
+    props: [
+      { name: 'steps', type: 'WaterfallStep[]', defaultValue: 'required', description: 'Ordered start, increase, decrease, and total financial bridge steps.' },
+      { name: 'valuePrefix / valueSuffix', type: 'string', defaultValue: "'$' / ''", description: 'Currency prefix and unit suffix for readouts.' },
     ],
   },
 ];

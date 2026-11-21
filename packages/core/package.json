@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -272,6 +272,11 @@
       "types": "./dist/DockablePanel/index.d.ts",
       "default": "./dist/DockablePanel/index.js"
     },
+    "./DonutPieChart": {
+      "source": "./src/DonutPieChart/index.ts",
+      "types": "./dist/DonutPieChart/index.d.ts",
+      "default": "./dist/DonutPieChart/index.js"
+    },
     "./DropdownSelect": {
       "source": "./src/DropdownSelect/index.ts",
       "types": "./dist/DropdownSelect/index.d.ts",
@@ -306,6 +311,11 @@
       "source": "./src/FloatingActionButton/index.ts",
       "types": "./dist/FloatingActionButton/index.d.ts",
       "default": "./dist/FloatingActionButton/index.js"
+    },
+    "./FunnelChart": {
+      "source": "./src/FunnelChart/index.ts",
+      "types": "./dist/FunnelChart/index.d.ts",
+      "default": "./dist/FunnelChart/index.js"
     },
     "./GanttChart": {
       "source": "./src/GanttChart/index.ts",
@@ -707,6 +717,11 @@
       "types": "./dist/StructuredOutputViewer/index.d.ts",
       "default": "./dist/StructuredOutputViewer/index.js"
     },
+    "./SunburstChart": {
+      "source": "./src/SunburstChart/index.ts",
+      "types": "./dist/SunburstChart/index.d.ts",
+      "default": "./dist/SunburstChart/index.js"
+    },
     "./SwipeableActionRow": {
       "source": "./src/SwipeableActionRow/index.ts",
       "types": "./dist/SwipeableActionRow/index.d.ts",
@@ -787,6 +802,11 @@
       "types": "./dist/TreeView/index.d.ts",
       "default": "./dist/TreeView/index.js"
     },
+    "./TreemapChart": {
+      "source": "./src/TreemapChart/index.ts",
+      "types": "./dist/TreemapChart/index.d.ts",
+      "default": "./dist/TreemapChart/index.js"
+    },
     "./TriStateCheckbox": {
       "source": "./src/TriStateCheckbox/index.ts",
       "types": "./dist/TriStateCheckbox/index.d.ts",
@@ -801,6 +821,11 @@
       "source": "./src/VisualQueryBuilder/index.ts",
       "types": "./dist/VisualQueryBuilder/index.d.ts",
       "default": "./dist/VisualQueryBuilder/index.js"
+    },
+    "./WaterfallChart": {
+      "source": "./src/WaterfallChart/index.ts",
+      "types": "./dist/WaterfallChart/index.d.ts",
+      "default": "./dist/WaterfallChart/index.js"
     },
     "./WindowSplitter": {
       "source": "./src/WindowSplitter/index.ts",

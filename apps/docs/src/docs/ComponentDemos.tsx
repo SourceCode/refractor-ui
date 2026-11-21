@@ -16,6 +16,7 @@ import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
+import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
@@ -193,6 +194,14 @@ const CORE_TREND_CHARTS_IDS = new Set([
   'sparkline-chart',
 ]);
 
+const PART_TO_WHOLE_CHARTS_IDS = new Set([
+  'donut-pie-chart',
+  'treemap-chart',
+  'sunburst-chart',
+  'funnel-chart',
+  'waterfall-chart',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -253,6 +262,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (CORE_TREND_CHARTS_IDS.has(componentId)) {
     return <CoreTrendChartsDemos componentId={componentId} />;
+  }
+  if (PART_TO_WHOLE_CHARTS_IDS.has(componentId)) {
+    return <PartToWholeChartsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
