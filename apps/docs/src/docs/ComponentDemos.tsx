@@ -25,6 +25,7 @@ import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
 import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
+import { TransportPlaybackDemos } from './demos/TransportPlaybackDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -241,6 +242,13 @@ const CHART_CHROME_IDS = new Set([
   'chart-threshold-marker',
 ]);
 
+const TRANSPORT_PLAYBACK_IDS = new Set([
+  'transport-control-bar',
+  'timecode-scrubber',
+  'jog-shuttle-wheel',
+  'frame-stepper-rate-selector',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -319,6 +327,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (CHART_CHROME_IDS.has(componentId)) {
     return <ChartChromeDemos componentId={componentId} />;
+  }
+  if (TRANSPORT_PLAYBACK_IDS.has(componentId)) {
+    return <TransportPlaybackDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

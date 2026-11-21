@@ -218,6 +218,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Chart Chrome',
     description: 'Toggle/solo interactive legends, timeline brush range scrubbers, synchronized crosshair tooltips, and threshold/event annotation layers.',
   },
+  {
+    id: 'transport-playback',
+    title: 'Transport & Playback Controls',
+    shortLabel: 'Transport',
+    description: 'Pro media transport decks, SMPTE/musical timecode scrubbers, tactile rotary jog/shuttle wheels, and precision frame-stepper speed selectors.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2594,6 +2600,59 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'data / thresholds / bands', type: 'ThresholdDataPoint[] / ChartThresholdLine[] / ChartTargetBand[]', defaultValue: 'required / [] / []', description: 'Base series, dashed reference lines, and shaded target zones.' },
       { name: 'events / onSelectEvent', type: 'ChartEventMarker[] / (event, point) => void', defaultValue: '[] / undefined', description: 'Pinned vertical event flags with interactive callout inspection.' },
+    ],
+  },
+  /* ==================== TRANSPORT & PLAYBACK CONTROLS (4) ==================== */
+  {
+    id: 'transport-control-bar',
+    title: 'Transport Control Bar',
+    exportName: 'TransportControlBar',
+    category: 'transport-playback',
+    categoryTitle: 'Transport & Playback Controls',
+    summary: 'Unified optical media transport deck with Play, Pause, Stop, Record, Loop, and Jump-to-Start/End buttons plus keyboard shortcuts.',
+    codeSnippet: `<TransportControlBar defaultPlaybackState="paused" defaultLoop statusLabel="Deck A · 24fps" />`,
+    props: [
+      { name: 'playbackState / onPlaybackStateChange', type: "'stopped' | 'playing' | 'paused' | 'recording' / (s) => void", defaultValue: "'stopped'", description: 'Controlled playback state and change handler.' },
+      { name: 'loop / allowRecord', type: 'boolean / boolean', defaultValue: 'false / true', description: 'Enables loop playback mode and Record arm trigger.' },
+    ],
+  },
+  {
+    id: 'timecode-scrubber',
+    title: 'Timecode Display & Scrubber',
+    exportName: 'TimecodeScrubber',
+    category: 'transport-playback',
+    categoryTitle: 'Transport & Playback Controls',
+    summary: 'Monospace SMPTE (HH:MM:SS:FF) and musical (Bars:Beats:Ticks) timecode readout supporting direct timestamp typing and pointer drag scrubbing.',
+    codeSnippet: `<TimecodeScrubber defaultFrame={2535} fps={30} bpm={124} />`,
+    props: [
+      { name: 'frame / fps / maxFrame', type: 'number / number / number', defaultValue: '0 / 30 / 108000', description: 'Current frame index, frame rate, and upper sequence bound.' },
+      { name: 'format / onFrameChange', type: "'smpte' | 'musical' / (frame, formatted) => void", defaultValue: "'smpte' / undefined", description: 'Timecode display format and scrubbed frame callback.' },
+    ],
+  },
+  {
+    id: 'jog-shuttle-wheel',
+    title: 'Jog / Shuttle Wheel',
+    exportName: 'JogShuttleWheel',
+    category: 'transport-playback',
+    categoryTitle: 'Transport & Playback Controls',
+    summary: 'Tactile rotary SVG jog dial for frame-by-frame stepping paired with a spring-loaded variable-speed shuttle slider (-8x..+8x).',
+    codeSnippet: `<JogShuttleWheel defaultFrame={420} maxFrame={3600} springReturn />`,
+    props: [
+      { name: 'frame / onJogStep', type: 'number / (delta, nextFrame) => void', defaultValue: '0 / undefined', description: 'Frame counter and per-tick rotary jog callback.' },
+      { name: 'shuttleSpeeds / springReturn', type: 'number[] / boolean', defaultValue: '[-8..8] / true', description: 'Variable shuttle rates and auto-return to 0x on release.' },
+    ],
+  },
+  {
+    id: 'frame-stepper-rate-selector',
+    title: 'Frame Stepper & Playback Rate Selector',
+    exportName: 'FrameStepperRateSelector',
+    category: 'transport-playback',
+    categoryTitle: 'Transport & Playback Controls',
+    summary: 'Paired single/multi-frame forward/backward steppers and preview playback speed selector (0.25x..2x).',
+    codeSnippet: `<FrameStepperRateSelector defaultFrame={144} totalFrames={1800} fps={24} defaultRate={1} />`,
+    props: [
+      { name: 'frame / totalFrames / jumpStep', type: 'number / number / number', defaultValue: '0 / 1800 / 10', description: 'Active frame, upper bound, and multi-frame jump increment.' },
+      { name: 'rate / rates / onRateChange', type: 'number / number[] / (rate) => void', defaultValue: '1 / [0.25..2] / undefined', description: 'Preview playback speed multiplier and available speed pills.' },
     ],
   },
 ];

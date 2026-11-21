@@ -39,6 +39,15 @@ const CANONICAL_CATEGORY_ORDER = [
   'KPI, Progress & Telemetry Visuals',
   'Geospatial & Map Visuals',
   'Chart Chrome & Interactive Controls',
+  'Transport & Playback Controls',
+  'Timeline & Sequencing',
+  'Photo & Color Grading Controls',
+  'Audio Mixing & Signal Processing',
+  'Viewport & Export Utilities',
+  'Financial & Market Visualizations',
+  'Scientific, Statistical & High-Dimensional Visuals',
+  'System, DevOps & Observability Widgets',
+  'Comparison, Ranking & Storytelling Visuals',
 ];
 
 const DOC_TOPICS = {

@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.22.0",
+  "version": "1.23.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -352,6 +352,11 @@
       "types": "./dist/FloatingActionButton/index.d.ts",
       "default": "./dist/FloatingActionButton/index.js"
     },
+    "./FrameStepperRateSelector": {
+      "source": "./src/FrameStepperRateSelector/index.ts",
+      "types": "./dist/FrameStepperRateSelector/index.d.ts",
+      "default": "./dist/FrameStepperRateSelector/index.js"
+    },
     "./FunnelChart": {
       "source": "./src/FunnelChart/index.ts",
       "types": "./dist/FunnelChart/index.d.ts",
@@ -426,6 +431,11 @@
       "source": "./src/InternationalPhoneInput/index.ts",
       "types": "./dist/InternationalPhoneInput/index.d.ts",
       "default": "./dist/InternationalPhoneInput/index.js"
+    },
+    "./JogShuttleWheel": {
+      "source": "./src/JogShuttleWheel/index.ts",
+      "types": "./dist/JogShuttleWheel/index.d.ts",
+      "default": "./dist/JogShuttleWheel/index.js"
     },
     "./KanbanBoard": {
       "source": "./src/KanbanBoard/index.ts",
@@ -852,6 +862,11 @@
       "types": "./dist/ThinkingAccordion/index.d.ts",
       "default": "./dist/ThinkingAccordion/index.js"
     },
+    "./TimecodeScrubber": {
+      "source": "./src/TimecodeScrubber/index.ts",
+      "types": "./dist/TimecodeScrubber/index.d.ts",
+      "default": "./dist/TimecodeScrubber/index.js"
+    },
     "./Timeline": {
       "source": "./src/Timeline/index.ts",
       "types": "./dist/Timeline/index.d.ts",
@@ -891,6 +906,11 @@
       "source": "./src/TransferList/index.ts",
       "types": "./dist/TransferList/index.d.ts",
       "default": "./dist/TransferList/index.js"
+    },
+    "./TransportControlBar": {
+      "source": "./src/TransportControlBar/index.ts",
+      "types": "./dist/TransportControlBar/index.d.ts",
+      "default": "./dist/TransportControlBar/index.js"
     },
     "./TreeView": {
       "source": "./src/TreeView/index.ts",
