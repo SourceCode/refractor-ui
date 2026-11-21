@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-11-21
+
+### Added
+- **Number, Currency & Formatted Type Fields (6 new optical-glass components — 138 total across 23 categories):**
+  - `NumericStepper`: Accessible `role="spinbutton"` input flanked by `-`/`+` buttons with step clamping and Arrow/PageUp/PageDown/Home/End keyboard controls.
+  - `ScrubbableNumberField`: Drag-to-scrub numeric field supporting Shift fine (0.1×) and Alt coarse (10×) pointer precision alongside direct keyboard input.
+  - `CurrencyInput`: Thousands-separated decimal currency input paired with inline `USD`/`EUR`/`GBP`/`JPY`/`CAD`/`AUD` currency switching and dynamic decimal precision.
+  - `MeasurementUnitInput`: Numeric field with attached unit switcher (`px`, `%`, `rem`, `ms`, `GB`, etc.) and optional linear unit conversion.
+  - `InternationalPhoneInput`: Searchable country dial-code dropdown paired with region-adaptive phone masks and live E.164 readout.
+  - `MaskedPatternInput`: Strict delimiter-inserting pattern input supporting IPv4, CIDR, MAC address, License Key, Tax ID presets, and custom patterns.
+- Added interactive playground demos and prop specs in `apps/docs` under `Number, Currency & Formatted Type Fields`.
+
 ## [1.10.0] - 2026-11-21
 
 ### Added
@@ -159,7 +171,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.10.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.11.0...HEAD
+[1.11.0]: https://github.com/SourceCode/refractor-ui/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/SourceCode/refractor-ui/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/SourceCode/refractor-ui/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/SourceCode/refractor-ui/compare/v1.7.0...v1.8.0

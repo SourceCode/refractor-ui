@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -207,6 +207,11 @@
       "types": "./dist/CopyableCommandBlock/index.d.ts",
       "default": "./dist/CopyableCommandBlock/index.js"
     },
+    "./CurrencyInput": {
+      "source": "./src/CurrencyInput/index.ts",
+      "types": "./dist/CurrencyInput/index.d.ts",
+      "default": "./dist/CurrencyInput/index.js"
+    },
     "./CustomVideoPlayer": {
       "source": "./src/CustomVideoPlayer/index.ts",
       "types": "./dist/CustomVideoPlayer/index.d.ts",
@@ -307,6 +312,11 @@
       "types": "./dist/InteractiveMapViewer/index.d.ts",
       "default": "./dist/InteractiveMapViewer/index.js"
     },
+    "./InternationalPhoneInput": {
+      "source": "./src/InternationalPhoneInput/index.ts",
+      "types": "./dist/InternationalPhoneInput/index.d.ts",
+      "default": "./dist/InternationalPhoneInput/index.js"
+    },
     "./KanbanBoard": {
       "source": "./src/KanbanBoard/index.ts",
       "types": "./dist/KanbanBoard/index.d.ts",
@@ -332,6 +342,11 @@
       "types": "./dist/LivePresenceIndicator/index.d.ts",
       "default": "./dist/LivePresenceIndicator/index.js"
     },
+    "./MaskedPatternInput": {
+      "source": "./src/MaskedPatternInput/index.ts",
+      "types": "./dist/MaskedPatternInput/index.d.ts",
+      "default": "./dist/MaskedPatternInput/index.js"
+    },
     "./MasonryGrid": {
       "source": "./src/MasonryGrid/index.ts",
       "types": "./dist/MasonryGrid/index.d.ts",
@@ -341,6 +356,11 @@
       "source": "./src/MasterDetailView/index.ts",
       "types": "./dist/MasterDetailView/index.d.ts",
       "default": "./dist/MasterDetailView/index.js"
+    },
+    "./MeasurementUnitInput": {
+      "source": "./src/MeasurementUnitInput/index.ts",
+      "types": "./dist/MeasurementUnitInput/index.d.ts",
+      "default": "./dist/MeasurementUnitInput/index.js"
     },
     "./MediaLightbox": {
       "source": "./src/MediaLightbox/index.ts",
@@ -381,6 +401,11 @@
       "source": "./src/NotificationCenter/index.ts",
       "types": "./dist/NotificationCenter/index.d.ts",
       "default": "./dist/NotificationCenter/index.js"
+    },
+    "./NumericStepper": {
+      "source": "./src/NumericStepper/index.ts",
+      "types": "./dist/NumericStepper/index.d.ts",
+      "default": "./dist/NumericStepper/index.js"
     },
     "./OpticalCharts": {
       "source": "./src/OpticalCharts/index.ts",
@@ -521,6 +546,11 @@
       "source": "./src/RolePermissionsMatrix/index.ts",
       "types": "./dist/RolePermissionsMatrix/index.d.ts",
       "default": "./dist/RolePermissionsMatrix/index.js"
+    },
+    "./ScrubbableNumberField": {
+      "source": "./src/ScrubbableNumberField/index.ts",
+      "types": "./dist/ScrubbableNumberField/index.d.ts",
+      "default": "./dist/ScrubbableNumberField/index.js"
     },
     "./SearchWithSuggestions": {
       "source": "./src/SearchWithSuggestions/index.ts",

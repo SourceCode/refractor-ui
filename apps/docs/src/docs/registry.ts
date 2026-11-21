@@ -158,6 +158,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Date & Time',
     description: 'Dual-calendar range pickers with presets, combined date-time controls, structured duration inputs, visual recurrence/cron builders, period pickers, and live-offset timezone selectors.',
   },
+  {
+    id: 'number-currency-fields',
+    title: 'Number, Currency & Formatted Type Fields',
+    shortLabel: 'Numbers & Masks',
+    description: 'Accessible numeric steppers, scrubbable studio sliders, multi-currency inputs, measurement unit fields, international phone masks, and strict pattern inputs.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1913,6 +1919,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'value / defaultValue', type: 'string', defaultValue: "'America/Los_Angeles'", description: 'Active IANA timezone identifier.' },
       { name: 'timezones', type: 'TimezoneEntry[]', defaultValue: 'DEFAULT_TIMEZONES', description: 'Curated list of global timezones with region and UTC offset.' },
+    ],
+  },
+  /* ==================== NUMBER, CURRENCY & FORMATTED TYPE FIELDS (6) ==================== */
+  {
+    id: 'numeric-stepper',
+    title: 'Numeric Stepper (Spinbutton)',
+    exportName: 'NumericStepper',
+    category: 'number-currency-fields',
+    categoryTitle: 'Number, Currency & Formatted Type Fields',
+    summary: 'Accessible spinbutton numeric well flanked by increment/decrement buttons with step clamping, unit suffix, and Arrow/PageUp/Home/End navigation.',
+    codeSnippet: `<NumericStepper label="Retry Limit" defaultValue={3} min={0} max={12} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'number', defaultValue: '1', description: 'Current numeric value clamped to min..max.' },
+      { name: 'min / max / step', type: 'number', defaultValue: '0 / 100 / 1', description: 'Range bounds and stepping increment.' },
+    ],
+  },
+  {
+    id: 'scrubbable-number-field',
+    title: 'Scrubbable Number Field',
+    exportName: 'ScrubbableNumberField',
+    category: 'number-currency-fields',
+    categoryTitle: 'Number, Currency & Formatted Type Fields',
+    summary: 'Creative studio numeric control whose label handle drags horizontally to smoothly adjust values with Shift fine and Alt coarse precision.',
+    codeSnippet: `<ScrubbableNumberField label="Blur Radius" defaultValue={18} min={0} max={64} suffix="px" />`,
+    props: [
+      { name: 'sensitivity / step', type: 'number', defaultValue: '4 / 1', description: 'Pixels per step drag sensitivity and value increment.' },
+      { name: 'precision / suffix', type: 'number / string', defaultValue: '1 / undefined', description: 'Decimal rounding precision and display unit suffix.' },
+    ],
+  },
+  {
+    id: 'currency-input',
+    title: 'Currency Input (with Unit Switcher)',
+    exportName: 'CurrencyInput',
+    category: 'number-currency-fields',
+    categoryTitle: 'Number, Currency & Formatted Type Fields',
+    summary: 'Thousands-separated currency field with automatic per-currency decimal precision paired with an inline USD/EUR/GBP/JPY/CAD/AUD selector.',
+    codeSnippet: `<CurrencyInput defaultValue={{ amount: 1250.5, currency: 'USD' }} onChange={setBudget} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'CurrencyInputValue', defaultValue: '{ amount: 1250.5, currency: "USD" }', description: 'Numeric amount and ISO currency code.' },
+      { name: 'currencies', type: 'CurrencyOption[]', defaultValue: 'DEFAULT_CURRENCIES', description: 'Supported currency symbols, labels, and decimal counts.' },
+    ],
+  },
+  {
+    id: 'measurement-unit-input',
+    title: 'Measurement / Unit Input',
+    exportName: 'MeasurementUnitInput',
+    category: 'number-currency-fields',
+    categoryTitle: 'Number, Currency & Formatted Type Fields',
+    summary: 'Numeric input with attached inline unit selector (px, %, rem, ms, KB, MB, GB) and optional linear conversion when switching units.',
+    codeSnippet: `<MeasurementUnitInput defaultValue={{ amount: 512, unit: 'MB' }} convertOnUnitChange units={units} />`,
+    props: [
+      { name: 'units', type: 'MeasurementUnitOption[]', defaultValue: 'DEFAULT_MEASUREMENT_UNITS', description: 'Selectable units with optional factorToBase conversion ratio.' },
+      { name: 'convertOnUnitChange', type: 'boolean', defaultValue: 'false', description: 'Automatically converts numeric amount when switching units.' },
+    ],
+  },
+  {
+    id: 'international-phone-input',
+    title: 'International Phone Input',
+    exportName: 'InternationalPhoneInput',
+    category: 'number-currency-fields',
+    categoryTitle: 'Number, Currency & Formatted Type Fields',
+    summary: 'Split optical phone control pairing a searchable country dial-code dropdown with a region-adaptive auto-formatting mask and E.164 readout.',
+    codeSnippet: `<InternationalPhoneInput defaultCountryIso="US" onChange={(phone) => save(phone.e164)} />`,
+    props: [
+      { name: 'countries', type: 'PhoneCountrySpec[]', defaultValue: 'DEFAULT_PHONE_COUNTRIES', description: 'Country ISO codes, dial prefixes, and national formatting masks.' },
+      { name: 'onChange', type: '(next: PhoneInputValue) => void', defaultValue: 'undefined', description: 'Emits ISO code, dialCode, raw digits, formatted string, and E.164.' },
+    ],
+  },
+  {
+    id: 'masked-pattern-input',
+    title: 'Masked Pattern Input',
+    exportName: 'MaskedPatternInput',
+    category: 'number-currency-fields',
+    categoryTitle: 'Number, Currency & Formatted Type Fields',
+    summary: 'Strict format-enforcing input with auto-inserted delimiters and built-in IPv4, CIDR, MAC address, License Key, and Tax ID presets.',
+    codeSnippet: `<MaskedPatternInput preset="mac" label="Hardware MAC" onChange={setMac} />`,
+    props: [
+      { name: 'preset / pattern', type: 'MaskPresetId / string', defaultValue: "'license'", description: 'Preset identifier or custom pattern (# digit, A letter, H hex, * alnum).' },
+      { name: 'onChange', type: '(masked: string, meta: MaskedPatternMeta) => void', defaultValue: 'undefined', description: 'Receives masked output, unmasked characters, and completion state.' },
     ],
   },
 ];

@@ -12,6 +12,7 @@ import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
+import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
@@ -154,6 +155,15 @@ const DATE_TIME_SCHEDULING_IDS = new Set([
   'timezone-selector',
 ]);
 
+const NUMBER_CURRENCY_IDS = new Set([
+  'numeric-stepper',
+  'scrubbable-number-field',
+  'currency-input',
+  'measurement-unit-input',
+  'international-phone-input',
+  'masked-pattern-input',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -202,6 +212,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (DATE_TIME_SCHEDULING_IDS.has(componentId)) {
     return <DateTimeSchedulingDemos componentId={componentId} />;
+  }
+  if (NUMBER_CURRENCY_IDS.has(componentId)) {
+    return <NumberCurrencyDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
