@@ -5,6 +5,7 @@ import {
   Check,
   Copy,
   ExternalLink,
+  LayoutGrid,
   Palette,
   ShieldCheck,
   Sparkles,
@@ -13,10 +14,12 @@ import {
 import { PrimaryButton, SecondaryButton } from '@refractor-ui/core';
 import {
   pushToast,
+  setActiveExample,
   setActiveSection,
   setCustomizerOpen,
   useAppDispatch,
 } from '../system/store';
+import { EXAMPLE_SCREENS } from './examples/registry';
 import { COMPONENT_REGISTRY, DOC_CATEGORIES } from './registry';
 
 type PackageManager = 'pnpm' | 'npm' | 'yarn';
@@ -69,7 +72,7 @@ export function DocsHeroBanner() {
         <div className="inline-flex flex-wrap items-center gap-2">
           <span className="prism-emerald px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>v1.21.0 Public Release</span>
+            <span>v1.22.0 Public Release</span>
           </span>
           <span className="prism-crystal px-3 py-1 rounded-full text-xs font-medium text-slate-700 dark:text-slate-200">
             React 19 · TypeScript · Tailwind CSS v4 · Apache-2.0
@@ -114,6 +117,18 @@ export function DocsHeroBanner() {
 
             <SecondaryButton
               size="md"
+              tone="cobalt"
+              leadingIcon={<LayoutGrid className="w-4 h-4" aria-hidden="true" />}
+              onClick={() => {
+                dispatch(setActiveExample(null));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              {EXAMPLE_SCREENS.length} Example Screens
+            </SecondaryButton>
+
+            <SecondaryButton
+              size="md"
               leadingIcon={<Palette className="w-4 h-4" aria-hidden="true" />}
               onClick={() => dispatch(setCustomizerOpen(true))}
             >
@@ -122,7 +137,6 @@ export function DocsHeroBanner() {
 
             <SecondaryButton
               size="md"
-              tone="cobalt"
               leadingIcon={<Terminal className="w-4 h-4" aria-hidden="true" />}
               onClick={() => {
                 dispatch(setActiveSection('cli'));

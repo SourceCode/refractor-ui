@@ -62,6 +62,7 @@ export type DocsCategoryFilter =
 
 export type DocsPageSection =
   | 'catalog'
+  | 'examples'
   | 'getting-started'
   | 'theming'
   | 'cli'
@@ -87,6 +88,7 @@ interface SystemState {
   activeSection: DocsPageSection;
   activeCategory: DocsCategoryFilter;
   focusedComponentId: string | null;
+  activeExampleId: string | null;
   searchQuery: string;
   commandPaletteOpen: boolean;
   toasts: ToastItem[];
@@ -116,6 +118,7 @@ const initialState: SystemState = {
   activeSection: 'catalog',
   activeCategory: 'overview',
   focusedComponentId: null,
+  activeExampleId: null,
   searchQuery: '',
   commandPaletteOpen: false,
   toasts: [],
@@ -203,11 +206,20 @@ const systemSlice = createSlice({
       if (action.payload !== 'catalog') {
         state.focusedComponentId = null;
       }
+      if (action.payload !== 'examples') {
+        state.activeExampleId = null;
+      }
+    },
+    setActiveExample(state, action: PayloadAction<string | null>) {
+      state.activeSection = 'examples';
+      state.focusedComponentId = null;
+      state.activeExampleId = action.payload;
     },
     setActiveCategory(state, action: PayloadAction<DocsCategoryFilter>) {
       state.activeSection = 'catalog';
       state.activeCategory = action.payload;
       state.focusedComponentId = null;
+      state.activeExampleId = null;
     },
     setFocusedComponent(
       state,
@@ -215,6 +227,7 @@ const systemSlice = createSlice({
     ) {
       state.activeSection = 'catalog';
       state.focusedComponentId = action.payload.componentId;
+      state.activeExampleId = null;
       if (action.payload.category) {
         state.activeCategory = action.payload.category;
       }
@@ -299,6 +312,7 @@ export const {
   setCustomizerOpen,
   setStudioGrid,
   setActiveSection,
+  setActiveExample,
   setActiveCategory,
   setFocusedComponent,
   setSearchQuery,
