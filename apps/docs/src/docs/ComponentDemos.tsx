@@ -1,3 +1,4 @@
+import { AiConversationalDemos } from './demos/AiConversationalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CoreDemos } from './demos/CoreDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
@@ -57,6 +58,15 @@ const COLLABORATION_IDS = new Set([
   'product-tour',
 ]);
 
+const AI_CONVERSATIONAL_IDS = new Set([
+  'chat-message-stream',
+  'prompt-composer',
+  'thinking-accordion',
+  'citation-chip',
+  'response-action-bar',
+  'split-artifact-canvas',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -75,6 +85,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (COLLABORATION_IDS.has(componentId)) {
     return <CollaborationDemos componentId={componentId} />;
+  }
+  if (AI_CONVERSATIONAL_IDS.has(componentId)) {
+    return <AiConversationalDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

@@ -98,6 +98,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Collaboration',
     description: 'Real-time notification feeds, nested @mention discussion threads, live collaborator presence & cursors, and spotlight product tours.',
   },
+  {
+    id: 'ai-conversational',
+    title: 'AI & Conversational Interfaces',
+    shortLabel: 'AI Chat',
+    description: 'Streaming message logs, expandable prompt composers, reasoning accordions, inline citation chips, response actions, and split artifact canvases.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1098,6 +1104,86 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
       { name: 'steps', type: 'TourStep[]', defaultValue: 'required', description: 'Ordered onboarding steps with optional CSS targetSelector.' },
       { name: 'mode', type: "'overlay' | 'inline'", defaultValue: "'overlay'", description: 'Full-screen spotlight scrim or embedded inline coachmark card.' },
       { name: 'closeOnEscape', type: 'boolean', defaultValue: 'true', description: 'Dismisses the tour cleanly when pressing Escape.' },
+    ],
+  },
+
+  /* ==================== AI & CONVERSATIONAL INTERFACES (6) ==================== */
+  {
+    id: 'chat-message-stream',
+    title: 'Chat Message Stream',
+    exportName: 'ChatMessageStream',
+    category: 'ai-conversational',
+    categoryTitle: 'AI & Conversational Interfaces',
+    summary: 'Scrollable optical conversation container distinguishing user, assistant, and system turns with sanitized avatars, timestamps, and streaming text indicators.',
+    codeSnippet: `<ChatMessageStream messages={messages} maxHeightPx={380} />`,
+    props: [
+      { name: 'messages', type: 'ChatMessage[]', defaultValue: 'required', description: 'Ordered messages with role, content, timestamp, and optional streaming flag.' },
+      { name: 'maxHeightPx', type: 'number', defaultValue: '420', description: 'Maximum scrollable stream viewport height (180..900px).' },
+    ],
+  },
+  {
+    id: 'prompt-composer',
+    title: 'Prompt Composer',
+    exportName: 'PromptComposer',
+    category: 'ai-conversational',
+    categoryTitle: 'AI & Conversational Interfaces',
+    summary: 'Expandable multi-line optical prompt bar housing attachment triggers, voice-to-text toggles, inline model selection, IME-safe Enter submission, and Stop generation controls.',
+    codeSnippet: `<PromptComposer\n  models={models}\n  onSubmit={(prompt, modelId) => send(prompt, modelId)}\n/>`,
+    props: [
+      { name: 'models', type: 'PromptModelOption[]', defaultValue: 'undefined', description: 'Optional selectable AI models displayed inside the composer toolbar.' },
+      { name: 'isGenerating', type: 'boolean', defaultValue: 'false', description: 'Switches primary Send button to Stop invoking onStop.' },
+    ],
+  },
+  {
+    id: 'thinking-accordion',
+    title: 'Thinking / Reasoning Accordion',
+    exportName: 'ThinkingAccordion',
+    category: 'ai-conversational',
+    categoryTitle: 'AI & Conversational Interfaces',
+    summary: 'Collapsible optical status panel surfacing step-by-step AI reasoning phases, tool invocations, and elapsed latency without cluttering the final answer.',
+    codeSnippet: `<ThinkingAccordion title="Reasoning trace" steps={steps} isStreaming />`,
+    props: [
+      { name: 'steps', type: 'ThinkingStep[]', defaultValue: 'required', description: 'Reasoning steps with status, optional toolName, durationMs, and detail.' },
+      { name: 'isStreaming', type: 'boolean', defaultValue: 'false', description: 'Displays live reasoning indicator badge.' },
+    ],
+  },
+  {
+    id: 'citation-chip',
+    title: 'Citation / Source Chip',
+    exportName: 'CitationChip',
+    category: 'ai-conversational',
+    categoryTitle: 'AI & Conversational Interfaces',
+    summary: 'Compact inline optical reference pill linked to external or internal citations with a rich preview popover and strict URL protocol sanitization.',
+    codeSnippet: `<CitationChip index={1} label="ADR-0003" title="Theme Engine" href="https://..." />`,
+    props: [
+      { name: 'label', type: 'string', defaultValue: 'required', description: 'Compact pill display text.' },
+      { name: 'href', type: 'string', defaultValue: 'undefined', description: 'External link validated via sanitizeUrl allowlist.' },
+    ],
+  },
+  {
+    id: 'response-action-bar',
+    title: 'Response Action Bar',
+    exportName: 'ResponseActionBar',
+    category: 'ai-conversational',
+    categoryTitle: 'AI & Conversational Interfaces',
+    summary: 'Subtle optical toolbar beneath generated output providing one-click copy confirmation, regenerate, share, and mutually exclusive thumbs-up/down feedback.',
+    codeSnippet: `<ResponseActionBar contentToCopy={answer} onRegenerate={retry} />`,
+    props: [
+      { name: 'contentToCopy', type: 'string', defaultValue: 'undefined', description: 'Text copied to clipboard when clicking Copy.' },
+      { name: 'feedback / onFeedbackChange', type: "'up' | 'down' | null", defaultValue: 'null', description: 'Controlled or uncontrolled helpfulness feedback state.' },
+    ],
+  },
+  {
+    id: 'split-artifact-canvas',
+    title: 'Split Artifact / Preview Canvas',
+    exportName: 'SplitArtifactCanvas',
+    category: 'ai-conversational',
+    categoryTitle: 'AI & Conversational Interfaces',
+    summary: 'Side-by-side optical workspace pairing a live conversation pane with inspectable code, document, or rendered visual artifacts, version tabs, and copy/download controls.',
+    codeSnippet: `<SplitArtifactCanvas conversationPane={<Chat />} artifacts={artifacts} />`,
+    props: [
+      { name: 'conversationPane', type: 'ReactNode', defaultValue: 'required', description: 'Left-hand conversation or prompt pane.' },
+      { name: 'artifacts', type: 'ArtifactItem[]', defaultValue: 'required', description: 'Code, document, or live preview artifacts.' },
     ],
   },
 ];

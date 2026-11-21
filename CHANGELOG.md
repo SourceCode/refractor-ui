@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-21
+
+### Added
+- **AI & Conversational Interfaces (6 new Astryx-standard optical-glass components — 81 total across 13 categories):**
+  - `ChatMessageStream`: Scrollable optical conversation log distinguishing user, assistant, and system turns with sanitized avatars, timestamps, streaming caret indicators, and Jump-to-Latest control.
+  - `PromptComposer`: Expandable multi-line prompt input bar with attachment trigger, voice-to-text toggle, inline model selector, IME-safe Enter submission, and Stop generation toggle.
+  - `ThinkingAccordion`: Collapsible optical reasoning trace displaying step statuses, tool names, elapsed durations, and live streaming indicator.
+  - `CitationChip`: Inline optical source reference pill with rich preview popover and strict URL protocol sanitization.
+  - `ResponseActionBar`: Generated-response utility bar with clipboard copy confirmation, regenerate, share, and mutually exclusive thumbs-up/down feedback.
+  - `SplitArtifactCanvas`: Side-by-side optical conversation and live artifact workspace with version switcher, Preview/Source toggle, copy, download, and focus modes.
+- Added interactive playground demos and prop specs in `apps/docs` under `AI & Conversational Interfaces`.
+
 ## [1.0.0] - 2026-11-21
 
 Initial public General Availability release of **Refractor Optical Glass UI Kit** (`@refractor-ui/*`).
@@ -41,5 +53,6 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/SourceCode/refractor-ui/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/SourceCode/refractor-ui/releases/tag/v1.0.0

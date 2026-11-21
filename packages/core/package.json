@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -72,10 +72,20 @@
       "types": "./dist/CarouselSlider/index.d.ts",
       "default": "./dist/CarouselSlider/index.js"
     },
+    "./ChatMessageStream": {
+      "source": "./src/ChatMessageStream/index.ts",
+      "types": "./dist/ChatMessageStream/index.d.ts",
+      "default": "./dist/ChatMessageStream/index.js"
+    },
     "./Checkbox": {
       "source": "./src/Checkbox/index.ts",
       "types": "./dist/Checkbox/index.d.ts",
       "default": "./dist/Checkbox/index.js"
+    },
+    "./CitationChip": {
+      "source": "./src/CitationChip/index.ts",
+      "types": "./dist/CitationChip/index.d.ts",
+      "default": "./dist/CitationChip/index.js"
     },
     "./CodeEditor": {
       "source": "./src/CodeEditor/index.ts",
@@ -267,6 +277,11 @@
       "types": "./dist/ProgressAndSpinner/index.d.ts",
       "default": "./dist/ProgressAndSpinner/index.js"
     },
+    "./PromptComposer": {
+      "source": "./src/PromptComposer/index.ts",
+      "types": "./dist/PromptComposer/index.d.ts",
+      "default": "./dist/PromptComposer/index.js"
+    },
     "./RadioGroup": {
       "source": "./src/RadioGroup/index.ts",
       "types": "./dist/RadioGroup/index.d.ts",
@@ -281,6 +296,11 @@
       "source": "./src/RatingControl/index.ts",
       "types": "./dist/RatingControl/index.d.ts",
       "default": "./dist/RatingControl/index.js"
+    },
+    "./ResponseActionBar": {
+      "source": "./src/ResponseActionBar/index.ts",
+      "types": "./dist/ResponseActionBar/index.d.ts",
+      "default": "./dist/ResponseActionBar/index.js"
     },
     "./RichTextEditor": {
       "source": "./src/RichTextEditor/index.ts",
@@ -327,6 +347,11 @@
       "types": "./dist/SortableList/index.d.ts",
       "default": "./dist/SortableList/index.js"
     },
+    "./SplitArtifactCanvas": {
+      "source": "./src/SplitArtifactCanvas/index.ts",
+      "types": "./dist/SplitArtifactCanvas/index.d.ts",
+      "default": "./dist/SplitArtifactCanvas/index.js"
+    },
     "./SplitButton": {
       "source": "./src/SplitButton/index.ts",
       "types": "./dist/SplitButton/index.d.ts",
@@ -356,6 +381,11 @@
       "source": "./src/TextInput/index.ts",
       "types": "./dist/TextInput/index.d.ts",
       "default": "./dist/TextInput/index.js"
+    },
+    "./ThinkingAccordion": {
+      "source": "./src/ThinkingAccordion/index.ts",
+      "types": "./dist/ThinkingAccordion/index.d.ts",
+      "default": "./dist/ThinkingAccordion/index.js"
     },
     "./Timeline": {
       "source": "./src/Timeline/index.ts",

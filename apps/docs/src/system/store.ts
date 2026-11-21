@@ -38,7 +38,16 @@ export type DocsCategoryFilter =
   | 'search-filtering'
   | 'rich-input'
   | 'drag-and-drop'
-  | 'collaboration-guidance';
+  | 'collaboration-guidance'
+  | 'ai-conversational'
+  | 'media-spatial'
+  | 'security-auth'
+  | 'commerce-billing'
+  | 'mobile-utilities'
+  | 'cli-terminal'
+  | 'ai-agent-control'
+  | 'ai-context-memory'
+  | 'multi-agent';
 
 export type DocsPageSection =
   | 'catalog'

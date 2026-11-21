@@ -19,6 +19,15 @@ const CANONICAL_CATEGORY_ORDER = [
   'Rich Input & Content Creation',
   'Interactive & Drag-and-Drop',
   'Collaboration & Guidance',
+  'AI & Conversational Interfaces',
+  'Media, Audio & Spatial Controls',
+  'Security, Auth & Account Management',
+  'Commerce, Billing & Conversion',
+  'Mobile, Touch & System Utilities',
+  'CLI & Terminal Surfaces',
+  'AI Agent Execution & Control',
+  'AI Context, Memory & Configuration',
+  'Multi-Agent & Orchestration',
 ];
 
 const DOC_TOPICS = {

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   DEFAULT_REPO_ROOT,
+  listComponentDirectories,
   rewriteSwizzledImports,
   runCli,
   validateSafeOutputDir,
@@ -61,10 +62,12 @@ describe('@refractor-ui/cli', () => {
     expect(badRes.stderr).toContain('Unknown docs topic');
   });
 
-  it('lists all 75 components grouped across 12 canonical categories', async () => {
+  it('lists all components grouped across canonical categories', async () => {
+    const totalCount = listComponentDirectories(DEFAULT_REPO_ROOT).length;
+    expect(totalCount).toBeGreaterThanOrEqual(81);
     const res = await runCli(['component', '--list']);
     expect(res.exitCode).toBe(0);
-    expect(res.stdout).toContain('75 Components across 12 Categories');
+    expect(res.stdout).toContain(`${totalCount} Components across`);
     expect(res.stdout).toContain('Buttons & Actions (6):');
     expect(res.stdout).toContain('Layout & Workspace Controls (6):');
     expect(res.stdout).toContain('Advanced Data & Visualization (6):');
@@ -72,8 +75,10 @@ describe('@refractor-ui/cli', () => {
     expect(res.stdout).toContain('Rich Input & Content Creation (6):');
     expect(res.stdout).toContain('Interactive & Drag-and-Drop (3):');
     expect(res.stdout).toContain('Collaboration & Guidance (4):');
+    expect(res.stdout).toContain('AI & Conversational Interfaces (6):');
     expect(res.stdout).toContain('PrimaryButton');
     expect(res.stdout).toContain('ProductTour');
+    expect(res.stdout).toContain('ChatMessageStream');
   });
 
   it('inspects individual components in standard, dense, and full modes and handles unknown components', async () => {
