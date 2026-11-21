@@ -1,0 +1,12 @@
+[data-refractor-theme="obsidian"] {
+  --prism-primary-main: #f06429;
+  --prism-primary-light: #fba93b;
+  --prism-primary-dark: #c84312;
+  --prism-primary-rgb: 240, 100, 41;
+  --prism-primary-light-rgb: 251, 169, 59;
+  --prism-secondary-main: #38bdf8;
+  --prism-secondary-rgb: 56, 189, 248;
+  --prism-bg-start: #0d121a;
+  --prism-bg-mid: #121924;
+  --prism-bg-end: #0b1017;
+}

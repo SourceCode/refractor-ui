@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    name: Lint, Typecheck, Coverage (>=93%) & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Structural drift & repo contract check
+        run: pnpm check:repo
+
+      - name: Strict Astryx-aligned ESLint (zero any/unknown)
+        env:
+          CI: 'true'
+          REFRACTOR_STRICT_LINT: '1'
+        run: pnpm lint:strict
+
+      - name: Strict TypeScript typecheck
+        run: pnpm typecheck
+
+      - name: Unit & adversarial test suite with >= 93% V8 coverage
+        run: pnpm test:coverage
+
+      - name: Production monorepo build
+        run: pnpm build
+
+      - name: Dependency security audit
+        run: pnpm audit --audit-level=high

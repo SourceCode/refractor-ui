@@ -1,0 +1,45 @@
+name: Component Proposal
+description: Propose a new Astryx-standard optical-glass component for @refractor-ui/core
+title: "[Component]: "
+labels: ["enhancement", "component-proposal"]
+body:
+  - type: input
+    id: component_name
+    attributes:
+      label: Component Name (PascalCase)
+      placeholder: e.g., CommandRibbon
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Target Category
+      options:
+        - Buttons & Actions
+        - Form Inputs & Selection Controls
+        - Navigation
+        - Data Display & Content
+        - Feedback & System Status
+        - Overlays & Popups
+        - Layout & Workspace Controls
+        - Advanced Data & Visualization
+        - Advanced Search & Filtering
+        - Rich Input & Content Creation
+        - Interactive & Drag-and-Drop
+        - Collaboration & Guidance
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement & Use Case
+      description: Describe the user workflow this primitive unlocks and why existing primitives cannot compose it directly.
+    validations:
+      required: true
+  - type: textarea
+    id: api_design
+    attributes:
+      label: Proposed TypeScript Props & Accessibility Contract
+      description: Outline controlled/uncontrolled props (zero any/unknown), WAI-ARIA roles, keyboard navigation, and optical glass surface tokens.
+    validations:
+      required: true

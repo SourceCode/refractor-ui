@@ -1,0 +1,42 @@
+{
+  "name": "@refractor-ui/docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Refractor Optical Workbench — Interactive documentation playground & live MUI+Astryx Theme Customizer.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --port=3000 --host=0.0.0.0",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@refractor-ui/core": "workspace:*",
+    "@refractor-ui/theme-alabaster": "workspace:*",
+    "@refractor-ui/theme-amethyst": "workspace:*",
+    "@refractor-ui/theme-emerald-tide": "workspace:*",
+    "@refractor-ui/theme-obsidian": "workspace:*",
+    "@refractor-ui/theme-solar-prism": "workspace:*",
+    "@reduxjs/toolkit": "^2.15.0",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "react-redux": "^9.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@vitejs/plugin-react": "^6.3.0",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.8"
+  },
+  "homepage": "https://sourcecode.github.io/refractor-ui/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git",
+    "directory": "apps/docs"
+  },
+  "bugs": {
+    "url": "https://github.com/SourceCode/refractor-ui/issues"
+  }
+}

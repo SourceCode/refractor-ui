@@ -1,0 +1,25 @@
+name: Feature Request
+description: Propose a new optical glass component, theme token, or CLI capability
+title: '[Feature]: '
+labels: ['enhancement']
+body:
+  - type: input
+    id: area
+    attributes:
+      label: Target Package or Component Family
+      placeholder: '@refractor-ui/core (Data Visualization)'
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Problem Statement & Use Case
+    validations:
+      required: true
+  - type: textarea
+    id: api
+    attributes:
+      label: Proposed TypeScript API & Accessibility Contract
+      description: Remember zero any/unknown types, React 19 ref-as-prop, and BaseProps extension.
+    validations:
+      required: true
