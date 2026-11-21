@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -116,6 +116,11 @@
       "source": "./src/BottomNavigationBar/index.ts",
       "types": "./dist/BottomNavigationBar/index.d.ts",
       "default": "./dist/BottomNavigationBar/index.js"
+    },
+    "./BoxWhiskerPlot": {
+      "source": "./src/BoxWhiskerPlot/index.ts",
+      "types": "./dist/BoxWhiskerPlot/index.d.ts",
+      "default": "./dist/BoxWhiskerPlot/index.js"
     },
     "./Breadcrumbs": {
       "source": "./src/Breadcrumbs/index.ts",
@@ -332,6 +337,11 @@
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
     },
+    "./HistogramChart": {
+      "source": "./src/HistogramChart/index.ts",
+      "types": "./dist/HistogramChart/index.d.ts",
+      "default": "./dist/HistogramChart/index.js"
+    },
     "./HistogramRangeSlider": {
       "source": "./src/HistogramRangeSlider/index.ts",
       "types": "./dist/HistogramRangeSlider/index.d.ts",
@@ -416,6 +426,11 @@
       "source": "./src/MasterDetailView/index.ts",
       "types": "./dist/MasterDetailView/index.d.ts",
       "default": "./dist/MasterDetailView/index.js"
+    },
+    "./MatrixHeatmap": {
+      "source": "./src/MatrixHeatmap/index.ts",
+      "types": "./dist/MatrixHeatmap/index.d.ts",
+      "default": "./dist/MatrixHeatmap/index.js"
     },
     "./MeasurementUnitInput": {
       "source": "./src/MeasurementUnitInput/index.ts",
@@ -572,6 +587,11 @@
       "types": "./dist/PullToRefresh/index.d.ts",
       "default": "./dist/PullToRefresh/index.js"
     },
+    "./RadarSpiderChart": {
+      "source": "./src/RadarSpiderChart/index.ts",
+      "types": "./dist/RadarSpiderChart/index.d.ts",
+      "default": "./dist/RadarSpiderChart/index.js"
+    },
     "./RadioGroup": {
       "source": "./src/RadioGroup/index.ts",
       "types": "./dist/RadioGroup/index.d.ts",
@@ -621,6 +641,11 @@
       "source": "./src/RotaryDial/index.ts",
       "types": "./dist/RotaryDial/index.d.ts",
       "default": "./dist/RotaryDial/index.js"
+    },
+    "./ScatterBubblePlot": {
+      "source": "./src/ScatterBubblePlot/index.ts",
+      "types": "./dist/ScatterBubblePlot/index.d.ts",
+      "default": "./dist/ScatterBubblePlot/index.js"
     },
     "./ScrubbableNumberField": {
       "source": "./src/ScrubbableNumberField/index.ts",

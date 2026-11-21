@@ -188,6 +188,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Part-to-Whole',
     description: 'Proportional donut/pie charts, space-filling treemaps, zoomable radial sunbursts, conversion funnels, and financial waterfall charts.',
   },
+  {
+    id: 'statistical-charts',
+    title: 'Statistical & Distribution Visuals',
+    shortLabel: 'Statistics',
+    description: 'Scatter & 3-variable bubble plots, frequency histograms, Tukey box-and-whisker glyphs, 2D matrix heatmaps, and multi-axis radar spider charts.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2312,6 +2318,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'steps', type: 'WaterfallStep[]', defaultValue: 'required', description: 'Ordered start, increase, decrease, and total financial bridge steps.' },
       { name: 'valuePrefix / valueSuffix', type: 'string', defaultValue: "'$' / ''", description: 'Currency prefix and unit suffix for readouts.' },
+    ],
+  },
+  /* ==================== STATISTICAL & DISTRIBUTION VISUALS (5) ==================== */
+  {
+    id: 'scatter-bubble-plot',
+    title: 'Scatter & Bubble Plot',
+    exportName: 'ScatterBubblePlot',
+    category: 'statistical-charts',
+    categoryTitle: 'Statistical & Distribution Visuals',
+    summary: 'X/Y correlation scatter and 3-variable bubble chart exposing clusters and outliers with group filtering, quadrant guides, and point inspection.',
+    codeSnippet: `<ScatterBubblePlot points={records} xLabel="Latency" yLabel="Quality" showQuadrants />`,
+    props: [
+      { name: 'points', type: 'ScatterPoint[]', defaultValue: 'required', description: 'Records with x, y, optional size bubble variable, and group.' },
+      { name: 'showQuadrants', type: 'boolean', defaultValue: 'false', description: 'Draws midpoint dashed quadrant guide lines.' },
+    ],
+  },
+  {
+    id: 'histogram-chart',
+    title: 'Histogram',
+    exportName: 'HistogramChart',
+    category: 'statistical-charts',
+    categoryTitle: 'Statistical & Distribution Visuals',
+    summary: 'Continuous-value frequency distribution histogram with configurable bin count, Mean/Median vertical markers, and bin detail readout.',
+    codeSnippet: `<HistogramChart values={latencies} binCount={8} valueUnit="ms" showMean showMedian />`,
+    props: [
+      { name: 'values / binCount', type: 'number[] / number', defaultValue: 'required / 8', description: 'Continuous numeric sample array and bucket count (2..24).' },
+      { name: 'showMean / showMedian', type: 'boolean', defaultValue: 'true / true', description: 'Overlays mean and median vertical reference markers.' },
+    ],
+  },
+  {
+    id: 'box-whisker-plot',
+    title: 'Box-and-Whisker Plot',
+    exportName: 'BoxWhiskerPlot',
+    category: 'statistical-charts',
+    categoryTitle: 'Statistical & Distribution Visuals',
+    summary: 'Compact Tukey statistical glyph chart displaying minimum, Q1, median, Q3, maximum whiskers, and outlier points across categories.',
+    codeSnippet: `<BoxWhiskerPlot series={renderTimes} valueUnit="ms" />`,
+    props: [
+      { name: 'series', type: 'BoxWhiskerSeries[]', defaultValue: 'required', description: 'Category arrays analyzed via Tukey 1.5×IQR quartile statistics.' },
+      { name: 'onSelectSeries', type: '(series, stats) => void', defaultValue: 'undefined', description: 'Fires with computed five-number summary and outliers.' },
+    ],
+  },
+  {
+    id: 'matrix-heatmap',
+    title: 'Matrix Heatmap',
+    exportName: 'MatrixHeatmap',
+    category: 'statistical-charts',
+    categoryTitle: 'Statistical & Distribution Visuals',
+    summary: 'Two-dimensional optical intensity grid shading intersecting row and column categories along a token-driven opacity ramp.',
+    codeSnippet: `<MatrixHeatmap rowLabels={days} colLabels={hours} cells={errorRates} valueUnit="%" />`,
+    props: [
+      { name: 'rowLabels / colLabels / cells', type: 'string[] / string[] / HeatmapCell[]', defaultValue: 'required', description: 'Matrix dimensions and sparse or dense cell magnitudes.' },
+      { name: 'tone / showValues', type: "'primary' | 'secondary' | 'emerald' | 'rose' / boolean", defaultValue: "'primary' / true", description: 'Optical color ramp and inline numeric cell values.' },
+    ],
+  },
+  {
+    id: 'radar-spider-chart',
+    title: 'Radar / Spider Chart',
+    exportName: 'RadarSpiderChart',
+    category: 'statistical-charts',
+    categoryTitle: 'Statistical & Distribution Visuals',
+    summary: 'Multi-axis radiating optical polygon web comparing performance profiles across overlaid series with clickable axis inspection.',
+    codeSnippet: `<RadarSpiderChart axes={metrics} series={profiles} maxValue={100} />`,
+    props: [
+      { name: 'axes / series', type: 'string[] / RadarSeries[]', defaultValue: 'required', description: '3+ radiating variable labels and overlaid series values.' },
+      { name: 'maxValue', type: 'number', defaultValue: '100', description: 'Outer polygon scale maximum.' },
     ],
   },
 ];

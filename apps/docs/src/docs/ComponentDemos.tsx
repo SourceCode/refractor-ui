@@ -20,6 +20,7 @@ import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
+import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -202,6 +203,14 @@ const PART_TO_WHOLE_CHARTS_IDS = new Set([
   'waterfall-chart',
 ]);
 
+const STATISTICAL_CHARTS_IDS = new Set([
+  'scatter-bubble-plot',
+  'histogram-chart',
+  'box-whisker-plot',
+  'matrix-heatmap',
+  'radar-spider-chart',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -265,6 +274,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (PART_TO_WHOLE_CHARTS_IDS.has(componentId)) {
     return <PartToWholeChartsDemos componentId={componentId} />;
+  }
+  if (STATISTICAL_CHARTS_IDS.has(componentId)) {
+    return <StatisticalChartsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
