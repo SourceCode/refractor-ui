@@ -134,6 +134,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'CLI & Shell',
     description: 'ANSI-tokenized terminal emulators, autocomplete command bars, live log streamers, copyable CLI blocks, process pills, structured JSON viewers, and split multiplexers.',
   },
+  {
+    id: 'ai-agent-control',
+    title: 'AI Agent Execution & Control',
+    shortLabel: 'Agent Control',
+    description: 'Editable execution plan roadmaps, collapsible tool call cards, human-in-the-loop approval gates, mid-flight control bars, checkpoint rollback strips, inline diff reviewers, and recovery cards.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1586,6 +1592,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'panes / defaultPanes', type: 'TerminalSessionPane[]', defaultValue: '[]', description: 'Active shell sessions with cwd, status indicator, and output lines.' },
       { name: 'layout / defaultLayout', type: "'tabs' | 'split'", defaultValue: "'tabs'", description: 'Single-pane tabbed view or side-by-side split workspace.' },
+    ],
+  },
+  /* ==================== AI AGENT EXECUTION & CONTROL (7) ==================== */
+  {
+    id: 'agent-plan-list',
+    title: 'Agent Task / Plan List',
+    exportName: 'AgentPlanList',
+    category: 'ai-agent-control',
+    categoryTitle: 'AI Agent Execution & Control',
+    summary: 'Editable step-by-step agent roadmap displaying pending, active, done, skipped, and failed milestones with live refractive progress telemetry.',
+    codeSnippet: `<AgentPlanList defaultSteps={steps} editable onStepsChange={savePlan} />`,
+    props: [
+      { name: 'steps / defaultSteps', type: 'AgentPlanStep[]', defaultValue: '[]', description: 'Ordered agent milestones with semantic lifecycle statuses.' },
+      { name: 'editable', type: 'boolean', defaultValue: 'true', description: 'Enables toggling completion, adding new steps, and removing steps.' },
+    ],
+  },
+  {
+    id: 'tool-call-card',
+    title: 'Tool Call / Action Card',
+    exportName: 'ToolCallCard',
+    category: 'ai-agent-control',
+    categoryTitle: 'AI Agent Execution & Control',
+    summary: 'Collapsible optical execution card surfacing tool category, status pill, elapsed latency, and structured key/value inputs and outputs.',
+    codeSnippet: `<ToolCallCard toolName="search_codebase" category="search" status="success" durationMs={142} />`,
+    props: [
+      { name: 'toolName / status', type: "string / 'running' | 'success' | 'error'", defaultValue: 'required', description: 'Tool identifier and live execution outcome.' },
+      { name: 'inputs / outputs', type: 'ToolCallField[]', defaultValue: '[]', description: 'Typed key-value input parameters and returned payload summaries.' },
+    ],
+  },
+  {
+    id: 'approval-gate-card',
+    title: 'Human-in-the-Loop Approval Gate',
+    exportName: 'ApprovalGateCard',
+    category: 'ai-agent-control',
+    categoryTitle: 'AI Agent Execution & Control',
+    summary: 'Blocking optical authorization card with risk-level severity badge, inline editable parameters, and explicit Approve / Edit & Approve / Reject controls.',
+    codeSnippet: `<ApprovalGateCard title="Publish Package" actionName="npm publish" riskLevel="high" onApprove={exec} />`,
+    props: [
+      { name: 'riskLevel', type: "'low' | 'medium' | 'high' | 'critical'", defaultValue: "'medium'", description: 'Semantic risk severity accent badge.' },
+      { name: 'parameters', type: 'ApprovalParameter[]', defaultValue: '[]', description: 'Read-only or operator-editable action parameters.' },
+    ],
+  },
+  {
+    id: 'agent-control-bar',
+    title: 'Agent Control & Redirect Bar',
+    exportName: 'AgentControlBar',
+    category: 'ai-agent-control',
+    categoryTitle: 'AI Agent Execution & Control',
+    summary: 'Live agent steering toolbar offering Pause/Resume, Stop/Abort, and an inline IME-safe mid-flight Redirect prompt input.',
+    codeSnippet: `<AgentControlBar currentStepLabel="Running tests" onPause={pause} onRedirect={steer} />`,
+    props: [
+      { name: 'status / defaultStatus', type: "'idle' | 'running' | 'paused' | 'stopped'", defaultValue: "'running'", description: 'Active execution loop state.' },
+      { name: 'onRedirect', type: '(instruction: string) => void', defaultValue: 'undefined', description: 'Sends mid-flight steering instructions to the agent.' },
+    ],
+  },
+  {
+    id: 'checkpoint-rollback-strip',
+    title: 'Checkpoint / Rollback Strip',
+    exportName: 'CheckpointRollbackStrip',
+    category: 'ai-agent-control',
+    categoryTitle: 'AI Agent Execution & Control',
+    summary: 'Horizontal per-turn snapshot bar showing modified file counts with explicit Rollback and Fork Conversation actions.',
+    codeSnippet: `<CheckpointRollbackStrip checkpoints={turns} onRollback={restore} onFork={branch} />`,
+    props: [
+      { name: 'checkpoints', type: 'AgentCheckpoint[]', defaultValue: 'required', description: 'Ordered turn snapshots with timestamps and modified file counts.' },
+      { name: 'onRollback / onFork', type: '(cp: AgentCheckpoint) => void', defaultValue: 'undefined', description: 'Handlers for restoring or branching from the selected checkpoint.' },
+    ],
+  },
+  {
+    id: 'inline-diff-reviewer',
+    title: 'Inline Diff & Hunk Reviewer',
+    exportName: 'InlineDiffReviewer',
+    category: 'ai-agent-control',
+    categoryTitle: 'AI Agent Execution & Control',
+    summary: 'Embedded code diff card grouping changes into reviewable hunks with per-hunk Accept/Reject buttons, Accept All / Reject All, and review progress.',
+    codeSnippet: `<InlineDiffReviewer filePath="src/theme.ts" hunks={hunks} onHunkDecision={applyHunk} />`,
+    props: [
+      { name: 'hunks', type: 'DiffHunk[]', defaultValue: 'required', description: 'Diff hunks with context, add, and remove lines plus review status.' },
+      { name: 'onHunkDecision', type: "(id: string, decision: 'accepted' | 'rejected') => void", defaultValue: 'undefined', description: 'Fires when an operator accepts or rejects a hunk.' },
+    ],
+  },
+  {
+    id: 'recovery-routing-card',
+    title: 'Error Recovery & Routing Card',
+    exportName: 'RecoveryRoutingCard',
+    category: 'ai-agent-control',
+    categoryTitle: 'AI Agent Execution & Control',
+    summary: 'Diagnostic optical error alert with collapsible stack trace disclosure and targeted recovery route buttons (Retry, Edit, Switch, Skip).',
+    codeSnippet: `<RecoveryRoutingCard title="Timeout" errorMessage="Worker hung" routes={routes} />`,
+    props: [
+      { name: 'routes', type: 'RecoveryRouteAction[]', defaultValue: 'required', description: 'Targeted recovery strategies rendered as optical action buttons.' },
+      { name: 'stackTrace', type: 'string', defaultValue: 'undefined', description: 'Optional literal diagnostic trace revealed via collapsible toggle.' },
     ],
   },
 ];

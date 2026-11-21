@@ -7,6 +7,19 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-21
+
+### Added
+- **AI Agent Execution & Control (7 new Astryx-standard optical-glass components — 116 total across 19 categories):**
+  - `AgentPlanList`: Editable step-by-step agent roadmap with 5 lifecycle statuses (`pending`/`active`/`done`/`skipped`/`failed`) and refractive progress telemetry.
+  - `ToolCallCard`: Collapsible tool execution card with category icon, status badge, elapsed duration, and structured key/value inputs & outputs.
+  - `ApprovalGateCard`: Blocking Human-in-the-Loop confirmation card with semantic risk severity badge, editable parameters, and Approve / Edit & Approve / Reject actions.
+  - `AgentControlBar`: Active-loop steering bar offering Pause/Resume, Stop/Abort, and IME-safe mid-flight Redirect prompt submission.
+  - `CheckpointRollbackStrip`: Horizontal turn-snapshot selector displaying modified file counts with Rollback and Fork Conversation actions.
+  - `InlineDiffReviewer`: Embedded diff reviewer grouping edits into hunks with per-hunk Accept/Reject, bulk Accept/Reject All, and literal escaped rendering.
+  - `RecoveryRoutingCard`: Diagnostic failure banner with collapsible stack trace and targeted Retry / Edit / Switch / Skip recovery routes.
+- Added interactive playground demos and prop specs in `apps/docs` under `AI Agent Execution & Control`.
+
 ## [1.6.0] - 2026-11-21
 
 ### Added
@@ -111,7 +124,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.6.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/SourceCode/refractor-ui/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/SourceCode/refractor-ui/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/SourceCode/refractor-ui/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/SourceCode/refractor-ui/compare/v1.3.0...v1.4.0

@@ -1,3 +1,4 @@
+import { AiAgentControlDemos } from './demos/AiAgentControlDemos';
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
@@ -115,6 +116,16 @@ const CLI_TERMINAL_IDS = new Set([
   'terminal-multiplexer',
 ]);
 
+const AI_AGENT_CONTROL_IDS = new Set([
+  'agent-plan-list',
+  'tool-call-card',
+  'approval-gate-card',
+  'agent-control-bar',
+  'checkpoint-rollback-strip',
+  'inline-diff-reviewer',
+  'recovery-routing-card',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -151,6 +162,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (CLI_TERMINAL_IDS.has(componentId)) {
     return <CliTerminalDemos componentId={componentId} />;
+  }
+  if (AI_AGENT_CONTROL_IDS.has(componentId)) {
+    return <AiAgentControlDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

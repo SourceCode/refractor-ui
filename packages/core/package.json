@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -47,10 +47,25 @@
       "types": "./dist/AdvancedDataGrid/index.d.ts",
       "default": "./dist/AdvancedDataGrid/index.js"
     },
+    "./AgentControlBar": {
+      "source": "./src/AgentControlBar/index.ts",
+      "types": "./dist/AgentControlBar/index.d.ts",
+      "default": "./dist/AgentControlBar/index.js"
+    },
+    "./AgentPlanList": {
+      "source": "./src/AgentPlanList/index.ts",
+      "types": "./dist/AgentPlanList/index.d.ts",
+      "default": "./dist/AgentPlanList/index.js"
+    },
     "./AlertBanner": {
       "source": "./src/AlertBanner/index.ts",
       "types": "./dist/AlertBanner/index.d.ts",
       "default": "./dist/AlertBanner/index.js"
+    },
+    "./ApprovalGateCard": {
+      "source": "./src/ApprovalGateCard/index.ts",
+      "types": "./dist/ApprovalGateCard/index.d.ts",
+      "default": "./dist/ApprovalGateCard/index.js"
     },
     "./AudioWaveformPlayer": {
       "source": "./src/AudioWaveformPlayer/index.ts",
@@ -101,6 +116,11 @@
       "source": "./src/Checkbox/index.ts",
       "types": "./dist/Checkbox/index.d.ts",
       "default": "./dist/Checkbox/index.js"
+    },
+    "./CheckpointRollbackStrip": {
+      "source": "./src/CheckpointRollbackStrip/index.ts",
+      "types": "./dist/CheckpointRollbackStrip/index.d.ts",
+      "default": "./dist/CheckpointRollbackStrip/index.js"
     },
     "./CitationChip": {
       "source": "./src/CitationChip/index.ts",
@@ -221,6 +241,11 @@
       "source": "./src/ImageCropper/index.ts",
       "types": "./dist/ImageCropper/index.d.ts",
       "default": "./dist/ImageCropper/index.js"
+    },
+    "./InlineDiffReviewer": {
+      "source": "./src/InlineDiffReviewer/index.ts",
+      "types": "./dist/InlineDiffReviewer/index.d.ts",
+      "default": "./dist/InlineDiffReviewer/index.js"
     },
     "./InlineEditableField": {
       "source": "./src/InlineEditableField/index.ts",
@@ -402,6 +427,11 @@
       "types": "./dist/RatingControl/index.d.ts",
       "default": "./dist/RatingControl/index.js"
     },
+    "./RecoveryRoutingCard": {
+      "source": "./src/RecoveryRoutingCard/index.ts",
+      "types": "./dist/RecoveryRoutingCard/index.d.ts",
+      "default": "./dist/RecoveryRoutingCard/index.js"
+    },
     "./ResponseActionBar": {
       "source": "./src/ResponseActionBar/index.ts",
       "types": "./dist/ResponseActionBar/index.d.ts",
@@ -541,6 +571,11 @@
       "source": "./src/ToggleSwitch/index.ts",
       "types": "./dist/ToggleSwitch/index.d.ts",
       "default": "./dist/ToggleSwitch/index.js"
+    },
+    "./ToolCallCard": {
+      "source": "./src/ToolCallCard/index.ts",
+      "types": "./dist/ToolCallCard/index.d.ts",
+      "default": "./dist/ToolCallCard/index.js"
     },
     "./Tooltip": {
       "source": "./src/Tooltip/index.ts",
