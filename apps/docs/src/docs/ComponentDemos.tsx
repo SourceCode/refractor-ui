@@ -11,6 +11,7 @@ import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
+import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
@@ -226,6 +227,12 @@ const KPI_TELEMETRY_CHARTS_IDS = new Set([
   'live-telemetry-chart',
 ]);
 
+const GEOSPATIAL_CHARTS_IDS = new Set([
+  'choropleth-map',
+  'point-cluster-map',
+  'geo-flow-arc-map',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -298,6 +305,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (KPI_TELEMETRY_CHARTS_IDS.has(componentId)) {
     return <KpiTelemetryChartsDemos componentId={componentId} />;
+  }
+  if (GEOSPATIAL_CHARTS_IDS.has(componentId)) {
+    return <GeospatialChartsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

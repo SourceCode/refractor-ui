@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.18.0",
+  "version": "1.19.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -172,6 +172,11 @@
       "types": "./dist/ChordDiagram/index.d.ts",
       "default": "./dist/ChordDiagram/index.js"
     },
+    "./ChoroplethMap": {
+      "source": "./src/ChoroplethMap/index.ts",
+      "types": "./dist/ChoroplethMap/index.d.ts",
+      "default": "./dist/ChoroplethMap/index.js"
+    },
     "./CitationChip": {
       "source": "./src/CitationChip/index.ts",
       "types": "./dist/CitationChip/index.d.ts",
@@ -341,6 +346,11 @@
       "source": "./src/GanttChart/index.ts",
       "types": "./dist/GanttChart/index.d.ts",
       "default": "./dist/GanttChart/index.js"
+    },
+    "./GeoFlowArcMap": {
+      "source": "./src/GeoFlowArcMap/index.ts",
+      "types": "./dist/GeoFlowArcMap/index.d.ts",
+      "default": "./dist/GeoFlowArcMap/index.js"
     },
     "./GlobalSearchModal": {
       "source": "./src/GlobalSearchModal/index.ts",
@@ -546,6 +556,11 @@
       "source": "./src/PivotTable/index.ts",
       "types": "./dist/PivotTable/index.d.ts",
       "default": "./dist/PivotTable/index.js"
+    },
+    "./PointClusterMap": {
+      "source": "./src/PointClusterMap/index.ts",
+      "types": "./dist/PointClusterMap/index.d.ts",
+      "default": "./dist/PointClusterMap/index.js"
     },
     "./PricingTierMatrix": {
       "source": "./src/PricingTierMatrix/index.ts",

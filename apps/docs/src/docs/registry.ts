@@ -206,6 +206,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'KPI & Telemetry',
     description: 'Semi-circular radial gauges, qualitative target bullet charts, calendar activity heatmaps, and live scrolling telemetry monitors.',
   },
+  {
+    id: 'geospatial-charts',
+    title: 'Geospatial & Map Visuals',
+    shortLabel: 'Geospatial Maps',
+    description: 'Shaded choropleth regional maps, spatial point cluster maps with zoom expansion, and curved origin-destination flow arc maps.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2489,6 +2495,46 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'samples / defaultWindowSize', type: 'TelemetrySample[] / 20 | 40 | 60', defaultValue: 'required / 40', description: 'Time-series sample stream and active rolling window length.' },
       { name: 'paused / streamingIntervalMs', type: 'boolean / number', defaultValue: 'false / 0', description: 'Controls live streaming pause state and optional interval ticking.' },
+    ],
+  },
+  /* ==================== GEOSPATIAL & MAP VISUALS (3) ==================== */
+  {
+    id: 'choropleth-map',
+    title: 'Choropleth Map',
+    exportName: 'ChoroplethMap',
+    category: 'geospatial-charts',
+    categoryTitle: 'Geospatial & Map Visuals',
+    summary: 'Token-driven stylized vector regional map shading geographic polygons by metric intensity with interactive regional telemetry.',
+    codeSnippet: `<ChoroplethMap regions={regionalTraffic} tone="primary" valueUnit="M" />`,
+    props: [
+      { name: 'regions / tone', type: "ChoroplethRegion[] / 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose'", defaultValue: "required / 'primary'", description: 'Macro-region IDs (or custom SVG paths) and optical intensity ramp.' },
+      { name: 'onSelectRegion', type: '(region, sharePct) => void', defaultValue: 'undefined', description: 'Fires when a regional polygon or pill is selected.' },
+    ],
+  },
+  {
+    id: 'point-cluster-map',
+    title: 'Point / Cluster Map',
+    exportName: 'PointClusterMap',
+    category: 'geospatial-charts',
+    categoryTitle: 'Geospatial & Map Visuals',
+    summary: 'Zoomable geographic point canvas automatically clustering nearby markers into numbered bubbles that unpack into pins on zoom.',
+    codeSnippet: `<PointClusterMap points={edgeClusters} defaultZoom={1} clusterRadius={52} />`,
+    props: [
+      { name: 'points / clusterRadius', type: 'GeoPoint[] / number', defaultValue: 'required / 48', description: 'Latitude/longitude points and base SVG spatial clustering radius.' },
+      { name: 'onSelectPoint / onSelectCluster', type: '(point) => void / (points) => void', defaultValue: 'undefined', description: 'Callbacks when selecting an individual pin or expanding a cluster.' },
+    ],
+  },
+  {
+    id: 'geo-flow-arc-map',
+    title: 'Geo-Flow / Arc Map',
+    exportName: 'GeoFlowArcMap',
+    category: 'geospatial-charts',
+    categoryTitle: 'Geospatial & Map Visuals',
+    summary: 'Vector origin-destination hub map rendering proportional curved SVG flow arcs with directional midpoint arrows and route inspection.',
+    codeSnippet: `<GeoFlowArcMap hubs={dataCenters} flows={backboneRoutes} valueUnit=" Gbps" />`,
+    props: [
+      { name: 'hubs / flows', type: 'GeoHub[] / GeoFlowArc[]', defaultValue: 'required', description: 'Geographic hub coordinates and positive directed flow arcs.' },
+      { name: 'onSelectFlow', type: '(flow, origin, destination) => void', defaultValue: 'undefined', description: 'Fires when a route arc is selected.' },
     ],
   },
 ];
