@@ -122,6 +122,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Commerce',
     description: 'Subscription pricing matrices, visual swatch variant selectors, slide-over cart drawers, Luhn-validated payment card inputs, and promo coupon pills.',
   },
+  {
+    id: 'mobile-utilities',
+    title: 'Mobile, Touch & System Utilities',
+    shortLabel: 'Mobile & UX',
+    description: 'Thumb-friendly bottom navigation bars, swipeable action rows, pull-to-refresh feeds, sculpted keycap shortcut badges, and privacy consent banners.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1416,6 +1422,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'onApply', type: '(code: string) => AppliedCoupon | string | null', defaultValue: 'required', description: 'Validates coupon code and returns applied coupon or error string.' },
       { name: 'onRemove', type: '(code: string) => void', defaultValue: 'undefined', description: 'Fired when removing the applied coupon tag.' },
+    ],
+  },
+  /* ==================== MOBILE, TOUCH & SYSTEM UTILITIES (5) ==================== */
+  {
+    id: 'bottom-navigation-bar',
+    title: 'Bottom Navigation Bar',
+    exportName: 'BottomNavigationBar',
+    category: 'mobile-utilities',
+    categoryTitle: 'Mobile, Touch & System Utilities',
+    summary: 'Thumb-friendly optical horizontal navigation bar anchored for 3 to 5 top-level destinations with active indicator pills and unread badge counts.',
+    codeSnippet: `<BottomNavigationBar items={destinations} defaultActiveId="home" onChange={navigate} />`,
+    props: [
+      { name: 'items', type: 'BottomNavItem[]', defaultValue: 'required', description: 'Destination items with label, icon, badgeCount, and disabled state.' },
+      { name: 'mode', type: "'fixed' | 'inline'", defaultValue: "'inline'", description: 'Viewport-anchored fixed bar or embedded inline preview.' },
+    ],
+  },
+  {
+    id: 'swipeable-action-row',
+    title: 'Swipeable Action Row',
+    exportName: 'SwipeableActionRow',
+    category: 'mobile-utilities',
+    categoryTitle: 'Mobile, Touch & System Utilities',
+    summary: 'Optical list row supporting pointer/touch swipe gestures and keyboard toggles to reveal hidden left and right quick actions.',
+    codeSnippet: `<SwipeableActionRow leftActions={left} rightActions={right}>Row content</SwipeableActionRow>`,
+    props: [
+      { name: 'leftActions / rightActions', type: 'SwipeActionItem[]', defaultValue: '[]', description: 'Semantic tone quick-action buttons revealed on swipe or toggle.' },
+      { name: 'threshold', type: 'number', defaultValue: '56', description: 'Horizontal drag threshold in pixels to snap open an action tray.' },
+    ],
+  },
+  {
+    id: 'pull-to-refresh',
+    title: 'Pull-to-Refresh Indicator',
+    exportName: 'PullToRefresh',
+    category: 'mobile-utilities',
+    categoryTitle: 'Mobile, Touch & System Utilities',
+    summary: 'Rubber-band top pull gesture container with optical spinner telemetry and accessible manual refresh trigger for async feed updates.',
+    codeSnippet: `<PullToRefresh onRefresh={async () => reloadFeed()}>{feedItems}</PullToRefresh>`,
+    props: [
+      { name: 'onRefresh', type: '() => void | Promise<void>', defaultValue: 'required', description: 'Callback executed when pull threshold is released or Refresh is clicked.' },
+      { name: 'threshold', type: 'number', defaultValue: '64', description: 'Dampened pull distance in pixels required to enter ready state.' },
+    ],
+  },
+  {
+    id: 'keycap-badge',
+    title: 'Keyboard Shortcut Badge (Keycap)',
+    exportName: 'KeycapBadge',
+    category: 'mobile-utilities',
+    categoryTitle: 'Mobile, Touch & System Utilities',
+    summary: 'Sculpted miniature crystal <kbd> keycap icons displaying keyboard shortcut chords inside menus, toolbars, and tooltips.',
+    codeSnippet: `<KeycapBadge keys={['⌘', 'K']} size="md" description="Open command palette" />`,
+    props: [
+      { name: 'keys', type: 'string[]', defaultValue: 'required', description: 'Sequence of key labels rendered as crystal <kbd> caps.' },
+      { name: 'size', type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: 'Visual scale of the sculpted keycaps.' },
+    ],
+  },
+  {
+    id: 'cookie-consent-banner',
+    title: 'Cookie / Privacy Consent Banner',
+    exportName: 'CookieConsentBanner',
+    category: 'mobile-utilities',
+    categoryTitle: 'Mobile, Touch & System Utilities',
+    summary: 'Non-blocking optical consent bar or corner card letting users accept, reject, or customize granular cookie categories with locked essential controls.',
+    codeSnippet: `<CookieConsentBanner mode="bar" policyHref="/privacy" onSavePreferences={saveConsent} />`,
+    props: [
+      { name: 'mode', type: "'bar' | 'card' | 'inline'", defaultValue: "'inline'", description: 'Bottom full-width bar, corner card, or inline container mode.' },
+      { name: 'onSavePreferences', type: '(prefs: CookieConsentPreferences) => void', defaultValue: 'undefined', description: 'Fires with saved essential/analytics/preferences/marketing flags.' },
     ],
   },
 ];

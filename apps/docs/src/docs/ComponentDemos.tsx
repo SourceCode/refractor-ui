@@ -6,6 +6,7 @@ import { DataVizDemos } from './demos/DataVizDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
+import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
@@ -95,6 +96,14 @@ const COMMERCE_BILLING_IDS = new Set([
   'promo-coupon-input',
 ]);
 
+const MOBILE_UTILITIES_IDS = new Set([
+  'bottom-navigation-bar',
+  'swipeable-action-row',
+  'pull-to-refresh',
+  'keycap-badge',
+  'cookie-consent-banner',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -125,6 +134,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (COMMERCE_BILLING_IDS.has(componentId)) {
     return <CommerceBillingDemos componentId={componentId} />;
+  }
+  if (MOBILE_UTILITIES_IDS.has(componentId)) {
+    return <MobileUtilitiesDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -72,6 +72,11 @@
       "types": "./dist/BeforeAfterSlider/index.d.ts",
       "default": "./dist/BeforeAfterSlider/index.js"
     },
+    "./BottomNavigationBar": {
+      "source": "./src/BottomNavigationBar/index.ts",
+      "types": "./dist/BottomNavigationBar/index.d.ts",
+      "default": "./dist/BottomNavigationBar/index.js"
+    },
     "./Breadcrumbs": {
       "source": "./src/Breadcrumbs/index.ts",
       "types": "./dist/Breadcrumbs/index.d.ts",
@@ -131,6 +136,11 @@
       "source": "./src/ContextualPopover/index.ts",
       "types": "./dist/ContextualPopover/index.d.ts",
       "default": "./dist/ContextualPopover/index.js"
+    },
+    "./CookieConsentBanner": {
+      "source": "./src/CookieConsentBanner/index.ts",
+      "types": "./dist/CookieConsentBanner/index.d.ts",
+      "default": "./dist/CookieConsentBanner/index.js"
     },
     "./CustomVideoPlayer": {
       "source": "./src/CustomVideoPlayer/index.ts",
@@ -216,6 +226,11 @@
       "source": "./src/KanbanBoard/index.ts",
       "types": "./dist/KanbanBoard/index.d.ts",
       "default": "./dist/KanbanBoard/index.js"
+    },
+    "./KeycapBadge": {
+      "source": "./src/KeycapBadge/index.ts",
+      "types": "./dist/KeycapBadge/index.d.ts",
+      "default": "./dist/KeycapBadge/index.js"
     },
     "./KpiMetricCard": {
       "source": "./src/KpiMetricCard/index.ts",
@@ -347,6 +362,11 @@
       "types": "./dist/PromptComposer/index.d.ts",
       "default": "./dist/PromptComposer/index.js"
     },
+    "./PullToRefresh": {
+      "source": "./src/PullToRefresh/index.ts",
+      "types": "./dist/PullToRefresh/index.d.ts",
+      "default": "./dist/PullToRefresh/index.js"
+    },
     "./RadioGroup": {
       "source": "./src/RadioGroup/index.ts",
       "types": "./dist/RadioGroup/index.d.ts",
@@ -446,6 +466,11 @@
       "source": "./src/StickyActionBar/index.ts",
       "types": "./dist/StickyActionBar/index.d.ts",
       "default": "./dist/StickyActionBar/index.js"
+    },
+    "./SwipeableActionRow": {
+      "source": "./src/SwipeableActionRow/index.ts",
+      "types": "./dist/SwipeableActionRow/index.d.ts",
+      "default": "./dist/SwipeableActionRow/index.js"
     },
     "./TagChip": {
       "source": "./src/TagChip/index.ts",
