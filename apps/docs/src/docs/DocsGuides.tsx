@@ -242,9 +242,9 @@ const ESCALATION_STEPS = [
 ] as const;
 
 const ADRS = [
-  { id: 'ADR-0001', title: 'Monorepo Hierarchy & Astryx Component Architecture', file: 'ADR-0001-monorepo-and-astryx-component-architecture.md', summary: 'Per-component directories, React 19 ref-as-prop, BaseProps, themeProps, mergeProps, and subpath exports.' },
-  { id: 'ADR-0002', title: 'Zero any/unknown TypeScript & Two-Tier ESLint', file: 'ADR-0002-strict-typescript-zero-any-unknown-and-lint-governance.md', summary: '17 custom AST rules enforcing Astryx contracts and eliminating wildcard escape hatches.' },
-  { id: 'ADR-0003', title: 'Dual MUI + Astryx Optical Theme Engine', file: 'ADR-0003-dual-mui-astryx-optical-theming-and-token-cascade.md', summary: 'Single-hex MUI color derivation unified with Astryx CSS custom property cascades inside @layer components.' },
+  { id: 'ADR-0001', title: 'Monorepo Hierarchy & Component Architecture', file: 'ADR-0001-monorepo-and-astryx-component-architecture.md', summary: 'Per-component directories, React 19 ref-as-prop, BaseProps, themeProps, mergeProps, and subpath exports.' },
+  { id: 'ADR-0002', title: 'Zero any/unknown TypeScript & Two-Tier ESLint', file: 'ADR-0002-strict-typescript-zero-any-unknown-and-lint-governance.md', summary: '17 custom AST rules enforcing component contracts and eliminating wildcard escape hatches.' },
+  { id: 'ADR-0003', title: 'Optical Theme Engine & CSS Token Cascade', file: 'ADR-0003-dual-mui-astryx-optical-theming-and-token-cascade.md', summary: 'Single-hex color derivation unified with CSS custom property cascades inside @layer components.' },
   { id: 'ADR-0004', title: 'Semantic Versioning 2.0.0 & Release Governance', file: 'ADR-0004-semantic-versioning-and-release-workflow.md', summary: 'Lockstep SemVer 2.0.0 manifests, Keep a Changelog 1.1.0, annotated tags, and automated drift checks.' },
   { id: 'ADR-0005', title: '93%+ Coverage & Adversarial Security Validation', file: 'ADR-0005-testing-adversarial-coverage-and-security-verification.md', summary: 'Mandatory >= 93% V8 coverage across all 4 metrics with positive, negative, and OWASP adversarial suites.' },
   { id: 'ADR-0006', title: 'Accessibility & 9.8/10+ Optical Glass Standard', file: 'ADR-0006-accessibility-and-optical-glass-design-standards.md', summary: 'WCAG AA/AAA contrast, keyboard-only :focus-visible, IME safety, and live Creative UX/UI Director sign-off.' },
@@ -502,7 +502,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
           Architecture, Accessibility &amp; OWASP Security
         </h1>
         <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-          Refractor enforces Astryx engineering contracts at compile time, lint time, and test time —
+          Refractor enforces strict component engineering contracts at compile time, lint time, and test time —
           achieving <strong>99.5%+ statement coverage</strong>, <strong>0 high/critical CVEs</strong>,
           and a <strong>9.93/10 mean Creative UX/UI Director score</strong> across all 126 components.
         </p>
