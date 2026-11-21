@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -77,6 +77,11 @@
       "types": "./dist/ApprovalGateCard/index.d.ts",
       "default": "./dist/ApprovalGateCard/index.js"
     },
+    "./AreaStackedChart": {
+      "source": "./src/AreaStackedChart/index.ts",
+      "types": "./dist/AreaStackedChart/index.d.ts",
+      "default": "./dist/AreaStackedChart/index.js"
+    },
     "./AttachedContextBar": {
       "source": "./src/AttachedContextBar/index.ts",
       "types": "./dist/AttachedContextBar/index.d.ts",
@@ -96,6 +101,11 @@
       "source": "./src/BadgeStatus/index.ts",
       "types": "./dist/BadgeStatus/index.d.ts",
       "default": "./dist/BadgeStatus/index.js"
+    },
+    "./BarColumnChart": {
+      "source": "./src/BarColumnChart/index.ts",
+      "types": "./dist/BarColumnChart/index.d.ts",
+      "default": "./dist/BarColumnChart/index.js"
     },
     "./BeforeAfterSlider": {
       "source": "./src/BeforeAfterSlider/index.ts",
@@ -161,6 +171,11 @@
       "source": "./src/CombinedDateTimePicker/index.ts",
       "types": "./dist/CombinedDateTimePicker/index.d.ts",
       "default": "./dist/CombinedDateTimePicker/index.js"
+    },
+    "./ComboDualAxisChart": {
+      "source": "./src/ComboDualAxisChart/index.ts",
+      "types": "./dist/ComboDualAxisChart/index.d.ts",
+      "default": "./dist/ComboDualAxisChart/index.js"
     },
     "./ComboSplitButton": {
       "source": "./src/ComboSplitButton/index.ts",
@@ -361,6 +376,11 @@
       "source": "./src/KpiMetricCard/index.ts",
       "types": "./dist/KpiMetricCard/index.d.ts",
       "default": "./dist/KpiMetricCard/index.js"
+    },
+    "./LineMultiSeriesChart": {
+      "source": "./src/LineMultiSeriesChart/index.ts",
+      "types": "./dist/LineMultiSeriesChart/index.d.ts",
+      "default": "./dist/LineMultiSeriesChart/index.js"
     },
     "./LiveLogStreamer": {
       "source": "./src/LiveLogStreamer/index.ts",
@@ -646,6 +666,11 @@
       "source": "./src/SortableList/index.ts",
       "types": "./dist/SortableList/index.d.ts",
       "default": "./dist/SortableList/index.js"
+    },
+    "./SparklineChart": {
+      "source": "./src/SparklineChart/index.ts",
+      "types": "./dist/SparklineChart/index.d.ts",
+      "default": "./dist/SparklineChart/index.js"
     },
     "./SpeedDialButton": {
       "source": "./src/SpeedDialButton/index.ts",

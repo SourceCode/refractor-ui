@@ -176,6 +176,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Advanced Controls',
     description: 'Tri-state indeterminate checkboxes, dual-thumb & histogram range sliders, cascading drill-down menus, creatable comboboxes, rich selection tiles, and rotary dials.',
   },
+  {
+    id: 'core-trend-charts',
+    title: 'Core & Trend Charts',
+    shortLabel: 'Trend Charts',
+    description: 'Token-driven multi-series line charts, stacked area volumes, grouped/stacked column & bar charts, dual-axis combo graphs, and inline sparklines.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2168,6 +2174,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'value / defaultValue', type: 'number', defaultValue: '50', description: 'Current dial value clamped within min..max.' },
       { name: 'min / max / step', type: 'number', defaultValue: '0 / 100 / 1', description: 'Sweep bounds and stepping precision.' },
+    ],
+  },
+  /* ==================== CORE & TREND CHARTS (5) ==================== */
+  {
+    id: 'line-multi-series-chart',
+    title: 'Line & Multi-Series Chart',
+    exportName: 'LineMultiSeriesChart',
+    category: 'core-trend-charts',
+    categoryTitle: 'Core & Trend Charts',
+    summary: 'Token-driven multi-series SVG line chart supporting smooth or linear paths, dashed target lines, interactive series toggles, and point inspection.',
+    codeSnippet: `<LineMultiSeriesChart labels={days} series={series} smooth showPoints />`,
+    props: [
+      { name: 'labels / series', type: 'string[] / LineSeries[]', defaultValue: 'required', description: 'X-axis interval labels and semantic-toned data series.' },
+      { name: 'smooth / showPoints', type: 'boolean', defaultValue: 'true / true', description: 'Toggles smooth curve interpolation and interactive point markers.' },
+    ],
+  },
+  {
+    id: 'area-stacked-chart',
+    title: 'Area & Stacked Area Chart',
+    exportName: 'AreaStackedChart',
+    category: 'core-trend-charts',
+    categoryTitle: 'Core & Trend Charts',
+    summary: 'Luminous optical area and cumulative stacked area chart highlighting combined volume contributions over time with Stacked/Overlay switching.',
+    codeSnippet: `<AreaStackedChart labels={quarters} series={tiers} stacked />`,
+    props: [
+      { name: 'stacked', type: 'boolean', defaultValue: 'true', description: 'Stacks series cumulatively or overlays independent filled regions.' },
+      { name: 'series', type: 'AreaSeries[]', defaultValue: 'required', description: 'Series definitions rendered with token-driven optical gradients.' },
+    ],
+  },
+  {
+    id: 'bar-column-chart',
+    title: 'Bar & Column Chart (Grouped / Stacked)',
+    exportName: 'BarColumnChart',
+    category: 'core-trend-charts',
+    categoryTitle: 'Core & Trend Charts',
+    summary: 'Vertical column and horizontal bar chart switching smoothly between grouped comparisons and stacked part-to-whole bars.',
+    codeSnippet: `<BarColumnChart categories={surfaces} series={series} orientation="vertical" layout="grouped" />`,
+    props: [
+      { name: 'orientation', type: "'vertical' | 'horizontal'", defaultValue: "'vertical'", description: 'Vertical column or horizontal bar geometry.' },
+      { name: 'layout', type: "'grouped' | 'stacked'", defaultValue: "'grouped'", description: 'Side-by-side grouped bars or cumulative stacked bars.' },
+    ],
+  },
+  {
+    id: 'combo-dual-axis-chart',
+    title: 'Combo / Dual-Axis Chart',
+    exportName: 'ComboDualAxisChart',
+    category: 'core-trend-charts',
+    categoryTitle: 'Core & Trend Charts',
+    summary: 'Dual-axis optical chart overlaying volume columns (left Y-axis) with a percentage/rate trend line (right Y-axis) to expose correlations.',
+    codeSnippet: `<ComboDualAxisChart labels={months} barLabel="Deploys" barValues={vols} lineLabel="Pass Rate" lineValues={rates} />`,
+    props: [
+      { name: 'barLabel / barValues', type: 'string / number[]', defaultValue: 'required', description: 'Left-axis column series label and values.' },
+      { name: 'lineLabel / lineValues', type: 'string / number[]', defaultValue: 'required', description: 'Right-axis overlay line series label and values.' },
+    ],
+  },
+  {
+    id: 'sparkline-chart',
+    title: 'Sparkline',
+    exportName: 'SparklineChart',
+    category: 'core-trend-charts',
+    categoryTitle: 'Core & Trend Charts',
+    summary: 'Miniature axis-free inline line or bar sparkline embeddable inside DataTable cells or KPI cards with optional endpoint markers and percentage delta pill.',
+    codeSnippet: `<SparklineChart values={[42, 39, 44, 36, 31, 24]} variant="line" tone="emerald" showDelta />`,
+    props: [
+      { name: 'variant / tone', type: "'line' | 'bar' / SparklineTone", defaultValue: "'line' / 'primary'", description: 'Inline line or bar presentation and semantic optical tone.' },
+      { name: 'showEndpoints / showDelta', type: 'boolean', defaultValue: 'true / false', description: 'Highlights key vertices and renders percentage delta badge.' },
     ],
   },
 ];

@@ -7,6 +7,7 @@ import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
 import { ComplexButtonsDemos } from './demos/ComplexButtonsDemos';
 import { ComplexControlsDemos } from './demos/ComplexControlsDemos';
 import { CoreDemos } from './demos/CoreDemos';
+import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
@@ -184,6 +185,14 @@ const COMPLEX_CONTROLS_IDS = new Set([
   'rotary-dial',
 ]);
 
+const CORE_TREND_CHARTS_IDS = new Set([
+  'line-multi-series-chart',
+  'area-stacked-chart',
+  'bar-column-chart',
+  'combo-dual-axis-chart',
+  'sparkline-chart',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -241,6 +250,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (COMPLEX_CONTROLS_IDS.has(componentId)) {
     return <ComplexControlsDemos componentId={componentId} />;
+  }
+  if (CORE_TREND_CHARTS_IDS.has(componentId)) {
+    return <CoreTrendChartsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
