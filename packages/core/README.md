@@ -1,6 +1,6 @@
 # `@refractor-ui/core`
 
-Tactile optical-glass **React 19 & TypeScript** component library with **126 accessible components across 21 categories**, **MUI-simple color & optical theming**, **Astryx Open-Internals architecture**, and **zero `any`/`unknown` types**.
+Tactile optical-glass **React 19 & TypeScript** component library with **179 accessible components across 32 categories**, **MUI-simple color & optical theming**, **Astryx Open-Internals architecture**, and **zero `any`/`unknown` types**.
 
 - **Live Interactive Docs & Theme Studio:** https://sourcecode.github.io/refractor-ui/
 - **Repository:** https://github.com/SourceCode/refractor-ui
@@ -44,7 +44,7 @@ const theme = createPrismTheme({
 export function Example() {
   return (
     <PrismThemeProvider theme={theme}>
-      <PrismCard title="Refractor Optical Glass" kicker="v1.9.0">
+      <PrismCard title="Refractor Optical Glass" kicker="v1.20.0">
         <PrimaryButton size="md">Start Project</PrimaryButton>
       </PrismCard>
     </PrismThemeProvider>

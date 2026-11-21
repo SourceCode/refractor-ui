@@ -262,7 +262,7 @@ export function DocsShell() {
         >
           <span>Refractor UI</span>
           <span className="prism-crystal px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold text-slate-700 dark:text-slate-200">
-            v1.9.0
+            v1.20.0
           </span>
         </a>
 
@@ -698,7 +698,7 @@ export function DocsShell() {
 
           <footer className="pt-8 pb-6 border-t border-slate-300/55 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
             <span>
-              Refractor Optical Glass UI Kit v1.9.0 · {COMPONENT_REGISTRY.length} Open-Internals
+              Refractor Optical Glass UI Kit v1.20.0 · {COMPONENT_REGISTRY.length} Open-Internals
               React 19 Primitives · Apache-2.0
             </span>
             <div className="flex flex-wrap items-center gap-4">

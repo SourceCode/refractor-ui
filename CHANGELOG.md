@@ -7,6 +7,16 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.20.0] - 2026-11-21
+
+### Added
+- **Chart Chrome & Interactive Controls (4 new token-driven optical-glass chart chrome primitives — 179 total across 32 categories):**
+  - `InteractiveLegend`: Clickable & solo-capable series key legend supporting show/hide visibility, double-click/button solo isolation, hover/focus highlight handoff, and `Show All` reset.
+  - `BrushRangeScrubber`: Miniature overview sparkline with dual keyboard/pointer brush handles, draggable selection pan window, `All`/`Last 50%`/`Last 25%` zoom presets, and live range slice readout.
+  - `ChartCrosshairTooltip`: Multi-series SVG plot inspector with snapping vertical & horizontal dashed crosshair guides, click/Enter pin locking, delta calculations, and edge-safe glassmorphic floating readout.
+  - `ChartThresholdMarker`: Interactive chart annotation overlay rendering shaded target SLA bands, horizontal dashed threshold lines with breach counts, and clickable pinned vertical event flags.
+- Updated `apps/docs` GitHub Pages portal, `README.md`, package READMEs, CLI architecture metadata, security adversarial suite, and UX/UI Director audit report for the complete **179-component / 32-category** `v1.20.0` release.
+
 ## [1.19.0] - 2026-11-21
 
 ### Added
@@ -256,7 +266,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.19.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.20.0...HEAD
+[1.20.0]: https://github.com/SourceCode/refractor-ui/compare/v1.19.0...v1.20.0
 [1.19.0]: https://github.com/SourceCode/refractor-ui/compare/v1.18.0...v1.19.0
 [1.18.0]: https://github.com/SourceCode/refractor-ui/compare/v1.17.0...v1.18.0
 [1.17.0]: https://github.com/SourceCode/refractor-ui/compare/v1.16.0...v1.17.0

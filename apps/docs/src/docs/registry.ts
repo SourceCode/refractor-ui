@@ -212,6 +212,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Geospatial Maps',
     description: 'Shaded choropleth regional maps, spatial point cluster maps with zoom expansion, and curved origin-destination flow arc maps.',
   },
+  {
+    id: 'chart-chrome-controls',
+    title: 'Chart Chrome & Interactive Controls',
+    shortLabel: 'Chart Chrome',
+    description: 'Toggle/solo interactive legends, timeline brush range scrubbers, synchronized crosshair tooltips, and threshold/event annotation layers.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2535,6 +2541,59 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'hubs / flows', type: 'GeoHub[] / GeoFlowArc[]', defaultValue: 'required', description: 'Geographic hub coordinates and positive directed flow arcs.' },
       { name: 'onSelectFlow', type: '(flow, origin, destination) => void', defaultValue: 'undefined', description: 'Fires when a route arc is selected.' },
+    ],
+  },
+  /* ==================== CHART CHROME & INTERACTIVE CONTROLS (4) ==================== */
+  {
+    id: 'interactive-legend',
+    title: 'Interactive Legend',
+    exportName: 'InteractiveLegend',
+    category: 'chart-chrome-controls',
+    categoryTitle: 'Chart Chrome & Interactive Controls',
+    summary: 'Clickable optical series legend supporting toggle visibility, double-click or button solo isolation, hover highlight, and Show All reset.',
+    codeSnippet: `<InteractiveLegend items={seriesKey} allowSolo onHiddenIdsChange={setHidden} />`,
+    props: [
+      { name: 'items / allowSolo', type: 'LegendSeriesItem[] / boolean', defaultValue: 'required / true', description: 'Series entries with optical tones and solo-isolation toggle.' },
+      { name: 'hiddenIds / onHiddenIdsChange', type: 'string[] / (ids) => void', defaultValue: 'undefined', description: 'Controlled hidden series IDs and visibility callback.' },
+    ],
+  },
+  {
+    id: 'brush-range-scrubber',
+    title: 'Brush / Zoom Range Scrubber',
+    exportName: 'BrushRangeScrubber',
+    category: 'chart-chrome-controls',
+    categoryTitle: 'Chart Chrome & Interactive Controls',
+    summary: 'Miniature overview sparkline with dual pointer/keyboard handles and a draggable selection window for zooming dense time-series data.',
+    codeSnippet: `<BrushRangeScrubber data={timeline} defaultRange={[3, 10]} onRangeChange={setSlice} />`,
+    props: [
+      { name: 'data / minSpan', type: 'BrushPoint[] / number', defaultValue: 'required / 1', description: 'Overview timeline points and minimum index span.' },
+      { name: 'range / onRangeChange', type: '[number, number] / (range, slice) => void', defaultValue: 'undefined', description: 'Selected window indices and sliced point callback.' },
+    ],
+  },
+  {
+    id: 'chart-crosshair-tooltip',
+    title: 'Crosshair & Multi-Series Tooltip',
+    exportName: 'ChartCrosshairTooltip',
+    category: 'chart-chrome-controls',
+    categoryTitle: 'Chart Chrome & Interactive Controls',
+    summary: 'Interactive multi-series plot surface with snapping vertical/horizontal crosshair guides, pin-on-click lock, and floating glass readout.',
+    codeSnippet: `<ChartCrosshairTooltip labels={timestamps} series={metrics} showHorizontalGuide />`,
+    props: [
+      { name: 'labels / series', type: 'string[] / CrosshairSeries[]', defaultValue: 'required', description: 'Shared X-axis labels and aligned numeric data series.' },
+      { name: 'showHorizontalGuide / onActiveIndexChange', type: 'boolean / (snapshot) => void', defaultValue: 'true / undefined', description: 'Toggles horizontal guide line and streams active snapshot.' },
+    ],
+  },
+  {
+    id: 'chart-threshold-marker',
+    title: 'Annotation & Threshold Marker',
+    exportName: 'ChartThresholdMarker',
+    category: 'chart-chrome-controls',
+    categoryTitle: 'Chart Chrome & Interactive Controls',
+    summary: 'Chart annotation layer rendering horizontal SLA threshold lines, shaded target bands, and clickable pinned vertical event flags.',
+    codeSnippet: `<ChartThresholdMarker data={series} thresholds={limits} bands={targets} events={deploys} />`,
+    props: [
+      { name: 'data / thresholds / bands', type: 'ThresholdDataPoint[] / ChartThresholdLine[] / ChartTargetBand[]', defaultValue: 'required / [] / []', description: 'Base series, dashed reference lines, and shaded target zones.' },
+      { name: 'events / onSelectEvent', type: 'ChartEventMarker[] / (event, point) => void', defaultValue: '[] / undefined', description: 'Pinned vertical event flags with interactive callout inspection.' },
     ],
   },
 ];

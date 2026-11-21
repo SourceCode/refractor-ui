@@ -16,8 +16,8 @@ import {
 
 describe('Docs storage & component registry', () => {
   it('registers all core and expansion components across unique categories', () => {
-    expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(21);
-    expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(126);
+    expect(DOC_CATEGORIES).toHaveLength(32);
+    expect(COMPONENT_REGISTRY).toHaveLength(179);
 
     const counts = getCategoryCounts(COMPONENT_REGISTRY);
     expect(counts['buttons-actions']).toBe(6);
@@ -41,6 +41,17 @@ describe('Docs storage & component registry', () => {
     expect(counts['ai-agent-control']).toBe(7);
     expect(counts['ai-context-memory']).toBe(6);
     expect(counts['multi-agent']).toBe(4);
+    expect(counts['date-time-scheduling']).toBe(6);
+    expect(counts['number-currency-fields']).toBe(6);
+    expect(counts['complex-buttons']).toBe(5);
+    expect(counts['complex-controls']).toBe(7);
+    expect(counts['core-trend-charts']).toBe(5);
+    expect(counts['part-to-whole-charts']).toBe(5);
+    expect(counts['statistical-charts']).toBe(5);
+    expect(counts['relational-flow-charts']).toBe(3);
+    expect(counts['kpi-telemetry-charts']).toBe(4);
+    expect(counts['geospatial-charts']).toBe(3);
+    expect(counts['chart-chrome-controls']).toBe(4);
 
     const uniqueIds = new Set(COMPONENT_REGISTRY.map((c) => c.id));
     expect(uniqueIds.size).toBe(COMPONENT_REGISTRY.length);

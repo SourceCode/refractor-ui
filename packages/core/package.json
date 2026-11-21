@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.19.0",
+  "version": "1.20.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -127,6 +127,11 @@
       "types": "./dist/Breadcrumbs/index.d.ts",
       "default": "./dist/Breadcrumbs/index.js"
     },
+    "./BrushRangeScrubber": {
+      "source": "./src/BrushRangeScrubber/index.ts",
+      "types": "./dist/BrushRangeScrubber/index.d.ts",
+      "default": "./dist/BrushRangeScrubber/index.js"
+    },
     "./BulletChart": {
       "source": "./src/BulletChart/index.ts",
       "types": "./dist/BulletChart/index.d.ts",
@@ -151,6 +156,16 @@
       "source": "./src/CascadingSelect/index.ts",
       "types": "./dist/CascadingSelect/index.d.ts",
       "default": "./dist/CascadingSelect/index.js"
+    },
+    "./ChartCrosshairTooltip": {
+      "source": "./src/ChartCrosshairTooltip/index.ts",
+      "types": "./dist/ChartCrosshairTooltip/index.d.ts",
+      "default": "./dist/ChartCrosshairTooltip/index.js"
+    },
+    "./ChartThresholdMarker": {
+      "source": "./src/ChartThresholdMarker/index.ts",
+      "types": "./dist/ChartThresholdMarker/index.d.ts",
+      "default": "./dist/ChartThresholdMarker/index.js"
     },
     "./ChatMessageStream": {
       "source": "./src/ChatMessageStream/index.ts",
@@ -396,6 +411,11 @@
       "source": "./src/InlineEditableField/index.ts",
       "types": "./dist/InlineEditableField/index.d.ts",
       "default": "./dist/InlineEditableField/index.js"
+    },
+    "./InteractiveLegend": {
+      "source": "./src/InteractiveLegend/index.ts",
+      "types": "./dist/InteractiveLegend/index.d.ts",
+      "default": "./dist/InteractiveLegend/index.js"
     },
     "./InteractiveMapViewer": {
       "source": "./src/InteractiveMapViewer/index.ts",

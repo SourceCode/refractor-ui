@@ -1,6 +1,7 @@
 import { AiAgentControlDemos } from './demos/AiAgentControlDemos';
 import { AiContextMemoryDemos } from './demos/AiContextMemoryDemos';
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
+import { ChartChromeDemos } from './demos/ChartChromeDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
@@ -233,6 +234,13 @@ const GEOSPATIAL_CHARTS_IDS = new Set([
   'geo-flow-arc-map',
 ]);
 
+const CHART_CHROME_IDS = new Set([
+  'interactive-legend',
+  'brush-range-scrubber',
+  'chart-crosshair-tooltip',
+  'chart-threshold-marker',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -308,6 +316,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (GEOSPATIAL_CHARTS_IDS.has(componentId)) {
     return <GeospatialChartsDemos componentId={componentId} />;
+  }
+  if (CHART_CHROME_IDS.has(componentId)) {
+    return <ChartChromeDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

@@ -9,7 +9,10 @@ import {
   type GridCellValue,
   type GridRowRecord,
 } from '../AdvancedDataGrid';
+import { CalendarHeatmap } from '../CalendarHeatmap';
+import { ChartThresholdMarker } from '../ChartThresholdMarker';
 import { ChatMessageStream } from '../ChatMessageStream';
+import { ChoroplethMap } from '../ChoroplethMap';
 import { CitationChip } from '../CitationChip';
 import { CodeEditor, type CodeDiagnostic } from '../CodeEditor';
 import { CommentThread, type CommentItem } from '../CommentThread';
@@ -19,6 +22,7 @@ import { FacetedFilterBar, type FacetCategoryOption } from '../FacetedFilterBar'
 import { GlobalSearchModal, type GlobalSearchItem } from '../GlobalSearchModal';
 import { ImageCropper } from '../ImageCropper';
 import { InlineDiffReviewer } from '../InlineDiffReviewer';
+import { InteractiveLegend } from '../InteractiveLegend';
 import { LivePresenceIndicator, type PresenceUser } from '../LivePresenceIndicator';
 import { MediaLightbox } from '../MediaLightbox';
 import { NotificationCenter, type NotificationItem } from '../NotificationCenter';
@@ -26,6 +30,7 @@ import { PivotTable, type PivotField, type PivotRecord, type PivotScalar } from 
 import { ProductTour, type TourStep } from '../ProductTour';
 import { RichTextEditor } from '../RichTextEditor';
 import { RolePermissionsMatrix } from '../RolePermissionsMatrix';
+import { SankeyDiagram } from '../SankeyDiagram';
 import { StructuredOutputViewer, type JsonObject } from '../StructuredOutputViewer';
 import { TerminalEmulator } from '../TerminalEmulator';
 import {
@@ -802,8 +807,8 @@ describe('6. Static Source Hygiene Gate', () => {
     const coreSrcDir = path.resolve(testDir, '..');
     const tsxFiles = collectNonTestTsxFiles(coreSrcDir);
 
-    // Ensure the static scan covers all 126+ Refractor core components
-    expect(tsxFiles.length).toBeGreaterThanOrEqual(126);
+    // Ensure the static scan covers all 179+ Refractor core components
+    expect(tsxFiles.length).toBeGreaterThanOrEqual(179);
 
     const forbiddenSinks: ReadonlyArray<{ label: string; pattern: RegExp }> = [
       { label: 'dangerouslySetInnerHTML', pattern: /\bdangerouslySetInnerHTML\b/ },
@@ -951,6 +956,86 @@ describe('7. Phase 2 Expansion Security & Adversarial Verification (v1.1.0–v1.
     }).not.toThrow();
 
     expect(screen.getByText(/safeKey/)).toBeInTheDocument();
+    assertCleanObjectPrototype(baselineProtoKeys);
+  });
+});
+
+describe('8. Phase 3 Expansion Security & Adversarial Verification (v1.10.0–v1.20.0)', () => {
+  it('ChoroplethMap, CalendarHeatmap, SankeyDiagram, InteractiveLegend, and ChartThresholdMarker neutralize XSS payloads, hostile SVG paths, NaN/Infinity values, and prototype-polluting keys', () => {
+    const baselineProtoKeys = Object.getOwnPropertyNames(Object.prototype).sort();
+
+    const { container } = render(
+      <div>
+        <ChoroplethMap
+          title="<script>alert('map')</script>"
+          regions={[
+            {
+              id: '__proto__',
+              name: '<img src=x onerror=alert(1)>',
+              value: 42,
+              pathD: 'javascript:alert(1)" onload="alert(2)',
+              detail: '<svg onload=alert(3)>',
+            },
+            {
+              id: 'na',
+              name: 'North America',
+              value: Number.NaN,
+            },
+            {
+              id: 'eu',
+              name: 'Europe',
+              value: 80,
+            },
+          ]}
+        />
+        <CalendarHeatmap
+          endDate="2026-11-21"
+          entries={[
+            { date: '__proto__', count: 99, detail: 'polluted' },
+            { date: 'constructor', count: Number.POSITIVE_INFINITY },
+            { date: '2026-11-21', count: 7, detail: '<script>alert("cal")</script>' },
+          ]}
+        />
+        <SankeyDiagram
+          nodes={[
+            { id: '__proto__', label: '<script>alert("sankey")</script>', stage: 0 },
+            { id: 'constructor', label: 'Constructor Sink', stage: 1 },
+          ]}
+          links={[
+            { source: '__proto__', target: 'constructor', value: 25 },
+            { source: '__proto__', target: 'constructor', value: Number.NaN },
+          ]}
+        />
+        <InteractiveLegend
+          items={[
+            { id: '__proto__', label: 'Proto Series', value: 12 },
+            { id: 'prototype', label: '<iframe src="javascript:alert(1)"></iframe>', value: 24 },
+          ]}
+        />
+        <ChartThresholdMarker
+          data={[
+            { label: 'T1', value: 10 },
+            { label: 'T2', value: Number.NaN },
+            { label: 'T3', value: 50 },
+          ]}
+          thresholds={[
+            { id: '__proto__', label: '<img src=x onerror=alert(9)>', value: 40, tone: 'rose' },
+          ]}
+          events={[
+            { id: 'constructor', index: 0, label: '<script>alert("evt")</script>', detail: 'Safe literal' },
+          ]}
+        />
+      </div>
+    );
+
+    expect(container.querySelectorAll('script')).toHaveLength(0);
+    expect(container.querySelectorAll('iframe')).toHaveLength(0);
+    expect(container.querySelectorAll('img')).toHaveLength(0);
+    expect(container.querySelectorAll('[onerror], [onload]')).toHaveLength(0);
+    const svgPaths = Array.from(container.querySelectorAll('path')).map((el) => el.getAttribute('d') ?? '');
+    expect(svgPaths.some((d) => d.includes('javascript:'))).toBe(false);
+    expect(container.textContent).toContain('<script>alert(\'map\')</script>');
+    expect(container.textContent).toContain('<iframe src="javascript:alert(1)"></iframe>');
     assertCleanObjectPrototype(baselineProtoKeys);
   });
 });
