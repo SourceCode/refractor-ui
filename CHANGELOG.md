@@ -7,6 +7,19 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-11-21
+
+### Added
+- **Complex Variations of Common Controls (7 new optical-glass components — 150 total across 25 categories):**
+  - `TriStateCheckbox`: Accessible tri-state checkbox (`unchecked`/`checked`/`indeterminate`) syncing native DOM `indeterminate` and optional selection ratio pill.
+  - `DualThumbSlider`: Optical dual-handle range slider enforcing min/max bounds and minimum separation across pointer and keyboard controls.
+  - `HistogramRangeSlider`: Dual-thumb range slider layered over an optical SVG frequency histogram shading active bins and matched counts.
+  - `CascadingSelect`: Multi-column hierarchical drill-down dropdown with breadcrumb readout and Clear control.
+  - `CreatableCombobox`: Searchable optical combobox allowing users to pick existing options or create brand-new entries via IME-safe Enter.
+  - `RichSelectionCards`: Large clickable optical tiles with icons, descriptions, and badges operating in single (`radio`) or multi (`checkbox`) modes.
+  - `RotaryDial`: Circular drag-to-rotate 270° SVG knob control supporting pointer scrubbing, keyboard stepping, and double-click reset.
+- Added interactive playground demos and prop specs in `apps/docs` under `Complex Variations of Common Controls`.
+
 ## [1.12.0] - 2026-11-21
 
 ### Added
@@ -182,7 +195,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.12.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.13.0...HEAD
+[1.13.0]: https://github.com/SourceCode/refractor-ui/compare/v1.12.0...v1.13.0
 [1.12.0]: https://github.com/SourceCode/refractor-ui/compare/v1.11.0...v1.12.0
 [1.11.0]: https://github.com/SourceCode/refractor-ui/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/SourceCode/refractor-ui/compare/v1.9.0...v1.10.0

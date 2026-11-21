@@ -170,6 +170,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Action Controls',
     description: 'Two-part combo split buttons, press-and-hold confirmation triggers, stateful async morph buttons, multi-state cycle toggles, and fan-out speed dials.',
   },
+  {
+    id: 'complex-controls',
+    title: 'Complex Variations of Common Controls',
+    shortLabel: 'Advanced Controls',
+    description: 'Tri-state indeterminate checkboxes, dual-thumb & histogram range sliders, cascading drill-down menus, creatable comboboxes, rich selection tiles, and rotary dials.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2070,6 +2076,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'direction', type: "'up' | 'down' | 'left' | 'right' | 'radial'", defaultValue: "'up'", description: 'Fan-out direction or radial arc geometry.' },
       { name: 'openOnHover', type: 'boolean', defaultValue: 'false', description: 'Optionally expands quick actions on pointer hover.' },
+    ],
+  },
+  /* ==================== COMPLEX VARIATIONS OF COMMON CONTROLS (7) ==================== */
+  {
+    id: 'tri-state-checkbox',
+    title: 'Tri-State (Indeterminate) Checkbox',
+    exportName: 'TriStateCheckbox',
+    category: 'complex-controls',
+    categoryTitle: 'Complex Variations of Common Controls',
+    summary: 'Checkbox supporting unchecked, checked, and partial indeterminate states synced to native DOM indeterminate with optional selection counts.',
+    codeSnippet: `<TriStateCheckbox label="Select All" state="indeterminate" selectedCount={4} totalCount={7} />`,
+    props: [
+      { name: 'state / defaultState', type: "'unchecked' | 'checked' | 'indeterminate'", defaultValue: "'unchecked'", description: 'Active checkbox tri-state.' },
+      { name: 'selectedCount / totalCount', type: 'number', defaultValue: 'undefined', description: 'Optional parent/child selection ratio pill.' },
+    ],
+  },
+  {
+    id: 'dual-thumb-slider',
+    title: 'Dual-Thumb Range Slider',
+    exportName: 'DualThumbSlider',
+    category: 'complex-controls',
+    categoryTitle: 'Complex Variations of Common Controls',
+    summary: 'Recessed optical slider track with two independent draggable and keyboard-accessible thumbs defining minimum and maximum bounds simultaneously.',
+    codeSnippet: `<DualThumbSlider min={0} max={500} defaultValue={{ min: 80, max: 320 }} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'DualThumbRange', defaultValue: '{ min: 20, max: 80 }', description: 'Active lower and upper slider bounds.' },
+      { name: 'minDistance / step', type: 'number', defaultValue: '0 / 1', description: 'Minimum allowed separation between handles and stepping granularity.' },
+    ],
+  },
+  {
+    id: 'histogram-range-slider',
+    title: 'Histogram Range Slider',
+    exportName: 'HistogramRangeSlider',
+    category: 'complex-controls',
+    categoryTitle: 'Complex Variations of Common Controls',
+    summary: 'Dual-thumb range slider layered directly beneath an optical frequency histogram highlighting active bins and matched item counts.',
+    codeSnippet: `<HistogramRangeSlider bins={priceBins} formatValue={(v) => \`$\${v}\`} />`,
+    props: [
+      { name: 'bins', type: 'HistogramBin[]', defaultValue: 'required', description: 'Bucketed frequency distribution rendered as optical SVG bars.' },
+      { name: 'value / defaultValue', type: 'HistogramRangeValue', defaultValue: 'full domain', description: 'Active min/max filter boundaries.' },
+    ],
+  },
+  {
+    id: 'cascading-select',
+    title: 'Cascading Select (Drill-Down Menu)',
+    exportName: 'CascadingSelect',
+    category: 'complex-controls',
+    categoryTitle: 'Complex Variations of Common Controls',
+    summary: 'Multi-level optical drill-down dropdown opening adjacent child columns for hierarchical paths (e.g. Region → State → City).',
+    codeSnippet: `<CascadingSelect options={regions} onChange={(ids, nodes) => setRegion(ids)} />`,
+    props: [
+      { name: 'options', type: 'CascadeOptionNode[]', defaultValue: 'required', description: 'Nested tree of selectable parent branches and leaf options.' },
+      { name: 'value / defaultValue', type: 'string[]', defaultValue: '[]', description: 'Ordered array of selected node IDs from root to leaf.' },
+    ],
+  },
+  {
+    id: 'creatable-combobox',
+    title: 'Creatable Combobox',
+    exportName: 'CreatableCombobox',
+    category: 'complex-controls',
+    categoryTitle: 'Complex Variations of Common Controls',
+    summary: 'Searchable optical combobox letting users pick an existing option or create and commit a brand-new custom entry on the fly.',
+    codeSnippet: `<CreatableCombobox defaultOptions={tags} onCreateOption={(label) => addTag(label)} />`,
+    props: [
+      { name: 'options / defaultOptions', type: 'CreatableOption[]', defaultValue: '[]', description: 'Searchable option catalog.' },
+      { name: 'onCreateOption', type: '(label: string) => CreatableOption | void', defaultValue: 'undefined', description: 'Called when the user creates a new entry not in the list.' },
+    ],
+  },
+  {
+    id: 'rich-selection-cards',
+    title: 'Rich Selection Cards (Radio / Checkbox Tiles)',
+    exportName: 'RichSelectionCards',
+    category: 'complex-controls',
+    categoryTitle: 'Complex Variations of Common Controls',
+    summary: 'Large clickable optical glass cards displaying icons, titles, descriptions, and badges operating in single-select radio or multi-select checkbox modes.',
+    codeSnippet: `<RichSelectionCards mode="single" options={pipelines} defaultValue={['prism-vivid']} />`,
+    props: [
+      { name: 'mode', type: "'single' | 'multiple'", defaultValue: "'single'", description: 'Radio group or multi-select checkbox card behavior.' },
+      { name: 'columns', type: '1 | 2 | 3', defaultValue: '2', description: 'Responsive grid column count.' },
+    ],
+  },
+  {
+    id: 'rotary-dial',
+    title: 'Rotary Dial / Knob Control',
+    exportName: 'RotaryDial',
+    category: 'complex-controls',
+    categoryTitle: 'Complex Variations of Common Controls',
+    summary: 'Circular drag-to-rotate optical SVG knob control for continuous radial parameters like angles, hue rotation, or audio gain.',
+    codeSnippet: `<RotaryDial label="Hue Shift" defaultValue={145} min={0} max={360} unit="°" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'number', defaultValue: '50', description: 'Current dial value clamped within min..max.' },
+      { name: 'min / max / step', type: 'number', defaultValue: '0 / 100 / 1', description: 'Sweep bounds and stepping precision.' },
     ],
   },
 ];

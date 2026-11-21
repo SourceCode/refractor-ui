@@ -5,6 +5,7 @@ import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
 import { ComplexButtonsDemos } from './demos/ComplexButtonsDemos';
+import { ComplexControlsDemos } from './demos/ComplexControlsDemos';
 import { CoreDemos } from './demos/CoreDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
@@ -173,6 +174,16 @@ const COMPLEX_BUTTONS_IDS = new Set([
   'speed-dial-button',
 ]);
 
+const COMPLEX_CONTROLS_IDS = new Set([
+  'tri-state-checkbox',
+  'dual-thumb-slider',
+  'histogram-range-slider',
+  'cascading-select',
+  'creatable-combobox',
+  'rich-selection-cards',
+  'rotary-dial',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -227,6 +238,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (COMPLEX_BUTTONS_IDS.has(componentId)) {
     return <ComplexButtonsDemos componentId={componentId} />;
+  }
+  if (COMPLEX_CONTROLS_IDS.has(componentId)) {
+    return <ComplexControlsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

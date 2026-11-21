@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -122,6 +122,11 @@
       "types": "./dist/CarouselSlider/index.d.ts",
       "default": "./dist/CarouselSlider/index.js"
     },
+    "./CascadingSelect": {
+      "source": "./src/CascadingSelect/index.ts",
+      "types": "./dist/CascadingSelect/index.d.ts",
+      "default": "./dist/CascadingSelect/index.js"
+    },
     "./ChatMessageStream": {
       "source": "./src/ChatMessageStream/index.ts",
       "types": "./dist/ChatMessageStream/index.d.ts",
@@ -212,6 +217,11 @@
       "types": "./dist/CopyableCommandBlock/index.d.ts",
       "default": "./dist/CopyableCommandBlock/index.js"
     },
+    "./CreatableCombobox": {
+      "source": "./src/CreatableCombobox/index.ts",
+      "types": "./dist/CreatableCombobox/index.d.ts",
+      "default": "./dist/CreatableCombobox/index.js"
+    },
     "./CurrencyInput": {
       "source": "./src/CurrencyInput/index.ts",
       "types": "./dist/CurrencyInput/index.d.ts",
@@ -252,6 +262,11 @@
       "types": "./dist/DropdownSelect/index.d.ts",
       "default": "./dist/DropdownSelect/index.js"
     },
+    "./DualThumbSlider": {
+      "source": "./src/DualThumbSlider/index.ts",
+      "types": "./dist/DualThumbSlider/index.d.ts",
+      "default": "./dist/DualThumbSlider/index.js"
+    },
     "./DurationInput": {
       "source": "./src/DurationInput/index.ts",
       "types": "./dist/DurationInput/index.d.ts",
@@ -291,6 +306,11 @@
       "source": "./src/HandoffDivider/index.ts",
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
+    },
+    "./HistogramRangeSlider": {
+      "source": "./src/HistogramRangeSlider/index.ts",
+      "types": "./dist/HistogramRangeSlider/index.d.ts",
+      "default": "./dist/HistogramRangeSlider/index.js"
     },
     "./HoldToConfirmButton": {
       "source": "./src/HoldToConfirmButton/index.ts",
@@ -552,6 +572,11 @@
       "types": "./dist/ResponseActionBar/index.d.ts",
       "default": "./dist/ResponseActionBar/index.js"
     },
+    "./RichSelectionCards": {
+      "source": "./src/RichSelectionCards/index.ts",
+      "types": "./dist/RichSelectionCards/index.d.ts",
+      "default": "./dist/RichSelectionCards/index.js"
+    },
     "./RichTextEditor": {
       "source": "./src/RichTextEditor/index.ts",
       "types": "./dist/RichTextEditor/index.d.ts",
@@ -561,6 +586,11 @@
       "source": "./src/RolePermissionsMatrix/index.ts",
       "types": "./dist/RolePermissionsMatrix/index.d.ts",
       "default": "./dist/RolePermissionsMatrix/index.js"
+    },
+    "./RotaryDial": {
+      "source": "./src/RotaryDial/index.ts",
+      "types": "./dist/RotaryDial/index.d.ts",
+      "default": "./dist/RotaryDial/index.js"
     },
     "./ScrubbableNumberField": {
       "source": "./src/ScrubbableNumberField/index.ts",
@@ -731,6 +761,11 @@
       "source": "./src/TreeView/index.ts",
       "types": "./dist/TreeView/index.d.ts",
       "default": "./dist/TreeView/index.js"
+    },
+    "./TriStateCheckbox": {
+      "source": "./src/TriStateCheckbox/index.ts",
+      "types": "./dist/TriStateCheckbox/index.d.ts",
+      "default": "./dist/TriStateCheckbox/index.js"
     },
     "./VirtualizedList": {
       "source": "./src/VirtualizedList/index.ts",
