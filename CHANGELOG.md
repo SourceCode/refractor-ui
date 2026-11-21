@@ -7,6 +7,125 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.20.0] - 2026-11-21
+
+### Added
+- **Chart Chrome & Interactive Controls (4 new token-driven optical-glass chart chrome primitives — 179 total across 32 categories):**
+  - `InteractiveLegend`: Clickable & solo-capable series key legend supporting show/hide visibility, double-click/button solo isolation, hover/focus highlight handoff, and `Show All` reset.
+  - `BrushRangeScrubber`: Miniature overview sparkline with dual keyboard/pointer brush handles, draggable selection pan window, `All`/`Last 50%`/`Last 25%` zoom presets, and live range slice readout.
+  - `ChartCrosshairTooltip`: Multi-series SVG plot inspector with snapping vertical & horizontal dashed crosshair guides, click/Enter pin locking, delta calculations, and edge-safe glassmorphic floating readout.
+  - `ChartThresholdMarker`: Interactive chart annotation overlay rendering shaded target SLA bands, horizontal dashed threshold lines with breach counts, and clickable pinned vertical event flags.
+- Updated `apps/docs` GitHub Pages portal, `README.md`, package READMEs, CLI architecture metadata, security adversarial suite, and UX/UI Director audit report for the complete **179-component / 32-category** `v1.20.0` release.
+
+## [1.19.0] - 2026-11-21
+
+### Added
+- **Geospatial & Map Visuals (3 new token-driven optical-glass map visualizations — 175 total across 31 categories):**
+  - `ChoroplethMap`: Stylized vector regional choropleth map shading polygons along an optical `--prism-*` opacity ramp with sanitized custom SVG paths, `Low -> High` legend, and regional share telemetry.
+  - `PointClusterMap`: Zoomable equirectangular lat/lng vector map dynamically grouping dense markers into numbered optical cluster bubbles that expand into individual pins on click or zoom (`1×`–`4×`).
+  - `GeoFlowArcMap`: Origin-destination hub vector map plotting proportional quadratic-bezier curved flow arcs with directional midpoint arrows, route highlighting, and hub inbound/outbound inspection.
+- Added interactive playground demos and prop specs in `apps/docs` under `Geospatial & Map Visuals`.
+
+## [1.18.0] - 2026-11-21
+
+### Added
+- **KPI, Progress & Telemetry Visuals (4 new token-driven optical-glass monitoring visualizations — 172 total across 30 categories):**
+  - `RadialGauge`: Configurable `180°` / `270°` optical SVG speedometer gauge with interactive threshold bands, radial target tick, tapered needle, and ARIA `role="meter"` semantics.
+  - `BulletChart`: Compact horizontal bullet chart overlaying actual value bars and target threshold markers over 3 qualitative range bands with variance badges and band telemetry.
+  - `CalendarHeatmap`: Pure UTC day-by-day calendar activity heatmap with 5-level optical intensity ramp, streak/total summary pills, and prototype-safe date aggregation.
+  - `LiveTelemetryChart`: Continuously scrolling real-time SVG stream chart with `LIVE`/`PAUSED` snapshot freeze, rolling `20`/`40`/`60` sample window, warning threshold line, and live stats strip.
+- Added interactive playground demos and prop specs in `apps/docs` under `KPI, Progress & Telemetry Visuals`.
+
+## [1.17.0] - 2026-11-21
+
+### Added
+- **Relational & Flow Visuals (3 new token-driven optical-glass relational visualizations — 168 total across 29 categories):**
+  - `SankeyDiagram`: Multi-stage proportional flow diagram with cubic-bezier ribbons, stage column layout, ribbon highlighting, and inflow/outflow node telemetry.
+  - `NetworkForceGraph`: Deterministic seeded force-directed node-link topology graph with cluster group filter pills, zoom controls (`0.75×`–`2×`), and direct-neighbor highlight inspector.
+  - `ChordDiagram`: Circular bi-directional flow diagram plotting proportional quadratic-bezier chords between perimeter entities with entity isolation and inbound/outbound telemetry.
+- Added interactive playground demos and prop specs in `apps/docs` under `Relational & Flow Visuals`.
+
+## [1.16.0] - 2026-11-21
+
+### Added
+- **Statistical & Distribution Visuals (5 new token-driven optical-glass analytical charts — 165 total across 28 categories):**
+  - `ScatterBubblePlot`: X/Y correlation scatter & 3-variable bubble chart with group filters, optional midpoint quadrant guides, and point inspection readout.
+  - `HistogramChart`: Continuous frequency distribution histogram with configurable bin count (`2..24`), dashed Mean/Median markers, and bin inspection.
+  - `BoxWhiskerPlot`: Tukey 1.5×IQR statistical glyph chart visualizing min, Q1, median, Q3, max whiskers, and outlier points per series.
+  - `MatrixHeatmap`: Prototype-safe 2D row × column intensity grid shaded via `--prism-*` optical opacity ramp with interactive cell telemetry.
+  - `RadarSpiderChart`: Multi-axis radiating polygon web overlaying multi-variable entity profiles with interactive series toggles and axis comparison.
+- Added interactive playground demos and prop specs in `apps/docs` under `Statistical & Distribution Visuals`.
+
+## [1.15.0] - 2026-11-21
+
+### Added
+- **Part-to-Whole & Hierarchical Visuals (5 new token-driven optical-glass SVG visualizations — 160 total across 27 categories):**
+  - `DonutPieChart`: Proportional SVG donut & pie chart with center headline readout, slice selection, Donut/Pie toggle, and percentage share legend.
+  - `TreemapChart`: Space-filling binary-partitioned treemap sizing tiles proportionally and tinting semantically by positive/negative change delta.
+  - `SunburstChart`: Multi-layered radial ring hierarchy with click-to-zoom sub-category drill-down, interactive breadcrumb trail, and Reset Zoom.
+  - `FunnelChart`: Progressively narrowing optical conversion funnel surfacing overall conversion and stage-to-stage drop-off telemetry.
+  - `WaterfallChart`: Floating P&L bridge chart connecting starting baseline, positive/negative deltas, and closing total with dashed running-total connectors.
+- Added interactive playground demos and prop specs in `apps/docs` under `Part-to-Whole & Hierarchical Visuals`.
+
+## [1.14.0] - 2026-11-21
+
+### Added
+- **Core & Trend Charts (5 new token-driven optical-glass SVG chart components — 155 total across 26 categories):**
+  - `LineMultiSeriesChart`: Multi-series smooth/linear SVG line chart with dashed reference support, interactive series toggles, and point inspection readout.
+  - `AreaStackedChart`: Luminous optical gradient area and cumulative stacked area chart with Stacked/Overlay switcher and index breakdown readout.
+  - `BarColumnChart`: Vertical column and horizontal bar chart supporting grouped and stacked layouts with interactive bar focus.
+  - `ComboDualAxisChart`: Dual Y-axis SVG chart overlaying left-axis volume bars with a right-axis percentage/rate trend line.
+  - `SparklineChart`: Compact axis-free inline `line` and `bar` sparkline embeddable in tables/KPI cards with endpoint dots and percentage delta badge.
+- Added interactive playground demos and prop specs in `apps/docs` under `Core & Trend Charts`.
+
+## [1.13.0] - 2026-11-21
+
+### Added
+- **Complex Variations of Common Controls (7 new optical-glass components — 150 total across 25 categories):**
+  - `TriStateCheckbox`: Accessible tri-state checkbox (`unchecked`/`checked`/`indeterminate`) syncing native DOM `indeterminate` and optional selection ratio pill.
+  - `DualThumbSlider`: Optical dual-handle range slider enforcing min/max bounds and minimum separation across pointer and keyboard controls.
+  - `HistogramRangeSlider`: Dual-thumb range slider layered over an optical SVG frequency histogram shading active bins and matched counts.
+  - `CascadingSelect`: Multi-column hierarchical drill-down dropdown with breadcrumb readout and Clear control.
+  - `CreatableCombobox`: Searchable optical combobox allowing users to pick existing options or create brand-new entries via IME-safe Enter.
+  - `RichSelectionCards`: Large clickable optical tiles with icons, descriptions, and badges operating in single (`radio`) or multi (`checkbox`) modes.
+  - `RotaryDial`: Circular drag-to-rotate 270° SVG knob control supporting pointer scrubbing, keyboard stepping, and double-click reset.
+- Added interactive playground demos and prop specs in `apps/docs` under `Complex Variations of Common Controls`.
+
+## [1.12.0] - 2026-11-21
+
+### Added
+- **Complex Button & Action Variations (5 new optical-glass components — 143 total across 24 categories):**
+  - `ComboSplitButton`: Joined two-part optical action capsule pairing a default trigger body with an attached keyboard-navigable dropdown menu of secondary and destructive actions.
+  - `HoldToConfirmButton`: Safety confirmation trigger requiring sustained pointer or keyboard hold while a live optical progress fill reaches 100%.
+  - `StatefulAsyncButton`: Morphing action trigger cycling through Idle, Loading, Success, and Error states with duplicate-click protection and auto-reset.
+  - `MultiStateCycleButton`: Single tactile button rotating through 3+ ordered states per click with semantic tone styling and step-dot indicators.
+  - `SpeedDialButton`: Compact circular optical trigger fanning out secondary quick actions in stacked (`up`/`down`/`left`/`right`) or `radial` geometry.
+- Added interactive playground demos and prop specs in `apps/docs` under `Complex Button & Action Variations`.
+
+## [1.11.0] - 2026-11-21
+
+### Added
+- **Number, Currency & Formatted Type Fields (6 new optical-glass components — 138 total across 23 categories):**
+  - `NumericStepper`: Accessible `role="spinbutton"` input flanked by `-`/`+` buttons with step clamping and Arrow/PageUp/PageDown/Home/End keyboard controls.
+  - `ScrubbableNumberField`: Drag-to-scrub numeric field supporting Shift fine (0.1×) and Alt coarse (10×) pointer precision alongside direct keyboard input.
+  - `CurrencyInput`: Thousands-separated decimal currency input paired with inline `USD`/`EUR`/`GBP`/`JPY`/`CAD`/`AUD` currency switching and dynamic decimal precision.
+  - `MeasurementUnitInput`: Numeric field with attached unit switcher (`px`, `%`, `rem`, `ms`, `GB`, etc.) and optional linear unit conversion.
+  - `InternationalPhoneInput`: Searchable country dial-code dropdown paired with region-adaptive phone masks and live E.164 readout.
+  - `MaskedPatternInput`: Strict delimiter-inserting pattern input supporting IPv4, CIDR, MAC address, License Key, Tax ID presets, and custom patterns.
+- Added interactive playground demos and prop specs in `apps/docs` under `Number, Currency & Formatted Type Fields`.
+
+## [1.10.0] - 2026-11-21
+
+### Added
+- **Date, Time & Scheduling Fields (6 new optical-glass components — 132 total across 22 categories):**
+  - `DateRangePicker`: Dual-calendar optical range selector with quick-select presets (`Last 7 Days`, `Last 30 Days`, `Month to Date`, `Last Quarter`) and auto-swapping bounds.
+  - `CombinedDateTimePicker`: Unified month calendar grid paired with 12h/24h hour and minute controls in a single optical slab.
+  - `DurationInput`: Structured days/hours/minutes/seconds stepper fields paired with linear-time natural shorthand parsing (`2h 30m`, `4d 12h`).
+  - `RecurrenceBuilder`: Visual repeating-interval and 5-field cron schedule constructor with weekday pills, end conditions, and live human-readable summary.
+  - `MonthQuarterYearPicker`: Zoomed-out period picker switching cleanly between Month, Quarter (`Q1`–`Q4`), and Decade Year grids.
+  - `TimezoneSelector`: Searchable global IANA timezone dropdown displaying live UTC offsets and current local time via `Intl.DateTimeFormat`.
+- Added interactive playground demos and prop specs in `apps/docs` under `Date, Time & Scheduling Fields`.
+
 ## [1.9.0] - 2026-11-21
 
 ### Added
@@ -147,7 +266,18 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.20.0...HEAD
+[1.20.0]: https://github.com/SourceCode/refractor-ui/compare/v1.19.0...v1.20.0
+[1.19.0]: https://github.com/SourceCode/refractor-ui/compare/v1.18.0...v1.19.0
+[1.18.0]: https://github.com/SourceCode/refractor-ui/compare/v1.17.0...v1.18.0
+[1.17.0]: https://github.com/SourceCode/refractor-ui/compare/v1.16.0...v1.17.0
+[1.16.0]: https://github.com/SourceCode/refractor-ui/compare/v1.15.0...v1.16.0
+[1.15.0]: https://github.com/SourceCode/refractor-ui/compare/v1.14.0...v1.15.0
+[1.14.0]: https://github.com/SourceCode/refractor-ui/compare/v1.13.0...v1.14.0
+[1.13.0]: https://github.com/SourceCode/refractor-ui/compare/v1.12.0...v1.13.0
+[1.12.0]: https://github.com/SourceCode/refractor-ui/compare/v1.11.0...v1.12.0
+[1.11.0]: https://github.com/SourceCode/refractor-ui/compare/v1.10.0...v1.11.0
+[1.10.0]: https://github.com/SourceCode/refractor-ui/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/SourceCode/refractor-ui/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/SourceCode/refractor-ui/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/SourceCode/refractor-ui/compare/v1.6.0...v1.7.0

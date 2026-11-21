@@ -169,7 +169,7 @@ export const studioTheme = defineTheme({
   },
 });`;
 
-const CLI_SNIPPET = `# List all 126 components grouped across 21 canonical categories
+const CLI_SNIPPET = `# List all 179 components grouped across 32 canonical categories
 npx @refractor-ui/cli component --list
 
 # Inspect props, accessibility & examples (compact --dense mode for AI agents)
@@ -251,7 +251,7 @@ const ADRS = [
 ] as const;
 
 const SECURITY_INVARIANTS = [
-  { title: 'Zero Unsafe HTML Injection', detail: 'Enforced by @refractor/no-dangerous-html and verified statically across all 126 components. RichTextEditor uses an allowlist AST sanitizer.' },
+  { title: 'Zero Unsafe HTML Injection', detail: 'Enforced by @refractor/no-dangerous-html and verified statically across all 179 components. RichTextEditor uses an allowlist AST sanitizer.' },
   { title: 'Strict URL & Color Allowlisting', detail: 'sanitizeUrl() blocks javascript:, vbscript:, data:text/html, and control-char obfuscation across avatars, croppers, and editors.' },
   { title: 'OWASP CSV Formula Neutralization', detail: 'AdvancedDataGrid prefixes =, +, -, @, tab, and carriage return cells with a single quote via sanitizeCsvCell() before export.' },
   { title: 'Prototype Pollution Immunity', detail: 'PivotTable, AdvancedDataGrid, VisualQueryBuilder, and GlobalSearchModal isolate dynamic keys inside ES Maps (__proto__/constructor safe).' },
@@ -503,8 +503,8 @@ export function DocsGuides({ section }: DocsGuidesProps) {
         </h1>
         <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
           Refractor enforces strict component engineering contracts at compile time, lint time, and test time —
-          achieving <strong>99.5%+ statement coverage</strong>, <strong>0 high/critical CVEs</strong>,
-          and a <strong>9.93/10 mean Creative UX/UI Director score</strong> across all 126 components.
+          achieving <strong>99.6%+ statement coverage</strong>, <strong>0 high/critical CVEs</strong>,
+          and a <strong>9.94/10 mean Creative UX/UI Director score</strong> across all 179 components.
         </p>
       </div>
 

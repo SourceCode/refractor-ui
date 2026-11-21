@@ -1,19 +1,30 @@
 import { AiAgentControlDemos } from './demos/AiAgentControlDemos';
 import { AiContextMemoryDemos } from './demos/AiContextMemoryDemos';
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
+import { ChartChromeDemos } from './demos/ChartChromeDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
+import { ComplexButtonsDemos } from './demos/ComplexButtonsDemos';
+import { ComplexControlsDemos } from './demos/ComplexControlsDemos';
 import { CoreDemos } from './demos/CoreDemos';
+import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
+import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
+import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
+import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
+import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
+import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
+import { RelationalFlowChartsDemos } from './demos/RelationalFlowChartsDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
+import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -144,6 +155,92 @@ const MULTI_AGENT_IDS = new Set([
   'parallel-comparison-view',
 ]);
 
+const DATE_TIME_SCHEDULING_IDS = new Set([
+  'date-range-picker',
+  'combined-date-time-picker',
+  'duration-input',
+  'recurrence-builder',
+  'month-quarter-year-picker',
+  'timezone-selector',
+]);
+
+const NUMBER_CURRENCY_IDS = new Set([
+  'numeric-stepper',
+  'scrubbable-number-field',
+  'currency-input',
+  'measurement-unit-input',
+  'international-phone-input',
+  'masked-pattern-input',
+]);
+
+const COMPLEX_BUTTONS_IDS = new Set([
+  'combo-split-button',
+  'hold-to-confirm-button',
+  'stateful-async-button',
+  'multi-state-cycle-button',
+  'speed-dial-button',
+]);
+
+const COMPLEX_CONTROLS_IDS = new Set([
+  'tri-state-checkbox',
+  'dual-thumb-slider',
+  'histogram-range-slider',
+  'cascading-select',
+  'creatable-combobox',
+  'rich-selection-cards',
+  'rotary-dial',
+]);
+
+const CORE_TREND_CHARTS_IDS = new Set([
+  'line-multi-series-chart',
+  'area-stacked-chart',
+  'bar-column-chart',
+  'combo-dual-axis-chart',
+  'sparkline-chart',
+]);
+
+const PART_TO_WHOLE_CHARTS_IDS = new Set([
+  'donut-pie-chart',
+  'treemap-chart',
+  'sunburst-chart',
+  'funnel-chart',
+  'waterfall-chart',
+]);
+
+const STATISTICAL_CHARTS_IDS = new Set([
+  'scatter-bubble-plot',
+  'histogram-chart',
+  'box-whisker-plot',
+  'matrix-heatmap',
+  'radar-spider-chart',
+]);
+
+const RELATIONAL_FLOW_CHARTS_IDS = new Set([
+  'sankey-diagram',
+  'network-force-graph',
+  'chord-diagram',
+]);
+
+const KPI_TELEMETRY_CHARTS_IDS = new Set([
+  'radial-gauge',
+  'bullet-chart',
+  'calendar-heatmap',
+  'live-telemetry-chart',
+]);
+
+const GEOSPATIAL_CHARTS_IDS = new Set([
+  'choropleth-map',
+  'point-cluster-map',
+  'geo-flow-arc-map',
+]);
+
+const CHART_CHROME_IDS = new Set([
+  'interactive-legend',
+  'brush-range-scrubber',
+  'chart-crosshair-tooltip',
+  'chart-threshold-marker',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -189,6 +286,39 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (MULTI_AGENT_IDS.has(componentId)) {
     return <MultiAgentDemos componentId={componentId} />;
+  }
+  if (DATE_TIME_SCHEDULING_IDS.has(componentId)) {
+    return <DateTimeSchedulingDemos componentId={componentId} />;
+  }
+  if (NUMBER_CURRENCY_IDS.has(componentId)) {
+    return <NumberCurrencyDemos componentId={componentId} />;
+  }
+  if (COMPLEX_BUTTONS_IDS.has(componentId)) {
+    return <ComplexButtonsDemos componentId={componentId} />;
+  }
+  if (COMPLEX_CONTROLS_IDS.has(componentId)) {
+    return <ComplexControlsDemos componentId={componentId} />;
+  }
+  if (CORE_TREND_CHARTS_IDS.has(componentId)) {
+    return <CoreTrendChartsDemos componentId={componentId} />;
+  }
+  if (PART_TO_WHOLE_CHARTS_IDS.has(componentId)) {
+    return <PartToWholeChartsDemos componentId={componentId} />;
+  }
+  if (STATISTICAL_CHARTS_IDS.has(componentId)) {
+    return <StatisticalChartsDemos componentId={componentId} />;
+  }
+  if (RELATIONAL_FLOW_CHARTS_IDS.has(componentId)) {
+    return <RelationalFlowChartsDemos componentId={componentId} />;
+  }
+  if (KPI_TELEMETRY_CHARTS_IDS.has(componentId)) {
+    return <KpiTelemetryChartsDemos componentId={componentId} />;
+  }
+  if (GEOSPATIAL_CHARTS_IDS.has(componentId)) {
+    return <GeospatialChartsDemos componentId={componentId} />;
+  }
+  if (CHART_CHROME_IDS.has(componentId)) {
+    return <ChartChromeDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

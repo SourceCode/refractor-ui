@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.9.0",
+  "version": "1.20.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -77,6 +77,11 @@
       "types": "./dist/ApprovalGateCard/index.d.ts",
       "default": "./dist/ApprovalGateCard/index.js"
     },
+    "./AreaStackedChart": {
+      "source": "./src/AreaStackedChart/index.ts",
+      "types": "./dist/AreaStackedChart/index.d.ts",
+      "default": "./dist/AreaStackedChart/index.js"
+    },
     "./AttachedContextBar": {
       "source": "./src/AttachedContextBar/index.ts",
       "types": "./dist/AttachedContextBar/index.d.ts",
@@ -97,6 +102,11 @@
       "types": "./dist/BadgeStatus/index.d.ts",
       "default": "./dist/BadgeStatus/index.js"
     },
+    "./BarColumnChart": {
+      "source": "./src/BarColumnChart/index.ts",
+      "types": "./dist/BarColumnChart/index.d.ts",
+      "default": "./dist/BarColumnChart/index.js"
+    },
     "./BeforeAfterSlider": {
       "source": "./src/BeforeAfterSlider/index.ts",
       "types": "./dist/BeforeAfterSlider/index.d.ts",
@@ -107,10 +117,30 @@
       "types": "./dist/BottomNavigationBar/index.d.ts",
       "default": "./dist/BottomNavigationBar/index.js"
     },
+    "./BoxWhiskerPlot": {
+      "source": "./src/BoxWhiskerPlot/index.ts",
+      "types": "./dist/BoxWhiskerPlot/index.d.ts",
+      "default": "./dist/BoxWhiskerPlot/index.js"
+    },
     "./Breadcrumbs": {
       "source": "./src/Breadcrumbs/index.ts",
       "types": "./dist/Breadcrumbs/index.d.ts",
       "default": "./dist/Breadcrumbs/index.js"
+    },
+    "./BrushRangeScrubber": {
+      "source": "./src/BrushRangeScrubber/index.ts",
+      "types": "./dist/BrushRangeScrubber/index.d.ts",
+      "default": "./dist/BrushRangeScrubber/index.js"
+    },
+    "./BulletChart": {
+      "source": "./src/BulletChart/index.ts",
+      "types": "./dist/BulletChart/index.d.ts",
+      "default": "./dist/BulletChart/index.js"
+    },
+    "./CalendarHeatmap": {
+      "source": "./src/CalendarHeatmap/index.ts",
+      "types": "./dist/CalendarHeatmap/index.d.ts",
+      "default": "./dist/CalendarHeatmap/index.js"
     },
     "./CalendarView": {
       "source": "./src/CalendarView/index.ts",
@@ -121,6 +151,21 @@
       "source": "./src/CarouselSlider/index.ts",
       "types": "./dist/CarouselSlider/index.d.ts",
       "default": "./dist/CarouselSlider/index.js"
+    },
+    "./CascadingSelect": {
+      "source": "./src/CascadingSelect/index.ts",
+      "types": "./dist/CascadingSelect/index.d.ts",
+      "default": "./dist/CascadingSelect/index.js"
+    },
+    "./ChartCrosshairTooltip": {
+      "source": "./src/ChartCrosshairTooltip/index.ts",
+      "types": "./dist/ChartCrosshairTooltip/index.d.ts",
+      "default": "./dist/ChartCrosshairTooltip/index.js"
+    },
+    "./ChartThresholdMarker": {
+      "source": "./src/ChartThresholdMarker/index.ts",
+      "types": "./dist/ChartThresholdMarker/index.d.ts",
+      "default": "./dist/ChartThresholdMarker/index.js"
     },
     "./ChatMessageStream": {
       "source": "./src/ChatMessageStream/index.ts",
@@ -137,6 +182,16 @@
       "types": "./dist/CheckpointRollbackStrip/index.d.ts",
       "default": "./dist/CheckpointRollbackStrip/index.js"
     },
+    "./ChordDiagram": {
+      "source": "./src/ChordDiagram/index.ts",
+      "types": "./dist/ChordDiagram/index.d.ts",
+      "default": "./dist/ChordDiagram/index.js"
+    },
+    "./ChoroplethMap": {
+      "source": "./src/ChoroplethMap/index.ts",
+      "types": "./dist/ChoroplethMap/index.d.ts",
+      "default": "./dist/ChoroplethMap/index.js"
+    },
     "./CitationChip": {
       "source": "./src/CitationChip/index.ts",
       "types": "./dist/CitationChip/index.d.ts",
@@ -151,6 +206,21 @@
       "source": "./src/ColorPicker/index.ts",
       "types": "./dist/ColorPicker/index.d.ts",
       "default": "./dist/ColorPicker/index.js"
+    },
+    "./CombinedDateTimePicker": {
+      "source": "./src/CombinedDateTimePicker/index.ts",
+      "types": "./dist/CombinedDateTimePicker/index.d.ts",
+      "default": "./dist/CombinedDateTimePicker/index.js"
+    },
+    "./ComboDualAxisChart": {
+      "source": "./src/ComboDualAxisChart/index.ts",
+      "types": "./dist/ComboDualAxisChart/index.d.ts",
+      "default": "./dist/ComboDualAxisChart/index.js"
+    },
+    "./ComboSplitButton": {
+      "source": "./src/ComboSplitButton/index.ts",
+      "types": "./dist/ComboSplitButton/index.d.ts",
+      "default": "./dist/ComboSplitButton/index.js"
     },
     "./CommandInputBar": {
       "source": "./src/CommandInputBar/index.ts",
@@ -202,6 +272,16 @@
       "types": "./dist/CopyableCommandBlock/index.d.ts",
       "default": "./dist/CopyableCommandBlock/index.js"
     },
+    "./CreatableCombobox": {
+      "source": "./src/CreatableCombobox/index.ts",
+      "types": "./dist/CreatableCombobox/index.d.ts",
+      "default": "./dist/CreatableCombobox/index.js"
+    },
+    "./CurrencyInput": {
+      "source": "./src/CurrencyInput/index.ts",
+      "types": "./dist/CurrencyInput/index.d.ts",
+      "default": "./dist/CurrencyInput/index.js"
+    },
     "./CustomVideoPlayer": {
       "source": "./src/CustomVideoPlayer/index.ts",
       "types": "./dist/CustomVideoPlayer/index.d.ts",
@@ -211,6 +291,11 @@
       "source": "./src/DataTable/index.ts",
       "types": "./dist/DataTable/index.d.ts",
       "default": "./dist/DataTable/index.js"
+    },
+    "./DateRangePicker": {
+      "source": "./src/DateRangePicker/index.ts",
+      "types": "./dist/DateRangePicker/index.d.ts",
+      "default": "./dist/DateRangePicker/index.js"
     },
     "./DateTimePicker": {
       "source": "./src/DateTimePicker/index.ts",
@@ -227,10 +312,25 @@
       "types": "./dist/DockablePanel/index.d.ts",
       "default": "./dist/DockablePanel/index.js"
     },
+    "./DonutPieChart": {
+      "source": "./src/DonutPieChart/index.ts",
+      "types": "./dist/DonutPieChart/index.d.ts",
+      "default": "./dist/DonutPieChart/index.js"
+    },
     "./DropdownSelect": {
       "source": "./src/DropdownSelect/index.ts",
       "types": "./dist/DropdownSelect/index.d.ts",
       "default": "./dist/DropdownSelect/index.js"
+    },
+    "./DualThumbSlider": {
+      "source": "./src/DualThumbSlider/index.ts",
+      "types": "./dist/DualThumbSlider/index.d.ts",
+      "default": "./dist/DualThumbSlider/index.js"
+    },
+    "./DurationInput": {
+      "source": "./src/DurationInput/index.ts",
+      "types": "./dist/DurationInput/index.d.ts",
+      "default": "./dist/DurationInput/index.js"
     },
     "./EmptyState": {
       "source": "./src/EmptyState/index.ts",
@@ -252,10 +352,20 @@
       "types": "./dist/FloatingActionButton/index.d.ts",
       "default": "./dist/FloatingActionButton/index.js"
     },
+    "./FunnelChart": {
+      "source": "./src/FunnelChart/index.ts",
+      "types": "./dist/FunnelChart/index.d.ts",
+      "default": "./dist/FunnelChart/index.js"
+    },
     "./GanttChart": {
       "source": "./src/GanttChart/index.ts",
       "types": "./dist/GanttChart/index.d.ts",
       "default": "./dist/GanttChart/index.js"
+    },
+    "./GeoFlowArcMap": {
+      "source": "./src/GeoFlowArcMap/index.ts",
+      "types": "./dist/GeoFlowArcMap/index.d.ts",
+      "default": "./dist/GeoFlowArcMap/index.js"
     },
     "./GlobalSearchModal": {
       "source": "./src/GlobalSearchModal/index.ts",
@@ -266,6 +376,21 @@
       "source": "./src/HandoffDivider/index.ts",
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
+    },
+    "./HistogramChart": {
+      "source": "./src/HistogramChart/index.ts",
+      "types": "./dist/HistogramChart/index.d.ts",
+      "default": "./dist/HistogramChart/index.js"
+    },
+    "./HistogramRangeSlider": {
+      "source": "./src/HistogramRangeSlider/index.ts",
+      "types": "./dist/HistogramRangeSlider/index.d.ts",
+      "default": "./dist/HistogramRangeSlider/index.js"
+    },
+    "./HoldToConfirmButton": {
+      "source": "./src/HoldToConfirmButton/index.ts",
+      "types": "./dist/HoldToConfirmButton/index.d.ts",
+      "default": "./dist/HoldToConfirmButton/index.js"
     },
     "./IconButton": {
       "source": "./src/IconButton/index.ts",
@@ -287,10 +412,20 @@
       "types": "./dist/InlineEditableField/index.d.ts",
       "default": "./dist/InlineEditableField/index.js"
     },
+    "./InteractiveLegend": {
+      "source": "./src/InteractiveLegend/index.ts",
+      "types": "./dist/InteractiveLegend/index.d.ts",
+      "default": "./dist/InteractiveLegend/index.js"
+    },
     "./InteractiveMapViewer": {
       "source": "./src/InteractiveMapViewer/index.ts",
       "types": "./dist/InteractiveMapViewer/index.d.ts",
       "default": "./dist/InteractiveMapViewer/index.js"
+    },
+    "./InternationalPhoneInput": {
+      "source": "./src/InternationalPhoneInput/index.ts",
+      "types": "./dist/InternationalPhoneInput/index.d.ts",
+      "default": "./dist/InternationalPhoneInput/index.js"
     },
     "./KanbanBoard": {
       "source": "./src/KanbanBoard/index.ts",
@@ -307,6 +442,11 @@
       "types": "./dist/KpiMetricCard/index.d.ts",
       "default": "./dist/KpiMetricCard/index.js"
     },
+    "./LineMultiSeriesChart": {
+      "source": "./src/LineMultiSeriesChart/index.ts",
+      "types": "./dist/LineMultiSeriesChart/index.d.ts",
+      "default": "./dist/LineMultiSeriesChart/index.js"
+    },
     "./LiveLogStreamer": {
       "source": "./src/LiveLogStreamer/index.ts",
       "types": "./dist/LiveLogStreamer/index.d.ts",
@@ -317,6 +457,16 @@
       "types": "./dist/LivePresenceIndicator/index.d.ts",
       "default": "./dist/LivePresenceIndicator/index.js"
     },
+    "./LiveTelemetryChart": {
+      "source": "./src/LiveTelemetryChart/index.ts",
+      "types": "./dist/LiveTelemetryChart/index.d.ts",
+      "default": "./dist/LiveTelemetryChart/index.js"
+    },
+    "./MaskedPatternInput": {
+      "source": "./src/MaskedPatternInput/index.ts",
+      "types": "./dist/MaskedPatternInput/index.d.ts",
+      "default": "./dist/MaskedPatternInput/index.js"
+    },
     "./MasonryGrid": {
       "source": "./src/MasonryGrid/index.ts",
       "types": "./dist/MasonryGrid/index.d.ts",
@@ -326,6 +476,16 @@
       "source": "./src/MasterDetailView/index.ts",
       "types": "./dist/MasterDetailView/index.d.ts",
       "default": "./dist/MasterDetailView/index.js"
+    },
+    "./MatrixHeatmap": {
+      "source": "./src/MatrixHeatmap/index.ts",
+      "types": "./dist/MatrixHeatmap/index.d.ts",
+      "default": "./dist/MatrixHeatmap/index.js"
+    },
+    "./MeasurementUnitInput": {
+      "source": "./src/MeasurementUnitInput/index.ts",
+      "types": "./dist/MeasurementUnitInput/index.d.ts",
+      "default": "./dist/MeasurementUnitInput/index.js"
     },
     "./MediaLightbox": {
       "source": "./src/MediaLightbox/index.ts",
@@ -347,10 +507,25 @@
       "types": "./dist/ModelParameterSwitcher/index.d.ts",
       "default": "./dist/ModelParameterSwitcher/index.js"
     },
+    "./MonthQuarterYearPicker": {
+      "source": "./src/MonthQuarterYearPicker/index.ts",
+      "types": "./dist/MonthQuarterYearPicker/index.d.ts",
+      "default": "./dist/MonthQuarterYearPicker/index.js"
+    },
     "./MultiSelectCombobox": {
       "source": "./src/MultiSelectCombobox/index.ts",
       "types": "./dist/MultiSelectCombobox/index.d.ts",
       "default": "./dist/MultiSelectCombobox/index.js"
+    },
+    "./MultiStateCycleButton": {
+      "source": "./src/MultiStateCycleButton/index.ts",
+      "types": "./dist/MultiStateCycleButton/index.d.ts",
+      "default": "./dist/MultiStateCycleButton/index.js"
+    },
+    "./NetworkForceGraph": {
+      "source": "./src/NetworkForceGraph/index.ts",
+      "types": "./dist/NetworkForceGraph/index.d.ts",
+      "default": "./dist/NetworkForceGraph/index.js"
     },
     "./NodeGraphCanvas": {
       "source": "./src/NodeGraphCanvas/index.ts",
@@ -361,6 +536,11 @@
       "source": "./src/NotificationCenter/index.ts",
       "types": "./dist/NotificationCenter/index.d.ts",
       "default": "./dist/NotificationCenter/index.js"
+    },
+    "./NumericStepper": {
+      "source": "./src/NumericStepper/index.ts",
+      "types": "./dist/NumericStepper/index.d.ts",
+      "default": "./dist/NumericStepper/index.js"
     },
     "./OpticalCharts": {
       "source": "./src/OpticalCharts/index.ts",
@@ -396,6 +576,11 @@
       "source": "./src/PivotTable/index.ts",
       "types": "./dist/PivotTable/index.d.ts",
       "default": "./dist/PivotTable/index.js"
+    },
+    "./PointClusterMap": {
+      "source": "./src/PointClusterMap/index.ts",
+      "types": "./dist/PointClusterMap/index.d.ts",
+      "default": "./dist/PointClusterMap/index.js"
     },
     "./PricingTierMatrix": {
       "source": "./src/PricingTierMatrix/index.ts",
@@ -462,6 +647,16 @@
       "types": "./dist/PullToRefresh/index.d.ts",
       "default": "./dist/PullToRefresh/index.js"
     },
+    "./RadarSpiderChart": {
+      "source": "./src/RadarSpiderChart/index.ts",
+      "types": "./dist/RadarSpiderChart/index.d.ts",
+      "default": "./dist/RadarSpiderChart/index.js"
+    },
+    "./RadialGauge": {
+      "source": "./src/RadialGauge/index.ts",
+      "types": "./dist/RadialGauge/index.d.ts",
+      "default": "./dist/RadialGauge/index.js"
+    },
     "./RadioGroup": {
       "source": "./src/RadioGroup/index.ts",
       "types": "./dist/RadioGroup/index.d.ts",
@@ -482,10 +677,20 @@
       "types": "./dist/RecoveryRoutingCard/index.d.ts",
       "default": "./dist/RecoveryRoutingCard/index.js"
     },
+    "./RecurrenceBuilder": {
+      "source": "./src/RecurrenceBuilder/index.ts",
+      "types": "./dist/RecurrenceBuilder/index.d.ts",
+      "default": "./dist/RecurrenceBuilder/index.js"
+    },
     "./ResponseActionBar": {
       "source": "./src/ResponseActionBar/index.ts",
       "types": "./dist/ResponseActionBar/index.d.ts",
       "default": "./dist/ResponseActionBar/index.js"
+    },
+    "./RichSelectionCards": {
+      "source": "./src/RichSelectionCards/index.ts",
+      "types": "./dist/RichSelectionCards/index.d.ts",
+      "default": "./dist/RichSelectionCards/index.js"
     },
     "./RichTextEditor": {
       "source": "./src/RichTextEditor/index.ts",
@@ -496,6 +701,26 @@
       "source": "./src/RolePermissionsMatrix/index.ts",
       "types": "./dist/RolePermissionsMatrix/index.d.ts",
       "default": "./dist/RolePermissionsMatrix/index.js"
+    },
+    "./RotaryDial": {
+      "source": "./src/RotaryDial/index.ts",
+      "types": "./dist/RotaryDial/index.d.ts",
+      "default": "./dist/RotaryDial/index.js"
+    },
+    "./SankeyDiagram": {
+      "source": "./src/SankeyDiagram/index.ts",
+      "types": "./dist/SankeyDiagram/index.d.ts",
+      "default": "./dist/SankeyDiagram/index.js"
+    },
+    "./ScatterBubblePlot": {
+      "source": "./src/ScatterBubblePlot/index.ts",
+      "types": "./dist/ScatterBubblePlot/index.d.ts",
+      "default": "./dist/ScatterBubblePlot/index.js"
+    },
+    "./ScrubbableNumberField": {
+      "source": "./src/ScrubbableNumberField/index.ts",
+      "types": "./dist/ScrubbableNumberField/index.d.ts",
+      "default": "./dist/ScrubbableNumberField/index.js"
     },
     "./SearchWithSuggestions": {
       "source": "./src/SearchWithSuggestions/index.ts",
@@ -547,6 +772,16 @@
       "types": "./dist/SortableList/index.d.ts",
       "default": "./dist/SortableList/index.js"
     },
+    "./SparklineChart": {
+      "source": "./src/SparklineChart/index.ts",
+      "types": "./dist/SparklineChart/index.d.ts",
+      "default": "./dist/SparklineChart/index.js"
+    },
+    "./SpeedDialButton": {
+      "source": "./src/SpeedDialButton/index.ts",
+      "types": "./dist/SpeedDialButton/index.d.ts",
+      "default": "./dist/SpeedDialButton/index.js"
+    },
     "./SplitArtifactCanvas": {
       "source": "./src/SplitArtifactCanvas/index.ts",
       "types": "./dist/SplitArtifactCanvas/index.d.ts",
@@ -556,6 +791,11 @@
       "source": "./src/SplitButton/index.ts",
       "types": "./dist/SplitButton/index.d.ts",
       "default": "./dist/SplitButton/index.js"
+    },
+    "./StatefulAsyncButton": {
+      "source": "./src/StatefulAsyncButton/index.ts",
+      "types": "./dist/StatefulAsyncButton/index.d.ts",
+      "default": "./dist/StatefulAsyncButton/index.js"
     },
     "./Stepper": {
       "source": "./src/Stepper/index.ts",
@@ -571,6 +811,11 @@
       "source": "./src/StructuredOutputViewer/index.ts",
       "types": "./dist/StructuredOutputViewer/index.d.ts",
       "default": "./dist/StructuredOutputViewer/index.js"
+    },
+    "./SunburstChart": {
+      "source": "./src/SunburstChart/index.ts",
+      "types": "./dist/SunburstChart/index.d.ts",
+      "default": "./dist/SunburstChart/index.js"
     },
     "./SwipeableActionRow": {
       "source": "./src/SwipeableActionRow/index.ts",
@@ -612,6 +857,11 @@
       "types": "./dist/Timeline/index.d.ts",
       "default": "./dist/Timeline/index.js"
     },
+    "./TimezoneSelector": {
+      "source": "./src/TimezoneSelector/index.ts",
+      "types": "./dist/TimezoneSelector/index.d.ts",
+      "default": "./dist/TimezoneSelector/index.js"
+    },
     "./ToastSnackbar": {
       "source": "./src/ToastSnackbar/index.ts",
       "types": "./dist/ToastSnackbar/index.d.ts",
@@ -647,6 +897,16 @@
       "types": "./dist/TreeView/index.d.ts",
       "default": "./dist/TreeView/index.js"
     },
+    "./TreemapChart": {
+      "source": "./src/TreemapChart/index.ts",
+      "types": "./dist/TreemapChart/index.d.ts",
+      "default": "./dist/TreemapChart/index.js"
+    },
+    "./TriStateCheckbox": {
+      "source": "./src/TriStateCheckbox/index.ts",
+      "types": "./dist/TriStateCheckbox/index.d.ts",
+      "default": "./dist/TriStateCheckbox/index.js"
+    },
     "./VirtualizedList": {
       "source": "./src/VirtualizedList/index.ts",
       "types": "./dist/VirtualizedList/index.d.ts",
@@ -656,6 +916,11 @@
       "source": "./src/VisualQueryBuilder/index.ts",
       "types": "./dist/VisualQueryBuilder/index.d.ts",
       "default": "./dist/VisualQueryBuilder/index.js"
+    },
+    "./WaterfallChart": {
+      "source": "./src/WaterfallChart/index.ts",
+      "types": "./dist/WaterfallChart/index.d.ts",
+      "default": "./dist/WaterfallChart/index.js"
     },
     "./WindowSplitter": {
       "source": "./src/WindowSplitter/index.ts",
