@@ -7,6 +7,20 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.25.0] - 2026-11-21
+
+### Added
+- **Photo & Color Grading Controls (8 new optical-glass imaging & grading primitives — 197 total across 35 categories):**
+  - `ToneCurveEditor`: Monotone cubic spline RGB + Luma tone curve editor with background histogram silhouette, click-to-add control points, presets (`Linear`, `S-Curve`, `Matte Lift`), and keyboard nudging.
+  - `ThreeWayColorWheels`: Circular Lift (Shadows), Gamma (Midtones), and Gain (Highlights) chromaticity balance wheels with draggable unit-circle pucks and master luminance sliders.
+  - `LiveColorScopes`: Broadcast-calibrated SVG monitor suite combining RGB+Luma Histogram, IRE Luma Waveform, and Rec.709 Vectorscope with shadow/highlight clipping alerts.
+  - `CropStraightenOverlay`: Draggable crop frame with 4 corner handles, Rule-of-Thirds grid, aspect ratio locks (`Free`, `16:9`, `4:5`, `1:1`, `2.39:1`), and a calibrated `±45°` straighten dial.
+  - `LayerBlendStack`: Reorderable compositing layer stack with visibility toggles, 7 blend modes, opacity slider, clipping mask toggle, and layer locking.
+  - `EyedropperPixelLoupe`: Interactive pixel sampling mosaic with magnified 5×5 circular reticle loupe, `1×1`/`3×3`/`5×5` averaging modes, live Hex/RGB telemetry, and swatch history.
+  - `BrushHudControl`: Compact optical brush HUD with live SVG radial feathering preview, Size (`px`), Hardness (`%`), Flow (`%`) controls, `[`/`]` keyboard shortcuts, and 4 studio presets.
+  - `WipeCompareOverlay`: Vertical/horizontal split-wipe divider paired with a press-and-hold "Hold to Compare Original" bypass toggle.
+- Added interactive playground demos and prop specs in `apps/docs` under `Photo & Color Grading Controls`.
+
 ## [1.24.0] - 2026-11-21
 
 ### Added
@@ -324,7 +338,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.24.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.25.0...HEAD
+[1.25.0]: https://github.com/SourceCode/refractor-ui/compare/v1.24.0...v1.25.0
 [1.24.0]: https://github.com/SourceCode/refractor-ui/compare/v1.23.0...v1.24.0
 [1.23.0]: https://github.com/SourceCode/refractor-ui/compare/v1.22.0...v1.23.0
 [1.22.0]: https://github.com/SourceCode/refractor-ui/compare/v1.21.0...v1.22.0

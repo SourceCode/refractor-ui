@@ -230,6 +230,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Timeline',
     description: 'Layered multi-track NLE/DAW workspaces, calibrated playhead rulers, DAW track strips, clip trim/fade/razor handles, Bezier keyframe editors, and zoom navigators.',
   },
+  {
+    id: 'photo-color-grading',
+    title: 'Photo & Color Grading Controls',
+    shortLabel: 'Color & Photo',
+    description: 'Monotone RGB/Luma tone curves, 3-way Lift/Gamma/Gain color wheels, live broadcast scopes, crop/straighten overlays, blend stacks, pixel loupes, brush HUDs, and wipe bypasses.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2738,6 +2744,111 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'windowRange / minWindowPct', type: 'TimelineViewportWindow / number', defaultValue: '{10..60} / 5', description: 'Visible viewport span percentages and minimum zoom width.' },
       { name: 'totalDurationSec / onWindowChange', type: 'number / (win, zoom) => void', defaultValue: '120 / undefined', description: 'Project duration and live pan/zoom telemetry callback.' },
+    ],
+  },
+  /* ==================== PHOTO & COLOR GRADING CONTROLS (8) ==================== */
+  {
+    id: 'tone-curve-editor',
+    title: 'Tone Curve Editor (RGB / Luma)',
+    exportName: 'ToneCurveEditor',
+    category: 'photo-color-grading',
+    categoryTitle: 'Photo & Color Grading Controls',
+    summary: 'Monotone cubic spline tone curve editor across Luma, Red, Green, and Blue channels with background histogram silhouette, click-to-add control points, and grading presets.',
+    codeSnippet: `<ToneCurveEditor title="Master RGB + Luma Tone Curve" />`,
+    props: [
+      { name: 'curves / activeChannel', type: 'Partial<ToneCurveChannelMap> / ToneCurveChannel', defaultValue: "diagonal / 'luma'", description: 'Per-channel 0..255 control point curves and active channel.' },
+      { name: 'onChange / histogram', type: '(ch, pts, all) => void / number[]', defaultValue: 'undefined / default 32-bin', description: 'Curve update handler and optional background histogram bins.' },
+    ],
+  },
+  {
+    id: 'three-way-color-wheels',
+    title: '3-Way Color Wheels (Lift / Gamma / Gain)',
+    exportName: 'ThreeWayColorWheels',
+    category: 'photo-color-grading',
+    categoryTitle: 'Photo & Color Grading Controls',
+    summary: 'Three circular chromaticity dials with draggable unit-circle pucks and master luminance sliders for independent Shadow, Midtone, and Highlight grading.',
+    codeSnippet: `<ThreeWayColorWheels title="Primary 3-Way Color Balance" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'Partial<ThreeWayColorGrade>', defaultValue: 'neutral (0, 0, 0)', description: 'Controlled or initial Lift, Gamma, and Gain chromaticity & luminance state.' },
+      { name: 'onChange / disabled', type: '(grade, zone) => void / boolean', defaultValue: 'undefined / false', description: 'Live grading callback and disabled state.' },
+    ],
+  },
+  {
+    id: 'live-color-scopes',
+    title: 'Histogram / Waveform / Vectorscope',
+    exportName: 'LiveColorScopes',
+    category: 'photo-color-grading',
+    categoryTitle: 'Photo & Color Grading Controls',
+    summary: 'Broadcast-calibrated optical SVG monitor suite combining RGB+Luma Histogram, IRE Luma Waveform, and Rec.709 Vectorscope with shadow/highlight clip alerts.',
+    codeSnippet: `<LiveColorScopes title="Broadcast Color Scopes (Rec.709)" defaultMode="all" />`,
+    props: [
+      { name: 'mode / defaultMode', type: "'histogram' | 'waveform' | 'vectorscope' | 'all'", defaultValue: "'all'", description: 'Displayed scope layout mode.' },
+      { name: 'histogram / waveformColumns / vectorSamples', type: 'ScopeHistogramBins / number[][] / VectorscopeSample[]', defaultValue: 'Rec.709 defaults', description: 'Live photometric scope feeds.' },
+    ],
+  },
+  {
+    id: 'crop-straighten-overlay',
+    title: 'Crop & Straighten Overlay',
+    exportName: 'CropStraightenOverlay',
+    category: 'photo-color-grading',
+    categoryTitle: 'Photo & Color Grading Controls',
+    summary: 'Draggable optical crop frame with 4 corner handles, Rule-of-Thirds guides, aspect ratio locks (Free, 16:9, 4:5, 1:1, 2.39:1), and a calibrated ±45° straighten dial.',
+    codeSnippet: `<CropStraightenOverlay mediaLabel="Studio_RAW.dng" defaultAspect="16:9" />`,
+    props: [
+      { name: 'value / defaultCrop / defaultAspect', type: 'CropTransformState / CropRectPct / CropAspectPreset', defaultValue: "{10,10,80,80} / 'free'", description: 'Normalized crop box, straighten rotation, and aspect lock.' },
+      { name: 'onChange / onApply', type: '(state) => void', defaultValue: 'undefined', description: 'Live transform callback and Apply Crop commit handler.' },
+    ],
+  },
+  {
+    id: 'layer-blend-stack',
+    title: 'Layer & Blend Mode Stack',
+    exportName: 'LayerBlendStack',
+    category: 'photo-color-grading',
+    categoryTitle: 'Photo & Color Grading Controls',
+    summary: 'Reorderable image, adjustment, text, and mask layer panel with visibility eye toggles, blend mode dropdown, opacity slider, clipping masks, and lock controls.',
+    codeSnippet: `<LayerBlendStack title="Composite Layer Stack" />`,
+    props: [
+      { name: 'layers / defaultLayers', type: 'BlendLayerItem[]', defaultValue: '4 grading layers', description: 'Ordered compositing stack with blend mode, opacity, and visibility.' },
+      { name: 'onChange / onSelectLayer', type: '(layers) => void / (layer) => void', defaultValue: 'undefined', description: 'Stack mutation and active layer selection callbacks.' },
+    ],
+  },
+  {
+    id: 'eyedropper-pixel-loupe',
+    title: 'Eyedropper & Magnifying Pixel Loupe',
+    exportName: 'EyedropperPixelLoupe',
+    category: 'photo-color-grading',
+    categoryTitle: 'Photo & Color Grading Controls',
+    summary: 'Interactive pixel sampling mosaic paired with a magnified 5×5 circular reticle loupe, 1×1/3×3/5×5 averaging modes, live Hex/RGB telemetry, and swatch history.',
+    codeSnippet: `<EyedropperPixelLoupe title="Optical Pixel Sampler" />`,
+    props: [
+      { name: 'gridWidth / gridHeight / sampleRadius', type: 'number / number / SampleRadius', defaultValue: "12 / 8 / '1x1'", description: 'Sampling canvas dimensions and pixel averaging window.' },
+      { name: 'onSample / pixelResolver', type: '(pixel) => void / (x,y,w,h) => Rgb', defaultValue: 'undefined / optical field', description: 'Captured swatch callback and custom pixel field resolver.' },
+    ],
+  },
+  {
+    id: 'brush-hud-control',
+    title: 'Brush Size, Hardness & Flow HUD',
+    exportName: 'BrushHudControl',
+    category: 'photo-color-grading',
+    categoryTitle: 'Photo & Color Grading Controls',
+    summary: 'Compact optical HUD controlling brush Size (px), Hardness (%), and Flow (%) with live SVG radial feathering preview, bracket shortcuts ([ / ]), and studio presets.',
+    codeSnippet: `<BrushHudControl title="Retouch Brush HUD" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'BrushHudValue', defaultValue: '{ 64px, 45%, 80% }', description: 'Controlled or initial brush geometry and opacity state.' },
+      { name: 'minSizePx / maxSizePx / onChange', type: 'number / number / (val) => void', defaultValue: '1 / 500 / undefined', description: 'Brush diameter bounds and live change handler.' },
+    ],
+  },
+  {
+    id: 'wipe-compare-overlay',
+    title: 'Split-View / Before-After Wipe Overlay',
+    exportName: 'WipeCompareOverlay',
+    category: 'photo-color-grading',
+    categoryTitle: 'Photo & Color Grading Controls',
+    summary: 'Vertical or horizontal grading split-wipe divider paired with a press-and-hold "Hold to Compare Original" bypass toggle for non-destructive grade inspection.',
+    codeSnippet: `<WipeCompareOverlay beforeLabel="Original (Log-C)" afterLabel="Graded (Prism LUT)" />`,
+    props: [
+      { name: 'positionPct / orientation', type: "number / 'vertical' | 'horizontal'", defaultValue: "50 / 'vertical'", description: 'Split divider percentage and wipe axis.' },
+      { name: 'onPositionChange / onHoldCompareChange', type: '(pct) => void / (holding) => void', defaultValue: 'undefined', description: 'Live wipe drag and original bypass press-and-hold callbacks.' },
     ],
   },
 ];

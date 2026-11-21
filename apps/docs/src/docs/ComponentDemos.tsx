@@ -20,6 +20,7 @@ import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
 import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
+import { PhotoColorGradingDemos } from './demos/PhotoColorGradingDemos';
 import { RelationalFlowChartsDemos } from './demos/RelationalFlowChartsDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
@@ -259,6 +260,17 @@ const TIMELINE_SEQUENCING_IDS = new Set([
   'timeline-zoom-navigator',
 ]);
 
+const PHOTO_COLOR_GRADING_IDS = new Set([
+  'tone-curve-editor',
+  'three-way-color-wheels',
+  'live-color-scopes',
+  'crop-straighten-overlay',
+  'layer-blend-stack',
+  'eyedropper-pixel-loupe',
+  'brush-hud-control',
+  'wipe-compare-overlay',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -343,6 +355,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (TIMELINE_SEQUENCING_IDS.has(componentId)) {
     return <TimelineSequencingDemos componentId={componentId} />;
+  }
+  if (PHOTO_COLOR_GRADING_IDS.has(componentId)) {
+    return <PhotoColorGradingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

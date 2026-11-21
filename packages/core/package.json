@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.24.0",
+  "version": "1.25.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -126,6 +126,11 @@
       "source": "./src/Breadcrumbs/index.ts",
       "types": "./dist/Breadcrumbs/index.d.ts",
       "default": "./dist/Breadcrumbs/index.js"
+    },
+    "./BrushHudControl": {
+      "source": "./src/BrushHudControl/index.ts",
+      "types": "./dist/BrushHudControl/index.d.ts",
+      "default": "./dist/BrushHudControl/index.js"
     },
     "./BrushRangeScrubber": {
       "source": "./src/BrushRangeScrubber/index.ts",
@@ -282,6 +287,11 @@
       "types": "./dist/CreatableCombobox/index.d.ts",
       "default": "./dist/CreatableCombobox/index.js"
     },
+    "./CropStraightenOverlay": {
+      "source": "./src/CropStraightenOverlay/index.ts",
+      "types": "./dist/CropStraightenOverlay/index.d.ts",
+      "default": "./dist/CropStraightenOverlay/index.js"
+    },
     "./CurrencyInput": {
       "source": "./src/CurrencyInput/index.ts",
       "types": "./dist/CurrencyInput/index.d.ts",
@@ -341,6 +351,11 @@
       "source": "./src/EmptyState/index.ts",
       "types": "./dist/EmptyState/index.d.ts",
       "default": "./dist/EmptyState/index.js"
+    },
+    "./EyedropperPixelLoupe": {
+      "source": "./src/EyedropperPixelLoupe/index.ts",
+      "types": "./dist/EyedropperPixelLoupe/index.d.ts",
+      "default": "./dist/EyedropperPixelLoupe/index.js"
     },
     "./FacetedFilterBar": {
       "source": "./src/FacetedFilterBar/index.ts",
@@ -462,10 +477,20 @@
       "types": "./dist/KpiMetricCard/index.d.ts",
       "default": "./dist/KpiMetricCard/index.js"
     },
+    "./LayerBlendStack": {
+      "source": "./src/LayerBlendStack/index.ts",
+      "types": "./dist/LayerBlendStack/index.d.ts",
+      "default": "./dist/LayerBlendStack/index.js"
+    },
     "./LineMultiSeriesChart": {
       "source": "./src/LineMultiSeriesChart/index.ts",
       "types": "./dist/LineMultiSeriesChart/index.d.ts",
       "default": "./dist/LineMultiSeriesChart/index.js"
+    },
+    "./LiveColorScopes": {
+      "source": "./src/LiveColorScopes/index.ts",
+      "types": "./dist/LiveColorScopes/index.d.ts",
+      "default": "./dist/LiveColorScopes/index.js"
     },
     "./LiveLogStreamer": {
       "source": "./src/LiveLogStreamer/index.ts",
@@ -882,6 +907,11 @@
       "types": "./dist/ThinkingAccordion/index.d.ts",
       "default": "./dist/ThinkingAccordion/index.js"
     },
+    "./ThreeWayColorWheels": {
+      "source": "./src/ThreeWayColorWheels/index.ts",
+      "types": "./dist/ThreeWayColorWheels/index.d.ts",
+      "default": "./dist/ThreeWayColorWheels/index.js"
+    },
     "./TimecodeScrubber": {
       "source": "./src/TimecodeScrubber/index.ts",
       "types": "./dist/TimecodeScrubber/index.d.ts",
@@ -911,6 +941,11 @@
       "source": "./src/ToggleSwitch/index.ts",
       "types": "./dist/ToggleSwitch/index.d.ts",
       "default": "./dist/ToggleSwitch/index.js"
+    },
+    "./ToneCurveEditor": {
+      "source": "./src/ToneCurveEditor/index.ts",
+      "types": "./dist/ToneCurveEditor/index.d.ts",
+      "default": "./dist/ToneCurveEditor/index.js"
     },
     "./ToolCallCard": {
       "source": "./src/ToolCallCard/index.ts",
@@ -976,6 +1011,11 @@
       "source": "./src/WindowSplitter/index.ts",
       "types": "./dist/WindowSplitter/index.d.ts",
       "default": "./dist/WindowSplitter/index.js"
+    },
+    "./WipeCompareOverlay": {
+      "source": "./src/WipeCompareOverlay/index.ts",
+      "types": "./dist/WipeCompareOverlay/index.d.ts",
+      "default": "./dist/WipeCompareOverlay/index.js"
     }
   },
   "scripts": {
