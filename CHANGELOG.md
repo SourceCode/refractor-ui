@@ -7,6 +7,28 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.21.0] - 2026-11-21
+
+### Added
+- **Multi-Device Responsive Test Matrix (`apps/docs/src/docs/responsiveViewports.ts`, `apps/docs/src/docs/responsive.matrix.test.tsx`):**
+  - Added canonical 15-device viewport matrix covering latest Android & iOS mobile devices — including **Google Pixel 10 (`412×924`)**, Google Pixel 10 Pro (`410×914`), Google Pixel 10 Pro XL (`448×997`), Samsung Galaxy S25 (`360×780`), Samsung Galaxy Z Fold7 Cover (`344×882`), iPhone 17 / 16 (`393×852`), iPhone 17 / 16 Pro (`402×874`), iPhone 17 / 16 Pro Max (`440×956`), iPhone Compact / SE (`375×667`), iPad mini (`744×1133`), Google Pixel Tablet (`800×1280`), iPad Pro 11" (`834×1194`), iPad Pro 13" (`1024×1366`), Desktop Compact (`1280×800`), and Desktop Standard (`1440×900`).
+  - Automated multi-device Vitest suite validating all **179 components** across 11 mobile/tablet/desktop viewports (`1,969` component-viewport invariant checks), full `<DocsShell />` interactive workflows across all 15 devices, and static responsive guardrails across all 179 core component source files.
+- Documented the Multi-Device Responsive Verification Matrix in `apps/docs` (`#/architecture`), `README.md`, and `docs/reviews/ux-ui-director-audit.md`.
+
+### Changed
+- **Mobile & Tablet Responsive Hardening across Core Components (`@refractor-ui/core`):**
+  - `Breadcrumbs`: Wraps cleanly (`flex-wrap`, `max-w-full`, responsive pill corners) with zero horizontal overflow on narrow single-component pages (`344px`–`412px`).
+  - `SegmentedControl`: Added `max-w-full overflow-x-auto` preventing horizontal clipping on multi-segment bars on narrow phones.
+  - `GanttChart`: Made left task column responsive (`w-32 sm:w-48 md:w-56`) with `min-w-0 flex-1 overflow-x-auto` timeline viewport so task schedules remain swipeable and legible on phones and tablets.
+  - `ChartCrosshairTooltip`: Docks full-width beneath the plot on `<640px` (`static mt-3 sm:absolute`) while preserving floating left/right crosshair positioning on tablet & desktop (`>=640px`).
+  - `VirtualizedList`: Added `flex-wrap` telemetry bar and `w-full min-w-0 overflow-hidden` row containment.
+  - `InternationalPhoneInput`: Tightened mobile padding and typography so full national formatted numbers fit without truncation at `360px`.
+  - `NotificationCenter`, `LivePresenceIndicator`, `SpeedDialButton`: Added viewport-safe width clamps (`w-[min(24rem,calc(100vw-2rem))]`, `max-w-[calc(100vw-2rem)]`, `max-w-[120px] truncate`) preventing off-screen popover clipping.
+  - `SlideOverSheet` & `CommandPalette`: Upgraded close button to a tactile `40×40px` optical circle target (`w-10 h-10`) and shortened mobile search placeholder copy.
+- **Documentation Portal Mobile & Tablet Polish (`apps/docs`):**
+  - Added `viewport-fit=cover` safe-area meta directive in `apps/docs/index.html`.
+  - Compacted mobile `<header>` `Search` trigger (`0px` overflow even on `344px`–`360px` screens), added clickable dimmed backdrop + `Escape` dismiss to the mobile navigation sidebar drawer, switched the 32-category pill bar to a horizontally swipeable strip on `<640px`, wrapped focused-view Prev/Next buttons, tightened mobile card/specimen padding, and synced `#/getting-started` CTA copy to 179 components.
+
 ## [1.20.0] - 2026-11-21
 
 ### Added
@@ -266,7 +288,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.20.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.21.0...HEAD
+[1.21.0]: https://github.com/SourceCode/refractor-ui/compare/v1.20.0...v1.21.0
 [1.20.0]: https://github.com/SourceCode/refractor-ui/compare/v1.19.0...v1.20.0
 [1.19.0]: https://github.com/SourceCode/refractor-ui/compare/v1.18.0...v1.19.0
 [1.18.0]: https://github.com/SourceCode/refractor-ui/compare/v1.17.0...v1.18.0

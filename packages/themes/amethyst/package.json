@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/theme-amethyst",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "description": "Amethyst Prism optical theme pairing luminous violet refraction with cool cyan caustics.",
   "license": "Apache-2.0",
   "type": "module",

@@ -258,6 +258,13 @@ const SECURITY_INVARIANTS = [
   { title: 'ReDoS & Path Traversal Defense', detail: 'Linear-time highlighting/tokenization prevents catastrophic backtracking; CLI swizzle blocks .. segments and non-PascalCase paths.' },
 ] as const;
 
+const RESPONSIVE_DEVICE_TARGETS = [
+  { group: 'Android Mobile', devices: 'Google Pixel 10 (412×924), Pixel 10 Pro (410×914), Pixel 10 Pro XL (448×997), Samsung Galaxy S25 (360×780), Foldable Cover (344×882)' },
+  { group: 'iOS Mobile', devices: 'iPhone 17 / 16 (393×852), iPhone 17 / 16 Pro (402×874), iPhone 17 / 16 Pro Max (440×956), Compact iPhone (375×667)' },
+  { group: 'Tablets (Portrait & Landscape)', devices: 'iPad mini (744×1133), Google Pixel Tablet (800×1280), iPad Pro 11" (834×1194), iPad Pro 13" (1024×1366)' },
+  { group: 'Desktop Viewports', devices: 'Compact Laptop (1280×800), Standard Studio Desktop (1440×900)' },
+] as const;
+
 export function DocsGuides({ section }: DocsGuidesProps) {
   const dispatch = useAppDispatch();
   const activePreset = useAppSelector((s) => s.system.themePreset);
@@ -317,7 +324,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
             </h2>
             <p className="text-xs text-slate-600 dark:text-slate-300">
               Explore single-hex MUI color derivation, Astryx cascade overrides, or jump straight into
-              the 126-component catalog.
+              the 179-component catalog.
             </p>
           </div>
           <div className="flex flex-wrap gap-2.5">
@@ -332,7 +339,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
               size="sm"
               onClick={() => dispatch(setActiveCategory('overview'))}
             >
-              Browse 126 Components
+              Browse 179 Components
             </SecondaryButton>
           </div>
         </div>
@@ -556,6 +563,30 @@ export function DocsGuides({ section }: DocsGuidesProps) {
                   {item.detail}
                 </p>
               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="prism-slab p-6 space-y-4">
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+          <Layers className="w-4 h-4 text-sky-600 dark:text-sky-400" aria-hidden="true" />
+          <span>Multi-Device Responsive Verification Matrix (Desktop, Tablet &amp; Mobile)</span>
+        </h2>
+        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          All 179 components and documentation views are validated across modern iOS, Android (including
+          Google Pixel 10), tablet, and desktop aspect ratios with automated Vitest viewport matrix checks
+          and live Chromium overflow inspection.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          {RESPONSIVE_DEVICE_TARGETS.map((target) => (
+            <div key={target.group} className="prism-well rounded-2xl p-4 space-y-1">
+              <h3 className="text-xs font-semibold text-slate-900 dark:text-white">
+                {target.group}
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                {target.devices}
+              </p>
             </div>
           ))}
         </div>

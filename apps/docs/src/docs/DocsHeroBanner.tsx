@@ -69,7 +69,7 @@ export function DocsHeroBanner() {
         <div className="inline-flex flex-wrap items-center gap-2">
           <span className="prism-emerald px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>v1.20.0 Public Release</span>
+            <span>v1.21.0 Public Release</span>
           </span>
           <span className="prism-crystal px-3 py-1 rounded-full text-xs font-medium text-slate-700 dark:text-slate-200">
             React 19 · TypeScript · Tailwind CSS v4 · Apache-2.0
@@ -186,7 +186,7 @@ export function DocsHeroBanner() {
             </button>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 pt-1">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1">
             {TELEMETRY_PILLS.map((stat) => (
               <div
                 key={stat.label}

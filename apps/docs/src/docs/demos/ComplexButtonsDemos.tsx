@@ -127,9 +127,9 @@ export function ComplexButtonsDemos({ componentId }: ComplexButtonsDemosProps) {
 
     case 'speed-dial-button':
       return (
-        <div className="flex min-h-[140px] w-full items-center justify-center gap-10">
+        <div className="flex min-h-[190px] w-full items-end justify-center pb-4 pt-20">
           <SpeedDialButton
-            direction="right"
+            direction="radial"
             defaultOpen
             actions={[
               {

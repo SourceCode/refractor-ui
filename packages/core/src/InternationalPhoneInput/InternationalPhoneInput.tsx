@@ -359,7 +359,7 @@ export function InternationalPhoneInput({
       filled: currentValue.nationalDigits.length > 0,
       complete: isComplete,
     }),
-    baseClassName: 'prism-slab relative p-4 w-full max-w-md',
+    baseClassName: 'prism-slab relative p-3 sm:p-4 w-full max-w-md',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -404,7 +404,7 @@ export function InternationalPhoneInput({
         ) : null}
       </div>
 
-      <div className="flex items-stretch gap-2">
+      <div className="flex items-stretch gap-1.5 sm:gap-2">
         <button
           ref={triggerRef}
           type="button"
@@ -415,7 +415,7 @@ export function InternationalPhoneInput({
           aria-label={`Select country, current ${activeCountry.name} (${activeCountry.iso}) ${activeCountry.dialCode}`}
           data-testid="phone-country-trigger"
           onClick={handleToggleOpen}
-          className="prism-crystal prism-focus-ring h-11 px-3 rounded-xl inline-flex items-center gap-2 shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          className="prism-crystal prism-focus-ring h-11 px-2 sm:px-3 rounded-xl inline-flex items-center gap-1.5 sm:gap-2 shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           style={{ color: 'var(--prism-text-primary)' }}
         >
           <span
@@ -441,7 +441,7 @@ export function InternationalPhoneInput({
           </span>
         </button>
 
-        <div className="prism-well rounded-xl h-11 px-3 flex items-center gap-2 flex-1 min-w-0">
+        <div className="prism-well rounded-xl h-11 px-2 sm:px-3 flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
           <input
             ref={inputRef}
             id={inputId}
@@ -454,7 +454,7 @@ export function InternationalPhoneInput({
             aria-label={!label ? 'Phone Number' : undefined}
             data-testid="phone-national-input"
             onChange={handleNationalChange}
-            className="prism-focus-ring w-full bg-transparent font-mono text-sm tabular-nums rounded-lg px-1 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+            className="prism-focus-ring w-full min-w-0 bg-transparent font-mono text-xs sm:text-sm tabular-nums rounded-lg px-0.5 sm:px-1 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ color: 'var(--prism-text-primary)' }}
           />
 

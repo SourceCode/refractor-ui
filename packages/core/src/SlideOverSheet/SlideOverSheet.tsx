@@ -100,7 +100,7 @@ export function SlideOverSheet({
               type="button"
               aria-label="Close panel"
               onClick={onClose}
-              className="prism-focus-ring rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white p-1 cursor-pointer"
+              className="prism-crystal prism-focus-ring w-10 h-10 rounded-full inline-flex items-center justify-center shrink-0 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer"
             >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>

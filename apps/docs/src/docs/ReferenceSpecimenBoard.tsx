@@ -61,8 +61,8 @@ export function ReferenceSpecimenBoard() {
           showReferenceImage ? 'grid-cols-1 xl:grid-cols-2' : 'grid-cols-1'
         }`}
       >
-        <div className="prism-studio-surface rounded-[28px] border border-white/80 dark:border-slate-800 p-6 sm:p-8 shadow-sm">
-          <div className="max-w-[540px] mx-auto space-y-6">
+        <div className="prism-studio-surface rounded-[24px] sm:rounded-[28px] border border-white/80 dark:border-slate-800 p-4 sm:p-8 shadow-sm">
+          <div className="max-w-[540px] mx-auto space-y-5 sm:space-y-6">
             <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3.5">
               <PrimaryButton
                 size="lg"
@@ -140,8 +140,8 @@ export function ReferenceSpecimenBoard() {
               />
             </div>
 
-            <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-5">
-              <div className="flex-1 min-w-[230px]">
+            <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-4 sm:gap-5">
+              <div className="flex-1 min-w-[160px]">
                 <DropdownSelect
                   value={selectedVal}
                   onChange={setSelectedVal}

@@ -125,7 +125,7 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
       {showTelemetry ? (
         <div
           data-part="telemetry-bar"
-          className="px-4 py-2.5 border-b border-slate-300/45 dark:border-slate-700/50 flex items-center justify-between gap-3 bg-white/25 dark:bg-white/[0.02]"
+          className="px-4 py-2.5 border-b border-slate-300/45 dark:border-slate-700/50 flex flex-wrap items-center justify-between gap-2 bg-white/25 dark:bg-white/[0.02]"
         >
           <span
             data-part="telemetry-pill"
@@ -174,7 +174,7 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
                     aria-setsize={items.length}
                     data-index={String(index)}
                     style={{ height: `${safeItemHeight}px` }}
-                    className="box-border flex items-center px-4 border-b border-slate-200/45 dark:border-slate-700/40 hover:bg-white/40 dark:hover:bg-white/[0.04] transition-colors"
+                    className="box-border flex items-center w-full min-w-0 overflow-hidden px-3 sm:px-4 border-b border-slate-200/45 dark:border-slate-700/40 hover:bg-white/40 dark:hover:bg-white/[0.04] transition-colors"
                   >
                     {renderItem(item, index)}
                   </div>

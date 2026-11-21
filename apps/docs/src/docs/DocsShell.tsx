@@ -150,6 +150,17 @@ export function DocsShell() {
   }, [activeCategory, activeSection, focusedComponentId]);
 
   useEffect(() => {
+    if (!mobileNavOpen) return undefined;
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileNavOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onEscape);
+    return () => window.removeEventListener('keydown', onEscape);
+  }, [mobileNavOpen]);
+
+  useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
@@ -249,7 +260,7 @@ export function DocsShell() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-30 h-16 px-4 sm:px-8 border-b border-slate-300/60 dark:border-slate-800/80 bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl flex items-center justify-between gap-6">
+      <header className="sticky top-0 z-30 h-16 px-3 sm:px-8 border-b border-slate-300/60 dark:border-slate-800/80 bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl flex items-center justify-between gap-2 sm:gap-6">
         <a
           href="#/"
           onClick={(e) => {
@@ -258,11 +269,11 @@ export function DocsShell() {
             dispatch(setSearchQuery(''));
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="inline-flex items-center gap-2 text-lg font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0"
+          className="inline-flex items-center gap-1.5 sm:gap-2 text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap shrink-0 min-w-0"
         >
           <span>Refractor UI</span>
           <span className="prism-crystal px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold text-slate-700 dark:text-slate-200">
-            v1.20.0
+            v1.21.0
           </span>
         </a>
 
@@ -329,17 +340,27 @@ export function DocsShell() {
             onClick={() => dispatch(setCommandPaletteOpen(true))}
             aria-label="Search components with Command Palette"
           >
-            Search Docs ⌘K
+            <span className="hidden sm:inline">Search Docs ⌘K</span>
+            <span className="sm:hidden">Search</span>
           </PrimaryButton>
         </div>
       </header>
 
       <div className="flex-1 max-w-[1440px] w-full mx-auto flex items-start">
+        {mobileNavOpen ? (
+          <div
+            aria-hidden="true"
+            data-testid="mobile-sidebar-backdrop"
+            onClick={() => setMobileNavOpen(false)}
+            className="fixed inset-0 top-16 z-30 bg-slate-950/45 backdrop-blur-xs lg:hidden"
+          />
+        ) : null}
+
         <aside
           aria-label="Component library explorer"
           className={`${
             mobileNavOpen
-              ? 'fixed inset-y-16 left-0 z-40 w-72 bg-slate-100/95 dark:bg-slate-950/95 backdrop-blur-xl shadow-2xl'
+              ? 'fixed top-16 bottom-0 left-0 z-40 w-[min(18rem,calc(100vw-2.5rem))] bg-slate-100/95 dark:bg-slate-950/95 backdrop-blur-xl shadow-2xl'
               : 'hidden lg:block lg:sticky lg:top-16 lg:w-72 shrink-0'
           } h-[calc(100vh-4rem)] overflow-y-auto border-r border-slate-300/55 dark:border-slate-800/80 p-4 space-y-5`}
         >
@@ -570,15 +591,16 @@ export function DocsShell() {
                 <ComponentLiveDemo componentId={focusedEntry.id} />
               </ComponentDocCard>
 
-              <div className="flex items-center justify-between gap-4 pt-4 border-t border-slate-300/50 dark:border-slate-800">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-300/50 dark:border-slate-800">
                 {focusedNeighbors.prev ? (
                   <SecondaryButton
                     size="sm"
+                    className="max-w-full"
                     onClick={() =>
                       jumpToComponent(focusedNeighbors.prev!.id, focusedNeighbors.prev!.category)
                     }
                   >
-                    ← {focusedNeighbors.prev.title}
+                    <span className="truncate">← {focusedNeighbors.prev.title}</span>
                   </SecondaryButton>
                 ) : (
                   <span />
@@ -587,12 +609,13 @@ export function DocsShell() {
                 {focusedNeighbors.next ? (
                   <SecondaryButton
                     size="sm"
-                    trailingIcon={<ChevronRight className="w-3.5 h-3.5" />}
+                    className="max-w-full"
+                    trailingIcon={<ChevronRight className="w-3.5 h-3.5 shrink-0" />}
                     onClick={() =>
                       jumpToComponent(focusedNeighbors.next!.id, focusedNeighbors.next!.category)
                     }
                   >
-                    {focusedNeighbors.next.title}
+                    <span className="truncate">{focusedNeighbors.next.title}</span>
                   </SecondaryButton>
                 ) : null}
               </div>
@@ -606,7 +629,10 @@ export function DocsShell() {
                 </>
               )}
 
-              <div className="flex flex-wrap items-center gap-2 pt-2">
+              <div
+                aria-label="Filter components by category"
+                className="flex flex-nowrap overflow-x-auto pb-2 sm:flex-wrap sm:overflow-visible sm:pb-0 items-center gap-2 pt-2 -mx-1 px-1"
+              >
                 <button
                   type="button"
                   onClick={() => dispatch(setActiveCategory('overview'))}
@@ -698,7 +724,7 @@ export function DocsShell() {
 
           <footer className="pt-8 pb-6 border-t border-slate-300/55 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
             <span>
-              Refractor Optical Glass UI Kit v1.20.0 · {COMPONENT_REGISTRY.length} Open-Internals
+              Refractor Optical Glass UI Kit v1.21.0 · {COMPONENT_REGISTRY.length} Open-Internals
               React 19 Primitives · Apache-2.0
             </span>
             <div className="flex flex-wrap items-center gap-4">

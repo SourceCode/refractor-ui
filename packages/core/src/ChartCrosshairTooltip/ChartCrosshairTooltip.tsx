@@ -878,7 +878,7 @@ export function ChartCrosshairTooltip({
               data-side={activeColumn.tooltipSide}
               className={cx(
                 tooltipClass,
-                'prism-slab absolute z-10 pointer-events-none min-w-[196px] max-w-[260px] rounded-2xl p-3 space-y-2'
+                'prism-slab static mt-3 sm:mt-0 sm:absolute z-10 pointer-events-none w-full sm:w-auto sm:min-w-[196px] sm:max-w-[260px] rounded-2xl p-3 space-y-2'
               )}
               style={
                 activeColumn.tooltipSide === 'left'
