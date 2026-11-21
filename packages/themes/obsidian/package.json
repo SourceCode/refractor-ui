@@ -1,0 +1,46 @@
+{
+  "name": "@refractor-ui/theme-obsidian",
+  "version": "1.0.0",
+  "description": "Obsidian Bench dark optical glass theme with crisp cyan & ember edge caustics.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./theme.css": "./theme.css"
+  },
+  "peerDependencies": {
+    "@refractor-ui/core": "workspace:*"
+  },
+  "homepage": "https://sourcecode.github.io/refractor-ui/#/theming",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git",
+    "directory": "packages/themes/obsidian"
+  },
+  "bugs": {
+    "url": "https://github.com/SourceCode/refractor-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "react-19",
+    "typescript",
+    "design-system",
+    "ui-kit",
+    "component-library",
+    "glassmorphism",
+    "optical-glass",
+    "tailwindcss",
+    "accessible",
+    "theming",
+    "refractor-ui",
+    "theme",
+    "obsidian"
+  ],
+  "files": [
+    "src",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

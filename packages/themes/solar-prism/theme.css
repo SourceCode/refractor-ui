@@ -1,0 +1,9 @@
+[data-refractor-theme="solar-prism"] {
+  --prism-primary-main: #d97706;
+  --prism-primary-light: #fbbf24;
+  --prism-primary-dark: #92400e;
+  --prism-primary-rgb: 217, 119, 6;
+  --prism-primary-light-rgb: 251, 191, 36;
+  --prism-secondary-main: #2563eb;
+  --prism-secondary-rgb: 37, 99, 235;
+}

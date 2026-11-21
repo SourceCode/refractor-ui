@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@source "../../../packages/core/src";
+@custom-variant dark (&:where(.dark, .dark *, [data-color-mode="dark"], [data-color-mode="dark"] *));
+
+@import "@refractor-ui/core/reset.css";
+@import "@refractor-ui/core/refractor.css";

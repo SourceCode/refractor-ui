@@ -1,0 +1,78 @@
+{
+  "name": "refractor-ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 & TypeScript optical glass design system monorepo",
+  "license": "Apache-2.0",
+  "type": "module",
+  "packageManager": "pnpm@11.5.0",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @refractor-ui/docs dev",
+    "preview": "pnpm --filter @refractor-ui/docs preview",
+    "build": "pnpm --filter @refractor-ui/core build && pnpm --filter @refractor-ui/docs build",
+    "typecheck": "pnpm --filter @refractor-ui/core typecheck && pnpm --filter @refractor-ui/docs typecheck",
+    "lint": "pnpm check:repo && eslint . --cache",
+    "lint:strict": "pnpm check:repo && node scripts/run-strict-lint.mjs",
+    "lint:plugin": "node --test internal/eslint-plugin-refractor/tests/plugin.test.mjs",
+    "check:repo": "node scripts/check-repo.mjs",
+    "sync:exports": "node scripts/sync-exports.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "refractor": "node packages/cli/bin/refractor.mjs",
+    "build:pages": "node scripts/build-pages.mjs"
+  },
+  "devDependencies": {
+    "@eslint-react/eslint-plugin": "^5.30.5",
+    "@eslint/compat": "^2.1.1",
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.5",
+    "@testing-library/jest-dom": "^8.0.0",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.13",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "@vitest/coverage-v8": "^5.1.1",
+    "eslint": "^10.15.0",
+    "jsdom": "^31.0.1",
+    "lucide-react": "^0.546.0",
+    "prettier": "^3.9.10",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  },
+  "homepage": "https://sourcecode.github.io/refractor-ui/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SourceCode/refractor-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "react-19",
+    "typescript",
+    "design-system",
+    "ui-kit",
+    "component-library",
+    "glassmorphism",
+    "optical-glass",
+    "tailwindcss",
+    "accessible",
+    "theming",
+    "refractor-ui"
+  ]
+}

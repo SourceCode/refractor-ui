@@ -1,0 +1,6 @@
+{
+  "name": "Refractor Optical Glass UI Kit",
+  "description": "A tactile prismatic optical-glass React & TypeScript UI component library and interactive documentation playground featuring 46 accessible components.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

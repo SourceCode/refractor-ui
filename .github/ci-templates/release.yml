@@ -1,0 +1,53 @@
+name: Release Verification
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-semver-release:
+    name: Verify SemVer 2.0.0 Tag, Changelog & Full Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Validate SemVer 2.0.0 tag matches package.json and CHANGELOG.md
+        run: |
+          TAG_VER="${GITHUB_REF_NAME#v}"
+          PKG_VER="$(node -p "require('./package.json').version")"
+          CORE_VER="$(node -p "require('./packages/core/package.json').version")"
+          if [ "$TAG_VER" != "$PKG_VER" ] || [ "$TAG_VER" != "$CORE_VER" ]; then
+            echo "Version mismatch: tag=$TAG_VER root=$PKG_VER core=$CORE_VER"
+            exit 1
+          fi
+          grep -F "## [$TAG_VER]" CHANGELOG.md
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run full strict verification suite
+        env:
+          CI: 'true'
+          REFRACTOR_STRICT_LINT: '1'
+        run: |
+          pnpm check:repo
+          pnpm lint:strict
+          pnpm typecheck
+          pnpm test:coverage
+          pnpm build

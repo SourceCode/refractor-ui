@@ -1,0 +1,7 @@
+# Default code owners for Refractor Optical Glass UI Kit
+* @SourceCode
+/docs/adr/ @SourceCode
+/internal/eslint-plugin-refractor/ @SourceCode
+/packages/core/ @SourceCode
+/packages/themes/ @SourceCode
+/packages/cli/ @SourceCode

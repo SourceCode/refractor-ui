@@ -1,0 +1,11 @@
+[data-refractor-theme="amethyst"] {
+  --prism-primary-main: #7c3aed;
+  --prism-primary-light: #a78bfa;
+  --prism-primary-dark: #5b21b6;
+  --prism-primary-rgb: 124, 58, 237;
+  --prism-primary-light-rgb: 167, 139, 250;
+  --prism-secondary-main: #06b6d4;
+  --prism-secondary-rgb: 6, 182, 212;
+  --prism-caustic-warm-rgb: 167, 139, 250;
+  --prism-caustic-cool-rgb: 6, 182, 212;
+}
