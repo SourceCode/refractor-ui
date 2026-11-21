@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-21
+
+### Added
+- **Media, Audio & Spatial Controls (6 new Astryx-standard optical-glass components — 87 total across 14 categories):**
+  - `CustomVideoPlayer`: Media container with timeline scrubber, clickable chapter markers, playback speed selector, volume/mute controls, live optical captions overlay, and fullscreen toggle.
+  - `AudioWaveformPlayer`: Interactive sound-bar waveform player supporting click & keyboard scrubbing, play/pause, tabular time readout, and playback speed selector.
+  - `MediaLightbox`: Fullscreen dark overlay & inline gallery viewer with zoom, drag-to-pan, filmstrip thumbnails, keyboard navigation, and strict URL allowlisting.
+  - `BeforeAfterSlider`: Draggable and keyboard-accessible vertical optical comparison handle splitting before/after images or visual panes.
+  - `InteractiveMapViewer`: Zoomable, pannable optical geographic canvas with custom pins, clustered markers, vector route polylines, and clickable info popups.
+  - `Product360Viewer`: Drag-and-keyboard 360° orbit viewport with live angle telemetry, auto-spin, and token-driven isometric refractive geometry.
+- Added interactive playground demos and prop specs in `apps/docs` under `Media, Audio & Spatial Controls`.
+
 ## [1.1.0] - 2026-11-21
 
 ### Added
@@ -53,6 +65,7 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/SourceCode/refractor-ui/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/SourceCode/refractor-ui/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/SourceCode/refractor-ui/releases/tag/v1.0.0

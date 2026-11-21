@@ -4,6 +4,7 @@ import { CoreDemos } from './demos/CoreDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
+import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 
@@ -67,6 +68,15 @@ const AI_CONVERSATIONAL_IDS = new Set([
   'split-artifact-canvas',
 ]);
 
+const MEDIA_SPATIAL_IDS = new Set([
+  'custom-video-player',
+  'audio-waveform-player',
+  'media-lightbox',
+  'before-after-slider',
+  'interactive-map-viewer',
+  'product-360-viewer',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -88,6 +98,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (AI_CONVERSATIONAL_IDS.has(componentId)) {
     return <AiConversationalDemos componentId={componentId} />;
+  }
+  if (MEDIA_SPATIAL_IDS.has(componentId)) {
+    return <MediaSpatialDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

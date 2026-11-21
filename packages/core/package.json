@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -47,6 +47,11 @@
       "types": "./dist/AlertBanner/index.d.ts",
       "default": "./dist/AlertBanner/index.js"
     },
+    "./AudioWaveformPlayer": {
+      "source": "./src/AudioWaveformPlayer/index.ts",
+      "types": "./dist/AudioWaveformPlayer/index.d.ts",
+      "default": "./dist/AudioWaveformPlayer/index.js"
+    },
     "./Avatar": {
       "source": "./src/Avatar/index.ts",
       "types": "./dist/Avatar/index.d.ts",
@@ -56,6 +61,11 @@
       "source": "./src/BadgeStatus/index.ts",
       "types": "./dist/BadgeStatus/index.d.ts",
       "default": "./dist/BadgeStatus/index.js"
+    },
+    "./BeforeAfterSlider": {
+      "source": "./src/BeforeAfterSlider/index.ts",
+      "types": "./dist/BeforeAfterSlider/index.d.ts",
+      "default": "./dist/BeforeAfterSlider/index.js"
     },
     "./Breadcrumbs": {
       "source": "./src/Breadcrumbs/index.ts",
@@ -116,6 +126,11 @@
       "source": "./src/ContextualPopover/index.ts",
       "types": "./dist/ContextualPopover/index.d.ts",
       "default": "./dist/ContextualPopover/index.js"
+    },
+    "./CustomVideoPlayer": {
+      "source": "./src/CustomVideoPlayer/index.ts",
+      "types": "./dist/CustomVideoPlayer/index.d.ts",
+      "default": "./dist/CustomVideoPlayer/index.js"
     },
     "./DataTable": {
       "source": "./src/DataTable/index.ts",
@@ -187,6 +202,11 @@
       "types": "./dist/InlineEditableField/index.d.ts",
       "default": "./dist/InlineEditableField/index.js"
     },
+    "./InteractiveMapViewer": {
+      "source": "./src/InteractiveMapViewer/index.ts",
+      "types": "./dist/InteractiveMapViewer/index.d.ts",
+      "default": "./dist/InteractiveMapViewer/index.js"
+    },
     "./KanbanBoard": {
       "source": "./src/KanbanBoard/index.ts",
       "types": "./dist/KanbanBoard/index.d.ts",
@@ -211,6 +231,11 @@
       "source": "./src/MasterDetailView/index.ts",
       "types": "./dist/MasterDetailView/index.d.ts",
       "default": "./dist/MasterDetailView/index.js"
+    },
+    "./MediaLightbox": {
+      "source": "./src/MediaLightbox/index.ts",
+      "types": "./dist/MediaLightbox/index.d.ts",
+      "default": "./dist/MediaLightbox/index.js"
     },
     "./ModalDialog": {
       "source": "./src/ModalDialog/index.ts",
@@ -266,6 +291,11 @@
       "source": "./src/PrismTabs/index.ts",
       "types": "./dist/PrismTabs/index.d.ts",
       "default": "./dist/PrismTabs/index.js"
+    },
+    "./Product360Viewer": {
+      "source": "./src/Product360Viewer/index.ts",
+      "types": "./dist/Product360Viewer/index.d.ts",
+      "default": "./dist/Product360Viewer/index.js"
     },
     "./ProductTour": {
       "source": "./src/ProductTour/index.ts",

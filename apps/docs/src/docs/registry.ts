@@ -104,6 +104,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'AI Chat',
     description: 'Streaming message logs, expandable prompt composers, reasoning accordions, inline citation chips, response actions, and split artifact canvases.',
   },
+  {
+    id: 'media-spatial',
+    title: 'Media, Audio & Spatial Controls',
+    shortLabel: 'Media & 3D',
+    description: 'Chapter-marked video players, audio waveform scrubbers, zoomable lightboxes, before/after comparison sliders, vector map viewers, and 360° orbit stages.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1184,6 +1190,86 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'conversationPane', type: 'ReactNode', defaultValue: 'required', description: 'Left-hand conversation or prompt pane.' },
       { name: 'artifacts', type: 'ArtifactItem[]', defaultValue: 'required', description: 'Code, document, or live preview artifacts.' },
+    ],
+  },
+
+  /* ==================== MEDIA, AUDIO & SPATIAL CONTROLS (6) ==================== */
+  {
+    id: 'custom-video-player',
+    title: 'Custom Video Player',
+    exportName: 'CustomVideoPlayer',
+    category: 'media-spatial',
+    categoryTitle: 'Media, Audio & Spatial Controls',
+    summary: 'Optical media container with timeline scrubber, clickable chapter markers, playback speed selector, volume/mute slider, live captions overlay, and fullscreen control.',
+    codeSnippet: `<CustomVideoPlayer title="Showcase" durationSeconds={240} chapters={chapters} />`,
+    props: [
+      { name: 'chapters', type: 'VideoChapter[]', defaultValue: '[]', description: 'Timestamped chapter markers clickable along the track.' },
+      { name: 'defaultSpeed', type: 'number', defaultValue: '1', description: 'Initial playback speed multiplier.' },
+    ],
+  },
+  {
+    id: 'audio-waveform-player',
+    title: 'Audio Waveform Player',
+    exportName: 'AudioWaveformPlayer',
+    category: 'media-spatial',
+    categoryTitle: 'Media, Audio & Spatial Controls',
+    summary: 'Visual optical sound-bar waveform player allowing click and keyboard scrubbing across voice notes, podcasts, or tracks with playback speed controls.',
+    codeSnippet: `<AudioWaveformPlayer title="Voice Note" peaks={peaks} durationSeconds={120} />`,
+    props: [
+      { name: 'peaks', type: 'number[]', defaultValue: 'required', description: 'Normalized 0..1 amplitude peaks.' },
+      { name: 'onSeek', type: '(seconds: number) => void', defaultValue: 'undefined', description: 'Fired when scrubbing to a timestamp.' },
+    ],
+  },
+  {
+    id: 'media-lightbox',
+    title: 'Lightbox / Media Gallery Viewer',
+    exportName: 'MediaLightbox',
+    category: 'media-spatial',
+    categoryTitle: 'Media, Audio & Spatial Controls',
+    summary: 'Optical dark gallery overlay and inline viewer for high-resolution photos or videos with zoom, pan, filmstrip thumbnails, keyboard arrows, and URL allowlisting.',
+    codeSnippet: `<MediaLightbox open={open} items={gallery} onOpenChange={setOpen} />`,
+    props: [
+      { name: 'items', type: 'LightboxMediaItem[]', defaultValue: 'required', description: 'Validated media items with titles and optional thumbnails.' },
+      { name: 'mode', type: "'overlay' | 'inline'", defaultValue: "'overlay'", description: 'Fullscreen dark modal or embedded optical frame.' },
+    ],
+  },
+  {
+    id: 'before-after-slider',
+    title: 'Before / After Comparison Slider',
+    exportName: 'BeforeAfterSlider',
+    category: 'media-spatial',
+    categoryTitle: 'Media, Audio & Spatial Controls',
+    summary: 'Overlapping visual comparator split by a draggable and keyboard-accessible vertical optical handle for inspecting edits, filters, or themes.',
+    codeSnippet: `<BeforeAfterSlider beforeSrc={beforeImg} afterSrc={afterImg} defaultPosition={50} />`,
+    props: [
+      { name: 'beforeSrc / afterSrc', type: 'string', defaultValue: 'undefined', description: 'Sanitized image URLs for before/after frames.' },
+      { name: 'position / defaultPosition', type: 'number', defaultValue: '50', description: 'Split percentage clamped 0..100.' },
+    ],
+  },
+  {
+    id: 'interactive-map-viewer',
+    title: 'Interactive Map Viewer',
+    exportName: 'InteractiveMapViewer',
+    category: 'media-spatial',
+    categoryTitle: 'Media, Audio & Spatial Controls',
+    summary: 'Zoomable, pannable optical geographic canvas supporting custom pins, clustered markers, vector route polylines, and clickable optical info popups.',
+    codeSnippet: `<InteractiveMapViewer pins={pins} routes={routes} />`,
+    props: [
+      { name: 'pins', type: 'MapPin[]', defaultValue: 'required', description: 'Location pins and optional cluster counts.' },
+      { name: 'routes', type: 'MapRoute[]', defaultValue: '[]', description: 'Directed vector polylines linking pins.' },
+    ],
+  },
+  {
+    id: 'product-360-viewer',
+    title: '3D / 360° Product Viewer',
+    exportName: 'Product360Viewer',
+    category: 'media-spatial',
+    categoryTitle: 'Media, Audio & Spatial Controls',
+    summary: 'Interactive drag-and-keyboard orbit viewport rotating 360° product frames or isometric refractive prism geometry with auto-spin and live degree telemetry.',
+    codeSnippet: `<Product360Viewer title="Prismatic Lens" defaultAngle={35} />`,
+    props: [
+      { name: 'angle / defaultAngle', type: 'number', defaultValue: '0', description: 'Orbit azimuth normalized cleanly into 0..359 degrees.' },
+      { name: 'autoRotate', type: 'boolean', defaultValue: 'false', description: 'Starts continuous 360° turntable rotation.' },
     ],
   },
 ];
