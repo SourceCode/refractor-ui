@@ -214,7 +214,7 @@ export function DocsShell() {
       },
       {
         id: 'sys-customizer',
-        label: 'Open MUI + Astryx Optical Theme Studio',
+        label: 'Open Optical Theme Studio',
         group: 'Appearance',
         onSelect: () => dispatch(setCustomizerOpen(true)),
       },
@@ -470,7 +470,7 @@ export function DocsShell() {
             <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
               <span className="font-semibold text-slate-900 dark:text-white">Optical Bench</span>
               <span aria-hidden="true">·</span>
-              <span>Astryx Architecture + MUI Theming</span>
+              <span>Open-Internals Architecture + Optical Theming</span>
               <span aria-hidden="true">·</span>
               <span className="tabular-nums">
                 {DOC_CATEGORIES.length} Categories / {COMPONENT_REGISTRY.length} Components
@@ -698,7 +698,7 @@ export function DocsShell() {
 
           <footer className="pt-8 pb-6 border-t border-slate-300/55 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
             <span>
-              Refractor Optical Glass UI Kit v1.9.0 · {COMPONENT_REGISTRY.length} Astryx-Standard
+              Refractor Optical Glass UI Kit v1.9.0 · {COMPONENT_REGISTRY.length} Open-Internals
               React 19 Primitives · Apache-2.0
             </span>
             <div className="flex flex-wrap items-center gap-4">
