@@ -25,6 +25,7 @@ import { RichInputDemos } from './demos/RichInputDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
 import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
+import { TimelineSequencingDemos } from './demos/TimelineSequencingDemos';
 import { TransportPlaybackDemos } from './demos/TransportPlaybackDemos';
 
 export interface ComponentLiveDemoProps {
@@ -249,6 +250,15 @@ const TRANSPORT_PLAYBACK_IDS = new Set([
   'frame-stepper-rate-selector',
 ]);
 
+const TIMELINE_SEQUENCING_IDS = new Set([
+  'multi-track-timeline',
+  'playhead-scrub-ruler',
+  'track-header-strip',
+  'clip-trim-handle',
+  'keyframe-curve-editor',
+  'timeline-zoom-navigator',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -330,6 +340,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (TRANSPORT_PLAYBACK_IDS.has(componentId)) {
     return <TransportPlaybackDemos componentId={componentId} />;
+  }
+  if (TIMELINE_SEQUENCING_IDS.has(componentId)) {
+    return <TimelineSequencingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

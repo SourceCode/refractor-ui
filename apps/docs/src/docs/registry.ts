@@ -224,6 +224,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Transport',
     description: 'Pro media transport decks, SMPTE/musical timecode scrubbers, tactile rotary jog/shuttle wheels, and precision frame-stepper speed selectors.',
   },
+  {
+    id: 'timeline-sequencing',
+    title: 'Timeline & Sequencing',
+    shortLabel: 'Timeline',
+    description: 'Layered multi-track NLE/DAW workspaces, calibrated playhead rulers, DAW track strips, clip trim/fade/razor handles, Bezier keyframe editors, and zoom navigators.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2653,6 +2659,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'frame / totalFrames / jumpStep', type: 'number / number / number', defaultValue: '0 / 1800 / 10', description: 'Active frame, upper bound, and multi-frame jump increment.' },
       { name: 'rate / rates / onRateChange', type: 'number / number[] / (rate) => void', defaultValue: '1 / [0.25..2] / undefined', description: 'Preview playback speed multiplier and available speed pills.' },
+    ],
+  },
+  /* ==================== TIMELINE & SEQUENCING (6) ==================== */
+  {
+    id: 'multi-track-timeline',
+    title: 'Multi-Track Timeline',
+    exportName: 'MultiTrackTimeline',
+    category: 'timeline-sequencing',
+    categoryTitle: 'Timeline & Sequencing',
+    summary: 'Horizontal layered workspace holding stacked video, audio, effect, and subtitle tracks aligned to a shared scrubbing ruler and playhead.',
+    codeSnippet: `<MultiTrackTimeline tracks={tracks} durationSec={48} defaultCurrentTimeSec={12.5} />`,
+    props: [
+      { name: 'tracks / durationSec', type: 'TimelineTrack[] / number', defaultValue: 'required / auto', description: 'Stacked video/audio/effect/subtitle lanes and sequence length.' },
+      { name: 'currentTimeSec / onTimeChange', type: 'number / (sec) => void', defaultValue: '0 / undefined', description: 'Synchronized playhead timestamp and scrubbing callback.' },
+    ],
+  },
+  {
+    id: 'playhead-scrub-ruler',
+    title: 'Playhead & Scrubbing Ruler',
+    exportName: 'PlayheadScrubRuler',
+    category: 'timeline-sequencing',
+    categoryTitle: 'Timeline & Sequencing',
+    summary: 'Calibrated major/minor graduation time ruler with a draggable top playhead cap, vertical needle over lane content, frame snap, and cue markers.',
+    codeSnippet: `<PlayheadScrubRuler durationSec={60} fps={30} markers={markers} />`,
+    props: [
+      { name: 'durationSec / timeSec / fps', type: 'number / number / number', defaultValue: '60 / 0 / 30', description: 'Total ruler span, active playhead time, and frame snap rate.' },
+      { name: 'markers / onSelectMarker', type: 'RulerMarker[] / (m) => void', defaultValue: '[] / undefined', description: 'Clickable semantic cue marker flags along the ruler.' },
+    ],
+  },
+  {
+    id: 'track-header-strip',
+    title: 'Track Header Strip',
+    exportName: 'TrackHeaderStrip',
+    category: 'timeline-sequencing',
+    categoryTitle: 'Timeline & Sequencing',
+    summary: 'Left-hand DAW/NLE track control column containing track type badge, inline rename, compact/expanded height toggle, Mute (M), Solo (S), Record Arm (R), and Lock.',
+    codeSnippet: `<TrackHeaderStrip name="V1 · Cinema Master" trackType="video" defaultHeightMode="expanded" />`,
+    props: [
+      { name: 'name / trackType', type: 'string / TrackLaneType', defaultValue: "required / 'video'", description: 'Track display label and semantic lane category.' },
+      { name: 'muted / solo / armed / locked', type: 'boolean', defaultValue: 'false', description: 'Independent controlled/uncontrolled DAW state switches.' },
+    ],
+  },
+  {
+    id: 'clip-trim-handle',
+    title: 'Clip Trim, Fade & Razor Handles',
+    exportName: 'ClipTrimHandle',
+    category: 'timeline-sequencing',
+    categoryTitle: 'Timeline & Sequencing',
+    summary: 'Interactive timeline clip bar with draggable in/out trim grips, corner SVG fade-in/fade-out curve handles, and a razor split mode.',
+    codeSnippet: `<ClipTrimHandle label="A004_HeroShot.mov" totalDurationSec={30} defaultInSec={4} defaultOutSec={24} />`,
+    props: [
+      { name: 'inSec / outSec / totalDurationSec', type: 'number', defaultValue: '3 / 25 / 30', description: 'Active clip trim bounds inside total media length.' },
+      { name: 'fadeInSec / fadeOutSec / onSplit', type: 'number / number / (atSec, l, r) => void', defaultValue: '2 / 2.5 / undefined', description: 'Corner fade curve durations and razor split event handler.' },
+    ],
+  },
+  {
+    id: 'keyframe-curve-editor',
+    title: 'Keyframe Track & Curve (Easing) Editor',
+    exportName: 'KeyframeCurveEditor',
+    category: 'timeline-sequencing',
+    categoryTitle: 'Timeline & Sequencing',
+    summary: 'Diamond-marker keyframe lane paired with a draggable cubic-Bezier acceleration graph and one-click easing presets.',
+    codeSnippet: `<KeyframeCurveEditor propertyName="Camera Scale" unit="%" />`,
+    props: [
+      { name: 'propertyName / unit', type: 'string / string', defaultValue: "'Opacity' / '%'", description: 'Animated property title and numeric telemetry suffix.' },
+      { name: 'keyframes / onKeyframesChange', type: 'AnimationKeyframe[] / (kf) => void', defaultValue: 'default 3 / undefined', description: 'Controlled keyframe sequence with cubic-bezier tuples.' },
+    ],
+  },
+  {
+    id: 'timeline-zoom-navigator',
+    title: 'Timeline Zoom & Navigator Bar',
+    exportName: 'TimelineZoomNavigator',
+    category: 'timeline-sequencing',
+    categoryTitle: 'Timeline & Sequencing',
+    summary: 'Overview scrollbar with waveform envelope, playhead indicator, draggable pan thumb, and dual end-caps that simultaneously pan and zoom.',
+    codeSnippet: `<TimelineZoomNavigator totalDurationSec={180} defaultWindowRange={{ startPct: 12, endPct: 58 }} playheadPct={32} />`,
+    props: [
+      { name: 'windowRange / minWindowPct', type: 'TimelineViewportWindow / number', defaultValue: '{10..60} / 5', description: 'Visible viewport span percentages and minimum zoom width.' },
+      { name: 'totalDurationSec / onWindowChange', type: 'number / (win, zoom) => void', defaultValue: '120 / undefined', description: 'Project duration and live pan/zoom telemetry callback.' },
     ],
   },
 ];

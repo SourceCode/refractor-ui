@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.23.0",
+  "version": "1.24.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -196,6 +196,11 @@
       "source": "./src/CitationChip/index.ts",
       "types": "./dist/CitationChip/index.d.ts",
       "default": "./dist/CitationChip/index.js"
+    },
+    "./ClipTrimHandle": {
+      "source": "./src/ClipTrimHandle/index.ts",
+      "types": "./dist/ClipTrimHandle/index.d.ts",
+      "default": "./dist/ClipTrimHandle/index.js"
     },
     "./CodeEditor": {
       "source": "./src/CodeEditor/index.ts",
@@ -447,6 +452,11 @@
       "types": "./dist/KeycapBadge/index.d.ts",
       "default": "./dist/KeycapBadge/index.js"
     },
+    "./KeyframeCurveEditor": {
+      "source": "./src/KeyframeCurveEditor/index.ts",
+      "types": "./dist/KeyframeCurveEditor/index.d.ts",
+      "default": "./dist/KeyframeCurveEditor/index.js"
+    },
     "./KpiMetricCard": {
       "source": "./src/KpiMetricCard/index.ts",
       "types": "./dist/KpiMetricCard/index.d.ts",
@@ -532,6 +542,11 @@
       "types": "./dist/MultiStateCycleButton/index.d.ts",
       "default": "./dist/MultiStateCycleButton/index.js"
     },
+    "./MultiTrackTimeline": {
+      "source": "./src/MultiTrackTimeline/index.ts",
+      "types": "./dist/MultiTrackTimeline/index.d.ts",
+      "default": "./dist/MultiTrackTimeline/index.js"
+    },
     "./NetworkForceGraph": {
       "source": "./src/NetworkForceGraph/index.ts",
       "types": "./dist/NetworkForceGraph/index.d.ts",
@@ -586,6 +601,11 @@
       "source": "./src/PivotTable/index.ts",
       "types": "./dist/PivotTable/index.d.ts",
       "default": "./dist/PivotTable/index.js"
+    },
+    "./PlayheadScrubRuler": {
+      "source": "./src/PlayheadScrubRuler/index.ts",
+      "types": "./dist/PlayheadScrubRuler/index.d.ts",
+      "default": "./dist/PlayheadScrubRuler/index.js"
     },
     "./PointClusterMap": {
       "source": "./src/PointClusterMap/index.ts",
@@ -872,6 +892,11 @@
       "types": "./dist/Timeline/index.d.ts",
       "default": "./dist/Timeline/index.js"
     },
+    "./TimelineZoomNavigator": {
+      "source": "./src/TimelineZoomNavigator/index.ts",
+      "types": "./dist/TimelineZoomNavigator/index.d.ts",
+      "default": "./dist/TimelineZoomNavigator/index.js"
+    },
     "./TimezoneSelector": {
       "source": "./src/TimezoneSelector/index.ts",
       "types": "./dist/TimezoneSelector/index.d.ts",
@@ -901,6 +926,11 @@
       "source": "./src/TopNavBar/index.ts",
       "types": "./dist/TopNavBar/index.d.ts",
       "default": "./dist/TopNavBar/index.js"
+    },
+    "./TrackHeaderStrip": {
+      "source": "./src/TrackHeaderStrip/index.ts",
+      "types": "./dist/TrackHeaderStrip/index.d.ts",
+      "default": "./dist/TrackHeaderStrip/index.js"
     },
     "./TransferList": {
       "source": "./src/TransferList/index.ts",

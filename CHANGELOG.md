@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.24.0] - 2026-11-21
+
+### Added
+- **Timeline & Sequencing (6 new optical-glass NLE/DAW timeline primitives — 189 total across 34 categories):**
+  - `MultiTrackTimeline`: Horizontal layered workspace holding stacked video, audio, effect, and subtitle tracks aligned to a shared scrubbing ruler, playhead, mute/lock toggles, zoom levels (`1×`/`2×`/`4×`), and clip inspector.
+  - `PlayheadScrubRuler`: Calibrated major/minor graduation ruler with draggable tangerine playhead cap, vertical needle over lane content, frame-snap mode, and clickable semantic cue markers.
+  - `TrackHeaderStrip`: Left-hand DAW/NLE track control column featuring semantic lane badges, inline rename, compact/expanded height toggle, Mute (`M`), Solo (`S`), Record Arm (`R`), and Lock buttons.
+  - `ClipTrimHandle`: Interactive timeline clip bar with draggable in/out trim grips, corner SVG fade-in/fade-out curve handles, and a toggleable Razor Split mode.
+  - `KeyframeCurveEditor`: Diamond-marker keyframe lane paired with a draggable cubic-Bezier acceleration curve graph, tangent arms, and 5 easing presets (`Linear`, `Ease In`, `Ease Out`, `Ease In-Out`, `Overshoot`).
+  - `TimelineZoomNavigator`: Overview scrollbar with waveform envelope, playhead indicator, draggable viewport pan thumb, and dual end-caps that simultaneously pan and zoom up to `50×`.
+- Added interactive playground demos and prop specs in `apps/docs` under `Timeline & Sequencing`.
+
 ## [1.23.0] - 2026-11-21
 
 ### Added
@@ -312,7 +324,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.23.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.24.0...HEAD
+[1.24.0]: https://github.com/SourceCode/refractor-ui/compare/v1.23.0...v1.24.0
 [1.23.0]: https://github.com/SourceCode/refractor-ui/compare/v1.22.0...v1.23.0
 [1.22.0]: https://github.com/SourceCode/refractor-ui/compare/v1.21.0...v1.22.0
 [1.21.0]: https://github.com/SourceCode/refractor-ui/compare/v1.20.0...v1.21.0
