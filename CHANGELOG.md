@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-11-21
+
+### Added
+- **AI Context, Memory & Configuration (6 new Astryx-standard optical-glass components — 122 total across 20 categories):**
+  - `ContextTokenMeter`: Segmented optical progress bar & SVG radial ring gauge tracking system/files/tools/history tokens against warning and critical thresholds.
+  - `AttachedContextBar`: Horizontal removable context chip strip for files, folders, URLs, and snippets with token readouts and pin toggles.
+  - `ModelParameterSwitcher`: Compact optical popover combining model selection with Web Search, Code Execution, Extended Thinking, and Temperature controls.
+  - `MemoryPersonaInspector`: Inline or slide-over persistent memory catalog with Facts/Preferences/Rules filters, inline editing, Add, and Forget actions.
+  - `ConnectedToolsDrawer`: MCP server & external tool directory with health status badges, permission scope pills, tool counts, and individual enable switches.
+  - `ConfidenceIndicator`: Verified, high, moderate, and dashed needs-review confidence pill with expandable rationale popover and Mark Verified action.
+- Added interactive playground demos and prop specs in `apps/docs` under `AI Context, Memory & Configuration`.
+
 ## [1.7.0] - 2026-11-21
 
 ### Added
@@ -124,7 +136,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.8.0...HEAD
+[1.8.0]: https://github.com/SourceCode/refractor-ui/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/SourceCode/refractor-ui/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/SourceCode/refractor-ui/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/SourceCode/refractor-ui/compare/v1.4.0...v1.5.0

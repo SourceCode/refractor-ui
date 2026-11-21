@@ -140,6 +140,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Agent Control',
     description: 'Editable execution plan roadmaps, collapsible tool call cards, human-in-the-loop approval gates, mid-flight control bars, checkpoint rollback strips, inline diff reviewers, and recovery cards.',
   },
+  {
+    id: 'ai-context-memory',
+    title: 'AI Context, Memory & Configuration',
+    shortLabel: 'AI Context',
+    description: 'Segmented context token meters, attached context bars, model/parameter switchers, persistent memory inspectors, MCP tool drawers, and confidence indicators.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1684,6 +1690,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'routes', type: 'RecoveryRouteAction[]', defaultValue: 'required', description: 'Targeted recovery strategies rendered as optical action buttons.' },
       { name: 'stackTrace', type: 'string', defaultValue: 'undefined', description: 'Optional literal diagnostic trace revealed via collapsible toggle.' },
+    ],
+  },
+  /* ==================== AI CONTEXT, MEMORY & CONFIGURATION (6) ==================== */
+  {
+    id: 'context-token-meter',
+    title: 'Context Window & Token Meter',
+    exportName: 'ContextTokenMeter',
+    category: 'ai-context-memory',
+    categoryTitle: 'AI Context, Memory & Configuration',
+    summary: 'Segmented optical progress bar and SVG radial gauge tracking system, files, tools, and history token utilization against warning and critical limits.',
+    codeSnippet: `<ContextTokenMeter maxTokens={128000} segments={segments} variant="bar" />`,
+    props: [
+      { name: 'segments / maxTokens', type: 'ContextTokenSegment[] / number', defaultValue: 'required', description: 'Token breakdown segments and total context window capacity.' },
+      { name: 'variant', type: "'bar' | 'radial'", defaultValue: "'bar'", description: 'Segmented linear bar or optical SVG radial ring gauge.' },
+    ],
+  },
+  {
+    id: 'attached-context-bar',
+    title: 'Attached Context / Reference Bar',
+    exportName: 'AttachedContextBar',
+    category: 'ai-context-memory',
+    categoryTitle: 'AI Context, Memory & Configuration',
+    summary: 'Horizontal strip of removable crystal context chips for files, folders, URLs, and snippets with token readouts and pin toggles.',
+    codeSnippet: `<AttachedContextBar defaultItems={contextItems} onAddClick={openPicker} />`,
+    props: [
+      { name: 'items / defaultItems', type: 'AttachedContextItem[]', defaultValue: '[]', description: 'Attached file, folder, URL, or snippet references with optional token counts.' },
+      { name: 'onRemove / onTogglePin', type: 'callbacks', defaultValue: 'undefined', description: 'Handlers for removing context items or toggling pinned persistence.' },
+    ],
+  },
+  {
+    id: 'model-parameter-switcher',
+    title: 'Model & Parameter Switcher',
+    exportName: 'ModelParameterSwitcher',
+    category: 'ai-context-memory',
+    categoryTitle: 'AI Context, Memory & Configuration',
+    summary: 'Compact optical popover combining AI model selection (speed tier & context badges) with Web Search, Code Execution, Extended Thinking, and Temperature controls.',
+    codeSnippet: `<ModelParameterSwitcher models={models} onModelChange={setModel} onCapabilitiesChange={setCaps} />`,
+    props: [
+      { name: 'models', type: 'AiModelOption[]', defaultValue: 'required', description: 'Available models with context window and speed tier metadata.' },
+      { name: 'capabilities / defaultCapabilities', type: 'ModelCapabilities', defaultValue: 'defaults', description: 'Toggleable webSearch, codeExecution, extendedThinking, and temperature.' },
+    ],
+  },
+  {
+    id: 'memory-persona-inspector',
+    title: 'Agent Memory & Persona Inspector',
+    exportName: 'MemoryPersonaInspector',
+    category: 'ai-context-memory',
+    categoryTitle: 'AI Context, Memory & Configuration',
+    summary: 'Inline or drawer memory catalog displaying persistent facts, preferences, and rules with category filtering, inline editing, Add, and Forget controls.',
+    codeSnippet: `<MemoryPersonaInspector mode="inline" defaultMemories={memories} />`,
+    props: [
+      { name: 'memories / defaultMemories', type: 'AgentMemoryItem[]', defaultValue: '[]', description: 'Persistent agent facts, preferences, and governing rules.' },
+      { name: 'mode', type: "'inline' | 'drawer'", defaultValue: "'inline'", description: 'Embedded panel or slide-over inspector drawer.' },
+    ],
+  },
+  {
+    id: 'connected-tools-drawer',
+    title: 'Connected Tools / MCP Server Drawer',
+    exportName: 'ConnectedToolsDrawer',
+    category: 'ai-context-memory',
+    categoryTitle: 'AI Context, Memory & Configuration',
+    summary: 'Optical MCP server & tool status directory displaying connection health, permission scope pills, tool counts, and per-server enable switches.',
+    codeSnippet: `<ConnectedToolsDrawer mode="inline" defaultServers={servers} onToggleServer={toggle} />`,
+    props: [
+      { name: 'servers / defaultServers', type: 'ConnectedToolServer[]', defaultValue: '[]', description: 'External MCP servers with health, scopes, toolCount, and enabled flag.' },
+      { name: 'onToggleServer', type: '(serverId: string, enabled: boolean) => void', defaultValue: 'undefined', description: 'Invoked when toggling a tool server switch.' },
+    ],
+  },
+  {
+    id: 'confidence-indicator',
+    title: 'Confidence & Grounding Indicator',
+    exportName: 'ConfidenceIndicator',
+    category: 'ai-context-memory',
+    categoryTitle: 'AI Context, Memory & Configuration',
+    summary: 'Optical verification badge distinguishing verified, high, moderate, and dashed needs-review confidence with a rationale popover and Mark Verified callback.',
+    codeSnippet: `<ConfidenceIndicator score={94} sourceCount={3} rationale="..." onMarkVerified={verify} />`,
+    props: [
+      { name: 'score', type: 'number', defaultValue: 'required', description: 'Confidence score clamped to 0..100 used to derive level when omitted.' },
+      { name: 'verified / onMarkVerified', type: 'boolean / () => void', defaultValue: 'false', description: 'Marks the claim as verified or offers one-click verification.' },
     ],
   },
 ];

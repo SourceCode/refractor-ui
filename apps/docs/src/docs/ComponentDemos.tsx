@@ -1,4 +1,5 @@
 import { AiAgentControlDemos } from './demos/AiAgentControlDemos';
+import { AiContextMemoryDemos } from './demos/AiContextMemoryDemos';
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
@@ -126,6 +127,15 @@ const AI_AGENT_CONTROL_IDS = new Set([
   'recovery-routing-card',
 ]);
 
+const AI_CONTEXT_MEMORY_IDS = new Set([
+  'context-token-meter',
+  'attached-context-bar',
+  'model-parameter-switcher',
+  'memory-persona-inspector',
+  'connected-tools-drawer',
+  'confidence-indicator',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -165,6 +175,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (AI_AGENT_CONTROL_IDS.has(componentId)) {
     return <AiAgentControlDemos componentId={componentId} />;
+  }
+  if (AI_CONTEXT_MEMORY_IDS.has(componentId)) {
+    return <AiContextMemoryDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

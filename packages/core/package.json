@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -66,6 +66,11 @@
       "source": "./src/ApprovalGateCard/index.ts",
       "types": "./dist/ApprovalGateCard/index.d.ts",
       "default": "./dist/ApprovalGateCard/index.js"
+    },
+    "./AttachedContextBar": {
+      "source": "./src/AttachedContextBar/index.ts",
+      "types": "./dist/AttachedContextBar/index.d.ts",
+      "default": "./dist/AttachedContextBar/index.js"
     },
     "./AudioWaveformPlayer": {
       "source": "./src/AudioWaveformPlayer/index.ts",
@@ -152,10 +157,25 @@
       "types": "./dist/CommentThread/index.d.ts",
       "default": "./dist/CommentThread/index.js"
     },
+    "./ConfidenceIndicator": {
+      "source": "./src/ConfidenceIndicator/index.ts",
+      "types": "./dist/ConfidenceIndicator/index.d.ts",
+      "default": "./dist/ConfidenceIndicator/index.js"
+    },
+    "./ConnectedToolsDrawer": {
+      "source": "./src/ConnectedToolsDrawer/index.ts",
+      "types": "./dist/ConnectedToolsDrawer/index.d.ts",
+      "default": "./dist/ConnectedToolsDrawer/index.js"
+    },
     "./ContextMenuDropdown": {
       "source": "./src/ContextMenuDropdown/index.ts",
       "types": "./dist/ContextMenuDropdown/index.d.ts",
       "default": "./dist/ContextMenuDropdown/index.js"
+    },
+    "./ContextTokenMeter": {
+      "source": "./src/ContextTokenMeter/index.ts",
+      "types": "./dist/ContextTokenMeter/index.d.ts",
+      "default": "./dist/ContextTokenMeter/index.js"
     },
     "./ContextualPopover": {
       "source": "./src/ContextualPopover/index.ts",
@@ -297,10 +317,20 @@
       "types": "./dist/MediaLightbox/index.d.ts",
       "default": "./dist/MediaLightbox/index.js"
     },
+    "./MemoryPersonaInspector": {
+      "source": "./src/MemoryPersonaInspector/index.ts",
+      "types": "./dist/MemoryPersonaInspector/index.d.ts",
+      "default": "./dist/MemoryPersonaInspector/index.js"
+    },
     "./ModalDialog": {
       "source": "./src/ModalDialog/index.ts",
       "types": "./dist/ModalDialog/index.d.ts",
       "default": "./dist/ModalDialog/index.js"
+    },
+    "./ModelParameterSwitcher": {
+      "source": "./src/ModelParameterSwitcher/index.ts",
+      "types": "./dist/ModelParameterSwitcher/index.d.ts",
+      "default": "./dist/ModelParameterSwitcher/index.js"
     },
     "./MultiSelectCombobox": {
       "source": "./src/MultiSelectCombobox/index.ts",
