@@ -325,8 +325,14 @@ export async function runCli(argv, options = {}) {
         grouped.set(groupName, []);
       }
 
-      for (const dirName of componentDirs) {
-        const doc = await loadComponentDoc(dirName, repoRoot);
+      const loadedDocs = await Promise.all(
+        componentDirs.map(async (dirName) => ({
+          dirName,
+          doc: await loadComponentDoc(dirName, repoRoot),
+        }))
+      );
+
+      for (const { dirName, doc } of loadedDocs) {
         const groupName = doc?.group ?? 'Other';
         if (!grouped.has(groupName)) {
           grouped.set(groupName, []);

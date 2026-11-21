@@ -128,6 +128,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Mobile & UX',
     description: 'Thumb-friendly bottom navigation bars, swipeable action rows, pull-to-refresh feeds, sculpted keycap shortcut badges, and privacy consent banners.',
   },
+  {
+    id: 'cli-terminal',
+    title: 'CLI & Terminal Surfaces',
+    shortLabel: 'CLI & Shell',
+    description: 'ANSI-tokenized terminal emulators, autocomplete command bars, live log streamers, copyable CLI blocks, process pills, structured JSON viewers, and split multiplexers.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1488,6 +1494,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'mode', type: "'bar' | 'card' | 'inline'", defaultValue: "'inline'", description: 'Bottom full-width bar, corner card, or inline container mode.' },
       { name: 'onSavePreferences', type: '(prefs: CookieConsentPreferences) => void', defaultValue: 'undefined', description: 'Fires with saved essential/analytics/preferences/marketing flags.' },
+    ],
+  },
+  /* ==================== CLI & TERMINAL SURFACES (7) ==================== */
+  {
+    id: 'terminal-emulator',
+    title: 'Interactive Terminal Emulator',
+    exportName: 'TerminalEmulator',
+    category: 'cli-terminal',
+    categoryTitle: 'CLI & Terminal Surfaces',
+    summary: 'Pure-React ANSI-tokenized optical shell container with command history (Up/Down), Ctrl+L clearing, and live stdout/stderr output.',
+    codeSnippet: `<TerminalEmulator defaultLines={lines} onExecute={(cmd) => runCommand(cmd)} />`,
+    props: [
+      { name: 'lines / defaultLines', type: 'TerminalLine[]', defaultValue: '[]', description: 'Terminal lines supporting ANSI SGR escape styling.' },
+      { name: 'onExecute', type: '(command: string) => string | TerminalLine[] | void', defaultValue: 'undefined', description: 'Handler invoked on IME-safe Enter command submission.' },
+    ],
+  },
+  {
+    id: 'command-input-bar',
+    title: 'Command Prompt Input Bar',
+    exportName: 'CommandInputBar',
+    category: 'cli-terminal',
+    categoryTitle: 'CLI & Terminal Surfaces',
+    summary: 'Monospace optical CLI prompt bar featuring inline Tab/ArrowRight ghost-text autocomplete and Up/Down command history.',
+    codeSnippet: `<CommandInputBar suggestions={commands} onSubmit={(cmd) => exec(cmd)} />`,
+    props: [
+      { name: 'suggestions', type: 'string[]', defaultValue: '[]', description: 'Prefix-matched commands shown as inline ghost text.' },
+      { name: 'history', type: 'string[]', defaultValue: '[]', description: 'Initial command history navigable via ArrowUp/ArrowDown.' },
+    ],
+  },
+  {
+    id: 'live-log-streamer',
+    title: 'Live Log / Stdout Streamer',
+    exportName: 'LiveLogStreamer',
+    category: 'cli-terminal',
+    categoryTitle: 'CLI & Terminal Surfaces',
+    summary: 'Monospace optical log viewer with live text search, Debug/Info/Warn/Error severity filters, Follow/Pause toggle, and Jump-to-Bottom.',
+    codeSnippet: `<LiveLogStreamer entries={logs} defaultFollowing />`,
+    props: [
+      { name: 'entries', type: 'LogEntry[]', defaultValue: 'required', description: 'Timestamped log entries with severity and optional source.' },
+      { name: 'defaultFollowing', type: 'boolean', defaultValue: 'true', description: 'Keeps scroll position locked to newest incoming log lines.' },
+    ],
+  },
+  {
+    id: 'copyable-command-block',
+    title: 'Copyable CLI Command Block',
+    exportName: 'CopyableCommandBlock',
+    category: 'cli-terminal',
+    categoryTitle: 'CLI & Terminal Surfaces',
+    summary: 'Compact syntax-tokenized command strip with pnpm/npm/yarn/bun package-manager tabs and one-click clipboard copy confirmation.',
+    codeSnippet: `<CopyableCommandBlock variants={[{ id: 'pnpm', label: 'pnpm', command: 'pnpm add @refractor-ui/core' }]} />`,
+    props: [
+      { name: 'variants', type: 'CommandVariant[]', defaultValue: 'undefined', description: 'Optional runner tabs (pnpm, npm, yarn, bun) with distinct commands.' },
+      { name: 'command', type: 'string', defaultValue: 'undefined', description: 'Single command string when not using multi-variant tabs.' },
+    ],
+  },
+  {
+    id: 'process-status-pill',
+    title: 'Process Status Pill',
+    exportName: 'ProcessStatusPill',
+    category: 'cli-terminal',
+    categoryTitle: 'CLI & Terminal Surfaces',
+    summary: 'Optical inline execution pill indicating running, success, failed, or cancelled CLI jobs with elapsed duration, exit code, and stop/retry actions.',
+    codeSnippet: `<ProcessStatusPill label="vitest" status="success" elapsedMs={15420} exitCode={0} />`,
+    props: [
+      { name: 'status', type: "'running' | 'success' | 'failed' | 'cancelled'", defaultValue: 'required', description: 'Current execution lifecycle state.' },
+      { name: 'elapsedMs / exitCode', type: 'number', defaultValue: 'undefined', description: 'Tabular duration formatting and exit status badge.' },
+    ],
+  },
+  {
+    id: 'structured-output-viewer',
+    title: 'Structured Output Viewer',
+    exportName: 'StructuredOutputViewer',
+    category: 'cli-terminal',
+    categoryTitle: 'CLI & Terminal Surfaces',
+    summary: 'Strictly typed JSON viewer toggling between collapsible Tree, tabular Table, and formatted Raw stdout modes with copy support.',
+    codeSnippet: `<StructuredOutputViewer data={payload} defaultMode="tree" />`,
+    props: [
+      { name: 'data', type: 'JsonValue', defaultValue: 'required', description: 'Strictly typed JSON primitive, object, or array payload.' },
+      { name: 'mode / defaultMode', type: "'tree' | 'table' | 'raw'", defaultValue: "'tree'", description: 'Active representation mode for structured CLI output.' },
+    ],
+  },
+  {
+    id: 'terminal-multiplexer',
+    title: 'Terminal Multiplexer / Session Tabs',
+    exportName: 'TerminalMultiplexer',
+    category: 'cli-terminal',
+    categoryTitle: 'CLI & Terminal Surfaces',
+    summary: 'Multi-session optical shell workspace supporting tab switching, side-by-side split panes, session creation/closing, and per-pane prompts.',
+    codeSnippet: `<TerminalMultiplexer defaultLayout="split" defaultPanes={sessions} onCommand={runInPane} />`,
+    props: [
+      { name: 'panes / defaultPanes', type: 'TerminalSessionPane[]', defaultValue: '[]', description: 'Active shell sessions with cwd, status indicator, and output lines.' },
+      { name: 'layout / defaultLayout', type: "'tabs' | 'split'", defaultValue: "'tabs'", description: 'Single-pane tabbed view or side-by-side split workspace.' },
     ],
   },
 ];

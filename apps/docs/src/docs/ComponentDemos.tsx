@@ -1,4 +1,5 @@
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
+import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
 import { CoreDemos } from './demos/CoreDemos';
@@ -104,6 +105,16 @@ const MOBILE_UTILITIES_IDS = new Set([
   'cookie-consent-banner',
 ]);
 
+const CLI_TERMINAL_IDS = new Set([
+  'terminal-emulator',
+  'command-input-bar',
+  'live-log-streamer',
+  'copyable-command-block',
+  'process-status-pill',
+  'structured-output-viewer',
+  'terminal-multiplexer',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -137,6 +148,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (MOBILE_UTILITIES_IDS.has(componentId)) {
     return <MobileUtilitiesDemos componentId={componentId} />;
+  }
+  if (CLI_TERMINAL_IDS.has(componentId)) {
+    return <CliTerminalDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

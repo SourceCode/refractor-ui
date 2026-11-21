@@ -7,6 +7,19 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-21
+
+### Added
+- **CLI & Terminal Surfaces (7 new Astryx-standard optical-glass components — 109 total across 18 categories):**
+  - `TerminalEmulator`: Pure-React ANSI SGR tokenized shell emulator with Up/Down history, `Ctrl+L` clear, and zero `dangerouslySetInnerHTML`.
+  - `CommandInputBar`: Monospace prompt input bar with Tab/ArrowRight inline ghost-text autocomplete and Up/Down command history.
+  - `LiveLogStreamer`: Searchable live log feed with Debug/Info/Warn/Error severity filters, Follow/Pause toggle, and Jump-to-Bottom lock.
+  - `CopyableCommandBlock`: Syntax-tokenized CLI strip with package-manager tab switching (`pnpm`/`npm`/`yarn`/`bun`) and clipboard confirmation.
+  - `ProcessStatusPill`: Compact process lifecycle badge with elapsed duration, exit code, and conditional Stop/Retry actions.
+  - `StructuredOutputViewer`: Strictly typed recursive `JsonValue` viewer switching between collapsible Tree, Table, and formatted Raw modes.
+  - `TerminalMultiplexer`: Multi-session optical shell workspace with session tabs, side-by-side split panes, add/close controls, and per-pane prompts.
+- Added interactive playground demos and prop specs in `apps/docs` under `CLI & Terminal Surfaces`.
+
 ## [1.5.0] - 2026-11-21
 
 ### Added
@@ -98,7 +111,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/SourceCode/refractor-ui/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/SourceCode/refractor-ui/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/SourceCode/refractor-ui/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/SourceCode/refractor-ui/compare/v1.2.0...v1.3.0

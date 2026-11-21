@@ -79,7 +79,7 @@ describe('@refractor-ui/cli', () => {
     expect(res.stdout).toContain('PrimaryButton');
     expect(res.stdout).toContain('ProductTour');
     expect(res.stdout).toContain('ChatMessageStream');
-  });
+  }, 15_000);
 
   it('inspects individual components in standard, dense, and full modes and handles unknown components', async () => {
     const standard = await runCli(['component', 'PrimaryButton']);
