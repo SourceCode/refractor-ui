@@ -116,6 +116,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Security',
     description: 'OTP verification boxes, linear-time password strength meters, masked secret key fields, RBAC role permissions matrices, and active session managers.',
   },
+  {
+    id: 'commerce-billing',
+    title: 'Commerce, Billing & Conversion',
+    shortLabel: 'Commerce',
+    description: 'Subscription pricing matrices, visual swatch variant selectors, slide-over cart drawers, Luhn-validated payment card inputs, and promo coupon pills.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -1343,6 +1349,73 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'sessions / defaultSessions', type: 'ActiveSessionItem[]', defaultValue: 'optional', description: 'Active authenticated sessions across desktop, mobile, tablet, or CLI.' },
       { name: 'onSignOutAllOthers', type: '() => void', defaultValue: 'undefined', description: 'Revokes all non-current remote sessions.' },
+    ],
+  },
+
+  /* ==================== COMMERCE, BILLING & CONVERSION (5) ==================== */
+  {
+    id: 'pricing-tier-matrix',
+    title: 'Pricing Tier Matrix',
+    exportName: 'PricingTierMatrix',
+    category: 'commerce-billing',
+    categoryTitle: 'Commerce, Billing & Conversion',
+    summary: 'Multi-column optical pricing comparison grid with Monthly/Annual billing toggle, savings callout, feature checklists, and highlighted Most Popular tier.',
+    codeSnippet: `<PricingTierMatrix tiers={tiers} defaultBillingCycle="annual" onSelectTier={subscribe} />`,
+    props: [
+      { name: 'tiers', type: 'PricingTier[]', defaultValue: 'required', description: 'Subscription tier cards with feature checklists and pricing.' },
+      { name: 'billingCycle', type: "'monthly' | 'annual'", defaultValue: "'annual'", description: 'Active billing interval.' },
+    ],
+  },
+  {
+    id: 'product-variant-selector',
+    title: 'Product Variant Selector',
+    exportName: 'ProductVariantSelector',
+    category: 'commerce-billing',
+    categoryTitle: 'Commerce, Billing & Conversion',
+    summary: 'Token-driven optical color swatches, size pills, and material chips with out-of-stock guards and live price delta calculations.',
+    codeSnippet: `<ProductVariantSelector basePrice={149} groups={variantGroups} />`,
+    props: [
+      { name: 'groups', type: 'VariantGroup[]', defaultValue: 'required', description: 'Variant dimension groups (color, size, material).' },
+      { name: 'basePrice', type: 'number', defaultValue: '129', description: 'Base item price summed with active price deltas.' },
+    ],
+  },
+  {
+    id: 'shopping-cart-drawer',
+    title: 'Shopping Cart Drawer',
+    exportName: 'ShoppingCartDrawer',
+    category: 'commerce-billing',
+    categoryTitle: 'Commerce, Billing & Conversion',
+    summary: 'Optical slide-over and inline cart panel listing items with quantity steppers, removal controls, subtotal/discount/tax math, and checkout CTA.',
+    codeSnippet: `<ShoppingCartDrawer open={cartOpen} defaultItems={items} onCheckout={checkout} />`,
+    props: [
+      { name: 'items / defaultItems', type: 'CartLineItem[]', defaultValue: 'optional', description: 'Cart line items with unit prices and quantities.' },
+      { name: 'mode', type: "'drawer' | 'inline'", defaultValue: "'drawer'", description: 'Slide-over overlay or inline cart card.' },
+    ],
+  },
+  {
+    id: 'payment-card-input',
+    title: 'Payment / Card Input',
+    exportName: 'PaymentCardInput',
+    category: 'commerce-billing',
+    categoryTitle: 'Commerce, Billing & Conversion',
+    summary: 'Formatted optical credit card input group with automatic Visa/Mastercard/Amex/Discover detection, Luhn checksum validation, MM/YY expiry, and CVC.',
+    codeSnippet: `<PaymentCardInput onSubmit={(card) => tokenize(card)} />`,
+    props: [
+      { name: 'onChange / onSubmit', type: '(val: PaymentCardValue) => void', defaultValue: 'undefined', description: 'Receives formatted fields, detected brand, and Luhn validity.' },
+      { name: 'showCardholderName', type: 'boolean', defaultValue: 'true', description: 'Shows optional cardholder name input.' },
+    ],
+  },
+  {
+    id: 'promo-coupon-input',
+    title: 'Promo / Coupon Input',
+    exportName: 'PromoCouponInput',
+    category: 'commerce-billing',
+    categoryTitle: 'Commerce, Billing & Conversion',
+    summary: 'Compact optical discount entry bar validating promo codes and displaying active savings as a removable emerald tag pill.',
+    codeSnippet: `<PromoCouponInput onApply={(code) => validateCoupon(code)} />`,
+    props: [
+      { name: 'onApply', type: '(code: string) => AppliedCoupon | string | null', defaultValue: 'required', description: 'Validates coupon code and returns applied coupon or error string.' },
+      { name: 'onRemove', type: '(code: string) => void', defaultValue: 'undefined', description: 'Fired when removing the applied coupon tag.' },
     ],
   },
 ];

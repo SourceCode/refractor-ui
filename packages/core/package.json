@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -282,10 +282,20 @@
       "types": "./dist/PasswordStrengthMeter/index.d.ts",
       "default": "./dist/PasswordStrengthMeter/index.js"
     },
+    "./PaymentCardInput": {
+      "source": "./src/PaymentCardInput/index.ts",
+      "types": "./dist/PaymentCardInput/index.d.ts",
+      "default": "./dist/PaymentCardInput/index.js"
+    },
     "./PivotTable": {
       "source": "./src/PivotTable/index.ts",
       "types": "./dist/PivotTable/index.d.ts",
       "default": "./dist/PivotTable/index.js"
+    },
+    "./PricingTierMatrix": {
+      "source": "./src/PricingTierMatrix/index.ts",
+      "types": "./dist/PricingTierMatrix/index.d.ts",
+      "default": "./dist/PricingTierMatrix/index.js"
     },
     "./PrimaryButton": {
       "source": "./src/PrimaryButton/index.ts",
@@ -317,10 +327,20 @@
       "types": "./dist/ProductTour/index.d.ts",
       "default": "./dist/ProductTour/index.js"
     },
+    "./ProductVariantSelector": {
+      "source": "./src/ProductVariantSelector/index.ts",
+      "types": "./dist/ProductVariantSelector/index.d.ts",
+      "default": "./dist/ProductVariantSelector/index.js"
+    },
     "./ProgressAndSpinner": {
       "source": "./src/ProgressAndSpinner/index.ts",
       "types": "./dist/ProgressAndSpinner/index.d.ts",
       "default": "./dist/ProgressAndSpinner/index.js"
+    },
+    "./PromoCouponInput": {
+      "source": "./src/PromoCouponInput/index.ts",
+      "types": "./dist/PromoCouponInput/index.d.ts",
+      "default": "./dist/PromoCouponInput/index.js"
     },
     "./PromptComposer": {
       "source": "./src/PromptComposer/index.ts",
@@ -376,6 +396,11 @@
       "source": "./src/SegmentedControl/index.ts",
       "types": "./dist/SegmentedControl/index.d.ts",
       "default": "./dist/SegmentedControl/index.js"
+    },
+    "./ShoppingCartDrawer": {
+      "source": "./src/ShoppingCartDrawer/index.ts",
+      "types": "./dist/ShoppingCartDrawer/index.d.ts",
+      "default": "./dist/ShoppingCartDrawer/index.js"
     },
     "./SidebarDrawer": {
       "source": "./src/SidebarDrawer/index.ts",

@@ -7,6 +7,17 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-21
+
+### Added
+- **Commerce, Billing & Conversion (5 new Astryx-standard optical-glass components — 97 total across 16 categories):**
+  - `PricingTierMatrix`: Multi-column optical pricing grid with Monthly/Annual billing toggle, savings pill, feature checklists, and highlighted Most Popular card.
+  - `ProductVariantSelector`: Token-driven color swatches, size pills, and material chips with out-of-stock guards and live price calculation.
+  - `ShoppingCartDrawer`: Slide-over & inline optical cart panel with quantity steppers, item removal, subtotal/discount/tax/total summary, and checkout CTA.
+  - `PaymentCardInput`: Auto-formatting payment card input with automatic Visa/Mastercard/Amex/Discover brand detection, Luhn checksum validation, MM/YY expiry, and CVC.
+  - `PromoCouponInput`: Compact coupon entry bar with Apply validation, inline error alert, and removable emerald discount badge.
+- Added interactive playground demos and prop specs in `apps/docs` under `Commerce, Billing & Conversion`.
+
 ## [1.3.0] - 2026-11-21
 
 ### Added
@@ -76,7 +87,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/SourceCode/refractor-ui/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/SourceCode/refractor-ui/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/SourceCode/refractor-ui/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/SourceCode/refractor-ui/compare/v1.0.0...v1.1.0

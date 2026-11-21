@@ -1,5 +1,6 @@
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
+import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
 import { CoreDemos } from './demos/CoreDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
@@ -86,6 +87,14 @@ const SECURITY_AUTH_IDS = new Set([
   'active-sessions-list',
 ]);
 
+const COMMERCE_BILLING_IDS = new Set([
+  'pricing-tier-matrix',
+  'product-variant-selector',
+  'shopping-cart-drawer',
+  'payment-card-input',
+  'promo-coupon-input',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -113,6 +122,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (SECURITY_AUTH_IDS.has(componentId)) {
     return <SecurityAuthDemos componentId={componentId} />;
+  }
+  if (COMMERCE_BILLING_IDS.has(componentId)) {
+    return <CommerceBillingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
