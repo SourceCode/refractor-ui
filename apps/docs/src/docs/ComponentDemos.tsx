@@ -23,6 +23,7 @@ import { FileManagementOperationsDemos } from './demos/FileManagementOperationsD
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
+import { HardwareHudsOverlaysDemos } from './demos/HardwareHudsOverlaysDemos';
 import { HardwareIotTactileDemos } from './demos/HardwareIotTactileDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
@@ -450,6 +451,14 @@ const SYSTEM_TRAY_CONTROL_CENTER_IDS = new Set([
   'clock-calendar-popover',
 ]);
 
+const HARDWARE_HUDS_OVERLAYS_IDS = new Set([
+  'hardware-osd-hud',
+  'lock-screen-overlay',
+  'session-power-overlay',
+  'task-manager-dialog',
+  'screen-capture-hud',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -591,6 +600,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (SYSTEM_TRAY_CONTROL_CENTER_IDS.has(componentId)) {
     return <SystemTrayControlCenterDemos componentId={componentId} />;
+  }
+  if (HARDWARE_HUDS_OVERLAYS_IDS.has(componentId)) {
+    return <HardwareHudsOverlaysDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

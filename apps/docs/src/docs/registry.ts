@@ -344,6 +344,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Control Center',
     description: 'Right-aligned menu-bar indicator clusters, bento-style Quick Settings Control Centers, per-app audio mixers, Wi-Fi & VPN popovers, and deterministic world-clock mini-calendar dropdowns.',
   },
+  {
+    id: 'hardware-huds-overlays',
+    title: 'Hardware HUDs & System Overlays',
+    shortLabel: 'System HUDs',
+    description: 'Transient non-interactive hardware OSD pulses, frosted lock screen user switchers, power countdown overlays, live CPU/memory force-quit task managers, and screen capture recording HUDs.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -4366,6 +4372,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'referenceUtcIso / worldClocks / agendaItems', type: 'string / ReadonlyArray<WorldClockZoneSpec> / ReadonlyArray<ClockAgendaItem>', defaultValue: 'UTC clock / 3 zones / 4 events', description: 'Deterministic reference timestamp, world clocks, and agenda items.' },
       { name: 'open / selectedDateIso / onSelectDate', type: 'boolean / string / (iso) => void', defaultValue: 'true / today / undefined', description: 'Popover state and selected calendar date callback.' },
+    ],
+  },
+  // 54. Hardware HUDs & System Overlays (5 components — v1.44.0)
+  {
+    id: 'hardware-osd-hud',
+    title: 'Transient Hardware HUD (OSD)',
+    exportName: 'HardwareOsdHud',
+    category: 'hardware-huds-overlays',
+    categoryTitle: 'Hardware HUDs & System Overlays',
+    summary: 'Centered non-interactive translucent OSD overlay appearing briefly with auto-fade timer when adjusting system volume, brightness, media playback, or Caps Lock.',
+    codeSnippet: `<HardwareOsdHud autoHideMs={0} showDemoTriggers />`,
+    props: [
+      { name: 'payload / visible / autoHideMs', type: 'HardwareOsdPayload / boolean / number', defaultValue: 'volume 68% / true / 0', description: 'OSD hardware event payload, visibility, and auto-fade timeout.' },
+      { name: 'showDemoTriggers / onVisibleChange', type: 'boolean / (visible) => void', defaultValue: 'true / undefined', description: 'Interactive key simulator bar and fade callback.' },
+    ],
+  },
+  {
+    id: 'lock-screen-overlay',
+    title: 'Lock Screen & User Switcher',
+    exportName: 'LockScreenOverlay',
+    category: 'hardware-huds-overlays',
+    categoryTitle: 'Hardware HUDs & System Overlays',
+    summary: 'Inline or fullscreen frosted-glass lock barrier combining large tabular clock and date, user avatar switcher, ephemeral password/PIN unlock input, and quick power controls.',
+    codeSnippet: `<LockScreenOverlay mode="inline" onUnlock={verifyCredential} />`,
+    props: [
+      { name: 'mode / locked / users', type: "'inline' | 'fullscreen' / boolean / ReadonlyArray<LockScreenUserAccount>", defaultValue: "'inline' / true / 3 users", description: 'Display surface mode, lock state, and switchable accounts.' },
+      { name: 'onUnlock / onPowerAction', type: '(user, cred) => boolean | void / (action) => void', defaultValue: 'undefined', description: 'Credential verifier and Sleep/Restart/Shut Down handler.' },
+    ],
+  },
+  {
+    id: 'session-power-overlay',
+    title: 'Session & Power Action Overlay',
+    exportName: 'SessionPowerOverlay',
+    category: 'hardware-huds-overlays',
+    categoryTitle: 'Hardware HUDs & System Overlays',
+    summary: 'Dimmed system modal offering Sleep, Restart, Shut Down, and Log Out cards paired with a Reopen windows checkbox and optional auto-confirm countdown timer.',
+    codeSnippet: `<SessionPowerOverlay mode="inline" countdownSeconds={60} />`,
+    props: [
+      { name: 'mode / countdownSeconds / autoStartCountdown', type: "'inline' | 'modal' / number / boolean", defaultValue: "'inline' / 60 / false", description: 'Presentation mode and optional auto-action countdown.' },
+      { name: 'onConfirmAction / onCancel', type: '(action, reopen) => void / () => void', defaultValue: 'undefined', description: 'Confirmed session action and cancel callbacks.' },
+    ],
+  },
+  {
+    id: 'task-manager-dialog',
+    title: 'Task Manager / Force Quit Dialog',
+    exportName: 'TaskManagerDialog',
+    category: 'hardware-huds-overlays',
+    categoryTitle: 'Hardware HUDs & System Overlays',
+    summary: 'Compact system activity utility listing active applications and background processes with live CPU/memory meters, search, Unresponsive filter, sorting, and Force Quit.',
+    codeSnippet: `<TaskManagerDialog title="Refractor System Task Manager" />`,
+    props: [
+      { name: 'processes / defaultProcesses', type: 'ReadonlyArray<TaskProcessItem>', defaultValue: '6 sample processes', description: 'Controlled or initial process telemetry list.' },
+      { name: 'onForceQuit / disabled', type: '(proc) => void / boolean', defaultValue: 'undefined / false', description: 'Process termination callback and disabled state.' },
+    ],
+  },
+  {
+    id: 'screen-capture-hud',
+    title: 'Screen Capture & Recording HUD',
+    exportName: 'ScreenCaptureHud',
+    category: 'hardware-huds-overlays',
+    categoryTitle: 'Hardware HUDs & System Overlays',
+    summary: 'Floating bottom capture toolbar selecting Full Screen, Window, or Region screenshots and video recordings with countdown timer, mic toggle, live REC clock, and save location.',
+    codeSnippet: `<ScreenCaptureHud onCaptureComplete={handleCapture} />`,
+    props: [
+      { name: 'defaultTarget / defaultOutput / defaultDelaySeconds', type: 'CaptureTargetMode / CaptureOutputKind / CaptureDelaySeconds', defaultValue: "'region' / 'screenshot' / 0", description: 'Initial capture target, output kind, and countdown delay.' },
+      { name: 'onCaptureComplete / onDismiss', type: '(res) => void / () => void', defaultValue: 'undefined', description: 'Capture completion and HUD close callbacks.' },
     ],
   },
 ];

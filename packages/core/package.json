@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.43.0",
+  "version": "1.44.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -632,6 +632,11 @@
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
     },
+    "./HardwareOsdHud": {
+      "source": "./src/HardwareOsdHud/index.ts",
+      "types": "./dist/HardwareOsdHud/index.d.ts",
+      "default": "./dist/HardwareOsdHud/index.js"
+    },
     "./HardwarePortStrip": {
       "source": "./src/HardwarePortStrip/index.ts",
       "types": "./dist/HardwarePortStrip/index.d.ts",
@@ -756,6 +761,11 @@
       "source": "./src/LiveTelemetryChart/index.ts",
       "types": "./dist/LiveTelemetryChart/index.d.ts",
       "default": "./dist/LiveTelemetryChart/index.js"
+    },
+    "./LockScreenOverlay": {
+      "source": "./src/LockScreenOverlay/index.ts",
+      "types": "./dist/LockScreenOverlay/index.d.ts",
+      "default": "./dist/LockScreenOverlay/index.js"
     },
     "./LollipopChart": {
       "source": "./src/LollipopChart/index.ts",
@@ -1137,6 +1147,11 @@
       "types": "./dist/ScatterBubblePlot/index.d.ts",
       "default": "./dist/ScatterBubblePlot/index.js"
     },
+    "./ScreenCaptureHud": {
+      "source": "./src/ScreenCaptureHud/index.ts",
+      "types": "./dist/ScreenCaptureHud/index.d.ts",
+      "default": "./dist/ScreenCaptureHud/index.js"
+    },
     "./ScrollShadowArea": {
       "source": "./src/ScrollShadowArea/index.ts",
       "types": "./dist/ScrollShadowArea/index.d.ts",
@@ -1171,6 +1186,11 @@
       "source": "./src/ServiceTopologyMap/index.ts",
       "types": "./dist/ServiceTopologyMap/index.d.ts",
       "default": "./dist/ServiceTopologyMap/index.js"
+    },
+    "./SessionPowerOverlay": {
+      "source": "./src/SessionPowerOverlay/index.ts",
+      "types": "./dist/SessionPowerOverlay/index.d.ts",
+      "default": "./dist/SessionPowerOverlay/index.js"
     },
     "./ShoppingCartDrawer": {
       "source": "./src/ShoppingCartDrawer/index.ts",
@@ -1316,6 +1336,11 @@
       "source": "./src/TagChip/index.ts",
       "types": "./dist/TagChip/index.d.ts",
       "default": "./dist/TagChip/index.js"
+    },
+    "./TaskManagerDialog": {
+      "source": "./src/TaskManagerDialog/index.ts",
+      "types": "./dist/TaskManagerDialog/index.d.ts",
+      "default": "./dist/TaskManagerDialog/index.js"
     },
     "./TearOffMenu": {
       "source": "./src/TearOffMenu/index.ts",
