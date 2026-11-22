@@ -296,6 +296,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: '3D & Shaders',
     description: '2D XY vector pads, X/Y/Z transform inspectors with scale locks, multi-stop gradient editors, spring physics pickers, optical shader inspectors, alignment toolbars, and asset swatch libraries.',
   },
+  {
+    id: 'enterprise-ops-api',
+    title: 'Enterprise Workflows, Data Ops & API Tooling',
+    shortLabel: 'Enterprise Ops',
+    description: 'Guided RFC-4180 CSV column mappers, embedded HTTP API consoles, feature flag rollout matrices, sequential/parallel approval chains, compliance audit diff trails, and live SLA countdown timers.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3725,6 +3731,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'items / selectedId', type: 'ReadonlyArray<AssetSwatchItem> / string | null', defaultValue: '8 built-in assets / first id', description: 'Swatch library items and controlled active selection.' },
       { name: 'onSelectAsset / onDragAssetStart', type: '(item) => void / (item) => void', defaultValue: 'undefined', description: 'Selection and HTML5 drag-start callbacks.' },
+    ],
+  },
+  // 46. Enterprise Workflows, Data Ops & API Tooling (6 components — v1.36.0)
+  {
+    id: 'csv-column-mapper',
+    title: 'CSV Column Mapper',
+    exportName: 'CsvColumnMapper',
+    category: 'enterprise-ops-api',
+    categoryTitle: 'Enterprise Workflows, Data Ops & API Tooling',
+    summary: 'Guided RFC-4180 CSV paste and upload parser mapping source headers to typed target schema fields with duplicate/required warnings, row-level error preview, and sanitized import.',
+    codeSnippet: `<CsvColumnMapper title="Customer Ledger CSV Importer" onImport={handleImport} />`,
+    props: [
+      { name: 'targetFields / csvText / defaultCsvText', type: 'ReadonlyArray<CsvTargetField> / string', defaultValue: '4 schema fields / sample CSV', description: 'Target schema definitions and controlled or default CSV source text.' },
+      { name: 'onImport / disabled', type: '(payload: CsvImportPayload) => void / boolean', defaultValue: 'undefined / false', description: 'Sanitized import commit callback with valid rows and error list.' },
+    ],
+  },
+  {
+    id: 'api-request-builder',
+    title: 'API Request Builder',
+    exportName: 'ApiRequestBuilder',
+    category: 'enterprise-ops-api',
+    categoryTitle: 'Enterprise Workflows, Data Ops & API Tooling',
+    summary: 'Embedded HTTP console featuring GET/POST/PUT/PATCH/DELETE methods, URL-sanitized endpoint input, tabbed Params/Headers/JSON Body editors, safe JSON formatting, and formatted response inspection.',
+    codeSnippet: `<ApiRequestBuilder title="Refractor Optical Edge API Console" />`,
+    props: [
+      { name: 'defaultMethod / defaultUrl', type: 'ApiHttpMethod / string', defaultValue: "'GET' / sample endpoint", description: 'Initial HTTP method and endpoint URL.' },
+      { name: 'onSend / disabled', type: '(payload) => ApiResponseSnapshot | Promise<ApiResponseSnapshot> / boolean', defaultValue: 'built-in mock / false', description: 'Custom sync or async request executor.' },
+    ],
+  },
+  {
+    id: 'feature-flag-rollout',
+    title: 'Feature Flag Rollout',
+    exportName: 'FeatureFlagRollout',
+    category: 'enterprise-ops-api',
+    categoryTitle: 'Enterprise Workflows, Data Ops & API Tooling',
+    summary: 'Release-management flag card combining Dev/Staging/Prod switches, gradual 0–100% rollout slider with quick presets, interactive audience targeting pills, and a production-locking kill switch.',
+    codeSnippet: `<FeatureFlagRollout flagKey="prism.optical_raytracer_v2" title="Optical Raytracer Pipeline" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'FeatureFlagRolloutState / Partial<FeatureFlagRolloutState>', defaultValue: 'Dev+Staging ON / 25%', description: 'Environment toggles, rollout percentage, kill switch, and targeting rules.' },
+      { name: 'onChange / disabled', type: '(state) => void / boolean', defaultValue: 'undefined / false', description: 'State change callback and disabled control flag.' },
+    ],
+  },
+  {
+    id: 'approval-chain-strip',
+    title: 'Approval Chain Strip',
+    exportName: 'ApprovalChainStrip',
+    category: 'enterprise-ops-api',
+    categoryTitle: 'Enterprise Workflows, Data Ops & API Tooling',
+    summary: 'Sequential or parallel reviewer sign-off strip showing status-tinted nodes, predecessor gating in sequential mode, interactive decision controls, and chain verdict progress.',
+    codeSnippet: `<ApprovalChainStrip title="Production Release Sign-Off Chain" mode="sequential" />`,
+    props: [
+      { name: 'mode / reviewers / defaultReviewers', type: "'sequential' | 'parallel' / ReadonlyArray<ApprovalReviewerNode>", defaultValue: "'sequential' / 4 stages", description: 'Chain execution mode and reviewer stage definitions.' },
+      { name: 'onDecision / readOnly / disabled', type: '(id, status, note, next) => void / boolean / boolean', defaultValue: 'undefined / false / false', description: 'Decision handler and read-only/disabled toggles.' },
+    ],
+  },
+  {
+    id: 'audit-trail-feed',
+    title: 'Audit Trail Feed',
+    exportName: 'AuditTrailFeed',
+    category: 'enterprise-ops-api',
+    categoryTitle: 'Enterprise Workflows, Data Ops & API Tooling',
+    summary: 'Filterable compliance and security log with substring search, severity/action pills, prototype-safe before/after JSON diff snapshots, and formula-sanitized CSV export.',
+    codeSnippet: `<AuditTrailFeed title="Enterprise Compliance & Access Audit Trail" />`,
+    props: [
+      { name: 'events / defaultExpandedIds', type: 'ReadonlyArray<AuditTrailEvent> / ReadonlyArray<string>', defaultValue: '5 realistic events / []', description: 'Audit event feed items and initially expanded diff IDs.' },
+      { name: 'onExportCsv / disabled', type: '(csv, count) => void / boolean', defaultValue: 'undefined / false', description: 'Formula-safe CSV export callback.' },
+    ],
+  },
+  {
+    id: 'sla-countdown-timer',
+    title: 'SLA Countdown Timer',
+    exportName: 'SlaCountdownTimer',
+    category: 'enterprise-ops-api',
+    categoryTitle: 'Enterprise Workflows, Data Ops & API Tooling',
+    summary: 'Live ticking urgency countdown shifting semantic optical states across Nominal, Approaching, Critical, and Breached with Pause/Resume, Reset, Escalate controls, and compact badge variant.',
+    codeSnippet: `<SlaCountdownTimer title="Tier-1 Optical Telemetry SLA" ticketId="INC-4821" remainingSeconds={1420} />`,
+    props: [
+      { name: 'remainingSeconds / deadlineIso / variant', type: "number / string / 'card' | 'compact'", defaultValue: "1420 / undefined / 'card'", description: 'Countdown source and display layout variant.' },
+      { name: 'onEscalate / onBreach / autoStart', type: '(event) => void / (event) => void / boolean', defaultValue: 'undefined / undefined / true', description: 'Escalation and breach callbacks plus live ticker toggle.' },
     ],
   },
 ];

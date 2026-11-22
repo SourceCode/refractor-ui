@@ -17,6 +17,7 @@ import { Design3dShaderDemos } from './demos/Design3dShaderDemos';
 import { DesktopOsWindowingDemos } from './demos/DesktopOsWindowingDemos';
 import { DocumentKnowledgeDemos } from './demos/DocumentKnowledgeDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
+import { EnterpriseOpsApiDemos } from './demos/EnterpriseOpsApiDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
@@ -373,6 +374,15 @@ const DESIGN_3D_SHADER_IDS = new Set([
   'asset-swatch-grid',
 ]);
 
+const ENTERPRISE_OPS_API_IDS = new Set([
+  'csv-column-mapper',
+  'api-request-builder',
+  'feature-flag-rollout',
+  'approval-chain-strip',
+  'audit-trail-feed',
+  'sla-countdown-timer',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -490,6 +500,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (DESIGN_3D_SHADER_IDS.has(componentId)) {
     return <Design3dShaderDemos componentId={componentId} />;
+  }
+  if (ENTERPRISE_OPS_API_IDS.has(componentId)) {
+    return <EnterpriseOpsApiDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

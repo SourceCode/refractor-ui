@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.36.0] - 2026-11-22
+
+### Added
+- **Enterprise Workflows, Data Ops & API Tooling (6 new optical-glass enterprise, API & compliance primitives — 265 total across 46 categories):**
+  - `CsvColumnMapper`: Guided RFC-4180 CSV upload/paste importer with prototype-safe `Map` column schema mapping, auto-mapping, missing-required & duplicate warnings, row-level validation preview table (`overflow-x-auto`), and `sanitizeCsvCell`-protected import commit.
+  - `ApiRequestBuilder`: Embedded optical HTTP console with `GET`/`POST`/`PUT`/`PATCH`/`DELETE` method selector, `sanitizeUrl`-validated endpoint bar, tabbed `Params`/`Headers`/`JSON Body` editors, safe JSON formatter, built-in mock responder, and formatted literal response inspector.
+  - `FeatureFlagRollout`: Release-management flag card combining `Dev`/`Staging`/`Prod` `role="switch"` toggles, gradual `0–100%` rollout slider with presets, interactive audience targeting rules, and a production-locking `Kill Switch` / `Restore Flag` control.
+  - `ApprovalChainStrip`: Sequential or parallel multi-stage reviewer sign-off strip with directional optical connectors, strict predecessor gating in sequential mode, interactive `Approve`/`Request Changes`/`Reject`/`Reset Pending` action bar, and overall verdict progress.
+  - `AuditTrailFeed`: Filterable compliance event log with linear-time substring search, severity/action filter pills, prototype-safe before/after JSON diff inspector, and `sanitizeCsvCell`-hardened CSV export.
+  - `SlaCountdownTimer`: Live ticking SLA urgency countdown (`card` & `compact` variants) shifting optical states across `Nominal`, `Approaching`, `Critical`, and `Breached` (`BREACHED +HH:MM:SS`) with `Pause`/`Resume`, `Reset`, `Escalate`, and clean interval teardown.
+- Added interactive playground demos and prop specs in `apps/docs` under `Enterprise Workflows, Data Ops & API Tooling`.
+
 ## [1.35.0] - 2026-11-22
 
 ### Added
@@ -461,7 +473,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.35.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.36.0...HEAD
+[1.36.0]: https://github.com/SourceCode/refractor-ui/compare/v1.35.0...v1.36.0
 [1.35.0]: https://github.com/SourceCode/refractor-ui/compare/v1.34.0...v1.35.0
 [1.34.0]: https://github.com/SourceCode/refractor-ui/compare/v1.33.0...v1.34.0
 [1.33.0]: https://github.com/SourceCode/refractor-ui/compare/v1.32.0...v1.33.0

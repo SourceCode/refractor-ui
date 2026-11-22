@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.35.0",
+  "version": "1.36.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -82,6 +82,11 @@
       "types": "./dist/AnomalyForecastChart/index.d.ts",
       "default": "./dist/AnomalyForecastChart/index.js"
     },
+    "./ApiRequestBuilder": {
+      "source": "./src/ApiRequestBuilder/index.ts",
+      "types": "./dist/ApiRequestBuilder/index.d.ts",
+      "default": "./dist/ApiRequestBuilder/index.js"
+    },
     "./AppDockBar": {
       "source": "./src/AppDockBar/index.ts",
       "types": "./dist/AppDockBar/index.d.ts",
@@ -91,6 +96,11 @@
       "source": "./src/AppMenuBar/index.ts",
       "types": "./dist/AppMenuBar/index.d.ts",
       "default": "./dist/AppMenuBar/index.js"
+    },
+    "./ApprovalChainStrip": {
+      "source": "./src/ApprovalChainStrip/index.ts",
+      "types": "./dist/ApprovalChainStrip/index.d.ts",
+      "default": "./dist/ApprovalChainStrip/index.js"
     },
     "./ApprovalGateCard": {
       "source": "./src/ApprovalGateCard/index.ts",
@@ -116,6 +126,11 @@
       "source": "./src/AudioWaveformPlayer/index.ts",
       "types": "./dist/AudioWaveformPlayer/index.d.ts",
       "default": "./dist/AudioWaveformPlayer/index.js"
+    },
+    "./AuditTrailFeed": {
+      "source": "./src/AuditTrailFeed/index.ts",
+      "types": "./dist/AuditTrailFeed/index.d.ts",
+      "default": "./dist/AuditTrailFeed/index.js"
     },
     "./Avatar": {
       "source": "./src/Avatar/index.ts",
@@ -372,6 +387,11 @@
       "types": "./dist/CropStraightenOverlay/index.d.ts",
       "default": "./dist/CropStraightenOverlay/index.js"
     },
+    "./CsvColumnMapper": {
+      "source": "./src/CsvColumnMapper/index.ts",
+      "types": "./dist/CsvColumnMapper/index.d.ts",
+      "default": "./dist/CsvColumnMapper/index.js"
+    },
     "./CurrencyInput": {
       "source": "./src/CurrencyInput/index.ts",
       "types": "./dist/CurrencyInput/index.d.ts",
@@ -471,6 +491,11 @@
       "source": "./src/FacetedFilterBar/index.ts",
       "types": "./dist/FacetedFilterBar/index.d.ts",
       "default": "./dist/FacetedFilterBar/index.js"
+    },
+    "./FeatureFlagRollout": {
+      "source": "./src/FeatureFlagRollout/index.ts",
+      "types": "./dist/FeatureFlagRollout/index.d.ts",
+      "default": "./dist/FeatureFlagRollout/index.js"
     },
     "./FileDropzone": {
       "source": "./src/FileDropzone/index.ts",
@@ -1051,6 +1076,11 @@
       "source": "./src/SkeletonLoader/index.ts",
       "types": "./dist/SkeletonLoader/index.d.ts",
       "default": "./dist/SkeletonLoader/index.js"
+    },
+    "./SlaCountdownTimer": {
+      "source": "./src/SlaCountdownTimer/index.ts",
+      "types": "./dist/SlaCountdownTimer/index.d.ts",
+      "default": "./dist/SlaCountdownTimer/index.js"
     },
     "./SlashCommandMenu": {
       "source": "./src/SlashCommandMenu/index.ts",
