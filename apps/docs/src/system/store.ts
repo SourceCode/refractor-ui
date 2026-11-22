@@ -58,7 +58,16 @@ export type DocsCategoryFilter =
   | 'relational-flow-charts'
   | 'kpi-telemetry-charts'
   | 'geospatial-charts'
-  | 'chart-chrome-controls';
+  | 'chart-chrome-controls'
+  | 'transport-playback'
+  | 'timeline-sequencing'
+  | 'photo-color-grading'
+  | 'audio-mixing-dsp'
+  | 'viewport-export'
+  | 'financial-market-charts'
+  | 'scientific-charts'
+  | 'observability-widgets'
+  | 'comparison-storytelling-charts';
 
 export type DocsPageSection =
   | 'catalog'

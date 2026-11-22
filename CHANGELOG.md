@@ -7,6 +7,112 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.31.0] - 2026-11-21
+
+### Added
+- **Comparison, Ranking & Storytelling Visuals (7 new optical-glass narrative & comparative analytics primitives — 230 total across 41 categories):**
+  - `SlopegraphChart`: Dual-axis before/after slopegraph with rising/declining filters, anti-overlap rail label placement, rank-shift calculations, and keyboard series inspection.
+  - `BumpChart`: Multi-period cubic-Bezier rank trajectory plot tracking `#1..#N` climbs, drops, and crossovers with 2D keyboard navigation and clickable legend highlighting.
+  - `DumbbellPlot`: Horizontal baseline-to-current connected dot plot highlighting signed variance gaps with semantic gain/regression bars and `Default`/`Largest Gap`/`Highest Current` sorting.
+  - `LollipopChart`: Low-ink horizontal or vertical stem-and-circle ranking plot with `High→Low`/`Low→High`/`A→Z` sorting and optional average/target dashed reference line.
+  - `WaffleUnitGrid`: Exact `10×10` 100-square optical proportion grid using Largest-Remainder (Hamilton) allocation so each unit square equals `1%` with synchronized breakdown cards.
+  - `QuadrantMatrix`: Customizable 2×2 strategic effort-vs-impact scatter matrix (`Quick Wins`, `Major Bets`, `Fill-Ins`, `Reconsider`) with quadrant filter pills and weighted initiative bubbles.
+  - `SmallMultiplesGrid`: Responsive trellis grid of identically scaled miniature area/bar facets sharing a lockstep synchronized hover, click, and keyboard crosshair across all cards simultaneously.
+- **230-Component / 41-Category Full Release Certification & Documentation Sync:**
+  - Updated live GitHub Pages portal (`apps/docs`), `README.md`, `packages/core/README.md`, `packages/cli/README.md`, `@refractor-ui/cli` architecture docs, `docs/reviews/ux-ui-director-audit.md` (`9.95/10` mean across all 230 components), locked exact `230`-component / `41`-category assertions across `storage.test.ts`, `responsive.matrix.test.tsx`, and `cli.test.mjs`, and expanded `security.adversarial.test.tsx` with Phase 4 XSS/prototype-pollution/cycle/NaN invariants.
+
+## [1.30.0] - 2026-11-21
+
+### Added
+- **System, DevOps & Observability Widgets (6 new optical-glass SRE & APM telemetry primitives — 223 total across 40 categories):**
+  - `FlameGraphChart`: Zoomable proportional stack profiler toggling between bottom-up Flame and top-down Icicle views with cycle-safe depth cap (`MAX_DEPTH = 12`), literal search highlighting, breadcrumbs, and self/total CPU telemetry.
+  - `DistributedTraceWaterfall`: OpenTelemetry microservice latency waterfall with collapsible parent-child spans, `Errors Only` and `Critical Path` filter pills, proportional latency bars, and tag metadata inspector.
+  - `UptimeStatusBar`: Historical availability tick strip (`operational`, `degraded`, `outage`, `maintenance`) with SLA compliance pill and keyboard-navigable daily incident readout.
+  - `ServiceTopologyMap`: Layered 3-tier dependency graph connecting gateways, services, databases, caches, and queues with live latency/error-rate edge badges and upstream/downstream focus highlighting.
+  - `CapacityAllocationStrip`: Segmented horizontal quota bar with warning/critical thresholds, vertical marker, synchronized category breakdown pills, and used/free/total telemetry.
+  - `AnomalyForecastChart`: Time-series monitor inside a translucent `[lower, upper]` confidence corridor automatically flagging upper/lower breaches with a forecast horizon toggle and anomaly jump pills.
+- Added interactive playground demos and prop specs in `apps/docs` under `System, DevOps & Observability Widgets`.
+
+## [1.29.0] - 2026-11-21
+
+### Added
+- **Scientific, Statistical & High-Dimensional Visuals (7 new optical-glass data-science & 3D math primitives — 217 total across 39 categories):**
+  - `ViolinPlot`: Mirrored Gaussian KDE density violins (Silverman rule-of-thumb bandwidth) with embedded Tukey IQR box, min-max whiskers, median marker, and full quartile inspector.
+  - `RidgelinePlot`: Vertically stacked overlapping Gaussian KDE mountain distributions over a shared domain with `Tight`/`Balanced`/`Separated` overlap presets and keyboard traversal.
+  - `ParallelCoordinatesPlot`: Multi-axis normalized trajectory plot with group filtering, dimmed background context lines, and full-dimension record inspector.
+  - `ContourDensityPlot`: 2D isotropic Gaussian KDE heatmap with quantized contour bands, Marching-Squares threshold isolines, toggleable scatter overlay, and 2D keyboard probe navigation.
+  - `HexbinDensityPlot`: Pointy-top staggered honeycomb spatial aggregation via cube-rounded axial binning with count-shaded polygons and cluster inspector.
+  - `PolarAreaRoseChart`: Circular Nightingale Rose chart supporting both area-proportional (`sqrt`) and linear radius scaling with interactive wedges and synchronized legend.
+  - `SurfaceMesh3DPlot`: Painter-sorted 3D orthographic surface & wireframe SVG mesh supporting pointer drag & keyboard Yaw/Pitch orbit, zoom (`0.7×`..`1.6×`), and per-facet Z inspection.
+- Added interactive playground demos and prop specs in `apps/docs` under `Scientific, Statistical & High-Dimensional Visuals`.
+
+## [1.28.0] - 2026-11-21
+
+### Added
+- **Financial & Market Visualizations (5 new optical-glass trading, market & SaaS analytics primitives — 210 total across 38 categories):**
+  - `CandlestickOhlcChart`: Financial OHLC price series with Candlestick/OHLC toggle, semantic bullish/bearish wicks & bodies, optional volume histogram, crosshair highlight, and tabular session inspector.
+  - `OrderBookDepthChart`: Cumulative stepped bid/ask market depth curves meeting at live mid-price spread with bid/ask imbalance bar and interactive wall inspection.
+  - `MarimekkoChart`: True 2D proportional mosaic chart varying column width by total market size and stacked vertical height by segment share with 2D keyboard navigation and legend highlighting.
+  - `CohortRetentionGrid`: Triangular SaaS retention heatmap matrix with weighted average footer, 5-step `--prism-*` intensity shading, responsive `overflow-x-auto` table wrapper, and retained user breakdown.
+  - `BurndownBurnupChart`: Sprint velocity tracker toggling between Burn-Down and Burn-Up with ideal pace trendline, dynamic scope ceiling, and live `On Track` / `At Risk` / `Behind Ideal` forecast badge.
+- Added interactive playground demos and prop specs in `apps/docs` under `Financial & Market Visualizations`.
+
+## [1.27.0] - 2026-11-21
+
+### Added
+- **Viewport & Export Utilities (2 new optical-glass mastering & delivery primitives — 205 total across 37 categories):**
+  - `CanvasZoomSafeAreaBar`: Corner zoom quick-snap bar (`Fit`, `50%`, `100%`, `200%`) with IME-safe keyboard shortcuts (`0`/`1`/`2`), live Rule-of-Thirds, Action-Safe (`90%`), Title-Safe (`80%`), and cinematic aspect ratio matte overlays (`16:9`, `2.39:1`, `9:16`, `1:1`).
+  - `ExportRenderQueue`: Delivery preset encoder form (codec `H.264`/`ProRes 422`/`AV1`/`WAV 24-bit`, resolution, bitrate, `48kHz`/`96kHz` sample rate) paired with a live render job queue supporting progress bars, pause/resume, cancel, retry, remove, and clear-completed actions.
+- Added interactive playground demos and prop specs in `apps/docs` under `Viewport & Export Utilities`.
+
+## [1.26.0] - 2026-11-21
+
+### Added
+- **Audio Mixing & Signal Processing (6 new optical-glass console & DSP primitives — 203 total across 36 categories):**
+  - `ChannelStripFader`: Vertical long-throw `-∞`/`-60 dB` to `+12 dB` console fader with calibrated markings, double-click Unity `0 dB` snap, Mute switch, and studio-dB / linear-% readouts.
+  - `VuPeakLevelMeter`: Vertical and horizontal segmented LED level meter transitioning across green, yellow, and red zones with sticky peak-hold indicators and latching click-to-clear Clip alert.
+  - `StereoPanKnob`: Center-detented optical SVG rotary balance dial (`L100`..`C`..`R100`) with magnetic center detent, double-click center snap, and quick `L`/`C`/`R` buttons.
+  - `ParametricEqGraph`: Logarithmic `20Hz–20kHz` frequency-response SVG curve with draggable numbered band nodes, live summed Low-Shelf/Bell/High-Shelf response, and per-band Hz/Gain/Q inspector.
+  - `WaveformSpectrogramView`: Zoomable `Waveform`, `Spectrogram`, and `Split` audio canvas with range selection, transient peak markers, `Silence Selection`, `Cut Selection`, and `Reset Audio`.
+  - `EffectsRackChain`: Reorderable horizontal/vertical DSP plugin chain with per-slot bypass switches, wet/dry mix sliders, master `Bypass All`, `Add Insert`, and directional signal-flow indicators.
+- Added interactive playground demos and prop specs in `apps/docs` under `Audio Mixing & Signal Processing`.
+
+## [1.25.0] - 2026-11-21
+
+### Added
+- **Photo & Color Grading Controls (8 new optical-glass imaging & grading primitives — 197 total across 35 categories):**
+  - `ToneCurveEditor`: Monotone cubic spline RGB + Luma tone curve editor with background histogram silhouette, click-to-add control points, presets (`Linear`, `S-Curve`, `Matte Lift`), and keyboard nudging.
+  - `ThreeWayColorWheels`: Circular Lift (Shadows), Gamma (Midtones), and Gain (Highlights) chromaticity balance wheels with draggable unit-circle pucks and master luminance sliders.
+  - `LiveColorScopes`: Broadcast-calibrated SVG monitor suite combining RGB+Luma Histogram, IRE Luma Waveform, and Rec.709 Vectorscope with shadow/highlight clipping alerts.
+  - `CropStraightenOverlay`: Draggable crop frame with 4 corner handles, Rule-of-Thirds grid, aspect ratio locks (`Free`, `16:9`, `4:5`, `1:1`, `2.39:1`), and a calibrated `±45°` straighten dial.
+  - `LayerBlendStack`: Reorderable compositing layer stack with visibility toggles, 7 blend modes, opacity slider, clipping mask toggle, and layer locking.
+  - `EyedropperPixelLoupe`: Interactive pixel sampling mosaic with magnified 5×5 circular reticle loupe, `1×1`/`3×3`/`5×5` averaging modes, live Hex/RGB telemetry, and swatch history.
+  - `BrushHudControl`: Compact optical brush HUD with live SVG radial feathering preview, Size (`px`), Hardness (`%`), Flow (`%`) controls, `[`/`]` keyboard shortcuts, and 4 studio presets.
+  - `WipeCompareOverlay`: Vertical/horizontal split-wipe divider paired with a press-and-hold "Hold to Compare Original" bypass toggle.
+- Added interactive playground demos and prop specs in `apps/docs` under `Photo & Color Grading Controls`.
+
+## [1.24.0] - 2026-11-21
+
+### Added
+- **Timeline & Sequencing (6 new optical-glass NLE/DAW timeline primitives — 189 total across 34 categories):**
+  - `MultiTrackTimeline`: Horizontal layered workspace holding stacked video, audio, effect, and subtitle tracks aligned to a shared scrubbing ruler, playhead, mute/lock toggles, zoom levels (`1×`/`2×`/`4×`), and clip inspector.
+  - `PlayheadScrubRuler`: Calibrated major/minor graduation ruler with draggable tangerine playhead cap, vertical needle over lane content, frame-snap mode, and clickable semantic cue markers.
+  - `TrackHeaderStrip`: Left-hand DAW/NLE track control column featuring semantic lane badges, inline rename, compact/expanded height toggle, Mute (`M`), Solo (`S`), Record Arm (`R`), and Lock buttons.
+  - `ClipTrimHandle`: Interactive timeline clip bar with draggable in/out trim grips, corner SVG fade-in/fade-out curve handles, and a toggleable Razor Split mode.
+  - `KeyframeCurveEditor`: Diamond-marker keyframe lane paired with a draggable cubic-Bezier acceleration curve graph, tangent arms, and 5 easing presets (`Linear`, `Ease In`, `Ease Out`, `Ease In-Out`, `Overshoot`).
+  - `TimelineZoomNavigator`: Overview scrollbar with waveform envelope, playhead indicator, draggable viewport pan thumb, and dual end-caps that simultaneously pan and zoom up to `50×`.
+- Added interactive playground demos and prop specs in `apps/docs` under `Timeline & Sequencing`.
+
+## [1.23.0] - 2026-11-21
+
+### Added
+- **Transport & Playback Controls (4 new optical-glass pro media transport primitives — 183 total across 33 categories):**
+  - `TransportControlBar`: Unified Play, Pause, Stop, Record, Loop, and Jump-to-Start/End media deck with keyboard shortcuts (`Space`, `Home`, `End`, `L`, `R`) and live status readout.
+  - `TimecodeScrubber`: Monospace `HH:MM:SS:FF` (SMPTE) and `BBB:B:TTT` (musical Bars:Beats:Ticks) timecode display supporting click-to-type timestamp entry and pointer drag scrubbing.
+  - `JogShuttleWheel`: Tactile optical SVG rotary jog wheel paired with a spring-loaded variable-speed shuttle slider (`-8×`..`+8×`) and Spring/Hold toggle.
+  - `FrameStepperRateSelector`: Precision single/multi-frame stepper cluster paired with a preview playback rate selector (`0.25×`..`2×`).
+- Added interactive playground demos and prop specs in `apps/docs` under `Transport & Playback Controls`.
+
 ## [1.22.0] - 2026-11-21
 
 ### Added
@@ -302,7 +408,16 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.22.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...HEAD
+[1.31.0]: https://github.com/SourceCode/refractor-ui/compare/v1.30.0...v1.31.0
+[1.30.0]: https://github.com/SourceCode/refractor-ui/compare/v1.29.0...v1.30.0
+[1.29.0]: https://github.com/SourceCode/refractor-ui/compare/v1.28.0...v1.29.0
+[1.28.0]: https://github.com/SourceCode/refractor-ui/compare/v1.27.0...v1.28.0
+[1.27.0]: https://github.com/SourceCode/refractor-ui/compare/v1.26.0...v1.27.0
+[1.26.0]: https://github.com/SourceCode/refractor-ui/compare/v1.25.0...v1.26.0
+[1.25.0]: https://github.com/SourceCode/refractor-ui/compare/v1.24.0...v1.25.0
+[1.24.0]: https://github.com/SourceCode/refractor-ui/compare/v1.23.0...v1.24.0
+[1.23.0]: https://github.com/SourceCode/refractor-ui/compare/v1.22.0...v1.23.0
 [1.22.0]: https://github.com/SourceCode/refractor-ui/compare/v1.21.0...v1.22.0
 [1.21.0]: https://github.com/SourceCode/refractor-ui/compare/v1.20.0...v1.21.0
 [1.20.0]: https://github.com/SourceCode/refractor-ui/compare/v1.19.0...v1.20.0

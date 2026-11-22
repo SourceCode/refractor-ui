@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.22.0",
+  "version": "1.31.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -72,6 +72,11 @@
       "types": "./dist/AlertBanner/index.d.ts",
       "default": "./dist/AlertBanner/index.js"
     },
+    "./AnomalyForecastChart": {
+      "source": "./src/AnomalyForecastChart/index.ts",
+      "types": "./dist/AnomalyForecastChart/index.d.ts",
+      "default": "./dist/AnomalyForecastChart/index.js"
+    },
     "./ApprovalGateCard": {
       "source": "./src/ApprovalGateCard/index.ts",
       "types": "./dist/ApprovalGateCard/index.d.ts",
@@ -127,6 +132,11 @@
       "types": "./dist/Breadcrumbs/index.d.ts",
       "default": "./dist/Breadcrumbs/index.js"
     },
+    "./BrushHudControl": {
+      "source": "./src/BrushHudControl/index.ts",
+      "types": "./dist/BrushHudControl/index.d.ts",
+      "default": "./dist/BrushHudControl/index.js"
+    },
     "./BrushRangeScrubber": {
       "source": "./src/BrushRangeScrubber/index.ts",
       "types": "./dist/BrushRangeScrubber/index.d.ts",
@@ -136,6 +146,16 @@
       "source": "./src/BulletChart/index.ts",
       "types": "./dist/BulletChart/index.d.ts",
       "default": "./dist/BulletChart/index.js"
+    },
+    "./BumpChart": {
+      "source": "./src/BumpChart/index.ts",
+      "types": "./dist/BumpChart/index.d.ts",
+      "default": "./dist/BumpChart/index.js"
+    },
+    "./BurndownBurnupChart": {
+      "source": "./src/BurndownBurnupChart/index.ts",
+      "types": "./dist/BurndownBurnupChart/index.d.ts",
+      "default": "./dist/BurndownBurnupChart/index.js"
     },
     "./CalendarHeatmap": {
       "source": "./src/CalendarHeatmap/index.ts",
@@ -147,6 +167,21 @@
       "types": "./dist/CalendarView/index.d.ts",
       "default": "./dist/CalendarView/index.js"
     },
+    "./CandlestickOhlcChart": {
+      "source": "./src/CandlestickOhlcChart/index.ts",
+      "types": "./dist/CandlestickOhlcChart/index.d.ts",
+      "default": "./dist/CandlestickOhlcChart/index.js"
+    },
+    "./CanvasZoomSafeAreaBar": {
+      "source": "./src/CanvasZoomSafeAreaBar/index.ts",
+      "types": "./dist/CanvasZoomSafeAreaBar/index.d.ts",
+      "default": "./dist/CanvasZoomSafeAreaBar/index.js"
+    },
+    "./CapacityAllocationStrip": {
+      "source": "./src/CapacityAllocationStrip/index.ts",
+      "types": "./dist/CapacityAllocationStrip/index.d.ts",
+      "default": "./dist/CapacityAllocationStrip/index.js"
+    },
     "./CarouselSlider": {
       "source": "./src/CarouselSlider/index.ts",
       "types": "./dist/CarouselSlider/index.d.ts",
@@ -156,6 +191,11 @@
       "source": "./src/CascadingSelect/index.ts",
       "types": "./dist/CascadingSelect/index.d.ts",
       "default": "./dist/CascadingSelect/index.js"
+    },
+    "./ChannelStripFader": {
+      "source": "./src/ChannelStripFader/index.ts",
+      "types": "./dist/ChannelStripFader/index.d.ts",
+      "default": "./dist/ChannelStripFader/index.js"
     },
     "./ChartCrosshairTooltip": {
       "source": "./src/ChartCrosshairTooltip/index.ts",
@@ -197,10 +237,20 @@
       "types": "./dist/CitationChip/index.d.ts",
       "default": "./dist/CitationChip/index.js"
     },
+    "./ClipTrimHandle": {
+      "source": "./src/ClipTrimHandle/index.ts",
+      "types": "./dist/ClipTrimHandle/index.d.ts",
+      "default": "./dist/ClipTrimHandle/index.js"
+    },
     "./CodeEditor": {
       "source": "./src/CodeEditor/index.ts",
       "types": "./dist/CodeEditor/index.d.ts",
       "default": "./dist/CodeEditor/index.js"
+    },
+    "./CohortRetentionGrid": {
+      "source": "./src/CohortRetentionGrid/index.ts",
+      "types": "./dist/CohortRetentionGrid/index.d.ts",
+      "default": "./dist/CohortRetentionGrid/index.js"
     },
     "./ColorPicker": {
       "source": "./src/ColorPicker/index.ts",
@@ -262,6 +312,11 @@
       "types": "./dist/ContextualPopover/index.d.ts",
       "default": "./dist/ContextualPopover/index.js"
     },
+    "./ContourDensityPlot": {
+      "source": "./src/ContourDensityPlot/index.ts",
+      "types": "./dist/ContourDensityPlot/index.d.ts",
+      "default": "./dist/ContourDensityPlot/index.js"
+    },
     "./CookieConsentBanner": {
       "source": "./src/CookieConsentBanner/index.ts",
       "types": "./dist/CookieConsentBanner/index.d.ts",
@@ -276,6 +331,11 @@
       "source": "./src/CreatableCombobox/index.ts",
       "types": "./dist/CreatableCombobox/index.d.ts",
       "default": "./dist/CreatableCombobox/index.js"
+    },
+    "./CropStraightenOverlay": {
+      "source": "./src/CropStraightenOverlay/index.ts",
+      "types": "./dist/CropStraightenOverlay/index.d.ts",
+      "default": "./dist/CropStraightenOverlay/index.js"
     },
     "./CurrencyInput": {
       "source": "./src/CurrencyInput/index.ts",
@@ -307,6 +367,11 @@
       "types": "./dist/DiffViewer/index.d.ts",
       "default": "./dist/DiffViewer/index.js"
     },
+    "./DistributedTraceWaterfall": {
+      "source": "./src/DistributedTraceWaterfall/index.ts",
+      "types": "./dist/DistributedTraceWaterfall/index.d.ts",
+      "default": "./dist/DistributedTraceWaterfall/index.js"
+    },
     "./DockablePanel": {
       "source": "./src/DockablePanel/index.ts",
       "types": "./dist/DockablePanel/index.d.ts",
@@ -327,15 +392,35 @@
       "types": "./dist/DualThumbSlider/index.d.ts",
       "default": "./dist/DualThumbSlider/index.js"
     },
+    "./DumbbellPlot": {
+      "source": "./src/DumbbellPlot/index.ts",
+      "types": "./dist/DumbbellPlot/index.d.ts",
+      "default": "./dist/DumbbellPlot/index.js"
+    },
     "./DurationInput": {
       "source": "./src/DurationInput/index.ts",
       "types": "./dist/DurationInput/index.d.ts",
       "default": "./dist/DurationInput/index.js"
     },
+    "./EffectsRackChain": {
+      "source": "./src/EffectsRackChain/index.ts",
+      "types": "./dist/EffectsRackChain/index.d.ts",
+      "default": "./dist/EffectsRackChain/index.js"
+    },
     "./EmptyState": {
       "source": "./src/EmptyState/index.ts",
       "types": "./dist/EmptyState/index.d.ts",
       "default": "./dist/EmptyState/index.js"
+    },
+    "./ExportRenderQueue": {
+      "source": "./src/ExportRenderQueue/index.ts",
+      "types": "./dist/ExportRenderQueue/index.d.ts",
+      "default": "./dist/ExportRenderQueue/index.js"
+    },
+    "./EyedropperPixelLoupe": {
+      "source": "./src/EyedropperPixelLoupe/index.ts",
+      "types": "./dist/EyedropperPixelLoupe/index.d.ts",
+      "default": "./dist/EyedropperPixelLoupe/index.js"
     },
     "./FacetedFilterBar": {
       "source": "./src/FacetedFilterBar/index.ts",
@@ -347,10 +432,20 @@
       "types": "./dist/FileDropzone/index.d.ts",
       "default": "./dist/FileDropzone/index.js"
     },
+    "./FlameGraphChart": {
+      "source": "./src/FlameGraphChart/index.ts",
+      "types": "./dist/FlameGraphChart/index.d.ts",
+      "default": "./dist/FlameGraphChart/index.js"
+    },
     "./FloatingActionButton": {
       "source": "./src/FloatingActionButton/index.ts",
       "types": "./dist/FloatingActionButton/index.d.ts",
       "default": "./dist/FloatingActionButton/index.js"
+    },
+    "./FrameStepperRateSelector": {
+      "source": "./src/FrameStepperRateSelector/index.ts",
+      "types": "./dist/FrameStepperRateSelector/index.d.ts",
+      "default": "./dist/FrameStepperRateSelector/index.js"
     },
     "./FunnelChart": {
       "source": "./src/FunnelChart/index.ts",
@@ -376,6 +471,11 @@
       "source": "./src/HandoffDivider/index.ts",
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
+    },
+    "./HexbinDensityPlot": {
+      "source": "./src/HexbinDensityPlot/index.ts",
+      "types": "./dist/HexbinDensityPlot/index.d.ts",
+      "default": "./dist/HexbinDensityPlot/index.js"
     },
     "./HistogramChart": {
       "source": "./src/HistogramChart/index.ts",
@@ -427,6 +527,11 @@
       "types": "./dist/InternationalPhoneInput/index.d.ts",
       "default": "./dist/InternationalPhoneInput/index.js"
     },
+    "./JogShuttleWheel": {
+      "source": "./src/JogShuttleWheel/index.ts",
+      "types": "./dist/JogShuttleWheel/index.d.ts",
+      "default": "./dist/JogShuttleWheel/index.js"
+    },
     "./KanbanBoard": {
       "source": "./src/KanbanBoard/index.ts",
       "types": "./dist/KanbanBoard/index.d.ts",
@@ -437,15 +542,30 @@
       "types": "./dist/KeycapBadge/index.d.ts",
       "default": "./dist/KeycapBadge/index.js"
     },
+    "./KeyframeCurveEditor": {
+      "source": "./src/KeyframeCurveEditor/index.ts",
+      "types": "./dist/KeyframeCurveEditor/index.d.ts",
+      "default": "./dist/KeyframeCurveEditor/index.js"
+    },
     "./KpiMetricCard": {
       "source": "./src/KpiMetricCard/index.ts",
       "types": "./dist/KpiMetricCard/index.d.ts",
       "default": "./dist/KpiMetricCard/index.js"
     },
+    "./LayerBlendStack": {
+      "source": "./src/LayerBlendStack/index.ts",
+      "types": "./dist/LayerBlendStack/index.d.ts",
+      "default": "./dist/LayerBlendStack/index.js"
+    },
     "./LineMultiSeriesChart": {
       "source": "./src/LineMultiSeriesChart/index.ts",
       "types": "./dist/LineMultiSeriesChart/index.d.ts",
       "default": "./dist/LineMultiSeriesChart/index.js"
+    },
+    "./LiveColorScopes": {
+      "source": "./src/LiveColorScopes/index.ts",
+      "types": "./dist/LiveColorScopes/index.d.ts",
+      "default": "./dist/LiveColorScopes/index.js"
     },
     "./LiveLogStreamer": {
       "source": "./src/LiveLogStreamer/index.ts",
@@ -461,6 +581,16 @@
       "source": "./src/LiveTelemetryChart/index.ts",
       "types": "./dist/LiveTelemetryChart/index.d.ts",
       "default": "./dist/LiveTelemetryChart/index.js"
+    },
+    "./LollipopChart": {
+      "source": "./src/LollipopChart/index.ts",
+      "types": "./dist/LollipopChart/index.d.ts",
+      "default": "./dist/LollipopChart/index.js"
+    },
+    "./MarimekkoChart": {
+      "source": "./src/MarimekkoChart/index.ts",
+      "types": "./dist/MarimekkoChart/index.d.ts",
+      "default": "./dist/MarimekkoChart/index.js"
     },
     "./MaskedPatternInput": {
       "source": "./src/MaskedPatternInput/index.ts",
@@ -522,6 +652,11 @@
       "types": "./dist/MultiStateCycleButton/index.d.ts",
       "default": "./dist/MultiStateCycleButton/index.js"
     },
+    "./MultiTrackTimeline": {
+      "source": "./src/MultiTrackTimeline/index.ts",
+      "types": "./dist/MultiTrackTimeline/index.d.ts",
+      "default": "./dist/MultiTrackTimeline/index.js"
+    },
     "./NetworkForceGraph": {
       "source": "./src/NetworkForceGraph/index.ts",
       "types": "./dist/NetworkForceGraph/index.d.ts",
@@ -547,6 +682,11 @@
       "types": "./dist/OpticalCharts/index.d.ts",
       "default": "./dist/OpticalCharts/index.js"
     },
+    "./OrderBookDepthChart": {
+      "source": "./src/OrderBookDepthChart/index.ts",
+      "types": "./dist/OrderBookDepthChart/index.d.ts",
+      "default": "./dist/OrderBookDepthChart/index.js"
+    },
     "./OtpCodeInput": {
       "source": "./src/OtpCodeInput/index.ts",
       "types": "./dist/OtpCodeInput/index.d.ts",
@@ -561,6 +701,16 @@
       "source": "./src/ParallelComparisonView/index.ts",
       "types": "./dist/ParallelComparisonView/index.d.ts",
       "default": "./dist/ParallelComparisonView/index.js"
+    },
+    "./ParallelCoordinatesPlot": {
+      "source": "./src/ParallelCoordinatesPlot/index.ts",
+      "types": "./dist/ParallelCoordinatesPlot/index.d.ts",
+      "default": "./dist/ParallelCoordinatesPlot/index.js"
+    },
+    "./ParametricEqGraph": {
+      "source": "./src/ParametricEqGraph/index.ts",
+      "types": "./dist/ParametricEqGraph/index.d.ts",
+      "default": "./dist/ParametricEqGraph/index.js"
     },
     "./PasswordStrengthMeter": {
       "source": "./src/PasswordStrengthMeter/index.ts",
@@ -577,10 +727,20 @@
       "types": "./dist/PivotTable/index.d.ts",
       "default": "./dist/PivotTable/index.js"
     },
+    "./PlayheadScrubRuler": {
+      "source": "./src/PlayheadScrubRuler/index.ts",
+      "types": "./dist/PlayheadScrubRuler/index.d.ts",
+      "default": "./dist/PlayheadScrubRuler/index.js"
+    },
     "./PointClusterMap": {
       "source": "./src/PointClusterMap/index.ts",
       "types": "./dist/PointClusterMap/index.d.ts",
       "default": "./dist/PointClusterMap/index.js"
+    },
+    "./PolarAreaRoseChart": {
+      "source": "./src/PolarAreaRoseChart/index.ts",
+      "types": "./dist/PolarAreaRoseChart/index.d.ts",
+      "default": "./dist/PolarAreaRoseChart/index.js"
     },
     "./PricingTierMatrix": {
       "source": "./src/PricingTierMatrix/index.ts",
@@ -647,6 +807,11 @@
       "types": "./dist/PullToRefresh/index.d.ts",
       "default": "./dist/PullToRefresh/index.js"
     },
+    "./QuadrantMatrix": {
+      "source": "./src/QuadrantMatrix/index.ts",
+      "types": "./dist/QuadrantMatrix/index.d.ts",
+      "default": "./dist/QuadrantMatrix/index.js"
+    },
     "./RadarSpiderChart": {
       "source": "./src/RadarSpiderChart/index.ts",
       "types": "./dist/RadarSpiderChart/index.d.ts",
@@ -697,6 +862,11 @@
       "types": "./dist/RichTextEditor/index.d.ts",
       "default": "./dist/RichTextEditor/index.js"
     },
+    "./RidgelinePlot": {
+      "source": "./src/RidgelinePlot/index.ts",
+      "types": "./dist/RidgelinePlot/index.d.ts",
+      "default": "./dist/RidgelinePlot/index.js"
+    },
     "./RolePermissionsMatrix": {
       "source": "./src/RolePermissionsMatrix/index.ts",
       "types": "./dist/RolePermissionsMatrix/index.d.ts",
@@ -742,6 +912,11 @@
       "types": "./dist/SegmentedControl/index.d.ts",
       "default": "./dist/SegmentedControl/index.js"
     },
+    "./ServiceTopologyMap": {
+      "source": "./src/ServiceTopologyMap/index.ts",
+      "types": "./dist/ServiceTopologyMap/index.d.ts",
+      "default": "./dist/ServiceTopologyMap/index.js"
+    },
     "./ShoppingCartDrawer": {
       "source": "./src/ShoppingCartDrawer/index.ts",
       "types": "./dist/ShoppingCartDrawer/index.d.ts",
@@ -766,6 +941,16 @@
       "source": "./src/SlideOverSheet/index.ts",
       "types": "./dist/SlideOverSheet/index.d.ts",
       "default": "./dist/SlideOverSheet/index.js"
+    },
+    "./SlopegraphChart": {
+      "source": "./src/SlopegraphChart/index.ts",
+      "types": "./dist/SlopegraphChart/index.d.ts",
+      "default": "./dist/SlopegraphChart/index.js"
+    },
+    "./SmallMultiplesGrid": {
+      "source": "./src/SmallMultiplesGrid/index.ts",
+      "types": "./dist/SmallMultiplesGrid/index.d.ts",
+      "default": "./dist/SmallMultiplesGrid/index.js"
     },
     "./SortableList": {
       "source": "./src/SortableList/index.ts",
@@ -802,6 +987,11 @@
       "types": "./dist/Stepper/index.d.ts",
       "default": "./dist/Stepper/index.js"
     },
+    "./StereoPanKnob": {
+      "source": "./src/StereoPanKnob/index.ts",
+      "types": "./dist/StereoPanKnob/index.d.ts",
+      "default": "./dist/StereoPanKnob/index.js"
+    },
     "./StickyActionBar": {
       "source": "./src/StickyActionBar/index.ts",
       "types": "./dist/StickyActionBar/index.d.ts",
@@ -816,6 +1006,11 @@
       "source": "./src/SunburstChart/index.ts",
       "types": "./dist/SunburstChart/index.d.ts",
       "default": "./dist/SunburstChart/index.js"
+    },
+    "./SurfaceMesh3DPlot": {
+      "source": "./src/SurfaceMesh3DPlot/index.ts",
+      "types": "./dist/SurfaceMesh3DPlot/index.d.ts",
+      "default": "./dist/SurfaceMesh3DPlot/index.js"
     },
     "./SwipeableActionRow": {
       "source": "./src/SwipeableActionRow/index.ts",
@@ -852,10 +1047,25 @@
       "types": "./dist/ThinkingAccordion/index.d.ts",
       "default": "./dist/ThinkingAccordion/index.js"
     },
+    "./ThreeWayColorWheels": {
+      "source": "./src/ThreeWayColorWheels/index.ts",
+      "types": "./dist/ThreeWayColorWheels/index.d.ts",
+      "default": "./dist/ThreeWayColorWheels/index.js"
+    },
+    "./TimecodeScrubber": {
+      "source": "./src/TimecodeScrubber/index.ts",
+      "types": "./dist/TimecodeScrubber/index.d.ts",
+      "default": "./dist/TimecodeScrubber/index.js"
+    },
     "./Timeline": {
       "source": "./src/Timeline/index.ts",
       "types": "./dist/Timeline/index.d.ts",
       "default": "./dist/Timeline/index.js"
+    },
+    "./TimelineZoomNavigator": {
+      "source": "./src/TimelineZoomNavigator/index.ts",
+      "types": "./dist/TimelineZoomNavigator/index.d.ts",
+      "default": "./dist/TimelineZoomNavigator/index.js"
     },
     "./TimezoneSelector": {
       "source": "./src/TimezoneSelector/index.ts",
@@ -872,6 +1082,11 @@
       "types": "./dist/ToggleSwitch/index.d.ts",
       "default": "./dist/ToggleSwitch/index.js"
     },
+    "./ToneCurveEditor": {
+      "source": "./src/ToneCurveEditor/index.ts",
+      "types": "./dist/ToneCurveEditor/index.d.ts",
+      "default": "./dist/ToneCurveEditor/index.js"
+    },
     "./ToolCallCard": {
       "source": "./src/ToolCallCard/index.ts",
       "types": "./dist/ToolCallCard/index.d.ts",
@@ -887,10 +1102,20 @@
       "types": "./dist/TopNavBar/index.d.ts",
       "default": "./dist/TopNavBar/index.js"
     },
+    "./TrackHeaderStrip": {
+      "source": "./src/TrackHeaderStrip/index.ts",
+      "types": "./dist/TrackHeaderStrip/index.d.ts",
+      "default": "./dist/TrackHeaderStrip/index.js"
+    },
     "./TransferList": {
       "source": "./src/TransferList/index.ts",
       "types": "./dist/TransferList/index.d.ts",
       "default": "./dist/TransferList/index.js"
+    },
+    "./TransportControlBar": {
+      "source": "./src/TransportControlBar/index.ts",
+      "types": "./dist/TransportControlBar/index.d.ts",
+      "default": "./dist/TransportControlBar/index.js"
     },
     "./TreeView": {
       "source": "./src/TreeView/index.ts",
@@ -907,6 +1132,16 @@
       "types": "./dist/TriStateCheckbox/index.d.ts",
       "default": "./dist/TriStateCheckbox/index.js"
     },
+    "./UptimeStatusBar": {
+      "source": "./src/UptimeStatusBar/index.ts",
+      "types": "./dist/UptimeStatusBar/index.d.ts",
+      "default": "./dist/UptimeStatusBar/index.js"
+    },
+    "./ViolinPlot": {
+      "source": "./src/ViolinPlot/index.ts",
+      "types": "./dist/ViolinPlot/index.d.ts",
+      "default": "./dist/ViolinPlot/index.js"
+    },
     "./VirtualizedList": {
       "source": "./src/VirtualizedList/index.ts",
       "types": "./dist/VirtualizedList/index.d.ts",
@@ -917,15 +1152,35 @@
       "types": "./dist/VisualQueryBuilder/index.d.ts",
       "default": "./dist/VisualQueryBuilder/index.js"
     },
+    "./VuPeakLevelMeter": {
+      "source": "./src/VuPeakLevelMeter/index.ts",
+      "types": "./dist/VuPeakLevelMeter/index.d.ts",
+      "default": "./dist/VuPeakLevelMeter/index.js"
+    },
+    "./WaffleUnitGrid": {
+      "source": "./src/WaffleUnitGrid/index.ts",
+      "types": "./dist/WaffleUnitGrid/index.d.ts",
+      "default": "./dist/WaffleUnitGrid/index.js"
+    },
     "./WaterfallChart": {
       "source": "./src/WaterfallChart/index.ts",
       "types": "./dist/WaterfallChart/index.d.ts",
       "default": "./dist/WaterfallChart/index.js"
     },
+    "./WaveformSpectrogramView": {
+      "source": "./src/WaveformSpectrogramView/index.ts",
+      "types": "./dist/WaveformSpectrogramView/index.d.ts",
+      "default": "./dist/WaveformSpectrogramView/index.js"
+    },
     "./WindowSplitter": {
       "source": "./src/WindowSplitter/index.ts",
       "types": "./dist/WindowSplitter/index.d.ts",
       "default": "./dist/WindowSplitter/index.js"
+    },
+    "./WipeCompareOverlay": {
+      "source": "./src/WipeCompareOverlay/index.ts",
+      "types": "./dist/WipeCompareOverlay/index.d.ts",
+      "default": "./dist/WipeCompareOverlay/index.js"
     }
   },
   "scripts": {

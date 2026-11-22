@@ -1,10 +1,12 @@
 import { AiAgentControlDemos } from './demos/AiAgentControlDemos';
 import { AiContextMemoryDemos } from './demos/AiContextMemoryDemos';
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
+import { AudioMixingDemos } from './demos/AudioMixingDemos';
 import { ChartChromeDemos } from './demos/ChartChromeDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
+import { ComparisonStorytellingDemos } from './demos/ComparisonStorytellingDemos';
 import { ComplexButtonsDemos } from './demos/ComplexButtonsDemos';
 import { ComplexControlsDemos } from './demos/ComplexControlsDemos';
 import { CoreDemos } from './demos/CoreDemos';
@@ -12,6 +14,7 @@ import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
+import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
@@ -19,12 +22,18 @@ import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
+import { ObservabilityWidgetsDemos } from './demos/ObservabilityWidgetsDemos';
 import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
+import { PhotoColorGradingDemos } from './demos/PhotoColorGradingDemos';
 import { RelationalFlowChartsDemos } from './demos/RelationalFlowChartsDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
+import { ScientificChartsDemos } from './demos/ScientificChartsDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
 import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
+import { TimelineSequencingDemos } from './demos/TimelineSequencingDemos';
+import { TransportPlaybackDemos } from './demos/TransportPlaybackDemos';
+import { ViewportExportDemos } from './demos/ViewportExportDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -241,6 +250,84 @@ const CHART_CHROME_IDS = new Set([
   'chart-threshold-marker',
 ]);
 
+const TRANSPORT_PLAYBACK_IDS = new Set([
+  'transport-control-bar',
+  'timecode-scrubber',
+  'jog-shuttle-wheel',
+  'frame-stepper-rate-selector',
+]);
+
+const TIMELINE_SEQUENCING_IDS = new Set([
+  'multi-track-timeline',
+  'playhead-scrub-ruler',
+  'track-header-strip',
+  'clip-trim-handle',
+  'keyframe-curve-editor',
+  'timeline-zoom-navigator',
+]);
+
+const PHOTO_COLOR_GRADING_IDS = new Set([
+  'tone-curve-editor',
+  'three-way-color-wheels',
+  'live-color-scopes',
+  'crop-straighten-overlay',
+  'layer-blend-stack',
+  'eyedropper-pixel-loupe',
+  'brush-hud-control',
+  'wipe-compare-overlay',
+]);
+
+const AUDIO_MIXING_DSP_IDS = new Set([
+  'channel-strip-fader',
+  'vu-peak-level-meter',
+  'stereo-pan-knob',
+  'parametric-eq-graph',
+  'waveform-spectrogram-view',
+  'effects-rack-chain',
+]);
+
+const VIEWPORT_EXPORT_IDS = new Set([
+  'canvas-zoom-safe-area-bar',
+  'export-render-queue',
+]);
+
+const FINANCIAL_MARKET_CHARTS_IDS = new Set([
+  'candlestick-ohlc-chart',
+  'order-book-depth-chart',
+  'marimekko-chart',
+  'cohort-retention-grid',
+  'burndown-burnup-chart',
+]);
+
+const SCIENTIFIC_CHARTS_IDS = new Set([
+  'violin-plot',
+  'ridgeline-plot',
+  'parallel-coordinates-plot',
+  'contour-density-plot',
+  'hexbin-density-plot',
+  'polar-area-rose-chart',
+  'surface-mesh-3d-plot',
+]);
+
+const OBSERVABILITY_WIDGETS_IDS = new Set([
+  'flame-graph-chart',
+  'distributed-trace-waterfall',
+  'uptime-status-bar',
+  'service-topology-map',
+  'capacity-allocation-strip',
+  'anomaly-forecast-chart',
+]);
+
+const COMPARISON_STORYTELLING_IDS = new Set([
+  'slopegraph-chart',
+  'bump-chart',
+  'dumbbell-plot',
+  'lollipop-chart',
+  'waffle-unit-grid',
+  'quadrant-matrix',
+  'small-multiples-grid',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -319,6 +406,33 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (CHART_CHROME_IDS.has(componentId)) {
     return <ChartChromeDemos componentId={componentId} />;
+  }
+  if (TRANSPORT_PLAYBACK_IDS.has(componentId)) {
+    return <TransportPlaybackDemos componentId={componentId} />;
+  }
+  if (TIMELINE_SEQUENCING_IDS.has(componentId)) {
+    return <TimelineSequencingDemos componentId={componentId} />;
+  }
+  if (PHOTO_COLOR_GRADING_IDS.has(componentId)) {
+    return <PhotoColorGradingDemos componentId={componentId} />;
+  }
+  if (AUDIO_MIXING_DSP_IDS.has(componentId)) {
+    return <AudioMixingDemos componentId={componentId} />;
+  }
+  if (VIEWPORT_EXPORT_IDS.has(componentId)) {
+    return <ViewportExportDemos componentId={componentId} />;
+  }
+  if (FINANCIAL_MARKET_CHARTS_IDS.has(componentId)) {
+    return <FinancialMarketChartsDemos componentId={componentId} />;
+  }
+  if (SCIENTIFIC_CHARTS_IDS.has(componentId)) {
+    return <ScientificChartsDemos componentId={componentId} />;
+  }
+  if (OBSERVABILITY_WIDGETS_IDS.has(componentId)) {
+    return <ObservabilityWidgetsDemos componentId={componentId} />;
+  }
+  if (COMPARISON_STORYTELLING_IDS.has(componentId)) {
+    return <ComparisonStorytellingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

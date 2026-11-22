@@ -15,10 +15,14 @@ import { ChatMessageStream } from '../ChatMessageStream';
 import { ChoroplethMap } from '../ChoroplethMap';
 import { CitationChip } from '../CitationChip';
 import { CodeEditor, type CodeDiagnostic } from '../CodeEditor';
+import { CohortRetentionGrid } from '../CohortRetentionGrid';
 import { CommentThread, type CommentItem } from '../CommentThread';
 import { CookieConsentBanner } from '../CookieConsentBanner';
 import { DiffViewer } from '../DiffViewer';
+import { DistributedTraceWaterfall } from '../DistributedTraceWaterfall';
+import { ExportRenderQueue } from '../ExportRenderQueue';
 import { FacetedFilterBar, type FacetCategoryOption } from '../FacetedFilterBar';
+import { FlameGraphChart, type FlameFrameNode } from '../FlameGraphChart';
 import { GlobalSearchModal, type GlobalSearchItem } from '../GlobalSearchModal';
 import { ImageCropper } from '../ImageCropper';
 import { InlineDiffReviewer } from '../InlineDiffReviewer';
@@ -28,10 +32,12 @@ import { MediaLightbox } from '../MediaLightbox';
 import { NotificationCenter, type NotificationItem } from '../NotificationCenter';
 import { PivotTable, type PivotField, type PivotRecord, type PivotScalar } from '../PivotTable';
 import { ProductTour, type TourStep } from '../ProductTour';
+import { QuadrantMatrix } from '../QuadrantMatrix';
 import { RichTextEditor } from '../RichTextEditor';
 import { RolePermissionsMatrix } from '../RolePermissionsMatrix';
 import { SankeyDiagram } from '../SankeyDiagram';
 import { StructuredOutputViewer, type JsonObject } from '../StructuredOutputViewer';
+import { SurfaceMesh3DPlot } from '../SurfaceMesh3DPlot';
 import { TerminalEmulator } from '../TerminalEmulator';
 import {
   VisualQueryBuilder,
@@ -807,8 +813,8 @@ describe('6. Static Source Hygiene Gate', () => {
     const coreSrcDir = path.resolve(testDir, '..');
     const tsxFiles = collectNonTestTsxFiles(coreSrcDir);
 
-    // Ensure the static scan covers all 179+ Refractor core components
-    expect(tsxFiles.length).toBeGreaterThanOrEqual(179);
+    // Ensure the static scan covers all 230+ Refractor core components
+    expect(tsxFiles.length).toBeGreaterThanOrEqual(230);
 
     const forbiddenSinks: ReadonlyArray<{ label: string; pattern: RegExp }> = [
       { label: 'dangerouslySetInnerHTML', pattern: /\bdangerouslySetInnerHTML\b/ },
@@ -1036,6 +1042,109 @@ describe('8. Phase 3 Expansion Security & Adversarial Verification (v1.10.0–v1
     expect(svgPaths.some((d) => d.includes('javascript:'))).toBe(false);
     expect(container.textContent).toContain('<script>alert(\'map\')</script>');
     expect(container.textContent).toContain('<iframe src="javascript:alert(1)"></iframe>');
+    assertCleanObjectPrototype(baselineProtoKeys);
+  });
+});
+
+describe('9. Phase 4 Expansion Security & Adversarial Verification (v1.23.0–v1.31.0)', () => {
+  it('FlameGraphChart, DistributedTraceWaterfall, ExportRenderQueue, CohortRetentionGrid, SurfaceMesh3DPlot, and QuadrantMatrix resist XSS, cyclic graphs, prototype keys, path traversal, and NaN/Infinity', () => {
+    const baselineProtoKeys = Object.getOwnPropertyNames(Object.prototype).sort();
+
+    // Build a cyclic FlameGraph node to verify depth-capped cycle immunity
+    const cyclicChild: FlameFrameNode & { children?: FlameFrameNode[] } = {
+      id: '__proto__',
+      name: '<script>alert("flame")</script>',
+      module: 'evil.js',
+      value: 60,
+    };
+    const cyclicRoot: FlameFrameNode = {
+      id: 'constructor',
+      name: 'root_fn',
+      value: 100,
+      children: [cyclicChild],
+    };
+    cyclicChild.children = [cyclicRoot];
+
+    const { container } = render(
+      <div>
+        <FlameGraphChart root={cyclicRoot} title="<img src=x onerror=alert(1)>" />
+        <DistributedTraceWaterfall
+          traceId="<script>alert('trace')</script>"
+          spans={[
+            {
+              id: 'a',
+              parentId: 'b',
+              service: '__proto__',
+              operation: '<svg onload=alert(2)>',
+              startMs: Number.NaN,
+              durationMs: 42,
+              status: 'error',
+              tags: [{ key: 'constructor', value: '<iframe src="javascript:alert(1)"></iframe>' }],
+            },
+            {
+              id: 'b',
+              parentId: 'a',
+              service: 'prototype',
+              operation: 'GET /cycle',
+              startMs: 5,
+              durationMs: Number.POSITIVE_INFINITY,
+              status: 'ok',
+            },
+          ]}
+        />
+        <ExportRenderQueue
+          defaultJobs={[
+            {
+              id: '__proto__',
+              name: '../../etc/passwd<script>alert(3)</script>',
+              codec: 'h264',
+              resolution: '4k-uhd',
+              bitrateMbps: Number.NaN,
+              sampleRate: '48kHz',
+              status: 'rendering',
+              progressPct: 140,
+            },
+          ]}
+        />
+        <CohortRetentionGrid
+          cohorts={[
+            {
+              id: '__proto__',
+              label: '<script>alert("cohort")</script>',
+              size: 100,
+              retentionPct: [100, Number.NaN, 50, null],
+            },
+          ]}
+        />
+        <SurfaceMesh3DPlot
+          title="<script>alert('3d')</script>"
+          grid={[
+            [0, Number.NaN, 2],
+            [1, Number.POSITIVE_INFINITY, -1],
+            [2, 0.5, 3],
+          ]}
+        />
+        <QuadrantMatrix
+          items={[
+            {
+              id: '__proto__',
+              label: '<img src=x onerror=alert(9)>',
+              x: Number.NaN,
+              y: 80,
+              summary: '<script>alert("quad")</script>',
+            },
+          ]}
+        />
+      </div>
+    );
+
+    expect(container.querySelectorAll('script')).toHaveLength(0);
+    expect(container.querySelectorAll('iframe')).toHaveLength(0);
+    expect(container.querySelectorAll('img')).toHaveLength(0);
+    expect(container.querySelectorAll('[onerror], [onload]')).toHaveLength(0);
+    expect(container.textContent).toContain('<script>alert("flame")</script>');
+    expect(container.textContent).toContain('<script>alert("cohort")</script>');
+    expect(container.textContent).toContain('<img src=x onerror=alert(9)>');
     assertCleanObjectPrototype(baselineProtoKeys);
   });
 });
