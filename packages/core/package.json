@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.26.0",
+  "version": "1.27.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -151,6 +151,11 @@
       "source": "./src/CalendarView/index.ts",
       "types": "./dist/CalendarView/index.d.ts",
       "default": "./dist/CalendarView/index.js"
+    },
+    "./CanvasZoomSafeAreaBar": {
+      "source": "./src/CanvasZoomSafeAreaBar/index.ts",
+      "types": "./dist/CanvasZoomSafeAreaBar/index.d.ts",
+      "default": "./dist/CanvasZoomSafeAreaBar/index.js"
     },
     "./CarouselSlider": {
       "source": "./src/CarouselSlider/index.ts",
@@ -361,6 +366,11 @@
       "source": "./src/EmptyState/index.ts",
       "types": "./dist/EmptyState/index.d.ts",
       "default": "./dist/EmptyState/index.js"
+    },
+    "./ExportRenderQueue": {
+      "source": "./src/ExportRenderQueue/index.ts",
+      "types": "./dist/ExportRenderQueue/index.d.ts",
+      "default": "./dist/ExportRenderQueue/index.js"
     },
     "./EyedropperPixelLoupe": {
       "source": "./src/EyedropperPixelLoupe/index.ts",

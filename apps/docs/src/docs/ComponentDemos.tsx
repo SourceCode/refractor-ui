@@ -29,6 +29,7 @@ import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
 import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
 import { TimelineSequencingDemos } from './demos/TimelineSequencingDemos';
 import { TransportPlaybackDemos } from './demos/TransportPlaybackDemos';
+import { ViewportExportDemos } from './demos/ViewportExportDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -281,6 +282,11 @@ const AUDIO_MIXING_DSP_IDS = new Set([
   'effects-rack-chain',
 ]);
 
+const VIEWPORT_EXPORT_IDS = new Set([
+  'canvas-zoom-safe-area-bar',
+  'export-render-queue',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -371,6 +377,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (AUDIO_MIXING_DSP_IDS.has(componentId)) {
     return <AudioMixingDemos componentId={componentId} />;
+  }
+  if (VIEWPORT_EXPORT_IDS.has(componentId)) {
+    return <ViewportExportDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

@@ -242,6 +242,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Audio & DSP',
     description: 'Calibrated long-throw dB channel faders, segmented LED VU/peak meters, center-detented stereo pan dials, parametric EQ curves, spectrogram editors, and reorderable DSP racks.',
   },
+  {
+    id: 'viewport-export',
+    title: 'Viewport & Export Utilities',
+    shortLabel: 'Viewport & Export',
+    description: 'Broadcast zoom & safe-area guide overlays (Rule-of-Thirds, Title/Action Safe, aspect mattes) and multi-codec render queue managers.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2934,6 +2940,33 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'effects / defaultEffects', type: 'DspEffectModule[]', defaultValue: '4-stage chain', description: 'Ordered DSP modules with category, bypass state, and wetMixPct.' },
       { name: 'orientation / onChange / onAddEffect', type: "'horizontal' | 'vertical' / callbacks", defaultValue: "'horizontal'", description: 'Rack layout axis and chain mutation handlers.' },
+    ],
+  },
+  /* ==================== VIEWPORT & EXPORT UTILITIES (2) ==================== */
+  {
+    id: 'canvas-zoom-safe-area-bar',
+    title: 'Canvas Zoom & Safe-Area Overlay Bar',
+    exportName: 'CanvasZoomSafeAreaBar',
+    category: 'viewport-export',
+    categoryTitle: 'Viewport & Export Utilities',
+    summary: 'Corner zoom snap bar (Fit, 50%, 100%, 200%) paired with live broadcast guides for Rule-of-Thirds, Title-Safe (80%), Action-Safe (90%), and cinematic aspect ratio mattes.',
+    codeSnippet: `<CanvasZoomSafeAreaBar canvasLabel="3840 × 2160 · Rec.709" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'SafeAreaGuidesState', defaultValue: "fit, guides on, '2.39:1'", description: 'Zoom preset, guide visibility switches, and aspect matte.' },
+      { name: 'onChange / canvasLabel / children', type: '(state) => void / string / ReactNode', defaultValue: 'undefined', description: 'Viewport state callback, telemetry label, and preview media.' },
+    ],
+  },
+  {
+    id: 'export-render-queue',
+    title: 'Export / Render Queue Manager',
+    exportName: 'ExportRenderQueue',
+    category: 'viewport-export',
+    categoryTitle: 'Viewport & Export Utilities',
+    summary: 'Dedicated delivery encoder panel configuring codec, resolution, bitrate, and sample rate paired with an interactive render queue featuring progress bars and pause/resume/retry controls.',
+    codeSnippet: `<ExportRenderQueue title="Master Delivery & Render Queue" />`,
+    props: [
+      { name: 'jobs / defaultJobs', type: 'RenderQueueJob[]', defaultValue: '3 studio jobs', description: 'Controlled or initial render queue job items.' },
+      { name: 'onJobsChange / onEnqueue', type: '(jobs) => void / (cfg, job) => void', defaultValue: 'undefined', description: 'Queue lifecycle mutation and new export job callbacks.' },
     ],
   },
 ];
