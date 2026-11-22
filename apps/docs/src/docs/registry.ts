@@ -320,6 +320,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'File Ops',
     description: 'Concurrent transfer queues, side-by-side duplicate conflict resolvers, linear-time batch rename utilities, POSIX & cloud sharing matrices, zip-slip-safe archive inspectors, and trash recovery banners.',
   },
+  {
+    id: 'window-anatomy-controls',
+    title: 'Window Anatomy & Controls',
+    shortLabel: 'Window Anatomy',
+    description: 'Merged tear-off titlebar tabs, 8-way ghost-frame window resize handles, Pin/Shade/Opacity utility chrome, focus-tethered floating inspector palettes, and window-attached modal sheets.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -4065,6 +4071,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'itemCount / selectedCount / retentionDays', type: 'number / number / number', defaultValue: '14 / 3 / 30', description: 'Trash counts and remaining days before automatic purge.' },
       { name: 'onRestoreSelected / onRestoreAll / onEmptyTrash', type: '() => void', defaultValue: 'undefined', description: 'Recovery and confirmed destructive purge handlers.' },
+    ],
+  },
+  // 50. Window Anatomy & Controls (5 components — v1.40.0)
+  {
+    id: 'merged-window-tab-bar',
+    title: 'Merged Window Tab Bar',
+    exportName: 'MergedWindowTabBar',
+    category: 'window-anatomy-controls',
+    categoryTitle: 'Window Anatomy & Controls',
+    summary: 'Browser-style tab strip integrated directly into a window titlebar supporting tab merging, drag/keyboard reordering, adding, closing, and tearing off tabs into detached windows.',
+    codeSnippet: `<MergedWindowTabBar onTearOffTab={handleTearOff} />`,
+    props: [
+      { name: 'tabs / defaultTabs / activeTabId', type: 'ReadonlyArray<MergedWindowTabItem> / string', defaultValue: '3 sample tabs / first id', description: 'Merged tab list and controlled active tab ID.' },
+      { name: 'onTearOffTab / onTabsChange / onWindowAction', type: '(tab) => void / (tabs) => void / (action) => void', defaultValue: 'undefined', description: 'Tear-off, reorder/close, and titlebar chrome callbacks.' },
+    ],
+  },
+  {
+    id: 'window-resize-frame',
+    title: 'Window Resize Handles & Ghost Frame',
+    exportName: 'WindowResizeFrame',
+    category: 'window-anatomy-controls',
+    categoryTitle: 'Window Anatomy & Controls',
+    summary: 'All 8 directional edge and corner window resize hitboxes paired with a translucent dashed ghost preview outline showing live snapped dimensions and alignment during drag or keyboard resize.',
+    codeSnippet: `<WindowResizeFrame title="Refractor Optical Canvas" snapGridPx={16} />`,
+    props: [
+      { name: 'rect / defaultRect / snapGridPx', type: 'WindowFrameRect / number', defaultValue: '360×220 / 16px', description: 'Committed window dimensions and grid snap increment.' },
+      { name: 'minWidth / maxWidth / onResizeCommit', type: 'number / number / (rect, edge) => void', defaultValue: '180 / 560 / undefined', description: 'Dimension bounds and resize commit callback.' },
+    ],
+  },
+  {
+    id: 'window-utility-controls',
+    title: 'Window Utility Controls (Pin, Shade & Opacity)',
+    exportName: 'WindowUtilityControls',
+    category: 'window-anatomy-controls',
+    categoryTitle: 'Window Anatomy & Controls',
+    summary: 'Compact titlebar controls keeping a window always on top, rolling its body up into a titlebar-only window shade, and adjusting live background translucency from 30% to 100%.',
+    codeSnippet: `<WindowUtilityControls title="Optical Shader Monitor" showSampleBody />`,
+    props: [
+      { name: 'value / defaultValue', type: 'WindowUtilityState / Partial<WindowUtilityState>', defaultValue: 'unpinned / unshaded / 92%', description: 'Controlled or default pin, shade, and opacity percentage.' },
+      { name: 'showSampleBody / onChange', type: 'boolean / (state) => void', defaultValue: 'true / undefined', description: 'Toggle sample window body and state update callback.' },
+    ],
+  },
+  {
+    id: 'floating-inspector-palette',
+    title: 'Floating Utility / Inspector Palette',
+    exportName: 'FloatingInspectorPalette',
+    category: 'window-anatomy-controls',
+    categoryTitle: 'Window Anatomy & Controls',
+    summary: 'Slim-titlebar non-blocking tool window visually tethered to its parent workspace that automatically hides when the parent loses focus unless pinned persistent.',
+    codeSnippet: `<FloatingInspectorPalette title="Tool & Brush Inspector" parentWorkspaceName="Refractor Studio" />`,
+    props: [
+      { name: 'parentFocused / autoHideOnBlur', type: 'boolean / boolean', defaultValue: 'true / true', description: 'Parent focus tether state and automatic hide-on-blur policy.' },
+      { name: 'sections / onToggleSection / onClose', type: 'ReadonlyArray<FloatingPaletteSection> / callbacks', defaultValue: '4 inspector tools / undefined', description: 'Inspector tool items and interactive callbacks.' },
+    ],
+  },
+  {
+    id: 'window-attached-sheet',
+    title: 'Window-Attached Modal Sheet',
+    exportName: 'WindowAttachedSheet',
+    category: 'window-anatomy-controls',
+    categoryTitle: 'Window Anatomy & Controls',
+    summary: 'Titlebar-anchored dialog sheet sliding down inside a specific window, blocking interaction only within that window while leaving sibling windows fully usable.',
+    codeSnippet: `<WindowAttachedSheet windowTitle="OpticalSpec_v2.md" sheetTitle="Save unsaved changes before closing?" tone="warning" />`,
+    props: [
+      { name: 'open / defaultOpen / tone', type: "boolean / boolean / 'info' | 'warning' | 'critical'", defaultValue: "true / 'info'", description: 'Sheet visibility and semantic top stripe tone.' },
+      { name: 'showSiblingWindow / onConfirm / onCancel', type: 'boolean / () => void / () => void', defaultValue: 'true / undefined', description: 'Sibling window demonstration toggle and confirm/cancel handlers.' },
     ],
   },
 ];

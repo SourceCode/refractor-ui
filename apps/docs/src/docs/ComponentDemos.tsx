@@ -42,6 +42,7 @@ import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
 import { TimelineSequencingDemos } from './demos/TimelineSequencingDemos';
 import { TransportPlaybackDemos } from './demos/TransportPlaybackDemos';
 import { ViewportExportDemos } from './demos/ViewportExportDemos';
+import { WindowAnatomyControlsDemos } from './demos/WindowAnatomyControlsDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -413,6 +414,14 @@ const FILE_MANAGEMENT_OPERATIONS_IDS = new Set([
   'trash-recovery-banner',
 ]);
 
+const WINDOW_ANATOMY_CONTROLS_IDS = new Set([
+  'merged-window-tab-bar',
+  'window-resize-frame',
+  'window-utility-controls',
+  'floating-inspector-palette',
+  'window-attached-sheet',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -542,6 +551,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (FILE_MANAGEMENT_OPERATIONS_IDS.has(componentId)) {
     return <FileManagementOperationsDemos componentId={componentId} />;
+  }
+  if (WINDOW_ANATOMY_CONTROLS_IDS.has(componentId)) {
+    return <WindowAnatomyControlsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

@@ -7,6 +7,17 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.40.0] - 2026-11-22
+
+### Added
+- **Window Anatomy & Controls (5 new optical-glass window chrome & workspace primitives — 288 total across 50 categories):**
+  - `MergedWindowTabBar`: Integrated browser-style window titlebar tab strip with traffic-light chrome, drag-and-drop + `Alt+Arrow` reordering, dirty indicators, `+ New Tab`, and tear-off / merge-back detached window shelf.
+  - `WindowResizeFrame`: All 8 directional edge and corner resize hitboxes paired with a dashed translucent ghost preview outline, live snapped dimension telemetry (`16px` grid snap toggle), `Escape`/`pointercancel` abort, and full keyboard resizing.
+  - `WindowUtilityControls`: Compact titlebar toggles for `Pin Always-on-Top`, `Window Shade` roll-up collapse, and live `30%–100%` background opacity translucency slider & presets.
+  - `FloatingInspectorPalette`: Slim-titlebar non-blocking tool palette tethered to parent workspace focus with automatic hide-on-blur behavior, pin-persistent override, and collapsible inspector sections.
+  - `WindowAttachedSheet`: Window-scoped titlebar-anchored modal sheet blocking interaction strictly inside its parent window while leaving sibling workspace windows completely interactive.
+- Added interactive playground demos and prop specs in `apps/docs` under `Window Anatomy & Controls`.
+
 ## [1.39.0] - 2026-11-22
 
 ### Added
@@ -512,7 +523,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.39.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.40.0...HEAD
+[1.40.0]: https://github.com/SourceCode/refractor-ui/compare/v1.39.0...v1.40.0
 [1.39.0]: https://github.com/SourceCode/refractor-ui/compare/v1.38.0...v1.39.0
 [1.38.0]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...v1.38.0
 [1.37.0]: https://github.com/SourceCode/refractor-ui/compare/v1.36.0...v1.37.0

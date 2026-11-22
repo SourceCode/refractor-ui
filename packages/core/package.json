@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.39.0",
+  "version": "1.40.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -562,6 +562,11 @@
       "types": "./dist/FloatingActionButton/index.d.ts",
       "default": "./dist/FloatingActionButton/index.js"
     },
+    "./FloatingInspectorPalette": {
+      "source": "./src/FloatingInspectorPalette/index.ts",
+      "types": "./dist/FloatingInspectorPalette/index.d.ts",
+      "default": "./dist/FloatingInspectorPalette/index.js"
+    },
     "./FloatingTableOfContents": {
       "source": "./src/FloatingTableOfContents/index.ts",
       "types": "./dist/FloatingTableOfContents/index.d.ts",
@@ -786,6 +791,11 @@
       "source": "./src/MemoryPersonaInspector/index.ts",
       "types": "./dist/MemoryPersonaInspector/index.d.ts",
       "default": "./dist/MemoryPersonaInspector/index.js"
+    },
+    "./MergedWindowTabBar": {
+      "source": "./src/MergedWindowTabBar/index.ts",
+      "types": "./dist/MergedWindowTabBar/index.d.ts",
+      "default": "./dist/MergedWindowTabBar/index.js"
     },
     "./MillerColumnsBrowser": {
       "source": "./src/MillerColumnsBrowser/index.ts",
@@ -1427,6 +1437,16 @@
       "types": "./dist/WaveformSpectrogramView/index.d.ts",
       "default": "./dist/WaveformSpectrogramView/index.js"
     },
+    "./WindowAttachedSheet": {
+      "source": "./src/WindowAttachedSheet/index.ts",
+      "types": "./dist/WindowAttachedSheet/index.d.ts",
+      "default": "./dist/WindowAttachedSheet/index.js"
+    },
+    "./WindowResizeFrame": {
+      "source": "./src/WindowResizeFrame/index.ts",
+      "types": "./dist/WindowResizeFrame/index.d.ts",
+      "default": "./dist/WindowResizeFrame/index.js"
+    },
     "./WindowSplitter": {
       "source": "./src/WindowSplitter/index.ts",
       "types": "./dist/WindowSplitter/index.d.ts",
@@ -1436,6 +1456,11 @@
       "source": "./src/WindowTitlebar/index.ts",
       "types": "./dist/WindowTitlebar/index.d.ts",
       "default": "./dist/WindowTitlebar/index.js"
+    },
+    "./WindowUtilityControls": {
+      "source": "./src/WindowUtilityControls/index.ts",
+      "types": "./dist/WindowUtilityControls/index.d.ts",
+      "default": "./dist/WindowUtilityControls/index.js"
     },
     "./WipeCompareOverlay": {
       "source": "./src/WipeCompareOverlay/index.ts",
