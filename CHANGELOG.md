@@ -7,6 +7,17 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.28.0] - 2026-11-21
+
+### Added
+- **Financial & Market Visualizations (5 new optical-glass trading, market & SaaS analytics primitives — 210 total across 38 categories):**
+  - `CandlestickOhlcChart`: Financial OHLC price series with Candlestick/OHLC toggle, semantic bullish/bearish wicks & bodies, optional volume histogram, crosshair highlight, and tabular session inspector.
+  - `OrderBookDepthChart`: Cumulative stepped bid/ask market depth curves meeting at live mid-price spread with bid/ask imbalance bar and interactive wall inspection.
+  - `MarimekkoChart`: True 2D proportional mosaic chart varying column width by total market size and stacked vertical height by segment share with 2D keyboard navigation and legend highlighting.
+  - `CohortRetentionGrid`: Triangular SaaS retention heatmap matrix with weighted average footer, 5-step `--prism-*` intensity shading, responsive `overflow-x-auto` table wrapper, and retained user breakdown.
+  - `BurndownBurnupChart`: Sprint velocity tracker toggling between Burn-Down and Burn-Up with ideal pace trendline, dynamic scope ceiling, and live `On Track` / `At Risk` / `Behind Ideal` forecast badge.
+- Added interactive playground demos and prop specs in `apps/docs` under `Financial & Market Visualizations`.
+
 ## [1.27.0] - 2026-11-21
 
 ### Added
@@ -358,7 +369,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.27.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.28.0...HEAD
+[1.28.0]: https://github.com/SourceCode/refractor-ui/compare/v1.27.0...v1.28.0
 [1.27.0]: https://github.com/SourceCode/refractor-ui/compare/v1.26.0...v1.27.0
 [1.26.0]: https://github.com/SourceCode/refractor-ui/compare/v1.25.0...v1.26.0
 [1.25.0]: https://github.com/SourceCode/refractor-ui/compare/v1.24.0...v1.25.0

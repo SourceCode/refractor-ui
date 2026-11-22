@@ -248,6 +248,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Viewport & Export',
     description: 'Broadcast zoom & safe-area guide overlays (Rule-of-Thirds, Title/Action Safe, aspect mattes) and multi-codec render queue managers.',
   },
+  {
+    id: 'financial-market-charts',
+    title: 'Financial & Market Visualizations',
+    shortLabel: 'Finance',
+    description: 'OHLC candlestick charts with volume histograms, cumulative bid/ask order book depth charts, 2D proportional Marimekko charts, SaaS cohort retention matrices, and sprint burn-down/burn-up charts.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2967,6 +2973,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'jobs / defaultJobs', type: 'RenderQueueJob[]', defaultValue: '3 studio jobs', description: 'Controlled or initial render queue job items.' },
       { name: 'onJobsChange / onEnqueue', type: '(jobs) => void / (cfg, job) => void', defaultValue: 'undefined', description: 'Queue lifecycle mutation and new export job callbacks.' },
+    ],
+  },
+  /* ==================== FINANCIAL & MARKET VISUALIZATIONS (5) ==================== */
+  {
+    id: 'candlestick-ohlc-chart',
+    title: 'Candlestick & OHLC Chart',
+    exportName: 'CandlestickOhlcChart',
+    category: 'financial-market-charts',
+    categoryTitle: 'Financial & Market Visualizations',
+    summary: 'Financial price series displaying Open, High, Low, and Close wicks and semantic bullish/bearish bodies with Candlestick/OHLC toggle and optional volume bars.',
+    codeSnippet: `<CandlestickOhlcChart title="NVDA · 1D OHLC Candlestick" showVolume />`,
+    props: [
+      { name: 'data / mode / showVolume', type: "OhlcCandlePoint[] / 'candlestick' | 'ohlc' / boolean", defaultValue: "14 sessions / 'candlestick' / true", description: 'OHLC trading sessions, bar glyph style, and volume overlay.' },
+      { name: 'currencyPrefix / onSelectCandle', type: 'string / (candle, idx) => void', defaultValue: "'$' / undefined", description: 'Price prefix symbol and interactive candle inspection callback.' },
+    ],
+  },
+  {
+    id: 'order-book-depth-chart',
+    title: 'Order Book / Market Depth Chart',
+    exportName: 'OrderBookDepthChart',
+    category: 'financial-market-charts',
+    categoryTitle: 'Financial & Market Visualizations',
+    summary: 'Stepped cumulative bid and ask volume area curves meeting at the live mid-price spread with buy/sell imbalance telemetry and interactive wall inspection.',
+    codeSnippet: `<OrderBookDepthChart symbol="RFR / USD" />`,
+    props: [
+      { name: 'bids / asks', type: 'OrderBookLevel[]', defaultValue: '8 bid & 8 ask levels', description: 'Raw buy and sell limit order levels sorted automatically around mid-price.' },
+      { name: 'symbol / onSelectLevel', type: 'string / (level) => void', defaultValue: "'RFR / USD' / undefined", description: 'Market pair badge and clickable liquidity wall callback.' },
+    ],
+  },
+  {
+    id: 'marimekko-chart',
+    title: 'Marimekko (Mosaic) Chart',
+    exportName: 'MarimekkoChart',
+    category: 'financial-market-charts',
+    categoryTitle: 'Financial & Market Visualizations',
+    summary: 'Two-dimensional proportional stacked bar chart varying both column widths by total market size and stacked heights by segment composition share.',
+    codeSnippet: `<MarimekkoChart title="Global ARR by Region & Tier" />`,
+    props: [
+      { name: 'columns / valuePrefix / valueUnit', type: "MarimekkoColumn[] / string / string", defaultValue: "4 regions / '$' / 'M'", description: 'Proportional columns, segments, and formatted value affixes.' },
+      { name: 'onSelectSegment', type: '(selection: MarimekkoSelection) => void', defaultValue: 'undefined', description: 'Interactive mosaic segment click/keyboard inspection handler.' },
+    ],
+  },
+  {
+    id: 'cohort-retention-grid',
+    title: 'Cohort Retention Matrix',
+    exportName: 'CohortRetentionGrid',
+    category: 'financial-market-charts',
+    categoryTitle: 'Financial & Market Visualizations',
+    summary: 'Triangular SaaS retention heatmap tracking signup cohorts across elapsed periods with intensity shading, weighted average footer, and horizontal scroll safety.',
+    codeSnippet: `<CohortRetentionGrid title="Enterprise SaaS Monthly Retention" tone="emerald" />`,
+    props: [
+      { name: 'cohorts / periodPrefix', type: 'CohortRetentionRow[] / string', defaultValue: "6 cohorts / 'M'", description: 'Cohort rows with nullable future periods and period column prefix.' },
+      { name: 'tone / showAverageRow / onSelectCell', type: "CohortColorTone / boolean / (cell) => void", defaultValue: "'emerald' / true", description: 'Semantic intensity palette, weighted average row, and cell inspector.' },
+    ],
+  },
+  {
+    id: 'burndown-burnup-chart',
+    title: 'Burn-Down & Burn-Up Chart',
+    exportName: 'BurndownBurnupChart',
+    category: 'financial-market-charts',
+    categoryTitle: 'Financial & Market Visualizations',
+    summary: 'Sprint and project velocity tracker toggling between Burn-Down and Burn-Up views with ideal pace trendline, scope ceiling tracking, and live forecast status.',
+    codeSnippet: `<BurndownBurnupChart title="Sprint 24 Burn-Down & Scope Velocity" />`,
+    props: [
+      { name: 'data / mode / unit', type: "SprintBurnPoint[] / 'burndown' | 'burnup' / string", defaultValue: "10-day sprint / 'burndown' / 'pts'", description: 'Checkpoint scope/completed telemetry, chart mode, and unit label.' },
+      { name: 'onModeChange / onSelectPoint', type: '(mode) => void / (pt, idx) => void', defaultValue: 'undefined', description: 'Mode toggle and day checkpoint selection callbacks.' },
     ],
   },
 ];

@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.27.0",
+  "version": "1.28.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -142,6 +142,11 @@
       "types": "./dist/BulletChart/index.d.ts",
       "default": "./dist/BulletChart/index.js"
     },
+    "./BurndownBurnupChart": {
+      "source": "./src/BurndownBurnupChart/index.ts",
+      "types": "./dist/BurndownBurnupChart/index.d.ts",
+      "default": "./dist/BurndownBurnupChart/index.js"
+    },
     "./CalendarHeatmap": {
       "source": "./src/CalendarHeatmap/index.ts",
       "types": "./dist/CalendarHeatmap/index.d.ts",
@@ -151,6 +156,11 @@
       "source": "./src/CalendarView/index.ts",
       "types": "./dist/CalendarView/index.d.ts",
       "default": "./dist/CalendarView/index.js"
+    },
+    "./CandlestickOhlcChart": {
+      "source": "./src/CandlestickOhlcChart/index.ts",
+      "types": "./dist/CandlestickOhlcChart/index.d.ts",
+      "default": "./dist/CandlestickOhlcChart/index.js"
     },
     "./CanvasZoomSafeAreaBar": {
       "source": "./src/CanvasZoomSafeAreaBar/index.ts",
@@ -221,6 +231,11 @@
       "source": "./src/CodeEditor/index.ts",
       "types": "./dist/CodeEditor/index.d.ts",
       "default": "./dist/CodeEditor/index.js"
+    },
+    "./CohortRetentionGrid": {
+      "source": "./src/CohortRetentionGrid/index.ts",
+      "types": "./dist/CohortRetentionGrid/index.d.ts",
+      "default": "./dist/CohortRetentionGrid/index.js"
     },
     "./ColorPicker": {
       "source": "./src/ColorPicker/index.ts",
@@ -527,6 +542,11 @@
       "types": "./dist/LiveTelemetryChart/index.d.ts",
       "default": "./dist/LiveTelemetryChart/index.js"
     },
+    "./MarimekkoChart": {
+      "source": "./src/MarimekkoChart/index.ts",
+      "types": "./dist/MarimekkoChart/index.d.ts",
+      "default": "./dist/MarimekkoChart/index.js"
+    },
     "./MaskedPatternInput": {
       "source": "./src/MaskedPatternInput/index.ts",
       "types": "./dist/MaskedPatternInput/index.d.ts",
@@ -616,6 +636,11 @@
       "source": "./src/OpticalCharts/index.ts",
       "types": "./dist/OpticalCharts/index.d.ts",
       "default": "./dist/OpticalCharts/index.js"
+    },
+    "./OrderBookDepthChart": {
+      "source": "./src/OrderBookDepthChart/index.ts",
+      "types": "./dist/OrderBookDepthChart/index.d.ts",
+      "default": "./dist/OrderBookDepthChart/index.js"
     },
     "./OtpCodeInput": {
       "source": "./src/OtpCodeInput/index.ts",

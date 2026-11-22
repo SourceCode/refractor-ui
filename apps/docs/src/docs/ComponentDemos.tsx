@@ -13,6 +13,7 @@ import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
+import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
@@ -287,6 +288,14 @@ const VIEWPORT_EXPORT_IDS = new Set([
   'export-render-queue',
 ]);
 
+const FINANCIAL_MARKET_CHARTS_IDS = new Set([
+  'candlestick-ohlc-chart',
+  'order-book-depth-chart',
+  'marimekko-chart',
+  'cohort-retention-grid',
+  'burndown-burnup-chart',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -380,6 +389,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (VIEWPORT_EXPORT_IDS.has(componentId)) {
     return <ViewportExportDemos componentId={componentId} />;
+  }
+  if (FINANCIAL_MARKET_CHARTS_IDS.has(componentId)) {
+    return <FinancialMarketChartsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
