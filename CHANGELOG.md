@@ -7,6 +7,14 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.46.0] - 2026-11-22
+
+### Added
+- **Multi-Material Theme Engine, FX Layers & On-Demand WebFont Architecture (`@refractor-ui/core`):**
+  - Extended `PrismTheme`, `PrismThemeOptions`, `createPrismTheme`, `defineTheme`, and `PrismThemeProvider` with **13 full-transformation UI material archetypes** (`glass`, `mica`, `bevel`, `brutalist`, `neon`, `crt`, `neumorphic`, `clay`, `paper`, `flat`, `chrome`, `pixel`, `resin`), `ThemeFxConfig` (wallpapers, 9 non-interactive GPU-friendly FX overlays, border widths, shadows, titlebar chrome, controls layout, adaptive ink & sharp corner flags), `ThemeMotionConfig`, and `ThemeEditorColors` (`--prism-editor-*`).
+  - Added allowlist-hardened, zero-bloat on-demand Google Font loader (`packages/core/src/theme/fonts.ts`: `extractGoogleFontsFromStack`, `buildGoogleFontsHref`, `ensureThemeFontsLoaded`, `getLoadedThemeFontKeys`) supporting 24 webfont families with deduplication, URL-injection defense, SSR/offline safety, and `<PrismThemeProvider loadFonts={false} />` opt-out.
+  - Upgraded `packages/core/src/refractor.css` with authentic CSS skinning across all 13 materials, 9 GPU-friendly CSS-only FX overlays (`noise`, `scanlines`, `cyber-grid`, `retro-grid`, `dot-matrix`, `paper-grain`, `crt-rgb`, `hazard-stripes`), `prefers-reduced-motion` safety, stale custom CSS variable cleanup on theme switch, and an `@layer utilities` adaptive ink/surface/sharp-corner cascade bridge (`[data-refractor-theme-adaptive="true"]`) preserving 100% pixel-identical default optical glass themes.
+
 ## [1.45.0] - 2026-11-22
 
 ### Added
@@ -580,7 +588,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.45.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.46.0...HEAD
+[1.46.0]: https://github.com/SourceCode/refractor-ui/compare/v1.45.0...v1.46.0
 [1.45.0]: https://github.com/SourceCode/refractor-ui/compare/v1.44.0...v1.45.0
 [1.44.0]: https://github.com/SourceCode/refractor-ui/compare/v1.43.0...v1.44.0
 [1.43.0]: https://github.com/SourceCode/refractor-ui/compare/v1.42.0...v1.43.0

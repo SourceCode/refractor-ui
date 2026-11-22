@@ -7,7 +7,14 @@ export type {
   PrismTheme,
   PrismThemeOptions,
   RefractionIntensity,
+  ThemeCollectionCategory,
+  ThemeControlsLayout,
+  ThemeEditorColors,
+  ThemeFxConfig,
+  ThemeMaterial,
   ThemeMode,
+  ThemeMotionConfig,
+  ThemeOverlayFx,
   ThemeTokenMap,
   ThemeTokenValue,
 } from './types';
@@ -19,6 +26,13 @@ export {
   isResolvedPrismTheme,
   resolveDefinedTheme,
 } from './defineTheme';
+export {
+  buildGoogleFontsHref,
+  ensureThemeFontsLoaded,
+  extractGoogleFontsFromStack,
+  getLoadedThemeFontKeys,
+  SUPPORTED_THEME_FONT_FAMILIES,
+} from './fonts';
 export {
   PrismThemeProvider,
   useComponentOverride,

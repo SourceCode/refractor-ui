@@ -35,6 +35,10 @@ function mergeComponents(
 function mergeOptions(base?: PrismThemeOptions, own?: PrismThemeOptions): PrismThemeOptions {
   return {
     name: own?.name ?? base?.name,
+    displayName: own?.displayName ?? base?.displayName,
+    description: own?.description ?? base?.description,
+    category: own?.category ?? base?.category,
+    material: own?.material ?? base?.material,
     palette: {
       ...base?.palette,
       ...own?.palette,
@@ -59,6 +63,18 @@ function mergeOptions(base?: PrismThemeOptions, own?: PrismThemeOptions): PrismT
       ...base?.optics,
       ...own?.optics,
     },
+    fx: {
+      ...base?.fx,
+      ...own?.fx,
+    },
+    motion: {
+      ...base?.motion,
+      ...own?.motion,
+    },
+    editor: {
+      ...base?.editor,
+      ...own?.editor,
+    },
     components: mergeComponents(base?.components, own?.components),
     customTokens: {
       ...base?.customTokens,
@@ -68,8 +84,8 @@ function mergeOptions(base?: PrismThemeOptions, own?: PrismThemeOptions): PrismT
 }
 
 /**
- * Astryx-aligned `defineTheme()` — creates a composable, cascade-ready optical glass theme.
- * Supports `extends`, `[light, dark]` token tuples, MUI palette shortcuts, and component overrides.
+ * Composable, cascade-ready theme builder supporting `extends`, `[light, dark]` token tuples,
+ * palette shortcuts, material/FX configs, typography, and component overrides.
  */
 export function defineTheme(input: DefinePrismThemeInput): DefinedPrismTheme {
   const base = input.extends;
@@ -103,7 +119,9 @@ export function isResolvedPrismTheme(
     candidate.palette !== undefined &&
     'primary' in candidate.palette &&
     candidate.palette.primary !== undefined &&
-    'rgb' in candidate.palette.primary
+    'rgb' in candidate.palette.primary &&
+    'fx' in candidate &&
+    candidate.fx !== undefined
   );
 }
 
