@@ -164,7 +164,7 @@ describe('@refractor-ui/cli', () => {
     expect(unknownTotal.stderr).toContain('Unknown component');
   });
 
-  it('lists and inspects all 5 official optical theme presets and rejects invalid theme queries', async () => {
+  it('lists and inspects all 5 official optical theme presets plus all 64 WebOS-v3 collection themes and rejects invalid theme queries', async () => {
     const listRes = await runCli(['theme', 'list']);
     expect(listRes.exitCode).toBe(0);
     expect(listRes.stdout).toContain('Refractor Official Optical Theme Presets (5):');
@@ -173,11 +173,20 @@ describe('@refractor-ui/cli', () => {
     expect(listRes.stdout).toContain('amethyst');
     expect(listRes.stdout).toContain('emerald-tide');
     expect(listRes.stdout).toContain('solar-prism');
+    expect(listRes.stdout).toContain('64 themes, 69 total');
+    expect(listRes.stdout).toContain('windows95');
+    expect(listRes.stdout).toContain('cyberpunk');
+    expect(listRes.stdout).toContain('gameboy-classic');
 
     const inspectRes = await runCli(['theme', 'inspect', 'amethyst']);
     expect(inspectRes.exitCode).toBe(0);
     expect(inspectRes.stdout).toContain('@refractor-ui/theme-amethyst');
     expect(inspectRes.stdout).toContain('defineTheme');
+
+    const inspectWin95 = await runCli(['theme', 'inspect', 'windows95']);
+    expect(inspectWin95.exitCode).toBe(0);
+    expect(inspectWin95.stdout).toContain('Windows 95 (windows95)');
+    expect(inspectWin95.stdout).toContain('Material: bevel');
 
     const badInspect = await runCli(['theme', 'inspect', 'invalid-theme']);
     expect(badInspect.exitCode).toBe(1);

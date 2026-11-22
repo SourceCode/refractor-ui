@@ -20,11 +20,9 @@ import {
   setActiveCategory,
   setActiveSection,
   setCustomizerOpen,
-  setThemePreset,
-  type ThemePresetId,
   useAppDispatch,
-  useAppSelector,
 } from '../system/store';
+import { ThemeGallerySection } from './ThemeGallerySection';
 
 export interface DocsGuidesProps {
   section: Exclude<DocsPageSection, 'catalog' | 'examples'>;
@@ -186,51 +184,13 @@ npx @refractor-ui/cli swizzle PrimaryButton --out src/components/ui
 # Verify Astryx directory structure, SemVer lockstep, and zero any/unknown
 npx @refractor-ui/cli check --strict`;
 
-const THEME_PRESET_CARDS: ReadonlyArray<{
-  id: Exclude<ThemePresetId, 'custom'>;
-  name: string;
-  pkg: string;
-  summary: string;
-}> = [
-  {
-    id: 'alabaster',
-    name: 'Alabaster Light',
-    pkg: '@refractor-ui/theme-alabaster',
-    summary: 'Signature studio alabaster backdrop with warm tangerine capsules and cool sky crystal.',
-  },
-  {
-    id: 'obsidian',
-    name: 'Obsidian Dark',
-    pkg: '@refractor-ui/theme-obsidian',
-    summary: 'Deep nocturnal slate glass with crisp high-luminance specular rims and WCAG AAA ink.',
-  },
-  {
-    id: 'amethyst',
-    name: 'Amethyst Prism',
-    pkg: '@refractor-ui/theme-amethyst',
-    summary: 'Violet-indigo refractive primary paired with electric cyan optical edge dispersion.',
-  },
-  {
-    id: 'emerald-tide',
-    name: 'Emerald Tide',
-    pkg: '@refractor-ui/theme-emerald-tide',
-    summary: 'Seafoam teal primary glass calibrated for developer telemetry and fintech workspaces.',
-  },
-  {
-    id: 'solar-prism',
-    name: 'Solar Prism',
-    pkg: '@refractor-ui/theme-solar-prism',
-    summary: 'Warm golden amber primary capsules balanced against crisp cobalt accents.',
-  },
-];
-
 const TOKEN_ROWS = [
-  { group: 'Primary Ramp', tokens: '--prism-primary-{main,light,dark,contrast,rgb}', role: 'Warm refractive CTAs, active tabs, focus accents' },
-  { group: 'Secondary / Crystal', tokens: '--prism-secondary-{main,light,dark,contrast,rgb}', role: 'Cool frosted shells, chart strokes, focus rings' },
+  { group: 'Primary Ramp', tokens: '--prism-primary-{main,light,dark,contrast,rgb}', role: 'Primary CTAs, active tabs, focus accents' },
+  { group: 'Secondary / Crystal', tokens: '--prism-secondary-{main,light,dark,contrast,rgb}', role: 'Frosted shells, chart strokes, focus rings' },
   { group: 'Semantic States', tokens: '--prism-{info,success,warning,error}-{main,contrast,rgb}', role: 'Cobalt CTAs, emerald badges, warning/destructive states' },
-  { group: 'Optical Surfaces', tokens: '--prism-{crystal,slab,well}-{top,mid,bottom,border}', role: 'Adaptive Light/Dark glass fills and frosted input wells' },
-  { group: 'Refractive Physics', tokens: '--prism-{blur-px,slab-blur-px,caustic-opacity,specular-opacity}', role: 'Live backdrop blur, top meniscus sheen, caustic bloom' },
-  { group: 'Geometry & Type', tokens: '--prism-radius-{control,pill,slab}, --prism-font-{sans,mono}', role: 'Consistent curvature and tabular-num typography' },
+  { group: 'Multi-Material Surfaces', tokens: '--prism-{window,surface,chrome}-{bg,border,shadow}, --prism-wallpaper', role: 'Full visual transformation across all 13 material archetypes' },
+  { group: 'Refractive & FX Physics', tokens: '--prism-{blur-px,slab-blur-px,caustic-opacity,specular-opacity,fx-opacity,glow-rgb}', role: 'Backdrop blur, neon glow, scanlines, grids, noise & paper grain' },
+  { group: 'Geometry, Type & Editor', tokens: '--prism-radius-{control,btn,pill,slab}, --prism-font-{sans,mono}, --prism-editor-*', role: 'Corner curvature, on-demand Google Fonts, and IDE syntax tokens' },
 ] as const;
 
 const ESCALATION_STEPS = [
@@ -267,7 +227,6 @@ const RESPONSIVE_DEVICE_TARGETS = [
 
 export function DocsGuides({ section }: DocsGuidesProps) {
   const dispatch = useAppDispatch();
-  const activePreset = useAppSelector((s) => s.system.themePreset);
 
   if (section === 'getting-started') {
     return (
@@ -352,17 +311,19 @@ export function DocsGuides({ section }: DocsGuidesProps) {
       <div className="space-y-8">
         <div className="prism-slab p-6 sm:p-8 flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
               <Palette className="w-4 h-4" aria-hidden="true" />
-              <span>Dual MUI + Astryx Theme Engine</span>
+              <span>69 Multi-Material Themes · 13 Material Archetypes · 9 FX Overlays</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-950 dark:text-white">
-              Theming, Colors &amp; Optical Physics
+              Theming, Materials, Fonts &amp; Visual FX
             </h1>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Every optical glass surface reads exclusively from <code className="font-mono">--prism-*</code>{' '}
-              CSS custom properties. Click any official preset below to preview live theme cascades
-              across the entire site, or launch the interactive Theme Studio.
+              Every primitive reads from <code className="font-mono">--prism-*</code> tokens and{' '}
+              <code className="font-mono">[data-refractor-material]</code> /{' '}
+              <code className="font-mono">[data-refractor-fx]</code> cascades. Click any of the 69
+              themes below (5 Optical Glass presets + all 64 WebOS-v3 themes) to transform all 314
+              components live with on-demand Google Fonts and GPU-friendly FX.
             </p>
           </div>
           <PrimaryButton
@@ -374,50 +335,22 @@ export function DocsGuides({ section }: DocsGuidesProps) {
           </PrimaryButton>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {THEME_PRESET_CARDS.map((preset) => {
-            const active = activePreset === preset.id;
-            return (
-              <button
-                key={preset.id}
-                type="button"
-                onClick={() => {
-                  dispatch(setThemePreset(preset.id));
-                  dispatch(pushToast({ title: `Activated ${preset.name}`, tone: 'emerald' }));
-                }}
-                className={`prism-slab prism-focus-ring p-5 text-left space-y-2 cursor-pointer transition-all ${
-                  active ? 'ring-2 ring-[var(--prism-primary-main)]' : 'hover:-translate-y-0.5'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                    {preset.name}
-                  </span>
-                  {active ? (
-                    <span className="prism-emerald px-2 py-0.5 rounded-full text-[10px] font-semibold">
-                      Active
-                    </span>
-                  ) : null}
-                </div>
-                <code className="block text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                  {preset.pkg}
-                </code>
-                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {preset.summary}
-                </p>
-              </button>
-            );
-          })}
-        </div>
+        <ThemeGallerySection />
 
         <CodeBlockCard
-          title="MUI-Style Ergonomic Theming (createPrismTheme)"
+          title="Full-Transformation Multi-Material Themes (@refractor-ui/themes)"
+          filename="src/App.tsx"
+          code={`import { PrismThemeProvider } from '@refractor-ui/core';\nimport { cyberpunkTheme, getThemeById, windows95Theme } from '@refractor-ui/themes';\n\n// Activate any of the 69 built-in themes with on-demand Google Fonts & FX\nexport function App() {\n  return (\n    <PrismThemeProvider theme={getThemeById('win11-mica') ?? windows95Theme} loadFonts>\n      {/* All 314 components adapt materials, corners, shadows, fonts & wallpapers */}\n    </PrismThemeProvider>\n  );\n}`}
+        />
+
+        <CodeBlockCard
+          title="Ergonomic Single-Hex Palette Derivation (createPrismTheme)"
           filename="src/theme.ts"
           code={MUI_THEME_SNIPPET}
         />
 
         <CodeBlockCard
-          title="Astryx-Style Cascade Inheritance (defineTheme)"
+          title="Cascade Theme Inheritance (defineTheme)"
           filename="src/studioTheme.ts"
           code={ASTRYX_CASCADE_SNIPPET}
         />

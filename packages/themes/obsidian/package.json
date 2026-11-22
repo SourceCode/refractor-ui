@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/theme-obsidian",
-  "version": "1.46.0",
+  "version": "1.47.0",
   "description": "Obsidian Bench dark optical glass theme with crisp cyan & ember edge caustics.",
   "license": "Apache-2.0",
   "type": "module",

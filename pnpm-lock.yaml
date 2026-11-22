@@ -101,6 +101,9 @@ importers:
       '@refractor-ui/theme-solar-prism':
         specifier: workspace:*
         version: link:../../packages/themes/solar-prism
+      '@refractor-ui/themes':
+        specifier: workspace:*
+        version: link:../../packages/themes/collection
       lucide-react:
         specifier: ^0.546.0
         version: 0.546.0(react@19.3.1)
@@ -150,6 +153,12 @@ importers:
         version: link:../../core
 
   packages/themes/amethyst:
+    dependencies:
+      '@refractor-ui/core':
+        specifier: workspace:*
+        version: link:../../core
+
+  packages/themes/collection:
     dependencies:
       '@refractor-ui/core':
         specifier: workspace:*

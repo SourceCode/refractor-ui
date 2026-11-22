@@ -217,6 +217,7 @@
 /* Studio Specimen Backdrop */
 .prism-studio-surface {
   position: relative;
+  isolation: isolate;
   background:
     radial-gradient(120% 90% at 15% 10%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 55%),
     linear-gradient(155deg, var(--prism-bg-start) 0%, var(--prism-bg-mid) 55%, var(--prism-bg-end) 100%);
@@ -993,23 +994,34 @@
 
 /* ============================================================================
  * GPU-FRIENDLY NON-INTERACTIVE FX OVERLAY ENGINE ([data-refractor-fx="..."])
+ * Full-page overlay anchors to body::before at z-index: -1 (strictly behind
+ * header, sidebar, cards, text & toasts on every route). Local stage containers
+ * (.prism-studio-surface::before, .prism-theme-fx-layer) stay position: absolute
+ * inside their own isolated stacking context.
  * ============================================================================ */
 
-.prism-theme-fx-layer,
-[data-refractor-fx]:not([data-refractor-fx="none"]) .prism-studio-surface::after {
+[data-refractor-fx]:not([data-refractor-fx="none"]) body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: -1;
   opacity: var(--prism-fx-opacity, 0.14);
 }
 
-.prism-theme-fx-layer {
+.prism-theme-fx-layer,
+[data-refractor-fx]:not([data-refractor-fx="none"]) .prism-studio-surface::before {
+  content: "";
   position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--prism-fx-opacity, 0.14);
 }
 
-[data-refractor-fx="scanlines"] .prism-studio-surface::after,
+[data-refractor-fx="scanlines"] body::before,
+[data-refractor-fx="scanlines"] .prism-studio-surface::before,
 [data-refractor-fx="scanlines"] .prism-theme-fx-layer {
   background-image: repeating-linear-gradient(
     0deg,
@@ -1020,7 +1032,8 @@
   );
 }
 
-[data-refractor-fx="crt-rgb"] .prism-studio-surface::after,
+[data-refractor-fx="crt-rgb"] body::before,
+[data-refractor-fx="crt-rgb"] .prism-studio-surface::before,
 [data-refractor-fx="crt-rgb"] .prism-theme-fx-layer {
   background-image:
     repeating-linear-gradient(
@@ -1038,7 +1051,8 @@
     );
 }
 
-[data-refractor-fx="cyber-grid"] .prism-studio-surface::after,
+[data-refractor-fx="cyber-grid"] body::before,
+[data-refractor-fx="cyber-grid"] .prism-studio-surface::before,
 [data-refractor-fx="cyber-grid"] .prism-theme-fx-layer {
   background-image:
     linear-gradient(to right, rgba(var(--prism-glow-rgb), 0.32) 1px, transparent 1px),
@@ -1046,7 +1060,8 @@
   background-size: 36px 36px;
 }
 
-[data-refractor-fx="retro-grid"] .prism-studio-surface::after,
+[data-refractor-fx="retro-grid"] body::before,
+[data-refractor-fx="retro-grid"] .prism-studio-surface::before,
 [data-refractor-fx="retro-grid"] .prism-theme-fx-layer {
   background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.24) 1px, transparent 1px),
@@ -1054,13 +1069,15 @@
   background-size: 28px 28px;
 }
 
-[data-refractor-fx="dot-matrix"] .prism-studio-surface::after,
+[data-refractor-fx="dot-matrix"] body::before,
+[data-refractor-fx="dot-matrix"] .prism-studio-surface::before,
 [data-refractor-fx="dot-matrix"] .prism-theme-fx-layer {
   background-image: radial-gradient(rgba(0, 0, 0, 0.35) 1px, transparent 1px);
   background-size: 6px 6px;
 }
 
-[data-refractor-fx="noise"] .prism-studio-surface::after,
+[data-refractor-fx="noise"] body::before,
+[data-refractor-fx="noise"] .prism-studio-surface::before,
 [data-refractor-fx="noise"] .prism-theme-fx-layer {
   background-image:
     radial-gradient(rgba(255, 255, 255, 0.35) 0.75px, transparent 0.75px),
@@ -1069,14 +1086,16 @@
   background-position: 0 0, 2px 2px;
 }
 
-[data-refractor-fx="paper-grain"] .prism-studio-surface::after,
+[data-refractor-fx="paper-grain"] body::before,
+[data-refractor-fx="paper-grain"] .prism-studio-surface::before,
 [data-refractor-fx="paper-grain"] .prism-theme-fx-layer {
   background-image:
     repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.08) 0px, rgba(0, 0, 0, 0.08) 1px, transparent 1px, transparent 5px),
     repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 1px, transparent 1px, transparent 5px);
 }
 
-[data-refractor-fx="hazard-stripes"] .prism-studio-surface::after,
+[data-refractor-fx="hazard-stripes"] body::before,
+[data-refractor-fx="hazard-stripes"] .prism-studio-surface::before,
 [data-refractor-fx="hazard-stripes"] .prism-theme-fx-layer {
   background-image: repeating-linear-gradient(
     -45deg,
@@ -1087,10 +1106,10 @@
   );
 }
 
-/* Keep foreground interactive shell strictly above fixed backdrop FX overlays */
+/* Keep foreground interactive shell strictly above backdrop FX overlays */
 .prism-studio-surface > * {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1141,13 +1160,17 @@
 [data-refractor-theme-adaptive="true"] :is(
   .bg-white\/60,
   .bg-white\/70,
+  .bg-white\/75,
   .bg-white\/80,
   .bg-white\/90,
+  .bg-slate-100\/95,
+  .dark\:bg-slate-950\/75,
+  .dark\:bg-slate-950\/95,
   .dark\:bg-slate-900\/50,
   .dark\:bg-slate-900\/60,
   .dark\:bg-slate-800\/50
 ) {
-  background-color: var(--prism-surface-bg);
+  background: var(--prism-window-bg);
 }
 
 [data-refractor-theme-adaptive="true"] :is(
@@ -1155,10 +1178,30 @@
   .border-white\/60,
   .border-white\/70,
   .border-slate-200\/70,
+  .border-slate-300\/60,
+  .border-slate-300\/55,
+  .dark\:border-slate-800,
+  .dark\:border-slate-800\/80,
   .dark\:border-slate-700\/60,
   .dark\:border-slate-700\/70
 ) {
   border-color: var(--prism-window-border);
+}
+
+/* Guarantee WCAG AA contrast ink on primary/cobalt/emerald buttons & active pills even when Tailwind text-white is present */
+[data-refractor-theme-adaptive="true"] .prism-btn-primary,
+[data-refractor-theme-adaptive="true"] .prism-btn-primary :is(.text-white, .dark\:text-white) {
+  color: var(--prism-primary-contrast);
+}
+
+[data-refractor-theme-adaptive="true"] .prism-btn-cobalt,
+[data-refractor-theme-adaptive="true"] .prism-btn-cobalt :is(.text-white, .dark\:text-white) {
+  color: var(--prism-info-contrast);
+}
+
+[data-refractor-theme-adaptive="true"] .prism-emerald,
+[data-refractor-theme-adaptive="true"] .prism-emerald :is(.text-white, .dark\:text-white) {
+  color: var(--prism-success-contrast);
 }
 
 [data-refractor-theme-adaptive="true"] :is(.prism-btn-primary, .prism-btn-secondary, .prism-btn-cobalt) {
@@ -1170,6 +1213,10 @@
 }
 
 [data-refractor-sharp="true"] :is(.rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg) {
+  border-radius: var(--prism-radius-control);
+}
+
+[data-refractor-sharp="true"] :is(button, a, [role="tab"], [role="tablist"], [role="group"], .prism-crystal, .prism-well, .prism-toast, .prism-emerald).rounded-full {
   border-radius: var(--prism-radius-control);
 }
 }

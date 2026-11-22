@@ -62,6 +62,10 @@ export default defineConfig({
         import.meta.dirname,
         '../../packages/themes/solar-prism/src/index.ts'
       ),
+      '@refractor-ui/themes': path.resolve(
+        import.meta.dirname,
+        '../../packages/themes/collection/src/index.ts'
+      ),
     },
   },
   server: {

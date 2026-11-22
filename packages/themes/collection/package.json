@@ -1,0 +1,46 @@
+{
+  "name": "@refractor-ui/themes",
+  "version": "1.47.0",
+  "description": "Complete 64-theme WebOS-v3 multi-material theme collection plus unified 69-theme catalog for Refractor UI.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./themes.css": "./themes.css"
+  },
+  "peerDependencies": {
+    "@refractor-ui/core": "workspace:*"
+  },
+  "homepage": "https://sourcecode.github.io/refractor-ui/#/theming",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SourceCode/refractor-ui.git",
+    "directory": "packages/themes/collection"
+  },
+  "bugs": {
+    "url": "https://github.com/SourceCode/refractor-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "react-19",
+    "typescript",
+    "design-system",
+    "ui-kit",
+    "themes",
+    "webos",
+    "windows95",
+    "cyberpunk",
+    "synthwave",
+    "brutalist",
+    "neumorphism",
+    "mica",
+    "refractor-ui"
+  ],
+  "files": [
+    "src",
+    "themes.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
