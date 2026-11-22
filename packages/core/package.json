@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.38.0",
+  "version": "1.39.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -107,6 +107,11 @@
       "types": "./dist/ApprovalGateCard/index.d.ts",
       "default": "./dist/ApprovalGateCard/index.js"
     },
+    "./ArchiveInspector": {
+      "source": "./src/ArchiveInspector/index.ts",
+      "types": "./dist/ArchiveInspector/index.d.ts",
+      "default": "./dist/ArchiveInspector/index.js"
+    },
     "./AreaStackedChart": {
       "source": "./src/AreaStackedChart/index.ts",
       "types": "./dist/AreaStackedChart/index.d.ts",
@@ -151,6 +156,11 @@
       "source": "./src/BarColumnChart/index.ts",
       "types": "./dist/BarColumnChart/index.d.ts",
       "default": "./dist/BarColumnChart/index.js"
+    },
+    "./BatchRenameUtility": {
+      "source": "./src/BatchRenameUtility/index.ts",
+      "types": "./dist/BatchRenameUtility/index.d.ts",
+      "default": "./dist/BatchRenameUtility/index.js"
     },
     "./BeforeAfterSlider": {
       "source": "./src/BeforeAfterSlider/index.ts",
@@ -517,6 +527,11 @@
       "types": "./dist/FeatureFlagRollout/index.d.ts",
       "default": "./dist/FeatureFlagRollout/index.js"
     },
+    "./FileConflictDialog": {
+      "source": "./src/FileConflictDialog/index.ts",
+      "types": "./dist/FileConflictDialog/index.d.ts",
+      "default": "./dist/FileConflictDialog/index.js"
+    },
     "./FileDropzone": {
       "source": "./src/FileDropzone/index.ts",
       "types": "./dist/FileDropzone/index.d.ts",
@@ -526,6 +541,11 @@
       "source": "./src/FileMetadataInspector/index.ts",
       "types": "./dist/FileMetadataInspector/index.d.ts",
       "default": "./dist/FileMetadataInspector/index.js"
+    },
+    "./FileTransferQueue": {
+      "source": "./src/FileTransferQueue/index.ts",
+      "types": "./dist/FileTransferQueue/index.d.ts",
+      "default": "./dist/FileTransferQueue/index.js"
     },
     "./FileViewModeBar": {
       "source": "./src/FileViewModeBar/index.ts",
@@ -881,6 +901,11 @@
       "source": "./src/PaymentCardInput/index.ts",
       "types": "./dist/PaymentCardInput/index.d.ts",
       "default": "./dist/PaymentCardInput/index.js"
+    },
+    "./PermissionsSharingMatrix": {
+      "source": "./src/PermissionsSharingMatrix/index.ts",
+      "types": "./dist/PermissionsSharingMatrix/index.d.ts",
+      "default": "./dist/PermissionsSharingMatrix/index.js"
     },
     "./PivotTable": {
       "source": "./src/PivotTable/index.ts",
@@ -1331,6 +1356,11 @@
       "source": "./src/TransportControlBar/index.ts",
       "types": "./dist/TransportControlBar/index.d.ts",
       "default": "./dist/TransportControlBar/index.js"
+    },
+    "./TrashRecoveryBanner": {
+      "source": "./src/TrashRecoveryBanner/index.ts",
+      "types": "./dist/TrashRecoveryBanner/index.d.ts",
+      "default": "./dist/TrashRecoveryBanner/index.js"
     },
     "./TreeView": {
       "source": "./src/TreeView/index.ts",

@@ -314,6 +314,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'File Explorer',
     description: 'Hybrid editable path bars, multi-mode thumbnail zoom bars, dual-pane file commanders, mounted volume rails, metadata inspectors, translucent marquee lasso grids, and directory filter toolbars.',
   },
+  {
+    id: 'file-management-operations',
+    title: 'File Management & Operations',
+    shortLabel: 'File Ops',
+    description: 'Concurrent transfer queues, side-by-side duplicate conflict resolvers, linear-time batch rename utilities, POSIX & cloud sharing matrices, zip-slip-safe archive inspectors, and trash recovery banners.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3980,6 +3986,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'items / value / defaultValue', type: 'ReadonlyArray<DirectoryFilterItem> / DirectoryFilterState', defaultValue: '8 sample files / defaults', description: 'Directory items and controlled or default filter/grouping state.' },
       { name: 'showResultsPreview / onChange', type: 'boolean / (state, count) => void', defaultValue: 'true / undefined', description: 'Live grouped preview toggle and filter state change callback.' },
+    ],
+  },
+  // 49. File Management & Operations (6 components — v1.39.0)
+  {
+    id: 'file-transfer-queue',
+    title: 'File Transfer Queue & Progress Manager',
+    exportName: 'FileTransferQueue',
+    category: 'file-management-operations',
+    categoryTitle: 'File Management & Operations',
+    summary: 'Collapsible floating transfer manager tracking concurrent copy, move, upload, and extraction jobs with aggregate live throughput, ETA, Pause/Resume, Cancel, Retry, and Clear Completed.',
+    codeSnippet: `<FileTransferQueue title="Active File Transfers" />`,
+    props: [
+      { name: 'jobs / defaultJobs / defaultCollapsed', type: 'ReadonlyArray<FileTransferJob> / boolean', defaultValue: '4 sample jobs / false', description: 'Controlled or initial transfer queue items and collapse state.' },
+      { name: 'onPauseJob / onResumeJob / onCancelJob', type: '(jobId: string) => void', defaultValue: 'undefined', description: 'Per-job lifecycle action callbacks.' },
+    ],
+  },
+  {
+    id: 'file-conflict-dialog',
+    title: 'File Conflict Resolution Dialog',
+    exportName: 'FileConflictDialog',
+    category: 'file-management-operations',
+    categoryTitle: 'File Management & Operations',
+    summary: 'Side-by-side duplicate filename comparison modal or card highlighting file size and recency differences with Replace, Keep Both, Skip, and Apply to All controls.',
+    codeSnippet: `<FileConflictDialog mode="inline" onResolve={handleResolve} />`,
+    props: [
+      { name: 'fileName / incoming / existing', type: 'string / FileConflictVersion / FileConflictVersion', defaultValue: 'sample EXR conflict', description: 'Conflicting filename and incoming vs existing file metadata.' },
+      { name: 'mode / open / onResolve', type: "'inline' | 'modal' / boolean / (res, applyAll) => void", defaultValue: "'inline' / true / undefined", description: 'Presentation mode and resolution callback.' },
+    ],
+  },
+  {
+    id: 'batch-rename-utility',
+    title: 'Batch Rename Utility',
+    exportName: 'BatchRenameUtility',
+    category: 'file-management-operations',
+    categoryTitle: 'File Management & Operations',
+    summary: 'ReDoS-safe multi-file renaming panel with literal find/replace, curated pattern presets, 6 case formatters, sequential zero-padded numbering, duplicate/traversal checks, and Before -> After preview.',
+    codeSnippet: `<BatchRenameUtility title="Optical Studio Batch Rename Utility" />`,
+    props: [
+      { name: 'files / onApplyRename', type: 'ReadonlyArray<string> / (rows) => void', defaultValue: '6 sample files / undefined', description: 'Input filenames and commit callback receiving computed rename rows.' },
+      { name: 'disabled / title', type: 'boolean / string', defaultValue: 'false / default heading', description: 'Disabled flag and panel heading.' },
+    ],
+  },
+  {
+    id: 'permissions-sharing-matrix',
+    title: 'Permissions & Sharing Matrix',
+    exportName: 'PermissionsSharingMatrix',
+    category: 'file-management-operations',
+    categoryTitle: 'File Management & Operations',
+    summary: 'Interactive POSIX Owner/Group/Public read/write/execute matrix with live octal/symbolic readout, presets (0644/0755/0600), ownership fields, and URL-sanitized cloud link sharing.',
+    codeSnippet: `<PermissionsSharingMatrix resourceName="prism-shader-kernel.sh" />`,
+    props: [
+      { name: 'value / defaultValue / shareUrl', type: 'PermissionsSharingState / string', defaultValue: '0754 / sample link', description: 'POSIX bit state, ownership, cloud share access, and sanitized link.' },
+      { name: 'onChange / disabled', type: '(state, octal, symbolic) => void / boolean', defaultValue: 'undefined / false', description: 'Permissions change callback with live octal and symbolic strings.' },
+    ],
+  },
+  {
+    id: 'archive-inspector',
+    title: 'Archive / Compression Inspector',
+    exportName: 'ArchiveInspector',
+    category: 'file-management-operations',
+    categoryTitle: 'File Management & Operations',
+    summary: 'Virtual directory inspector for browsing, previewing, and selectively extracting safe files inside .zip, .tar, or .7z archives with Zip-Slip path-traversal protection.',
+    codeSnippet: `<ArchiveInspector archiveName="refractor-optical-assets.zip" />`,
+    props: [
+      { name: 'archiveName / format / entries', type: 'string / ArchiveFormatKind / ReadonlyArray<ArchiveVirtualEntry>', defaultValue: '.zip / 6 entries', description: 'Archive label, container format, and virtual file listing.' },
+      { name: 'onExtract / disabled', type: '(entries) => void / boolean', defaultValue: 'undefined / false', description: 'Selective or full safe extraction callback.' },
+    ],
+  },
+  {
+    id: 'trash-recovery-banner',
+    title: 'Trash / Recovery Action Banner',
+    exportName: 'TrashRecoveryBanner',
+    category: 'file-management-operations',
+    categoryTitle: 'File Management & Operations',
+    summary: 'Contextual Trash retention banner showing urgency-shifted auto-delete countdown alongside Restore Selected, Restore All, and two-step safety-confirmed Empty Trash actions.',
+    codeSnippet: `<TrashRecoveryBanner itemCount={14} selectedCount={3} totalSizeLabel="2.4 GB" retentionDays={30} />`,
+    props: [
+      { name: 'itemCount / selectedCount / retentionDays', type: 'number / number / number', defaultValue: '14 / 3 / 30', description: 'Trash counts and remaining days before automatic purge.' },
+      { name: 'onRestoreSelected / onRestoreAll / onEmptyTrash', type: '() => void', defaultValue: 'undefined', description: 'Recovery and confirmed destructive purge handlers.' },
     ],
   },
 ];

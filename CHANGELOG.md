@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.39.0] - 2026-11-22
+
+### Added
+- **File Management & Operations (6 new optical-glass file workflow & safety primitives — 283 total across 49 categories):**
+  - `FileTransferQueue`: Collapsible floating utility manager tracking concurrent Copy, Move, Upload, and Extract jobs with aggregate live throughput (`MB/s`), ETA, `Pause`/`Resume`/`Cancel`/`Retry`/`Dismiss`, and `Clear Completed`.
+  - `FileConflictDialog`: Inline or modal side-by-side duplicate filename comparison dialog highlighting size/recency differences with `Replace`, `Keep Both`, `Skip`, and `Apply to all remaining conflicts`.
+  - `BatchRenameUtility`: ReDoS-safe linear-time multi-file rename workbench featuring literal find/replace, curated pattern presets, 6 case formatters, sequential zero-padded numbering, duplicate/path-traversal collision detection, and a live `Before -> After` preview table.
+  - `PermissionsSharingMatrix`: Interactive POSIX `Owner`/`Group`/`Public` R/W/X bit matrix with live octal/symbolic readout (`0754 · rwxr-xr--`), presets (`0644`, `0755`, `0600`), ownership fields, and `sanitizeUrl`-hardened cloud link sharing.
+  - `ArchiveInspector`: Virtual `.zip`/`.tar`/`.7z` archive browser with compression savings telemetry, Zip-Slip (`../`/absolute/drive-letter) entry blocking, literal virtual file preview pane, and selective safe extraction.
+  - `TrashRecoveryBanner`: Contextual Trash retention strip with urgency-tinted auto-delete timer, `Restore Selected`, `Restore All`, and two-step safety-confirmed `Empty Trash`.
+- Added interactive playground demos and prop specs in `apps/docs` under `File Management & Operations`.
+
 ## [1.38.0] - 2026-11-22
 
 ### Added
@@ -500,7 +512,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.38.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.39.0...HEAD
+[1.39.0]: https://github.com/SourceCode/refractor-ui/compare/v1.38.0...v1.39.0
 [1.38.0]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...v1.38.0
 [1.37.0]: https://github.com/SourceCode/refractor-ui/compare/v1.36.0...v1.37.0
 [1.36.0]: https://github.com/SourceCode/refractor-ui/compare/v1.35.0...v1.36.0

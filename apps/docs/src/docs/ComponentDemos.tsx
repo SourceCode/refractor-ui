@@ -19,6 +19,7 @@ import { DocumentKnowledgeDemos } from './demos/DocumentKnowledgeDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { EnterpriseOpsApiDemos } from './demos/EnterpriseOpsApiDemos';
 import { FileExplorerNavigationDemos } from './demos/FileExplorerNavigationDemos';
+import { FileManagementOperationsDemos } from './demos/FileManagementOperationsDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
@@ -403,6 +404,15 @@ const FILE_EXPLORER_NAVIGATION_IDS = new Set([
   'directory-filter-bar',
 ]);
 
+const FILE_MANAGEMENT_OPERATIONS_IDS = new Set([
+  'file-transfer-queue',
+  'file-conflict-dialog',
+  'batch-rename-utility',
+  'permissions-sharing-matrix',
+  'archive-inspector',
+  'trash-recovery-banner',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -529,6 +539,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (FILE_EXPLORER_NAVIGATION_IDS.has(componentId)) {
     return <FileExplorerNavigationDemos componentId={componentId} />;
+  }
+  if (FILE_MANAGEMENT_OPERATIONS_IDS.has(componentId)) {
+    return <FileManagementOperationsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
