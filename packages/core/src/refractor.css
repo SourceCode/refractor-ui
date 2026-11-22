@@ -1,10 +1,12 @@
 /*
- * Refractor Optical Glass UI Kit — Token-Driven Optical Refraction Physics Stylesheet
+ * Refractor Multi-Material & Optical Glass UI Kit — Token-Driven Theme Physics Stylesheet
  *
- * Every surface reads exclusively from --prism-* CSS custom properties so that
- * both MUI-style createPrismTheme() palettes and Astryx-style defineTheme() /
- * @refractor-ui/theme-* CSS cascades dynamically re-skin all 75 components with
- * zero loss of optical depth, specular sheen, or WCAG readability.
+ * Every surface reads from --prism-* CSS custom properties and [data-refractor-material] /
+ * [data-refractor-fx] attributes so both Optical Glass presets and all 64 diverse WebOS-v3
+ * themes (Win95 Bevel, Brutalist, Cyberpunk Neon, Hacker CRT, Game Boy Pixel, Neumorphism,
+ * Soft Clay, E-Ink Paper, Windows 11 Mica, Y2K Liquid Chrome, Glowing Resin, IDE Flat, etc.)
+ * fully transform all 314 components with WCAG contrast, 60fps GPU-friendly FX, and zero
+ * Tailwind v4 cascade collisions.
  */
 
 :root {
@@ -14,6 +16,7 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --prism-font-sans: var(--font-sans);
   --prism-font-mono: var(--font-mono);
+  --prism-letter-spacing: normal;
 
   /* Palette — Primary (Signature Warm Tangerine-Amber Refractive Glass) */
   --prism-primary-main: #e75c24;
@@ -89,8 +92,45 @@
 
   /* Geometry / Shape */
   --prism-radius-control: 16px;
+  --prism-radius-btn: 9999px;
   --prism-radius-pill: 9999px;
   --prism-radius-slab: 24px;
+
+  /* Multi-Material FX, Wallpaper, Chrome & Motion Defaults */
+  --prism-border-width: 1px;
+  --prism-wallpaper: linear-gradient(145deg, var(--prism-bg-start) 0%, var(--prism-bg-mid) 48%, var(--prism-bg-end) 100%);
+  --prism-fx-opacity: 0;
+  --prism-glow-color: var(--prism-primary-main);
+  --prism-glow-rgb: var(--prism-primary-rgb);
+  --prism-glow-intensity: 0.4;
+  --prism-window-bg: var(--prism-slab-top);
+  --prism-surface-bg: var(--prism-crystal-top);
+  --prism-surface-highlight: var(--prism-well-end);
+  --prism-window-border: var(--prism-divider);
+  --prism-chrome-bg: var(--prism-slab-top);
+  --prism-chrome-text: var(--prism-text-primary);
+  --prism-window-shadow: 0 18px 32px -10px rgba(30, 41, 59, 0.24);
+  --prism-control-shadow: 0 10px 22px -6px rgba(30, 41, 59, 0.2);
+  --prism-well-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.07);
+  --prism-titlebar-height: 36px;
+  --prism-motion-fast: 120ms;
+  --prism-motion-normal: 220ms;
+  --prism-motion-slow: 360ms;
+  --prism-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --prism-easing-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Editor Syntax Tokens */
+  --prism-editor-bg: var(--prism-well-start);
+  --prism-editor-caret: var(--prism-primary-main);
+  --prism-editor-comment: var(--prism-text-secondary);
+  --prism-editor-gutter: var(--prism-bg-mid);
+  --prism-editor-keyword: var(--prism-primary-main);
+  --prism-editor-line: var(--prism-divider);
+  --prism-editor-number: var(--prism-warning-main);
+  --prism-editor-selection: var(--prism-secondary-light);
+  --prism-editor-selection-text: var(--prism-text-primary);
+  --prism-editor-string: var(--prism-success-main);
+  --prism-editor-text: var(--prism-text-primary);
 }
 
 [data-refraction="subtle"] {
@@ -135,7 +175,14 @@
 
   body {
     font-family: var(--prism-font-sans);
-    background: linear-gradient(145deg, var(--prism-bg-start) 0%, var(--prism-bg-mid) 48%, var(--prism-bg-end) 100%);
+    letter-spacing: var(--prism-letter-spacing, normal);
+    background: var(--prism-wallpaper);
+    background-attachment: fixed;
+    color: var(--prism-text-primary);
+  }
+
+  [data-refractor-theme-adaptive="true"] ::selection {
+    background: rgba(var(--prism-primary-rgb), 0.3);
     color: var(--prism-text-primary);
   }
 
@@ -143,6 +190,12 @@
   pre,
   .tabular-nums {
     font-variant-numeric: tabular-nums;
+  }
+
+  code,
+  pre,
+  kbd {
+    font-family: var(--prism-font-mono);
   }
 
   * {
@@ -154,11 +207,17 @@
   [data-color-mode="dark"] * {
     scrollbar-color: rgba(148, 163, 184, 0.32) transparent;
   }
+
+  [data-refractor-theme-adaptive="true"] * {
+    scrollbar-color: color-mix(in srgb, var(--prism-primary-main) 45%, transparent) transparent;
+  }
 }
 
 @layer components {
 /* Studio Specimen Backdrop */
 .prism-studio-surface {
+  position: relative;
+  isolation: isolate;
   background:
     radial-gradient(120% 90% at 15% 10%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 55%),
     linear-gradient(155deg, var(--prism-bg-start) 0%, var(--prism-bg-mid) 55%, var(--prism-bg-end) 100%);
@@ -169,6 +228,12 @@
   background:
     radial-gradient(120% 90% at 15% 10%, rgba(var(--prism-caustic-cool-rgb), 0.1) 0%, rgba(15, 23, 42, 0) 55%),
     linear-gradient(155deg, #151d2a 0%, #0f1621 58%, #0b1018 100%);
+}
+
+[data-refractor-theme-adaptive="true"] .prism-studio-surface,
+.prism-studio-surface[data-refractor-theme-adaptive="true"] {
+  background: var(--prism-wallpaper);
+  background-attachment: fixed;
 }
 
 .prism-studio-grid {
@@ -191,7 +256,7 @@
 /* 1. Primary Action Button (Token-Driven Refractive Glass Capsule) */
 .prism-btn-primary {
   position: relative;
-  border-radius: var(--prism-radius-pill);
+  border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   color: var(--prism-primary-contrast);
   text-shadow: 0 1px 1px rgba(var(--prism-primary-dark-rgb), 0.38);
   background:
@@ -205,7 +270,7 @@
     0 1px 0 rgba(255, 255, 255, 0.65),
     0 12px 22px -6px rgba(var(--prism-primary-rgb), 0.46),
     8px 12px 18px -6px rgba(var(--prism-primary-light-rgb), calc(0.48 * var(--prism-caustic-opacity)));
-  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), filter 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized), filter var(--prism-motion-fast) var(--prism-easing-emphasized);
 }
 
 .prism-btn-primary::before {
@@ -213,7 +278,7 @@
   position: absolute;
   inset: 3px 12px auto 12px;
   height: 36%;
-  border-radius: var(--prism-radius-pill);
+  border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   background: linear-gradient(180deg, rgba(255, 255, 255, calc(0.52 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.04) 100%);
   pointer-events: none;
 }
@@ -230,7 +295,7 @@
 /* 2. Secondary Action Button (Cool Crystal Refractive Glass) */
 .prism-btn-secondary {
   position: relative;
-  border-radius: var(--prism-radius-pill);
+  border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   color: var(--prism-text-primary);
   background:
     radial-gradient(92% 50% at 46% 9%, rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.38) 44%, rgba(255, 255, 255, 0) 68%),
@@ -244,7 +309,7 @@
     inset 0 0 0 2px rgba(255, 255, 255, 0.78),
     0 12px 22px -6px rgba(28, 52, 88, 0.26),
     7px 11px 16px -5px rgba(var(--prism-secondary-rgb), calc(0.42 * var(--prism-caustic-opacity)));
-  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), filter 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized), filter var(--prism-motion-fast) var(--prism-easing-emphasized);
 }
 
 .dark .prism-btn-secondary,
@@ -273,7 +338,7 @@
 /* 3. Cobalt / Info Refractive CTA */
 .prism-btn-cobalt {
   position: relative;
-  border-radius: var(--prism-radius-pill);
+  border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   color: var(--prism-info-contrast);
   text-shadow: 0 1px 1px rgba(var(--prism-info-dark-rgb), 0.45);
   background:
@@ -287,7 +352,7 @@
     inset 0 0 0 1.5px rgba(186, 230, 253, 0.58),
     0 11px 20px -5px rgba(var(--prism-info-rgb), 0.46),
     6px 10px 16px -4px rgba(var(--prism-info-light-rgb), calc(0.46 * var(--prism-caustic-opacity)));
-  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), filter 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized), filter var(--prism-motion-fast) var(--prism-easing-emphasized);
 }
 
 .prism-btn-cobalt:hover:not(:disabled) {
@@ -371,14 +436,14 @@
 /* 8. Toast Pill with Inner Warm Amber Hairline Ring */
 .prism-toast {
   position: relative;
-  border-radius: var(--prism-radius-pill);
+  border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
 }
 
 .prism-toast::after {
   content: "";
   position: absolute;
   inset: 4px;
-  border-radius: var(--prism-radius-pill);
+  border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   border: 1.5px solid rgba(var(--prism-warning-rgb), 0.72);
   pointer-events: none;
 }
@@ -413,9 +478,745 @@
     0 18px 36px -10px rgba(0, 0, 0, 0.65);
 }
 
+/* ============================================================================
+ * MULTI-MATERIAL SKINNING ENGINE ([data-refractor-material="..."])
+ * Transforms all Refractor primitives authentically across 12 non-glass materials.
+ * ============================================================================ */
+
+/* --- 1. MICA / FROST (Windows 11 Mica, iOS 17 Frost, macOS Monterey, Aero 7, Elements/Seasons) --- */
+[data-refractor-material="mica"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: blur(var(--prism-slab-blur-px)) saturate(180%);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, calc(0.45 * var(--prism-specular-opacity))),
+    var(--prism-window-shadow);
+}
+
+[data-refractor-material="mica"] .prism-crystal {
+  background: var(--prism-surface-bg);
+  backdrop-filter: blur(var(--prism-blur-px)) saturate(165%);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, calc(0.35 * var(--prism-specular-opacity))),
+    var(--prism-control-shadow);
+}
+
+[data-refractor-material="mica"] .prism-btn-primary {
+  background: linear-gradient(180deg, var(--prism-primary-light) 0%, var(--prism-primary-main) 100%);
+  text-shadow: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 4px 12px -2px rgba(var(--prism-primary-rgb), 0.36);
+}
+
+[data-refractor-material="mica"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="mica"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: var(--prism-control-shadow);
+}
+
+/* --- 2. BEVEL (Windows 95, Windows XP, Amiga Workbench, BeOS Legacy, Solaris) --- */
+[data-refractor-material="bevel"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.85),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.38),
+    var(--prism-window-shadow);
+}
+
+[data-refractor-material="bevel"] .prism-crystal,
+[data-refractor-material="bevel"] .prism-btn-secondary {
+  background: var(--prism-chrome-bg);
+  color: var(--prism-chrome-text);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-control);
+  border: 1px solid var(--prism-window-border);
+  box-shadow:
+    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.88),
+    inset -1.5px -1.5px 0 rgba(0, 0, 0, 0.42);
+}
+
+[data-refractor-material="bevel"] .prism-btn-primary,
+[data-refractor-material="bevel"] .prism-btn-cobalt,
+[data-refractor-material="bevel"] .prism-emerald {
+  background: var(--prism-primary-main);
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border-radius: var(--prism-radius-btn);
+  border: 1px solid var(--prism-window-border);
+  box-shadow:
+    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.55),
+    inset -1.5px -1.5px 0 rgba(0, 0, 0, 0.45);
+}
+
+[data-refractor-material="bevel"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="bevel"] .prism-btn-primary:active:not(:disabled),
+[data-refractor-material="bevel"] .prism-btn-secondary:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow:
+    inset -1.5px -1.5px 0 rgba(255, 255, 255, 0.75),
+    inset 1.5px 1.5px 0 rgba(0, 0, 0, 0.55);
+}
+
+[data-refractor-material="bevel"] .prism-well {
+  background: var(--prism-surface-bg);
+  border-radius: 0px;
+  box-shadow:
+    inset 2px 2px 0 rgba(0, 0, 0, 0.45),
+    inset -1.5px -1.5px 0 rgba(255, 255, 255, 0.85);
+}
+
+/* --- 3. BRUTALIST (Brutalist Web, Memphis Milano, Paper Cutout, Industrial Warning) --- */
+[data-refractor-material="brutalist"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: var(--prism-window-shadow);
+}
+
+[data-refractor-material="brutalist"] .prism-crystal,
+[data-refractor-material="brutalist"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-control);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: var(--prism-control-shadow);
+}
+
+[data-refractor-material="brutalist"] .prism-btn-primary {
+  background: var(--prism-primary-main);
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border-radius: var(--prism-radius-btn);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: var(--prism-control-shadow);
+}
+
+[data-refractor-material="brutalist"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="brutalist"] .prism-btn-primary:hover:not(:disabled),
+[data-refractor-material="brutalist"] .prism-btn-secondary:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  filter: none;
+}
+
+[data-refractor-material="brutalist"] .prism-btn-primary:active:not(:disabled),
+[data-refractor-material="brutalist"] .prism-btn-secondary:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--prism-window-border);
+}
+
+[data-refractor-material="brutalist"] .prism-well {
+  background: var(--prism-surface-highlight);
+  border: 2px solid var(--prism-window-border);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.14);
+}
+
+/* --- 4. NEON (Cyberpunk, Synthwave, Outrun, Vaporwave, Blade Runner, Akira, Neon Dreams) --- */
+[data-refractor-material="neon"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: blur(var(--prism-slab-blur-px));
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    var(--prism-window-shadow),
+    0 0 calc(20px * var(--prism-glow-intensity)) rgba(var(--prism-glow-rgb), 0.34),
+    inset 0 0 12px rgba(var(--prism-glow-rgb), 0.12);
+}
+
+[data-refractor-material="neon"] .prism-crystal,
+[data-refractor-material="neon"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: blur(var(--prism-blur-px));
+  border-radius: var(--prism-radius-control);
+  border: 1px solid var(--prism-window-border);
+  box-shadow:
+    0 0 calc(12px * var(--prism-glow-intensity)) rgba(var(--prism-glow-rgb), 0.25),
+    inset 0 0 8px rgba(var(--prism-glow-rgb), 0.08);
+}
+
+[data-refractor-material="neon"] .prism-btn-primary {
+  background: var(--prism-primary-main);
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border-radius: var(--prism-radius-btn);
+  border: 1px solid var(--prism-primary-light);
+  box-shadow:
+    0 0 calc(18px * var(--prism-glow-intensity)) rgba(var(--prism-primary-rgb), 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+[data-refractor-material="neon"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="neon"] .prism-well {
+  background: var(--prism-well-start);
+  border: 1px solid var(--prism-window-border);
+  box-shadow: inset 0 0 10px rgba(var(--prism-glow-rgb), 0.16);
+}
+
+/* --- 5. CRT (Hacker Terminal) --- */
+[data-refractor-material="crt"] .prism-slab,
+[data-refractor-material="crt"] .prism-crystal {
+  background: var(--prism-window-bg);
+  backdrop-filter: none;
+  border-radius: 0px;
+  border: 1px solid var(--prism-window-border);
+  box-shadow:
+    0 0 calc(12px * var(--prism-glow-intensity)) rgba(var(--prism-primary-rgb), 0.35),
+    inset 0 0 14px rgba(var(--prism-primary-rgb), 0.08);
+}
+
+[data-refractor-material="crt"] .prism-btn-primary {
+  background: var(--prism-primary-main);
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border-radius: 0px;
+  border: 1px solid var(--prism-primary-main);
+  box-shadow: 0 0 12px rgba(var(--prism-primary-rgb), 0.55);
+}
+
+[data-refractor-material="crt"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="crt"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: none;
+  border-radius: 0px;
+  border: 1px solid var(--prism-window-border);
+  box-shadow: 0 0 8px rgba(var(--prism-primary-rgb), 0.25);
+}
+
+[data-refractor-material="crt"] .prism-well {
+  background: var(--prism-well-start);
+  border-radius: 0px;
+  border: 1px solid var(--prism-window-border);
+  box-shadow: inset 0 0 8px rgba(var(--prism-primary-rgb), 0.22);
+}
+
+/* --- 6. PIXEL / RETRO CONSOLE (Game Boy Classic, SNES Classic, Sega Genesis, Sega Saturn, MPC Beat Machine) --- */
+[data-refractor-material="pixel"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: var(--prism-window-shadow);
+}
+
+[data-refractor-material="pixel"] .prism-crystal,
+[data-refractor-material="pixel"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-control);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: var(--prism-control-shadow);
+}
+
+[data-refractor-material="pixel"] .prism-btn-primary {
+  background: var(--prism-primary-main);
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border-radius: var(--prism-radius-btn);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: 0 3px 0 var(--prism-primary-dark);
+}
+
+[data-refractor-material="pixel"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="pixel"] .prism-btn-primary:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--prism-primary-dark);
+}
+
+[data-refractor-material="pixel"] .prism-well {
+  background: var(--prism-well-start);
+  border: 2px solid var(--prism-window-border);
+  box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* --- 7. NEUMORPHIC (Neumorphism) --- */
+[data-refractor-material="neumorphic"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: none;
+  border: none;
+  border-radius: var(--prism-radius-slab);
+  box-shadow: var(--prism-window-shadow);
+}
+
+[data-refractor-material="neumorphic"] .prism-crystal,
+[data-refractor-material="neumorphic"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: none;
+  border: none;
+  border-radius: var(--prism-radius-control);
+  box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.55), -6px -6px 12px rgba(255, 255, 255, 0.72);
+}
+
+[data-refractor-material="neumorphic"] .prism-btn-primary {
+  background: linear-gradient(145deg, var(--prism-surface-highlight), var(--prism-primary-main));
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 6px 6px 14px rgba(163, 177, 198, 0.6), -6px -6px 14px rgba(255, 255, 255, 0.78);
+}
+
+[data-refractor-material="neumorphic"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="neumorphic"] .prism-btn-primary:active:not(:disabled),
+[data-refractor-material="neumorphic"] .prism-btn-secondary:active:not(:disabled) {
+  box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.55), inset -4px -4px 8px rgba(255, 255, 255, 0.72);
+}
+
+[data-refractor-material="neumorphic"] .prism-well {
+  background: var(--prism-window-bg);
+  border: none;
+  box-shadow: inset 5px 5px 10px rgba(163, 177, 198, 0.55), inset -5px -5px 10px rgba(255, 255, 255, 0.75);
+}
+
+/* --- 8. CLAY (Soft Clay UI) --- */
+[data-refractor-material="clay"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 0 8px 16px rgba(255, 255, 255, 0.85),
+    inset 0 -8px 16px rgba(var(--prism-primary-rgb), 0.14),
+    var(--prism-window-shadow);
+}
+
+[data-refractor-material="clay"] .prism-crystal,
+[data-refractor-material="clay"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-control);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 0 5px 10px rgba(255, 255, 255, 0.78),
+    inset 0 -5px 10px rgba(var(--prism-primary-rgb), 0.14),
+    0 10px 22px -6px rgba(var(--prism-primary-rgb), 0.25);
+}
+
+[data-refractor-material="clay"] .prism-btn-primary {
+  background: linear-gradient(180deg, var(--prism-primary-light) 0%, var(--prism-primary-main) 100%);
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border-radius: var(--prism-radius-btn);
+  box-shadow:
+    inset 0 5px 8px rgba(255, 255, 255, 0.55),
+    inset 0 -5px 8px rgba(var(--prism-primary-dark-rgb), 0.28),
+    0 12px 24px -6px rgba(var(--prism-primary-rgb), 0.42);
+}
+
+[data-refractor-material="clay"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="clay"] .prism-well {
+  background: var(--prism-surface-highlight);
+  border: 2px solid var(--prism-window-border);
+  box-shadow: inset 0 4px 8px rgba(var(--prism-primary-rgb), 0.12);
+}
+
+/* --- 9. PAPER (E-Ink Notebook, Zen Garden) --- */
+[data-refractor-material="paper"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: var(--prism-window-shadow);
+}
+
+[data-refractor-material="paper"] .prism-crystal,
+[data-refractor-material="paper"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-control);
+  border: 1px solid var(--prism-window-border);
+  box-shadow: 0 1px 0 var(--prism-divider);
+}
+
+[data-refractor-material="paper"] .prism-btn-primary {
+  background: var(--prism-primary-main);
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border-radius: var(--prism-radius-btn);
+  border: 1px solid var(--prism-primary-dark);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
+}
+
+[data-refractor-material="paper"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="paper"] .prism-well {
+  background: var(--prism-surface-highlight);
+  border: 1px solid var(--prism-window-border);
+  box-shadow: none;
+}
+
+/* --- 10. FLAT / IDE / MODERN DESKTOP (Material, Adwaita, Ubuntu, Mint, VS Code, Monokai, One Dark Pro, Nord, Tokyo Night, Solarized, Midnight, Obsidian Stone) --- */
+[data-refractor-material="flat"] .prism-slab {
+  background: var(--prism-window-bg);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow: var(--prism-window-shadow);
+}
+
+[data-refractor-material="flat"] .prism-crystal,
+[data-refractor-material="flat"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: none;
+  border-radius: var(--prism-radius-control);
+  border: 1px solid var(--prism-window-border);
+  box-shadow: var(--prism-control-shadow);
+}
+
+[data-refractor-material="flat"] .prism-btn-primary {
+  background: var(--prism-primary-main);
+  color: var(--prism-primary-contrast);
+  text-shadow: none;
+  border-radius: var(--prism-radius-btn);
+  box-shadow: 0 2px 6px rgba(var(--prism-primary-rgb), 0.35);
+}
+
+[data-refractor-material="flat"] .prism-btn-primary::before {
+  display: none;
+}
+
+[data-refractor-material="flat"] .prism-well {
+  background: var(--prism-well-start);
+  border: 1px solid var(--prism-window-border);
+  box-shadow: var(--prism-well-shadow);
+}
+
+/* --- 11. CHROME (Y2K Liquid Chrome, Liquid Metal, Dreamcast Swirl, PS5 Orbit, GameCube Purple) --- */
+[data-refractor-material="chrome"] .prism-slab {
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, calc(0.42 * var(--prism-specular-opacity))) 0%, transparent 42%, rgba(var(--prism-secondary-rgb), 0.14) 100%),
+    var(--prism-window-bg);
+  backdrop-filter: blur(var(--prism-slab-blur-px)) saturate(190%);
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 0 2px 1px rgba(255, 255, 255, calc(0.68 * var(--prism-specular-opacity))),
+    inset 0 -2px 4px rgba(var(--prism-primary-rgb), 0.16),
+    var(--prism-window-shadow);
+}
+
+[data-refractor-material="chrome"] .prism-crystal,
+[data-refractor-material="chrome"] .prism-btn-secondary {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, calc(0.35 * var(--prism-specular-opacity))) 0%, transparent 55%),
+    var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: blur(var(--prism-blur-px)) saturate(180%);
+  border-radius: var(--prism-radius-control);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, calc(0.55 * var(--prism-specular-opacity))),
+    var(--prism-control-shadow);
+}
+
+[data-refractor-material="chrome"] .prism-btn-primary {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 48%),
+    linear-gradient(135deg, var(--prism-primary-light) 0%, var(--prism-primary-main) 60%, var(--prism-primary-dark) 100%);
+  color: var(--prism-primary-contrast);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.65),
+    0 10px 22px -6px rgba(var(--prism-primary-rgb), 0.45);
+}
+
+/* --- 12. RESIN (Glowing Resin, Translucent Slime, Dream Logic) --- */
+[data-refractor-material="resin"] .prism-slab {
+  background:
+    radial-gradient(110% 70% at 20% 0%, rgba(var(--prism-glow-rgb), 0.2) 0%, transparent 58%),
+    var(--prism-window-bg);
+  backdrop-filter: blur(var(--prism-slab-blur-px)) saturate(200%);
+  border-radius: var(--prism-radius-slab);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 0 0 22px rgba(var(--prism-glow-rgb), 0.2),
+    inset 0 2px 2px rgba(255, 255, 255, 0.3),
+    var(--prism-window-shadow);
+}
+
+[data-refractor-material="resin"] .prism-crystal,
+[data-refractor-material="resin"] .prism-btn-secondary {
+  background: var(--prism-surface-bg);
+  color: var(--prism-text-primary);
+  backdrop-filter: blur(var(--prism-blur-px)) saturate(185%);
+  border-radius: var(--prism-radius-control);
+  border: var(--prism-border-width) solid var(--prism-window-border);
+  box-shadow:
+    inset 0 0 12px rgba(var(--prism-glow-rgb), 0.16),
+    0 8px 20px -6px rgba(var(--prism-glow-rgb), 0.32);
+}
+
+[data-refractor-material="resin"] .prism-btn-primary {
+  background: linear-gradient(135deg, var(--prism-primary-light) 0%, var(--prism-primary-main) 100%);
+  color: var(--prism-primary-contrast);
+  box-shadow:
+    inset 0 2px 2px rgba(255, 255, 255, 0.45),
+    0 0 20px rgba(var(--prism-primary-rgb), 0.52);
+}
+
+/* ============================================================================
+ * GPU-FRIENDLY NON-INTERACTIVE FX OVERLAY ENGINE ([data-refractor-fx="..."])
+ * Full-page overlay anchors to body::before at z-index: -1 (strictly behind
+ * header, sidebar, cards, text & toasts on every route). Local stage containers
+ * (.prism-studio-surface::before, .prism-theme-fx-layer) stay position: absolute
+ * inside their own isolated stacking context.
+ * ============================================================================ */
+
+[data-refractor-fx]:not([data-refractor-fx="none"]) body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: var(--prism-fx-opacity, 0.14);
+}
+
+.prism-theme-fx-layer,
+[data-refractor-fx]:not([data-refractor-fx="none"]) .prism-studio-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--prism-fx-opacity, 0.14);
+}
+
+[data-refractor-fx="scanlines"] body::before,
+[data-refractor-fx="scanlines"] .prism-studio-surface::before,
+[data-refractor-fx="scanlines"] .prism-theme-fx-layer {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.45) 2px,
+    rgba(0, 0, 0, 0.45) 4px
+  );
+}
+
+[data-refractor-fx="crt-rgb"] body::before,
+[data-refractor-fx="crt-rgb"] .prism-studio-surface::before,
+[data-refractor-fx="crt-rgb"] .prism-theme-fx-layer {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(18, 16, 16, 0) 0px,
+      rgba(18, 16, 16, 0) 2px,
+      rgba(0, 0, 0, 0.42) 2px,
+      rgba(0, 0, 0, 0.42) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.12) 0px,
+      rgba(0, 255, 0, 0.08) 1px,
+      rgba(0, 0, 255, 0.12) 2px
+    );
+}
+
+[data-refractor-fx="cyber-grid"] body::before,
+[data-refractor-fx="cyber-grid"] .prism-studio-surface::before,
+[data-refractor-fx="cyber-grid"] .prism-theme-fx-layer {
+  background-image:
+    linear-gradient(to right, rgba(var(--prism-glow-rgb), 0.32) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--prism-glow-rgb), 0.32) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+[data-refractor-fx="retro-grid"] body::before,
+[data-refractor-fx="retro-grid"] .prism-studio-surface::before,
+[data-refractor-fx="retro-grid"] .prism-theme-fx-layer {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.24) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.24) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+[data-refractor-fx="dot-matrix"] body::before,
+[data-refractor-fx="dot-matrix"] .prism-studio-surface::before,
+[data-refractor-fx="dot-matrix"] .prism-theme-fx-layer {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.35) 1px, transparent 1px);
+  background-size: 6px 6px;
+}
+
+[data-refractor-fx="noise"] body::before,
+[data-refractor-fx="noise"] .prism-studio-surface::before,
+[data-refractor-fx="noise"] .prism-theme-fx-layer {
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.35) 0.75px, transparent 0.75px),
+    radial-gradient(rgba(0, 0, 0, 0.25) 0.75px, transparent 0.75px);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+}
+
+[data-refractor-fx="paper-grain"] body::before,
+[data-refractor-fx="paper-grain"] .prism-studio-surface::before,
+[data-refractor-fx="paper-grain"] .prism-theme-fx-layer {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.08) 0px, rgba(0, 0, 0, 0.08) 1px, transparent 1px, transparent 5px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 1px, transparent 1px, transparent 5px);
+}
+
+[data-refractor-fx="hazard-stripes"] body::before,
+[data-refractor-fx="hazard-stripes"] .prism-studio-surface::before,
+[data-refractor-fx="hazard-stripes"] .prism-theme-fx-layer {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(var(--prism-primary-rgb), 0.35) 0px,
+    rgba(var(--prism-primary-rgb), 0.35) 10px,
+    transparent 10px,
+    transparent 24px
+  );
+}
+
+/* Keep foreground interactive shell strictly above backdrop FX overlays */
+.prism-studio-surface > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prism-btn-primary,
+  .prism-btn-secondary,
+  .prism-btn-cobalt {
+    transition: none;
+  }
+}
+
 /* Keyboard-Only Optical Focus Utility */
 .prism-focus-ring:focus-visible {
   outline: 2px solid var(--prism-focus-ring);
   outline-offset: 2px;
+}
+}
+
+/* ============================================================================
+ * ADAPTIVE INK, SURFACE & SHARP-CORNER CASCADE BRIDGE (@layer utilities)
+ * Scoped strictly to [data-refractor-theme-adaptive="true"] so default optical
+ * glass themes remain 100% pixel-identical while all 64 diverse themes transform
+ * every component's typography, neutral surfaces, and corner geometry cleanly.
+ * Placed in @layer utilities so attribute specificity wins cleanly over
+ * Tailwind v4 utility classes without requiring !important.
+ * ============================================================================ */
+@layer utilities {
+[data-refractor-theme-adaptive="true"] :is(
+  .text-slate-950,
+  .text-slate-900,
+  .text-slate-800,
+  .dark\:text-white,
+  .dark\:text-slate-100
+):not(.prism-btn-primary):not(.prism-btn-cobalt):not(.prism-emerald) {
+  color: var(--prism-text-primary);
+}
+
+[data-refractor-theme-adaptive="true"] :is(
+  .text-slate-700,
+  .text-slate-600,
+  .text-slate-500,
+  .dark\:text-slate-200,
+  .dark\:text-slate-300,
+  .dark\:text-slate-400
+):not(.prism-btn-primary):not(.prism-btn-cobalt):not(.prism-emerald) {
+  color: var(--prism-text-secondary);
+}
+
+[data-refractor-theme-adaptive="true"] :is(
+  .bg-white\/60,
+  .bg-white\/70,
+  .bg-white\/75,
+  .bg-white\/80,
+  .bg-white\/90,
+  .bg-slate-100\/95,
+  .dark\:bg-slate-950\/75,
+  .dark\:bg-slate-950\/95,
+  .dark\:bg-slate-900\/50,
+  .dark\:bg-slate-900\/60,
+  .dark\:bg-slate-800\/50
+) {
+  background: var(--prism-window-bg);
+}
+
+[data-refractor-theme-adaptive="true"] :is(
+  .border-white\/50,
+  .border-white\/60,
+  .border-white\/70,
+  .border-slate-200\/70,
+  .border-slate-300\/60,
+  .border-slate-300\/55,
+  .dark\:border-slate-800,
+  .dark\:border-slate-800\/80,
+  .dark\:border-slate-700\/60,
+  .dark\:border-slate-700\/70
+) {
+  border-color: var(--prism-window-border);
+}
+
+/* Guarantee WCAG AA contrast ink on primary/cobalt/emerald buttons & active pills even when Tailwind text-white is present */
+[data-refractor-theme-adaptive="true"] .prism-btn-primary,
+[data-refractor-theme-adaptive="true"] .prism-btn-primary :is(.text-white, .dark\:text-white) {
+  color: var(--prism-primary-contrast);
+}
+
+[data-refractor-theme-adaptive="true"] .prism-btn-cobalt,
+[data-refractor-theme-adaptive="true"] .prism-btn-cobalt :is(.text-white, .dark\:text-white) {
+  color: var(--prism-info-contrast);
+}
+
+[data-refractor-theme-adaptive="true"] .prism-emerald,
+[data-refractor-theme-adaptive="true"] .prism-emerald :is(.text-white, .dark\:text-white) {
+  color: var(--prism-success-contrast);
+}
+
+[data-refractor-theme-adaptive="true"] :is(.prism-btn-primary, .prism-btn-secondary, .prism-btn-cobalt) {
+  border-radius: var(--prism-radius-btn);
+}
+
+[data-refractor-theme-adaptive="true"] .prism-slab {
+  border-radius: var(--prism-radius-slab);
+}
+
+[data-refractor-sharp="true"] :is(.rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg) {
+  border-radius: var(--prism-radius-control);
+}
+
+[data-refractor-sharp="true"] :is(button, a, [role="tab"], [role="tablist"], [role="group"], .prism-crystal, .prism-well, .prism-toast, .prism-emerald).rounded-full {
+  border-radius: var(--prism-radius-control);
 }
 }

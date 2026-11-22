@@ -25,6 +25,7 @@ import {
   SegmentedControl,
   ToastSnackbar,
 } from '@refractor-ui/core';
+import { ALL_THEME_ENTRIES } from '@refractor-ui/themes';
 import {
   dismissToast,
   type DocsCategoryFilter,
@@ -39,6 +40,7 @@ import {
   setRefraction,
   setSearchQuery,
   setStudioGrid,
+  setThemePreset,
   toggleThemeMode,
   useAppDispatch,
   useAppSelector,
@@ -282,7 +284,24 @@ export function DocsShell() {
       },
     ];
 
-    return [...guideCommands, ...sysCommands, ...exampleCommands, ...compCommands];
+    const themeCommands: CommandPaletteItem[] = ALL_THEME_ENTRIES.map((t) => ({
+      id: `theme-${t.id}`,
+      label: `Theme: ${t.name}`,
+      group: 'Themes (69)',
+      shortcut: `${t.material}/${t.mode}`,
+      onSelect: () => {
+        dispatch(setThemePreset(t.id));
+        dispatch(
+          pushToast({
+            title: `Activated ${t.name}`,
+            description: `${t.material} material · ${t.wallpaperOverlay}`,
+            tone: 'emerald',
+          })
+        );
+      },
+    }));
+
+    return [...guideCommands, ...sysCommands, ...themeCommands, ...exampleCommands, ...compCommands];
   }, [dispatch, studioGrid, themeMode]);
 
   const jumpToComponent = (id: string, category: Exclude<DocsCategoryFilter, 'overview'>) => {
@@ -312,7 +331,7 @@ export function DocsShell() {
         >
           <span>Refractor UI</span>
           <span className="prism-crystal px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold text-slate-700 dark:text-slate-200">
-            v1.37.0
+            v1.47.0
           </span>
         </a>
 
@@ -415,7 +434,7 @@ export function DocsShell() {
           className={`${
             mobileNavOpen
               ? 'fixed top-16 bottom-0 left-0 z-40 w-[min(18rem,calc(100vw-2.5rem))] bg-slate-100/95 dark:bg-slate-950/95 backdrop-blur-xl shadow-2xl'
-              : 'hidden lg:block lg:sticky lg:top-16 lg:w-72 shrink-0'
+              : 'hidden lg:block lg:sticky lg:top-16 lg:w-72 shrink-0 bg-white/75 dark:bg-slate-950/75 backdrop-blur-xl'
           } h-[calc(100vh-4rem)] overflow-y-auto border-r border-slate-300/55 dark:border-slate-800/80 p-4 space-y-5`}
         >
           <div className="prism-crystal rounded-full p-1">
@@ -804,10 +823,11 @@ export function DocsShell() {
             </>
           )}
 
-          <footer className="pt-8 pb-6 border-t border-slate-300/55 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+          <footer className="prism-slab px-5 py-4 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-600 dark:text-slate-300">
             <span>
-              Refractor Optical Glass UI Kit v1.37.0 · {COMPONENT_REGISTRY.length} Open-Internals
-              React 19 Primitives · {EXAMPLE_SCREENS.length} Example Screens · Apache-2.0
+              Refractor Optical Glass UI Kit v1.47.0 · {COMPONENT_REGISTRY.length} Open-Internals
+              React 19 Primitives · {ALL_THEME_ENTRIES.length} Multi-Material Themes ·{' '}
+              {EXAMPLE_SCREENS.length} Example Screens · Apache-2.0
             </span>
             <div className="flex flex-wrap items-center gap-4">
               <a
@@ -873,7 +893,7 @@ export function DocsShell() {
       {toasts.length > 0 && (
         <div
           aria-label="Notifications"
-          className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2.5 pointer-events-none"
+          className="fixed bottom-4 left-4 z-30 max-w-[calc(100vw-2rem)] flex flex-col items-start gap-2 pointer-events-none"
         >
           {toasts.map((t) => (
             <div key={t.id} className="pointer-events-auto">

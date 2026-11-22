@@ -4,6 +4,45 @@ import type { DerivedPaletteColor } from '../utils/colorMath';
 export type ThemeMode = 'light' | 'dark';
 export type RefractionIntensity = 'subtle' | 'standard' | 'vivid';
 
+export type ThemeMaterial =
+  | 'glass'
+  | 'mica'
+  | 'bevel'
+  | 'brutalist'
+  | 'neon'
+  | 'crt'
+  | 'neumorphic'
+  | 'clay'
+  | 'paper'
+  | 'flat'
+  | 'chrome'
+  | 'pixel'
+  | 'resin';
+
+export type ThemeOverlayFx =
+  | 'none'
+  | 'noise'
+  | 'scanlines'
+  | 'cyber-grid'
+  | 'retro-grid'
+  | 'dot-matrix'
+  | 'paper-grain'
+  | 'crt-rgb'
+  | 'hazard-stripes';
+
+export type ThemeControlsLayout = 'left' | 'right';
+
+export type ThemeCollectionCategory =
+  | 'optical-glass'
+  | 'classic-os'
+  | 'modern-os'
+  | 'cyber-neon'
+  | 'retro-gaming'
+  | 'tactile-material'
+  | 'developer-ide'
+  | 'nature-elements'
+  | 'seasons';
+
 export interface PaletteColorInput {
   main: string;
   light?: string;
@@ -21,8 +60,78 @@ export type ComponentOverridesMap = Record<string, ComponentStyleOverride>;
 export type ThemeTokenValue = string | readonly [string, string];
 export type ThemeTokenMap = Record<`--prism-${string}`, ThemeTokenValue>;
 
+export interface ThemeFxConfig {
+  /** CSS background specification for full-viewport/stage desktop wallpaper. */
+  wallpaper: string;
+  /** Decorative non-interactive GPU-friendly FX overlay layer. */
+  wallpaperOverlay: ThemeOverlayFx;
+  /** Clamped overlay opacity in [0..0.4]. */
+  overlayOpacity: number;
+  /** Semantic glow color used by neon, crt, chrome, and resin materials. */
+  glowColor: string;
+  /** Clamped luminous glow multiplier in [0..1.5]. */
+  glowIntensity: number;
+  /** Clamped structural border stroke width in px [0..4]. */
+  borderWidthPx: number;
+  /** Primary window / panel surface background (solid, rgba, or gradient). */
+  windowBg: string;
+  /** Elevated card / inner control surface background. */
+  surfaceBg: string;
+  /** Highlighted / hovered surface tint. */
+  surfaceHighlight: string;
+  /** Structural window and panel outline color. */
+  windowBorder: string;
+  /** Window titlebar / desktop chrome background. */
+  chromeBg: string;
+  /** Window titlebar / desktop chrome foreground ink. */
+  chromeText: string;
+  /** Primary elevation / shadow CSS value for slabs and windows. */
+  windowShadow: string;
+  /** Secondary control / crystal card shadow CSS value. */
+  controlShadow: string;
+  /** Recessed input / well inset shadow CSS value. */
+  wellShadow: string;
+  /** Preferred OS traffic-light / window button alignment. */
+  controlsLayout: ThemeControlsLayout;
+  /** Clamped window titlebar height in px [24..48]. */
+  titleBarHeightPx: number;
+  /**
+   * Enables adaptive Tailwind ink/surface cascade bridging so all 314 components
+   * inherit non-glass palettes cleanly while keeping default optical glass pixel-identical.
+   */
+  adaptiveInk: boolean;
+  /** Clamps rounded-lg..3xl component corners to the theme's sharp border radius. */
+  sharpCorners: boolean;
+}
+
+export interface ThemeMotionConfig {
+  durationFast: string;
+  durationNormal: string;
+  durationSlow: string;
+  easingStandard: string;
+  easingEmphasized: string;
+}
+
+export interface ThemeEditorColors {
+  background: string;
+  caret: string;
+  comment: string;
+  gutter: string;
+  keyword: string;
+  line: string;
+  number: string;
+  selection: string;
+  selectionText: string;
+  string: string;
+  text: string;
+}
+
 export interface PrismTheme {
   name: string;
+  displayName: string;
+  description: string;
+  category: ThemeCollectionCategory;
+  material: ThemeMaterial;
   palette: {
     mode: ThemeMode;
     primary: DerivedPaletteColor;
@@ -49,6 +158,8 @@ export interface PrismTheme {
   typography: {
     fontFamily: string;
     monoFamily: string;
+    googleFonts: ReadonlyArray<string>;
+    letterSpacing: string;
     h1: { fontSize: string; fontWeight: number; lineHeight: number };
     h2: { fontSize: string; fontWeight: number; lineHeight: number };
     body1: { fontSize: string; lineHeight: number };
@@ -56,6 +167,7 @@ export interface PrismTheme {
   };
   shape: {
     borderRadius: number;
+    buttonRadius: number;
     pillRadius: number;
     slabRadius: number;
   };
@@ -69,16 +181,22 @@ export interface PrismTheme {
     causticCoolRgb: string;
     specularHighlight: boolean;
   };
+  fx: ThemeFxConfig;
+  motion: ThemeMotionConfig;
+  editor: ThemeEditorColors;
   components: ComponentOverridesMap;
   customTokens: Record<`--prism-${string}`, string>;
 }
 
 /**
- * MUI-ergonomic theme customization input: pass only the tokens you want to override.
- * Example: createPrismTheme({ palette: { primary: { main: '#7C3AED' } } })
+ * Ergonomic theme customization input: pass only the tokens, materials, fonts, or FX you want to override.
  */
 export interface PrismThemeOptions {
   name?: string;
+  displayName?: string;
+  description?: string;
+  category?: ThemeCollectionCategory;
+  material?: ThemeMaterial;
   palette?: {
     mode?: ThemeMode;
     primary?: PaletteColorInput;
@@ -94,13 +212,16 @@ export interface PrismThemeOptions {
   typography?: Partial<PrismTheme['typography']>;
   shape?: Partial<PrismTheme['shape']>;
   optics?: Partial<PrismTheme['optics']>;
+  fx?: Partial<ThemeFxConfig>;
+  motion?: Partial<ThemeMotionConfig>;
+  editor?: Partial<ThemeEditorColors>;
   components?: ComponentOverridesMap;
   customTokens?: Record<`--prism-${string}`, string>;
 }
 
 /**
- * Astryx-style theme definition supporting extends, [light, dark] token tuples,
- * MUI palette inputs, optical physics overrides, and component overrides.
+ * Cascade theme definition supporting extends, [light, dark] token tuples,
+ * palette shortcuts, material/FX configs, typography, and component overrides.
  */
 export interface DefinePrismThemeInput extends PrismThemeOptions {
   name: string;

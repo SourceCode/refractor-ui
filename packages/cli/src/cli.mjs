@@ -276,12 +276,47 @@ function formatComponentDoc(doc, mode) {
   return lines.join('\n');
 }
 
+export function listCollectionThemes(repoRoot = DEFAULT_REPO_ROOT) {
+  const collectionsDir = path.join(repoRoot, 'packages', 'themes', 'collection', 'src', 'collections');
+  if (!fs.existsSync(collectionsDir)) return [];
+  const files = fs
+    .readdirSync(collectionsDir)
+    .filter((f) => f.endsWith('.ts'))
+    .sort();
+
+  const items = [];
+  for (const file of files) {
+    const raw = fs.readFileSync(path.join(collectionsDir, file), 'utf8');
+    const start = raw.indexOf('[');
+    const end = raw.lastIndexOf(']');
+    if (start === -1 || end === -1) continue;
+    const specs = JSON.parse(raw.slice(start, end + 1));
+    for (const spec of specs) {
+      items.push({
+        id: spec.id,
+        name: spec.name,
+        packageName: '@refractor-ui/themes',
+        category: spec.category,
+        material: spec.material,
+        mode: spec.mode,
+        wallpaperOverlay: spec.wallpaperOverlay,
+        fontFamily: spec.fontFamily,
+        description: spec.description,
+        primary: spec.colors?.primary ?? '',
+        accent: spec.colors?.accent ?? '',
+        wallpaper: spec.colors?.wallpaper ?? '',
+      });
+    }
+  }
+  return items.sort((a, b) => a.id.localeCompare(b.id));
+}
+
 export function listThemes(repoRoot = DEFAULT_REPO_ROOT) {
   const themesDir = path.join(repoRoot, 'packages', 'themes');
   if (!fs.existsSync(themesDir)) return [];
   const entries = fs
     .readdirSync(themesDir, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
+    .filter((d) => d.isDirectory() && d.name !== 'collection')
     .map((d) => d.name)
     .sort();
 
@@ -427,11 +462,19 @@ export async function runCli(argv, options = {}) {
   if (cmd === 'theme') {
     const sub = args[1];
     const themes = listThemes(repoRoot);
+    const collectionThemes = listCollectionThemes(repoRoot);
 
     if (sub === 'list' || !sub) {
       out(`Refractor Official Optical Theme Presets (${themes.length}):`);
       for (const theme of themes) {
         out(`  - ${theme.id} (${theme.packageName}@${theme.version}): ${theme.description}`);
+      }
+      if (collectionThemes.length > 0) {
+        out('');
+        out(`Refractor Multi-Material WebOS-v3 Collection (@refractor-ui/themes — ${collectionThemes.length} themes, ${themes.length + collectionThemes.length} total):`);
+        for (const theme of collectionThemes) {
+          out(`  - ${theme.id} [${theme.material}/${theme.mode}] (${theme.category}): ${theme.description}`);
+        }
       }
       return { exitCode: 0, stdout: stdoutLines.join('\n'), stderr: '' };
     }
@@ -439,19 +482,36 @@ export async function runCli(argv, options = {}) {
     if (sub === 'inspect') {
       const target = args[2];
       const match = target ? themes.find((t) => t.id === target.toLowerCase()) : null;
-      if (!match) {
-        err(
-          `Unknown theme preset "${target ?? ''}". Available presets: ${themes.map((t) => t.id).join(', ')}.`
-        );
-        return { exitCode: 1, stdout: '', stderr: stderrLines.join('\n') };
+      if (match) {
+        const srcPath = path.join(repoRoot, 'packages', 'themes', match.id, 'src', 'index.ts');
+        const source = fs.existsSync(srcPath) ? fs.readFileSync(srcPath, 'utf8') : '';
+        out(`${match.packageName} (v${match.version})`);
+        out(match.description);
+        out('');
+        out(source.trim());
+        return { exitCode: 0, stdout: stdoutLines.join('\n'), stderr: '' };
       }
-      const srcPath = path.join(repoRoot, 'packages', 'themes', match.id, 'src', 'index.ts');
-      const source = fs.existsSync(srcPath) ? fs.readFileSync(srcPath, 'utf8') : '';
-      out(`${match.packageName} (v${match.version})`);
-      out(match.description);
-      out('');
-      out(source.trim());
-      return { exitCode: 0, stdout: stdoutLines.join('\n'), stderr: '' };
+
+      const collectionMatch = target
+        ? collectionThemes.find((t) => t.id.toLowerCase() === target.toLowerCase())
+        : null;
+      if (collectionMatch) {
+        out(`${collectionMatch.name} (${collectionMatch.id}) — ${collectionMatch.packageName}`);
+        out(collectionMatch.description);
+        out(`Category: ${collectionMatch.category} | Material: ${collectionMatch.material} | Mode: ${collectionMatch.mode} | FX: ${collectionMatch.wallpaperOverlay}`);
+        out(`Font: ${collectionMatch.fontFamily}`);
+        out(`Primary: ${collectionMatch.primary} | Accent: ${collectionMatch.accent}`);
+        out('');
+        out(`Usage:`);
+        out(`  import { getThemeById } from '@refractor-ui/themes';`);
+        out(`  const theme = getThemeById('${collectionMatch.id}');`);
+        return { exitCode: 0, stdout: stdoutLines.join('\n'), stderr: '' };
+      }
+
+      err(
+        `Unknown theme preset "${target ?? ''}". Run "refractor theme list" to view all ${themes.length + collectionThemes.length} available themes.`
+      );
+      return { exitCode: 1, stdout: '', stderr: stderrLines.join('\n') };
     }
 
     err(`Unknown theme subcommand "${sub}". Use "theme list" or "theme inspect <preset>".`);

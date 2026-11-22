@@ -1,11 +1,7 @@
 import { useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { createPrismTheme, PrismThemeProvider } from '@refractor-ui/core';
-import { alabasterTheme } from '@refractor-ui/theme-alabaster';
-import { amethystTheme } from '@refractor-ui/theme-amethyst';
-import { emeraldTideTheme } from '@refractor-ui/theme-emerald-tide';
-import { obsidianTheme } from '@refractor-ui/theme-obsidian';
-import { solarPrismTheme } from '@refractor-ui/theme-solar-prism';
+import { getThemeById } from '@refractor-ui/themes';
 import { DocsShell } from './docs/DocsShell';
 import { store, useAppSelector } from './system/store';
 
@@ -16,11 +12,10 @@ function ThemedRoot() {
   const customPalette = useAppSelector((s) => s.system.customPalette);
 
   const activeTheme = useMemo(() => {
-    if (themePreset === 'alabaster') return alabasterTheme;
-    if (themePreset === 'obsidian') return obsidianTheme;
-    if (themePreset === 'amethyst') return amethystTheme;
-    if (themePreset === 'emerald-tide') return emeraldTideTheme;
-    if (themePreset === 'solar-prism') return solarPrismTheme;
+    if (themePreset !== 'custom') {
+      const presetTheme = getThemeById(themePreset);
+      if (presetTheme) return presetTheme;
+    }
 
     return createPrismTheme({
       name: 'custom-studio',

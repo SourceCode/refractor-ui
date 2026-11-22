@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Check, Copy, Palette, RotateCcw } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Check, Copy, Palette, RotateCcw, Search, Sparkles } from 'lucide-react';
 import {
   PrimaryButton,
   RangeSlider,
@@ -8,7 +8,14 @@ import {
   SlideOverSheet,
   ToggleSwitch,
   type RefractionIntensity,
+  type ThemeCollectionCategory,
 } from '@refractor-ui/core';
+import {
+  ALL_THEME_ENTRIES,
+  getThemeEntryById,
+  listThemes,
+  THEME_CATEGORIES,
+} from '@refractor-ui/themes';
 import {
   pushToast,
   resetCustomPalette,
@@ -16,19 +23,10 @@ import {
   setRefraction,
   setThemeMode,
   setThemePreset,
-  type ThemePresetId,
   updateCustomPalette,
   useAppDispatch,
   useAppSelector,
 } from '../system/store';
-
-const PRESETS: Array<{ id: Exclude<ThemePresetId, 'custom'>; label: string; swatch: string }> = [
-  { id: 'alabaster', label: 'Alabaster', swatch: '#E75C24' },
-  { id: 'obsidian', label: 'Obsidian', swatch: '#1E293B' },
-  { id: 'amethyst', label: 'Amethyst', swatch: '#7C3AED' },
-  { id: 'emerald-tide', label: 'Emerald Tide', swatch: '#0D9488' },
-  { id: 'solar-prism', label: 'Solar Prism', swatch: '#D97706' },
-];
 
 export function ThemeCustomizerDrawer() {
   const dispatch = useAppDispatch();
@@ -36,8 +34,38 @@ export function ThemeCustomizerDrawer() {
     (s) => s.system
   );
   const [copied, setCopied] = useState(false);
+  const [themeQuery, setThemeQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState<ThemeCollectionCategory | 'all'>('all');
 
-  const generatedSnippet = `import { createPrismTheme, PrismThemeProvider } from '@refractor-ui/core';
+  const activeEntry = useMemo(
+    () => (themePreset === 'custom' ? undefined : getThemeEntryById(themePreset)),
+    [themePreset]
+  );
+
+  const filteredThemes = useMemo(
+    () =>
+      listThemes({
+        category: activeCategory,
+        query: themeQuery,
+      }),
+    [activeCategory, themeQuery]
+  );
+
+  const generatedSnippet =
+    activeEntry && activeEntry.category !== 'optical-glass'
+      ? `import { PrismThemeProvider } from '@refractor-ui/core';
+import { getThemeById } from '@refractor-ui/themes';
+
+const theme = getThemeById('${activeEntry.id}');
+
+export function App() {
+  return (
+    <PrismThemeProvider theme={theme} loadFonts>
+      {/* All 314 components transform to ${activeEntry.name} (${activeEntry.material}) */}
+    </PrismThemeProvider>
+  );
+}`
+      : `import { createPrismTheme, PrismThemeProvider } from '@refractor-ui/core';
 
 const theme = createPrismTheme({
   palette: {
@@ -62,7 +90,7 @@ const theme = createPrismTheme({
       // Clipboard may be unavailable in restricted contexts
     }
     setCopied(true);
-    dispatch(pushToast({ title: 'Copied MUI-style theme snippet', tone: 'emerald' }));
+    dispatch(pushToast({ title: 'Copied theme configuration snippet', tone: 'emerald' }));
     setTimeout(() => setCopied(false), 1800);
   };
 
@@ -70,58 +98,147 @@ const theme = createPrismTheme({
     <SlideOverSheet
       open={customizerOpen}
       mode="right"
-      title="Optical Theme Studio"
-      subtitle="MUI-style palette controls + Astryx CSS variable cascade"
+      title="Multi-Material Theme Studio"
+      subtitle={`${ALL_THEME_ENTRIES.length} full-transformation themes (Optical Glass + 64 WebOS-v3)`}
       onClose={() => dispatch(setCustomizerOpen(false))}
     >
       <div className="space-y-6">
-        <div className="space-y-2.5">
-          <div className="text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
-            <Palette className="w-3.5 h-3.5" />
-            <span>Official Optical Theme Presets</span>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+              <Palette className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Theme Collection ({filteredThemes.length} / {ALL_THEME_ENTRIES.length})</span>
+            </div>
+            {activeEntry ? (
+              <span className="prism-crystal px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold text-slate-700 dark:text-slate-200">
+                {activeEntry.material} · {activeEntry.wallpaperOverlay}
+              </span>
+            ) : null}
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            {PRESETS.map((preset) => {
+
+          <div className="prism-well rounded-xl px-3 py-2 flex items-center gap-2">
+            <Search className="w-3.5 h-3.5 text-slate-500 shrink-0" aria-hidden="true" />
+            <input
+              type="search"
+              aria-label="Filter 69 themes"
+              value={themeQuery}
+              onChange={(e) => setThemeQuery(e.target.value)}
+              placeholder="Search 69 themes (Win95, Mica, Nord)..."
+              className="w-full min-w-0 bg-transparent text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-500 focus:outline-none"
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-1.5" role="group" aria-label="Theme collection categories">
+            <button
+              type="button"
+              onClick={() => setActiveCategory('all')}
+              aria-pressed={activeCategory === 'all'}
+              className={`px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer transition-all prism-focus-ring ${
+                activeCategory === 'all'
+                  ? 'prism-btn-primary'
+                  : 'prism-crystal text-slate-700 dark:text-slate-200'
+              }`}
+            >
+              <span className="relative z-10">All ({ALL_THEME_ENTRIES.length})</span>
+            </button>
+            {THEME_CATEGORIES.map((cat) => {
+              const selected = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setActiveCategory(cat.id)}
+                  aria-pressed={selected}
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer transition-all prism-focus-ring ${
+                    selected
+                      ? 'prism-btn-primary'
+                      : 'prism-crystal text-slate-700 dark:text-slate-200'
+                  }`}
+                >
+                  <span className="relative z-10">{cat.shortLabel}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-2 max-h-72 overflow-y-auto pr-1">
+            {filteredThemes.map((preset) => {
               const active = themePreset === preset.id;
               return (
                 <button
                   key={preset.id}
                   type="button"
-                  onClick={() => dispatch(setThemePreset(preset.id))}
-                  className={`px-3 py-2 rounded-2xl text-xs font-medium flex items-center gap-2 cursor-pointer transition-all prism-focus-ring ${
+                  aria-pressed={active}
+                  onClick={() => {
+                    dispatch(setThemePreset(preset.id));
+                    dispatch(
+                      pushToast({
+                        title: `Activated ${preset.name}`,
+                        description: `${preset.material} material · ${preset.mode} mode`,
+                        tone: 'emerald',
+                      })
+                    );
+                  }}
+                  style={active ? { color: 'var(--prism-primary-contrast)' } : undefined}
+                  className={`p-2 rounded-2xl text-left cursor-pointer transition-transform duration-150 prism-focus-ring space-y-1.5 ${
                     active
                       ? 'prism-btn-primary'
                       : 'prism-crystal text-slate-800 dark:text-slate-100'
                   }`}
                 >
-                  <span
+                  <div
                     aria-hidden="true"
-                    className="w-3.5 h-3.5 rounded-full border border-white/80 shrink-0 relative z-10"
-                    style={{ backgroundColor: preset.swatch }}
-                  />
-                  <span className="relative z-10 truncate">{preset.label}</span>
+                    className="h-5 w-full rounded-lg border border-black/15 relative z-10 flex items-center justify-end gap-1 px-1.5"
+                    style={{ background: preset.wallpaper }}
+                  >
+                    <span
+                      className="w-2.5 h-2.5 rounded-full border border-white/80"
+                      style={{ backgroundColor: preset.swatches[0] }}
+                    />
+                    <span
+                      className="w-2.5 h-2.5 rounded-full border border-white/80"
+                      style={{ backgroundColor: preset.swatches[1] }}
+                    />
+                  </div>
+                  <div
+                    className="relative z-10 flex items-center justify-between gap-1"
+                    style={active ? { color: 'var(--prism-primary-contrast)' } : undefined}
+                  >
+                    <span className="text-[11px] font-semibold truncate">{preset.name}</span>
+                    <span className="text-[9px] font-mono opacity-85 shrink-0">
+                      {preset.material}
+                    </span>
+                  </div>
                 </button>
               );
             })}
+            {filteredThemes.length === 0 ? (
+              <div className="col-span-2 prism-well rounded-xl p-4 text-center text-xs text-slate-500">
+                No themes match &ldquo;{themeQuery}&rdquo;.
+              </div>
+            ) : null}
           </div>
         </div>
 
         <div className="space-y-2">
-          <div className="text-xs font-semibold text-slate-700 dark:text-slate-200">Surface Mode</div>
+          <div className="text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+            <span>Surface Mode Override</span>
+          </div>
           <SegmentedControl
             ariaLabel="Theme color mode"
             value={themeMode}
             onChange={(v) => dispatch(setThemeMode(v === 'dark' ? 'dark' : 'light'))}
             options={[
-              { value: 'light', label: 'Alabaster Light' },
-              { value: 'dark', label: 'Obsidian Dark' },
+              { value: 'light', label: 'Light Mode' },
+              { value: 'dark', label: 'Dark Mode' },
             ]}
           />
         </div>
 
         <div className="space-y-3">
           <div className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-            MUI-Style Palette Tokens (Auto-Derives Shades &amp; Contrast)
+            Custom Optical Palette Tokens (Auto-Derives Shades &amp; Contrast)
           </div>
           <div className="grid grid-cols-2 gap-3">
             {(
@@ -174,7 +291,7 @@ const theme = createPrismTheme({
           />
           <RangeSlider
             label="Backdrop Blur Radius"
-            min={4}
+            min={0}
             max={36}
             value={customPalette.blurPx}
             unit="px"
@@ -182,7 +299,7 @@ const theme = createPrismTheme({
           />
           <RangeSlider
             label="Optical Slab Radius"
-            min={8}
+            min={0}
             max={36}
             value={customPalette.slabRadius}
             unit="px"

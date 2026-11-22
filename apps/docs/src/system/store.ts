@@ -1,6 +1,7 @@
 import { configureStore, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import type { RefractionIntensity, ThemeMode } from '@refractor-ui/core';
+import { getThemeEntryById, type RefractorThemeId } from '@refractor-ui/themes';
 import {
   type CalendarEventItem,
   INITIAL_CALENDAR_EVENTS,
@@ -17,13 +18,7 @@ export interface ToastItem {
   tone: 'amber' | 'emerald' | 'info' | 'critical';
 }
 
-export type ThemePresetId =
-  | 'alabaster'
-  | 'obsidian'
-  | 'amethyst'
-  | 'emerald-tide'
-  | 'solar-prism'
-  | 'custom';
+export type ThemePresetId = RefractorThemeId | 'custom';
 
 export type DocsCategoryFilter =
   | 'overview'
@@ -157,34 +152,17 @@ const systemSlice = createSlice({
   reducers: {
     setThemePreset(state, action: PayloadAction<ThemePresetId>) {
       state.themePreset = action.payload;
-      if (action.payload === 'obsidian') {
-        state.themeMode = 'dark';
-      } else if (action.payload === 'alabaster') {
-        state.themeMode = 'light';
+      if (action.payload === 'custom') return;
+      const entry = getThemeEntryById(action.payload);
+      if (!entry) return;
+      state.themeMode = entry.mode;
+      if (action.payload === 'alabaster') {
         state.customPalette = DEFAULT_CUSTOM_PALETTE;
-      } else if (action.payload === 'amethyst') {
+      } else {
         state.customPalette = {
           ...state.customPalette,
-          primaryMain: '#7C3AED',
-          secondaryMain: '#06B6D4',
-          successMain: '#10B981',
-          infoMain: '#4F46E5',
-        };
-      } else if (action.payload === 'emerald-tide') {
-        state.customPalette = {
-          ...state.customPalette,
-          primaryMain: '#0D9488',
-          secondaryMain: '#0EA5E9',
-          successMain: '#16A34A',
-          infoMain: '#0284C7',
-        };
-      } else if (action.payload === 'solar-prism') {
-        state.customPalette = {
-          ...state.customPalette,
-          primaryMain: '#D97706',
-          secondaryMain: '#2563EB',
-          successMain: '#059669',
-          infoMain: '#1D4ED8',
+          primaryMain: entry.swatches[0],
+          secondaryMain: entry.swatches[1],
         };
       }
     },
@@ -263,8 +241,11 @@ const systemSlice = createSlice({
     },
     pushToast(state, action: PayloadAction<Omit<ToastItem, 'id'>>) {
       const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+      if (action.payload.title.startsWith('Activated ')) {
+        state.toasts = state.toasts.filter((t) => !t.title.startsWith('Activated '));
+      }
       state.toasts.push({ id, ...action.payload });
-      if (state.toasts.length > 4) {
+      if (state.toasts.length > 3) {
         state.toasts.shift();
       }
     },
