@@ -260,6 +260,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Scientific',
     description: 'Gaussian KDE violin and ridgeline distributions, multi-axis parallel coordinates, Marching-Squares 2D contour densities, hexbin spatial aggregation, polar Nightingale roses, and interactive 3D surface meshes.',
   },
+  {
+    id: 'observability-widgets',
+    title: 'System, DevOps & Observability Widgets',
+    shortLabel: 'Observability',
+    description: 'Zoomable CPU flame/icicle graphs, OpenTelemetry trace waterfalls, 60-day SLA uptime status strips, microservice topology maps, storage quota bars, and anomaly forecast corridors.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3137,6 +3143,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'grid / renderStyle', type: "number[][] / 'shaded' | 'wireframe'", defaultValue: "9x9 ripple / 'shaded'", description: '2D elevation matrix z[row][col] and facet rendering style.' },
       { name: 'defaultYawDeg / defaultPitchDeg / onSelectCell', type: 'number / number / (cell) => void', defaultValue: '38 / 30 / undefined', description: 'Initial camera orbit angles and quad facet selection handler.' },
+    ],
+  },
+  /* ==================== SYSTEM, DEVOPS & OBSERVABILITY WIDGETS (6) ==================== */
+  {
+    id: 'flame-graph-chart',
+    title: 'Flame Graph / Icicle Chart',
+    exportName: 'FlameGraphChart',
+    category: 'observability-widgets',
+    categoryTitle: 'System, DevOps & Observability Widgets',
+    summary: 'Zoomable proportional call-stack profiler flipping between bottom-up Flame and top-down Icicle views with literal search highlighting and self/total CPU telemetry.',
+    codeSnippet: `<FlameGraphChart title="Node.js API Server CPU Flame Graph" />`,
+    props: [
+      { name: 'root / orientation / unit', type: "FlameFrameNode | null / 'flame' | 'icicle' / string", defaultValue: "V8 trace / 'flame' / 'ms'", description: 'Call-stack tree, vertical growth orientation, and timing unit.' },
+      { name: 'onSelectFrame / onOrientationChange', type: '(metrics) => void / (o) => void', defaultValue: 'undefined', description: 'Subtree zoom selection and orientation flip handlers.' },
+    ],
+  },
+  {
+    id: 'distributed-trace-waterfall',
+    title: 'Distributed Trace Waterfall',
+    exportName: 'DistributedTraceWaterfall',
+    category: 'observability-widgets',
+    categoryTitle: 'System, DevOps & Observability Widgets',
+    summary: 'OpenTelemetry microservice latency waterfall with collapsible parent-child spans, critical-path & error filters, proportional offset bars, and tag metadata inspection.',
+    codeSnippet: `<DistributedTraceWaterfall traceId="tr-9f4a-8c21" />`,
+    props: [
+      { name: 'spans / traceId', type: 'TraceSpanItem[] / string', defaultValue: "8 OTel spans / 'tr-9f4a-8c21'", description: 'Hierarchical trace spans with service, timing, status, and tags.' },
+      { name: 'onSelectSpan', type: '(span: TraceSpanItem) => void', defaultValue: 'undefined', description: 'Span inspection callback surfacing tags and critical path status.' },
+    ],
+  },
+  {
+    id: 'uptime-status-bar',
+    title: 'Uptime / Availability Status Bar',
+    exportName: 'UptimeStatusBar',
+    category: 'observability-widgets',
+    categoryTitle: 'System, DevOps & Observability Widgets',
+    summary: 'Historical availability tick bar shading operational, degraded, outage, and maintenance days against an SLA target with interactive daily incident readouts.',
+    codeSnippet: `<UptimeStatusBar serviceName="Core API Edge Gateway" slaTargetPct={99.9} />`,
+    props: [
+      { name: 'days / slaTargetPct', type: 'UptimeDaySlot[] / number', defaultValue: '60 days / 99.9', description: 'Daily availability slot history and target SLA compliance threshold.' },
+      { name: 'serviceName / onSelectDay', type: 'string / (day, idx) => void', defaultValue: "'Core API Edge Gateway'", description: 'Monitored service name and day bar selection handler.' },
+    ],
+  },
+  {
+    id: 'service-topology-map',
+    title: 'Service / Architecture Topology Map',
+    exportName: 'ServiceTopologyMap',
+    category: 'observability-widgets',
+    categoryTitle: 'System, DevOps & Observability Widgets',
+    summary: 'Layered microservice dependency diagram annotating gateways, services, databases, caches, and queues with live latency and error-rate links plus neighbor focus.',
+    codeSnippet: `<ServiceTopologyMap title="Production Mesh Dependency Map" />`,
+    props: [
+      { name: 'nodes / edges', type: 'TopologyServiceNode[] / TopologyServiceEdge[]', defaultValue: '6 nodes / 7 edges', description: 'Tiered service nodes and directional latency/error-rate links.' },
+      { name: 'onSelectNode / onSelectEdge', type: '(node) => void / (edge) => void', defaultValue: 'undefined', description: 'Service node and telemetry link inspection callbacks.' },
+    ],
+  },
+  {
+    id: 'capacity-allocation-strip',
+    title: 'Resource Allocation / Capacity Strip',
+    exportName: 'CapacityAllocationStrip',
+    category: 'observability-widgets',
+    categoryTitle: 'System, DevOps & Observability Widgets',
+    summary: 'Segmented horizontal storage and memory quota bar with warning threshold marker, free space tracking, synchronized breakdown pills, and capacity health badges.',
+    codeSnippet: `<CapacityAllocationStrip title="Primary NVMe Pool" total={1000} unit="GB" />`,
+    props: [
+      { name: 'segments / total / unit', type: 'CapacitySegment[] / number / string', defaultValue: "5 pools / 1000 / 'GB'", description: 'Resource consumers, total quota limit, and capacity unit.' },
+      { name: 'warningThresholdPct / criticalThresholdPct', type: 'number / number', defaultValue: '80 / 92', description: 'Quota alert marker and critical threshold percentages.' },
+    ],
+  },
+  {
+    id: 'anomaly-forecast-chart',
+    title: 'Anomaly Detection & Forecast Band Chart',
+    exportName: 'AnomalyForecastChart',
+    category: 'observability-widgets',
+    categoryTitle: 'System, DevOps & Observability Widgets',
+    summary: 'Time-series telemetry monitor plotted inside a translucent confidence corridor with automatic upper/lower breach highlighting, forecast horizon toggle, and anomaly quick-jump.',
+    codeSnippet: `<AnomalyForecastChart title="Edge Ingress Throughput & Forecast" unit="req/s" />`,
+    props: [
+      { name: 'data / unit', type: 'AnomalyForecastPoint[] / string', defaultValue: "16 checkpoints / 'req/s'", description: 'Historical actuals + future forecast points with confidence bounds.' },
+      { name: 'onSelectPoint', type: '(summary: AnomalyDetectionSummary) => void', defaultValue: 'undefined', description: 'Checkpoint inspection callback with signed band deviation.' },
     ],
   },
 ];

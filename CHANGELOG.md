@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.30.0] - 2026-11-21
+
+### Added
+- **System, DevOps & Observability Widgets (6 new optical-glass SRE & APM telemetry primitives — 223 total across 40 categories):**
+  - `FlameGraphChart`: Zoomable proportional stack profiler toggling between bottom-up Flame and top-down Icicle views with cycle-safe depth cap (`MAX_DEPTH = 12`), literal search highlighting, breadcrumbs, and self/total CPU telemetry.
+  - `DistributedTraceWaterfall`: OpenTelemetry microservice latency waterfall with collapsible parent-child spans, `Errors Only` and `Critical Path` filter pills, proportional latency bars, and tag metadata inspector.
+  - `UptimeStatusBar`: Historical availability tick strip (`operational`, `degraded`, `outage`, `maintenance`) with SLA compliance pill and keyboard-navigable daily incident readout.
+  - `ServiceTopologyMap`: Layered 3-tier dependency graph connecting gateways, services, databases, caches, and queues with live latency/error-rate edge badges and upstream/downstream focus highlighting.
+  - `CapacityAllocationStrip`: Segmented horizontal quota bar with warning/critical thresholds, vertical marker, synchronized category breakdown pills, and used/free/total telemetry.
+  - `AnomalyForecastChart`: Time-series monitor inside a translucent `[lower, upper]` confidence corridor automatically flagging upper/lower breaches with a forecast horizon toggle and anomaly jump pills.
+- Added interactive playground demos and prop specs in `apps/docs` under `System, DevOps & Observability Widgets`.
+
 ## [1.29.0] - 2026-11-21
 
 ### Added
@@ -382,7 +394,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.29.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.30.0...HEAD
+[1.30.0]: https://github.com/SourceCode/refractor-ui/compare/v1.29.0...v1.30.0
 [1.29.0]: https://github.com/SourceCode/refractor-ui/compare/v1.28.0...v1.29.0
 [1.28.0]: https://github.com/SourceCode/refractor-ui/compare/v1.27.0...v1.28.0
 [1.27.0]: https://github.com/SourceCode/refractor-ui/compare/v1.26.0...v1.27.0

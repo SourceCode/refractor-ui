@@ -21,6 +21,7 @@ import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
+import { ObservabilityWidgetsDemos } from './demos/ObservabilityWidgetsDemos';
 import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
 import { PhotoColorGradingDemos } from './demos/PhotoColorGradingDemos';
 import { RelationalFlowChartsDemos } from './demos/RelationalFlowChartsDemos';
@@ -307,6 +308,15 @@ const SCIENTIFIC_CHARTS_IDS = new Set([
   'surface-mesh-3d-plot',
 ]);
 
+const OBSERVABILITY_WIDGETS_IDS = new Set([
+  'flame-graph-chart',
+  'distributed-trace-waterfall',
+  'uptime-status-bar',
+  'service-topology-map',
+  'capacity-allocation-strip',
+  'anomaly-forecast-chart',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -406,6 +416,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (SCIENTIFIC_CHARTS_IDS.has(componentId)) {
     return <ScientificChartsDemos componentId={componentId} />;
+  }
+  if (OBSERVABILITY_WIDGETS_IDS.has(componentId)) {
+    return <ObservabilityWidgetsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

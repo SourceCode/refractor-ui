@@ -236,7 +236,7 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
 
       // Open Architecture & Security guide via sidebar and verify responsive matrix + zero Astryx/MUI mentions
       fireEvent.click(sidebarToggle);
-      const archButtons = screen.getAllByRole('button', { name: /Architecture/i });
+      const archButtons = screen.getAllByRole('button', { name: /Architecture & Security/i });
       fireEvent.click(archButtons[archButtons.length - 1]!);
       expect(screen.queryByTestId('mobile-sidebar-backdrop')).not.toBeInTheDocument();
       expect(

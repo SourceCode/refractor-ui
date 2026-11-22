@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.29.0",
+  "version": "1.30.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -71,6 +71,11 @@
       "source": "./src/AlertBanner/index.ts",
       "types": "./dist/AlertBanner/index.d.ts",
       "default": "./dist/AlertBanner/index.js"
+    },
+    "./AnomalyForecastChart": {
+      "source": "./src/AnomalyForecastChart/index.ts",
+      "types": "./dist/AnomalyForecastChart/index.d.ts",
+      "default": "./dist/AnomalyForecastChart/index.js"
     },
     "./ApprovalGateCard": {
       "source": "./src/ApprovalGateCard/index.ts",
@@ -166,6 +171,11 @@
       "source": "./src/CanvasZoomSafeAreaBar/index.ts",
       "types": "./dist/CanvasZoomSafeAreaBar/index.d.ts",
       "default": "./dist/CanvasZoomSafeAreaBar/index.js"
+    },
+    "./CapacityAllocationStrip": {
+      "source": "./src/CapacityAllocationStrip/index.ts",
+      "types": "./dist/CapacityAllocationStrip/index.d.ts",
+      "default": "./dist/CapacityAllocationStrip/index.js"
     },
     "./CarouselSlider": {
       "source": "./src/CarouselSlider/index.ts",
@@ -352,6 +362,11 @@
       "types": "./dist/DiffViewer/index.d.ts",
       "default": "./dist/DiffViewer/index.js"
     },
+    "./DistributedTraceWaterfall": {
+      "source": "./src/DistributedTraceWaterfall/index.ts",
+      "types": "./dist/DistributedTraceWaterfall/index.d.ts",
+      "default": "./dist/DistributedTraceWaterfall/index.js"
+    },
     "./DockablePanel": {
       "source": "./src/DockablePanel/index.ts",
       "types": "./dist/DockablePanel/index.d.ts",
@@ -406,6 +421,11 @@
       "source": "./src/FileDropzone/index.ts",
       "types": "./dist/FileDropzone/index.d.ts",
       "default": "./dist/FileDropzone/index.js"
+    },
+    "./FlameGraphChart": {
+      "source": "./src/FlameGraphChart/index.ts",
+      "types": "./dist/FlameGraphChart/index.d.ts",
+      "default": "./dist/FlameGraphChart/index.js"
     },
     "./FloatingActionButton": {
       "source": "./src/FloatingActionButton/index.ts",
@@ -872,6 +892,11 @@
       "types": "./dist/SegmentedControl/index.d.ts",
       "default": "./dist/SegmentedControl/index.js"
     },
+    "./ServiceTopologyMap": {
+      "source": "./src/ServiceTopologyMap/index.ts",
+      "types": "./dist/ServiceTopologyMap/index.d.ts",
+      "default": "./dist/ServiceTopologyMap/index.js"
+    },
     "./ShoppingCartDrawer": {
       "source": "./src/ShoppingCartDrawer/index.ts",
       "types": "./dist/ShoppingCartDrawer/index.d.ts",
@@ -1076,6 +1101,11 @@
       "source": "./src/TriStateCheckbox/index.ts",
       "types": "./dist/TriStateCheckbox/index.d.ts",
       "default": "./dist/TriStateCheckbox/index.js"
+    },
+    "./UptimeStatusBar": {
+      "source": "./src/UptimeStatusBar/index.ts",
+      "types": "./dist/UptimeStatusBar/index.d.ts",
+      "default": "./dist/UptimeStatusBar/index.js"
     },
     "./ViolinPlot": {
       "source": "./src/ViolinPlot/index.ts",
