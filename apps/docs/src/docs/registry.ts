@@ -236,6 +236,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Color & Photo',
     description: 'Monotone RGB/Luma tone curves, 3-way Lift/Gamma/Gain color wheels, live broadcast scopes, crop/straighten overlays, blend stacks, pixel loupes, brush HUDs, and wipe bypasses.',
   },
+  {
+    id: 'audio-mixing-dsp',
+    title: 'Audio Mixing & Signal Processing',
+    shortLabel: 'Audio & DSP',
+    description: 'Calibrated long-throw dB channel faders, segmented LED VU/peak meters, center-detented stereo pan dials, parametric EQ curves, spectrogram editors, and reorderable DSP racks.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -2849,6 +2855,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'positionPct / orientation', type: "number / 'vertical' | 'horizontal'", defaultValue: "50 / 'vertical'", description: 'Split divider percentage and wipe axis.' },
       { name: 'onPositionChange / onHoldCompareChange', type: '(pct) => void / (holding) => void', defaultValue: 'undefined', description: 'Live wipe drag and original bypass press-and-hold callbacks.' },
+    ],
+  },
+  /* ==================== AUDIO MIXING & SIGNAL PROCESSING (6) ==================== */
+  {
+    id: 'channel-strip-fader',
+    title: 'Channel Strip Fader (dB)',
+    exportName: 'ChannelStripFader',
+    category: 'audio-mixing-dsp',
+    categoryTitle: 'Audio Mixing & Signal Processing',
+    summary: 'Vertical long-throw mixing console fader calibrated from -∞/-60 dB to +12 dB with Unity 0 dB double-click snap, Mute switch, and tactile pointer/keyboard tracking.',
+    codeSnippet: `<ChannelStripFader label="CH 1 · Vocals" defaultValueDb={-2.5} />`,
+    props: [
+      { name: 'valueDb / minDb / maxDb / unityDb', type: 'number', defaultValue: '0 / -60 / 12 / 0', description: 'Controlled dB gain value and calibrated throw scale.' },
+      { name: 'muted / scaleMode / onChange', type: "boolean / 'studio-db' | 'linear-pct' / (db) => void", defaultValue: "false / 'studio-db'", description: 'Mute switch, dB vs percentage readout, and gain handler.' },
+    ],
+  },
+  {
+    id: 'vu-peak-level-meter',
+    title: 'VU / Peak Level Meter',
+    exportName: 'VuPeakLevelMeter',
+    category: 'audio-mixing-dsp',
+    categoryTitle: 'Audio Mixing & Signal Processing',
+    summary: 'Vertical or horizontal segmented LED level meter transitioning across green, yellow, and red zones with sticky per-channel peak-hold and latching click-to-clear Clip alert.',
+    codeSnippet: `<VuPeakLevelMeter label="Master Bus" channels={[{ id: 'l', label: 'L', levelDb: -7.4 }]} />`,
+    props: [
+      { name: 'channels / orientation / segments', type: "MeterChannelReading[] / 'vertical' | 'horizontal' / number", defaultValue: "stereo / 'vertical' / 24", description: 'Live channel dBFS levels, layout orientation, and LED resolution.' },
+      { name: 'warnThresholdDb / clipThresholdDb / onClearClip', type: 'number / number / () => void', defaultValue: '-12 / 0 / undefined', description: 'Amber/red thresholds and clip-latch clear callback.' },
+    ],
+  },
+  {
+    id: 'stereo-pan-knob',
+    title: 'Pan / Balance Rotary Knob',
+    exportName: 'StereoPanKnob',
+    category: 'audio-mixing-dsp',
+    categoryTitle: 'Audio Mixing & Signal Processing',
+    summary: 'Center-detented optical SVG stereo balance dial sweeping from L100 through magnetic Center (C) to R100 with double-click center reset and L/C/R quick detents.',
+    codeSnippet: `<StereoPanKnob label="Lead Vox Pan" defaultValue={0} />`,
+    props: [
+      { name: 'value / defaultValue / centerDetentWidth', type: 'number', defaultValue: '0 / 0 / 4', description: 'Stereo pan balance (-100..+100) and magnetic center snap deadzone.' },
+      { name: 'size / onChange', type: "'sm' | 'md' | 'lg' / (pan, formatted) => void", defaultValue: "'md' / undefined", description: 'Rotary dial diameter preset and balance callback.' },
+    ],
+  },
+  {
+    id: 'parametric-eq-graph',
+    title: 'Parametric EQ Curve Graph',
+    exportName: 'ParametricEqGraph',
+    category: 'audio-mixing-dsp',
+    categoryTitle: 'Audio Mixing & Signal Processing',
+    summary: 'Logarithmic 20Hz–20kHz frequency-response SVG graph with draggable numbered EQ band nodes, real-time summed Gaussian/shelf response curve, and per-band Hz/Gain/Q inspector.',
+    codeSnippet: `<ParametricEqGraph title="Mastering 4-Band Parametric EQ" />`,
+    props: [
+      { name: 'bands / defaultBands', type: 'EqBand[]', defaultValue: '4-band mastering EQ', description: 'Parametric band definitions (frequencyHz, gainDb, q, type, enabled).' },
+      { name: 'onChange / disabled', type: '(bands, active) => void / boolean', defaultValue: 'undefined / false', description: 'Live EQ response update handler and disabled flag.' },
+    ],
+  },
+  {
+    id: 'waveform-spectrogram-view',
+    title: 'Waveform / Spectrogram Editor Canvas',
+    exportName: 'WaveformSpectrogramView',
+    category: 'audio-mixing-dsp',
+    categoryTitle: 'Audio Mixing & Signal Processing',
+    summary: 'Zoomable Waveform, Spectrogram, and Split audio editor canvas supporting drag/keyboard range selection, Silence Selection, Cut Selection, transient markers, and Reset.',
+    codeSnippet: `<WaveformSpectrogramView defaultMode="split" defaultSelection={{ startPct: 22, endPct: 58 }} />`,
+    props: [
+      { name: 'samples / durationSec / mode', type: "number[] / number / 'waveform' | 'spectrogram' | 'split'", defaultValue: "48 vocal / 12.5 / 'split'", description: 'Normalized amplitude envelope, duration, and view mode.' },
+      { name: 'selection / onSelectionChange / onEditSamples', type: 'AudioSelectionRange | null / callbacks', defaultValue: 'null', description: 'Active audio range selection and destructive edit callbacks.' },
+    ],
+  },
+  {
+    id: 'effects-rack-chain',
+    title: 'Effects Rack / Signal Chain',
+    exportName: 'EffectsRackChain',
+    category: 'audio-mixing-dsp',
+    categoryTitle: 'Audio Mixing & Signal Processing',
+    summary: 'Reorderable horizontal or vertical DSP plugin chain with per-module bypass switches, wet/dry mix sliders, master Bypass All, Add Insert, and signal-flow route indicators.',
+    codeSnippet: `<EffectsRackChain title="Vocal Bus DSP Insert Chain" orientation="horizontal" />`,
+    props: [
+      { name: 'effects / defaultEffects', type: 'DspEffectModule[]', defaultValue: '4-stage chain', description: 'Ordered DSP modules with category, bypass state, and wetMixPct.' },
+      { name: 'orientation / onChange / onAddEffect', type: "'horizontal' | 'vertical' / callbacks", defaultValue: "'horizontal'", description: 'Rack layout axis and chain mutation handlers.' },
     ],
   },
 ];

@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.25.0",
+  "version": "1.26.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -161,6 +161,11 @@
       "source": "./src/CascadingSelect/index.ts",
       "types": "./dist/CascadingSelect/index.d.ts",
       "default": "./dist/CascadingSelect/index.js"
+    },
+    "./ChannelStripFader": {
+      "source": "./src/ChannelStripFader/index.ts",
+      "types": "./dist/ChannelStripFader/index.d.ts",
+      "default": "./dist/ChannelStripFader/index.js"
     },
     "./ChartCrosshairTooltip": {
       "source": "./src/ChartCrosshairTooltip/index.ts",
@@ -346,6 +351,11 @@
       "source": "./src/DurationInput/index.ts",
       "types": "./dist/DurationInput/index.d.ts",
       "default": "./dist/DurationInput/index.js"
+    },
+    "./EffectsRackChain": {
+      "source": "./src/EffectsRackChain/index.ts",
+      "types": "./dist/EffectsRackChain/index.d.ts",
+      "default": "./dist/EffectsRackChain/index.js"
     },
     "./EmptyState": {
       "source": "./src/EmptyState/index.ts",
@@ -612,6 +622,11 @@
       "types": "./dist/ParallelComparisonView/index.d.ts",
       "default": "./dist/ParallelComparisonView/index.js"
     },
+    "./ParametricEqGraph": {
+      "source": "./src/ParametricEqGraph/index.ts",
+      "types": "./dist/ParametricEqGraph/index.d.ts",
+      "default": "./dist/ParametricEqGraph/index.js"
+    },
     "./PasswordStrengthMeter": {
       "source": "./src/PasswordStrengthMeter/index.ts",
       "types": "./dist/PasswordStrengthMeter/index.d.ts",
@@ -857,6 +872,11 @@
       "types": "./dist/Stepper/index.d.ts",
       "default": "./dist/Stepper/index.js"
     },
+    "./StereoPanKnob": {
+      "source": "./src/StereoPanKnob/index.ts",
+      "types": "./dist/StereoPanKnob/index.d.ts",
+      "default": "./dist/StereoPanKnob/index.js"
+    },
     "./StickyActionBar": {
       "source": "./src/StickyActionBar/index.ts",
       "types": "./dist/StickyActionBar/index.d.ts",
@@ -1002,10 +1022,20 @@
       "types": "./dist/VisualQueryBuilder/index.d.ts",
       "default": "./dist/VisualQueryBuilder/index.js"
     },
+    "./VuPeakLevelMeter": {
+      "source": "./src/VuPeakLevelMeter/index.ts",
+      "types": "./dist/VuPeakLevelMeter/index.d.ts",
+      "default": "./dist/VuPeakLevelMeter/index.js"
+    },
     "./WaterfallChart": {
       "source": "./src/WaterfallChart/index.ts",
       "types": "./dist/WaterfallChart/index.d.ts",
       "default": "./dist/WaterfallChart/index.js"
+    },
+    "./WaveformSpectrogramView": {
+      "source": "./src/WaveformSpectrogramView/index.ts",
+      "types": "./dist/WaveformSpectrogramView/index.d.ts",
+      "default": "./dist/WaveformSpectrogramView/index.js"
     },
     "./WindowSplitter": {
       "source": "./src/WindowSplitter/index.ts",

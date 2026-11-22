@@ -1,6 +1,7 @@
 import { AiAgentControlDemos } from './demos/AiAgentControlDemos';
 import { AiContextMemoryDemos } from './demos/AiContextMemoryDemos';
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
+import { AudioMixingDemos } from './demos/AudioMixingDemos';
 import { ChartChromeDemos } from './demos/ChartChromeDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
@@ -271,6 +272,15 @@ const PHOTO_COLOR_GRADING_IDS = new Set([
   'wipe-compare-overlay',
 ]);
 
+const AUDIO_MIXING_DSP_IDS = new Set([
+  'channel-strip-fader',
+  'vu-peak-level-meter',
+  'stereo-pan-knob',
+  'parametric-eq-graph',
+  'waveform-spectrogram-view',
+  'effects-rack-chain',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -358,6 +368,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (PHOTO_COLOR_GRADING_IDS.has(componentId)) {
     return <PhotoColorGradingDemos componentId={componentId} />;
+  }
+  if (AUDIO_MIXING_DSP_IDS.has(componentId)) {
+    return <AudioMixingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

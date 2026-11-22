@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.26.0] - 2026-11-21
+
+### Added
+- **Audio Mixing & Signal Processing (6 new optical-glass console & DSP primitives — 203 total across 36 categories):**
+  - `ChannelStripFader`: Vertical long-throw `-∞`/`-60 dB` to `+12 dB` console fader with calibrated markings, double-click Unity `0 dB` snap, Mute switch, and studio-dB / linear-% readouts.
+  - `VuPeakLevelMeter`: Vertical and horizontal segmented LED level meter transitioning across green, yellow, and red zones with sticky peak-hold indicators and latching click-to-clear Clip alert.
+  - `StereoPanKnob`: Center-detented optical SVG rotary balance dial (`L100`..`C`..`R100`) with magnetic center detent, double-click center snap, and quick `L`/`C`/`R` buttons.
+  - `ParametricEqGraph`: Logarithmic `20Hz–20kHz` frequency-response SVG curve with draggable numbered band nodes, live summed Low-Shelf/Bell/High-Shelf response, and per-band Hz/Gain/Q inspector.
+  - `WaveformSpectrogramView`: Zoomable `Waveform`, `Spectrogram`, and `Split` audio canvas with range selection, transient peak markers, `Silence Selection`, `Cut Selection`, and `Reset Audio`.
+  - `EffectsRackChain`: Reorderable horizontal/vertical DSP plugin chain with per-slot bypass switches, wet/dry mix sliders, master `Bypass All`, `Add Insert`, and directional signal-flow indicators.
+- Added interactive playground demos and prop specs in `apps/docs` under `Audio Mixing & Signal Processing`.
+
 ## [1.25.0] - 2026-11-21
 
 ### Added
@@ -338,7 +350,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.25.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.26.0...HEAD
+[1.26.0]: https://github.com/SourceCode/refractor-ui/compare/v1.25.0...v1.26.0
 [1.25.0]: https://github.com/SourceCode/refractor-ui/compare/v1.24.0...v1.25.0
 [1.24.0]: https://github.com/SourceCode/refractor-ui/compare/v1.23.0...v1.24.0
 [1.23.0]: https://github.com/SourceCode/refractor-ui/compare/v1.22.0...v1.23.0
