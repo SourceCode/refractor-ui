@@ -15,16 +15,21 @@ import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { Design3dShaderDemos } from './demos/Design3dShaderDemos';
 import { DesktopOsWindowingDemos } from './demos/DesktopOsWindowingDemos';
+import { DesktopSurfacesDialogsDemos } from './demos/DesktopSurfacesDialogsDemos';
 import { DocumentKnowledgeDemos } from './demos/DocumentKnowledgeDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { EnterpriseOpsApiDemos } from './demos/EnterpriseOpsApiDemos';
+import { FileExplorerNavigationDemos } from './demos/FileExplorerNavigationDemos';
+import { FileManagementOperationsDemos } from './demos/FileManagementOperationsDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
+import { HardwareHudsOverlaysDemos } from './demos/HardwareHudsOverlaysDemos';
 import { HardwareIotTactileDemos } from './demos/HardwareIotTactileDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
+import { MenusLaunchersDemos } from './demos/MenusLaunchersDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
@@ -37,9 +42,12 @@ import { ScientificChartsDemos } from './demos/ScientificChartsDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
 import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
+import { SystemTrayControlCenterDemos } from './demos/SystemTrayControlCenterDemos';
 import { TimelineSequencingDemos } from './demos/TimelineSequencingDemos';
 import { TransportPlaybackDemos } from './demos/TransportPlaybackDemos';
 import { ViewportExportDemos } from './demos/ViewportExportDemos';
+import { WindowAnatomyControlsDemos } from './demos/WindowAnatomyControlsDemos';
+import { WindowManagementTilingDemos } from './demos/WindowManagementTilingDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -392,6 +400,74 @@ const HARDWARE_IOT_TACTILE_IDS = new Set([
   'virtual-joystick-pad',
 ]);
 
+const FILE_EXPLORER_NAVIGATION_IDS = new Set([
+  'editable-path-bar',
+  'file-view-mode-bar',
+  'dual-pane-commander',
+  'mounted-volumes-sidebar',
+  'file-metadata-inspector',
+  'marquee-selection-box',
+  'directory-filter-bar',
+]);
+
+const FILE_MANAGEMENT_OPERATIONS_IDS = new Set([
+  'file-transfer-queue',
+  'file-conflict-dialog',
+  'batch-rename-utility',
+  'permissions-sharing-matrix',
+  'archive-inspector',
+  'trash-recovery-banner',
+]);
+
+const WINDOW_ANATOMY_CONTROLS_IDS = new Set([
+  'merged-window-tab-bar',
+  'window-resize-frame',
+  'window-utility-controls',
+  'floating-inspector-palette',
+  'window-attached-sheet',
+]);
+
+const WINDOW_MANAGEMENT_TILING_IDS = new Set([
+  'snap-zone-overlay',
+  'window-layout-popover',
+  'window-switcher-overlay',
+  'virtual-desktop-bar',
+  'window-expose-grid',
+  'minimized-window-tray',
+]);
+
+const MENUS_LAUNCHERS_IDS = new Set([
+  'cascading-submenu',
+  'rich-context-menu',
+  'app-launcher-menu',
+  'system-spotlight-launcher',
+  'tear-off-menu',
+]);
+
+const SYSTEM_TRAY_CONTROL_CENTER_IDS = new Set([
+  'system-tray-cluster',
+  'control-center-grid',
+  'per-app-audio-mixer',
+  'network-vpn-popover',
+  'clock-calendar-popover',
+]);
+
+const HARDWARE_HUDS_OVERLAYS_IDS = new Set([
+  'hardware-osd-hud',
+  'lock-screen-overlay',
+  'session-power-overlay',
+  'task-manager-dialog',
+  'screen-capture-hud',
+]);
+
+const DESKTOP_SURFACES_DIALOGS_IDS = new Set([
+  'desktop-icon-canvas',
+  'desktop-widget-frame',
+  'system-preferences-shell',
+  'system-file-dialog',
+  'system-about-card',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -515,6 +591,30 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (HARDWARE_IOT_TACTILE_IDS.has(componentId)) {
     return <HardwareIotTactileDemos componentId={componentId} />;
+  }
+  if (FILE_EXPLORER_NAVIGATION_IDS.has(componentId)) {
+    return <FileExplorerNavigationDemos componentId={componentId} />;
+  }
+  if (FILE_MANAGEMENT_OPERATIONS_IDS.has(componentId)) {
+    return <FileManagementOperationsDemos componentId={componentId} />;
+  }
+  if (WINDOW_ANATOMY_CONTROLS_IDS.has(componentId)) {
+    return <WindowAnatomyControlsDemos componentId={componentId} />;
+  }
+  if (WINDOW_MANAGEMENT_TILING_IDS.has(componentId)) {
+    return <WindowManagementTilingDemos componentId={componentId} />;
+  }
+  if (MENUS_LAUNCHERS_IDS.has(componentId)) {
+    return <MenusLaunchersDemos componentId={componentId} />;
+  }
+  if (SYSTEM_TRAY_CONTROL_CENTER_IDS.has(componentId)) {
+    return <SystemTrayControlCenterDemos componentId={componentId} />;
+  }
+  if (HARDWARE_HUDS_OVERLAYS_IDS.has(componentId)) {
+    return <HardwareHudsOverlaysDemos componentId={componentId} />;
+  }
+  if (DESKTOP_SURFACES_DIALOGS_IDS.has(componentId)) {
+    return <DesktopSurfacesDialogsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

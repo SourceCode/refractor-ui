@@ -7,6 +7,99 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.45.0] - 2026-11-22
+
+### Added
+- **Desktop Surfaces & Native System Dialogs (5 new optical-glass desktop workspace & OS dialog primitives — 314 total across 55 categories):**
+  - `DesktopIconCanvas`: Root optical desktop workspace surface supporting token-driven wallpaper presets, draggable snap-to-grid icons with collision resolution, F2 inline rename, auto-arrange sorting, and desktop-level AABB marquee selection.
+  - `DesktopWidgetFrame`: Lightweight persistent desktop gadget container with `1×1`/`2×1`/`2×2` size presets, lock/pin/refresh/edit chrome, guarded two-step removal, and built-in telemetry, weather, sticky-notes, clock, or custom widget views.
+  - `SystemPreferencesShell`: Two-pane OS settings shell pairing a linear-time searchable icon sidebar with grouped toggle, segmented, select, and slider preference cards stored in prototype-safe `Map` state with section default reset.
+  - `SystemFileDialog`: Standardized inline or modal Open / Save As OS file dialog combining quick-access places, breadcrumb navigation, New Folder creation, extension filtering, and path-traversal-hardened filename validation.
+  - `SystemAboutCard`: Classic OS identity card/modal featuring a pure-SVG optical prism emblem, version/build pill, masked serial & hardware specs `<dl>`, semantic storage capacity meter, optional live uptime ticker, resilient diagnostics copy, and `sanitizeUrl`-hardened links.
+- **314-Component / 55-Category Phase 6 Certification & GitHub Pages Deployment:**
+  - Updated `apps/docs` live demos, `DocsGuides`, `README.md`, `storage.test.ts`, and `responsive.matrix.test.tsx` to verify all 314 components across all 55 categories and 15 modern device viewports.
+
+## [1.44.0] - 2026-11-22
+
+### Added
+- **Hardware HUDs & System Overlays (5 new optical-glass system HUD & overlay primitives — 309 total across 54 categories):**
+  - `HardwareOsdHud`: Non-interactive (`pointer-events-none`) centered translucent hardware OSD overlay displaying 16-segment volume/brightness meters and media/Caps Lock badges with configurable auto-fade timeout and interactive key simulator.
+  - `LockScreenOverlay`: Inline or fullscreen frosted-glass lock barrier combining large tabular clock/date, roving-keyboard user avatar switcher, ephemeral password/PIN unlock with Guest passwordless mode, and quick Sleep/Restart/Shut Down controls.
+  - `SessionPowerOverlay`: Inline or modal dimmed session/power action overlay offering Sleep, Restart, Shut Down, and Log Out cards, `Reopen windows` toggle, and an optional auto-confirm countdown timer with clean teardown.
+  - `TaskManagerDialog`: Compact system utility listing active apps and background daemons inside an `overflow-x-auto` table with live aggregate CPU/Memory telemetry, linear search, `Unresponsive Only` filter, sorting, and `Force Quit`.
+  - `ScreenCaptureHud`: Floating bottom capture/recording HUD choosing Full Screen, Window, or Marquee Region modes alongside Screenshot/Record switching, countdown delay timer, mic toggle, save target, and live `REC MM:SS` elapsed clock.
+- Added interactive playground demos and prop specs in `apps/docs` under `Hardware HUDs & System Overlays`.
+
+## [1.43.0] - 2026-11-22
+
+### Added
+- **System Tray & Control Center (5 new optical-glass OS status & quick-settings primitives — 304 total across 53 categories):**
+  - `SystemTrayCluster`: Right-aligned 6-indicator OS menu-bar cluster (`Wi-Fi`, `Bluetooth`, `Battery`, `Volume`, `Keyboard Layout`, `Clock`) with roving keyboard navigation and dedicated viewport-clamped popovers.
+  - `ControlCenterGrid`: Bento-style optical Quick Settings grid uniting 2×2 pill toggles (`Wi-Fi`, `Bluetooth`, `Do Not Disturb`, `Theme`), display brightness & output volume sliders, and a mini `Now Playing` media card.
+  - `PerAppAudioMixer`: System sound mixer popover with output/input device selectors, master volume fader with 20-segment semantic level meter, mute propagation, and per-application channel sliders.
+  - `NetworkVpnPopover`: Live Wi-Fi and VPN connection selector featuring 4-bar optical signal graphics, WPA3/WPA2/Open security badges, Airplane Mode radio suspension, and mutually exclusive VPN profile switches.
+  - `ClockCalendarPopover`: Deterministic UTC system clock anchor & popover combining a 42-day monthly calendar grid, selected-day agenda list, and live multi-timezone world-clock readouts with day-rollover badges.
+- Added interactive playground demos and prop specs in `apps/docs` under `System Tray & Control Center`.
+
+## [1.42.0] - 2026-11-22
+
+### Added
+- **Menus & Launchers (5 new optical-glass OS menu & launcher primitives — 299 total across 52 categories):**
+  - `CascadingSubmenu`: Multi-level nested menu featuring geometric safe-triangle hover delay (`isPointInSafeTriangle`), 3-level hierarchy, horizontally scrollable mobile panes, and full WAI-ARIA arrow-key navigation.
+  - `RichContextMenu`: Right-click & triggerable rich menu combining a top Cut/Copy/Paste/Rename/Delete quick-action squircle toolbar, 6 semantic `--prism-*` color-tag dots, and vertical shortcut-badged actions.
+  - `AppLauncherMenu`: Categorized Start/Launcher overlay with linear-time search, Pinned/All/Category filters, live Pin/Unpin app tiles, recent documents rail, and user/power footer controls.
+  - `SystemSpotlightLauncher`: Floating OS Spotlight launcher with a zero-`eval` recursive-descent math parser, 10 deterministic unit conversion pairs (`px↔rem`, `km↔mi`, `kg↔lb`, `c↔f`, `gb↔mb`), and split live preview pane.
+  - `TearOffMenu`: Dropdown menu topped with a perforated optical tear-off grip that detaches via click, keyboard, or pointer drag (`>= 24px`) into a persistent floating tool palette with `Dock Back` recovery.
+- Added interactive playground demos and prop specs in `apps/docs` under `Menus & Launchers`.
+
+## [1.41.0] - 2026-11-22
+
+### Added
+- **Window Management & Desktop Tiling (6 new optical-glass desktop tiling & window switcher primitives — 294 total across 51 categories):**
+  - `SnapZoneOverlay`: Translucent optical glass drop-zone tiling overlay supporting `Halves`, `Thirds`, `Quarters`, and `Priority Grid` (`70/30` main + stack) with hover, click, HTML5 drag-drop, and roving keyboard snapping.
+  - `WindowLayoutPopover`: Maximize-button hover/click tiling template popover rendering 4 interactive miniature schematics (`50/50 Split`, `70/30 Main & Stack`, `3-Column Studio`, `2×2 Quad Grid`) with 12 selectable panes.
+  - `WindowSwitcherOverlay`: Inline or modal Alt+Tab / Cmd+Tab floating optical window switcher strip with miniature window previews, `Tab`/`Arrow` wraparound cycling, `Enter` focus commit, and `Delete` close actions.
+  - `VirtualDesktopBar`: Overview strip of miniature virtual desktop workspaces with `+ New Desktop`, safe workspace close with window rescue, HTML5 drag-and-drop window reassignment, and keyboard `<select>` transfer parity.
+  - `WindowExposeGrid`: Zoomed-out non-overlapping Exposé spatial window grid with linear-time search, dynamic app filter pills, prototype-safe `Group by App` mode, focus commit, and per-window close controls.
+  - `MinimizedWindowTray`: Dock/taskbar shelf displaying minimized windows as either live miniature `Thumbnails` or refractive `Glass Pills` with individual restore, `Restore All`, and close actions.
+- Added interactive playground demos and prop specs in `apps/docs` under `Window Management & Desktop Tiling`.
+
+## [1.40.0] - 2026-11-22
+
+### Added
+- **Window Anatomy & Controls (5 new optical-glass window chrome & workspace primitives — 288 total across 50 categories):**
+  - `MergedWindowTabBar`: Integrated browser-style window titlebar tab strip with traffic-light chrome, drag-and-drop + `Alt+Arrow` reordering, dirty indicators, `+ New Tab`, and tear-off / merge-back detached window shelf.
+  - `WindowResizeFrame`: All 8 directional edge and corner resize hitboxes paired with a dashed translucent ghost preview outline, live snapped dimension telemetry (`16px` grid snap toggle), `Escape`/`pointercancel` abort, and full keyboard resizing.
+  - `WindowUtilityControls`: Compact titlebar toggles for `Pin Always-on-Top`, `Window Shade` roll-up collapse, and live `30%–100%` background opacity translucency slider & presets.
+  - `FloatingInspectorPalette`: Slim-titlebar non-blocking tool palette tethered to parent workspace focus with automatic hide-on-blur behavior, pin-persistent override, and collapsible inspector sections.
+  - `WindowAttachedSheet`: Window-scoped titlebar-anchored modal sheet blocking interaction strictly inside its parent window while leaving sibling workspace windows completely interactive.
+- Added interactive playground demos and prop specs in `apps/docs` under `Window Anatomy & Controls`.
+
+## [1.39.0] - 2026-11-22
+
+### Added
+- **File Management & Operations (6 new optical-glass file workflow & safety primitives — 283 total across 49 categories):**
+  - `FileTransferQueue`: Collapsible floating utility manager tracking concurrent Copy, Move, Upload, and Extract jobs with aggregate live throughput (`MB/s`), ETA, `Pause`/`Resume`/`Cancel`/`Retry`/`Dismiss`, and `Clear Completed`.
+  - `FileConflictDialog`: Inline or modal side-by-side duplicate filename comparison dialog highlighting size/recency differences with `Replace`, `Keep Both`, `Skip`, and `Apply to all remaining conflicts`.
+  - `BatchRenameUtility`: ReDoS-safe linear-time multi-file rename workbench featuring literal find/replace, curated pattern presets, 6 case formatters, sequential zero-padded numbering, duplicate/path-traversal collision detection, and a live `Before -> After` preview table.
+  - `PermissionsSharingMatrix`: Interactive POSIX `Owner`/`Group`/`Public` R/W/X bit matrix with live octal/symbolic readout (`0754 · rwxr-xr--`), presets (`0644`, `0755`, `0600`), ownership fields, and `sanitizeUrl`-hardened cloud link sharing.
+  - `ArchiveInspector`: Virtual `.zip`/`.tar`/`.7z` archive browser with compression savings telemetry, Zip-Slip (`../`/absolute/drive-letter) entry blocking, literal virtual file preview pane, and selective safe extraction.
+  - `TrashRecoveryBanner`: Contextual Trash retention strip with urgency-tinted auto-delete timer, `Restore Selected`, `Restore All`, and two-step safety-confirmed `Empty Trash`.
+- Added interactive playground demos and prop specs in `apps/docs` under `File Management & Operations`.
+
+## [1.38.0] - 2026-11-22
+
+### Added
+- **File Explorer Navigation & Views (7 new optical-glass file system & navigation primitives — 277 total across 48 categories):**
+  - `EditablePathBar`: Hybrid breadcrumb bar with clickable folder segments, history Back/Forward/Up navigation, `Ctrl+L`/`Alt+D` raw path editing combobox, autocomplete listbox, and linear-time POSIX path normalization.
+  - `FileViewModeBar`: Roving-keyboard view mode switcher (`Icon Grid`, `Compact List`, `Detailed Columns`, `Gallery`) paired with a thumbnail zoom slider (`48–160px`) and optional live multi-mode preview stage.
+  - `DualPaneCommander`: Side-by-side optical dual-pane directory commander with central `Copy`, `Move`, `Compare` diff highlights, `Sync Newer`, and `Swap Panes` actions backed by prototype-safe `Map` indexing.
+  - `MountedVolumesSidebar`: Categorized collapsible places rail grouping Favorites, Smart Folders, Local Drives with semantic `--prism-*` capacity bars, and ejectable Network/Cloud/Removable mounts with remount recovery.
+  - `FileMetadataInspector`: Toggleable optical inspector panel featuring procedural SVG kind previews, `<dl>` metadata + resilient SHA-256 copy, EXIF/media specs, and editable semantic color tags.
+  - `MarqueeSelectionBox`: Click-and-drag translucent optical lasso rectangle computing live AABB intersections across a responsive file grid with additive `Shift`/`Ctrl` dragging and full keyboard parity.
+  - `DirectoryFilterBar`: Inline search, dynamic extension pills, semantic tag filters, prototype-safe `Map` grouping (`None`, `Kind`, `Date Modified`, `Size`), and ascending/descending sort toolbar.
+- Added interactive playground demos and prop specs in `apps/docs` under `File Explorer Navigation & Views`.
+
 ## [1.37.0] - 2026-11-22
 
 ### Added
@@ -487,7 +580,15 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.45.0...HEAD
+[1.45.0]: https://github.com/SourceCode/refractor-ui/compare/v1.44.0...v1.45.0
+[1.44.0]: https://github.com/SourceCode/refractor-ui/compare/v1.43.0...v1.44.0
+[1.43.0]: https://github.com/SourceCode/refractor-ui/compare/v1.42.0...v1.43.0
+[1.42.0]: https://github.com/SourceCode/refractor-ui/compare/v1.41.0...v1.42.0
+[1.41.0]: https://github.com/SourceCode/refractor-ui/compare/v1.40.0...v1.41.0
+[1.40.0]: https://github.com/SourceCode/refractor-ui/compare/v1.39.0...v1.40.0
+[1.39.0]: https://github.com/SourceCode/refractor-ui/compare/v1.38.0...v1.39.0
+[1.38.0]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...v1.38.0
 [1.37.0]: https://github.com/SourceCode/refractor-ui/compare/v1.36.0...v1.37.0
 [1.36.0]: https://github.com/SourceCode/refractor-ui/compare/v1.35.0...v1.36.0
 [1.35.0]: https://github.com/SourceCode/refractor-ui/compare/v1.34.0...v1.35.0

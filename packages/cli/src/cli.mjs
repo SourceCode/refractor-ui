@@ -54,6 +54,14 @@ const CANONICAL_CATEGORY_ORDER = [
   'Design, 3D & Shader Inspector Controls',
   'Enterprise Workflows, Data Ops & API Tooling',
   'Hardware, IoT & Tactile Surfaces',
+  'File Explorer Navigation & Views',
+  'File Management & Operations',
+  'Window Anatomy & Controls',
+  'Window Management & Desktop Tiling',
+  'Menus & Launchers',
+  'System Tray & Control Center',
+  'Hardware HUDs & System Overlays',
+  'Desktop Surfaces & Native System Dialogs',
 ];
 
 const DOC_TOPICS = {

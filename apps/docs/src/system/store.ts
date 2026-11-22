@@ -73,7 +73,15 @@ export type DocsCategoryFilter =
   | 'document-knowledge-spreadsheet'
   | 'design-3d-shader'
   | 'enterprise-ops-api'
-  | 'hardware-iot-tactile';
+  | 'hardware-iot-tactile'
+  | 'file-explorer-navigation'
+  | 'file-management-operations'
+  | 'window-anatomy-controls'
+  | 'window-management-tiling'
+  | 'menus-launchers'
+  | 'system-tray-control-center'
+  | 'hardware-huds-overlays'
+  | 'desktop-surfaces-dialogs';
 
 export type DocsPageSection =
   | 'catalog'

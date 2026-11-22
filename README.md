@@ -2,13 +2,13 @@
 
 # Refractor Optical Glass UI Kit
 
-**A tactile, prismatic optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, MUI-simple theming, and 270 accessible components across 47 categories.**
+**A tactile, prismatic optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, MUI-simple theming, and 314 accessible components across 55 categories.**
 
-[![Release v1.37.0](https://img.shields.io/badge/release-v1.37.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.37.0)
+[![Release v1.45.0](https://img.shields.io/badge/release-v1.45.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.45.0)
 [![Live Docs](https://img.shields.io/badge/docs-GitHub%20Pages-38BDF8?style=flat-square)](https://sourcecode.github.io/refractor-ui/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=000)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20(Zero%20any%2Funknown)-3178C6?style=flat-square&logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
-[![Coverage 99.6%](https://img.shields.io/badge/coverage-99.6%25-26BC92?style=flat-square)](./docs/adr/ADR-0005-testing-adversarial-coverage-and-security-verification.md)
+[![Coverage 99.8%](https://img.shields.io/badge/coverage-99.8%25-26BC92?style=flat-square)](./docs/adr/ADR-0005-testing-adversarial-coverage-and-security-verification.md)
 [![UX/UI Audit 9.95/10](https://img.shields.io/badge/UX%2FUI%20audit-9.95%2F10-26BC92?style=flat-square)](./docs/reviews/ux-ui-director-audit.md)
 [![License Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue?style=flat-square)](./LICENSE)
 
@@ -25,13 +25,13 @@
 
 ## Why Refractor UI?
 
-- **270 Production Components Across 47 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, token-driven optical SVG charting/financial/scientific/observability/geospatial/storytelling suites, foundational micro-utilities, desktop OS windowing metaphors, knowledge & formula spreadsheet tools, 3D/shader inspectors, enterprise data ops & API consoles, and hardware/IoT tactile surfaces.
+- **314 Production Components Across 55 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, token-driven optical SVG charting/financial/scientific/observability/geospatial/storytelling suites, foundational micro-utilities, desktop OS windowing metaphors, knowledge & formula spreadsheet tools, 3D/shader inspectors, enterprise data ops & API consoles, hardware/IoT tactile surfaces, and full desktop OS file explorer, window management, launcher, system tray, hardware HUD, and native system dialog suites.
 - **Astryx-Aligned Open-Internals Architecture:** Every primitive lives in `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts` — using React 19 `ref`-as-prop (never `forwardRef`), `BaseProps<Element>`, `themeProps()`, `mergeProps()`, and tree-shakeable subpath exports.
 - **Dual MUI + Astryx Optical Theme Engine:**
   - **MUI-Simple Color Control:** Pass a single hex color to `createPrismTheme({ palette: { primary: { main: '#7C3AED' } } })` and Refractor automatically computes `light`, `dark`, WCAG `>= 4.5:1` `contrastText`, and RGB caustic dispersion channels.
   - **Astryx CSS Cascade Theming:** Compose themes via `defineTheme({ name, extends, tokens, components })` or adopt 5 official presets (`alabaster`, `obsidian`, `amethyst`, `emerald-tide`, `solar-prism`) scoped cleanly inside CSS `@layer components` for seamless Tailwind CSS v4 interoperability.
 - **Zero `any` and Zero `unknown` Strictness:** Enforced by `@typescript-eslint/no-explicit-any`, custom `@refractor/no-unknown-type`, and a 17-rule two-tier ESLint plugin (`internal/eslint-plugin-refractor`).
-- **Defense-in-Depth Security & 99.6%+ V8 Coverage:** Built-in XSS allowlist sanitization, URL protocol allowlisting, OWASP CSV formula neutralization, prototype-pollution-safe `Map` aggregations, ReDoS protection, path-traversal-hardened CLI swizzling, and `0` high/critical vulnerabilities.
+- **Defense-in-Depth Security & 99.8%+ V8 Coverage:** Built-in XSS allowlist sanitization, URL protocol allowlisting, OWASP CSV formula neutralization, prototype-pollution-safe `Map` aggregations, ReDoS protection, path-traversal-hardened CLI swizzling, and `0` high/critical vulnerabilities.
 - **30 Interactive Full-Code Example Screens (Web, Tablet & Mobile):** Explore live application templates for login, onboarding, MFA, executive analytics, financial reports, SRE telemetry, AI chat, autonomous agent workflows, cloud code IDEs, PR diff reviews, product catalogs, 360° product pages, new product forms, mobile banking, and tablet dispatch at [`#/examples`](https://sourcecode.github.io/refractor-ui/#/examples) — certified `9.85/10` mean in [`docs/reviews/example-screens-ux-audit.md`](./docs/reviews/example-screens-ux-audit.md).
 - **Multi-Device Responsive Certified (Desktop, Tablet & Mobile):** Verified across 15 modern device viewports — including **Google Pixel 10 (`412×924`)**, Pixel 10 Pro / Pro XL, **Samsung Galaxy S25 (`360×780`)**, Galaxy Z Fold7 Cover (`344×882`), **iPhone 17 / 16 / Pro / Pro Max (`393×852`–`440×956`)**, **iPad mini / Pro 11" / Pro 13"**, and **Google Pixel Tablet** — backed by automated multi-device Vitest matrix validation (`apps/docs/src/docs/responsive.matrix.test.tsx`).
 - **Creative UX/UI Director Certified (`9.95/10`):** Every component audited live across Light Mode, Dark Mode, Vivid Refraction, and custom palettes — see [`docs/reviews/ux-ui-director-audit.md`](./docs/reviews/ux-ui-director-audit.md).
@@ -106,7 +106,7 @@ import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
 
 ---
 
-## Complete 270-Component Catalog (47 Categories)
+## Complete 314-Component Catalog (55 Categories)
 
 | Category | Count | Components |
 | --- | :---: | --- |
@@ -157,6 +157,14 @@ import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
 | **Design, 3D & Shader Inspector Controls** | 7 | `VectorXyPad`, `TransformInspector`, `GradientStopEditor`, `SpringEasingPicker`, `OpticalMaterialInspector`, `AlignmentToolbar`, `AssetSwatchGrid` |
 | **Enterprise Workflows, Data Ops & API Tooling** | 6 | `CsvColumnMapper`, `ApiRequestBuilder`, `FeatureFlagRollout`, `ApprovalChainStrip`, `AuditTrailFeed`, `SlaCountdownTimer` |
 | **Hardware, IoT & Tactile Surfaces** | 5 | `StepSequencerMatrix`, `DigitalLedReadout`, `ThermostatDial`, `HardwarePortStrip`, `VirtualJoystickPad` |
+| **File Explorer Navigation & Views** | 7 | `EditablePathBar`, `FileViewModeBar`, `DualPaneCommander`, `MountedVolumesSidebar`, `FileMetadataInspector`, `MarqueeSelectionBox`, `DirectoryFilterBar` |
+| **File Management & Operations** | 6 | `FileTransferQueue`, `FileConflictDialog`, `BatchRenameUtility`, `PermissionsSharingMatrix`, `ArchiveInspector`, `TrashRecoveryBanner` |
+| **Window Anatomy & Controls** | 5 | `MergedWindowTabBar`, `WindowResizeFrame`, `WindowUtilityControls`, `FloatingInspectorPalette`, `WindowAttachedSheet` |
+| **Window Management & Desktop Tiling** | 6 | `SnapZoneOverlay`, `WindowLayoutPopover`, `WindowSwitcherOverlay`, `VirtualDesktopBar`, `WindowExposeGrid`, `MinimizedWindowTray` |
+| **Menus & Launchers** | 5 | `CascadingSubmenu`, `RichContextMenu`, `AppLauncherMenu`, `SystemSpotlightLauncher`, `TearOffMenu` |
+| **System Tray & Control Center** | 5 | `SystemTrayCluster`, `ControlCenterGrid`, `PerAppAudioMixer`, `NetworkVpnPopover`, `ClockCalendarPopover` |
+| **Hardware HUDs & System Overlays** | 5 | `HardwareOsdHud`, `LockScreenOverlay`, `SessionPowerOverlay`, `TaskManagerDialog`, `ScreenCaptureHud` |
+| **Desktop Surfaces & Native System Dialogs** | 5 | `DesktopIconCanvas`, `DesktopWidgetFrame`, `SystemPreferencesShell`, `SystemFileDialog`, `SystemAboutCard` |
 
 ---
 
@@ -186,7 +194,7 @@ node packages/cli/bin/refractor.mjs check --strict
 ├── internal/
 │   └── eslint-plugin-refractor/  # Custom 17-rule two-tier Astryx + zero any/unknown ESLint plugin
 ├── packages/
-│   ├── core/                     # @refractor-ui/core — 270 React 19 components, theme engine, CSS tokens
+│   ├── core/                     # @refractor-ui/core — 314 React 19 components, theme engine, CSS tokens
 │   ├── themes/                   # alabaster, obsidian, amethyst, emerald-tide, solar-prism
 │   └── cli/                      # @refractor-ui/cli — docs, component, theme, swizzle, check
 ├── apps/
@@ -201,7 +209,7 @@ pnpm check:repo       # Verify Astryx structure, SemVer lockstep & zero any/unkn
 pnpm lint:plugin      # Run 16 unit tests for internal/eslint-plugin-refractor
 pnpm lint:strict      # Run two-tier ESLint in CI/agent strict mode
 pnpm typecheck        # Run strict TypeScript checks across core & docs
-pnpm test:coverage    # Run 1,848+ Vitest unit & adversarial tests (>= 93% gate)
+pnpm test:coverage    # Run 2,277+ Vitest unit & adversarial tests (>= 93% gate)
 pnpm build            # Build packages/core and apps/docs
 pnpm build:pages      # Build production GitHub Pages bundle (/refractor-ui/)
 ```
