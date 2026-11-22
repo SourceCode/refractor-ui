@@ -302,6 +302,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Enterprise Ops',
     description: 'Guided RFC-4180 CSV column mappers, embedded HTTP API consoles, feature flag rollout matrices, sequential/parallel approval chains, compliance audit diff trails, and live SLA countdown timers.',
   },
+  {
+    id: 'hardware-iot-tactile',
+    title: 'Hardware, IoT & Tactile Surfaces',
+    shortLabel: 'Hardware & IoT',
+    description: '16-step optical drum sequencers, pure-SVG 7-segment and Nixie digital readouts, radial climate thermostat dials, 1U 12-port optical patch bays, and spring-return analog/D-Pad joysticks.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3810,6 +3816,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'remainingSeconds / deadlineIso / variant', type: "number / string / 'card' | 'compact'", defaultValue: "1420 / undefined / 'card'", description: 'Countdown source and display layout variant.' },
       { name: 'onEscalate / onBreach / autoStart', type: '(event) => void / (event) => void / boolean', defaultValue: 'undefined / undefined / true', description: 'Escalation and breach callbacks plus live ticker toggle.' },
+    ],
+  },
+  // 47. Hardware, IoT & Tactile Surfaces (5 components — v1.37.0)
+  {
+    id: 'step-sequencer-matrix',
+    title: 'Step Sequencer Matrix',
+    exportName: 'StepSequencerMatrix',
+    category: 'hardware-iot-tactile',
+    categoryTitle: 'Hardware, IoT & Tactile Surfaces',
+    summary: 'Illuminated 16-step × 4-track optical drum and synth sequencer with BPM tempo control, Play/Stop step clock, per-track Mute/Clear, preset patterns, and 2D keyboard grid navigation.',
+    codeSnippet: `<StepSequencerMatrix title="Refractor TR-16 Optical Drum Sequencer" />`,
+    props: [
+      { name: 'tracks / defaultTracks / bpm', type: 'ReadonlyArray<SequencerTrackSpec> / number', defaultValue: '4-track House / 124 BPM', description: 'Controlled or initial track patterns and tempo in BPM (60–200).' },
+      { name: 'onPatternChange / onStepTick', type: '(tracks) => void / (step, activeIds) => void', defaultValue: 'undefined', description: 'Pattern edit and active step clock callbacks.' },
+    ],
+  },
+  {
+    id: 'digital-led-readout',
+    title: 'Digital LED / Nixie Readout',
+    exportName: 'DigitalLedReadout',
+    category: 'hardware-iot-tactile',
+    categoryTitle: 'Hardware, IoT & Tactile Surfaces',
+    summary: 'Pure-SVG beveled 7-segment and luminous Nixie vacuum-tube hardware display rendering digits, colons, decimals, negative signs, and alpha status codes in 5 optical phosphor tones.',
+    codeSnippet: `<DigitalLedReadout label="Master Clock" value="128.4" unit="BPM" showStyleToggle />`,
+    props: [
+      { name: 'value / label / unit', type: 'string | number / string / string', defaultValue: "'128.4' / undefined / undefined", description: 'Formatted telemetry value with optional label and unit suffix.' },
+      { name: 'displayStyle / tone / showStyleToggle', type: "'7-segment' | 'nixie' / LedPhosphorTone / boolean", defaultValue: "'7-segment' / 'primary' / false", description: 'Hardware display geometry, phosphor color, and live mode switcher.' },
+    ],
+  },
+  {
+    id: 'thermostat-dial',
+    title: 'Thermostat Dial',
+    exportName: 'ThermostatDial',
+    category: 'hardware-iot-tactile',
+    categoryTitle: 'Hardware, IoT & Tactile Surfaces',
+    summary: 'Radial 270° touch-and-drag and keyboard SVG climate dial comparing ambient vs. target temperature with °F/°C conversion, Cooling/Heating/Eco/Off semantic modes, and fine steppers.',
+    codeSnippet: `<ThermostatDial title="Studio Climate Controller" defaultTargetTempF={70} ambientTempF={73} />`,
+    props: [
+      { name: 'targetTempF / ambientTempF / unit', type: "number / number / 'F' | 'C'", defaultValue: "70 / 73 / 'F'", description: 'Target setpoint, ambient sensor reading, and temperature scale.' },
+      { name: 'mode / onTargetChange / onModeChange', type: 'ThermostatMode / (tempF) => void / (mode) => void', defaultValue: "'cooling' / undefined", description: 'Climate mode and interactive change handlers.' },
+    ],
+  },
+  {
+    id: 'hardware-port-strip',
+    title: 'Hardware Port Strip',
+    exportName: 'HardwarePortStrip',
+    category: 'hardware-iot-tactile',
+    categoryTitle: 'Hardware, IoT & Tactile Surfaces',
+    summary: 'Sculpted 1U 12-port optical network switch and patch bay strip (RJ45, PoE, USB-C, SFP+) with live link LEDs, total PoE wattage load, status filters, and port diagnostic inspector.',
+    codeSnippet: `<HardwarePortStrip title="Refractor SW-12X · 1U Optical Patch Bay" />`,
+    props: [
+      { name: 'ports / defaultPorts / selectedPortId', type: 'ReadonlyArray<HardwarePortSpec> / string', defaultValue: '12-port 1U switch / first port', description: 'Chassis port telemetry records and active selected port.' },
+      { name: 'onSelectPort / onTogglePortAdmin', type: '(port) => void / (id, enabled, next) => void', defaultValue: 'undefined', description: 'Selection and administrative port enable/disable callbacks.' },
+    ],
+  },
+  {
+    id: 'virtual-joystick-pad',
+    title: 'Virtual Joystick & D-Pad',
+    exportName: 'VirtualJoystickPad',
+    category: 'hardware-iot-tactile',
+    categoryTitle: 'Hardware, IoT & Tactile Surfaces',
+    summary: 'Dual-mode circular spring-return analog thumbstick and 5-way cruciform tactile D-Pad emitting unit-circle-normalized X/Y vector, magnitude, compass heading, and cardinal direction.',
+    codeSnippet: `<VirtualJoystickPad title="Optical Gimbal & D-Pad Controller" />`,
+    props: [
+      { name: 'mode / springReturn / deadzone', type: "'analog' | 'dpad' / boolean / number", defaultValue: "'analog' / true / 0.08", description: 'Controller surface mode, spring-back toggle, and deadzone radius.' },
+      { name: 'value / defaultValue / onChange', type: '{ x: number; y: number } / (vec: JoystickVector) => void', defaultValue: '{ x: 0, y: 0 } / undefined', description: 'Normalized vector coordinates and live telemetry callback.' },
     ],
   },
 ];

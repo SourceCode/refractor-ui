@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.36.0",
+  "version": "1.37.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -422,6 +422,11 @@
       "types": "./dist/DiffViewer/index.d.ts",
       "default": "./dist/DiffViewer/index.js"
     },
+    "./DigitalLedReadout": {
+      "source": "./src/DigitalLedReadout/index.ts",
+      "types": "./dist/DigitalLedReadout/index.d.ts",
+      "default": "./dist/DigitalLedReadout/index.js"
+    },
     "./DistributedTraceWaterfall": {
       "source": "./src/DistributedTraceWaterfall/index.ts",
       "types": "./dist/DistributedTraceWaterfall/index.d.ts",
@@ -556,6 +561,11 @@
       "source": "./src/HandoffDivider/index.ts",
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
+    },
+    "./HardwarePortStrip": {
+      "source": "./src/HardwarePortStrip/index.ts",
+      "types": "./dist/HardwarePortStrip/index.d.ts",
+      "default": "./dist/HardwarePortStrip/index.js"
     },
     "./HexbinDensityPlot": {
       "source": "./src/HexbinDensityPlot/index.ts",
@@ -1137,6 +1147,11 @@
       "types": "./dist/StatefulAsyncButton/index.d.ts",
       "default": "./dist/StatefulAsyncButton/index.js"
     },
+    "./StepSequencerMatrix": {
+      "source": "./src/StepSequencerMatrix/index.ts",
+      "types": "./dist/StepSequencerMatrix/index.d.ts",
+      "default": "./dist/StepSequencerMatrix/index.js"
+    },
     "./Stepper": {
       "source": "./src/Stepper/index.ts",
       "types": "./dist/Stepper/index.d.ts",
@@ -1196,6 +1211,11 @@
       "source": "./src/TextInput/index.ts",
       "types": "./dist/TextInput/index.d.ts",
       "default": "./dist/TextInput/index.js"
+    },
+    "./ThermostatDial": {
+      "source": "./src/ThermostatDial/index.ts",
+      "types": "./dist/ThermostatDial/index.d.ts",
+      "default": "./dist/ThermostatDial/index.js"
     },
     "./ThinkingAccordion": {
       "source": "./src/ThinkingAccordion/index.ts",
@@ -1306,6 +1326,11 @@
       "source": "./src/ViolinPlot/index.ts",
       "types": "./dist/ViolinPlot/index.d.ts",
       "default": "./dist/ViolinPlot/index.js"
+    },
+    "./VirtualJoystickPad": {
+      "source": "./src/VirtualJoystickPad/index.ts",
+      "types": "./dist/VirtualJoystickPad/index.d.ts",
+      "default": "./dist/VirtualJoystickPad/index.js"
     },
     "./VirtualizedList": {
       "source": "./src/VirtualizedList/index.ts",

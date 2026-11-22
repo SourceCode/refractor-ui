@@ -21,6 +21,7 @@ import { EnterpriseOpsApiDemos } from './demos/EnterpriseOpsApiDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
+import { HardwareIotTactileDemos } from './demos/HardwareIotTactileDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
@@ -383,6 +384,14 @@ const ENTERPRISE_OPS_API_IDS = new Set([
   'sla-countdown-timer',
 ]);
 
+const HARDWARE_IOT_TACTILE_IDS = new Set([
+  'step-sequencer-matrix',
+  'digital-led-readout',
+  'thermostat-dial',
+  'hardware-port-strip',
+  'virtual-joystick-pad',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -503,6 +512,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (ENTERPRISE_OPS_API_IDS.has(componentId)) {
     return <EnterpriseOpsApiDemos componentId={componentId} />;
+  }
+  if (HARDWARE_IOT_TACTILE_IDS.has(componentId)) {
+    return <HardwareIotTactileDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

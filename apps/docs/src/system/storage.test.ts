@@ -16,8 +16,8 @@ import {
 
 describe('Docs storage & component registry', () => {
   it('registers all core and expansion components across unique categories', () => {
-    expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(41);
-    expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(230);
+    expect(DOC_CATEGORIES).toHaveLength(47);
+    expect(COMPONENT_REGISTRY).toHaveLength(270);
 
     const counts = getCategoryCounts(COMPONENT_REGISTRY);
     expect(counts['buttons-actions']).toBe(6);
@@ -61,6 +61,12 @@ describe('Docs storage & component registry', () => {
     expect(counts['scientific-charts']).toBe(7);
     expect(counts['observability-widgets']).toBe(6);
     expect(counts['comparison-storytelling-charts']).toBe(7);
+    expect(counts['foundational-micro-utilities']).toBe(8);
+    expect(counts['desktop-os-windowing']).toBe(7);
+    expect(counts['document-knowledge-spreadsheet']).toBe(7);
+    expect(counts['design-3d-shader']).toBe(7);
+    expect(counts['enterprise-ops-api']).toBe(6);
+    expect(counts['hardware-iot-tactile']).toBe(5);
 
     const uniqueIds = new Set(COMPONENT_REGISTRY.map((c) => c.id));
     expect(uniqueIds.size).toBe(COMPONENT_REGISTRY.length);

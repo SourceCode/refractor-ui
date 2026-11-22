@@ -72,7 +72,7 @@ export function DocsHeroBanner() {
         <div className="inline-flex flex-wrap items-center gap-2">
           <span className="prism-emerald px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>v1.31.0 Public Release</span>
+            <span>v1.37.0 Public Release</span>
           </span>
           <span className="prism-crystal px-3 py-1 rounded-full text-xs font-medium text-slate-700 dark:text-slate-200">
             React 19 · TypeScript · Tailwind CSS v4 · Apache-2.0

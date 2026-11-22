@@ -7,6 +7,20 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.37.0] - 2026-11-22
+
+### Added
+- **Hardware, IoT & Tactile Surfaces (5 new optical-glass hardware & IoT primitives — 270 total across 47 categories):**
+  - `StepSequencerMatrix`: Illuminated `16 steps × 4 tracks` optical drum/synth sequencer inside an `overflow-x-auto` wrapper with BPM tempo slider (`60–200`), Play/Stop step clock, per-track Mute/Clear, `House`/`Breakbeat`/`Clear` presets, and 2D IME-safe keyboard grid navigation.
+  - `DigitalLedReadout`: Pure-SVG beveled `7-segment` and glowing `Nixie` vacuum-tube digital readout rendering `0–9`, `:`, `.`, `-`, and alpha status codes across 5 `--prism-*` phosphor tones with optional live style switcher.
+  - `ThermostatDial`: Radial 270° touch-and-drag + keyboard SVG environmental climate dial comparing ambient vs. setpoint temperature with `°F`/`°C` conversion, `Cooling`/`Heating`/`Eco`/`Off` semantic optical modes, and fine steppers.
+  - `HardwarePortStrip`: Sculpted 1U 12-port optical switch & patch bay strip (`RJ45`, `PoE`, `USB-C`, `SFP+`) with live link LEDs, total PoE wattage load, status filters, and an interactive Port Diagnostic Inspector with admin port enable/disable.
+  - `VirtualJoystickPad`: Dual-mode circular spring-return analog thumbstick (`viewBox="0 0 220 220"`) and 5-way cruciform tactile D-Pad emitting unit-circle-normalized `{ x, y, magnitude, angleDeg, direction }` telemetry with WASD/Arrow steering.
+- **270-Component / 47-Category Phase 5 Certification & GitHub Pages Deployment:**
+  - Updated live GitHub Pages Documentation Portal (`DocsHeroBanner`, `DocsShell`, `DocsGuides`, `index.html`), `README.md`, package READMEs, `@refractor-ui/cli`, and `docs/reviews/ux-ui-director-audit.md` for `v1.37.0` (`270` components / `47` categories).
+  - Locked exact `270`-component / `47`-category assertions across `storage.test.ts`, `responsive.matrix.test.tsx`, and `cli.test.mjs`.
+  - Expanded `packages/core/src/__tests__/security.adversarial.test.tsx` with Section 10 covering Phase 5 (`v1.32.0`–`v1.37.0`) XSS, URL sanitization, formula cycle/syntax safety, CSV formula sanitization, and prototype-pollution immunity.
+
 ## [1.36.0] - 2026-11-22
 
 ### Added
@@ -473,7 +487,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.36.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...HEAD
+[1.37.0]: https://github.com/SourceCode/refractor-ui/compare/v1.36.0...v1.37.0
 [1.36.0]: https://github.com/SourceCode/refractor-ui/compare/v1.35.0...v1.36.0
 [1.35.0]: https://github.com/SourceCode/refractor-ui/compare/v1.34.0...v1.35.0
 [1.34.0]: https://github.com/SourceCode/refractor-ui/compare/v1.33.0...v1.34.0

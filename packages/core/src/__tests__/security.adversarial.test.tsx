@@ -9,6 +9,8 @@ import {
   type GridCellValue,
   type GridRowRecord,
 } from '../AdvancedDataGrid';
+import { ApiRequestBuilder } from '../ApiRequestBuilder';
+import { AuditTrailFeed } from '../AuditTrailFeed';
 import { CalendarHeatmap } from '../CalendarHeatmap';
 import { ChartThresholdMarker } from '../ChartThresholdMarker';
 import { ChatMessageStream } from '../ChatMessageStream';
@@ -18,17 +20,21 @@ import { CodeEditor, type CodeDiagnostic } from '../CodeEditor';
 import { CohortRetentionGrid } from '../CohortRetentionGrid';
 import { CommentThread, type CommentItem } from '../CommentThread';
 import { CookieConsentBanner } from '../CookieConsentBanner';
+import { CsvColumnMapper } from '../CsvColumnMapper';
 import { DiffViewer } from '../DiffViewer';
 import { DistributedTraceWaterfall } from '../DistributedTraceWaterfall';
 import { ExportRenderQueue } from '../ExportRenderQueue';
 import { FacetedFilterBar, type FacetCategoryOption } from '../FacetedFilterBar';
 import { FlameGraphChart, type FlameFrameNode } from '../FlameGraphChart';
+import { FormulaSpreadsheetGrid } from '../FormulaSpreadsheetGrid';
 import { GlobalSearchModal, type GlobalSearchItem } from '../GlobalSearchModal';
 import { ImageCropper } from '../ImageCropper';
 import { InlineDiffReviewer } from '../InlineDiffReviewer';
 import { InteractiveLegend } from '../InteractiveLegend';
+import { LinkPreviewCard } from '../LinkPreviewCard';
 import { LivePresenceIndicator, type PresenceUser } from '../LivePresenceIndicator';
 import { MediaLightbox } from '../MediaLightbox';
+import { MillerColumnsBrowser } from '../MillerColumnsBrowser';
 import { NotificationCenter, type NotificationItem } from '../NotificationCenter';
 import { PivotTable, type PivotField, type PivotRecord, type PivotScalar } from '../PivotTable';
 import { ProductTour, type TourStep } from '../ProductTour';
@@ -813,8 +819,8 @@ describe('6. Static Source Hygiene Gate', () => {
     const coreSrcDir = path.resolve(testDir, '..');
     const tsxFiles = collectNonTestTsxFiles(coreSrcDir);
 
-    // Ensure the static scan covers all 230+ Refractor core components
-    expect(tsxFiles.length).toBeGreaterThanOrEqual(230);
+    // Ensure the static scan covers all 270+ Refractor core components
+    expect(tsxFiles.length).toBeGreaterThanOrEqual(270);
 
     const forbiddenSinks: ReadonlyArray<{ label: string; pattern: RegExp }> = [
       { label: 'dangerouslySetInnerHTML', pattern: /\bdangerouslySetInnerHTML\b/ },
@@ -1145,6 +1151,132 @@ describe('9. Phase 4 Expansion Security & Adversarial Verification (v1.23.0–v1
     expect(container.textContent).toContain('<script>alert("flame")</script>');
     expect(container.textContent).toContain('<script>alert("cohort")</script>');
     expect(container.textContent).toContain('<img src=x onerror=alert(9)>');
+    assertCleanObjectPrototype(baselineProtoKeys);
+  });
+});
+
+describe('10. Phase 5 Expansion Security & Adversarial Verification (v1.32.0–v1.37.0)', () => {
+  it('FormulaSpreadsheetGrid, LinkPreviewCard, MillerColumnsBrowser, CsvColumnMapper, ApiRequestBuilder, and AuditTrailFeed defend against XSS, unsafe URLs, formula injection, cycles, and prototype pollution', () => {
+    const baselineProtoKeys = Object.getOwnPropertyNames(Object.prototype).sort();
+    const onApiSend = vi.fn();
+    const onExportCsv = vi.fn<(csv: string, count: number) => void>();
+
+    const hostileBefore: Record<string, string | number | boolean | null> = {};
+    Object.defineProperty(hostileBefore, '__proto__', {
+      value: 'polluted',
+      enumerable: true,
+      configurable: true,
+    });
+    hostileBefore.role = 'viewer';
+
+    const hostileAfter: Record<string, string | number | boolean | null> = {};
+    Object.defineProperty(hostileAfter, 'constructor', {
+      value: 'polluted',
+      enumerable: true,
+      configurable: true,
+    });
+    hostileAfter.role = '<script>alert("audit")</script>';
+
+    const { container } = render(
+      <div>
+        <FormulaSpreadsheetGrid
+          title="<script>alert('sheet')</script>"
+          sheets={[
+            {
+              id: '__proto__',
+              name: 'Adversarial Sheet',
+              columns: 3,
+              rows: 3,
+              cells: [
+                { address: 'A1', raw: '=B1+1' },
+                { address: 'B1', raw: '=A1+1' },
+                { address: 'C1', raw: '=1/0' },
+                { address: 'A2', raw: '<img src=x onerror=alert(1)>' },
+              ],
+            },
+          ]}
+        />
+        <LinkPreviewCard
+          href="javascript:alert('xss')"
+          label="<script>alert('link')</script>"
+          preview={{
+            title: '<svg onload=alert(2)>',
+            summary: 'Untrusted summary',
+            thumbnailSrc: 'data:text/html,<script>alert(3)</script>',
+          }}
+        />
+        <MillerColumnsBrowser
+          roots={[
+            {
+              id: '__proto__',
+              name: '<script>alert("miller")</script>',
+              kind: 'folder',
+              children: [
+                {
+                  id: 'constructor',
+                  name: 'payload.ts',
+                  kind: 'code',
+                  previewText: '<iframe src="javascript:alert(4)"></iframe>',
+                },
+              ],
+            },
+          ]}
+          defaultSelectedPath={['__proto__', 'constructor']}
+        />
+        <CsvColumnMapper
+          defaultCsvText={'__proto__,email,fullName\n=CMD("calc"),clara@refractor.dev,<script>alert("csv")</script>'}
+        />
+        <ApiRequestBuilder
+          defaultUrl="javascript:alert('api')"
+          onSend={onApiSend}
+        />
+        <AuditTrailFeed
+          defaultExpandedIds={['evt-hostile']}
+          onExportCsv={onExportCsv}
+          events={[
+            {
+              id: 'evt-hostile',
+              timestamp: '2026-11-22 14:00 UTC',
+              actor: '=HYPERLINK("http://evil.test","Click")',
+              actorRole: 'Admin',
+              action: 'update',
+              severity: 'critical',
+              resource: '__proto__/policy',
+              ipAddress: '10.0.0.1',
+              device: 'CLI',
+              summary: '+CMD|"/C calc"!A0',
+              before: hostileBefore,
+              after: hostileAfter,
+            },
+          ]}
+        />
+      </div>
+    );
+
+    // Block dangerous javascript: URL submission in ApiRequestBuilder
+    fireEvent.click(screen.getByRole('button', { name: /Send Request/i }));
+    expect(onApiSend).not.toHaveBeenCalled();
+
+    // Verify formula-sanitized CSV export from AuditTrailFeed
+    fireEvent.click(screen.getByRole('button', { name: /Export Safe CSV/i }));
+    expect(onExportCsv).toHaveBeenCalledTimes(1);
+    const exportedCsv = onExportCsv.mock.calls[0]?.[0] ?? '';
+    expect(exportedCsv).toContain("'=HYPERLINK");
+    expect(exportedCsv).toContain("'+CMD");
+
+    // Verify FormulaSpreadsheetGrid safely detects cycles and division by zero without eval
+    expect(container.textContent).toContain('#CYCLE!');
+    expect(container.textContent).toContain('#DIV/0!');
+
+    // Verify zero script/iframe/img/javascript: DOM sinks across all rendered Phase 5 components
+    expect(container.querySelectorAll('script')).toHaveLength(0);
+    expect(container.querySelectorAll('iframe')).toHaveLength(0);
+    expect(container.querySelectorAll('img')).toHaveLength(0);
+    expect(container.querySelectorAll('[onerror], [onload]')).toHaveLength(0);
+    expect(container.querySelectorAll('a[href^="javascript:"]')).toHaveLength(0);
+    expect(container.textContent).toContain('<img src=x onerror=alert(1)>');
+    expect(container.textContent).toContain('<script>alert("audit")</script>');
+
     assertCleanObjectPrototype(baselineProtoKeys);
   });
 });
