@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.41.0] - 2026-11-22
+
+### Added
+- **Window Management & Desktop Tiling (6 new optical-glass desktop tiling & window switcher primitives — 294 total across 51 categories):**
+  - `SnapZoneOverlay`: Translucent optical glass drop-zone tiling overlay supporting `Halves`, `Thirds`, `Quarters`, and `Priority Grid` (`70/30` main + stack) with hover, click, HTML5 drag-drop, and roving keyboard snapping.
+  - `WindowLayoutPopover`: Maximize-button hover/click tiling template popover rendering 4 interactive miniature schematics (`50/50 Split`, `70/30 Main & Stack`, `3-Column Studio`, `2×2 Quad Grid`) with 12 selectable panes.
+  - `WindowSwitcherOverlay`: Inline or modal Alt+Tab / Cmd+Tab floating optical window switcher strip with miniature window previews, `Tab`/`Arrow` wraparound cycling, `Enter` focus commit, and `Delete` close actions.
+  - `VirtualDesktopBar`: Overview strip of miniature virtual desktop workspaces with `+ New Desktop`, safe workspace close with window rescue, HTML5 drag-and-drop window reassignment, and keyboard `<select>` transfer parity.
+  - `WindowExposeGrid`: Zoomed-out non-overlapping Exposé spatial window grid with linear-time search, dynamic app filter pills, prototype-safe `Group by App` mode, focus commit, and per-window close controls.
+  - `MinimizedWindowTray`: Dock/taskbar shelf displaying minimized windows as either live miniature `Thumbnails` or refractive `Glass Pills` with individual restore, `Restore All`, and close actions.
+- Added interactive playground demos and prop specs in `apps/docs` under `Window Management & Desktop Tiling`.
+
 ## [1.40.0] - 2026-11-22
 
 ### Added
@@ -523,7 +535,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.40.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.41.0...HEAD
+[1.41.0]: https://github.com/SourceCode/refractor-ui/compare/v1.40.0...v1.41.0
 [1.40.0]: https://github.com/SourceCode/refractor-ui/compare/v1.39.0...v1.40.0
 [1.39.0]: https://github.com/SourceCode/refractor-ui/compare/v1.38.0...v1.39.0
 [1.38.0]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...v1.38.0

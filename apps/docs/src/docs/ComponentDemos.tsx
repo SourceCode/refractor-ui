@@ -43,6 +43,7 @@ import { TimelineSequencingDemos } from './demos/TimelineSequencingDemos';
 import { TransportPlaybackDemos } from './demos/TransportPlaybackDemos';
 import { ViewportExportDemos } from './demos/ViewportExportDemos';
 import { WindowAnatomyControlsDemos } from './demos/WindowAnatomyControlsDemos';
+import { WindowManagementTilingDemos } from './demos/WindowManagementTilingDemos';
 
 export interface ComponentLiveDemoProps {
   componentId: string;
@@ -422,6 +423,15 @@ const WINDOW_ANATOMY_CONTROLS_IDS = new Set([
   'window-attached-sheet',
 ]);
 
+const WINDOW_MANAGEMENT_TILING_IDS = new Set([
+  'snap-zone-overlay',
+  'window-layout-popover',
+  'window-switcher-overlay',
+  'virtual-desktop-bar',
+  'window-expose-grid',
+  'minimized-window-tray',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -554,6 +564,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (WINDOW_ANATOMY_CONTROLS_IDS.has(componentId)) {
     return <WindowAnatomyControlsDemos componentId={componentId} />;
+  }
+  if (WINDOW_MANAGEMENT_TILING_IDS.has(componentId)) {
+    return <WindowManagementTilingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

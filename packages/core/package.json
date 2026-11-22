@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.40.0",
+  "version": "1.41.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -802,6 +802,11 @@
       "types": "./dist/MillerColumnsBrowser/index.d.ts",
       "default": "./dist/MillerColumnsBrowser/index.js"
     },
+    "./MinimizedWindowTray": {
+      "source": "./src/MinimizedWindowTray/index.ts",
+      "types": "./dist/MinimizedWindowTray/index.d.ts",
+      "default": "./dist/MinimizedWindowTray/index.js"
+    },
     "./ModalDialog": {
       "source": "./src/ModalDialog/index.ts",
       "types": "./dist/ModalDialog/index.d.ts",
@@ -1182,6 +1187,11 @@
       "types": "./dist/SmallMultiplesGrid/index.d.ts",
       "default": "./dist/SmallMultiplesGrid/index.js"
     },
+    "./SnapZoneOverlay": {
+      "source": "./src/SnapZoneOverlay/index.ts",
+      "types": "./dist/SnapZoneOverlay/index.d.ts",
+      "default": "./dist/SnapZoneOverlay/index.js"
+    },
     "./SortableList": {
       "source": "./src/SortableList/index.ts",
       "types": "./dist/SortableList/index.d.ts",
@@ -1402,6 +1412,11 @@
       "types": "./dist/ViolinPlot/index.d.ts",
       "default": "./dist/ViolinPlot/index.js"
     },
+    "./VirtualDesktopBar": {
+      "source": "./src/VirtualDesktopBar/index.ts",
+      "types": "./dist/VirtualDesktopBar/index.d.ts",
+      "default": "./dist/VirtualDesktopBar/index.js"
+    },
     "./VirtualJoystickPad": {
       "source": "./src/VirtualJoystickPad/index.ts",
       "types": "./dist/VirtualJoystickPad/index.d.ts",
@@ -1442,6 +1457,16 @@
       "types": "./dist/WindowAttachedSheet/index.d.ts",
       "default": "./dist/WindowAttachedSheet/index.js"
     },
+    "./WindowExposeGrid": {
+      "source": "./src/WindowExposeGrid/index.ts",
+      "types": "./dist/WindowExposeGrid/index.d.ts",
+      "default": "./dist/WindowExposeGrid/index.js"
+    },
+    "./WindowLayoutPopover": {
+      "source": "./src/WindowLayoutPopover/index.ts",
+      "types": "./dist/WindowLayoutPopover/index.d.ts",
+      "default": "./dist/WindowLayoutPopover/index.js"
+    },
     "./WindowResizeFrame": {
       "source": "./src/WindowResizeFrame/index.ts",
       "types": "./dist/WindowResizeFrame/index.d.ts",
@@ -1451,6 +1476,11 @@
       "source": "./src/WindowSplitter/index.ts",
       "types": "./dist/WindowSplitter/index.d.ts",
       "default": "./dist/WindowSplitter/index.js"
+    },
+    "./WindowSwitcherOverlay": {
+      "source": "./src/WindowSwitcherOverlay/index.ts",
+      "types": "./dist/WindowSwitcherOverlay/index.d.ts",
+      "default": "./dist/WindowSwitcherOverlay/index.js"
     },
     "./WindowTitlebar": {
       "source": "./src/WindowTitlebar/index.ts",

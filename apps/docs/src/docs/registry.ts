@@ -326,6 +326,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Window Anatomy',
     description: 'Merged tear-off titlebar tabs, 8-way ghost-frame window resize handles, Pin/Shade/Opacity utility chrome, focus-tethered floating inspector palettes, and window-attached modal sheets.',
   },
+  {
+    id: 'window-management-tiling',
+    title: 'Window Management & Desktop Tiling',
+    shortLabel: 'Window Tiling',
+    description: 'Translucent snap-zone drop overlays, maximize-button layout template popovers, Alt+Tab window switchers, virtual desktop bars, Exposé spatial window grids, and minimized window shelves.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -4137,6 +4143,85 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'open / defaultOpen / tone', type: "boolean / boolean / 'info' | 'warning' | 'critical'", defaultValue: "true / 'info'", description: 'Sheet visibility and semantic top stripe tone.' },
       { name: 'showSiblingWindow / onConfirm / onCancel', type: 'boolean / () => void / () => void', defaultValue: 'true / undefined', description: 'Sibling window demonstration toggle and confirm/cancel handlers.' },
+    ],
+  },
+  // 51. Window Management & Desktop Tiling (6 components — v1.41.0)
+  {
+    id: 'snap-zone-overlay',
+    title: 'Snap Zone & Tiling Overlay',
+    exportName: 'SnapZoneOverlay',
+    category: 'window-management-tiling',
+    categoryTitle: 'Window Management & Desktop Tiling',
+    summary: 'Translucent optical glass drop targets snapping windows into Halves, Thirds, Quarters, or Priority Grid zones via hover, click, HTML5 drag-drop, or keyboard navigation.',
+    codeSnippet: `<SnapZoneOverlay windowTitle="Optical Studio — main.tsx" defaultPreset="halves" />`,
+    props: [
+      { name: 'preset / defaultPreset / activeZoneId', type: 'SnapZonePresetKind / string | null', defaultValue: "'halves' / null", description: 'Tiling grid preset and active snapped zone identifier.' },
+      { name: 'onSnapZone / onPresetChange', type: '(slot) => void / (preset) => void', defaultValue: 'undefined', description: 'Zone snap and preset switch callbacks.' },
+    ],
+  },
+  {
+    id: 'window-layout-popover',
+    title: 'Window Layout Preset Popover',
+    exportName: 'WindowLayoutPopover',
+    category: 'window-management-tiling',
+    categoryTitle: 'Window Management & Desktop Tiling',
+    summary: 'Hover/click tiling menu anchored to a window maximize trigger offering one-click miniature schematics for 50/50 Split, 70/30 Main & Stack, 3-Column, and 2×2 Quad layouts.',
+    codeSnippet: `<WindowLayoutPopover windowTitle="Refractor IDE" defaultOpen />`,
+    props: [
+      { name: 'open / defaultOpen / selectedSelection', type: 'boolean / WindowLayoutSlotSelection | null', defaultValue: 'false / null', description: 'Popover visibility and selected template slot.' },
+      { name: 'onSelectLayout / onOpenChange', type: '(selection) => void / (open) => void', defaultValue: 'undefined', description: 'Layout selection and popover visibility callbacks.' },
+    ],
+  },
+  {
+    id: 'window-switcher-overlay',
+    title: 'Window Switcher (Alt+Tab Overlay)',
+    exportName: 'WindowSwitcherOverlay',
+    category: 'window-management-tiling',
+    categoryTitle: 'Window Management & Desktop Tiling',
+    summary: 'Centered Alt+Tab optical window switcher displaying miniature live window preview cards with wraparound Tab/Arrow keyboard cycling, Enter focus commit, and window closing.',
+    codeSnippet: `<WindowSwitcherOverlay mode="inline" onFocusWindow={handleFocus} />`,
+    props: [
+      { name: 'windows / mode / open', type: "ReadonlyArray<SwitcherWindowItem> / 'inline' | 'overlay' / boolean", defaultValue: "5 windows / 'inline' / true", description: 'Active window list and inline or modal overlay presentation.' },
+      { name: 'onFocusWindow / onCloseWindow / onDismiss', type: 'callbacks', defaultValue: 'undefined', description: 'Focus commit, window close, and overlay dismissal handlers.' },
+    ],
+  },
+  {
+    id: 'virtual-desktop-bar',
+    title: 'Virtual Desktop / Workspace Bar',
+    exportName: 'VirtualDesktopBar',
+    category: 'window-management-tiling',
+    categoryTitle: 'Window Management & Desktop Tiling',
+    summary: 'Overview strip of miniature virtual desktop workspaces supporting switching, creating/closing spaces, HTML5 drag-and-drop window transfers, and keyboard workspace reassignment.',
+    codeSnippet: `<VirtualDesktopBar title="Virtual Desktops & Workspaces" />`,
+    props: [
+      { name: 'spaces / activeSpaceId / maxSpaces', type: 'ReadonlyArray<VirtualDesktopSpace> / string / number', defaultValue: '3 spaces / first / 6', description: 'Virtual workspaces, active space, and maximum space cap.' },
+      { name: 'onSelectSpace / onMoveWindow / onSpacesChange', type: 'callbacks', defaultValue: 'undefined', description: 'Workspace selection, transfer, and mutation callbacks.' },
+    ],
+  },
+  {
+    id: 'window-expose-grid',
+    title: 'Window Overview / Exposé Grid',
+    exportName: 'WindowExposeGrid',
+    category: 'window-management-tiling',
+    categoryTitle: 'Window Management & Desktop Tiling',
+    summary: 'Zoomed-out non-overlapping Exposé spatial window grid with linear-time search, dynamic app filter pills, prototype-safe Group by App mode, focus selection, and close triggers.',
+    codeSnippet: `<WindowExposeGrid title="Mission Control — All Open Windows" />`,
+    props: [
+      { name: 'windows / defaultWindows', type: 'ReadonlyArray<ExposeWindowCard>', defaultValue: '6 sample windows', description: 'Open window cards spread across the Exposé grid.' },
+      { name: 'onFocusWindow / onCloseWindow', type: '(win) => void / (id) => void', defaultValue: 'undefined', description: 'Window focus and close action callbacks.' },
+    ],
+  },
+  {
+    id: 'minimized-window-tray',
+    title: 'Minimized Window Shelf / Tray',
+    exportName: 'MinimizedWindowTray',
+    category: 'window-management-tiling',
+    categoryTitle: 'Window Management & Desktop Tiling',
+    summary: 'Dedicated dock or taskbar shelf holding minimized windows as live miniature thumbnails or labeled refractive glass pills with individual restore, Restore All, and close controls.',
+    codeSnippet: `<MinimizedWindowTray title="Minimized Window Shelf" defaultDisplayMode="thumbnails" />`,
+    props: [
+      { name: 'items / displayMode', type: "ReadonlyArray<MinimizedWindowItem> / 'thumbnails' | 'pills'", defaultValue: "4 items / 'thumbnails'", description: 'Minimized window entries and thumbnail vs glass-pill display mode.' },
+      { name: 'onRestoreWindow / onRestoreAll / onCloseWindow', type: 'callbacks', defaultValue: 'undefined', description: 'Single restore, batch restore, and close callbacks.' },
     ],
   },
 ];
