@@ -25,6 +25,7 @@ import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
 import { PhotoColorGradingDemos } from './demos/PhotoColorGradingDemos';
 import { RelationalFlowChartsDemos } from './demos/RelationalFlowChartsDemos';
 import { RichInputDemos } from './demos/RichInputDemos';
+import { ScientificChartsDemos } from './demos/ScientificChartsDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
 import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
@@ -296,6 +297,16 @@ const FINANCIAL_MARKET_CHARTS_IDS = new Set([
   'burndown-burnup-chart',
 ]);
 
+const SCIENTIFIC_CHARTS_IDS = new Set([
+  'violin-plot',
+  'ridgeline-plot',
+  'parallel-coordinates-plot',
+  'contour-density-plot',
+  'hexbin-density-plot',
+  'polar-area-rose-chart',
+  'surface-mesh-3d-plot',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -392,6 +403,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (FINANCIAL_MARKET_CHARTS_IDS.has(componentId)) {
     return <FinancialMarketChartsDemos componentId={componentId} />;
+  }
+  if (SCIENTIFIC_CHARTS_IDS.has(componentId)) {
+    return <ScientificChartsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

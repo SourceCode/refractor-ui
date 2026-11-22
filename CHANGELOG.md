@@ -7,6 +7,19 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.29.0] - 2026-11-21
+
+### Added
+- **Scientific, Statistical & High-Dimensional Visuals (7 new optical-glass data-science & 3D math primitives — 217 total across 39 categories):**
+  - `ViolinPlot`: Mirrored Gaussian KDE density violins (Silverman rule-of-thumb bandwidth) with embedded Tukey IQR box, min-max whiskers, median marker, and full quartile inspector.
+  - `RidgelinePlot`: Vertically stacked overlapping Gaussian KDE mountain distributions over a shared domain with `Tight`/`Balanced`/`Separated` overlap presets and keyboard traversal.
+  - `ParallelCoordinatesPlot`: Multi-axis normalized trajectory plot with group filtering, dimmed background context lines, and full-dimension record inspector.
+  - `ContourDensityPlot`: 2D isotropic Gaussian KDE heatmap with quantized contour bands, Marching-Squares threshold isolines, toggleable scatter overlay, and 2D keyboard probe navigation.
+  - `HexbinDensityPlot`: Pointy-top staggered honeycomb spatial aggregation via cube-rounded axial binning with count-shaded polygons and cluster inspector.
+  - `PolarAreaRoseChart`: Circular Nightingale Rose chart supporting both area-proportional (`sqrt`) and linear radius scaling with interactive wedges and synchronized legend.
+  - `SurfaceMesh3DPlot`: Painter-sorted 3D orthographic surface & wireframe SVG mesh supporting pointer drag & keyboard Yaw/Pitch orbit, zoom (`0.7×`..`1.6×`), and per-facet Z inspection.
+- Added interactive playground demos and prop specs in `apps/docs` under `Scientific, Statistical & High-Dimensional Visuals`.
+
 ## [1.28.0] - 2026-11-21
 
 ### Added
@@ -369,7 +382,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.28.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.29.0...HEAD
+[1.29.0]: https://github.com/SourceCode/refractor-ui/compare/v1.28.0...v1.29.0
 [1.28.0]: https://github.com/SourceCode/refractor-ui/compare/v1.27.0...v1.28.0
 [1.27.0]: https://github.com/SourceCode/refractor-ui/compare/v1.26.0...v1.27.0
 [1.26.0]: https://github.com/SourceCode/refractor-ui/compare/v1.25.0...v1.26.0

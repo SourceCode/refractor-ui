@@ -254,6 +254,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Finance',
     description: 'OHLC candlestick charts with volume histograms, cumulative bid/ask order book depth charts, 2D proportional Marimekko charts, SaaS cohort retention matrices, and sprint burn-down/burn-up charts.',
   },
+  {
+    id: 'scientific-charts',
+    title: 'Scientific, Statistical & High-Dimensional Visuals',
+    shortLabel: 'Scientific',
+    description: 'Gaussian KDE violin and ridgeline distributions, multi-axis parallel coordinates, Marching-Squares 2D contour densities, hexbin spatial aggregation, polar Nightingale roses, and interactive 3D surface meshes.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3039,6 +3045,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'data / mode / unit', type: "SprintBurnPoint[] / 'burndown' | 'burnup' / string", defaultValue: "10-day sprint / 'burndown' / 'pts'", description: 'Checkpoint scope/completed telemetry, chart mode, and unit label.' },
       { name: 'onModeChange / onSelectPoint', type: '(mode) => void / (pt, idx) => void', defaultValue: 'undefined', description: 'Mode toggle and day checkpoint selection callbacks.' },
+    ],
+  },
+  /* ==================== SCIENTIFIC, STATISTICAL & HIGH-DIMENSIONAL VISUALS (7) ==================== */
+  {
+    id: 'violin-plot',
+    title: 'Violin Plot',
+    exportName: 'ViolinPlot',
+    category: 'scientific-charts',
+    categoryTitle: 'Scientific, Statistical & High-Dimensional Visuals',
+    summary: 'Mirrored Gaussian KDE probability density violins overlaid with Tukey IQR boxes, whiskers, and median markers to expose bimodal and skewed distributions.',
+    codeSnippet: `<ViolinPlot title="API Latency Distribution (KDE + IQR)" />`,
+    props: [
+      { name: 'series / showBoxOverlay / unit', type: "ViolinSeries[] / boolean / string", defaultValue: "4 groups / true / 'ms'", description: 'Observation arrays per group, IQR box toggle, and measurement unit.' },
+      { name: 'onSelectSeries', type: '(summary: ViolinStatsSummary) => void', defaultValue: 'undefined', description: 'Statistical quartile/mean inspection callback.' },
+    ],
+  },
+  {
+    id: 'ridgeline-plot',
+    title: 'Ridgeline (Joy) Plot',
+    exportName: 'RidgelinePlot',
+    category: 'scientific-charts',
+    categoryTitle: 'Scientific, Statistical & High-Dimensional Visuals',
+    summary: 'Vertically stacked overlapping Gaussian KDE mountain profiles aligned on a shared horizontal domain to highlight distributional drift across periods or groups.',
+    codeSnippet: `<RidgelinePlot title="Seasonal Temperature Ridgeline" overlap={0.45} />`,
+    props: [
+      { name: 'rows / overlap / unit', type: "RidgelineRow[] / number / string", defaultValue: "6 months / 0.45 / '°C'", description: 'Cohort observation rows, vertical overlap ratio (0..0.75), and unit.' },
+      { name: 'onSelectRow', type: '(selection: RidgelineSelection) => void', defaultValue: 'undefined', description: 'Selected ridge cohort peak/mean/median callback.' },
+    ],
+  },
+  {
+    id: 'parallel-coordinates-plot',
+    title: 'Parallel Coordinates Plot',
+    exportName: 'ParallelCoordinatesPlot',
+    category: 'scientific-charts',
+    categoryTitle: 'Scientific, Statistical & High-Dimensional Visuals',
+    summary: 'Multi-axis high-dimensional polyline explorer plotting records across 3+ normalized vertical axes with group filtering and full-dimension inspection.',
+    codeSnippet: `<ParallelCoordinatesPlot title="Foundation Model Multi-Axis Benchmark" />`,
+    props: [
+      { name: 'axes / records', type: 'ParallelAxisSpec[] / ParallelRecord[]', defaultValue: '5 axes / 7 models', description: 'Dimension specifications and index-aligned multivariate records.' },
+      { name: 'onSelectRecord', type: '(record: ParallelRecord) => void', defaultValue: 'undefined', description: 'Trajectory click/keyboard inspection handler.' },
+    ],
+  },
+  {
+    id: 'contour-density-plot',
+    title: 'Contour & Density Plot',
+    exportName: 'ContourDensityPlot',
+    category: 'scientific-charts',
+    categoryTitle: 'Scientific, Statistical & High-Dimensional Visuals',
+    summary: '2D Gaussian KDE elevation map rendered with quantized contour bands, Marching-Squares threshold isolines, optional scatter overlay, and interactive probe cells.',
+    codeSnippet: `<ContourDensityPlot title="Bimodal Optical Sensor Density Contours" levels={5} />`,
+    props: [
+      { name: 'points / levels / showPoints', type: 'ContourSamplePoint[] / number / boolean', defaultValue: '32 pts / 5 / true', description: '2D observations, isoline level count (3..8), and scatter visibility.' },
+      { name: 'tone / onSelectCell', type: 'ContourTone / (cell) => void', defaultValue: "'primary' / undefined", description: 'Semantic palette ramp and grid density probe callback.' },
+    ],
+  },
+  {
+    id: 'hexbin-density-plot',
+    title: 'Hexbin Plot',
+    exportName: 'HexbinDensityPlot',
+    category: 'scientific-charts',
+    categoryTitle: 'Scientific, Statistical & High-Dimensional Visuals',
+    summary: 'Staggered honeycomb spatial aggregation binning dense 2D scatter coordinates into count-shaded hexagonal cells to prevent overplotting.',
+    codeSnippet: `<HexbinDensityPlot title="Payload vs Latency Hexbin Density" columns={10} />`,
+    props: [
+      { name: 'points / columns / tone', type: 'HexbinPoint[] / number / HexbinTone', defaultValue: "64 pts / 10 / 'emerald'", description: 'Input 2D coordinate points, horizontal hex density, and shading palette.' },
+      { name: 'onSelectHex', type: '(bin: HexbinCluster) => void', defaultValue: 'undefined', description: 'Interactive populated hex cluster callback.' },
+    ],
+  },
+  {
+    id: 'polar-area-rose-chart',
+    title: 'Polar Area (Nightingale Rose) Chart',
+    exportName: 'PolarAreaRoseChart',
+    category: 'scientific-charts',
+    categoryTitle: 'Scientific, Statistical & High-Dimensional Visuals',
+    summary: 'Circular equal-angle radial wedge chart supporting area-proportional (sqrt) and linear radius scaling for cyclic seasonal, directional, or categorical datasets.',
+    codeSnippet: `<PolarAreaRoseChart title="Compass Wind Velocity Rose" defaultScaleMode="area" />`,
+    props: [
+      { name: 'slices / scaleMode / unit', type: "PolarRoseSlice[] / 'area' | 'radius' / string", defaultValue: "8 compass / 'area' / 'kt'", description: 'Cyclic sector values, radial scaling math, and unit suffix.' },
+      { name: 'onSelectSlice', type: '(slice, sharePct) => void', defaultValue: 'undefined', description: 'Sector selection callback with share percentage.' },
+    ],
+  },
+  {
+    id: 'surface-mesh-3d-plot',
+    title: '3D Surface & Mesh Plot',
+    exportName: 'SurfaceMesh3DPlot',
+    category: 'scientific-charts',
+    categoryTitle: 'Scientific, Statistical & High-Dimensional Visuals',
+    summary: 'Interactive painter-sorted 3D orthographic surface and wireframe SVG mesh with pointer/keyboard yaw & pitch orbit, zoom controls, and per-facet Z inspection.',
+    codeSnippet: `<SurfaceMesh3DPlot title="3D Damped Acoustic Ripple Surface" defaultRenderStyle="shaded" />`,
+    props: [
+      { name: 'grid / renderStyle', type: "number[][] / 'shaded' | 'wireframe'", defaultValue: "9x9 ripple / 'shaded'", description: '2D elevation matrix z[row][col] and facet rendering style.' },
+      { name: 'defaultYawDeg / defaultPitchDeg / onSelectCell', type: 'number / number / (cell) => void', defaultValue: '38 / 30 / undefined', description: 'Initial camera orbit angles and quad facet selection handler.' },
     ],
   },
 ];

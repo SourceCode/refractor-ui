@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.28.0",
+  "version": "1.29.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -297,6 +297,11 @@
       "types": "./dist/ContextualPopover/index.d.ts",
       "default": "./dist/ContextualPopover/index.js"
     },
+    "./ContourDensityPlot": {
+      "source": "./src/ContourDensityPlot/index.ts",
+      "types": "./dist/ContourDensityPlot/index.d.ts",
+      "default": "./dist/ContourDensityPlot/index.js"
+    },
     "./CookieConsentBanner": {
       "source": "./src/CookieConsentBanner/index.ts",
       "types": "./dist/CookieConsentBanner/index.d.ts",
@@ -436,6 +441,11 @@
       "source": "./src/HandoffDivider/index.ts",
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
+    },
+    "./HexbinDensityPlot": {
+      "source": "./src/HexbinDensityPlot/index.ts",
+      "types": "./dist/HexbinDensityPlot/index.d.ts",
+      "default": "./dist/HexbinDensityPlot/index.js"
     },
     "./HistogramChart": {
       "source": "./src/HistogramChart/index.ts",
@@ -657,6 +667,11 @@
       "types": "./dist/ParallelComparisonView/index.d.ts",
       "default": "./dist/ParallelComparisonView/index.js"
     },
+    "./ParallelCoordinatesPlot": {
+      "source": "./src/ParallelCoordinatesPlot/index.ts",
+      "types": "./dist/ParallelCoordinatesPlot/index.d.ts",
+      "default": "./dist/ParallelCoordinatesPlot/index.js"
+    },
     "./ParametricEqGraph": {
       "source": "./src/ParametricEqGraph/index.ts",
       "types": "./dist/ParametricEqGraph/index.d.ts",
@@ -686,6 +701,11 @@
       "source": "./src/PointClusterMap/index.ts",
       "types": "./dist/PointClusterMap/index.d.ts",
       "default": "./dist/PointClusterMap/index.js"
+    },
+    "./PolarAreaRoseChart": {
+      "source": "./src/PolarAreaRoseChart/index.ts",
+      "types": "./dist/PolarAreaRoseChart/index.d.ts",
+      "default": "./dist/PolarAreaRoseChart/index.js"
     },
     "./PricingTierMatrix": {
       "source": "./src/PricingTierMatrix/index.ts",
@@ -801,6 +821,11 @@
       "source": "./src/RichTextEditor/index.ts",
       "types": "./dist/RichTextEditor/index.d.ts",
       "default": "./dist/RichTextEditor/index.js"
+    },
+    "./RidgelinePlot": {
+      "source": "./src/RidgelinePlot/index.ts",
+      "types": "./dist/RidgelinePlot/index.d.ts",
+      "default": "./dist/RidgelinePlot/index.js"
     },
     "./RolePermissionsMatrix": {
       "source": "./src/RolePermissionsMatrix/index.ts",
@@ -927,6 +952,11 @@
       "types": "./dist/SunburstChart/index.d.ts",
       "default": "./dist/SunburstChart/index.js"
     },
+    "./SurfaceMesh3DPlot": {
+      "source": "./src/SurfaceMesh3DPlot/index.ts",
+      "types": "./dist/SurfaceMesh3DPlot/index.d.ts",
+      "default": "./dist/SurfaceMesh3DPlot/index.js"
+    },
     "./SwipeableActionRow": {
       "source": "./src/SwipeableActionRow/index.ts",
       "types": "./dist/SwipeableActionRow/index.d.ts",
@@ -1046,6 +1076,11 @@
       "source": "./src/TriStateCheckbox/index.ts",
       "types": "./dist/TriStateCheckbox/index.d.ts",
       "default": "./dist/TriStateCheckbox/index.js"
+    },
+    "./ViolinPlot": {
+      "source": "./src/ViolinPlot/index.ts",
+      "types": "./dist/ViolinPlot/index.d.ts",
+      "default": "./dist/ViolinPlot/index.js"
     },
     "./VirtualizedList": {
       "source": "./src/VirtualizedList/index.ts",
