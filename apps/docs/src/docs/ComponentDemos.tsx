@@ -13,6 +13,7 @@ import { CoreDemos } from './demos/CoreDemos';
 import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
+import { Design3dShaderDemos } from './demos/Design3dShaderDemos';
 import { DesktopOsWindowingDemos } from './demos/DesktopOsWindowingDemos';
 import { DocumentKnowledgeDemos } from './demos/DocumentKnowledgeDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
@@ -362,6 +363,16 @@ const DOCUMENT_KNOWLEDGE_IDS = new Set([
   'formula-spreadsheet-grid',
 ]);
 
+const DESIGN_3D_SHADER_IDS = new Set([
+  'vector-xy-pad',
+  'transform-inspector',
+  'gradient-stop-editor',
+  'spring-easing-picker',
+  'optical-material-inspector',
+  'alignment-toolbar',
+  'asset-swatch-grid',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -476,6 +487,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (DOCUMENT_KNOWLEDGE_IDS.has(componentId)) {
     return <DocumentKnowledgeDemos componentId={componentId} />;
+  }
+  if (DESIGN_3D_SHADER_IDS.has(componentId)) {
+    return <Design3dShaderDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

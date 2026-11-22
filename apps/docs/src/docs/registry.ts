@@ -290,6 +290,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Docs & Sheets',
     description: 'Inline slash-command palettes, block transformer handles, scroll-spy TOC outlines, admonition callouts, link hover previews, multi-page PDF viewers, and formula spreadsheet grids.',
   },
+  {
+    id: 'design-3d-shader',
+    title: 'Design, 3D & Shader Inspector Controls',
+    shortLabel: '3D & Shaders',
+    description: '2D XY vector pads, X/Y/Z transform inspectors with scale locks, multi-stop gradient editors, spring physics pickers, optical shader inspectors, alignment toolbars, and asset swatch libraries.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3627,6 +3633,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'sheets / disabled', type: 'SpreadsheetSheetSpec[] / boolean', defaultValue: '2 live sheets / false', description: 'Workbook sheet definitions with raw values and formulas.' },
       { name: 'onCellChange / title', type: '(sheet, addr, raw, computed) => void / string', defaultValue: 'undefined', description: 'Cell commit callback with evaluated output.' },
+    ],
+  },
+  // 45. Design, 3D & Shader Inspector Controls (7 components — v1.35.0)
+  {
+    id: 'vector-xy-pad',
+    title: '2D XY Vector Pad',
+    exportName: 'VectorXyPad',
+    category: 'design-3d-shader',
+    categoryTitle: 'Design, 3D & Shader Inspector Controls',
+    summary: 'Optical-glass 2D coordinate pad with Cartesian/Polar grid overlay toggle, draggable puck, optional grid snapping, keyboard nudging, and live polar telemetry.',
+    codeSnippet: `<VectorXyPad title="Key Light Azimuth / Elevation" defaultValue={{ x: 24, y: 38 }} />`,
+    props: [
+      { name: 'value / defaultValue', type: 'XyVectorValue', defaultValue: '{ x: 0, y: 0 }', description: 'Controlled or uncontrolled 2D vector coordinate pair.' },
+      { name: 'gridMode / snapStep / onChange', type: "'cartesian' | 'polar' / number / (next) => void", defaultValue: "'cartesian' / 0 / undefined", description: 'Grid visualization mode, snap increment, and change callback.' },
+    ],
+  },
+  {
+    id: 'transform-inspector',
+    title: '3D Transform Inspector',
+    exportName: 'TransformInspector',
+    category: 'design-3d-shader',
+    categoryTitle: 'Design, 3D & Shader Inspector Controls',
+    summary: 'Sculpted 3D inspector exposing Position, Rotation (°), and Scale rows with semantic X/Y/Z axis wells, uniform scale aspect-ratio chain lock, and live CSS transform telemetry.',
+    codeSnippet: `<TransformInspector title="Glass Slab 3D Transform" positionUnit="px" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'Transform3DState / Partial<Transform3DState>', defaultValue: 'origin / scale 1 / locked', description: 'Position, rotation, scale vectors and scale lock flag.' },
+      { name: 'positionUnit / onChange', type: 'string / (state) => void', defaultValue: "'px' / undefined", description: 'Coordinate unit suffix and sanitized state update callback.' },
+    ],
+  },
+  {
+    id: 'gradient-stop-editor',
+    title: 'Gradient Stop Editor',
+    exportName: 'GradientStopEditor',
+    category: 'design-3d-shader',
+    categoryTitle: 'Design, 3D & Shader Inspector Controls',
+    summary: 'Multi-stop CSS and shader gradient ramp editor supporting Linear, Radial, and Conic modes, draggable stop thumbs, midpoint diamonds, and token-driven color-mix ramps.',
+    codeSnippet: `<GradientStopEditor title="Prismatic Multi-Stop Gradient" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'GradientEditorState', defaultValue: 'Linear 135deg 3-stop prism', description: 'Controlled or uncontrolled gradient geometry and stop list.' },
+      { name: 'onChange / disabled', type: '(state, cssValue) => void / boolean', defaultValue: 'undefined / false', description: 'State and generated CSS gradient string callback.' },
+    ],
+  },
+  {
+    id: 'spring-easing-picker',
+    title: 'Spring & Easing Curve Picker',
+    exportName: 'SpringEasingPicker',
+    category: 'design-3d-shader',
+    categoryTitle: 'Design, 3D & Shader Inspector Controls',
+    summary: 'Motion physics and easing workbench with Spring Physics and Cubic Bezier modes, 4 presets, closed-form SVG curve plotting, live animated motion preview, and CSS/spring output.',
+    codeSnippet: `<SpringEasingPicker title="UI Transition Spring & Easing Physics" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'MotionCurveConfig', defaultValue: 'spring 240/18/1', description: 'Motion mode, spring stiffness/damping/mass, bezier points, and duration.' },
+      { name: 'onChange / disabled', type: '(config) => void / boolean', defaultValue: 'undefined / false', description: 'Sanitized motion configuration change callback.' },
+    ],
+  },
+  {
+    id: 'optical-material-inspector',
+    title: 'Optical Material Inspector',
+    exportName: 'OpticalMaterialInspector',
+    category: 'design-3d-shader',
+    categoryTitle: 'Design, 3D & Shader Inspector Controls',
+    summary: 'Interactive refractive shader workbench with live SVG ray-traced glass sphere specimen, 4 optical presets, Blur/IOR/Dispersion/Specular sliders, and surface tint pills.',
+    codeSnippet: `<OpticalMaterialInspector title="Refractive Glass Shader Properties" />`,
+    props: [
+      { name: 'value / defaultValue', type: 'OpticalMaterialState', defaultValue: 'blur 18px / IOR 1.52 / crystal', description: 'Blur radius, index of refraction, chromatic dispersion, specular intensity, and tint.' },
+      { name: 'onChange / disabled', type: '(state) => void / boolean', defaultValue: 'undefined / false', description: 'Shader uniform update callback and disabled state.' },
+    ],
+  },
+  {
+    id: 'alignment-toolbar',
+    title: 'Alignment Toolbar',
+    exportName: 'AlignmentToolbar',
+    category: 'design-3d-shader',
+    categoryTitle: 'Design, 3D & Shader Inspector Controls',
+    summary: 'Compact horizontal/vertical alignment and distribution toolbar with Selection vs. Artboard anchor scope toggle, roving keyboard focus, and interactive 3-object preview stage.',
+    codeSnippet: `<AlignmentToolbar selectedCount={3} showMiniStage />`,
+    props: [
+      { name: 'selectedCount / anchorMode', type: "number / 'selection' | 'artboard'", defaultValue: "3 / 'selection'", description: 'Selection count auto-disabling invalid operations and anchor scope.' },
+      { name: 'showMiniStage / onAlign', type: 'boolean / (action, anchor) => void', defaultValue: 'false / undefined', description: 'Optional live alignment preview stage and action handler.' },
+    ],
+  },
+  {
+    id: 'asset-swatch-grid',
+    title: 'Asset & Swatch Grid',
+    exportName: 'AssetSwatchGrid',
+    category: 'design-3d-shader',
+    categoryTitle: 'Design, 3D & Shader Inspector Controls',
+    summary: 'Searchable creative asset library with category filters, procedural token-tinted SVG optical previews, HTML5 drag-and-drop payloads, and a live metadata preview inspector.',
+    codeSnippet: `<AssetSwatchGrid title="Studio Optical Asset & Swatch Library" />`,
+    props: [
+      { name: 'items / selectedId', type: 'ReadonlyArray<AssetSwatchItem> / string | null', defaultValue: '8 built-in assets / first id', description: 'Swatch library items and controlled active selection.' },
+      { name: 'onSelectAsset / onDragAssetStart', type: '(item) => void / (item) => void', defaultValue: 'undefined', description: 'Selection and HTML5 drag-start callbacks.' },
     ],
   },
 ];

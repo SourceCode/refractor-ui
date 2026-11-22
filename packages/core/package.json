@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.34.0",
+  "version": "1.35.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -72,6 +72,11 @@
       "types": "./dist/AlertBanner/index.d.ts",
       "default": "./dist/AlertBanner/index.js"
     },
+    "./AlignmentToolbar": {
+      "source": "./src/AlignmentToolbar/index.ts",
+      "types": "./dist/AlignmentToolbar/index.d.ts",
+      "default": "./dist/AlignmentToolbar/index.js"
+    },
     "./AnomalyForecastChart": {
       "source": "./src/AnomalyForecastChart/index.ts",
       "types": "./dist/AnomalyForecastChart/index.d.ts",
@@ -96,6 +101,11 @@
       "source": "./src/AreaStackedChart/index.ts",
       "types": "./dist/AreaStackedChart/index.d.ts",
       "default": "./dist/AreaStackedChart/index.js"
+    },
+    "./AssetSwatchGrid": {
+      "source": "./src/AssetSwatchGrid/index.ts",
+      "types": "./dist/AssetSwatchGrid/index.d.ts",
+      "default": "./dist/AssetSwatchGrid/index.js"
     },
     "./AttachedContextBar": {
       "source": "./src/AttachedContextBar/index.ts",
@@ -512,6 +522,11 @@
       "types": "./dist/GlobalSearchModal/index.d.ts",
       "default": "./dist/GlobalSearchModal/index.js"
     },
+    "./GradientStopEditor": {
+      "source": "./src/GradientStopEditor/index.ts",
+      "types": "./dist/GradientStopEditor/index.d.ts",
+      "default": "./dist/GradientStopEditor/index.js"
+    },
     "./HandoffDivider": {
       "source": "./src/HandoffDivider/index.ts",
       "types": "./dist/HandoffDivider/index.d.ts",
@@ -751,6 +766,11 @@
       "source": "./src/OpticalDivider/index.ts",
       "types": "./dist/OpticalDivider/index.d.ts",
       "default": "./dist/OpticalDivider/index.js"
+    },
+    "./OpticalMaterialInspector": {
+      "source": "./src/OpticalMaterialInspector/index.ts",
+      "types": "./dist/OpticalMaterialInspector/index.d.ts",
+      "default": "./dist/OpticalMaterialInspector/index.js"
     },
     "./OrderBookDepthChart": {
       "source": "./src/OrderBookDepthChart/index.ts",
@@ -1077,6 +1097,11 @@
       "types": "./dist/SplitButton/index.d.ts",
       "default": "./dist/SplitButton/index.js"
     },
+    "./SpringEasingPicker": {
+      "source": "./src/SpringEasingPicker/index.ts",
+      "types": "./dist/SpringEasingPicker/index.d.ts",
+      "default": "./dist/SpringEasingPicker/index.js"
+    },
     "./StatefulAsyncButton": {
       "source": "./src/StatefulAsyncButton/index.ts",
       "types": "./dist/StatefulAsyncButton/index.d.ts",
@@ -1212,6 +1237,11 @@
       "types": "./dist/TransferList/index.d.ts",
       "default": "./dist/TransferList/index.js"
     },
+    "./TransformInspector": {
+      "source": "./src/TransformInspector/index.ts",
+      "types": "./dist/TransformInspector/index.d.ts",
+      "default": "./dist/TransformInspector/index.js"
+    },
     "./TransportControlBar": {
       "source": "./src/TransportControlBar/index.ts",
       "types": "./dist/TransportControlBar/index.d.ts",
@@ -1236,6 +1266,11 @@
       "source": "./src/UptimeStatusBar/index.ts",
       "types": "./dist/UptimeStatusBar/index.d.ts",
       "default": "./dist/UptimeStatusBar/index.js"
+    },
+    "./VectorXyPad": {
+      "source": "./src/VectorXyPad/index.ts",
+      "types": "./dist/VectorXyPad/index.d.ts",
+      "default": "./dist/VectorXyPad/index.js"
     },
     "./ViolinPlot": {
       "source": "./src/ViolinPlot/index.ts",

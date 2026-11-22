@@ -7,6 +7,19 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.35.0] - 2026-11-22
+
+### Added
+- **Design, 3D & Shader Inspector Controls (7 new optical-glass creative studio & shader primitives — 259 total across 45 categories):**
+  - `VectorXyPad`: Interactive 2D XY vector pad (`Cartesian` / `Polar` overlay, origin-to-puck vector, double-click center reset, magnitude & angle telemetry).
+  - `TransformInspector`: Grouped X/Y/Z Position, Rotation, and Scale inspector with semantic axis color coding, proportional aspect-ratio chain lock, and live CSS/3D transform summary.
+  - `GradientStopEditor`: Token-driven multi-stop Linear/Radial/Conic gradient builder with draggable color stops, CSS Images 4 midpoint diamonds, opacity controls, and angle slider.
+  - `SpringEasingPicker`: Interactive spring physics (`Stiffness`, `Damping`, `Mass` with damped harmonic oscillator curves) and Cubic-Bezier picker with live `requestAnimationFrame` animated dot playback.
+  - `OpticalMaterialInspector`: Live optical glass shader specimen & inspector tuning blur radius (`px`), Snell index of refraction (`IOR`), chromatic dispersion split, specular intensity, and surface tint presets.
+  - `AlignmentToolbar`: Compact alignment & even-gap distribution icon strip (`Selection` vs `Artboard` anchor mode) with smart selection-count disabling and optional live mini snapping stage.
+  - `AssetSwatchGrid`: Filterable, HTML5-draggable creative asset & swatch library grid featuring procedural optical SVG previews and an instant hover/selection inspector.
+- Added interactive playground demos and prop specs in `apps/docs` under `Design, 3D & Shader Inspector Controls`.
+
 ## [1.34.0] - 2026-11-22
 
 ### Added
@@ -448,7 +461,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.34.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.35.0...HEAD
+[1.35.0]: https://github.com/SourceCode/refractor-ui/compare/v1.34.0...v1.35.0
 [1.34.0]: https://github.com/SourceCode/refractor-ui/compare/v1.33.0...v1.34.0
 [1.33.0]: https://github.com/SourceCode/refractor-ui/compare/v1.32.0...v1.33.0
 [1.32.0]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...v1.32.0
