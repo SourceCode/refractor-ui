@@ -7,6 +7,19 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.38.0] - 2026-11-22
+
+### Added
+- **File Explorer Navigation & Views (7 new optical-glass file system & navigation primitives — 277 total across 48 categories):**
+  - `EditablePathBar`: Hybrid breadcrumb bar with clickable folder segments, history Back/Forward/Up navigation, `Ctrl+L`/`Alt+D` raw path editing combobox, autocomplete listbox, and linear-time POSIX path normalization.
+  - `FileViewModeBar`: Roving-keyboard view mode switcher (`Icon Grid`, `Compact List`, `Detailed Columns`, `Gallery`) paired with a thumbnail zoom slider (`48–160px`) and optional live multi-mode preview stage.
+  - `DualPaneCommander`: Side-by-side optical dual-pane directory commander with central `Copy`, `Move`, `Compare` diff highlights, `Sync Newer`, and `Swap Panes` actions backed by prototype-safe `Map` indexing.
+  - `MountedVolumesSidebar`: Categorized collapsible places rail grouping Favorites, Smart Folders, Local Drives with semantic `--prism-*` capacity bars, and ejectable Network/Cloud/Removable mounts with remount recovery.
+  - `FileMetadataInspector`: Toggleable optical inspector panel featuring procedural SVG kind previews, `<dl>` metadata + resilient SHA-256 copy, EXIF/media specs, and editable semantic color tags.
+  - `MarqueeSelectionBox`: Click-and-drag translucent optical lasso rectangle computing live AABB intersections across a responsive file grid with additive `Shift`/`Ctrl` dragging and full keyboard parity.
+  - `DirectoryFilterBar`: Inline search, dynamic extension pills, semantic tag filters, prototype-safe `Map` grouping (`None`, `Kind`, `Date Modified`, `Size`), and ascending/descending sort toolbar.
+- Added interactive playground demos and prop specs in `apps/docs` under `File Explorer Navigation & Views`.
+
 ## [1.37.0] - 2026-11-22
 
 ### Added
@@ -487,7 +500,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.38.0...HEAD
+[1.38.0]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...v1.38.0
 [1.37.0]: https://github.com/SourceCode/refractor-ui/compare/v1.36.0...v1.37.0
 [1.36.0]: https://github.com/SourceCode/refractor-ui/compare/v1.35.0...v1.36.0
 [1.35.0]: https://github.com/SourceCode/refractor-ui/compare/v1.34.0...v1.35.0

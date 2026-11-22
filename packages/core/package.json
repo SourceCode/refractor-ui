@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.37.0",
+  "version": "1.38.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -427,6 +427,11 @@
       "types": "./dist/DigitalLedReadout/index.d.ts",
       "default": "./dist/DigitalLedReadout/index.js"
     },
+    "./DirectoryFilterBar": {
+      "source": "./src/DirectoryFilterBar/index.ts",
+      "types": "./dist/DirectoryFilterBar/index.d.ts",
+      "default": "./dist/DirectoryFilterBar/index.js"
+    },
     "./DistributedTraceWaterfall": {
       "source": "./src/DistributedTraceWaterfall/index.ts",
       "types": "./dist/DistributedTraceWaterfall/index.d.ts",
@@ -452,6 +457,11 @@
       "types": "./dist/DropdownSelect/index.d.ts",
       "default": "./dist/DropdownSelect/index.js"
     },
+    "./DualPaneCommander": {
+      "source": "./src/DualPaneCommander/index.ts",
+      "types": "./dist/DualPaneCommander/index.d.ts",
+      "default": "./dist/DualPaneCommander/index.js"
+    },
     "./DualThumbSlider": {
       "source": "./src/DualThumbSlider/index.ts",
       "types": "./dist/DualThumbSlider/index.d.ts",
@@ -466,6 +476,11 @@
       "source": "./src/DurationInput/index.ts",
       "types": "./dist/DurationInput/index.d.ts",
       "default": "./dist/DurationInput/index.js"
+    },
+    "./EditablePathBar": {
+      "source": "./src/EditablePathBar/index.ts",
+      "types": "./dist/EditablePathBar/index.d.ts",
+      "default": "./dist/EditablePathBar/index.js"
     },
     "./EffectsRackChain": {
       "source": "./src/EffectsRackChain/index.ts",
@@ -506,6 +521,16 @@
       "source": "./src/FileDropzone/index.ts",
       "types": "./dist/FileDropzone/index.d.ts",
       "default": "./dist/FileDropzone/index.js"
+    },
+    "./FileMetadataInspector": {
+      "source": "./src/FileMetadataInspector/index.ts",
+      "types": "./dist/FileMetadataInspector/index.d.ts",
+      "default": "./dist/FileMetadataInspector/index.js"
+    },
+    "./FileViewModeBar": {
+      "source": "./src/FileViewModeBar/index.ts",
+      "types": "./dist/FileViewModeBar/index.d.ts",
+      "default": "./dist/FileViewModeBar/index.js"
     },
     "./FlameGraphChart": {
       "source": "./src/FlameGraphChart/index.ts",
@@ -697,6 +722,11 @@
       "types": "./dist/MarimekkoChart/index.d.ts",
       "default": "./dist/MarimekkoChart/index.js"
     },
+    "./MarqueeSelectionBox": {
+      "source": "./src/MarqueeSelectionBox/index.ts",
+      "types": "./dist/MarqueeSelectionBox/index.d.ts",
+      "default": "./dist/MarqueeSelectionBox/index.js"
+    },
     "./MarqueeTicker": {
       "source": "./src/MarqueeTicker/index.ts",
       "types": "./dist/MarqueeTicker/index.d.ts",
@@ -756,6 +786,11 @@
       "source": "./src/MonthQuarterYearPicker/index.ts",
       "types": "./dist/MonthQuarterYearPicker/index.d.ts",
       "default": "./dist/MonthQuarterYearPicker/index.js"
+    },
+    "./MountedVolumesSidebar": {
+      "source": "./src/MountedVolumesSidebar/index.ts",
+      "types": "./dist/MountedVolumesSidebar/index.d.ts",
+      "default": "./dist/MountedVolumesSidebar/index.js"
     },
     "./MultiSelectCombobox": {
       "source": "./src/MultiSelectCombobox/index.ts",

@@ -18,6 +18,7 @@ import { DesktopOsWindowingDemos } from './demos/DesktopOsWindowingDemos';
 import { DocumentKnowledgeDemos } from './demos/DocumentKnowledgeDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { EnterpriseOpsApiDemos } from './demos/EnterpriseOpsApiDemos';
+import { FileExplorerNavigationDemos } from './demos/FileExplorerNavigationDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
@@ -392,6 +393,16 @@ const HARDWARE_IOT_TACTILE_IDS = new Set([
   'virtual-joystick-pad',
 ]);
 
+const FILE_EXPLORER_NAVIGATION_IDS = new Set([
+  'editable-path-bar',
+  'file-view-mode-bar',
+  'dual-pane-commander',
+  'mounted-volumes-sidebar',
+  'file-metadata-inspector',
+  'marquee-selection-box',
+  'directory-filter-bar',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -515,6 +526,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (HARDWARE_IOT_TACTILE_IDS.has(componentId)) {
     return <HardwareIotTactileDemos componentId={componentId} />;
+  }
+  if (FILE_EXPLORER_NAVIGATION_IDS.has(componentId)) {
+    return <FileExplorerNavigationDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

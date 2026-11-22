@@ -308,6 +308,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Hardware & IoT',
     description: '16-step optical drum sequencers, pure-SVG 7-segment and Nixie digital readouts, radial climate thermostat dials, 1U 12-port optical patch bays, and spring-return analog/D-Pad joysticks.',
   },
+  {
+    id: 'file-explorer-navigation',
+    title: 'File Explorer Navigation & Views',
+    shortLabel: 'File Explorer',
+    description: 'Hybrid editable path bars, multi-mode thumbnail zoom bars, dual-pane file commanders, mounted volume rails, metadata inspectors, translucent marquee lasso grids, and directory filter toolbars.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3882,6 +3888,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'mode / springReturn / deadzone', type: "'analog' | 'dpad' / boolean / number", defaultValue: "'analog' / true / 0.08", description: 'Controller surface mode, spring-back toggle, and deadzone radius.' },
       { name: 'value / defaultValue / onChange', type: '{ x: number; y: number } / (vec: JoystickVector) => void', defaultValue: '{ x: 0, y: 0 } / undefined', description: 'Normalized vector coordinates and live telemetry callback.' },
+    ],
+  },
+  // 48. File Explorer Navigation & Views (7 components — v1.38.0)
+  {
+    id: 'editable-path-bar',
+    title: 'Editable Path / Address Bar',
+    exportName: 'EditablePathBar',
+    category: 'file-explorer-navigation',
+    categoryTitle: 'File Explorer Navigation & Views',
+    summary: 'Hybrid breadcrumb bar with clickable folder segments and Back/Forward/Up navigation that transforms into a raw path combobox with autocomplete suggestions on click or Ctrl+L.',
+    codeSnippet: `<EditablePathBar defaultPath="/Users/clara/Projects/refractor-ui/packages/core" />`,
+    props: [
+      { name: 'path / defaultPath', type: 'string / string', defaultValue: "'/Users/clara/Projects/refractor-ui/packages/core'", description: 'Controlled or initial POSIX directory path.' },
+      { name: 'suggestions / onNavigate', type: 'ReadonlyArray<EditablePathSuggestion> / (next) => void', defaultValue: '5 built-in paths / undefined', description: 'Autocomplete suggestions and navigation callback.' },
+    ],
+  },
+  {
+    id: 'file-view-mode-bar',
+    title: 'File View Mode & Zoom Bar',
+    exportName: 'FileViewModeBar',
+    category: 'file-explorer-navigation',
+    categoryTitle: 'File Explorer Navigation & Views',
+    summary: 'Segmented control switching between Icon Grid, Compact List, Detailed Columns, and Gallery views paired with a thumbnail zoom slider and optional multi-mode preview stage.',
+    codeSnippet: `<FileViewModeBar showPreviewStage defaultViewMode="grid" defaultZoomPx={96} />`,
+    props: [
+      { name: 'viewMode / zoomPx', type: 'FileViewModeId / number', defaultValue: "'grid' / 96", description: 'Active layout mode and thumbnail zoom scale in pixels.' },
+      { name: 'showPreviewStage / onViewModeChange / onZoomChange', type: 'boolean / (mode) => void / (px) => void', defaultValue: 'false / undefined', description: 'Live preview toggle and controlled callbacks.' },
+    ],
+  },
+  {
+    id: 'dual-pane-commander',
+    title: 'Dual-Pane File Commander',
+    exportName: 'DualPaneCommander',
+    category: 'file-explorer-navigation',
+    categoryTitle: 'File Explorer Navigation & Views',
+    summary: 'Two independent side-by-side directory browsers separated by a central cross-folder action strip for Copy, Move, Compare diff highlights, Sync Newer, and Swap Panes.',
+    codeSnippet: `<DualPaneCommander title="Studio Optical Dual-Pane Commander" />`,
+    props: [
+      { name: 'leftPath / rightPath', type: 'string / string', defaultValue: 'Masters / NAS-Backup', description: 'Initial directory paths for the left and right panes.' },
+      { name: 'onAction / disabled', type: '(action, side, names) => void / boolean', defaultValue: 'undefined / false', description: 'Cross-folder operation callback and disabled state.' },
+    ],
+  },
+  {
+    id: 'mounted-volumes-sidebar',
+    title: 'Places & Mounted Volumes Sidebar',
+    exportName: 'MountedVolumesSidebar',
+    category: 'file-explorer-navigation',
+    categoryTitle: 'File Explorer Navigation & Views',
+    summary: 'Categorized collapsible navigation rail grouping pinned favorites, smart folders, local drives with semantic capacity bars, and ejectable network/cloud mounts with remount recovery.',
+    codeSnippet: `<MountedVolumesSidebar title="Places & Mounted Volumes" />`,
+    props: [
+      { name: 'places / defaultVolumes', type: 'ReadonlyArray<PlacesNavItem> / ReadonlyArray<MountedVolumeSpec>', defaultValue: '7 places / 5 drives', description: 'Favorite/smart locations and mounted volume specifications.' },
+      { name: 'onSelectLocation / onEjectVolume', type: '(id, path, label) => void / (volumeId) => void', defaultValue: 'undefined', description: 'Navigation selection and safe volume eject callbacks.' },
+    ],
+  },
+  {
+    id: 'file-metadata-inspector',
+    title: 'File Inspector / Metadata Pane',
+    exportName: 'FileMetadataInspector',
+    category: 'file-explorer-navigation',
+    categoryTitle: 'File Explorer Navigation & Views',
+    summary: 'Toggleable optical side panel presenting procedural SVG kind previews, structured file metadata, SHA-256 copy, EXIF/media specs, and editable semantic color tags.',
+    codeSnippet: `<FileMetadataInspector />`,
+    props: [
+      { name: 'file / open / defaultOpen', type: 'FileMetadataRecord | null / boolean / boolean', defaultValue: 'sample file / true', description: 'Selected file metadata payload and inspector drawer open state.' },
+      { name: 'onTagsChange / onOpenChange', type: '(tags) => void / (open) => void', defaultValue: 'undefined', description: 'Editable color-tag and collapse callbacks.' },
+    ],
+  },
+  {
+    id: 'marquee-selection-box',
+    title: 'Marquee Selection Box',
+    exportName: 'MarqueeSelectionBox',
+    category: 'file-explorer-navigation',
+    categoryTitle: 'File Explorer Navigation & Views',
+    summary: 'Click-and-drag translucent optical lasso rectangle computing live AABB intersections across a file grid with Shift/Ctrl additive dragging and full keyboard multi-select parity.',
+    codeSnippet: `<MarqueeSelectionBox title="Optical Marquee Lasso Canvas" />`,
+    props: [
+      { name: 'items / selectedIds / defaultSelectedIds', type: 'ReadonlyArray<MarqueeSelectableItem> / ReadonlyArray<string>', defaultValue: '8 sample files / []', description: 'Selectable file items and controlled or initial selection IDs.' },
+      { name: 'onSelectionChange / disabled', type: '(ids) => void / boolean', defaultValue: 'undefined / false', description: 'Selection update callback and disabled toggle.' },
+    ],
+  },
+  {
+    id: 'directory-filter-bar',
+    title: 'Directory Filter & Grouping Bar',
+    exportName: 'DirectoryFilterBar',
+    category: 'file-explorer-navigation',
+    categoryTitle: 'File Explorer Navigation & Views',
+    summary: 'Inline directory toolbar filtering items by filename substring, extension pills, and color tags while grouping by None, Kind, Date Modified, or Size with Asc/Desc sort.',
+    codeSnippet: `<DirectoryFilterBar title="Directory Filter & Grouping Toolbar" showResultsPreview />`,
+    props: [
+      { name: 'items / value / defaultValue', type: 'ReadonlyArray<DirectoryFilterItem> / DirectoryFilterState', defaultValue: '8 sample files / defaults', description: 'Directory items and controlled or default filter/grouping state.' },
+      { name: 'showResultsPreview / onChange', type: 'boolean / (state, count) => void', defaultValue: 'true / undefined', description: 'Live grouped preview toggle and filter state change callback.' },
     ],
   },
 ];
