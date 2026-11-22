@@ -266,6 +266,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Observability',
     description: 'Zoomable CPU flame/icicle graphs, OpenTelemetry trace waterfalls, 60-day SLA uptime status strips, microservice topology maps, storage quota bars, and anomaly forecast corridors.',
   },
+  {
+    id: 'comparison-storytelling-charts',
+    title: 'Comparison, Ranking & Storytelling Visuals',
+    shortLabel: 'Comparison',
+    description: 'Before/after slopegraphs, curved rank-trajectory bump charts, variance dumbbell plots, low-ink lollipop rankings, 10×10 unit waffle grids, 2×2 strategic quadrant matrices, and synchronized small multiples.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3222,6 +3228,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'data / unit', type: 'AnomalyForecastPoint[] / string', defaultValue: "16 checkpoints / 'req/s'", description: 'Historical actuals + future forecast points with confidence bounds.' },
       { name: 'onSelectPoint', type: '(summary: AnomalyDetectionSummary) => void', defaultValue: 'undefined', description: 'Checkpoint inspection callback with signed band deviation.' },
+    ],
+  },
+  /* ==================== COMPARISON, RANKING & STORYTELLING VISUALS (7) ==================== */
+  {
+    id: 'slopegraph-chart',
+    title: 'Slopegraph',
+    exportName: 'SlopegraphChart',
+    category: 'comparison-storytelling-charts',
+    categoryTitle: 'Comparison, Ranking & Storytelling Visuals',
+    summary: 'Two-column before-and-after slopegraph highlighting rising/declining trajectories, rank shifts, anti-overlap rail labels, and direction filters.',
+    codeSnippet: `<SlopegraphChart title="Q1 vs Q4 Product Adoption" startLabel="Q1 2026" endLabel="Q4 2026" />`,
+    props: [
+      { name: 'items / startLabel / endLabel', type: 'SlopeSeriesItem[] / string / string', defaultValue: "6 items / 'Q1 2026' / 'Q4 2026'", description: 'Before/after series measurements and dual column headings.' },
+      { name: 'unit / onSelectItem', type: 'string / (sel: SlopeSeriesSelection) => void', defaultValue: "'%' / undefined", description: 'Value unit suffix and delta/rank-shift selection handler.' },
+    ],
+  },
+  {
+    id: 'bump-chart',
+    title: 'Bump Chart (Rank Trajectory)',
+    exportName: 'BumpChart',
+    category: 'comparison-storytelling-charts',
+    categoryTitle: 'Comparison, Ranking & Storytelling Visuals',
+    summary: 'Multi-period cubic-Bezier rank trajectory chart tracing #1..#N positions across periods to dramatize crossovers, climbs, and drops.',
+    codeSnippet: `<BumpChart title="Channel Growth Rank Trajectory" />`,
+    props: [
+      { name: 'periods / series', type: 'string[] / BumpSeriesItem[]', defaultValue: '5 periods / 5 series', description: 'Ordered time labels and 1-based rank trajectories.' },
+      { name: 'onSelectSeries', type: '(sel: BumpSelection) => void', defaultValue: 'undefined', description: 'Node/trajectory click and 2D keyboard selection handler.' },
+    ],
+  },
+  {
+    id: 'dumbbell-plot',
+    title: 'Dumbbell / Connected Dot Plot',
+    exportName: 'DumbbellPlot',
+    category: 'comparison-storytelling-charts',
+    categoryTitle: 'Comparison, Ranking & Storytelling Visuals',
+    summary: 'Horizontal connected baseline-to-current twin dots emphasizing signed variance gaps with semantic gain/regression connectors and gap sorting.',
+    codeSnippet: `<DumbbellPlot title="Regional Conversion Lift vs Baseline" />`,
+    props: [
+      { name: 'items / baselineLabel / currentLabel', type: 'DumbbellItem[] / string / string', defaultValue: "6 regions / 'Baseline' / 'Current'", description: 'Paired measurements and legend axis labels.' },
+      { name: 'sortBy / onSelectItem', type: 'DumbbellSortMode / (sel) => void', defaultValue: "'original' / undefined", description: 'Sort order (default, largest gap, highest current) and inspector callback.' },
+    ],
+  },
+  {
+    id: 'lollipop-chart',
+    title: 'Lollipop Chart',
+    exportName: 'LollipopChart',
+    category: 'comparison-storytelling-charts',
+    categoryTitle: 'Comparison, Ranking & Storytelling Visuals',
+    summary: 'Low-ink horizontal or vertical stem-and-circle ranking chart with sort toggles, optional average/target reference line, and crisp terminal focus.',
+    codeSnippet: `<LollipopChart title="Feature Adoption Ranking" defaultOrientation="horizontal" />`,
+    props: [
+      { name: 'data / orientation / sortBy', type: "LollipopDatum[] / 'horizontal' | 'vertical' / LollipopSortMode", defaultValue: "7 items / 'horizontal' / 'value-desc'", description: 'Ranked series, layout axis, and sort direction.' },
+      { name: 'referenceValue / showAverageLine / onSelectItem', type: 'number / boolean / (d, rank) => void', defaultValue: 'mean / true', description: 'Dashed benchmark line and item selection callback.' },
+    ],
+  },
+  {
+    id: 'waffle-unit-grid',
+    title: 'Waffle Chart (10×10 Unit Grid)',
+    exportName: 'WaffleUnitGrid',
+    category: 'comparison-storytelling-charts',
+    categoryTitle: 'Comparison, Ranking & Storytelling Visuals',
+    summary: 'Exact 10×10 100-unit square grid using Largest-Remainder (Hamilton) allocation so each tactile optical square represents 1% with interactive breakdown cards.',
+    codeSnippet: `<WaffleUnitGrid title="Cloud Revenue Mix (10×10 Unit Waffle)" />`,
+    props: [
+      { name: 'segments / rows / columns', type: 'WaffleSegment[] / number / number', defaultValue: '4 segments / 10 / 10', description: 'Proportional categories and grid dimensions.' },
+      { name: 'unit / onSelectSegment', type: 'string / (seg: WaffleResolvedSegment) => void', defaultValue: "'%' / undefined", description: 'Telemetry unit suffix and category highlight handler.' },
+    ],
+  },
+  {
+    id: 'quadrant-matrix',
+    title: 'Quadrant / 2×2 Strategic Matrix',
+    exportName: 'QuadrantMatrix',
+    category: 'comparison-storytelling-charts',
+    categoryTitle: 'Comparison, Ranking & Storytelling Visuals',
+    summary: 'Labeled 2×2 strategic effort-vs-impact canvas dividing plotted initiatives into four customizable quadrants with quadrant filter pills and weighted bubbles.',
+    codeSnippet: `<QuadrantMatrix title="H2 Product Roadmap Effort vs Impact" />`,
+    props: [
+      { name: 'items / quadrantLabels', type: 'QuadrantItem[] / Partial<QuadrantLabels>', defaultValue: '8 items / Quick Wins..Reconsider', description: '0..100 coordinate initiatives and 4 corner zone headings.' },
+      { name: 'splitX / splitY / onSelectItem', type: 'number / number / (sel) => void', defaultValue: '50 / 50 / undefined', description: 'Configurable split dividers and bubble inspection callback.' },
+    ],
+  },
+  {
+    id: 'small-multiples-grid',
+    title: 'Small Multiples (Trellis) Grid',
+    exportName: 'SmallMultiplesGrid',
+    category: 'comparison-storytelling-charts',
+    categoryTitle: 'Comparison, Ranking & Storytelling Visuals',
+    summary: 'Responsive trellis grid of identically scaled miniature area or bar charts sharing a lockstep hover, click, and keyboard synchronized crosshair across all facets.',
+    codeSnippet: `<SmallMultiplesGrid title="Synchronized Regional KPI Small Multiples" columns={3} />`,
+    props: [
+      { name: 'labels / series / chartKind', type: "string[] / SmallMultipleSeries[] / 'area' | 'bar'", defaultValue: "8 months / 6 KPIs / 'area'", description: 'Shared X-axis periods, facet series, and miniature chart renderer.' },
+      { name: 'sharedYScale / columns / onSyncIndexChange', type: 'boolean / 2 | 3 | 4 / (snap) => void', defaultValue: 'true / 3', description: 'Global vs local Y-scale toggle, grid width, and lockstep sync snapshot.' },
     ],
   },
 ];

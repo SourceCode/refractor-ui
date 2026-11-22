@@ -62,12 +62,12 @@ describe('@refractor-ui/cli', () => {
     expect(badRes.stderr).toContain('Unknown docs topic');
   });
 
-  it('lists all components grouped across canonical categories', async () => {
+  it('lists all 230 components grouped across 41 canonical categories', async () => {
     const totalCount = listComponentDirectories(DEFAULT_REPO_ROOT).length;
-    expect(totalCount).toBeGreaterThanOrEqual(179);
+    expect(totalCount).toBe(230);
     const res = await runCli(['component', '--list']);
     expect(res.exitCode).toBe(0);
-    expect(res.stdout).toContain(`${totalCount} Components across`);
+    expect(res.stdout).toContain('230 Components across 41 Categories');
     expect(res.stdout).toContain('Buttons & Actions (6):');
     expect(res.stdout).toContain('Layout & Workspace Controls (6):');
     expect(res.stdout).toContain('Advanced Data & Visualization (6):');
@@ -95,6 +95,15 @@ describe('@refractor-ui/cli', () => {
     expect(res.stdout).toContain('KPI, Progress & Telemetry Visuals (4):');
     expect(res.stdout).toContain('Geospatial & Map Visuals (3):');
     expect(res.stdout).toContain('Chart Chrome & Interactive Controls (4):');
+    expect(res.stdout).toContain('Transport & Playback Controls (4):');
+    expect(res.stdout).toContain('Timeline & Sequencing (6):');
+    expect(res.stdout).toContain('Photo & Color Grading Controls (8):');
+    expect(res.stdout).toContain('Audio Mixing & Signal Processing (6):');
+    expect(res.stdout).toContain('Viewport & Export Utilities (2):');
+    expect(res.stdout).toContain('Financial & Market Visualizations (5):');
+    expect(res.stdout).toContain('Scientific, Statistical & High-Dimensional Visuals (7):');
+    expect(res.stdout).toContain('System, DevOps & Observability Widgets (6):');
+    expect(res.stdout).toContain('Comparison, Ranking & Storytelling Visuals (7):');
     expect(res.stdout).toContain('PrimaryButton');
     expect(res.stdout).toContain('ProductTour');
     expect(res.stdout).toContain('ChatMessageStream');
@@ -102,6 +111,15 @@ describe('@refractor-ui/cli', () => {
     expect(res.stdout).toContain('DateRangePicker');
     expect(res.stdout).toContain('SankeyDiagram');
     expect(res.stdout).toContain('ChartThresholdMarker');
+    expect(res.stdout).toContain('TransportControlBar');
+    expect(res.stdout).toContain('MultiTrackTimeline');
+    expect(res.stdout).toContain('ToneCurveEditor');
+    expect(res.stdout).toContain('ChannelStripFader');
+    expect(res.stdout).toContain('ExportRenderQueue');
+    expect(res.stdout).toContain('CandlestickOhlcChart');
+    expect(res.stdout).toContain('SurfaceMesh3DPlot');
+    expect(res.stdout).toContain('FlameGraphChart');
+    expect(res.stdout).toContain('SmallMultiplesGrid');
   }, 15_000);
 
   it('inspects individual components in standard, dense, and full modes and handles unknown components', async () => {

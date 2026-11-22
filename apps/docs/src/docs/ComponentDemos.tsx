@@ -6,6 +6,7 @@ import { ChartChromeDemos } from './demos/ChartChromeDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
 import { CollaborationDemos } from './demos/CollaborationDemos';
 import { CommerceBillingDemos } from './demos/CommerceBillingDemos';
+import { ComparisonStorytellingDemos } from './demos/ComparisonStorytellingDemos';
 import { ComplexButtonsDemos } from './demos/ComplexButtonsDemos';
 import { ComplexControlsDemos } from './demos/ComplexControlsDemos';
 import { CoreDemos } from './demos/CoreDemos';
@@ -317,6 +318,16 @@ const OBSERVABILITY_WIDGETS_IDS = new Set([
   'anomaly-forecast-chart',
 ]);
 
+const COMPARISON_STORYTELLING_IDS = new Set([
+  'slopegraph-chart',
+  'bump-chart',
+  'dumbbell-plot',
+  'lollipop-chart',
+  'waffle-unit-grid',
+  'quadrant-matrix',
+  'small-multiples-grid',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -419,6 +430,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (OBSERVABILITY_WIDGETS_IDS.has(componentId)) {
     return <ObservabilityWidgetsDemos componentId={componentId} />;
+  }
+  if (COMPARISON_STORYTELLING_IDS.has(componentId)) {
+    return <ComparisonStorytellingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

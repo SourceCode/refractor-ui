@@ -7,6 +7,20 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.31.0] - 2026-11-21
+
+### Added
+- **Comparison, Ranking & Storytelling Visuals (7 new optical-glass narrative & comparative analytics primitives — 230 total across 41 categories):**
+  - `SlopegraphChart`: Dual-axis before/after slopegraph with rising/declining filters, anti-overlap rail label placement, rank-shift calculations, and keyboard series inspection.
+  - `BumpChart`: Multi-period cubic-Bezier rank trajectory plot tracking `#1..#N` climbs, drops, and crossovers with 2D keyboard navigation and clickable legend highlighting.
+  - `DumbbellPlot`: Horizontal baseline-to-current connected dot plot highlighting signed variance gaps with semantic gain/regression bars and `Default`/`Largest Gap`/`Highest Current` sorting.
+  - `LollipopChart`: Low-ink horizontal or vertical stem-and-circle ranking plot with `High→Low`/`Low→High`/`A→Z` sorting and optional average/target dashed reference line.
+  - `WaffleUnitGrid`: Exact `10×10` 100-square optical proportion grid using Largest-Remainder (Hamilton) allocation so each unit square equals `1%` with synchronized breakdown cards.
+  - `QuadrantMatrix`: Customizable 2×2 strategic effort-vs-impact scatter matrix (`Quick Wins`, `Major Bets`, `Fill-Ins`, `Reconsider`) with quadrant filter pills and weighted initiative bubbles.
+  - `SmallMultiplesGrid`: Responsive trellis grid of identically scaled miniature area/bar facets sharing a lockstep synchronized hover, click, and keyboard crosshair across all cards simultaneously.
+- **230-Component / 41-Category Full Release Certification & Documentation Sync:**
+  - Updated live GitHub Pages portal (`apps/docs`), `README.md`, `packages/core/README.md`, `packages/cli/README.md`, `@refractor-ui/cli` architecture docs, `docs/reviews/ux-ui-director-audit.md` (`9.95/10` mean across all 230 components), locked exact `230`-component / `41`-category assertions across `storage.test.ts`, `responsive.matrix.test.tsx`, and `cli.test.mjs`, and expanded `security.adversarial.test.tsx` with Phase 4 XSS/prototype-pollution/cycle/NaN invariants.
+
 ## [1.30.0] - 2026-11-21
 
 ### Added
@@ -394,7 +408,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.30.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...HEAD
+[1.31.0]: https://github.com/SourceCode/refractor-ui/compare/v1.30.0...v1.31.0
 [1.30.0]: https://github.com/SourceCode/refractor-ui/compare/v1.29.0...v1.30.0
 [1.29.0]: https://github.com/SourceCode/refractor-ui/compare/v1.28.0...v1.29.0
 [1.28.0]: https://github.com/SourceCode/refractor-ui/compare/v1.27.0...v1.28.0

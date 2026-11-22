@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.30.0",
+  "version": "1.31.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -146,6 +146,11 @@
       "source": "./src/BulletChart/index.ts",
       "types": "./dist/BulletChart/index.d.ts",
       "default": "./dist/BulletChart/index.js"
+    },
+    "./BumpChart": {
+      "source": "./src/BumpChart/index.ts",
+      "types": "./dist/BumpChart/index.d.ts",
+      "default": "./dist/BumpChart/index.js"
     },
     "./BurndownBurnupChart": {
       "source": "./src/BurndownBurnupChart/index.ts",
@@ -387,6 +392,11 @@
       "types": "./dist/DualThumbSlider/index.d.ts",
       "default": "./dist/DualThumbSlider/index.js"
     },
+    "./DumbbellPlot": {
+      "source": "./src/DumbbellPlot/index.ts",
+      "types": "./dist/DumbbellPlot/index.d.ts",
+      "default": "./dist/DumbbellPlot/index.js"
+    },
     "./DurationInput": {
       "source": "./src/DurationInput/index.ts",
       "types": "./dist/DurationInput/index.d.ts",
@@ -571,6 +581,11 @@
       "source": "./src/LiveTelemetryChart/index.ts",
       "types": "./dist/LiveTelemetryChart/index.d.ts",
       "default": "./dist/LiveTelemetryChart/index.js"
+    },
+    "./LollipopChart": {
+      "source": "./src/LollipopChart/index.ts",
+      "types": "./dist/LollipopChart/index.d.ts",
+      "default": "./dist/LollipopChart/index.js"
     },
     "./MarimekkoChart": {
       "source": "./src/MarimekkoChart/index.ts",
@@ -792,6 +807,11 @@
       "types": "./dist/PullToRefresh/index.d.ts",
       "default": "./dist/PullToRefresh/index.js"
     },
+    "./QuadrantMatrix": {
+      "source": "./src/QuadrantMatrix/index.ts",
+      "types": "./dist/QuadrantMatrix/index.d.ts",
+      "default": "./dist/QuadrantMatrix/index.js"
+    },
     "./RadarSpiderChart": {
       "source": "./src/RadarSpiderChart/index.ts",
       "types": "./dist/RadarSpiderChart/index.d.ts",
@@ -921,6 +941,16 @@
       "source": "./src/SlideOverSheet/index.ts",
       "types": "./dist/SlideOverSheet/index.d.ts",
       "default": "./dist/SlideOverSheet/index.js"
+    },
+    "./SlopegraphChart": {
+      "source": "./src/SlopegraphChart/index.ts",
+      "types": "./dist/SlopegraphChart/index.d.ts",
+      "default": "./dist/SlopegraphChart/index.js"
+    },
+    "./SmallMultiplesGrid": {
+      "source": "./src/SmallMultiplesGrid/index.ts",
+      "types": "./dist/SmallMultiplesGrid/index.d.ts",
+      "default": "./dist/SmallMultiplesGrid/index.js"
     },
     "./SortableList": {
       "source": "./src/SortableList/index.ts",
@@ -1126,6 +1156,11 @@
       "source": "./src/VuPeakLevelMeter/index.ts",
       "types": "./dist/VuPeakLevelMeter/index.d.ts",
       "default": "./dist/VuPeakLevelMeter/index.js"
+    },
+    "./WaffleUnitGrid": {
+      "source": "./src/WaffleUnitGrid/index.ts",
+      "types": "./dist/WaffleUnitGrid/index.d.ts",
+      "default": "./dist/WaffleUnitGrid/index.js"
     },
     "./WaterfallChart": {
       "source": "./src/WaterfallChart/index.ts",

@@ -2,14 +2,14 @@
 
 # Refractor Optical Glass UI Kit
 
-**A tactile, prismatic optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, MUI-simple theming, and 179 accessible components across 32 categories.**
+**A tactile, prismatic optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, MUI-simple theming, and 230 accessible components across 41 categories.**
 
-[![Release v1.22.0](https://img.shields.io/badge/release-v1.22.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.22.0)
+[![Release v1.31.0](https://img.shields.io/badge/release-v1.31.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.31.0)
 [![Live Docs](https://img.shields.io/badge/docs-GitHub%20Pages-38BDF8?style=flat-square)](https://sourcecode.github.io/refractor-ui/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=000)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20(Zero%20any%2Funknown)-3178C6?style=flat-square&logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
 [![Coverage 99.6%](https://img.shields.io/badge/coverage-99.6%25-26BC92?style=flat-square)](./docs/adr/ADR-0005-testing-adversarial-coverage-and-security-verification.md)
-[![UX/UI Audit 9.94/10](https://img.shields.io/badge/UX%2FUI%20audit-9.94%2F10-26BC92?style=flat-square)](./docs/reviews/ux-ui-director-audit.md)
+[![UX/UI Audit 9.95/10](https://img.shields.io/badge/UX%2FUI%20audit-9.95%2F10-26BC92?style=flat-square)](./docs/reviews/ux-ui-director-audit.md)
 [![License Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue?style=flat-square)](./LICENSE)
 
 [**Live Interactive Documentation & Optical Workbench →**](https://sourcecode.github.io/refractor-ui/)  
@@ -25,7 +25,7 @@
 
 ## Why Refractor UI?
 
-- **179 Production Components Across 32 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, and a full token-driven optical SVG charting, geospatial, telemetry, and chart chrome suite.
+- **230 Production Components Across 41 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, and a complete token-driven optical SVG charting, financial, scientific/3D, SRE observability, geospatial, and storytelling suite.
 - **Astryx-Aligned Open-Internals Architecture:** Every primitive lives in `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts` — using React 19 `ref`-as-prop (never `forwardRef`), `BaseProps<Element>`, `themeProps()`, `mergeProps()`, and tree-shakeable subpath exports.
 - **Dual MUI + Astryx Optical Theme Engine:**
   - **MUI-Simple Color Control:** Pass a single hex color to `createPrismTheme({ palette: { primary: { main: '#7C3AED' } } })` and Refractor automatically computes `light`, `dark`, WCAG `>= 4.5:1` `contrastText`, and RGB caustic dispersion channels.
@@ -34,7 +34,7 @@
 - **Defense-in-Depth Security & 99.6%+ V8 Coverage:** Built-in XSS allowlist sanitization, URL protocol allowlisting, OWASP CSV formula neutralization, prototype-pollution-safe `Map` aggregations, ReDoS protection, path-traversal-hardened CLI swizzling, and `0` high/critical vulnerabilities.
 - **30 Interactive Full-Code Example Screens (Web, Tablet & Mobile):** Explore live application templates for login, onboarding, MFA, executive analytics, financial reports, SRE telemetry, AI chat, autonomous agent workflows, cloud code IDEs, PR diff reviews, product catalogs, 360° product pages, new product forms, mobile banking, and tablet dispatch at [`#/examples`](https://sourcecode.github.io/refractor-ui/#/examples) — certified `9.85/10` mean in [`docs/reviews/example-screens-ux-audit.md`](./docs/reviews/example-screens-ux-audit.md).
 - **Multi-Device Responsive Certified (Desktop, Tablet & Mobile):** Verified across 15 modern device viewports — including **Google Pixel 10 (`412×924`)**, Pixel 10 Pro / Pro XL, **Samsung Galaxy S25 (`360×780`)**, Galaxy Z Fold7 Cover (`344×882`), **iPhone 17 / 16 / Pro / Pro Max (`393×852`–`440×956`)**, **iPad mini / Pro 11" / Pro 13"**, and **Google Pixel Tablet** — backed by automated multi-device Vitest matrix validation (`apps/docs/src/docs/responsive.matrix.test.tsx`).
-- **Creative UX/UI Director Certified (`9.94/10`):** Every component audited live across Light Mode, Dark Mode, Vivid Refraction, and custom palettes — see [`docs/reviews/ux-ui-director-audit.md`](./docs/reviews/ux-ui-director-audit.md).
+- **Creative UX/UI Director Certified (`9.95/10`):** Every component audited live across Light Mode, Dark Mode, Vivid Refraction, and custom palettes — see [`docs/reviews/ux-ui-director-audit.md`](./docs/reviews/ux-ui-director-audit.md).
 
 ---
 
@@ -106,7 +106,7 @@ import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
 
 ---
 
-## Complete 179-Component Catalog (32 Categories)
+## Complete 230-Component Catalog (41 Categories)
 
 | Category | Count | Components |
 | --- | :---: | --- |
@@ -142,6 +142,15 @@ import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
 | **KPI, Progress & Telemetry Visuals** | 4 | `RadialGauge`, `BulletChart`, `CalendarHeatmap`, `LiveTelemetryChart` |
 | **Geospatial & Map Visuals** | 3 | `ChoroplethMap`, `PointClusterMap`, `GeoFlowArcMap` |
 | **Chart Chrome & Interactive Controls** | 4 | `InteractiveLegend`, `BrushRangeScrubber`, `ChartCrosshairTooltip`, `ChartThresholdMarker` |
+| **Transport & Playback Controls** | 4 | `TransportControlBar`, `TimecodeScrubber`, `JogShuttleWheel`, `FrameStepperRateSelector` |
+| **Timeline & Sequencing** | 6 | `MultiTrackTimeline`, `PlayheadScrubRuler`, `TrackHeaderStrip`, `ClipTrimHandle`, `KeyframeCurveEditor`, `TimelineZoomNavigator` |
+| **Photo & Color Grading Controls** | 8 | `ToneCurveEditor`, `ThreeWayColorWheels`, `LiveColorScopes`, `CropStraightenOverlay`, `LayerBlendStack`, `EyedropperPixelLoupe`, `BrushHudControl`, `WipeCompareOverlay` |
+| **Audio Mixing & Signal Processing** | 6 | `ChannelStripFader`, `VuPeakLevelMeter`, `StereoPanKnob`, `ParametricEqGraph`, `WaveformSpectrogramView`, `EffectsRackChain` |
+| **Viewport & Export Utilities** | 2 | `CanvasZoomSafeAreaBar`, `ExportRenderQueue` |
+| **Financial & Market Visualizations** | 5 | `CandlestickOhlcChart`, `OrderBookDepthChart`, `MarimekkoChart`, `CohortRetentionGrid`, `BurndownBurnupChart` |
+| **Scientific, Statistical & High-Dimensional Visuals** | 7 | `ViolinPlot`, `RidgelinePlot`, `ParallelCoordinatesPlot`, `ContourDensityPlot`, `HexbinDensityPlot`, `PolarAreaRoseChart`, `SurfaceMesh3DPlot` |
+| **System, DevOps & Observability Widgets** | 6 | `FlameGraphChart`, `DistributedTraceWaterfall`, `UptimeStatusBar`, `ServiceTopologyMap`, `CapacityAllocationStrip`, `AnomalyForecastChart` |
+| **Comparison, Ranking & Storytelling Visuals** | 7 | `SlopegraphChart`, `BumpChart`, `DumbbellPlot`, `LollipopChart`, `WaffleUnitGrid`, `QuadrantMatrix`, `SmallMultiplesGrid` |
 
 ---
 

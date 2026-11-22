@@ -162,10 +162,10 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
   ];
 
   it.each(MATRIX_VIEWPORTS)(
-    'renders ALL 179 components with valid responsive DOM invariants on $name ($width×$height)',
+    'renders ALL 230 components with valid responsive DOM invariants on $name ($width×$height)',
     (viewport) => {
-      expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(179);
-      expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(32);
+      expect(COMPONENT_REGISTRY).toHaveLength(230);
+      expect(DOC_CATEGORIES).toHaveLength(41);
 
       applyViewportToWindow(viewport);
       const testStore = createDocsStore();
@@ -247,11 +247,11 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
       expect(mainText.toLowerCase()).not.toContain('astryx');
       expect(/\bmui\b/i.test(mainText)).toBe(false);
 
-      // Verify Getting Started guide displays updated 179-component count cleanly
+      // Verify Getting Started guide displays updated 230-component count cleanly
       fireEvent.click(sidebarToggle);
       const gettingStartedBtns = screen.getAllByRole('button', { name: /Getting Started/i });
       fireEvent.click(gettingStartedBtns[gettingStartedBtns.length - 1]!);
-      expect(screen.getByText(/Browse 179 Components/i)).toBeInTheDocument();
+      expect(screen.getByText(/Browse 230 Components/i)).toBeInTheDocument();
 
       // Open focused single-component view with long title & verify wrapping Breadcrumbs + Prev/Next
       act(() => {
@@ -288,11 +288,11 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
     }
   );
 
-  it('enforces static responsive guardrails across all 179 core component source files', () => {
+  it('enforces static responsive guardrails across all 230 core component source files', () => {
     const testDir = path.dirname(fileURLToPath(import.meta.url));
     const coreSrcDir = path.resolve(testDir, '../../../../packages/core/src');
     const componentFiles = collectCoreComponentTsxFiles(coreSrcDir);
-    expect(componentFiles.length).toBeGreaterThanOrEqual(179);
+    expect(componentFiles.length).toBeGreaterThanOrEqual(230);
 
     const violations: string[] = [];
 
