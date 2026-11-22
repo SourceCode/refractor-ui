@@ -7,6 +7,19 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.33.0] - 2026-11-22
+
+### Added
+- **Desktop OS & Windowing Metaphors (7 new optical-glass desktop & shell primitives — 245 total across 43 categories):**
+  - `AppDockBar`: Floating optical glass app launcher dock with smooth neighbor magnification, running-indicator glow dots, `99+`-capped notification badges, attention bounce, and roving-tabindex keyboard navigation.
+  - `WindowTitlebar`: Draggable window chrome supporting `macos` semantic traffic lights and `windows` controls, unsaved dot indicator, double-click Maximize/Restore, Minimize collapse, and window drag deltas.
+  - `AppMenuBar`: Persistent OS-style application menu strip (`File`, `Edit`, `View`, `Window`, `Help`) with hover-switch top menus, cascading submenus, toggleable checkmarks, and right-aligned shortcut hints.
+  - `WorkspaceStatusBar`: Slim bottom-edge IDE telemetry bar surfacing git branch, sync status, diagnostics counts, cursor coordinates, encoding, language, and live background task progress.
+  - `MillerColumnsBrowser`: Horizontal cascading multi-column file hierarchy navigator (`MAX_DEPTH = 10` cycle-safe) ending in a rich file preview pane with clickable breadcrumb trail and arrow-key traversal.
+  - `RadialContextMenu`: Interactive 360° circular pie action wheel (`trigger` right-click/hotkey bloom or `inline` stage) with orbiting directional pointer hub and keyboard spin selection.
+  - `QuickLookPreviewer`: Instant Spacebar-triggered file preview modal (`image`, `pdf`, `audio`, `code`) with optical zoom, audio waveform toggle, literal code viewer, and Prev/Next cycling.
+- Added interactive playground demos and prop specs in `apps/docs` under `Desktop OS & Windowing Metaphors`.
+
 ## [1.32.0] - 2026-11-22
 
 ### Added
@@ -422,7 +435,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.32.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.33.0...HEAD
+[1.33.0]: https://github.com/SourceCode/refractor-ui/compare/v1.32.0...v1.33.0
 [1.32.0]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...v1.32.0
 [1.31.0]: https://github.com/SourceCode/refractor-ui/compare/v1.30.0...v1.31.0
 [1.30.0]: https://github.com/SourceCode/refractor-ui/compare/v1.29.0...v1.30.0

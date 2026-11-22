@@ -278,6 +278,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Micro-Utilities',
     description: 'Specular optical seams, metadata property grids, overflow avatar stacks, inline clipboard capsules, expandable text clamps, pause-safe marquees, hotkey cheat sheets, and scroll-shadow containers.',
   },
+  {
+    id: 'desktop-os-windowing',
+    title: 'Desktop OS & Windowing Metaphors',
+    shortLabel: 'Desktop OS',
+    description: 'Magnifying glass app docks, draggable window titlebars, cascading OS menu bars, IDE workspace status strips, Miller columns explorers, radial pie menus, and Spacebar Quick Look previewers.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3431,6 +3437,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'axis / maxHeight / shadowSizePx', type: "'vertical' | 'horizontal' | 'both' / number | string / number", defaultValue: "'vertical' / 260 / 28", description: 'Scrollable axis, viewport height cap, and fade depth.' },
       { name: 'showScrollButtons / onEdgeChange', type: 'boolean / (edges) => void', defaultValue: 'false / undefined', description: 'Optional top/bottom jump controls and edge-shadow state callback.' },
+    ],
+  },
+  /* ==================== DESKTOP OS & WINDOWING METAPHORS (7) ==================== */
+  {
+    id: 'app-dock-bar',
+    title: 'Application Dock / Launcher Bar',
+    exportName: 'AppDockBar',
+    category: 'desktop-os-windowing',
+    categoryTitle: 'Desktop OS & Windowing Metaphors',
+    summary: 'Floating optical glass launcher dock with hover/focus neighbor magnification, active-running glow dots, 99+-capped notification badges, and keyboard toolbar navigation.',
+    codeSnippet: `<AppDockBar defaultActiveId="code-ide" magnification />`,
+    props: [
+      { name: 'items / position / magnification', type: "AppDockItem[] / 'bottom' | 'left' | 'right' / boolean", defaultValue: "6 apps / 'bottom' / true", description: 'Launcher apps, screen edge alignment, and hover scaling.' },
+      { name: 'activeId / onLaunch', type: 'string | null / (item) => void', defaultValue: 'null / undefined', description: 'Focused app indicator and launch callback.' },
+    ],
+  },
+  {
+    id: 'window-titlebar',
+    title: 'Window Chrome & Titlebar',
+    exportName: 'WindowTitlebar',
+    category: 'desktop-os-windowing',
+    categoryTitle: 'Desktop OS & Windowing Metaphors',
+    summary: 'Draggable window header with title, document subtitle, unsaved indicator, macOS/Windows window buttons, double-click Maximize/Restore, and Minimize collapse.',
+    codeSnippet: `<WindowTitlebar title="Main.tsx" subtitle="~/projects/refractor-ui" modified />`,
+    props: [
+      { name: 'title / subtitle / modified', type: 'string / string / boolean', defaultValue: "'Refractor Studio' / false", description: 'Window heading, document path, and unsaved state dot.' },
+      { name: 'chromeStyle / windowState / onDragMove', type: "'macos' | 'windows' / WindowStateMode / (dx, dy) => void", defaultValue: "'macos' / 'normal'", description: 'OS button layout, window size mode, and drag delta handler.' },
+    ],
+  },
+  {
+    id: 'app-menu-bar',
+    title: 'OS-Style Application Menu Bar',
+    exportName: 'AppMenuBar',
+    category: 'desktop-os-windowing',
+    categoryTitle: 'Desktop OS & Windowing Metaphors',
+    summary: 'Persistent top-edge menu strip (File, Edit, View, Window, Help) with hover-switch top menus, cascading submenus, checkmarks, and right-aligned shortcuts.',
+    codeSnippet: `<AppMenuBar brandLabel="Refractor" />`,
+    props: [
+      { name: 'menus / brandLabel', type: 'AppMenuGroup[] / string', defaultValue: "5 OS menus / 'Refractor'", description: 'Menu hierarchy with nested submenus, checkboxes, and separators.' },
+      { name: 'onSelectAction / onToggleCheck', type: '(item, menuId) => void / (id, checked, menuId) => void', defaultValue: 'undefined', description: 'Menu command invocation and checkbox toggle handlers.' },
+    ],
+  },
+  {
+    id: 'workspace-status-bar',
+    title: 'IDE / Workspace Status Bar',
+    exportName: 'WorkspaceStatusBar',
+    category: 'desktop-os-windowing',
+    categoryTitle: 'Desktop OS & Windowing Metaphors',
+    summary: 'Slim bottom-edge IDE telemetry strip surfacing git branch, sync status, error/warning counts, cursor line/col, encoding, language, and background task progress.',
+    codeSnippet: `<WorkspaceStatusBar branch="main" syncState="synced" cursorLine={218} cursorColumn={14} />`,
+    props: [
+      { name: 'branch / syncState / errorsCount / warningsCount', type: "string / StatusSyncState / number / number", defaultValue: "'main' / 'synced' / 0 / 2", description: 'Source control and diagnostic telemetry pills.' },
+      { name: 'backgroundTaskLabel / backgroundTaskProgressPct / onSelectSegment', type: 'string / number / (id) => void', defaultValue: 'undefined', description: 'Live background progress bar and segment click handler.' },
+    ],
+  },
+  {
+    id: 'miller-columns-browser',
+    title: 'Miller Columns (Cascading File Browser)',
+    exportName: 'MillerColumnsBrowser',
+    category: 'desktop-os-windowing',
+    categoryTitle: 'Desktop OS & Windowing Metaphors',
+    summary: 'Horizontal cascading multi-column file hierarchy navigator opening folders into right-hand columns and terminating in a rich literal file preview pane.',
+    codeSnippet: `<MillerColumnsBrowser title="Workspace Miller Columns" />`,
+    props: [
+      { name: 'roots / defaultSelectedPath', type: 'MillerFileNode[] / string[]', defaultValue: '3-level workspace tree', description: 'Cycle-safe directory tree (MAX_DEPTH = 10) and initial selection.' },
+      { name: 'onSelectNode / title', type: '(node, pathIds) => void / string', defaultValue: 'undefined', description: 'Node selection handler and explorer header title.' },
+    ],
+  },
+  {
+    id: 'radial-context-menu',
+    title: 'Radial / Pie Context Menu',
+    exportName: 'RadialContextMenu',
+    category: 'desktop-os-windowing',
+    categoryTitle: 'Desktop OS & Windowing Metaphors',
+    summary: 'Circular 360° pie action wheel blooming around cursor or stage with orbiting directional hub, hover/keyboard flick selection, and shortcut labels.',
+    codeSnippet: `<RadialContextMenu mode="inline" />`,
+    props: [
+      { name: 'actions / mode / open', type: "RadialMenuAction[] / 'trigger' | 'inline' / boolean", defaultValue: "6 actions / 'trigger' / false", description: 'Pie wheel actions, context-bloom vs inline mode, and open state.' },
+      { name: 'onSelectAction / onOpenChange', type: '(action) => void / (open) => void', defaultValue: 'undefined', description: 'Slice selection and visibility callbacks.' },
+    ],
+  },
+  {
+    id: 'quick-look-previewer',
+    title: 'Quick Look File Previewer',
+    exportName: 'QuickLookPreviewer',
+    category: 'desktop-os-windowing',
+    categoryTitle: 'Desktop OS & Windowing Metaphors',
+    summary: 'Instant Spacebar-triggered file inspection modal rendering sanitized images, multi-page PDF previews, optical audio waveforms, and literal code blocks.',
+    codeSnippet: `<QuickLookPreviewer mode="inline" />`,
+    props: [
+      { name: 'files / activeIndex / mode', type: "QuickLookFileItem[] / number / 'modal' | 'inline'", defaultValue: "4 files / 0 / 'modal'", description: 'Inspectable media records, active item, and display mode.' },
+      { name: 'open / onActiveIndexChange / onOpenExternal', type: 'boolean / callbacks', defaultValue: 'false', description: 'Modal visibility, Prev/Next cycling, and external open action.' },
     ],
   },
 ];

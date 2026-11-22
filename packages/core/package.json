@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.32.0",
+  "version": "1.33.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -76,6 +76,16 @@
       "source": "./src/AnomalyForecastChart/index.ts",
       "types": "./dist/AnomalyForecastChart/index.d.ts",
       "default": "./dist/AnomalyForecastChart/index.js"
+    },
+    "./AppDockBar": {
+      "source": "./src/AppDockBar/index.ts",
+      "types": "./dist/AppDockBar/index.d.ts",
+      "default": "./dist/AppDockBar/index.js"
+    },
+    "./AppMenuBar": {
+      "source": "./src/AppMenuBar/index.ts",
+      "types": "./dist/AppMenuBar/index.d.ts",
+      "default": "./dist/AppMenuBar/index.js"
     },
     "./ApprovalGateCard": {
       "source": "./src/ApprovalGateCard/index.ts",
@@ -647,6 +657,11 @@
       "types": "./dist/MemoryPersonaInspector/index.d.ts",
       "default": "./dist/MemoryPersonaInspector/index.js"
     },
+    "./MillerColumnsBrowser": {
+      "source": "./src/MillerColumnsBrowser/index.ts",
+      "types": "./dist/MillerColumnsBrowser/index.d.ts",
+      "default": "./dist/MillerColumnsBrowser/index.js"
+    },
     "./ModalDialog": {
       "source": "./src/ModalDialog/index.ts",
       "types": "./dist/ModalDialog/index.d.ts",
@@ -842,10 +857,20 @@
       "types": "./dist/QuadrantMatrix/index.d.ts",
       "default": "./dist/QuadrantMatrix/index.js"
     },
+    "./QuickLookPreviewer": {
+      "source": "./src/QuickLookPreviewer/index.ts",
+      "types": "./dist/QuickLookPreviewer/index.d.ts",
+      "default": "./dist/QuickLookPreviewer/index.js"
+    },
     "./RadarSpiderChart": {
       "source": "./src/RadarSpiderChart/index.ts",
       "types": "./dist/RadarSpiderChart/index.d.ts",
       "default": "./dist/RadarSpiderChart/index.js"
+    },
+    "./RadialContextMenu": {
+      "source": "./src/RadialContextMenu/index.ts",
+      "types": "./dist/RadialContextMenu/index.d.ts",
+      "default": "./dist/RadialContextMenu/index.js"
     },
     "./RadialGauge": {
       "source": "./src/RadialGauge/index.ts",
@@ -1217,10 +1242,20 @@
       "types": "./dist/WindowSplitter/index.d.ts",
       "default": "./dist/WindowSplitter/index.js"
     },
+    "./WindowTitlebar": {
+      "source": "./src/WindowTitlebar/index.ts",
+      "types": "./dist/WindowTitlebar/index.d.ts",
+      "default": "./dist/WindowTitlebar/index.js"
+    },
     "./WipeCompareOverlay": {
       "source": "./src/WipeCompareOverlay/index.ts",
       "types": "./dist/WipeCompareOverlay/index.d.ts",
       "default": "./dist/WipeCompareOverlay/index.js"
+    },
+    "./WorkspaceStatusBar": {
+      "source": "./src/WorkspaceStatusBar/index.ts",
+      "types": "./dist/WorkspaceStatusBar/index.d.ts",
+      "default": "./dist/WorkspaceStatusBar/index.js"
     }
   },
   "scripts": {

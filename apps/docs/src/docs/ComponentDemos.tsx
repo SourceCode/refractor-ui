@@ -13,6 +13,7 @@ import { CoreDemos } from './demos/CoreDemos';
 import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
+import { DesktopOsWindowingDemos } from './demos/DesktopOsWindowingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
@@ -340,6 +341,16 @@ const FOUNDATIONAL_MICRO_UTILITIES_IDS = new Set([
   'scroll-shadow-area',
 ]);
 
+const DESKTOP_OS_WINDOWING_IDS = new Set([
+  'app-dock-bar',
+  'window-titlebar',
+  'app-menu-bar',
+  'workspace-status-bar',
+  'miller-columns-browser',
+  'radial-context-menu',
+  'quick-look-previewer',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -448,6 +459,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (FOUNDATIONAL_MICRO_UTILITIES_IDS.has(componentId)) {
     return <FoundationalMicroUtilitiesDemos componentId={componentId} />;
+  }
+  if (DESKTOP_OS_WINDOWING_IDS.has(componentId)) {
+    return <DesktopOsWindowingDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
