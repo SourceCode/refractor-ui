@@ -7,6 +7,85 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.37.0] - 2026-11-22
+
+### Added
+- **Hardware, IoT & Tactile Surfaces (5 new optical-glass hardware & IoT primitives — 270 total across 47 categories):**
+  - `StepSequencerMatrix`: Illuminated `16 steps × 4 tracks` optical drum/synth sequencer inside an `overflow-x-auto` wrapper with BPM tempo slider (`60–200`), Play/Stop step clock, per-track Mute/Clear, `House`/`Breakbeat`/`Clear` presets, and 2D IME-safe keyboard grid navigation.
+  - `DigitalLedReadout`: Pure-SVG beveled `7-segment` and glowing `Nixie` vacuum-tube digital readout rendering `0–9`, `:`, `.`, `-`, and alpha status codes across 5 `--prism-*` phosphor tones with optional live style switcher.
+  - `ThermostatDial`: Radial 270° touch-and-drag + keyboard SVG environmental climate dial comparing ambient vs. setpoint temperature with `°F`/`°C` conversion, `Cooling`/`Heating`/`Eco`/`Off` semantic optical modes, and fine steppers.
+  - `HardwarePortStrip`: Sculpted 1U 12-port optical switch & patch bay strip (`RJ45`, `PoE`, `USB-C`, `SFP+`) with live link LEDs, total PoE wattage load, status filters, and an interactive Port Diagnostic Inspector with admin port enable/disable.
+  - `VirtualJoystickPad`: Dual-mode circular spring-return analog thumbstick (`viewBox="0 0 220 220"`) and 5-way cruciform tactile D-Pad emitting unit-circle-normalized `{ x, y, magnitude, angleDeg, direction }` telemetry with WASD/Arrow steering.
+- **270-Component / 47-Category Phase 5 Certification & GitHub Pages Deployment:**
+  - Updated live GitHub Pages Documentation Portal (`DocsHeroBanner`, `DocsShell`, `DocsGuides`, `index.html`), `README.md`, package READMEs, `@refractor-ui/cli`, and `docs/reviews/ux-ui-director-audit.md` for `v1.37.0` (`270` components / `47` categories).
+  - Locked exact `270`-component / `47`-category assertions across `storage.test.ts`, `responsive.matrix.test.tsx`, and `cli.test.mjs`.
+  - Expanded `packages/core/src/__tests__/security.adversarial.test.tsx` with Section 10 covering Phase 5 (`v1.32.0`–`v1.37.0`) XSS, URL sanitization, formula cycle/syntax safety, CSV formula sanitization, and prototype-pollution immunity.
+
+## [1.36.0] - 2026-11-22
+
+### Added
+- **Enterprise Workflows, Data Ops & API Tooling (6 new optical-glass enterprise, API & compliance primitives — 265 total across 46 categories):**
+  - `CsvColumnMapper`: Guided RFC-4180 CSV upload/paste importer with prototype-safe `Map` column schema mapping, auto-mapping, missing-required & duplicate warnings, row-level validation preview table (`overflow-x-auto`), and `sanitizeCsvCell`-protected import commit.
+  - `ApiRequestBuilder`: Embedded optical HTTP console with `GET`/`POST`/`PUT`/`PATCH`/`DELETE` method selector, `sanitizeUrl`-validated endpoint bar, tabbed `Params`/`Headers`/`JSON Body` editors, safe JSON formatter, built-in mock responder, and formatted literal response inspector.
+  - `FeatureFlagRollout`: Release-management flag card combining `Dev`/`Staging`/`Prod` `role="switch"` toggles, gradual `0–100%` rollout slider with presets, interactive audience targeting rules, and a production-locking `Kill Switch` / `Restore Flag` control.
+  - `ApprovalChainStrip`: Sequential or parallel multi-stage reviewer sign-off strip with directional optical connectors, strict predecessor gating in sequential mode, interactive `Approve`/`Request Changes`/`Reject`/`Reset Pending` action bar, and overall verdict progress.
+  - `AuditTrailFeed`: Filterable compliance event log with linear-time substring search, severity/action filter pills, prototype-safe before/after JSON diff inspector, and `sanitizeCsvCell`-hardened CSV export.
+  - `SlaCountdownTimer`: Live ticking SLA urgency countdown (`card` & `compact` variants) shifting optical states across `Nominal`, `Approaching`, `Critical`, and `Breached` (`BREACHED +HH:MM:SS`) with `Pause`/`Resume`, `Reset`, `Escalate`, and clean interval teardown.
+- Added interactive playground demos and prop specs in `apps/docs` under `Enterprise Workflows, Data Ops & API Tooling`.
+
+## [1.35.0] - 2026-11-22
+
+### Added
+- **Design, 3D & Shader Inspector Controls (7 new optical-glass creative studio & shader primitives — 259 total across 45 categories):**
+  - `VectorXyPad`: Interactive 2D XY vector pad (`Cartesian` / `Polar` overlay, origin-to-puck vector, double-click center reset, magnitude & angle telemetry).
+  - `TransformInspector`: Grouped X/Y/Z Position, Rotation, and Scale inspector with semantic axis color coding, proportional aspect-ratio chain lock, and live CSS/3D transform summary.
+  - `GradientStopEditor`: Token-driven multi-stop Linear/Radial/Conic gradient builder with draggable color stops, CSS Images 4 midpoint diamonds, opacity controls, and angle slider.
+  - `SpringEasingPicker`: Interactive spring physics (`Stiffness`, `Damping`, `Mass` with damped harmonic oscillator curves) and Cubic-Bezier picker with live `requestAnimationFrame` animated dot playback.
+  - `OpticalMaterialInspector`: Live optical glass shader specimen & inspector tuning blur radius (`px`), Snell index of refraction (`IOR`), chromatic dispersion split, specular intensity, and surface tint presets.
+  - `AlignmentToolbar`: Compact alignment & even-gap distribution icon strip (`Selection` vs `Artboard` anchor mode) with smart selection-count disabling and optional live mini snapping stage.
+  - `AssetSwatchGrid`: Filterable, HTML5-draggable creative asset & swatch library grid featuring procedural optical SVG previews and an instant hover/selection inspector.
+- Added interactive playground demos and prop specs in `apps/docs` under `Design, 3D & Shader Inspector Controls`.
+
+## [1.34.0] - 2026-11-22
+
+### Added
+- **Document, Knowledge & Spreadsheet Tools (7 new optical-glass editor, wiki & spreadsheet primitives — 252 total across 44 categories):**
+  - `SlashCommandMenu`: Inline cursor-anchored `/` block insertion menu grouped across `Blocks`, `Media`, `Data`, and `AI` with live literal match highlighting and IME-safe keyboard selection.
+  - `BlockTransformHandle`: Hover-revealed drag grip & transformer menu supporting in-place Turn-Into conversions (`Paragraph`, `Heading`, `Callout`, `Checklist`, `Quote`, `Code`), drag/keyboard reorder, duplicate, and delete.
+  - `FloatingTableOfContents`: Sticky scroll-spy reading outline with reading progress bar, nested heading indentation (`H1`–`H3`), and active section rail tracking.
+  - `CalloutAdmonition`: Semantic icon-badged documentation callout (`Note`, `Tip`, `Warning`, `Danger`, `Summary`) with luminous left stripe and optional collapsible body.
+  - `LinkPreviewCard`: URL-sanitized inline link triggering a viewport-clamped floating hover/focus preview card displaying entity kind, summary, author, timestamp, and tags.
+  - `DocumentPageViewer`: Multi-page PDF/document reader with collapsible page-thumbnail rail, zoom presets (`75%`–`150%`), page-jump input, and linear-time literal search highlighting.
+  - `FormulaSpreadsheetGrid`: Zero-`eval` recursive-descent formula spreadsheet (`SUM`, `AVERAGE`, `MIN`, `MAX`, `COUNT`, cell refs, ranges, `#CYCLE!`/`#DIV/0!`/`#ERR!`, `fx` bar, `Shift+Click` ranges, and multi-sheet tabs).
+- Added interactive playground demos and prop specs in `apps/docs` under `Document, Knowledge & Spreadsheet Tools`.
+
+## [1.33.0] - 2026-11-22
+
+### Added
+- **Desktop OS & Windowing Metaphors (7 new optical-glass desktop & shell primitives — 245 total across 43 categories):**
+  - `AppDockBar`: Floating optical glass app launcher dock with smooth neighbor magnification, running-indicator glow dots, `99+`-capped notification badges, attention bounce, and roving-tabindex keyboard navigation.
+  - `WindowTitlebar`: Draggable window chrome supporting `macos` semantic traffic lights and `windows` controls, unsaved dot indicator, double-click Maximize/Restore, Minimize collapse, and window drag deltas.
+  - `AppMenuBar`: Persistent OS-style application menu strip (`File`, `Edit`, `View`, `Window`, `Help`) with hover-switch top menus, cascading submenus, toggleable checkmarks, and right-aligned shortcut hints.
+  - `WorkspaceStatusBar`: Slim bottom-edge IDE telemetry bar surfacing git branch, sync status, diagnostics counts, cursor coordinates, encoding, language, and live background task progress.
+  - `MillerColumnsBrowser`: Horizontal cascading multi-column file hierarchy navigator (`MAX_DEPTH = 10` cycle-safe) ending in a rich file preview pane with clickable breadcrumb trail and arrow-key traversal.
+  - `RadialContextMenu`: Interactive 360° circular pie action wheel (`trigger` right-click/hotkey bloom or `inline` stage) with orbiting directional pointer hub and keyboard spin selection.
+  - `QuickLookPreviewer`: Instant Spacebar-triggered file preview modal (`image`, `pdf`, `audio`, `code`) with optical zoom, audio waveform toggle, literal code viewer, and Prev/Next cycling.
+- Added interactive playground demos and prop specs in `apps/docs` under `Desktop OS & Windowing Metaphors`.
+
+## [1.32.0] - 2026-11-22
+
+### Added
+- **Foundational Primitives & Micro-Utilities (8 new optical-glass utility primitives — 238 total across 42 categories):**
+  - `OpticalDivider`: Horizontal or vertical optical seam rule (`seam`, `specular`, `dashed`) optionally carrying a centered/aligned label or icon medallion without heavy borders.
+  - `PropertyGrid`: Structured semantic `<dl>` key-value metadata inspector supporting 1/2-column responsive grids, searchable filtering, monospace values, inline copy buttons, and arbitrary React controls.
+  - `AvatarStack`: Compact overlapping avatar cluster collapsing overflow members into a `+N` counter pill with a viewport-clamped popover listing all users and live presence states.
+  - `InlineCopyTrigger`: Lightweight inline clipboard button morphing into an emerald confirmation checkmark with resilient clipboard error handling and sr-only announcements.
+  - `ExpandableTextClamp`: Typography container gracefully truncating long paragraphs at 2–6 lines with optical bottom fade and smooth in-place `Read more` / `Show less` toggle.
+  - `MarqueeTicker`: Continuous pause-on-hover horizontal ticker ribbon with WCAG 2.2.2 Pause/Play toggle, `prefers-reduced-motion` safety, and `aria-hidden` duplicate track.
+  - `ShortcutCheatSheet`: Categorized hotkey overlay (`modal` triggered by `?` or `inline` embedded mode) with live search filtering and tactile embossed `<kbd>` keycaps.
+  - `ScrollShadowArea`: Keyboard-focusable custom scroll container with ResizeObserver-backed dynamic top/bottom/left/right edge-fade gradients and optional jump controls.
+- Added interactive playground demos and prop specs in `apps/docs` under `Foundational Primitives & Micro-Utilities`.
+
 ## [1.31.0] - 2026-11-21
 
 ### Added
@@ -408,7 +487,13 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.37.0...HEAD
+[1.37.0]: https://github.com/SourceCode/refractor-ui/compare/v1.36.0...v1.37.0
+[1.36.0]: https://github.com/SourceCode/refractor-ui/compare/v1.35.0...v1.36.0
+[1.35.0]: https://github.com/SourceCode/refractor-ui/compare/v1.34.0...v1.35.0
+[1.34.0]: https://github.com/SourceCode/refractor-ui/compare/v1.33.0...v1.34.0
+[1.33.0]: https://github.com/SourceCode/refractor-ui/compare/v1.32.0...v1.33.0
+[1.32.0]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...v1.32.0
 [1.31.0]: https://github.com/SourceCode/refractor-ui/compare/v1.30.0...v1.31.0
 [1.30.0]: https://github.com/SourceCode/refractor-ui/compare/v1.29.0...v1.30.0
 [1.29.0]: https://github.com/SourceCode/refractor-ui/compare/v1.28.0...v1.29.0

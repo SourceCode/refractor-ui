@@ -62,12 +62,12 @@ describe('@refractor-ui/cli', () => {
     expect(badRes.stderr).toContain('Unknown docs topic');
   });
 
-  it('lists all 230 components grouped across 41 canonical categories', async () => {
+  it('lists all components grouped across canonical categories', async () => {
     const totalCount = listComponentDirectories(DEFAULT_REPO_ROOT).length;
-    expect(totalCount).toBe(230);
+    expect(totalCount).toBe(270);
     const res = await runCli(['component', '--list']);
     expect(res.exitCode).toBe(0);
-    expect(res.stdout).toContain('230 Components across 41 Categories');
+    expect(res.stdout).toContain('270 Components across 47 Categories');
     expect(res.stdout).toContain('Buttons & Actions (6):');
     expect(res.stdout).toContain('Layout & Workspace Controls (6):');
     expect(res.stdout).toContain('Advanced Data & Visualization (6):');
@@ -104,6 +104,12 @@ describe('@refractor-ui/cli', () => {
     expect(res.stdout).toContain('Scientific, Statistical & High-Dimensional Visuals (7):');
     expect(res.stdout).toContain('System, DevOps & Observability Widgets (6):');
     expect(res.stdout).toContain('Comparison, Ranking & Storytelling Visuals (7):');
+    expect(res.stdout).toContain('Foundational Primitives & Micro-Utilities (8):');
+    expect(res.stdout).toContain('Desktop OS & Windowing Metaphors (7):');
+    expect(res.stdout).toContain('Document, Knowledge & Spreadsheet Tools (7):');
+    expect(res.stdout).toContain('Design, 3D & Shader Inspector Controls (7):');
+    expect(res.stdout).toContain('Enterprise Workflows, Data Ops & API Tooling (6):');
+    expect(res.stdout).toContain('Hardware, IoT & Tactile Surfaces (5):');
     expect(res.stdout).toContain('PrimaryButton');
     expect(res.stdout).toContain('ProductTour');
     expect(res.stdout).toContain('ChatMessageStream');
@@ -120,6 +126,12 @@ describe('@refractor-ui/cli', () => {
     expect(res.stdout).toContain('SurfaceMesh3DPlot');
     expect(res.stdout).toContain('FlameGraphChart');
     expect(res.stdout).toContain('SmallMultiplesGrid');
+    expect(res.stdout).toContain('OpticalDivider');
+    expect(res.stdout).toContain('MillerColumnsBrowser');
+    expect(res.stdout).toContain('FormulaSpreadsheetGrid');
+    expect(res.stdout).toContain('OpticalMaterialInspector');
+    expect(res.stdout).toContain('CsvColumnMapper');
+    expect(res.stdout).toContain('VirtualJoystickPad');
   }, 15_000);
 
   it('inspects individual components in standard, dense, and full modes and handles unknown components', async () => {

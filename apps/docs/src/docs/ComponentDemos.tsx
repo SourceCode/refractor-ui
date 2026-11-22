@@ -13,9 +13,15 @@ import { CoreDemos } from './demos/CoreDemos';
 import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
+import { Design3dShaderDemos } from './demos/Design3dShaderDemos';
+import { DesktopOsWindowingDemos } from './demos/DesktopOsWindowingDemos';
+import { DocumentKnowledgeDemos } from './demos/DocumentKnowledgeDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
+import { EnterpriseOpsApiDemos } from './demos/EnterpriseOpsApiDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
+import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
+import { HardwareIotTactileDemos } from './demos/HardwareIotTactileDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
@@ -328,6 +334,64 @@ const COMPARISON_STORYTELLING_IDS = new Set([
   'small-multiples-grid',
 ]);
 
+const FOUNDATIONAL_MICRO_UTILITIES_IDS = new Set([
+  'optical-divider',
+  'property-grid',
+  'avatar-stack',
+  'inline-copy-trigger',
+  'expandable-text-clamp',
+  'marquee-ticker',
+  'shortcut-cheat-sheet',
+  'scroll-shadow-area',
+]);
+
+const DESKTOP_OS_WINDOWING_IDS = new Set([
+  'app-dock-bar',
+  'window-titlebar',
+  'app-menu-bar',
+  'workspace-status-bar',
+  'miller-columns-browser',
+  'radial-context-menu',
+  'quick-look-previewer',
+]);
+
+const DOCUMENT_KNOWLEDGE_IDS = new Set([
+  'slash-command-menu',
+  'block-transform-handle',
+  'floating-table-of-contents',
+  'callout-admonition',
+  'link-preview-card',
+  'document-page-viewer',
+  'formula-spreadsheet-grid',
+]);
+
+const DESIGN_3D_SHADER_IDS = new Set([
+  'vector-xy-pad',
+  'transform-inspector',
+  'gradient-stop-editor',
+  'spring-easing-picker',
+  'optical-material-inspector',
+  'alignment-toolbar',
+  'asset-swatch-grid',
+]);
+
+const ENTERPRISE_OPS_API_IDS = new Set([
+  'csv-column-mapper',
+  'api-request-builder',
+  'feature-flag-rollout',
+  'approval-chain-strip',
+  'audit-trail-feed',
+  'sla-countdown-timer',
+]);
+
+const HARDWARE_IOT_TACTILE_IDS = new Set([
+  'step-sequencer-matrix',
+  'digital-led-readout',
+  'thermostat-dial',
+  'hardware-port-strip',
+  'virtual-joystick-pad',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -433,6 +497,24 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (COMPARISON_STORYTELLING_IDS.has(componentId)) {
     return <ComparisonStorytellingDemos componentId={componentId} />;
+  }
+  if (FOUNDATIONAL_MICRO_UTILITIES_IDS.has(componentId)) {
+    return <FoundationalMicroUtilitiesDemos componentId={componentId} />;
+  }
+  if (DESKTOP_OS_WINDOWING_IDS.has(componentId)) {
+    return <DesktopOsWindowingDemos componentId={componentId} />;
+  }
+  if (DOCUMENT_KNOWLEDGE_IDS.has(componentId)) {
+    return <DocumentKnowledgeDemos componentId={componentId} />;
+  }
+  if (DESIGN_3D_SHADER_IDS.has(componentId)) {
+    return <Design3dShaderDemos componentId={componentId} />;
+  }
+  if (ENTERPRISE_OPS_API_IDS.has(componentId)) {
+    return <EnterpriseOpsApiDemos componentId={componentId} />;
+  }
+  if (HARDWARE_IOT_TACTILE_IDS.has(componentId)) {
+    return <HardwareIotTactileDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

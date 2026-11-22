@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.31.0",
+  "version": "1.37.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -72,10 +72,35 @@
       "types": "./dist/AlertBanner/index.d.ts",
       "default": "./dist/AlertBanner/index.js"
     },
+    "./AlignmentToolbar": {
+      "source": "./src/AlignmentToolbar/index.ts",
+      "types": "./dist/AlignmentToolbar/index.d.ts",
+      "default": "./dist/AlignmentToolbar/index.js"
+    },
     "./AnomalyForecastChart": {
       "source": "./src/AnomalyForecastChart/index.ts",
       "types": "./dist/AnomalyForecastChart/index.d.ts",
       "default": "./dist/AnomalyForecastChart/index.js"
+    },
+    "./ApiRequestBuilder": {
+      "source": "./src/ApiRequestBuilder/index.ts",
+      "types": "./dist/ApiRequestBuilder/index.d.ts",
+      "default": "./dist/ApiRequestBuilder/index.js"
+    },
+    "./AppDockBar": {
+      "source": "./src/AppDockBar/index.ts",
+      "types": "./dist/AppDockBar/index.d.ts",
+      "default": "./dist/AppDockBar/index.js"
+    },
+    "./AppMenuBar": {
+      "source": "./src/AppMenuBar/index.ts",
+      "types": "./dist/AppMenuBar/index.d.ts",
+      "default": "./dist/AppMenuBar/index.js"
+    },
+    "./ApprovalChainStrip": {
+      "source": "./src/ApprovalChainStrip/index.ts",
+      "types": "./dist/ApprovalChainStrip/index.d.ts",
+      "default": "./dist/ApprovalChainStrip/index.js"
     },
     "./ApprovalGateCard": {
       "source": "./src/ApprovalGateCard/index.ts",
@@ -87,6 +112,11 @@
       "types": "./dist/AreaStackedChart/index.d.ts",
       "default": "./dist/AreaStackedChart/index.js"
     },
+    "./AssetSwatchGrid": {
+      "source": "./src/AssetSwatchGrid/index.ts",
+      "types": "./dist/AssetSwatchGrid/index.d.ts",
+      "default": "./dist/AssetSwatchGrid/index.js"
+    },
     "./AttachedContextBar": {
       "source": "./src/AttachedContextBar/index.ts",
       "types": "./dist/AttachedContextBar/index.d.ts",
@@ -97,10 +127,20 @@
       "types": "./dist/AudioWaveformPlayer/index.d.ts",
       "default": "./dist/AudioWaveformPlayer/index.js"
     },
+    "./AuditTrailFeed": {
+      "source": "./src/AuditTrailFeed/index.ts",
+      "types": "./dist/AuditTrailFeed/index.d.ts",
+      "default": "./dist/AuditTrailFeed/index.js"
+    },
     "./Avatar": {
       "source": "./src/Avatar/index.ts",
       "types": "./dist/Avatar/index.d.ts",
       "default": "./dist/Avatar/index.js"
+    },
+    "./AvatarStack": {
+      "source": "./src/AvatarStack/index.ts",
+      "types": "./dist/AvatarStack/index.d.ts",
+      "default": "./dist/AvatarStack/index.js"
     },
     "./BadgeStatus": {
       "source": "./src/BadgeStatus/index.ts",
@@ -116,6 +156,11 @@
       "source": "./src/BeforeAfterSlider/index.ts",
       "types": "./dist/BeforeAfterSlider/index.d.ts",
       "default": "./dist/BeforeAfterSlider/index.js"
+    },
+    "./BlockTransformHandle": {
+      "source": "./src/BlockTransformHandle/index.ts",
+      "types": "./dist/BlockTransformHandle/index.d.ts",
+      "default": "./dist/BlockTransformHandle/index.js"
     },
     "./BottomNavigationBar": {
       "source": "./src/BottomNavigationBar/index.ts",
@@ -166,6 +211,11 @@
       "source": "./src/CalendarView/index.ts",
       "types": "./dist/CalendarView/index.d.ts",
       "default": "./dist/CalendarView/index.js"
+    },
+    "./CalloutAdmonition": {
+      "source": "./src/CalloutAdmonition/index.ts",
+      "types": "./dist/CalloutAdmonition/index.d.ts",
+      "default": "./dist/CalloutAdmonition/index.js"
     },
     "./CandlestickOhlcChart": {
       "source": "./src/CandlestickOhlcChart/index.ts",
@@ -337,6 +387,11 @@
       "types": "./dist/CropStraightenOverlay/index.d.ts",
       "default": "./dist/CropStraightenOverlay/index.js"
     },
+    "./CsvColumnMapper": {
+      "source": "./src/CsvColumnMapper/index.ts",
+      "types": "./dist/CsvColumnMapper/index.d.ts",
+      "default": "./dist/CsvColumnMapper/index.js"
+    },
     "./CurrencyInput": {
       "source": "./src/CurrencyInput/index.ts",
       "types": "./dist/CurrencyInput/index.d.ts",
@@ -367,6 +422,11 @@
       "types": "./dist/DiffViewer/index.d.ts",
       "default": "./dist/DiffViewer/index.js"
     },
+    "./DigitalLedReadout": {
+      "source": "./src/DigitalLedReadout/index.ts",
+      "types": "./dist/DigitalLedReadout/index.d.ts",
+      "default": "./dist/DigitalLedReadout/index.js"
+    },
     "./DistributedTraceWaterfall": {
       "source": "./src/DistributedTraceWaterfall/index.ts",
       "types": "./dist/DistributedTraceWaterfall/index.d.ts",
@@ -376,6 +436,11 @@
       "source": "./src/DockablePanel/index.ts",
       "types": "./dist/DockablePanel/index.d.ts",
       "default": "./dist/DockablePanel/index.js"
+    },
+    "./DocumentPageViewer": {
+      "source": "./src/DocumentPageViewer/index.ts",
+      "types": "./dist/DocumentPageViewer/index.d.ts",
+      "default": "./dist/DocumentPageViewer/index.js"
     },
     "./DonutPieChart": {
       "source": "./src/DonutPieChart/index.ts",
@@ -412,6 +477,11 @@
       "types": "./dist/EmptyState/index.d.ts",
       "default": "./dist/EmptyState/index.js"
     },
+    "./ExpandableTextClamp": {
+      "source": "./src/ExpandableTextClamp/index.ts",
+      "types": "./dist/ExpandableTextClamp/index.d.ts",
+      "default": "./dist/ExpandableTextClamp/index.js"
+    },
     "./ExportRenderQueue": {
       "source": "./src/ExportRenderQueue/index.ts",
       "types": "./dist/ExportRenderQueue/index.d.ts",
@@ -427,6 +497,11 @@
       "types": "./dist/FacetedFilterBar/index.d.ts",
       "default": "./dist/FacetedFilterBar/index.js"
     },
+    "./FeatureFlagRollout": {
+      "source": "./src/FeatureFlagRollout/index.ts",
+      "types": "./dist/FeatureFlagRollout/index.d.ts",
+      "default": "./dist/FeatureFlagRollout/index.js"
+    },
     "./FileDropzone": {
       "source": "./src/FileDropzone/index.ts",
       "types": "./dist/FileDropzone/index.d.ts",
@@ -441,6 +516,16 @@
       "source": "./src/FloatingActionButton/index.ts",
       "types": "./dist/FloatingActionButton/index.d.ts",
       "default": "./dist/FloatingActionButton/index.js"
+    },
+    "./FloatingTableOfContents": {
+      "source": "./src/FloatingTableOfContents/index.ts",
+      "types": "./dist/FloatingTableOfContents/index.d.ts",
+      "default": "./dist/FloatingTableOfContents/index.js"
+    },
+    "./FormulaSpreadsheetGrid": {
+      "source": "./src/FormulaSpreadsheetGrid/index.ts",
+      "types": "./dist/FormulaSpreadsheetGrid/index.d.ts",
+      "default": "./dist/FormulaSpreadsheetGrid/index.js"
     },
     "./FrameStepperRateSelector": {
       "source": "./src/FrameStepperRateSelector/index.ts",
@@ -467,10 +552,20 @@
       "types": "./dist/GlobalSearchModal/index.d.ts",
       "default": "./dist/GlobalSearchModal/index.js"
     },
+    "./GradientStopEditor": {
+      "source": "./src/GradientStopEditor/index.ts",
+      "types": "./dist/GradientStopEditor/index.d.ts",
+      "default": "./dist/GradientStopEditor/index.js"
+    },
     "./HandoffDivider": {
       "source": "./src/HandoffDivider/index.ts",
       "types": "./dist/HandoffDivider/index.d.ts",
       "default": "./dist/HandoffDivider/index.js"
+    },
+    "./HardwarePortStrip": {
+      "source": "./src/HardwarePortStrip/index.ts",
+      "types": "./dist/HardwarePortStrip/index.d.ts",
+      "default": "./dist/HardwarePortStrip/index.js"
     },
     "./HexbinDensityPlot": {
       "source": "./src/HexbinDensityPlot/index.ts",
@@ -501,6 +596,11 @@
       "source": "./src/ImageCropper/index.ts",
       "types": "./dist/ImageCropper/index.d.ts",
       "default": "./dist/ImageCropper/index.js"
+    },
+    "./InlineCopyTrigger": {
+      "source": "./src/InlineCopyTrigger/index.ts",
+      "types": "./dist/InlineCopyTrigger/index.d.ts",
+      "default": "./dist/InlineCopyTrigger/index.js"
     },
     "./InlineDiffReviewer": {
       "source": "./src/InlineDiffReviewer/index.ts",
@@ -562,6 +662,11 @@
       "types": "./dist/LineMultiSeriesChart/index.d.ts",
       "default": "./dist/LineMultiSeriesChart/index.js"
     },
+    "./LinkPreviewCard": {
+      "source": "./src/LinkPreviewCard/index.ts",
+      "types": "./dist/LinkPreviewCard/index.d.ts",
+      "default": "./dist/LinkPreviewCard/index.js"
+    },
     "./LiveColorScopes": {
       "source": "./src/LiveColorScopes/index.ts",
       "types": "./dist/LiveColorScopes/index.d.ts",
@@ -591,6 +696,11 @@
       "source": "./src/MarimekkoChart/index.ts",
       "types": "./dist/MarimekkoChart/index.d.ts",
       "default": "./dist/MarimekkoChart/index.js"
+    },
+    "./MarqueeTicker": {
+      "source": "./src/MarqueeTicker/index.ts",
+      "types": "./dist/MarqueeTicker/index.d.ts",
+      "default": "./dist/MarqueeTicker/index.js"
     },
     "./MaskedPatternInput": {
       "source": "./src/MaskedPatternInput/index.ts",
@@ -626,6 +736,11 @@
       "source": "./src/MemoryPersonaInspector/index.ts",
       "types": "./dist/MemoryPersonaInspector/index.d.ts",
       "default": "./dist/MemoryPersonaInspector/index.js"
+    },
+    "./MillerColumnsBrowser": {
+      "source": "./src/MillerColumnsBrowser/index.ts",
+      "types": "./dist/MillerColumnsBrowser/index.d.ts",
+      "default": "./dist/MillerColumnsBrowser/index.js"
     },
     "./ModalDialog": {
       "source": "./src/ModalDialog/index.ts",
@@ -681,6 +796,16 @@
       "source": "./src/OpticalCharts/index.ts",
       "types": "./dist/OpticalCharts/index.d.ts",
       "default": "./dist/OpticalCharts/index.js"
+    },
+    "./OpticalDivider": {
+      "source": "./src/OpticalDivider/index.ts",
+      "types": "./dist/OpticalDivider/index.d.ts",
+      "default": "./dist/OpticalDivider/index.js"
+    },
+    "./OpticalMaterialInspector": {
+      "source": "./src/OpticalMaterialInspector/index.ts",
+      "types": "./dist/OpticalMaterialInspector/index.d.ts",
+      "default": "./dist/OpticalMaterialInspector/index.js"
     },
     "./OrderBookDepthChart": {
       "source": "./src/OrderBookDepthChart/index.ts",
@@ -802,6 +927,11 @@
       "types": "./dist/PromptComposer/index.d.ts",
       "default": "./dist/PromptComposer/index.js"
     },
+    "./PropertyGrid": {
+      "source": "./src/PropertyGrid/index.ts",
+      "types": "./dist/PropertyGrid/index.d.ts",
+      "default": "./dist/PropertyGrid/index.js"
+    },
     "./PullToRefresh": {
       "source": "./src/PullToRefresh/index.ts",
       "types": "./dist/PullToRefresh/index.d.ts",
@@ -812,10 +942,20 @@
       "types": "./dist/QuadrantMatrix/index.d.ts",
       "default": "./dist/QuadrantMatrix/index.js"
     },
+    "./QuickLookPreviewer": {
+      "source": "./src/QuickLookPreviewer/index.ts",
+      "types": "./dist/QuickLookPreviewer/index.d.ts",
+      "default": "./dist/QuickLookPreviewer/index.js"
+    },
     "./RadarSpiderChart": {
       "source": "./src/RadarSpiderChart/index.ts",
       "types": "./dist/RadarSpiderChart/index.d.ts",
       "default": "./dist/RadarSpiderChart/index.js"
+    },
+    "./RadialContextMenu": {
+      "source": "./src/RadialContextMenu/index.ts",
+      "types": "./dist/RadialContextMenu/index.d.ts",
+      "default": "./dist/RadialContextMenu/index.js"
     },
     "./RadialGauge": {
       "source": "./src/RadialGauge/index.ts",
@@ -887,6 +1027,11 @@
       "types": "./dist/ScatterBubblePlot/index.d.ts",
       "default": "./dist/ScatterBubblePlot/index.js"
     },
+    "./ScrollShadowArea": {
+      "source": "./src/ScrollShadowArea/index.ts",
+      "types": "./dist/ScrollShadowArea/index.d.ts",
+      "default": "./dist/ScrollShadowArea/index.js"
+    },
     "./ScrubbableNumberField": {
       "source": "./src/ScrubbableNumberField/index.ts",
       "types": "./dist/ScrubbableNumberField/index.d.ts",
@@ -922,6 +1067,11 @@
       "types": "./dist/ShoppingCartDrawer/index.d.ts",
       "default": "./dist/ShoppingCartDrawer/index.js"
     },
+    "./ShortcutCheatSheet": {
+      "source": "./src/ShortcutCheatSheet/index.ts",
+      "types": "./dist/ShortcutCheatSheet/index.d.ts",
+      "default": "./dist/ShortcutCheatSheet/index.js"
+    },
     "./SidebarDrawer": {
       "source": "./src/SidebarDrawer/index.ts",
       "types": "./dist/SidebarDrawer/index.d.ts",
@@ -936,6 +1086,16 @@
       "source": "./src/SkeletonLoader/index.ts",
       "types": "./dist/SkeletonLoader/index.d.ts",
       "default": "./dist/SkeletonLoader/index.js"
+    },
+    "./SlaCountdownTimer": {
+      "source": "./src/SlaCountdownTimer/index.ts",
+      "types": "./dist/SlaCountdownTimer/index.d.ts",
+      "default": "./dist/SlaCountdownTimer/index.js"
+    },
+    "./SlashCommandMenu": {
+      "source": "./src/SlashCommandMenu/index.ts",
+      "types": "./dist/SlashCommandMenu/index.d.ts",
+      "default": "./dist/SlashCommandMenu/index.js"
     },
     "./SlideOverSheet": {
       "source": "./src/SlideOverSheet/index.ts",
@@ -977,10 +1137,20 @@
       "types": "./dist/SplitButton/index.d.ts",
       "default": "./dist/SplitButton/index.js"
     },
+    "./SpringEasingPicker": {
+      "source": "./src/SpringEasingPicker/index.ts",
+      "types": "./dist/SpringEasingPicker/index.d.ts",
+      "default": "./dist/SpringEasingPicker/index.js"
+    },
     "./StatefulAsyncButton": {
       "source": "./src/StatefulAsyncButton/index.ts",
       "types": "./dist/StatefulAsyncButton/index.d.ts",
       "default": "./dist/StatefulAsyncButton/index.js"
+    },
+    "./StepSequencerMatrix": {
+      "source": "./src/StepSequencerMatrix/index.ts",
+      "types": "./dist/StepSequencerMatrix/index.d.ts",
+      "default": "./dist/StepSequencerMatrix/index.js"
     },
     "./Stepper": {
       "source": "./src/Stepper/index.ts",
@@ -1041,6 +1211,11 @@
       "source": "./src/TextInput/index.ts",
       "types": "./dist/TextInput/index.d.ts",
       "default": "./dist/TextInput/index.js"
+    },
+    "./ThermostatDial": {
+      "source": "./src/ThermostatDial/index.ts",
+      "types": "./dist/ThermostatDial/index.d.ts",
+      "default": "./dist/ThermostatDial/index.js"
     },
     "./ThinkingAccordion": {
       "source": "./src/ThinkingAccordion/index.ts",
@@ -1112,6 +1287,11 @@
       "types": "./dist/TransferList/index.d.ts",
       "default": "./dist/TransferList/index.js"
     },
+    "./TransformInspector": {
+      "source": "./src/TransformInspector/index.ts",
+      "types": "./dist/TransformInspector/index.d.ts",
+      "default": "./dist/TransformInspector/index.js"
+    },
     "./TransportControlBar": {
       "source": "./src/TransportControlBar/index.ts",
       "types": "./dist/TransportControlBar/index.d.ts",
@@ -1137,10 +1317,20 @@
       "types": "./dist/UptimeStatusBar/index.d.ts",
       "default": "./dist/UptimeStatusBar/index.js"
     },
+    "./VectorXyPad": {
+      "source": "./src/VectorXyPad/index.ts",
+      "types": "./dist/VectorXyPad/index.d.ts",
+      "default": "./dist/VectorXyPad/index.js"
+    },
     "./ViolinPlot": {
       "source": "./src/ViolinPlot/index.ts",
       "types": "./dist/ViolinPlot/index.d.ts",
       "default": "./dist/ViolinPlot/index.js"
+    },
+    "./VirtualJoystickPad": {
+      "source": "./src/VirtualJoystickPad/index.ts",
+      "types": "./dist/VirtualJoystickPad/index.d.ts",
+      "default": "./dist/VirtualJoystickPad/index.js"
     },
     "./VirtualizedList": {
       "source": "./src/VirtualizedList/index.ts",
@@ -1177,10 +1367,20 @@
       "types": "./dist/WindowSplitter/index.d.ts",
       "default": "./dist/WindowSplitter/index.js"
     },
+    "./WindowTitlebar": {
+      "source": "./src/WindowTitlebar/index.ts",
+      "types": "./dist/WindowTitlebar/index.d.ts",
+      "default": "./dist/WindowTitlebar/index.js"
+    },
     "./WipeCompareOverlay": {
       "source": "./src/WipeCompareOverlay/index.ts",
       "types": "./dist/WipeCompareOverlay/index.d.ts",
       "default": "./dist/WipeCompareOverlay/index.js"
+    },
+    "./WorkspaceStatusBar": {
+      "source": "./src/WorkspaceStatusBar/index.ts",
+      "types": "./dist/WorkspaceStatusBar/index.d.ts",
+      "default": "./dist/WorkspaceStatusBar/index.js"
     }
   },
   "scripts": {

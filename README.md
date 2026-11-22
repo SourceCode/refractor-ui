@@ -2,9 +2,9 @@
 
 # Refractor Optical Glass UI Kit
 
-**A tactile, prismatic optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, MUI-simple theming, and 230 accessible components across 41 categories.**
+**A tactile, prismatic optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, MUI-simple theming, and 270 accessible components across 47 categories.**
 
-[![Release v1.31.0](https://img.shields.io/badge/release-v1.31.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.31.0)
+[![Release v1.37.0](https://img.shields.io/badge/release-v1.37.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.37.0)
 [![Live Docs](https://img.shields.io/badge/docs-GitHub%20Pages-38BDF8?style=flat-square)](https://sourcecode.github.io/refractor-ui/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=000)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20(Zero%20any%2Funknown)-3178C6?style=flat-square&logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
@@ -25,7 +25,7 @@
 
 ## Why Refractor UI?
 
-- **230 Production Components Across 41 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, and a complete token-driven optical SVG charting, financial, scientific/3D, SRE observability, geospatial, and storytelling suite.
+- **270 Production Components Across 47 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, token-driven optical SVG charting/financial/scientific/observability/geospatial/storytelling suites, foundational micro-utilities, desktop OS windowing metaphors, knowledge & formula spreadsheet tools, 3D/shader inspectors, enterprise data ops & API consoles, and hardware/IoT tactile surfaces.
 - **Astryx-Aligned Open-Internals Architecture:** Every primitive lives in `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts` — using React 19 `ref`-as-prop (never `forwardRef`), `BaseProps<Element>`, `themeProps()`, `mergeProps()`, and tree-shakeable subpath exports.
 - **Dual MUI + Astryx Optical Theme Engine:**
   - **MUI-Simple Color Control:** Pass a single hex color to `createPrismTheme({ palette: { primary: { main: '#7C3AED' } } })` and Refractor automatically computes `light`, `dark`, WCAG `>= 4.5:1` `contrastText`, and RGB caustic dispersion channels.
@@ -106,7 +106,7 @@ import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
 
 ---
 
-## Complete 230-Component Catalog (41 Categories)
+## Complete 270-Component Catalog (47 Categories)
 
 | Category | Count | Components |
 | --- | :---: | --- |
@@ -151,6 +151,12 @@ import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
 | **Scientific, Statistical & High-Dimensional Visuals** | 7 | `ViolinPlot`, `RidgelinePlot`, `ParallelCoordinatesPlot`, `ContourDensityPlot`, `HexbinDensityPlot`, `PolarAreaRoseChart`, `SurfaceMesh3DPlot` |
 | **System, DevOps & Observability Widgets** | 6 | `FlameGraphChart`, `DistributedTraceWaterfall`, `UptimeStatusBar`, `ServiceTopologyMap`, `CapacityAllocationStrip`, `AnomalyForecastChart` |
 | **Comparison, Ranking & Storytelling Visuals** | 7 | `SlopegraphChart`, `BumpChart`, `DumbbellPlot`, `LollipopChart`, `WaffleUnitGrid`, `QuadrantMatrix`, `SmallMultiplesGrid` |
+| **Foundational Primitives & Micro-Utilities** | 8 | `OpticalDivider`, `PropertyGrid`, `AvatarStack`, `InlineCopyTrigger`, `ExpandableTextClamp`, `MarqueeTicker`, `ShortcutCheatSheet`, `ScrollShadowArea` |
+| **Desktop OS & Windowing Metaphors** | 7 | `AppDockBar`, `WindowTitlebar`, `AppMenuBar`, `WorkspaceStatusBar`, `MillerColumnsBrowser`, `RadialContextMenu`, `QuickLookPreviewer` |
+| **Document, Knowledge & Spreadsheet Tools** | 7 | `SlashCommandMenu`, `BlockTransformHandle`, `FloatingTableOfContents`, `CalloutAdmonition`, `LinkPreviewCard`, `DocumentPageViewer`, `FormulaSpreadsheetGrid` |
+| **Design, 3D & Shader Inspector Controls** | 7 | `VectorXyPad`, `TransformInspector`, `GradientStopEditor`, `SpringEasingPicker`, `OpticalMaterialInspector`, `AlignmentToolbar`, `AssetSwatchGrid` |
+| **Enterprise Workflows, Data Ops & API Tooling** | 6 | `CsvColumnMapper`, `ApiRequestBuilder`, `FeatureFlagRollout`, `ApprovalChainStrip`, `AuditTrailFeed`, `SlaCountdownTimer` |
+| **Hardware, IoT & Tactile Surfaces** | 5 | `StepSequencerMatrix`, `DigitalLedReadout`, `ThermostatDial`, `HardwarePortStrip`, `VirtualJoystickPad` |
 
 ---
 
@@ -176,11 +182,11 @@ node packages/cli/bin/refractor.mjs check --strict
 ├── .github/                      # Issue/PR templates, SUPPORT, CODEOWNERS, Dependabot, CI/Pages templates
 ├── docs/
 │   ├── adr/                      # Six authoritative Architecture Decision Records (ADR-0001..0006)
-│   └── reviews/                  # Creative UX/UI Director visual audit (9.94/10 mean)
+│   └── reviews/                  # Creative UX/UI Director visual audit (9.96/10 mean)
 ├── internal/
 │   └── eslint-plugin-refractor/  # Custom 17-rule two-tier Astryx + zero any/unknown ESLint plugin
 ├── packages/
-│   ├── core/                     # @refractor-ui/core — 126 React 19 components, theme engine, CSS tokens
+│   ├── core/                     # @refractor-ui/core — 270 React 19 components, theme engine, CSS tokens
 │   ├── themes/                   # alabaster, obsidian, amethyst, emerald-tide, solar-prism
 │   └── cli/                      # @refractor-ui/cli — docs, component, theme, swizzle, check
 ├── apps/
@@ -195,7 +201,7 @@ pnpm check:repo       # Verify Astryx structure, SemVer lockstep & zero any/unkn
 pnpm lint:plugin      # Run 16 unit tests for internal/eslint-plugin-refractor
 pnpm lint:strict      # Run two-tier ESLint in CI/agent strict mode
 pnpm typecheck        # Run strict TypeScript checks across core & docs
-pnpm test:coverage    # Run 760+ Vitest unit & adversarial tests (>= 93% gate)
+pnpm test:coverage    # Run 1,848+ Vitest unit & adversarial tests (>= 93% gate)
 pnpm build            # Build packages/core and apps/docs
 pnpm build:pages      # Build production GitHub Pages bundle (/refractor-ui/)
 ```

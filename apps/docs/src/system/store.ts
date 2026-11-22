@@ -67,7 +67,13 @@ export type DocsCategoryFilter =
   | 'financial-market-charts'
   | 'scientific-charts'
   | 'observability-widgets'
-  | 'comparison-storytelling-charts';
+  | 'comparison-storytelling-charts'
+  | 'foundational-micro-utilities'
+  | 'desktop-os-windowing'
+  | 'document-knowledge-spreadsheet'
+  | 'design-3d-shader'
+  | 'enterprise-ops-api'
+  | 'hardware-iot-tactile';
 
 export type DocsPageSection =
   | 'catalog'
