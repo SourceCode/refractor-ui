@@ -7,6 +7,20 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.32.0] - 2026-11-22
+
+### Added
+- **Foundational Primitives & Micro-Utilities (8 new optical-glass utility primitives — 238 total across 42 categories):**
+  - `OpticalDivider`: Horizontal or vertical optical seam rule (`seam`, `specular`, `dashed`) optionally carrying a centered/aligned label or icon medallion without heavy borders.
+  - `PropertyGrid`: Structured semantic `<dl>` key-value metadata inspector supporting 1/2-column responsive grids, searchable filtering, monospace values, inline copy buttons, and arbitrary React controls.
+  - `AvatarStack`: Compact overlapping avatar cluster collapsing overflow members into a `+N` counter pill with a viewport-clamped popover listing all users and live presence states.
+  - `InlineCopyTrigger`: Lightweight inline clipboard button morphing into an emerald confirmation checkmark with resilient clipboard error handling and sr-only announcements.
+  - `ExpandableTextClamp`: Typography container gracefully truncating long paragraphs at 2–6 lines with optical bottom fade and smooth in-place `Read more` / `Show less` toggle.
+  - `MarqueeTicker`: Continuous pause-on-hover horizontal ticker ribbon with WCAG 2.2.2 Pause/Play toggle, `prefers-reduced-motion` safety, and `aria-hidden` duplicate track.
+  - `ShortcutCheatSheet`: Categorized hotkey overlay (`modal` triggered by `?` or `inline` embedded mode) with live search filtering and tactile embossed `<kbd>` keycaps.
+  - `ScrollShadowArea`: Keyboard-focusable custom scroll container with ResizeObserver-backed dynamic top/bottom/left/right edge-fade gradients and optional jump controls.
+- Added interactive playground demos and prop specs in `apps/docs` under `Foundational Primitives & Micro-Utilities`.
+
 ## [1.31.0] - 2026-11-21
 
 ### Added
@@ -408,7 +422,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.32.0...HEAD
+[1.32.0]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...v1.32.0
 [1.31.0]: https://github.com/SourceCode/refractor-ui/compare/v1.30.0...v1.31.0
 [1.30.0]: https://github.com/SourceCode/refractor-ui/compare/v1.29.0...v1.30.0
 [1.29.0]: https://github.com/SourceCode/refractor-ui/compare/v1.28.0...v1.29.0

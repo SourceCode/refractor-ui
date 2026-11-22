@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.31.0",
+  "version": "1.32.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -101,6 +101,11 @@
       "source": "./src/Avatar/index.ts",
       "types": "./dist/Avatar/index.d.ts",
       "default": "./dist/Avatar/index.js"
+    },
+    "./AvatarStack": {
+      "source": "./src/AvatarStack/index.ts",
+      "types": "./dist/AvatarStack/index.d.ts",
+      "default": "./dist/AvatarStack/index.js"
     },
     "./BadgeStatus": {
       "source": "./src/BadgeStatus/index.ts",
@@ -412,6 +417,11 @@
       "types": "./dist/EmptyState/index.d.ts",
       "default": "./dist/EmptyState/index.js"
     },
+    "./ExpandableTextClamp": {
+      "source": "./src/ExpandableTextClamp/index.ts",
+      "types": "./dist/ExpandableTextClamp/index.d.ts",
+      "default": "./dist/ExpandableTextClamp/index.js"
+    },
     "./ExportRenderQueue": {
       "source": "./src/ExportRenderQueue/index.ts",
       "types": "./dist/ExportRenderQueue/index.d.ts",
@@ -501,6 +511,11 @@
       "source": "./src/ImageCropper/index.ts",
       "types": "./dist/ImageCropper/index.d.ts",
       "default": "./dist/ImageCropper/index.js"
+    },
+    "./InlineCopyTrigger": {
+      "source": "./src/InlineCopyTrigger/index.ts",
+      "types": "./dist/InlineCopyTrigger/index.d.ts",
+      "default": "./dist/InlineCopyTrigger/index.js"
     },
     "./InlineDiffReviewer": {
       "source": "./src/InlineDiffReviewer/index.ts",
@@ -592,6 +607,11 @@
       "types": "./dist/MarimekkoChart/index.d.ts",
       "default": "./dist/MarimekkoChart/index.js"
     },
+    "./MarqueeTicker": {
+      "source": "./src/MarqueeTicker/index.ts",
+      "types": "./dist/MarqueeTicker/index.d.ts",
+      "default": "./dist/MarqueeTicker/index.js"
+    },
     "./MaskedPatternInput": {
       "source": "./src/MaskedPatternInput/index.ts",
       "types": "./dist/MaskedPatternInput/index.d.ts",
@@ -681,6 +701,11 @@
       "source": "./src/OpticalCharts/index.ts",
       "types": "./dist/OpticalCharts/index.d.ts",
       "default": "./dist/OpticalCharts/index.js"
+    },
+    "./OpticalDivider": {
+      "source": "./src/OpticalDivider/index.ts",
+      "types": "./dist/OpticalDivider/index.d.ts",
+      "default": "./dist/OpticalDivider/index.js"
     },
     "./OrderBookDepthChart": {
       "source": "./src/OrderBookDepthChart/index.ts",
@@ -802,6 +827,11 @@
       "types": "./dist/PromptComposer/index.d.ts",
       "default": "./dist/PromptComposer/index.js"
     },
+    "./PropertyGrid": {
+      "source": "./src/PropertyGrid/index.ts",
+      "types": "./dist/PropertyGrid/index.d.ts",
+      "default": "./dist/PropertyGrid/index.js"
+    },
     "./PullToRefresh": {
       "source": "./src/PullToRefresh/index.ts",
       "types": "./dist/PullToRefresh/index.d.ts",
@@ -887,6 +917,11 @@
       "types": "./dist/ScatterBubblePlot/index.d.ts",
       "default": "./dist/ScatterBubblePlot/index.js"
     },
+    "./ScrollShadowArea": {
+      "source": "./src/ScrollShadowArea/index.ts",
+      "types": "./dist/ScrollShadowArea/index.d.ts",
+      "default": "./dist/ScrollShadowArea/index.js"
+    },
     "./ScrubbableNumberField": {
       "source": "./src/ScrubbableNumberField/index.ts",
       "types": "./dist/ScrubbableNumberField/index.d.ts",
@@ -921,6 +956,11 @@
       "source": "./src/ShoppingCartDrawer/index.ts",
       "types": "./dist/ShoppingCartDrawer/index.d.ts",
       "default": "./dist/ShoppingCartDrawer/index.js"
+    },
+    "./ShortcutCheatSheet": {
+      "source": "./src/ShortcutCheatSheet/index.ts",
+      "types": "./dist/ShortcutCheatSheet/index.d.ts",
+      "default": "./dist/ShortcutCheatSheet/index.js"
     },
     "./SidebarDrawer": {
       "source": "./src/SidebarDrawer/index.ts",

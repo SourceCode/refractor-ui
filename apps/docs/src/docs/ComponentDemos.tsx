@@ -15,6 +15,7 @@ import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
+import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
@@ -328,6 +329,17 @@ const COMPARISON_STORYTELLING_IDS = new Set([
   'small-multiples-grid',
 ]);
 
+const FOUNDATIONAL_MICRO_UTILITIES_IDS = new Set([
+  'optical-divider',
+  'property-grid',
+  'avatar-stack',
+  'inline-copy-trigger',
+  'expandable-text-clamp',
+  'marquee-ticker',
+  'shortcut-cheat-sheet',
+  'scroll-shadow-area',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -433,6 +445,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (COMPARISON_STORYTELLING_IDS.has(componentId)) {
     return <ComparisonStorytellingDemos componentId={componentId} />;
+  }
+  if (FOUNDATIONAL_MICRO_UTILITIES_IDS.has(componentId)) {
+    return <FoundationalMicroUtilitiesDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

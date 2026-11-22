@@ -272,6 +272,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Comparison',
     description: 'Before/after slopegraphs, curved rank-trajectory bump charts, variance dumbbell plots, low-ink lollipop rankings, 10×10 unit waffle grids, 2×2 strategic quadrant matrices, and synchronized small multiples.',
   },
+  {
+    id: 'foundational-micro-utilities',
+    title: 'Foundational Primitives & Micro-Utilities',
+    shortLabel: 'Micro-Utilities',
+    description: 'Specular optical seams, metadata property grids, overflow avatar stacks, inline clipboard capsules, expandable text clamps, pause-safe marquees, hotkey cheat sheets, and scroll-shadow containers.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3320,6 +3326,111 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'labels / series / chartKind', type: "string[] / SmallMultipleSeries[] / 'area' | 'bar'", defaultValue: "8 months / 6 KPIs / 'area'", description: 'Shared X-axis periods, facet series, and miniature chart renderer.' },
       { name: 'sharedYScale / columns / onSyncIndexChange', type: 'boolean / 2 | 3 | 4 / (snap) => void', defaultValue: 'true / 3', description: 'Global vs local Y-scale toggle, grid width, and lockstep sync snapshot.' },
+    ],
+  },
+  /* ==================== FOUNDATIONAL PRIMITIVES & MICRO-UTILITIES (8) ==================== */
+  {
+    id: 'optical-divider',
+    title: 'Divider / Optical Seam',
+    exportName: 'OpticalDivider',
+    category: 'foundational-micro-utilities',
+    categoryTitle: 'Foundational Primitives & Micro-Utilities',
+    summary: 'Horizontal or vertical tapered optical hairline rule optionally carrying an aligned label or icon medallion without heavy visual borders.',
+    codeSnippet: `<OpticalDivider variant="specular" label="Optical Specular Seam" />`,
+    props: [
+      { name: 'orientation / variant', type: "'horizontal' | 'vertical' / 'seam' | 'specular' | 'dashed'", defaultValue: "'horizontal' / 'specular'", description: 'Seam direction and optical gradient treatment.' },
+      { name: 'label / icon / labelAlign', type: 'ReactNode / ReactNode / start | center | end', defaultValue: "undefined / 'center'", description: 'Optional inline medallion content and alignment.' },
+    ],
+  },
+  {
+    id: 'property-grid',
+    title: 'Property Grid / Description List',
+    exportName: 'PropertyGrid',
+    category: 'foundational-micro-utilities',
+    categoryTitle: 'Foundational Primitives & Micro-Utilities',
+    summary: 'Structured semantic key-value inspector layout supporting 1- or 2-column responsive grids, live search filter, monospace telemetry, and inline copy buttons.',
+    codeSnippet: `<PropertyGrid title="Cluster Deployment Inspector" columns={2} searchable />`,
+    props: [
+      { name: 'entries / columns / density', type: "PropertyGridEntry[] / 1 | 2 / 'compact' | 'comfortable'", defaultValue: "6 items / 1 / 'comfortable'", description: 'Metadata rows, grid column span, and vertical spacing.' },
+      { name: 'searchable / onCopyEntry', type: 'boolean / (entry, text) => void', defaultValue: 'false / undefined', description: 'Live label/hint filter and inline clipboard callback.' },
+    ],
+  },
+  {
+    id: 'avatar-stack',
+    title: 'Avatar Stack (with Overflow Popover)',
+    exportName: 'AvatarStack',
+    category: 'foundational-micro-utilities',
+    categoryTitle: 'Foundational Primitives & Micro-Utilities',
+    summary: 'Overlapping avatar cluster collapsing excess members into an interactive +N pill that opens a viewport-clamped popover listing every collaborator.',
+    codeSnippet: `<AvatarStack maxVisible={4} users={teamMembers} />`,
+    props: [
+      { name: 'users / maxVisible / size', type: "AvatarStackUser[] / number / 'sm' | 'md' | 'lg'", defaultValue: "7 users / 4 / 'md'", description: 'Collaborator records, visible threshold, and avatar diameter.' },
+      { name: 'onSelectUser / label', type: '(user) => void / string', defaultValue: 'undefined', description: 'Member selection handler and accessible group label.' },
+    ],
+  },
+  {
+    id: 'inline-copy-trigger',
+    title: 'Inline Copy-to-Clipboard Trigger',
+    exportName: 'InlineCopyTrigger',
+    category: 'foundational-micro-utilities',
+    categoryTitle: 'Foundational Primitives & Micro-Utilities',
+    summary: 'Lightweight inline clipboard capsule wrapping IDs, URLs, or hashes that morphs into an emerald confirmation checkmark badge on click.',
+    codeSnippet: `<InlineCopyTrigger value="rfr_prod_9f4a8c21e0b7" />`,
+    props: [
+      { name: 'value / displayText / copiedLabel', type: 'string / string / string', defaultValue: "required / value / 'Copied'", description: 'Clipboard payload, visible label, and confirmation text.' },
+      { name: 'variant / size / onCopy', type: "'crystal' | 'well' | 'ghost' / 'sm' | 'md' / (v, ok) => void", defaultValue: "'well' / 'md'", description: 'Optical surface style, compact sizing, and copy callback.' },
+    ],
+  },
+  {
+    id: 'expandable-text-clamp',
+    title: 'Expandable Text Clamp ("Read More")',
+    exportName: 'ExpandableTextClamp',
+    category: 'foundational-micro-utilities',
+    categoryTitle: 'Foundational Primitives & Micro-Utilities',
+    summary: 'Optical typography container truncating long paragraphs to 2–6 lines with a soft bottom fade and smooth in-place Read More / Show Less expansion.',
+    codeSnippet: `<ExpandableTextClamp lines={3} text={longDescription} />`,
+    props: [
+      { name: 'text / lines / charThreshold', type: 'string / 2 | 3 | 4 | 5 | 6 / number', defaultValue: 'required / 3 / 140', description: 'Literal text body, line clamp count, and toggle threshold.' },
+      { name: 'expanded / showFadeMask / onExpandedChange', type: 'boolean / boolean / (open) => void', defaultValue: 'false / true', description: 'Expansion state, bottom fade mask, and toggle handler.' },
+    ],
+  },
+  {
+    id: 'marquee-ticker',
+    title: 'Marquee / Infinite Ticker',
+    exportName: 'MarqueeTicker',
+    category: 'foundational-micro-utilities',
+    categoryTitle: 'Foundational Primitives & Micro-Utilities',
+    summary: 'Continuous pause-on-hover horizontal ticker ribbon featuring a WCAG 2.2.2 Pause/Play control, reduced-motion respect, and accessible duplicate suppression.',
+    codeSnippet: `<MarqueeTicker pauseOnHover durationSec={24} />`,
+    props: [
+      { name: 'items / direction / durationSec', type: "MarqueeTickerItem[] / 'left' | 'right' / number", defaultValue: "6 items / 'left' / 24", description: 'Ticker items, scroll direction, and loop cycle duration.' },
+      { name: 'pauseOnHover / paused / onSelectItem', type: 'boolean / boolean / (item) => void', defaultValue: 'true / false', description: 'Hover pause, controlled pause state, and item click callback.' },
+    ],
+  },
+  {
+    id: 'shortcut-cheat-sheet',
+    title: 'Keyboard Shortcut Cheat Sheet',
+    exportName: 'ShortcutCheatSheet',
+    category: 'foundational-micro-utilities',
+    categoryTitle: 'Foundational Primitives & Micro-Utilities',
+    summary: 'Categorized hotkey directory supporting both ?-triggered modal overlays and inline reference boards with live search and embossed crystal keycaps.',
+    codeSnippet: `<ShortcutCheatSheet mode="inline" />`,
+    props: [
+      { name: 'groups / mode / open', type: "ShortcutCategoryGroup[] / 'modal' | 'inline' / boolean", defaultValue: "3 groups / 'modal' / false", description: 'Hotkey categories, overlay vs embedded display, and open state.' },
+      { name: 'enableQuestionMarkHotkey / onSelectShortcut', type: 'boolean / (binding) => void', defaultValue: 'true / undefined', description: 'Global ? hotkey binding and item activation callback.' },
+    ],
+  },
+  {
+    id: 'scroll-shadow-area',
+    title: 'Custom Scroll Area & Scroll-Shadow Container',
+    exportName: 'ScrollShadowArea',
+    category: 'foundational-micro-utilities',
+    categoryTitle: 'Foundational Primitives & Micro-Utilities',
+    summary: 'Keyboard-focusable scroll container with ResizeObserver-backed top/bottom/left/right edge-fade shadows signaling hidden overflow plus optional jump controls.',
+    codeSnippet: `<ScrollShadowArea maxHeight={200} showScrollButtons>{children}</ScrollShadowArea>`,
+    props: [
+      { name: 'axis / maxHeight / shadowSizePx', type: "'vertical' | 'horizontal' | 'both' / number | string / number", defaultValue: "'vertical' / 260 / 28", description: 'Scrollable axis, viewport height cap, and fade depth.' },
+      { name: 'showScrollButtons / onEdgeChange', type: 'boolean / (edges) => void', defaultValue: 'false / undefined', description: 'Optional top/bottom jump controls and edge-shadow state callback.' },
     ],
   },
 ];

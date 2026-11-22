@@ -48,6 +48,12 @@ const CANONICAL_CATEGORY_ORDER = [
   'Scientific, Statistical & High-Dimensional Visuals',
   'System, DevOps & Observability Widgets',
   'Comparison, Ranking & Storytelling Visuals',
+  'Foundational Primitives & Micro-Utilities',
+  'Desktop OS & Windowing Metaphors',
+  'Document, Knowledge & Spreadsheet Tools',
+  'Design, 3D & Shader Inspector Controls',
+  'Enterprise Workflows, Data Ops & API Tooling',
+  'Hardware, IoT & Tactile Surfaces',
 ];
 
 const DOC_TOPICS = {

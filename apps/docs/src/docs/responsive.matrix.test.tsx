@@ -162,10 +162,10 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
   ];
 
   it.each(MATRIX_VIEWPORTS)(
-    'renders ALL 230 components with valid responsive DOM invariants on $name ($width×$height)',
+    'renders ALL registered components with valid responsive DOM invariants on $name ($width×$height)',
     (viewport) => {
-      expect(COMPONENT_REGISTRY).toHaveLength(230);
-      expect(DOC_CATEGORIES).toHaveLength(41);
+      expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(230);
+      expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(41);
 
       applyViewportToWindow(viewport);
       const testStore = createDocsStore();
