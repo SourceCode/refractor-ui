@@ -338,6 +338,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Menus & OS',
     description: 'Safe-triangle cascading submenus, rich quick-action + color-tag context menus, categorized application launchers, zero-eval Spotlight math/unit launchers, and perforated tear-off menus.',
   },
+  {
+    id: 'system-tray-control-center',
+    title: 'System Tray & Control Center',
+    shortLabel: 'Control Center',
+    description: 'Right-aligned menu-bar indicator clusters, bento-style Quick Settings Control Centers, per-app audio mixers, Wi-Fi & VPN popovers, and deterministic world-clock mini-calendar dropdowns.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -4294,6 +4300,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'menuLabel / items / detached', type: 'string / ReadonlyArray<TearOffMenuItem> / boolean', defaultValue: "'View & Guides' / 5 items / false", description: 'Parent menu trigger label, tool items, and floating palette state.' },
       { name: 'onDetachedChange / onSelectItem', type: '(detached) => void / (item) => void', defaultValue: 'undefined', description: 'Detach/dock-back state and action callbacks.' },
+    ],
+  },
+  // 53. System Tray & Control Center (5 components — v1.43.0)
+  {
+    id: 'system-tray-cluster',
+    title: 'System Tray / Menu Bar Status Cluster',
+    exportName: 'SystemTrayCluster',
+    category: 'system-tray-control-center',
+    categoryTitle: 'System Tray & Control Center',
+    summary: 'Right-aligned strip of live hardware and system indicators (Wi-Fi, Bluetooth, Battery, Volume, Keyboard Layout, Clock) that each open a dedicated viewport-clamped status popover.',
+    codeSnippet: `<SystemTrayCluster defaultOpenIndicator="wifi" />`,
+    props: [
+      { name: 'value / defaultValue / openIndicator', type: 'SystemTrayState / SystemTrayIndicatorId | null', defaultValue: 'default system state / null', description: 'System indicator telemetry state and open popover indicator.' },
+      { name: 'onChange / onOpenIndicatorChange', type: '(state) => void / (id) => void', defaultValue: 'undefined', description: 'Setting change and active popover callbacks.' },
+    ],
+  },
+  {
+    id: 'control-center-grid',
+    title: 'Control Center / Quick Settings Grid',
+    exportName: 'ControlCenterGrid',
+    category: 'system-tray-control-center',
+    categoryTitle: 'System Tray & Control Center',
+    summary: 'Modular bento-style optical Quick Settings popover combining large pill toggles (Wi-Fi, Bluetooth, Do Not Disturb, Theme), brightness and volume sliders, and a mini Now Playing card.',
+    codeSnippet: `<ControlCenterGrid title="Refractor OS Control Center" />`,
+    props: [
+      { name: 'value / defaultValue / tracks', type: 'ControlCenterState / ReadonlyArray<ControlCenterTrack>', defaultValue: 'defaults / 3 tracks', description: 'Quick toggle state, slider levels, and media queue.' },
+      { name: 'onChange / disabled', type: '(state) => void / boolean', defaultValue: 'undefined / false', description: 'Unified state update callback and disabled toggle.' },
+    ],
+  },
+  {
+    id: 'per-app-audio-mixer',
+    title: 'Per-App Audio Mixer Popover',
+    exportName: 'PerAppAudioMixer',
+    category: 'system-tray-control-center',
+    categoryTitle: 'System Tray & Control Center',
+    summary: 'System sound panel displaying output/input device selectors, a master volume fader with segmented peak meter, and individual muteable volume sliders for each running application.',
+    codeSnippet: `<PerAppAudioMixer title="Per-Application Audio Mixer" />`,
+    props: [
+      { name: 'value / defaultValue / outputDevices', type: 'PerAppAudioMixerState / ReadonlyArray<AudioMixerDeviceOption>', defaultValue: '80% master / 4 apps', description: 'Audio routing devices, master bus, and per-app channel levels.' },
+      { name: 'onChange / disabled', type: '(state) => void / boolean', defaultValue: 'undefined / false', description: 'Audio mix state change callback and disabled flag.' },
+    ],
+  },
+  {
+    id: 'network-vpn-popover',
+    title: 'Network & VPN Selector Popover',
+    exportName: 'NetworkVpnPopover',
+    category: 'system-tray-control-center',
+    categoryTitle: 'System Tray & Control Center',
+    summary: 'Live wireless connection list displaying available Wi-Fi networks with 4-bar optical signal strength, WPA3/WPA2/Open security badges, Airplane Mode radio suspension, and VPN toggles.',
+    codeSnippet: `<NetworkVpnPopover title="Wireless & VPN Profiles" />`,
+    props: [
+      { name: 'networks / vpnProfiles', type: 'ReadonlyArray<WifiNetworkEntry> / ReadonlyArray<VpnProfileEntry>', defaultValue: '4 networks / 2 VPNs', description: 'Discoverable Wi-Fi SSIDs and VPN tunnel profiles.' },
+      { name: 'onConnectNetwork / onToggleVpn / onAirplaneModeChange', type: 'callbacks', defaultValue: 'undefined', description: 'Connection, VPN tunnel, and Airplane Mode handlers.' },
+    ],
+  },
+  {
+    id: 'clock-calendar-popover',
+    title: 'Clock, World Time & Mini-Calendar Popover',
+    exportName: 'ClockCalendarPopover',
+    category: 'system-tray-control-center',
+    categoryTitle: 'System Tray & Control Center',
+    summary: 'System clock dropdown combining a deterministic monthly calendar grid, selected-day agenda list, and live multi-timezone world-clock readouts with day-rollover badges.',
+    codeSnippet: `<ClockCalendarPopover defaultOpen />`,
+    props: [
+      { name: 'referenceUtcIso / worldClocks / agendaItems', type: 'string / ReadonlyArray<WorldClockZoneSpec> / ReadonlyArray<ClockAgendaItem>', defaultValue: 'UTC clock / 3 zones / 4 events', description: 'Deterministic reference timestamp, world clocks, and agenda items.' },
+      { name: 'open / selectedDateIso / onSelectDate', type: 'boolean / string / (iso) => void', defaultValue: 'true / today / undefined', description: 'Popover state and selected calendar date callback.' },
     ],
   },
 ];

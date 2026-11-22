@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.42.0",
+  "version": "1.43.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -312,6 +312,11 @@
       "types": "./dist/ClipTrimHandle/index.d.ts",
       "default": "./dist/ClipTrimHandle/index.js"
     },
+    "./ClockCalendarPopover": {
+      "source": "./src/ClockCalendarPopover/index.ts",
+      "types": "./dist/ClockCalendarPopover/index.d.ts",
+      "default": "./dist/ClockCalendarPopover/index.js"
+    },
     "./CodeEditor": {
       "source": "./src/CodeEditor/index.ts",
       "types": "./dist/CodeEditor/index.d.ts",
@@ -386,6 +391,11 @@
       "source": "./src/ContourDensityPlot/index.ts",
       "types": "./dist/ContourDensityPlot/index.d.ts",
       "default": "./dist/ContourDensityPlot/index.js"
+    },
+    "./ControlCenterGrid": {
+      "source": "./src/ControlCenterGrid/index.ts",
+      "types": "./dist/ControlCenterGrid/index.d.ts",
+      "default": "./dist/ControlCenterGrid/index.js"
     },
     "./CookieConsentBanner": {
       "source": "./src/CookieConsentBanner/index.ts",
@@ -857,6 +867,11 @@
       "types": "./dist/NetworkForceGraph/index.d.ts",
       "default": "./dist/NetworkForceGraph/index.js"
     },
+    "./NetworkVpnPopover": {
+      "source": "./src/NetworkVpnPopover/index.ts",
+      "types": "./dist/NetworkVpnPopover/index.d.ts",
+      "default": "./dist/NetworkVpnPopover/index.js"
+    },
     "./NodeGraphCanvas": {
       "source": "./src/NodeGraphCanvas/index.ts",
       "types": "./dist/NodeGraphCanvas/index.d.ts",
@@ -926,6 +941,11 @@
       "source": "./src/PaymentCardInput/index.ts",
       "types": "./dist/PaymentCardInput/index.d.ts",
       "default": "./dist/PaymentCardInput/index.js"
+    },
+    "./PerAppAudioMixer": {
+      "source": "./src/PerAppAudioMixer/index.ts",
+      "types": "./dist/PerAppAudioMixer/index.d.ts",
+      "default": "./dist/PerAppAudioMixer/index.js"
     },
     "./PermissionsSharingMatrix": {
       "source": "./src/PermissionsSharingMatrix/index.ts",
@@ -1286,6 +1306,11 @@
       "source": "./src/SystemSpotlightLauncher/index.ts",
       "types": "./dist/SystemSpotlightLauncher/index.d.ts",
       "default": "./dist/SystemSpotlightLauncher/index.js"
+    },
+    "./SystemTrayCluster": {
+      "source": "./src/SystemTrayCluster/index.ts",
+      "types": "./dist/SystemTrayCluster/index.d.ts",
+      "default": "./dist/SystemTrayCluster/index.js"
     },
     "./TagChip": {
       "source": "./src/TagChip/index.ts",

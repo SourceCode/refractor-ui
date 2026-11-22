@@ -7,6 +7,17 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.43.0] - 2026-11-22
+
+### Added
+- **System Tray & Control Center (5 new optical-glass OS status & quick-settings primitives — 304 total across 53 categories):**
+  - `SystemTrayCluster`: Right-aligned 6-indicator OS menu-bar cluster (`Wi-Fi`, `Bluetooth`, `Battery`, `Volume`, `Keyboard Layout`, `Clock`) with roving keyboard navigation and dedicated viewport-clamped popovers.
+  - `ControlCenterGrid`: Bento-style optical Quick Settings grid uniting 2×2 pill toggles (`Wi-Fi`, `Bluetooth`, `Do Not Disturb`, `Theme`), display brightness & output volume sliders, and a mini `Now Playing` media card.
+  - `PerAppAudioMixer`: System sound mixer popover with output/input device selectors, master volume fader with 20-segment semantic level meter, mute propagation, and per-application channel sliders.
+  - `NetworkVpnPopover`: Live Wi-Fi and VPN connection selector featuring 4-bar optical signal graphics, WPA3/WPA2/Open security badges, Airplane Mode radio suspension, and mutually exclusive VPN profile switches.
+  - `ClockCalendarPopover`: Deterministic UTC system clock anchor & popover combining a 42-day monthly calendar grid, selected-day agenda list, and live multi-timezone world-clock readouts with day-rollover badges.
+- Added interactive playground demos and prop specs in `apps/docs` under `System Tray & Control Center`.
+
 ## [1.42.0] - 2026-11-22
 
 ### Added
@@ -546,7 +557,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.42.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.43.0...HEAD
+[1.43.0]: https://github.com/SourceCode/refractor-ui/compare/v1.42.0...v1.43.0
 [1.42.0]: https://github.com/SourceCode/refractor-ui/compare/v1.41.0...v1.42.0
 [1.41.0]: https://github.com/SourceCode/refractor-ui/compare/v1.40.0...v1.41.0
 [1.40.0]: https://github.com/SourceCode/refractor-ui/compare/v1.39.0...v1.40.0

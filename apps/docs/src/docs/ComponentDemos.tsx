@@ -40,6 +40,7 @@ import { ScientificChartsDemos } from './demos/ScientificChartsDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
 import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
+import { SystemTrayControlCenterDemos } from './demos/SystemTrayControlCenterDemos';
 import { TimelineSequencingDemos } from './demos/TimelineSequencingDemos';
 import { TransportPlaybackDemos } from './demos/TransportPlaybackDemos';
 import { ViewportExportDemos } from './demos/ViewportExportDemos';
@@ -441,6 +442,14 @@ const MENUS_LAUNCHERS_IDS = new Set([
   'tear-off-menu',
 ]);
 
+const SYSTEM_TRAY_CONTROL_CENTER_IDS = new Set([
+  'system-tray-cluster',
+  'control-center-grid',
+  'per-app-audio-mixer',
+  'network-vpn-popover',
+  'clock-calendar-popover',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -579,6 +588,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (MENUS_LAUNCHERS_IDS.has(componentId)) {
     return <MenusLaunchersDemos componentId={componentId} />;
+  }
+  if (SYSTEM_TRAY_CONTROL_CENTER_IDS.has(componentId)) {
+    return <SystemTrayControlCenterDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }
