@@ -127,7 +127,7 @@ export function ThemeGallerySection() {
             <Search className="w-4 h-4 text-slate-500 shrink-0" aria-hidden="true" />
             <input
               type="search"
-              aria-label="Search 69 themes"
+              aria-label="Search 68 themes"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={`Search all ${ALL_THEME_ENTRIES.length} themes by name, material, FX, or font...`}

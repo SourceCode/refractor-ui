@@ -42,7 +42,7 @@
 | 7 | `neumorphic` | `neumorphism` | Dual extruded soft plastic shadows / `Nunito` | 9.8 | 9.8 | 9.8 |
 | 8 | `clay` | `soft-clay-ui` | 28px pillowy 3D pastel clay / `Nunito` | 9.9 | 9.9 | 9.8 |
 | 9 | `paper` | `e-ink-notebook`, `solarized-light`, `zen-garden`, `element-earth` | `paper-grain` matte archival finish / `IBM Plex Serif`, `EB Garamond` | 9.9 | 9.8 | 9.8 |
-| 10 | `mica` | `win11-mica`, `ios17-frost`, `macos`, `win7`, `darkmode`, `newwestern`, `newwesternDark`, `element-air`, `element-water`, `ocean`, all 4 `season-*` | `noise` frosted acrylic / `Segoe UI Variable`, `Inter` | 9.9 | 9.9 | 9.9 |
+| 10 | `mica` | `win11-mica`, `ios17-frost`, `macos`, `win7`, `darkmode`, `newwesternDark`, `element-air`, `element-water`, `ocean`, all 4 `season-*` | `noise` frosted acrylic / `Segoe UI Variable`, `Inter` | 9.9 | 9.9 | 9.9 |
 | 11 | `chrome` | `y2k-liquid-chrome`, `liquid-metal`, `dreamcast-swirl`, `gamecube-purple`, `ps5-orbit` | Metallic specular liquid chrome / `Inter`, `Segoe UI` | 9.8 | 9.9 | 9.8 |
 | 12 | `resin` | `glowing-resin`, `translucent-slime`, `surreal-dreamlogic`, `element-ether` | Subsurface bioluminescent glow / `Sora`, `Rubik`, `Syne` | 9.9 | 9.8 | 9.9 |
 | 13 | `flat` | `tokyo-night`, `vscode`, `monokai`, `one-dark-pro`, `nord`, `solarized-dark`, `obsidian-stone`, `material`, `adwaita`, `ubuntu`, `mint`, `midnight` | Disciplined IDE & OS elevation / `JetBrains Mono`, `Fira Code`, `Roboto` | 9.9 | 9.9 | 9.8 |

@@ -47,7 +47,6 @@ export type WebOsThemeId =
   | 'mpc-beat-machine'
   | 'neon-dreams'
   | 'neumorphism'
-  | 'newwestern'
   | 'newwesternDark'
   | 'nord'
   | 'obsidian-stone'

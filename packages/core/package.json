@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.47.0",
+  "version": "1.47.1",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",

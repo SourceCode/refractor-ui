@@ -7,6 +7,14 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.47.1] - 2026-11-22
+
+### Removed
+- Removed the `newwestern` (`New Western Gold`) theme from `@refractor-ui/themes` (`packages/themes/collection/src/collections/modernOs.ts`, `types.ts`, `index.ts`, and static `themes.css`), bringing the unified catalog to **68 themes** (5 Refractor Optical Glass presets + 63 WebOS-v3 multi-material themes).
+
+### Changed
+- Updated `apps/docs` (`ThemeGallerySection`, `ThemeCustomizerDrawer`, `DocsGuides`, `DocsHeroBanner`, `DocsShell`, `index.html`), `README.md`, `@refractor-ui/cli` tests, and multi-device theme matrix tests to reflect the 68-theme catalog.
+
 ## [1.47.0] - 2026-11-22
 
 ### Added
@@ -608,7 +616,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.47.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.47.1...HEAD
+[1.47.1]: https://github.com/SourceCode/refractor-ui/compare/v1.47.0...v1.47.1
 [1.47.0]: https://github.com/SourceCode/refractor-ui/compare/v1.46.0...v1.47.0
 [1.46.0]: https://github.com/SourceCode/refractor-ui/compare/v1.45.0...v1.46.0
 [1.45.0]: https://github.com/SourceCode/refractor-ui/compare/v1.44.0...v1.45.0

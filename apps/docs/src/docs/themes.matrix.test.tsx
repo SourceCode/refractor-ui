@@ -48,9 +48,9 @@ afterEach(() => {
   window.location.hash = '';
 });
 
-describe('69-Theme Multi-Material Web, Tablet & Mobile Validation Matrix', () => {
+describe('68-Theme Multi-Material Web, Tablet & Mobile Validation Matrix', () => {
   it.each(MULTI_DEVICE_VIEWPORTS)(
-    'renders ALL 69 themes cleanly with accurate material, FX, and font tokens on $name ($width×$height)',
+    'renders ALL 68 themes cleanly with accurate material, FX, and font tokens on $name ($width×$height)',
     (viewport) => {
       applyViewport(viewport);
 
@@ -106,7 +106,7 @@ describe('69-Theme Multi-Material Web, Tablet & Mobile Validation Matrix', () =>
   );
 
   it.each(MULTI_DEVICE_VIEWPORTS)(
-    'supports live 69-theme Gallery & Theme Studio switching + on-demand font loading on $name ($width×$height)',
+    'supports live 68-theme Gallery & Theme Studio switching + on-demand font loading on $name ($width×$height)',
     (viewport) => {
       applyViewport(viewport);
       window.location.hash = '#/theming';
@@ -122,10 +122,11 @@ describe('69-Theme Multi-Material Web, Tablet & Mobile Validation Matrix', () =>
       );
 
       const grid = screen.getByTestId('theme-gallery-grid');
-      expect(within(grid).getAllByRole('button')).toHaveLength(69);
+      expect(within(grid).getAllByRole('button')).toHaveLength(68);
+      expect(within(grid).queryByRole('button', { name: /New Western Gold/i })).toBeNull();
 
       // Filter by search query for Windows 95 and activate
-      const searchInput = screen.getByRole('searchbox', { name: 'Search 69 themes' });
+      const searchInput = screen.getByRole('searchbox', { name: 'Search 68 themes' });
       fireEvent.change(searchInput, { target: { value: 'Windows 95' } });
       const win95Card = within(grid).getByRole('button', { name: /Windows 95/i });
       fireEvent.click(win95Card);
@@ -151,7 +152,7 @@ describe('69-Theme Multi-Material Web, Tablet & Mobile Validation Matrix', () =>
       act(() => {
         testStore.dispatch(setCustomizerOpen(true));
       });
-      const drawerSearch = screen.getByRole('searchbox', { name: 'Filter 69 themes' });
+      const drawerSearch = screen.getByRole('searchbox', { name: 'Filter 68 themes' });
       fireEvent.change(drawerSearch, { target: { value: 'Synthwave' } });
       fireEvent.click(screen.getAllByRole('button', { name: /Synthwave/i })[0]!);
       expect(testStore.getState().system.themePreset).toBe('synthwave');

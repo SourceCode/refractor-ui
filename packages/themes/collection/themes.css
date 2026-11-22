@@ -1,5 +1,5 @@
 /*
- * @refractor-ui/themes — Static Cascade CSS for all 64 WebOS-v3 Multi-Material Themes
+ * @refractor-ui/themes — Static Cascade CSS for all 63 WebOS-v3 Multi-Material Themes
  * Pair with @refractor-ui/core/refractor.css and apply data-refractor-theme="<id>",
  * data-refractor-material="<material>", and data-refractor-theme-adaptive="true".
  */
@@ -548,45 +548,6 @@
   --prism-well-start: #0f172a;
   --prism-well-end: #0f172a;
   --prism-well-border: #1e293b;
-}
-
-[data-refractor-theme="newwestern"] {
-  color-scheme: light;
-  --prism-font-sans: "Inter", sans-serif;
-  --prism-primary-main: #c0985c;
-  --prism-primary-light: #cfb183;
-  --prism-primary-dark: #987a4d;
-  --prism-primary-contrast: #151E2C;
-  --prism-primary-rgb: 192, 152, 92;
-  --prism-secondary-main: #8c7b65;
-  --prism-secondary-rgb: 140, 123, 101;
-  --prism-glow-color: #8c7b65;
-  --prism-glow-rgb: 140, 123, 101;
-  --prism-text-primary: #1f1f1f;
-  --prism-text-secondary: rgba(31, 31, 31, 0.6);
-  --prism-divider: rgba(192, 152, 92, 0.4);
-  --prism-wallpaper: linear-gradient(135deg, #ffffff 0%, #f9f7f1 60%, #f4efe3 100%);
-  --prism-window-bg: rgba(255, 255, 255, 0.9);
-  --prism-surface-bg: rgba(255, 255, 255, 0.75);
-  --prism-surface-highlight: rgba(248, 246, 240, 0.9);
-  --prism-window-border: rgba(192, 152, 92, 0.3);
-  --prism-chrome-bg: rgba(248, 246, 240, 1);
-  --prism-chrome-text: #3a3a3a;
-  --prism-window-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
-  --prism-border-width: 1px;
-  --prism-blur-px: 8px;
-  --prism-slab-blur-px: 8px;
-  --prism-radius-control: 12px;
-  --prism-radius-btn: 9px;
-  --prism-radius-slab: 12px;
-  --prism-slab-top: rgba(255, 255, 255, 0.9);
-  --prism-slab-bottom: rgba(255, 255, 255, 0.9);
-  --prism-crystal-top: rgba(255, 255, 255, 0.75);
-  --prism-crystal-mid: rgba(255, 255, 255, 0.75);
-  --prism-crystal-bottom: rgba(248, 246, 240, 0.9);
-  --prism-well-start: rgba(255, 255, 255, 0.75);
-  --prism-well-end: rgba(255, 255, 255, 0.75);
-  --prism-well-border: rgba(192, 152, 92, 0.3);
 }
 
 [data-refractor-theme="newwesternDark"] {

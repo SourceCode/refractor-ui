@@ -37,12 +37,11 @@ export const win7Theme = getWebOsTheme('win7');
 export const windows95Theme = getWebOsTheme('windows95');
 export const windowsXpTheme = getWebOsTheme('windowsXP');
 
-// Modern OS & Frost (7)
+// Modern OS & Frost (6)
 export const darkmodeTheme = getWebOsTheme('darkmode');
 export const ios17FrostTheme = getWebOsTheme('ios17-frost');
 export const materialTheme = getWebOsTheme('material');
 export const midnightTheme = getWebOsTheme('midnight');
-export const newwesternTheme = getWebOsTheme('newwestern');
 export const newwesternDarkTheme = getWebOsTheme('newwesternDark');
 export const win11MicaTheme = getWebOsTheme('win11-mica');
 

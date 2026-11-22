@@ -287,7 +287,7 @@ export function DocsShell() {
     const themeCommands: CommandPaletteItem[] = ALL_THEME_ENTRIES.map((t) => ({
       id: `theme-${t.id}`,
       label: `Theme: ${t.name}`,
-      group: 'Themes (69)',
+      group: `Themes (${ALL_THEME_ENTRIES.length})`,
       shortcut: `${t.material}/${t.mode}`,
       onSelect: () => {
         dispatch(setThemePreset(t.id));
@@ -331,7 +331,7 @@ export function DocsShell() {
         >
           <span>Refractor UI</span>
           <span className="prism-crystal px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold text-slate-700 dark:text-slate-200">
-            v1.47.0
+            v1.47.1
           </span>
         </a>
 
@@ -825,7 +825,7 @@ export function DocsShell() {
 
           <footer className="prism-slab px-5 py-4 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-600 dark:text-slate-300">
             <span>
-              Refractor Optical Glass UI Kit v1.47.0 · {COMPONENT_REGISTRY.length} Open-Internals
+              Refractor Optical Glass UI Kit v1.47.1 · {COMPONENT_REGISTRY.length} Open-Internals
               React 19 Primitives · {ALL_THEME_ENTRIES.length} Multi-Material Themes ·{' '}
               {EXAMPLE_SCREENS.length} Example Screens · Apache-2.0
             </span>
