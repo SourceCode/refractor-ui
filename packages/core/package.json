@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.44.0",
+  "version": "1.45.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -446,6 +446,16 @@
       "source": "./src/DateTimePicker/index.ts",
       "types": "./dist/DateTimePicker/index.d.ts",
       "default": "./dist/DateTimePicker/index.js"
+    },
+    "./DesktopIconCanvas": {
+      "source": "./src/DesktopIconCanvas/index.ts",
+      "types": "./dist/DesktopIconCanvas/index.d.ts",
+      "default": "./dist/DesktopIconCanvas/index.js"
+    },
+    "./DesktopWidgetFrame": {
+      "source": "./src/DesktopWidgetFrame/index.ts",
+      "types": "./dist/DesktopWidgetFrame/index.d.ts",
+      "default": "./dist/DesktopWidgetFrame/index.js"
     },
     "./DiffViewer": {
       "source": "./src/DiffViewer/index.ts",
@@ -1321,6 +1331,21 @@
       "source": "./src/SwipeableActionRow/index.ts",
       "types": "./dist/SwipeableActionRow/index.d.ts",
       "default": "./dist/SwipeableActionRow/index.js"
+    },
+    "./SystemAboutCard": {
+      "source": "./src/SystemAboutCard/index.ts",
+      "types": "./dist/SystemAboutCard/index.d.ts",
+      "default": "./dist/SystemAboutCard/index.js"
+    },
+    "./SystemFileDialog": {
+      "source": "./src/SystemFileDialog/index.ts",
+      "types": "./dist/SystemFileDialog/index.d.ts",
+      "default": "./dist/SystemFileDialog/index.js"
+    },
+    "./SystemPreferencesShell": {
+      "source": "./src/SystemPreferencesShell/index.ts",
+      "types": "./dist/SystemPreferencesShell/index.d.ts",
+      "default": "./dist/SystemPreferencesShell/index.js"
     },
     "./SystemSpotlightLauncher": {
       "source": "./src/SystemSpotlightLauncher/index.ts",

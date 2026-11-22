@@ -15,6 +15,7 @@ import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { Design3dShaderDemos } from './demos/Design3dShaderDemos';
 import { DesktopOsWindowingDemos } from './demos/DesktopOsWindowingDemos';
+import { DesktopSurfacesDialogsDemos } from './demos/DesktopSurfacesDialogsDemos';
 import { DocumentKnowledgeDemos } from './demos/DocumentKnowledgeDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { EnterpriseOpsApiDemos } from './demos/EnterpriseOpsApiDemos';
@@ -459,6 +460,14 @@ const HARDWARE_HUDS_OVERLAYS_IDS = new Set([
   'screen-capture-hud',
 ]);
 
+const DESKTOP_SURFACES_DIALOGS_IDS = new Set([
+  'desktop-icon-canvas',
+  'desktop-widget-frame',
+  'system-preferences-shell',
+  'system-file-dialog',
+  'system-about-card',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -603,6 +612,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (HARDWARE_HUDS_OVERLAYS_IDS.has(componentId)) {
     return <HardwareHudsOverlaysDemos componentId={componentId} />;
+  }
+  if (DESKTOP_SURFACES_DIALOGS_IDS.has(componentId)) {
+    return <DesktopSurfacesDialogsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

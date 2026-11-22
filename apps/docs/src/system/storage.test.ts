@@ -16,8 +16,8 @@ import {
 
 describe('Docs storage & component registry', () => {
   it('registers all core and expansion components across unique categories', () => {
-    expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(47);
-    expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(270);
+    expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(55);
+    expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(314);
 
     const counts = getCategoryCounts(COMPONENT_REGISTRY);
     expect(counts['buttons-actions']).toBe(6);
@@ -67,6 +67,14 @@ describe('Docs storage & component registry', () => {
     expect(counts['design-3d-shader']).toBe(7);
     expect(counts['enterprise-ops-api']).toBe(6);
     expect(counts['hardware-iot-tactile']).toBe(5);
+    expect(counts['file-explorer-navigation']).toBe(7);
+    expect(counts['file-management-operations']).toBe(6);
+    expect(counts['window-anatomy-controls']).toBe(5);
+    expect(counts['window-management-tiling']).toBe(6);
+    expect(counts['menus-launchers']).toBe(5);
+    expect(counts['system-tray-control-center']).toBe(5);
+    expect(counts['hardware-huds-overlays']).toBe(5);
+    expect(counts['desktop-surfaces-dialogs']).toBe(5);
 
     const uniqueIds = new Set(COMPONENT_REGISTRY.map((c) => c.id));
     expect(uniqueIds.size).toBe(COMPONENT_REGISTRY.length);

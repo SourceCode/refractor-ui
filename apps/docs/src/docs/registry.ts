@@ -350,6 +350,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'System HUDs',
     description: 'Transient non-interactive hardware OSD pulses, frosted lock screen user switchers, power countdown overlays, live CPU/memory force-quit task managers, and screen capture recording HUDs.',
   },
+  {
+    id: 'desktop-surfaces-dialogs',
+    title: 'Desktop Surfaces & Native System Dialogs',
+    shortLabel: 'Desktop & OS',
+    description: 'Snap-to-grid optical desktop icon canvases with marquee selection, lockable desktop widget gadget frames, searchable two-pane System Preferences shells, Open/Save file dialogs, and System About cards.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -4438,6 +4444,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'defaultTarget / defaultOutput / defaultDelaySeconds', type: 'CaptureTargetMode / CaptureOutputKind / CaptureDelaySeconds', defaultValue: "'region' / 'screenshot' / 0", description: 'Initial capture target, output kind, and countdown delay.' },
       { name: 'onCaptureComplete / onDismiss', type: '(res) => void / () => void', defaultValue: 'undefined', description: 'Capture completion and HUD close callbacks.' },
+    ],
+  },
+  /* ==================== DESKTOP SURFACES & NATIVE SYSTEM DIALOGS (5) ==================== */
+  {
+    id: 'desktop-icon-canvas',
+    title: 'Desktop Canvas & Snap-to-Grid Icons',
+    exportName: 'DesktopIconCanvas',
+    category: 'desktop-surfaces-dialogs',
+    categoryTitle: 'Desktop Surfaces & Native System Dialogs',
+    summary: 'Root desktop workspace surface supporting token-driven optical wallpaper presets, draggable snap-to-grid icons, F2 inline rename, auto-arrange sorting, and marquee lasso selection.',
+    codeSnippet: `<DesktopIconCanvas onOpenItem={handleOpen} onWallpaperChange={handleWallpaper} />`,
+    props: [
+      { name: 'items / defaultItems / wallpaper', type: 'ReadonlyArray<DesktopIconItem> / DesktopWallpaperPreset', defaultValue: "6 sample icons / 'prism-aurora'", description: 'Desktop icon collection and token-driven optical wallpaper preset.' },
+      { name: 'snapToGrid / onOpenItem / onSelectionChange', type: 'boolean / (item) => void / (ids) => void', defaultValue: 'true / undefined', description: 'Grid snapping mode, open callback, and selection change handler.' },
+    ],
+  },
+  {
+    id: 'desktop-widget-frame',
+    title: 'Desktop Widget / Gadget Frame',
+    exportName: 'DesktopWidgetFrame',
+    category: 'desktop-surfaces-dialogs',
+    categoryTitle: 'Desktop Surfaces & Native System Dialogs',
+    summary: 'Lightweight persistent glass container pinned to the desktop layer with 1x1, 2x1, and 2x2 size presets, lock/pin/refresh/edit chrome, and built-in telemetry, weather, notes, clock, or custom views.',
+    codeSnippet: `<DesktopWidgetFrame kind="telemetry" defaultSize="md" onRefresh={handleRefresh} />`,
+    props: [
+      { name: 'kind / size / tone', type: 'DesktopWidgetKind / DesktopWidgetSize / DesktopWidgetTone', defaultValue: "'telemetry' / 'md' / 'primary'", description: 'Built-in or custom widget mode, grid size preset, and optical accent tone.' },
+      { name: 'locked / pinned / onConfigChange / onRemove', type: 'boolean / boolean / (cfg) => void / () => void', defaultValue: 'false / true / undefined', description: 'Position lock guard, desktop pinning, configuration callback, and guarded removal.' },
+    ],
+  },
+  {
+    id: 'system-preferences-shell',
+    title: 'System Preferences / Settings Shell',
+    exportName: 'SystemPreferencesShell',
+    category: 'desktop-surfaces-dialogs',
+    categoryTitle: 'Desktop Surfaces & Native System Dialogs',
+    summary: 'Two-pane OS configuration shell with a linear-time searchable icon sidebar on the left and grouped toggle, segmented, select, and slider preference cards with section reset on the right.',
+    codeSnippet: `<SystemPreferencesShell onSettingChange={handleSetting} onResetSection={handleReset} />`,
+    props: [
+      { name: 'sections / activeSectionId / values', type: 'ReadonlyArray<PreferenceSection> / string / PreferenceValuesInput', defaultValue: '6 OS sections', description: 'Category sections, active section ID, and Map-backed preference values.' },
+      { name: 'onSettingChange / onResetSection / disabled', type: '(id, val, sec) => void / (sec) => void / boolean', defaultValue: 'undefined / false', description: 'Preference update handler, section reset handler, and disabled state.' },
+    ],
+  },
+  {
+    id: 'system-file-dialog',
+    title: 'System File Open / Save Dialog',
+    exportName: 'SystemFileDialog',
+    category: 'desktop-surfaces-dialogs',
+    categoryTitle: 'Desktop Surfaces & Native System Dialogs',
+    summary: 'Standardized inline or modal OS file dialog uniting quick-access places, breadcrumb navigation, New Folder creation, extension filtering, and path-traversal-hardened Open and Save workflows.',
+    codeSnippet: `<SystemFileDialog mode="inline" defaultDialogKind="open" onConfirm={handleConfirm} />`,
+    props: [
+      { name: 'mode / dialogKind / allowKindSwitch', type: "'inline' | 'modal' / 'open' | 'save' / boolean", defaultValue: "'inline' / 'open' / true", description: 'Presentation mode, Open/Save dialog kind, and interactive mode toggle.' },
+      { name: 'places / entries / formats / onConfirm', type: 'Places / Entries / Filters / (res) => void', defaultValue: 'Default virtual FS', description: 'Sidebar places, virtual directory entries, format filters, and confirmation callback.' },
+    ],
+  },
+  {
+    id: 'system-about-card',
+    title: 'About / System Info Card',
+    exportName: 'SystemAboutCard',
+    category: 'desktop-surfaces-dialogs',
+    categoryTitle: 'Desktop Surfaces & Native System Dialogs',
+    summary: 'Classic OS identity card and modal displaying an optical SVG prism emblem, version/build badge, masked serial & hardware specs, storage meter, live uptime, copyable diagnostics, and sanitized links.',
+    codeSnippet: `<SystemAboutCard mode="inline" onCopyDiagnostics={handleCopy} />`,
+    props: [
+      { name: 'mode / open / info / liveUptime', type: "'inline' | 'modal' / boolean / SystemAboutInfo / boolean", defaultValue: "'inline' / true / Refractor OS / false", description: 'Presentation mode, modal open state, hardware/OS metadata, and live uptime ticker.' },
+      { name: 'onCopyDiagnostics / onCheckUpdates / onClose', type: '(txt) => void / () => void / () => void', defaultValue: 'undefined', description: 'Diagnostics copy callback, software update check trigger, and modal close handler.' },
     ],
   },
 ];

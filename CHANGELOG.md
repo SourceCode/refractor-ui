@@ -7,6 +7,18 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.45.0] - 2026-11-22
+
+### Added
+- **Desktop Surfaces & Native System Dialogs (5 new optical-glass desktop workspace & OS dialog primitives — 314 total across 55 categories):**
+  - `DesktopIconCanvas`: Root optical desktop workspace surface supporting token-driven wallpaper presets, draggable snap-to-grid icons with collision resolution, F2 inline rename, auto-arrange sorting, and desktop-level AABB marquee selection.
+  - `DesktopWidgetFrame`: Lightweight persistent desktop gadget container with `1×1`/`2×1`/`2×2` size presets, lock/pin/refresh/edit chrome, guarded two-step removal, and built-in telemetry, weather, sticky-notes, clock, or custom widget views.
+  - `SystemPreferencesShell`: Two-pane OS settings shell pairing a linear-time searchable icon sidebar with grouped toggle, segmented, select, and slider preference cards stored in prototype-safe `Map` state with section default reset.
+  - `SystemFileDialog`: Standardized inline or modal Open / Save As OS file dialog combining quick-access places, breadcrumb navigation, New Folder creation, extension filtering, and path-traversal-hardened filename validation.
+  - `SystemAboutCard`: Classic OS identity card/modal featuring a pure-SVG optical prism emblem, version/build pill, masked serial & hardware specs `<dl>`, semantic storage capacity meter, optional live uptime ticker, resilient diagnostics copy, and `sanitizeUrl`-hardened links.
+- **314-Component / 55-Category Phase 6 Certification & GitHub Pages Deployment:**
+  - Updated `apps/docs` live demos, `DocsGuides`, `README.md`, `storage.test.ts`, and `responsive.matrix.test.tsx` to verify all 314 components across all 55 categories and 15 modern device viewports.
+
 ## [1.44.0] - 2026-11-22
 
 ### Added
@@ -568,7 +580,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.44.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.45.0...HEAD
+[1.45.0]: https://github.com/SourceCode/refractor-ui/compare/v1.44.0...v1.45.0
 [1.44.0]: https://github.com/SourceCode/refractor-ui/compare/v1.43.0...v1.44.0
 [1.43.0]: https://github.com/SourceCode/refractor-ui/compare/v1.42.0...v1.43.0
 [1.42.0]: https://github.com/SourceCode/refractor-ui/compare/v1.41.0...v1.42.0
