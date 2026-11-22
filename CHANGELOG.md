@@ -7,6 +7,17 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.42.0] - 2026-11-22
+
+### Added
+- **Menus & Launchers (5 new optical-glass OS menu & launcher primitives — 299 total across 52 categories):**
+  - `CascadingSubmenu`: Multi-level nested menu featuring geometric safe-triangle hover delay (`isPointInSafeTriangle`), 3-level hierarchy, horizontally scrollable mobile panes, and full WAI-ARIA arrow-key navigation.
+  - `RichContextMenu`: Right-click & triggerable rich menu combining a top Cut/Copy/Paste/Rename/Delete quick-action squircle toolbar, 6 semantic `--prism-*` color-tag dots, and vertical shortcut-badged actions.
+  - `AppLauncherMenu`: Categorized Start/Launcher overlay with linear-time search, Pinned/All/Category filters, live Pin/Unpin app tiles, recent documents rail, and user/power footer controls.
+  - `SystemSpotlightLauncher`: Floating OS Spotlight launcher with a zero-`eval` recursive-descent math parser, 10 deterministic unit conversion pairs (`px↔rem`, `km↔mi`, `kg↔lb`, `c↔f`, `gb↔mb`), and split live preview pane.
+  - `TearOffMenu`: Dropdown menu topped with a perforated optical tear-off grip that detaches via click, keyboard, or pointer drag (`>= 24px`) into a persistent floating tool palette with `Dock Back` recovery.
+- Added interactive playground demos and prop specs in `apps/docs` under `Menus & Launchers`.
+
 ## [1.41.0] - 2026-11-22
 
 ### Added
@@ -535,7 +546,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.41.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.42.0...HEAD
+[1.42.0]: https://github.com/SourceCode/refractor-ui/compare/v1.41.0...v1.42.0
 [1.41.0]: https://github.com/SourceCode/refractor-ui/compare/v1.40.0...v1.41.0
 [1.40.0]: https://github.com/SourceCode/refractor-ui/compare/v1.39.0...v1.40.0
 [1.39.0]: https://github.com/SourceCode/refractor-ui/compare/v1.38.0...v1.39.0

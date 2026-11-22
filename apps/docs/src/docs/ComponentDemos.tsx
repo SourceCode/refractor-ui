@@ -27,6 +27,7 @@ import { HardwareIotTactileDemos } from './demos/HardwareIotTactileDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
+import { MenusLaunchersDemos } from './demos/MenusLaunchersDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
@@ -432,6 +433,14 @@ const WINDOW_MANAGEMENT_TILING_IDS = new Set([
   'minimized-window-tray',
 ]);
 
+const MENUS_LAUNCHERS_IDS = new Set([
+  'cascading-submenu',
+  'rich-context-menu',
+  'app-launcher-menu',
+  'system-spotlight-launcher',
+  'tear-off-menu',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -567,6 +576,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (WINDOW_MANAGEMENT_TILING_IDS.has(componentId)) {
     return <WindowManagementTilingDemos componentId={componentId} />;
+  }
+  if (MENUS_LAUNCHERS_IDS.has(componentId)) {
+    return <MenusLaunchersDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.41.0",
+  "version": "1.42.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -91,6 +91,11 @@
       "source": "./src/AppDockBar/index.ts",
       "types": "./dist/AppDockBar/index.d.ts",
       "default": "./dist/AppDockBar/index.js"
+    },
+    "./AppLauncherMenu": {
+      "source": "./src/AppLauncherMenu/index.ts",
+      "types": "./dist/AppLauncherMenu/index.d.ts",
+      "default": "./dist/AppLauncherMenu/index.js"
     },
     "./AppMenuBar": {
       "source": "./src/AppMenuBar/index.ts",
@@ -251,6 +256,11 @@
       "source": "./src/CascadingSelect/index.ts",
       "types": "./dist/CascadingSelect/index.d.ts",
       "default": "./dist/CascadingSelect/index.js"
+    },
+    "./CascadingSubmenu": {
+      "source": "./src/CascadingSubmenu/index.ts",
+      "types": "./dist/CascadingSubmenu/index.d.ts",
+      "default": "./dist/CascadingSubmenu/index.js"
     },
     "./ChannelStripFader": {
       "source": "./src/ChannelStripFader/index.ts",
@@ -1067,6 +1077,11 @@
       "types": "./dist/ResponseActionBar/index.d.ts",
       "default": "./dist/ResponseActionBar/index.js"
     },
+    "./RichContextMenu": {
+      "source": "./src/RichContextMenu/index.ts",
+      "types": "./dist/RichContextMenu/index.d.ts",
+      "default": "./dist/RichContextMenu/index.js"
+    },
     "./RichSelectionCards": {
       "source": "./src/RichSelectionCards/index.ts",
       "types": "./dist/RichSelectionCards/index.d.ts",
@@ -1267,10 +1282,20 @@
       "types": "./dist/SwipeableActionRow/index.d.ts",
       "default": "./dist/SwipeableActionRow/index.js"
     },
+    "./SystemSpotlightLauncher": {
+      "source": "./src/SystemSpotlightLauncher/index.ts",
+      "types": "./dist/SystemSpotlightLauncher/index.d.ts",
+      "default": "./dist/SystemSpotlightLauncher/index.js"
+    },
     "./TagChip": {
       "source": "./src/TagChip/index.ts",
       "types": "./dist/TagChip/index.d.ts",
       "default": "./dist/TagChip/index.js"
+    },
+    "./TearOffMenu": {
+      "source": "./src/TearOffMenu/index.ts",
+      "types": "./dist/TearOffMenu/index.d.ts",
+      "default": "./dist/TearOffMenu/index.js"
     },
     "./TerminalEmulator": {
       "source": "./src/TerminalEmulator/index.ts",

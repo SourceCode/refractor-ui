@@ -332,6 +332,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Window Tiling',
     description: 'Translucent snap-zone drop overlays, maximize-button layout template popovers, Alt+Tab window switchers, virtual desktop bars, Exposé spatial window grids, and minimized window shelves.',
   },
+  {
+    id: 'menus-launchers',
+    title: 'Menus & Launchers',
+    shortLabel: 'Menus & OS',
+    description: 'Safe-triangle cascading submenus, rich quick-action + color-tag context menus, categorized application launchers, zero-eval Spotlight math/unit launchers, and perforated tear-off menus.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -4222,6 +4228,72 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'items / displayMode', type: "ReadonlyArray<MinimizedWindowItem> / 'thumbnails' | 'pills'", defaultValue: "4 items / 'thumbnails'", description: 'Minimized window entries and thumbnail vs glass-pill display mode.' },
       { name: 'onRestoreWindow / onRestoreAll / onCloseWindow', type: 'callbacks', defaultValue: 'undefined', description: 'Single restore, batch restore, and close callbacks.' },
+    ],
+  },
+  // 52. Menus & Launchers (5 components — v1.42.0)
+  {
+    id: 'cascading-submenu',
+    title: 'Cascading / Nested Submenu',
+    exportName: 'CascadingSubmenu',
+    category: 'menus-launchers',
+    categoryTitle: 'Menus & Launchers',
+    summary: 'Multi-level cascading menu panel engineered with geometric safe-triangle hover delay tolerance so diagonal cursor travel toward an open child menu never prematurely closes it.',
+    codeSnippet: `<CascadingSubmenu title="File & Export Commands" hoverDelayMs={160} />`,
+    props: [
+      { name: 'items / hoverDelayMs', type: 'ReadonlyArray<CascadingMenuItem> / number', defaultValue: '3-level tree / 160ms', description: 'Nested menu tree and safe-triangle hover deferral window.' },
+      { name: 'onSelectItem / disabled', type: '(item, pathIds) => void / boolean', defaultValue: 'undefined / false', description: 'Leaf command selection callback and disabled toggle.' },
+    ],
+  },
+  {
+    id: 'rich-context-menu',
+    title: 'Rich Context Menu (with Quick-Action Strip)',
+    exportName: 'RichContextMenu',
+    category: 'menus-launchers',
+    categoryTitle: 'Menus & Launchers',
+    summary: 'Right-click and triggerable menu pairing a top Cut/Copy/Paste/Rename/Delete icon strip and 6 semantic color-tag dots with standard shortcut-badged vertical actions below.',
+    codeSnippet: `<RichContextMenu targetLabel="HeroPrism_v4.png" />`,
+    props: [
+      { name: 'targetLabel / actions / selectedTags', type: 'string / ReadonlyArray<RichContextMenuAction> / ReadonlyArray<RichContextTagTone>', defaultValue: 'HeroPrism_v4.png / 5 actions', description: 'Context target label, vertical commands, and active color tags.' },
+      { name: 'onQuickAction / onSelectAction / onTagsChange', type: 'callbacks', defaultValue: 'undefined', description: 'Quick-action toolbar, vertical command, and tag toggle callbacks.' },
+    ],
+  },
+  {
+    id: 'app-launcher-menu',
+    title: 'Application Launcher / Start Menu',
+    exportName: 'AppLauncherMenu',
+    category: 'menus-launchers',
+    categoryTitle: 'Menus & Launchers',
+    summary: 'Categorized OS launcher overlay displaying pinned apps with Pin/Unpin toggles, searchable installed programs, recent documents, and user/power footer controls.',
+    codeSnippet: `<AppLauncherMenu onLaunchApp={handleLaunch} onPowerAction={handlePower} />`,
+    props: [
+      { name: 'apps / recentDocs / userName', type: 'ReadonlyArray<AppLauncherItem> / ReadonlyArray<AppLauncherRecentDoc> / string', defaultValue: '8 apps / 4 docs / Clara Vance', description: 'Application catalog, recent documents, and signed-in profile.' },
+      { name: 'onLaunchApp / onTogglePin / onPowerAction', type: 'callbacks', defaultValue: 'undefined', description: 'Launch, pin-toggle, and Lock/Sleep/Restart/Shut Down handlers.' },
+    ],
+  },
+  {
+    id: 'system-spotlight-launcher',
+    title: 'System Spotlight / Run Launcher',
+    exportName: 'SystemSpotlightLauncher',
+    category: 'menus-launchers',
+    categoryTitle: 'Menus & Launchers',
+    summary: 'Centered floating OS search bar launching apps and files, evaluating safe zero-eval arithmetic and 10 unit conversion pairs inline, and previewing results in a split right pane.',
+    codeSnippet: `<SystemSpotlightLauncher defaultQuery="(24 + 16) * 3" />`,
+    props: [
+      { name: 'items / defaultQuery / placeholder', type: 'ReadonlyArray<SpotlightResultItem> / string / string', defaultValue: 'built-in catalog / empty', description: 'Searchable OS index and initial query.' },
+      { name: 'onLaunchResult / disabled', type: '(item) => void / boolean', defaultValue: 'undefined / false', description: 'Result execution callback and disabled state.' },
+    ],
+  },
+  {
+    id: 'tear-off-menu',
+    title: 'Tear-Off Menu',
+    exportName: 'TearOffMenu',
+    category: 'menus-launchers',
+    categoryTitle: 'Menus & Launchers',
+    summary: 'Dropdown menu headed by a perforated top grip enabling users to click, press Enter, or drag the menu away from its parent bar and pin it as a persistent floating tool palette.',
+    codeSnippet: `<TearOffMenu menuLabel="View & Guides" defaultOpen />`,
+    props: [
+      { name: 'menuLabel / items / detached', type: 'string / ReadonlyArray<TearOffMenuItem> / boolean', defaultValue: "'View & Guides' / 5 items / false", description: 'Parent menu trigger label, tool items, and floating palette state.' },
+      { name: 'onDetachedChange / onSelectItem', type: '(detached) => void / (item) => void', defaultValue: 'undefined', description: 'Detach/dock-back state and action callbacks.' },
     ],
   },
 ];
