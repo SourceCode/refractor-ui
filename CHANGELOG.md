@@ -7,6 +7,19 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.34.0] - 2026-11-22
+
+### Added
+- **Document, Knowledge & Spreadsheet Tools (7 new optical-glass editor, wiki & spreadsheet primitives — 252 total across 44 categories):**
+  - `SlashCommandMenu`: Inline cursor-anchored `/` block insertion menu grouped across `Blocks`, `Media`, `Data`, and `AI` with live literal match highlighting and IME-safe keyboard selection.
+  - `BlockTransformHandle`: Hover-revealed drag grip & transformer menu supporting in-place Turn-Into conversions (`Paragraph`, `Heading`, `Callout`, `Checklist`, `Quote`, `Code`), drag/keyboard reorder, duplicate, and delete.
+  - `FloatingTableOfContents`: Sticky scroll-spy reading outline with reading progress bar, nested heading indentation (`H1`–`H3`), and active section rail tracking.
+  - `CalloutAdmonition`: Semantic icon-badged documentation callout (`Note`, `Tip`, `Warning`, `Danger`, `Summary`) with luminous left stripe and optional collapsible body.
+  - `LinkPreviewCard`: URL-sanitized inline link triggering a viewport-clamped floating hover/focus preview card displaying entity kind, summary, author, timestamp, and tags.
+  - `DocumentPageViewer`: Multi-page PDF/document reader with collapsible page-thumbnail rail, zoom presets (`75%`–`150%`), page-jump input, and linear-time literal search highlighting.
+  - `FormulaSpreadsheetGrid`: Zero-`eval` recursive-descent formula spreadsheet (`SUM`, `AVERAGE`, `MIN`, `MAX`, `COUNT`, cell refs, ranges, `#CYCLE!`/`#DIV/0!`/`#ERR!`, `fx` bar, `Shift+Click` ranges, and multi-sheet tabs).
+- Added interactive playground demos and prop specs in `apps/docs` under `Document, Knowledge & Spreadsheet Tools`.
+
 ## [1.33.0] - 2026-11-22
 
 ### Added
@@ -435,7 +448,8 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 
-[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.33.0...HEAD
+[Unreleased]: https://github.com/SourceCode/refractor-ui/compare/v1.34.0...HEAD
+[1.34.0]: https://github.com/SourceCode/refractor-ui/compare/v1.33.0...v1.34.0
 [1.33.0]: https://github.com/SourceCode/refractor-ui/compare/v1.32.0...v1.33.0
 [1.32.0]: https://github.com/SourceCode/refractor-ui/compare/v1.31.0...v1.32.0
 [1.31.0]: https://github.com/SourceCode/refractor-ui/compare/v1.30.0...v1.31.0

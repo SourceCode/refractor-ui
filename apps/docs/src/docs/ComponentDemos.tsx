@@ -14,6 +14,7 @@ import { CoreTrendChartsDemos } from './demos/CoreTrendChartsDemos';
 import { DataVizDemos } from './demos/DataVizDemos';
 import { DateTimeSchedulingDemos } from './demos/DateTimeSchedulingDemos';
 import { DesktopOsWindowingDemos } from './demos/DesktopOsWindowingDemos';
+import { DocumentKnowledgeDemos } from './demos/DocumentKnowledgeDemos';
 import { DragDropDemos } from './demos/DragDropDemos';
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
@@ -351,6 +352,16 @@ const DESKTOP_OS_WINDOWING_IDS = new Set([
   'quick-look-previewer',
 ]);
 
+const DOCUMENT_KNOWLEDGE_IDS = new Set([
+  'slash-command-menu',
+  'block-transform-handle',
+  'floating-table-of-contents',
+  'callout-admonition',
+  'link-preview-card',
+  'document-page-viewer',
+  'formula-spreadsheet-grid',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -462,6 +473,9 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (DESKTOP_OS_WINDOWING_IDS.has(componentId)) {
     return <DesktopOsWindowingDemos componentId={componentId} />;
+  }
+  if (DOCUMENT_KNOWLEDGE_IDS.has(componentId)) {
+    return <DocumentKnowledgeDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

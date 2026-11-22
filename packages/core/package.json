@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.33.0",
+  "version": "1.34.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -132,6 +132,11 @@
       "types": "./dist/BeforeAfterSlider/index.d.ts",
       "default": "./dist/BeforeAfterSlider/index.js"
     },
+    "./BlockTransformHandle": {
+      "source": "./src/BlockTransformHandle/index.ts",
+      "types": "./dist/BlockTransformHandle/index.d.ts",
+      "default": "./dist/BlockTransformHandle/index.js"
+    },
     "./BottomNavigationBar": {
       "source": "./src/BottomNavigationBar/index.ts",
       "types": "./dist/BottomNavigationBar/index.d.ts",
@@ -181,6 +186,11 @@
       "source": "./src/CalendarView/index.ts",
       "types": "./dist/CalendarView/index.d.ts",
       "default": "./dist/CalendarView/index.js"
+    },
+    "./CalloutAdmonition": {
+      "source": "./src/CalloutAdmonition/index.ts",
+      "types": "./dist/CalloutAdmonition/index.d.ts",
+      "default": "./dist/CalloutAdmonition/index.js"
     },
     "./CandlestickOhlcChart": {
       "source": "./src/CandlestickOhlcChart/index.ts",
@@ -392,6 +402,11 @@
       "types": "./dist/DockablePanel/index.d.ts",
       "default": "./dist/DockablePanel/index.js"
     },
+    "./DocumentPageViewer": {
+      "source": "./src/DocumentPageViewer/index.ts",
+      "types": "./dist/DocumentPageViewer/index.d.ts",
+      "default": "./dist/DocumentPageViewer/index.js"
+    },
     "./DonutPieChart": {
       "source": "./src/DonutPieChart/index.ts",
       "types": "./dist/DonutPieChart/index.d.ts",
@@ -461,6 +476,16 @@
       "source": "./src/FloatingActionButton/index.ts",
       "types": "./dist/FloatingActionButton/index.d.ts",
       "default": "./dist/FloatingActionButton/index.js"
+    },
+    "./FloatingTableOfContents": {
+      "source": "./src/FloatingTableOfContents/index.ts",
+      "types": "./dist/FloatingTableOfContents/index.d.ts",
+      "default": "./dist/FloatingTableOfContents/index.js"
+    },
+    "./FormulaSpreadsheetGrid": {
+      "source": "./src/FormulaSpreadsheetGrid/index.ts",
+      "types": "./dist/FormulaSpreadsheetGrid/index.d.ts",
+      "default": "./dist/FormulaSpreadsheetGrid/index.js"
     },
     "./FrameStepperRateSelector": {
       "source": "./src/FrameStepperRateSelector/index.ts",
@@ -586,6 +611,11 @@
       "source": "./src/LineMultiSeriesChart/index.ts",
       "types": "./dist/LineMultiSeriesChart/index.d.ts",
       "default": "./dist/LineMultiSeriesChart/index.js"
+    },
+    "./LinkPreviewCard": {
+      "source": "./src/LinkPreviewCard/index.ts",
+      "types": "./dist/LinkPreviewCard/index.d.ts",
+      "default": "./dist/LinkPreviewCard/index.js"
     },
     "./LiveColorScopes": {
       "source": "./src/LiveColorScopes/index.ts",
@@ -1001,6 +1031,11 @@
       "source": "./src/SkeletonLoader/index.ts",
       "types": "./dist/SkeletonLoader/index.d.ts",
       "default": "./dist/SkeletonLoader/index.js"
+    },
+    "./SlashCommandMenu": {
+      "source": "./src/SlashCommandMenu/index.ts",
+      "types": "./dist/SlashCommandMenu/index.d.ts",
+      "default": "./dist/SlashCommandMenu/index.js"
     },
     "./SlideOverSheet": {
       "source": "./src/SlideOverSheet/index.ts",

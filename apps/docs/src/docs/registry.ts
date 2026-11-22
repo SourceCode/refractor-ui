@@ -284,6 +284,12 @@ export const DOC_CATEGORIES: CategoryMeta[] = [
     shortLabel: 'Desktop OS',
     description: 'Magnifying glass app docks, draggable window titlebars, cascading OS menu bars, IDE workspace status strips, Miller columns explorers, radial pie menus, and Spacebar Quick Look previewers.',
   },
+  {
+    id: 'document-knowledge-spreadsheet',
+    title: 'Document, Knowledge & Spreadsheet Tools',
+    shortLabel: 'Docs & Sheets',
+    description: 'Inline slash-command palettes, block transformer handles, scroll-spy TOC outlines, admonition callouts, link hover previews, multi-page PDF viewers, and formula spreadsheet grids.',
+  },
 ];
 
 export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
@@ -3529,6 +3535,98 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     props: [
       { name: 'files / activeIndex / mode', type: "QuickLookFileItem[] / number / 'modal' | 'inline'", defaultValue: "4 files / 0 / 'modal'", description: 'Inspectable media records, active item, and display mode.' },
       { name: 'open / onActiveIndexChange / onOpenExternal', type: 'boolean / callbacks', defaultValue: 'false', description: 'Modal visibility, Prev/Next cycling, and external open action.' },
+    ],
+  },
+  /* ==================== DOCUMENT, KNOWLEDGE & SPREADSHEET TOOLS (7) ==================== */
+  {
+    id: 'slash-command-menu',
+    title: 'Slash Command Menu (/)',
+    exportName: 'SlashCommandMenu',
+    category: 'document-knowledge-spreadsheet',
+    categoryTitle: 'Document, Knowledge & Spreadsheet Tools',
+    summary: 'Inline cursor-anchored floating slash palette triggered inside editors to rapidly insert blocks, callouts, tables, or AI summaries via keyboard.',
+    codeSnippet: `<SlashCommandMenu defaultMenuOpen onInsertCommand={handleInsert} />`,
+    props: [
+      { name: 'commands / defaultValue', type: 'SlashCommandOption[] / string', defaultValue: "8 commands / ''", description: 'Grouped slash commands and initial editor document text.' },
+      { name: 'defaultMenuOpen / onInsertCommand', type: 'boolean / (cmd, nextText) => void', defaultValue: 'true / undefined', description: 'Initial menu state and block template insertion handler.' },
+    ],
+  },
+  {
+    id: 'block-transform-handle',
+    title: 'Block Handle & Transformer Menu',
+    exportName: 'BlockTransformHandle',
+    category: 'document-knowledge-spreadsheet',
+    categoryTitle: 'Document, Knowledge & Spreadsheet Tools',
+    summary: 'Hover-revealed drag grip beside document blocks opening a transformer menu to convert block types (paragraph, heading, callout, checklist, quote, code), reorder, or duplicate.',
+    codeSnippet: `<BlockTransformHandle title="Product Spec Block Canvas" />`,
+    props: [
+      { name: 'blocks / defaultBlocks', type: 'DocumentBlockItem[]', defaultValue: '4 sample blocks', description: 'Controlled or initial typed document blocks.' },
+      { name: 'onChange / disabled', type: '(blocks) => void / boolean', defaultValue: 'undefined / false', description: 'Block mutation handler (reorder, transform, duplicate, delete).' },
+    ],
+  },
+  {
+    id: 'floating-table-of-contents',
+    title: 'Floating Table of Contents (Scroll-Spy)',
+    exportName: 'FloatingTableOfContents',
+    category: 'document-knowledge-spreadsheet',
+    categoryTitle: 'Document, Knowledge & Spreadsheet Tools',
+    summary: 'Sticky nested heading outline sidebar with optical scroll-spy tracking, reading progress bar, and keyboard/click section jump links.',
+    codeSnippet: `<FloatingTableOfContents headings={sections} observeDocumentScroll />`,
+    props: [
+      { name: 'headings / activeId / scrollProgressPct', type: 'TocHeadingEntry[] / string / number', defaultValue: '6 nested headings / auto', description: 'H1–H3 outline entries, active section, and reading progress.' },
+      { name: 'observeDocumentScroll / onSelectHeading', type: 'boolean / (h) => void', defaultValue: 'false / undefined', description: 'Automatic viewport scroll-spy and jump navigation callback.' },
+    ],
+  },
+  {
+    id: 'callout-admonition',
+    title: 'Callout / Admonition Block',
+    exportName: 'CalloutAdmonition',
+    category: 'document-knowledge-spreadsheet',
+    categoryTitle: 'Document, Knowledge & Spreadsheet Tools',
+    summary: 'Inline icon-badged highlight box (Note, Tip, Warning, Danger, Summary) with luminous semantic stripe and optional collapsible disclosure.',
+    codeSnippet: `<CalloutAdmonition kind="tip" title="Optical Tip">Use @layer components.</CalloutAdmonition>`,
+    props: [
+      { name: 'kind / title / icon', type: "'note' | 'tip' | 'warning' | 'danger' | 'abstract' / string / ReactNode", defaultValue: "'note' / auto", description: 'Semantic callout variant, heading, and optional icon override.' },
+      { name: 'collapsible / open / onOpenChange', type: 'boolean / boolean / (open) => void', defaultValue: 'false / true', description: 'Collapsible body disclosure controls.' },
+    ],
+  },
+  {
+    id: 'link-preview-card',
+    title: 'Link Hover Preview Card',
+    exportName: 'LinkPreviewCard',
+    category: 'document-knowledge-spreadsheet',
+    categoryTitle: 'Document, Knowledge & Spreadsheet Tools',
+    summary: 'URL-sanitized inline link revealing a miniature floating optical card summarizing an internal doc, wiki page, issue, or repo on hover or focus.',
+    codeSnippet: `<LinkPreviewCard href="/docs/adr-5" label="ADR-0005" preview={meta} />`,
+    props: [
+      { name: 'href / label / preview', type: 'string / string / LinkPreviewMetadata', defaultValue: 'required', description: 'Sanitized link target, visible text, and floating preview payload.' },
+      { name: 'placement / openDelayMs / external', type: "'top' | 'bottom' / number / boolean", defaultValue: "'bottom' / 120 / false", description: 'Card placement, hover delay, and external tab link safety.' },
+    ],
+  },
+  {
+    id: 'document-page-viewer',
+    title: 'PDF & Document Page Viewer',
+    exportName: 'DocumentPageViewer',
+    category: 'document-knowledge-spreadsheet',
+    categoryTitle: 'Document, Knowledge & Spreadsheet Tools',
+    summary: 'Multi-page optical reader featuring a collapsible page-thumbnail rail, 75%–150% zoom controls, page-jump input, and linear-time literal search highlights.',
+    codeSnippet: `<DocumentPageViewer documentTitle="Refractor_Optical_Spec_v2.pdf" />`,
+    props: [
+      { name: 'pages / page / defaultZoomPct', type: 'DocumentViewerPage[] / number / 75 | 100 | 125 | 150', defaultValue: '4 pages / 1 / 100', description: 'Document pages, active 1-based page, and initial zoom scale.' },
+      { name: 'defaultShowThumbnails / onPageChange', type: 'boolean / (page) => void', defaultValue: 'true / undefined', description: 'Thumbnail rail toggle state and page navigation callback.' },
+    ],
+  },
+  {
+    id: 'formula-spreadsheet-grid',
+    title: 'Formula Spreadsheet Grid',
+    exportName: 'FormulaSpreadsheetGrid',
+    category: 'document-knowledge-spreadsheet',
+    categoryTitle: 'Document, Knowledge & Spreadsheet Tools',
+    summary: 'Zero-eval calculation spreadsheet featuring A–Z column letters, row numbers, Shift+Click ranges, an fx formula bar (SUM/AVERAGE/MIN/MAX/COUNT), and bottom sheet tabs.',
+    codeSnippet: `<FormulaSpreadsheetGrid title="Q4 Budget & Unit Economics" />`,
+    props: [
+      { name: 'sheets / disabled', type: 'SpreadsheetSheetSpec[] / boolean', defaultValue: '2 live sheets / false', description: 'Workbook sheet definitions with raw values and formulas.' },
+      { name: 'onCellChange / title', type: '(sheet, addr, raw, computed) => void / string', defaultValue: 'undefined', description: 'Cell commit callback with evaluated output.' },
     ],
   },
 ];
