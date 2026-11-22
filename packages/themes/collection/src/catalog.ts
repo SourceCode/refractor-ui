@@ -238,7 +238,7 @@ export const WEBOS_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> =
 
 export const OPTICAL_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = OPTICAL_PRESET_ENTRIES;
 
-/** Complete unified 69-theme catalog (5 Refractor Optical Glass + 64 WebOS-v3 themes). */
+/** Complete unified 68-theme catalog (5 Refractor Optical Glass + 63 WebOS-v3 themes). */
 export const ALL_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
   ...OPTICAL_THEME_ENTRIES,
   ...WEBOS_THEME_ENTRIES,
@@ -283,7 +283,7 @@ export interface ListThemesFilter {
 }
 
 /**
- * Filters the unified 69-theme catalog using safe linear-time substring matching (zero regex DoS).
+ * Filters the unified 68-theme catalog using safe linear-time substring matching (zero regex DoS).
  */
 export function listThemes(filter?: ListThemesFilter): ReadonlyArray<ThemeCatalogEntry> {
   if (!filter) return ALL_THEME_ENTRIES;

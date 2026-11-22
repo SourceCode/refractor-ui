@@ -2,9 +2,9 @@
 
 # Refractor Optical Glass UI Kit
 
-**A tactile, multi-material & optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, 69 full-transformation themes (5 Optical Glass + all 64 WebOS-v3 themes), and 314 accessible components across 55 categories.**
+**A tactile, multi-material & optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, 68 full-transformation themes (5 Optical Glass + 63 WebOS-v3 themes), and 314 accessible components across 55 categories.**
 
-[![Release v1.47.0](https://img.shields.io/badge/release-v1.47.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.47.0)
+[![Release v1.47.1](https://img.shields.io/badge/release-v1.47.1-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.47.1)
 [![Live Docs](https://img.shields.io/badge/docs-GitHub%20Pages-38BDF8?style=flat-square)](https://sourcecode.github.io/refractor-ui/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=000)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20(Zero%20any%2Funknown)-3178C6?style=flat-square&logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
@@ -27,7 +27,7 @@
 
 - **314 Production Components Across 55 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, token-driven optical SVG charting/financial/scientific/observability/geospatial/storytelling suites, foundational micro-utilities, desktop OS windowing metaphors, knowledge & formula spreadsheet tools, 3D/shader inspectors, enterprise data ops & API consoles, hardware/IoT tactile surfaces, and full desktop OS file explorer, window management, launcher, system tray, hardware HUD, and native system dialog suites.
 - **Astryx-Aligned Open-Internals Architecture:** Every primitive lives in `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts` — using React 19 `ref`-as-prop (never `forwardRef`), `BaseProps<Element>`, `themeProps()`, `mergeProps()`, and tree-shakeable subpath exports.
-- **69 Full-Transformation Multi-Material Themes (`@refractor-ui/themes`):**
+- **68 Full-Transformation Multi-Material Themes (`@refractor-ui/themes`):**
   - **13 Material Archetypes & 9 GPU-Friendly FX Overlays:** Transform all 314 components across `glass`, `mica`, `bevel` (Windows 95/XP/Amiga/BeOS/Solaris), `brutalist` (Brutalist Web/Memphis/Paper Cutout/Industrial), `neon` (Cyberpunk/Synthwave/Outrun/Vaporwave/Blade Runner/Akira), `crt` (Hacker Terminal), `pixel` (Game Boy/SNES/Sega Genesis & Saturn), `neumorphic`, `clay` (Soft Clay), `paper` (E-Ink/Zen Garden), `chrome` (Y2K Liquid Chrome/Liquid Metal/PS5), `resin` (Glowing Resin/Slime/Dream Logic), and `flat` (VS Code/Monokai/One Dark Pro/Nord/Tokyo Night/Solarized/Material/Adwaita/Ubuntu/Mint) — plus all Elemental and Four Seasons themes and on-demand allowlisted Google Font loading. Certified **9.89/10 mean** across Web, Tablet, and Mobile in [`docs/reviews/webos-v3-themes-audit.md`](./docs/reviews/webos-v3-themes-audit.md).
   - **Single-Hex Color Derivation & Cascade Overrides:** Pass a single hex color to `createPrismTheme({ palette: { primary: { main: '#7C3AED' } } })` or compose cascading overrides with `defineTheme({ name, extends, material, fx, tokens, components })` inside CSS `@layer components` for seamless Tailwind CSS v4 interoperability.
 - **Zero `any` and Zero `unknown` Strictness:** Enforced by `@typescript-eslint/no-explicit-any`, custom `@refractor/no-unknown-type`, and a 17-rule two-tier ESLint plugin (`internal/eslint-plugin-refractor`).

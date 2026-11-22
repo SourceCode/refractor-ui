@@ -71,7 +71,6 @@ const ALL_EXPECTED_WEBOS_SOURCE_IDS: ReadonlyArray<string> = [
   'mpc-beat-machine',
   'neon-dreams',
   'neumorphism',
-  'newwestern',
   'newwesternDark',
   'nord',
   'obsidian',
@@ -106,16 +105,17 @@ const ALL_EXPECTED_WEBOS_SOURCE_IDS: ReadonlyArray<string> = [
   'zen-garden',
 ];
 
-describe('@refractor-ui/themes — Complete 64-Theme WebOS-v3 Collection & 69-Theme Catalog', () => {
-  it('implements 100% of all 64 SourceCode/webos-v3 themes plus 5 Refractor optical presets (69 total)', () => {
+describe('@refractor-ui/themes — Complete 63-Theme WebOS-v3 Collection & 68-Theme Catalog', () => {
+  it('implements all 63 curated WebOS-v3 themes plus 5 Refractor optical presets (68 total) with New Western Gold removed', () => {
     expect(OPTICAL_THEME_ENTRIES).toHaveLength(5);
-    expect(WEBOS_THEME_ENTRIES).toHaveLength(64);
-    expect(ALL_WEBOS_THEME_SPECS).toHaveLength(64);
-    expect(ALL_THEME_ENTRIES).toHaveLength(69);
+    expect(WEBOS_THEME_ENTRIES).toHaveLength(63);
+    expect(ALL_WEBOS_THEME_SPECS).toHaveLength(63);
+    expect(ALL_THEME_ENTRIES).toHaveLength(68);
     expect(THEME_CATEGORIES).toHaveLength(9);
+    expect(getThemeById('newwestern')).toBeUndefined();
 
     const uniqueIds = new Set(ALL_THEME_ENTRIES.map((e) => e.id));
-    expect(uniqueIds.size).toBe(69);
+    expect(uniqueIds.size).toBe(68);
 
     const sourceIds = new Set(WEBOS_THEME_ENTRIES.map((e) => e.sourceId));
     for (const expectedSourceId of ALL_EXPECTED_WEBOS_SOURCE_IDS) {
@@ -231,7 +231,7 @@ describe('@refractor-ui/themes — Complete 64-Theme WebOS-v3 Collection & 69-Th
 
     expect(() => getWebOsTheme('nonexistent' as WebOsThemeId)).toThrow(/Unknown WebOS theme id/);
 
-    expect(listThemes()).toHaveLength(69);
+    expect(listThemes()).toHaveLength(68);
     expect(listThemes({ category: 'classic-os' })).toHaveLength(10);
     expect(listThemes({ category: 'cyber-neon', mode: 'dark' })).toHaveLength(8);
     expect(listThemes({ material: 'bevel' }).length).toBeGreaterThanOrEqual(5);

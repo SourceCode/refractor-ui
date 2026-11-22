@@ -164,7 +164,7 @@ describe('@refractor-ui/cli', () => {
     expect(unknownTotal.stderr).toContain('Unknown component');
   });
 
-  it('lists and inspects all 5 official optical theme presets plus all 64 WebOS-v3 collection themes and rejects invalid theme queries', async () => {
+  it('lists and inspects all 5 official optical theme presets plus all 63 WebOS-v3 collection themes and rejects invalid theme queries', async () => {
     const listRes = await runCli(['theme', 'list']);
     expect(listRes.exitCode).toBe(0);
     expect(listRes.stdout).toContain('Refractor Official Optical Theme Presets (5):');
@@ -173,7 +173,7 @@ describe('@refractor-ui/cli', () => {
     expect(listRes.stdout).toContain('amethyst');
     expect(listRes.stdout).toContain('emerald-tide');
     expect(listRes.stdout).toContain('solar-prism');
-    expect(listRes.stdout).toContain('64 themes, 69 total');
+    expect(listRes.stdout).toContain('63 themes, 68 total');
     expect(listRes.stdout).toContain('windows95');
     expect(listRes.stdout).toContain('cyberpunk');
     expect(listRes.stdout).toContain('gameboy-classic');

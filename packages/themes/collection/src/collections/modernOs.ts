@@ -207,58 +207,6 @@ export const MODERN_OS_THEME_SPECS: ReadonlyArray<WebOsThemeRawSpec> = [
     }
   },
   {
-    "id": "newwestern",
-    "sourceId": "newwestern",
-    "name": "New Western Gold",
-    "description": "A premium brand theme inspired by New Western’s trusted real estate investment identity.",
-    "mode": "light",
-    "category": "modern-os",
-    "material": "mica",
-    "wallpaperOverlay": "paper-grain",
-    "overlayOpacity": 0.05,
-    "fontFamily": "\"Inter\", sans-serif",
-    "colors": {
-      "primary": "#c0985c",
-      "primaryText": "#ffffff",
-      "secondary": "#6b5e4b",
-      "accent": "#8c7b65",
-      "success": "#10b981",
-      "warning": "#f59e0b",
-      "error": "#ef4444",
-      "text": "#1f1f1f",
-      "textMuted": "rgba(31, 31, 31, 0.6)",
-      "border": "rgba(192, 152, 92, 0.4)",
-      "windowBg": "rgba(255, 255, 255, 0.9)",
-      "windowBorder": "rgba(192, 152, 92, 0.3)",
-      "surface": "rgba(255, 255, 255, 0.75)",
-      "surfaceHighlight": "rgba(248, 246, 240, 0.9)",
-      "chromeBg": "rgba(248, 246, 240, 1)",
-      "chromeText": "#3a3a3a",
-      "wallpaper": "linear-gradient(135deg, #ffffff 0%, #f9f7f1 60%, #f4efe3 100%)"
-    },
-    "window": {
-      "radiusPx": 12,
-      "borderWidthPx": 1,
-      "backdropBlurPx": 8,
-      "shadow": "0 20px 40px -10px rgba(0, 0, 0, 0.15)",
-      "controlsLayout": "right",
-      "titleBarHeightPx": 38
-    },
-    "editor": {
-      "background": "rgba(255, 255, 255, 0.9)",
-      "caret": "#8c7b65",
-      "comment": "rgba(31, 31, 31, 0.6)",
-      "gutter": "rgba(255, 255, 255, 0.9)",
-      "keyword": "#c0985c",
-      "line": "rgba(192, 152, 92, 0.4)",
-      "number": "#ef4444",
-      "selection": "rgba(248, 246, 240, 0.9)",
-      "selectionText": "#1f1f1f",
-      "string": "#10b981",
-      "text": "#1f1f1f"
-    }
-  },
-  {
     "id": "newwesternDark",
     "sourceId": "newwesternDark",
     "name": "New Western After Dark",
