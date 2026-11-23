@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useRef,
   useState,
   type KeyboardEvent,
@@ -115,7 +116,7 @@ const CALIBRATION_TICKS: ReadonlyArray<CalibrationTick> = [-135, 0, 135].map((de
   return { id: `tick-${deg}`, x: pt.x, y: pt.y };
 });
 
-export function RotaryDial({
+function RotaryDialInner({
   value,
   defaultValue = DEFAULT_VALUE,
   onChange,
@@ -398,4 +399,5 @@ export function RotaryDial({
   );
 }
 
+export const RotaryDial = memo(RotaryDialInner);
 RotaryDial.displayName = 'RotaryDial';

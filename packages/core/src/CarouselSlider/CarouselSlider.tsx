@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type KeyboardEvent } from 'react';
+import { memo, useState, type KeyboardEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -21,7 +21,7 @@ export interface CarouselSliderProps extends BaseProps<HTMLDivElement> {
   slides: ReadonlyArray<CarouselSlide>;
 }
 
-export function CarouselSlider({
+function CarouselSliderInner({
   slides,
   className,
   style,
@@ -133,7 +133,7 @@ export function CarouselSlider({
               aria-label={`Go to slide ${idx + 1}`}
               aria-current={idx === safeIndex ? 'true' : undefined}
               onClick={() => setIndex(idx)}
-              className={`prism-focus-ring h-2 rounded-full transition-all cursor-pointer ${
+              className={`prism-focus-ring h-2 rounded-full transition-[color,background-color,border-color,opacity,transform] cursor-pointer ${
                 idx === safeIndex ? 'w-6 bg-orange-500' : 'w-2 bg-slate-400/60'
               }`}
             />
@@ -144,4 +144,5 @@ export function CarouselSlider({
   );
 }
 
+export const CarouselSlider = memo(CarouselSliderInner);
 CarouselSlider.displayName = 'CarouselSlider';

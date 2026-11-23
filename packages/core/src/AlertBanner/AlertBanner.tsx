@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 import { AlertTriangle, CheckCircle2, Info, X, XCircle } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
@@ -55,7 +56,7 @@ function getSeverityVisual(severity: AlertBannerSeverity): SeverityVisual {
   }
 }
 
-export function AlertBanner({
+function AlertBannerInner({
   severity = 'info',
   title,
   message,
@@ -118,4 +119,5 @@ export function AlertBanner({
   );
 }
 
+export const AlertBanner = memo(AlertBannerInner);
 AlertBanner.displayName = 'AlertBanner';

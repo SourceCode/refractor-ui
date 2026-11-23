@@ -1,11 +1,12 @@
 'use client';
 
-import { useId, useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { memo, useId, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { Clock, Minus, Plus, Timer } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 const SECONDS_PER_MINUTE = 60;
@@ -211,7 +212,7 @@ export function parseDurationString(raw: string): number | null {
   return tokenCount > 0 ? total : null;
 }
 
-export function DurationInput({
+function DurationInputInner({
   valueSeconds,
   defaultValueSeconds = DEFAULT_DURATION_SECONDS,
   onChange,
@@ -348,13 +349,13 @@ export function DurationInput({
         <div className="flex items-center gap-2.5 min-w-0">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Timer aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <span
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -384,7 +385,7 @@ export function DurationInput({
               <label
                 htmlFor={segmentInputId}
                 className="text-[11px] font-semibold uppercase tracking-wider px-1"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {segment.label}
               </label>
@@ -395,7 +396,7 @@ export function DurationInput({
                   disabled={!canDecrease}
                   aria-label={`Decrease ${segment.label}`}
                   onClick={() => commitSeconds(currentSeconds - segment.unitSeconds)}
-                  className="prism-btn-secondary prism-focus-ring w-7 h-7 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                  className="prism-btn-secondary prism-focus-ring w-7 h-7 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                 >
                   <Minus aria-hidden="true" className="w-3.5 h-3.5" />
                 </button>
@@ -410,7 +411,7 @@ export function DurationInput({
                   disabled={disabled}
                   onChange={(e) => handleSegmentInputChange(segment.key, e)}
                   className="prism-focus-ring w-full min-w-0 bg-transparent text-center font-mono text-sm font-semibold tabular-nums rounded-lg py-1 focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 />
 
                 <button
@@ -418,7 +419,7 @@ export function DurationInput({
                   disabled={!canIncrease}
                   aria-label={`Increase ${segment.label}`}
                   onClick={() => commitSeconds(currentSeconds + segment.unitSeconds)}
-                  className="prism-btn-secondary prism-focus-ring w-7 h-7 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                  className="prism-btn-secondary prism-focus-ring w-7 h-7 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                 >
                   <Plus aria-hidden="true" className="w-3.5 h-3.5" />
                 </button>
@@ -468,7 +469,7 @@ export function DurationInput({
               }}
               onKeyDown={handleShorthandKeyDown}
               className="w-full min-w-0 bg-transparent text-xs font-mono focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
 
@@ -476,7 +477,7 @@ export function DurationInput({
             type="button"
             disabled={disabled}
             onClick={handleApplyShorthand}
-            className="prism-btn-primary prism-focus-ring h-10 px-4 inline-flex items-center justify-center text-xs font-semibold tracking-[-0.01em] whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+            className="prism-btn-primary prism-focus-ring h-10 px-4 inline-flex items-center justify-center text-xs font-semibold tracking-[-0.01em] whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
           >
             <span className="relative z-10">Apply</span>
           </button>
@@ -487,7 +488,7 @@ export function DurationInput({
             id={errorId}
             role="alert"
             className="mt-2 px-1 text-xs font-medium"
-            style={{ color: 'var(--prism-error-main)' }}
+            style={STYLE_ERROR_MAIN}
           >
             {shorthandError}
           </p>
@@ -497,4 +498,5 @@ export function DurationInput({
   );
 }
 
+export const DurationInput = memo(DurationInputInner);
 DurationInput.displayName = 'DurationInput';

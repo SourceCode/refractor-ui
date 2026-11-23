@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MeterOrientation = 'vertical' | 'horizontal';
@@ -212,7 +214,7 @@ function renderChannelSegments(
   });
 }
 
-export function VuPeakLevelMeter({
+function VuPeakLevelMeterInner({
   channels,
   orientation = 'vertical',
   segments = DEFAULT_SEGMENTS,
@@ -411,7 +413,7 @@ export function VuPeakLevelMeter({
       empty: isEmpty,
     }),
     baseClassName:
-      'prism-slab relative w-full max-w-full min-w-0 p-4 flex flex-col gap-3 transition-all',
+      'prism-slab relative w-full max-w-full min-w-0 p-4 flex flex-col gap-3 transition-[color,background-color,border-color,opacity,transform]',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -451,7 +453,7 @@ export function VuPeakLevelMeter({
             id={headingId}
             data-testid="vu-meter-label"
             className="text-xs font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {displayLabel}
           </span>
@@ -472,7 +474,7 @@ export function VuPeakLevelMeter({
             onKeyDown={handleControlKeyDown}
             className={cx(
               clipButtonClass,
-              'prism-focus-ring inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full font-mono text-[11px] font-bold tracking-wider uppercase whitespace-nowrap shrink-0 cursor-pointer transition-all hover:brightness-105',
+              'prism-focus-ring inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full font-mono text-[11px] font-bold tracking-wider uppercase whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform] hover:brightness-105',
               isClipped ? '' : 'prism-crystal'
             )}
             style={
@@ -508,9 +510,9 @@ export function VuPeakLevelMeter({
               onKeyDown={handleControlKeyDown}
               className={cx(
                 resetButtonClass,
-                'prism-crystal prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full font-mono text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-all hover:brightness-105'
+                'prism-crystal prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full font-mono text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform] hover:brightness-105'
               )}
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Reset Peak</span>
@@ -528,22 +530,22 @@ export function VuPeakLevelMeter({
       >
         <span
           className="font-mono text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           RMS / Peak dBFS
         </span>
         <div
           className="font-mono text-xs font-semibold tabular-nums flex flex-wrap items-center gap-1.5 min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {isEmpty ? (
             <>
               <span data-testid="vu-rms-value">--</span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 /
               </span>
               <span data-testid="vu-peak-value">--</span>
-              <span style={{ color: 'var(--prism-text-secondary)' }}>dBFS</span>
+              <span style={STYLE_TEXT_SECONDARY}>dBFS</span>
             </>
           ) : (
             <>
@@ -551,7 +553,7 @@ export function VuPeakLevelMeter({
                 RMS{' '}
                 <strong data-testid="vu-rms-value">{formatDb(aggregateRmsDb)}</strong>
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 /
               </span>
               <span
@@ -576,7 +578,7 @@ export function VuPeakLevelMeter({
           aria-live="polite"
           data-testid="vu-empty-state"
           className="prism-well rounded-2xl px-4 py-6 text-center text-xs font-medium min-w-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No audio channels connected. Provide channel readings to monitor VU and peak levels.
         </div>
@@ -632,7 +634,7 @@ export function VuPeakLevelMeter({
                 <span
                   data-testid={`vu-channel-label-${ch.key}`}
                   className="prism-crystal h-6 min-w-7 px-2 rounded-full inline-flex items-center justify-center font-mono text-[10px] font-bold tracking-wider truncate max-w-[5rem]"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {ch.displayLabel}
                 </span>
@@ -681,7 +683,7 @@ export function VuPeakLevelMeter({
               <span
                 data-testid={`vu-channel-label-${ch.key}`}
                 className="prism-crystal h-6 min-w-8 px-2 rounded-full inline-flex items-center justify-center font-mono text-[10px] font-bold tracking-wider shrink-0 truncate max-w-[5rem]"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {ch.displayLabel}
               </span>
@@ -743,4 +745,5 @@ export function VuPeakLevelMeter({
   );
 }
 
+export const VuPeakLevelMeter = memo(VuPeakLevelMeterInner);
 VuPeakLevelMeter.displayName = 'VuPeakLevelMeter';

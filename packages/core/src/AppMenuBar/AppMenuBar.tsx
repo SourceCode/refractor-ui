@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +16,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AppMenuItemKind = 'action' | 'checkbox' | 'submenu' | 'separator';
@@ -229,7 +231,7 @@ function makeSubitemNodeKey(menuId: string, submenuId: string, itemId: string): 
   return `${menuId}\0${submenuId}\0${itemId}`;
 }
 
-export function AppMenuBar({
+function AppMenuBarInner({
   menus = DEFAULT_APP_MENUS,
   brandLabel = 'Refractor',
   onSelectAction,
@@ -663,19 +665,19 @@ export function AppMenuBar({
                   brandClass,
                   'prism-crystal rounded-full px-2.5 py-1 inline-flex items-center gap-1.5 text-xs font-bold tracking-[-0.01em] select-none shrink-0 max-w-full min-w-0'
                 )}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <Layers
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-primary-main)' }}
+                  style={STYLE_PRIMARY_MAIN}
                 />
                 <span className="truncate">{trimmedBrand}</span>
               </span>
               <span
                 aria-hidden="true"
                 className="h-4 w-px shrink-0"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
             </>
           ) : null}
@@ -688,7 +690,7 @@ export function AppMenuBar({
             {menus.length === 0 ? (
               <span
                 className="px-2.5 py-1 text-xs font-medium select-none"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 No menus
               </span>
@@ -756,7 +758,7 @@ export function AppMenuBar({
                             role="menuitem"
                             aria-disabled="true"
                             className="px-3 py-1.5 text-xs select-none"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             No items
                           </div>
@@ -768,7 +770,7 @@ export function AppMenuBar({
                                   key={entry.id}
                                   role="separator"
                                   className="my-1 mx-2 h-px"
-                                  style={{ backgroundColor: 'var(--prism-divider)' }}
+                                  style={STYLE_BG_DIVIDER}
                                 />
                               );
                             }
@@ -847,7 +849,7 @@ export function AppMenuBar({
                                     {entryKind === 'checkbox' && isChecked ? (
                                       <Check
                                         className="w-3.5 h-3.5"
-                                        style={{ color: 'var(--prism-primary-main)' }}
+                                        style={STYLE_PRIMARY_MAIN}
                                       />
                                     ) : null}
                                   </span>
@@ -872,7 +874,7 @@ export function AppMenuBar({
                                     <ChevronRight
                                       aria-hidden="true"
                                       className="w-3.5 h-3.5"
-                                      style={{ color: 'var(--prism-text-secondary)' }}
+                                      style={STYLE_TEXT_SECONDARY}
                                     />
                                   ) : null}
                                 </span>
@@ -904,7 +906,7 @@ export function AppMenuBar({
                                         role="menuitem"
                                         aria-disabled="true"
                                         className="px-3 py-1.5 text-xs select-none"
-                                        style={{ color: 'var(--prism-text-secondary)' }}
+                                        style={STYLE_TEXT_SECONDARY}
                                       >
                                         No items
                                       </div>
@@ -916,7 +918,7 @@ export function AppMenuBar({
                                               key={subEntry.id}
                                               role="separator"
                                               className="my-1 mx-2 h-px"
-                                              style={{ backgroundColor: 'var(--prism-divider)' }}
+                                              style={STYLE_BG_DIVIDER}
                                             />
                                           );
                                         }
@@ -986,7 +988,7 @@ export function AppMenuBar({
                                                 {subKind === 'checkbox' && subChecked ? (
                                                   <Check
                                                     className="w-3.5 h-3.5"
-                                                    style={{ color: 'var(--prism-primary-main)' }}
+                                                    style={STYLE_PRIMARY_MAIN}
                                                   />
                                                 ) : null}
                                               </span>
@@ -1056,4 +1058,5 @@ export function AppMenuBar({
   );
 }
 
+export const AppMenuBar = memo(AppMenuBarInner);
 AppMenuBar.displayName = 'AppMenuBar';

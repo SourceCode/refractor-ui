@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TransformAxis = 'x' | 'y' | 'z';
@@ -264,7 +266,7 @@ function formatTelemetry(state: Transform3DState, unit: string): string {
   return `translate3d(${position.x}${unit}, ${position.y}${unit}, ${position.z}${unit}) rotate3d(${rotation.x}deg, ${rotation.y}deg, ${rotation.z}deg) scale3d(${scale.x}, ${scale.y}, ${scale.z})`;
 }
 
-export function TransformInspector({
+function TransformInspectorInner({
   value,
   defaultValue,
   onChange,
@@ -465,7 +467,7 @@ export function TransformInspector({
           <span
             data-testid="transform-inspector-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -481,7 +483,7 @@ export function TransformInspector({
             'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity shrink-0 cursor-pointer disabled:cursor-not-allowed',
             disabled || isAllIdentity ? 'opacity-45' : ''
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           <span>Reset All</span>
@@ -509,7 +511,7 @@ export function TransformInspector({
                 <div className="flex items-center gap-1.5 min-w-0">
                   <span
                     className="text-xs font-semibold tracking-tight truncate"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {row.heading}
                   </span>
@@ -517,7 +519,7 @@ export function TransformInspector({
                     <span
                       data-testid="transform-position-unit"
                       className="prism-well px-1.5 py-0.5 rounded-md font-mono text-[10px] font-semibold shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {safeUnit}
                     </span>
@@ -563,7 +565,7 @@ export function TransformInspector({
                       'prism-crystal prism-focus-ring inline-flex items-center justify-center w-7 h-7 rounded-full transition-opacity shrink-0 cursor-pointer disabled:cursor-not-allowed',
                       disabled || isRowIdentity ? 'opacity-45' : ''
                     )}
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   </button>
@@ -622,7 +624,7 @@ export function TransformInspector({
                         onKeyDown={(e) => handleAxisKeyDown(e, row, axisMeta.axis)}
                         onBlur={handleAxisBlur}
                         className="prism-focus-ring w-full min-w-0 bg-transparent text-right font-mono text-xs sm:text-sm font-semibold tabular-nums rounded-md focus:outline-none disabled:cursor-not-allowed"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       />
                     </div>
                   );
@@ -646,7 +648,7 @@ export function TransformInspector({
           aria-atomic="true"
           data-testid="transform-telemetry"
           className="font-mono text-[11px] sm:text-xs font-medium tabular-nums break-all min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {telemetryText}
         </div>
@@ -666,4 +668,5 @@ export function TransformInspector({
   );
 }
 
+export const TransformInspector = memo(TransformInspectorInner);
 TransformInspector.displayName = 'TransformInspector';

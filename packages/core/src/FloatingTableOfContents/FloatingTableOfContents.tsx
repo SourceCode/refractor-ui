@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TocHeadingLevel = 1 | 2 | 3;
@@ -95,7 +97,7 @@ function getHeadingLevelMeta(level: TocHeadingLevel): HeadingLevelVisualMeta {
   }
 }
 
-export function FloatingTableOfContents({
+function FloatingTableOfContentsInner({
   headings,
   activeId,
   defaultActiveId,
@@ -319,7 +321,7 @@ export function FloatingTableOfContents({
             <ListTree
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
             <span
               data-testid="toc-title"
@@ -327,7 +329,7 @@ export function FloatingTableOfContents({
                 titleClass,
                 'text-xs font-semibold uppercase tracking-wider truncate min-w-0'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedTitle}
             </span>
@@ -340,7 +342,7 @@ export function FloatingTableOfContents({
               progressPillClass,
               'prism-well inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-mono font-medium tabular-nums shrink-0'
             )}
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             {resolvedProgressPct}%
           </span>
@@ -361,7 +363,7 @@ export function FloatingTableOfContents({
         >
           <span
             data-testid="toc-progress-fill"
-            className="block h-full rounded-full transition-all duration-300"
+            className="block h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-300"
             style={{
               width: `${resolvedProgressPct}%`,
               backgroundColor: 'var(--prism-primary-main)',
@@ -382,7 +384,7 @@ export function FloatingTableOfContents({
             emptyClass,
             'prism-well rounded-xl px-3 py-4 text-center text-xs flex flex-col items-center gap-1.5 min-w-0 max-w-full'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <FileText
             aria-hidden="true"
@@ -390,7 +392,7 @@ export function FloatingTableOfContents({
           />
           <span
             className="font-medium"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             No sections available
           </span>
@@ -405,7 +407,7 @@ export function FloatingTableOfContents({
               railClass,
               'pointer-events-none absolute top-1 bottom-1 left-2 w-[2px] rounded-full'
             )}
-            style={{ backgroundColor: 'var(--prism-divider)' }}
+            style={STYLE_BG_DIVIDER}
           />
 
           <ol
@@ -442,7 +444,7 @@ export function FloatingTableOfContents({
                     onKeyDown={(event) => handleItemKeyDown(event, item, index)}
                     className={cx(
                       itemClass,
-                      'prism-focus-ring relative flex w-full min-w-0 max-w-full items-center rounded-lg pr-2.5 py-1.5 text-left cursor-pointer transition-all duration-150',
+                      'prism-focus-ring relative flex w-full min-w-0 max-w-full items-center rounded-lg pr-2.5 py-1.5 text-left cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150',
                       levelMeta.textClass,
                       isActive && 'font-semibold'
                     )}
@@ -462,7 +464,7 @@ export function FloatingTableOfContents({
                         data-testid="toc-active-indicator"
                         className={cx(
                           indicatorClass,
-                          'pointer-events-none absolute left-[7px] top-1.5 bottom-1.5 w-[4px] rounded-full transition-all duration-200'
+                          'pointer-events-none absolute left-[7px] top-1.5 bottom-1.5 w-[4px] rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200'
                         )}
                         style={{
                           backgroundColor: 'var(--prism-primary-main)',
@@ -485,4 +487,5 @@ export function FloatingTableOfContents({
   );
 }
 
+export const FloatingTableOfContents = memo(FloatingTableOfContentsInner);
 FloatingTableOfContents.displayName = 'FloatingTableOfContents';

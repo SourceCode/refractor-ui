@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, type ReactNode } from 'react';
+import { memo, useEffect, useId, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton';
@@ -26,7 +26,7 @@ export interface ModalDialogProps extends BaseProps<HTMLDivElement> {
   onClose: () => void;
 }
 
-export function ModalDialog({
+function ModalDialogInner({
   open,
   title,
   description,
@@ -46,8 +46,9 @@ export function ModalDialog({
   const override = useComponentOverride('ModalDialog');
 
   useEffect(() => {
+    if (!open) return undefined;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && open) {
+      if (e.key === 'Escape') {
         onClose();
       }
     };
@@ -60,7 +61,7 @@ export function ModalDialog({
   const merged = mergeProps({
     themeTarget: themeProps('modal-dialog', { open }),
     baseClassName:
-      'fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-xs',
+      'fixed inset-0 z-50 flex items-center justify-center p-4 prism-backdrop-scrim',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -134,4 +135,5 @@ export function ModalDialog({
   );
 }
 
+export const ModalDialog = memo(ModalDialogInner);
 ModalDialog.displayName = 'ModalDialog';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { memo, useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -37,7 +37,7 @@ export interface SplitButtonProps extends BaseProps<HTMLDivElement> {
   disabled?: boolean;
 }
 
-export function SplitButton({
+function SplitButtonInner({
   label,
   onPrimaryClick,
   actions,
@@ -154,4 +154,5 @@ export function SplitButton({
   );
 }
 
+export const SplitButton = memo(SplitButtonInner);
 SplitButton.displayName = 'SplitButton';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface ComboDualAxisChartProps extends BaseProps<HTMLDivElement> {
@@ -105,7 +107,7 @@ function computeLineScale(values: ReadonlyArray<number>): { min: number; max: nu
   };
 }
 
-export function ComboDualAxisChart({
+function ComboDualAxisChartInner({
   labels,
   barLabel,
   barValues,
@@ -260,7 +262,7 @@ export function ComboDualAxisChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -268,7 +270,7 @@ export function ComboDualAxisChart({
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span
             className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -279,12 +281,12 @@ export function ComboDualAxisChart({
           </span>
           <span
             className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
               className="w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-primary-main)' }}
+              style={STYLE_BG_PRIMARY}
             />
             <span>{lineLabel}</span>
           </span>
@@ -296,7 +298,7 @@ export function ComboDualAxisChart({
           role="status"
           data-testid="combo-dual-axis-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No chart data to display.
         </div>
@@ -483,7 +485,7 @@ export function ComboDualAxisChart({
             readoutClass,
             'prism-well rounded-xl px-3.5 py-2 text-xs font-medium tabular-nums'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {`${activePoint.label} · ${barLabel}: ${formatNumeric(activePoint.barVal)}${barUnit} · ${lineLabel}: ${formatNumeric(activePoint.lineVal)}${lineUnit}`}
         </div>
@@ -492,4 +494,5 @@ export function ComboDualAxisChart({
   );
 }
 
+export const ComboDualAxisChart = memo(ComboDualAxisChartInner);
 ComboDualAxisChart.displayName = 'ComboDualAxisChart';

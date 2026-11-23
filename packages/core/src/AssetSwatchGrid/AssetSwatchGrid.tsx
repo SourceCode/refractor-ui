@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useState,
@@ -24,6 +25,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AssetSwatchKind = 'texture' | 'preset' | 'palette' | 'icon';
@@ -594,7 +596,7 @@ function renderOpticalSwatchSvg(item: AssetSwatchItem, rawPrefix: string): React
   );
 }
 
-export function AssetSwatchGrid({
+function AssetSwatchGridInner({
   items,
   selectedId,
   defaultSelectedId,
@@ -790,14 +792,14 @@ export function AssetSwatchGrid({
             <h3
               id={headingId}
               className="text-sm font-semibold tracking-tight truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeTitle}
             </h3>
             <span
               data-testid="asset-total-count"
               className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {filteredItems.length} / {normalizedItems.length} assets
             </span>
@@ -807,7 +809,7 @@ export function AssetSwatchGrid({
             <Search
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <input
               type="search"
@@ -818,7 +820,7 @@ export function AssetSwatchGrid({
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
               className="prism-focus-ring w-full min-w-0 bg-transparent text-xs font-medium focus:outline-none rounded"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
             {searchQuery.length > 0 ? (
               <button
@@ -826,8 +828,8 @@ export function AssetSwatchGrid({
                 aria-label="Clear search"
                 data-testid="asset-search-clear"
                 onClick={() => setSearchQuery('')}
-                className="prism-crystal prism-focus-ring w-5 h-5 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer hover:brightness-105 transition-all"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                className="prism-crystal prism-focus-ring w-5 h-5 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X aria-hidden="true" className="w-3 h-3 shrink-0" />
               </button>
@@ -852,7 +854,7 @@ export function AssetSwatchGrid({
                 data-testid={`asset-filter-${option.value}`}
                 data-active={isActive ? 'true' : undefined}
                 onClick={() => setActiveKind(option.value)}
-                className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer hover:brightness-105 transition-all shrink-0"
+                className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
                 style={
                   isActive
                     ? {
@@ -887,12 +889,12 @@ export function AssetSwatchGrid({
           <Layers
             aria-hidden="true"
             className="w-5 h-5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No assets in library
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Import textures, shader presets, palettes, or vector icons to populate the swatch grid.
           </p>
         </div>
@@ -905,20 +907,20 @@ export function AssetSwatchGrid({
           <Search
             aria-hidden="true"
             className="w-5 h-5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No matching swatches found
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Try broadening your search terms or switching back to All categories.
           </p>
           <button
             type="button"
             data-testid="asset-reset-filters"
             onClick={handleResetFilters}
-            className="prism-crystal prism-focus-ring h-8 px-3 rounded-full text-xs font-semibold cursor-pointer hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-primary-main)' }}
+            className="prism-crystal prism-focus-ring h-8 px-3 rounded-full text-xs font-semibold cursor-pointer hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_PRIMARY_MAIN}
           >
             Reset Filters
           </button>
@@ -974,7 +976,7 @@ export function AssetSwatchGrid({
                 {...mergeProps({
                   themeTarget: tileTarget,
                   baseClassName: cx(
-                    'prism-crystal prism-focus-ring rounded-2xl p-2 flex flex-col gap-2 text-left transition-all duration-150 min-w-0 cursor-pointer hover:-translate-y-0.5 focus-visible:-translate-y-0.5',
+                    'prism-crystal prism-focus-ring rounded-2xl p-2 flex flex-col gap-2 text-left transition-[color,background-color,border-color,opacity,transform] duration-150 min-w-0 cursor-pointer hover:-translate-y-0.5 focus-visible:-translate-y-0.5',
                     isDragging ? 'opacity-65 scale-[0.98]' : undefined
                   ),
                   baseStyle: isSelected
@@ -1015,14 +1017,14 @@ export function AssetSwatchGrid({
                   <span
                     data-testid={`asset-tile-name-${item.id}`}
                     className="text-xs font-semibold truncate min-w-0"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {safeName}
                   </span>
                   <span
                     data-testid={`asset-tile-meta-${item.id}`}
                     className="font-mono text-[10px] font-medium tabular-nums truncate min-w-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {item.meta ?? kindLabel}
                   </span>
@@ -1079,7 +1081,7 @@ export function AssetSwatchGrid({
                 <span
                   data-testid="asset-inspector-tone"
                   className="prism-crystal px-2 py-0.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-medium shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   <span
                     aria-hidden="true"
@@ -1092,7 +1094,7 @@ export function AssetSwatchGrid({
                   <span
                     data-testid="asset-inspector-drag-locked"
                     className="prism-crystal px-2 py-0.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium shrink-0"
-                    style={{ color: 'var(--prism-text-disabled)' }}
+                    style={STYLE_TEXT_DISABLED}
                   >
                     <Lock aria-hidden="true" className="w-3 h-3 shrink-0" />
                     <span>Drag Locked</span>
@@ -1103,7 +1105,7 @@ export function AssetSwatchGrid({
               <div
                 data-testid="asset-inspector-name"
                 className="text-sm font-semibold truncate min-w-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {getSafeAssetName(inspectedAsset.name)}
               </div>
@@ -1111,7 +1113,7 @@ export function AssetSwatchGrid({
               <div
                 data-testid="asset-inspector-meta"
                 className="font-mono text-xs tabular-nums truncate min-w-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {inspectedAsset.meta ?? 'No technical metadata'}
               </div>
@@ -1125,7 +1127,7 @@ export function AssetSwatchGrid({
                     <span
                       key={`${inspectedAsset.id}-tag-${tag}`}
                       className="prism-crystal px-2 py-0.5 rounded-full inline-flex items-center gap-1 font-mono text-[11px] font-medium shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <Tag aria-hidden="true" className="w-2.5 h-2.5 shrink-0" />
                       <span>{tag}</span>
@@ -1139,7 +1141,7 @@ export function AssetSwatchGrid({
           <p
             data-testid="asset-inspector-empty"
             className="text-xs font-medium min-w-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {normalizedItems.length === 0
               ? 'Live preview inspector ready — add assets to inspect optical swatches and metadata.'
@@ -1151,4 +1153,5 @@ export function AssetSwatchGrid({
   );
 }
 
+export const AssetSwatchGrid = memo(AssetSwatchGridInner);
 AssetSwatchGrid.displayName = 'AssetSwatchGrid';

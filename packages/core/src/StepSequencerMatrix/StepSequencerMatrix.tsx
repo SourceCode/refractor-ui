@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -12,10 +13,12 @@ import {
 } from 'react';
 import { Gauge, Play, Sliders, Square } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { isDocumentVisible } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SequencerTrackTone = 'primary' | 'amber' | 'info' | 'emerald';
@@ -310,7 +313,7 @@ function getPresetAnnouncement(preset: SequencerPresetId): string {
   }
 }
 
-export function StepSequencerMatrix({
+function StepSequencerMatrixInner({
   title = DEFAULT_TITLE,
   tracks,
   defaultTracks,
@@ -386,6 +389,7 @@ export function StepSequencerMatrix({
 
     const intervalMs = Math.round(60000 / safeBpm / 4);
     const timerId = window.setInterval(() => {
+      if (!isDocumentVisible()) return;
       const nextStep = (stepRef.current + 1) % STEP_COUNT;
       stepRef.current = nextStep;
       setCurrentStep(nextStep);
@@ -632,14 +636,14 @@ export function StepSequencerMatrix({
             <span
               aria-hidden="true"
               className="prism-crystal w-7 h-7 rounded-xl inline-flex items-center justify-center shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               <Sliders className="w-3.5 h-3.5" />
             </span>
             <h3
               data-testid="step-sequencer-title"
               className="text-sm font-semibold tracking-tight truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {accessibleTitle}
             </h3>
@@ -652,7 +656,7 @@ export function StepSequencerMatrix({
             data-testid="step-sequencer-transport"
             onClick={handleTransportToggle}
             className={cx(
-              'prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+              'prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
               isPlaying ? 'prism-btn-primary' : 'prism-crystal'
             )}
             style={isPlaying ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -691,7 +695,7 @@ export function StepSequencerMatrix({
             <Gauge
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <input
               type="range"
@@ -708,7 +712,7 @@ export function StepSequencerMatrix({
             <span
               data-testid="step-sequencer-bpm-readout"
               className="font-mono text-xs font-bold tabular-nums whitespace-nowrap min-w-[58px] text-right"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeBpm} BPM
             </span>
@@ -730,7 +734,7 @@ export function StepSequencerMatrix({
                   data-testid={`step-sequencer-preset-${preset.id}`}
                   data-active={isSelected ? 'true' : undefined}
                   onClick={() => handleLoadPreset(preset.id)}
-                  className="prism-crystal prism-focus-ring h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                  className="prism-crystal prism-focus-ring h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                   style={
                     isSelected
                       ? {
@@ -762,7 +766,7 @@ export function StepSequencerMatrix({
             <div
               role="columnheader"
               className="w-44 shrink-0 px-2.5 font-mono text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Track · Mix
             </div>
@@ -794,7 +798,7 @@ export function StepSequencerMatrix({
                     data-downbeat={col.isDownbeat ? 'true' : undefined}
                     data-playhead={isColPlayhead ? 'true' : undefined}
                     className={cx(
-                      'h-7 rounded-lg flex flex-col items-center justify-center font-mono text-[11px] tabular-nums transition-all',
+                      'h-7 rounded-lg flex flex-col items-center justify-center font-mono text-[11px] tabular-nums transition-[color,background-color,border-color,opacity,transform]',
                       col.isDownbeat || isColPlayhead ? 'font-bold' : 'font-medium'
                     )}
                     style={headerStyle}
@@ -812,7 +816,7 @@ export function StepSequencerMatrix({
               role="row"
               data-testid="step-sequencer-empty"
               className="prism-well rounded-xl px-4 py-6 text-center text-xs font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <div role="gridcell">
                 No sequencer tracks configured. Select House or Breakbeat to load a 4-track groove.
@@ -870,7 +874,7 @@ export function StepSequencerMatrix({
                       data-testid={`track-mute-${track.rowIndex}`}
                       onClick={() => handleToggleMute(track.rowIndex)}
                       className={cx(
-                        'prism-focus-ring h-6 min-w-[26px] px-1.5 rounded-md font-mono text-[11px] font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                        'prism-focus-ring h-6 min-w-[26px] px-1.5 rounded-md font-mono text-[11px] font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                         track.muted ? '' : 'prism-crystal'
                       )}
                       style={
@@ -892,8 +896,8 @@ export function StepSequencerMatrix({
                       aria-label={`Clear ${track.displayName}`}
                       data-testid={`track-clear-${track.rowIndex}`}
                       onClick={() => handleClearTrack(track.rowIndex)}
-                      className="prism-crystal prism-focus-ring h-6 px-1.5 rounded-md font-mono text-[10px] font-semibold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      className="prism-crystal prism-focus-ring h-6 px-1.5 rounded-md font-mono text-[10px] font-semibold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Clr
                     </button>
@@ -970,14 +974,14 @@ export function StepSequencerMatrix({
                             onKeyDown={(e) => handlePadKeyDown(e, track.rowIndex, col.index)}
                             className={cx(
                               padClass,
-                              'prism-focus-ring w-full h-11 rounded-xl border flex flex-col items-center justify-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                              'prism-focus-ring w-full h-11 rounded-xl border flex flex-col items-center justify-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                               active ? '' : 'prism-well'
                             )}
                             style={padStyle}
                           >
                             <span
                               aria-hidden="true"
-                              className="w-4 h-1 rounded-full transition-all"
+                              className="w-4 h-1 rounded-full transition-[color,background-color,border-color,opacity,transform]"
                               style={{ backgroundColor: ledColor }}
                             />
                           </button>
@@ -1004,14 +1008,14 @@ export function StepSequencerMatrix({
           aria-live="polite"
           data-testid="step-sequencer-status"
           className="font-medium min-w-0 truncate"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {statusMessage}
         </span>
         <span
           data-testid="step-sequencer-summary"
           className="font-mono text-[11px] tabular-nums whitespace-nowrap"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {unmutedTrackCount}/{normalizedTracks.length} tracks · {activePadCount} steps lit
         </span>
@@ -1020,4 +1024,5 @@ export function StepSequencerMatrix({
   );
 }
 
+export const StepSequencerMatrix = memo(StepSequencerMatrixInner);
 StepSequencerMatrix.displayName = 'StepSequencerMatrix';

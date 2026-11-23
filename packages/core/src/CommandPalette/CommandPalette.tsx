@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { memo, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Command } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -25,7 +25,7 @@ export interface CommandPaletteProps extends BaseProps<HTMLDivElement> {
   items: CommandPaletteItem[];
 }
 
-export function CommandPalette({
+function CommandPaletteInner({
   open,
   onClose,
   items,
@@ -52,8 +52,9 @@ export function CommandPalette({
   }, [open]);
 
   useEffect(() => {
+    if (!open) return undefined;
     const handleKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key === 'Escape' && open) {
+      if (e.key === 'Escape') {
         onClose();
       }
     };
@@ -61,19 +62,28 @@ export function CommandPalette({
     return () => window.removeEventListener('keydown', handleKey);
   }, [open, onClose]);
 
+  const visibleItems = useMemo(() => {
+    if (!open) return [];
+    const q = query.trim().toLowerCase();
+    if (!q) return items.slice(0, 18);
+    const out: CommandPaletteItem[] = [];
+    for (let i = 0; i < items.length && out.length < 18; i += 1) {
+      const item = items[i]!;
+      if (item.label.toLowerCase().includes(q) || item.group.toLowerCase().includes(q)) {
+        out.push(item);
+      }
+    }
+    return out;
+  }, [items, open, query]);
+
   if (!open) return null;
 
-  const q = query.trim().toLowerCase();
-  const filtered = items.filter(
-    (item) => item.label.toLowerCase().includes(q) || item.group.toLowerCase().includes(q)
-  );
-  const visibleItems = filtered.slice(0, 18);
   const clampedIndex = visibleItems.length > 0 ? Math.min(activeIndex, visibleItems.length - 1) : 0;
 
   const merged = mergeProps({
     themeTarget: themeProps('command-palette', { open }),
     baseClassName:
-      'fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-slate-900/35 backdrop-blur-xs',
+      'fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 prism-backdrop-scrim',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -180,4 +190,5 @@ export function CommandPalette({
   );
 }
 
+export const CommandPalette = memo(CommandPaletteInner);
 CommandPalette.displayName = 'CommandPalette';

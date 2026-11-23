@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useMemo, useState, type ReactNode } from 'react';
+import { memo, useId, useMemo, useState, type ReactNode } from 'react';
 import {
   Activity,
   AlertCircle,
@@ -16,6 +16,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TraceSpanKind = 'llm' | 'tool' | 'handoff' | 'retrieval';
@@ -103,7 +104,7 @@ function formatDuration(ms: number): string {
 }
 
 function formatTokenCount(tokens: number): string {
-  return Math.round(tokens).toLocaleString('en-US');
+  return formatUsNumber(Math.round(tokens));
 }
 
 function formatPercent(value: number): string {
@@ -154,7 +155,7 @@ function getStatusVisual(status: TraceSpanStatus): StatusVisual {
         pillClass: 'prism-crystal',
         colorToken: 'var(--prism-primary-main)',
         borderToken: 'var(--prism-primary-main)',
-        icon: <Loader2 aria-hidden="true" className="w-3 h-3 shrink-0 animate-spin" />,
+        icon: <Loader2 aria-hidden="true" className="w-3 h-3 shrink-0 animate-spin motion-reduce:animate-none" />,
       };
     case 'error':
       return {
@@ -167,7 +168,7 @@ function getStatusVisual(status: TraceSpanStatus): StatusVisual {
   }
 }
 
-export function AgentExecutionTrace({
+function AgentExecutionTraceInner({
   spans,
   title = 'Execution Waterfall Trace',
   onSelectSpan,
@@ -254,7 +255,7 @@ export function AgentExecutionTrace({
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
       <div
         className={cx(headerClass, 'px-4 pt-4 pb-3 space-y-3 border-b')}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center justify-between gap-2.5">
           <div className="min-w-0 flex items-center gap-2.5">
@@ -269,7 +270,7 @@ export function AgentExecutionTrace({
             <h3
               id={headingId}
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h3>
@@ -279,21 +280,21 @@ export function AgentExecutionTrace({
             <span
               data-testid="agent-trace-total-duration"
               className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {formatDuration(rawEndMs)}
             </span>
             <span
               data-testid="agent-trace-total-tokens"
               className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {formatTokenCount(totalTokens)} tokens
             </span>
             <span
               data-testid="agent-trace-span-count"
               className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {spanCountLabel}
             </span>
@@ -316,7 +317,7 @@ export function AgentExecutionTrace({
                 data-filter-kind={option.value}
                 onClick={() => setActiveFilter(option.value)}
                 className={cx(
-                  'prism-focus-ring h-7 px-3 rounded-full text-[11px] font-semibold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                  'prism-focus-ring h-7 px-3 rounded-full text-[11px] font-semibold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                   isPressed ? 'prism-btn-primary' : 'prism-well'
                 )}
                 style={isPressed ? undefined : { color: 'var(--prism-text-secondary)' }}
@@ -334,7 +335,7 @@ export function AgentExecutionTrace({
             data-testid="agent-trace-empty"
             className="prism-well rounded-2xl py-6 px-4 text-center space-y-2.5"
           >
-            <p className="text-xs font-medium" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs font-medium" style={STYLE_TEXT_SECONDARY}>
               {normalizedSpans.length === 0
                 ? 'No execution spans recorded yet.'
                 : 'No trace spans match the active kind filter.'}
@@ -343,7 +344,7 @@ export function AgentExecutionTrace({
               <button
                 type="button"
                 onClick={() => setActiveFilter('all')}
-                className="prism-btn-secondary prism-focus-ring h-7 px-3 rounded-full text-[11px] font-semibold inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                className="prism-btn-secondary prism-focus-ring h-7 px-3 rounded-full text-[11px] font-semibold inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
               >
                 Show all spans
               </button>
@@ -373,7 +374,7 @@ export function AgentExecutionTrace({
                     data-span-status={span.status}
                     data-selected={isSelected ? 'true' : undefined}
                     onClick={() => handleSelectSpan(span)}
-                    className="prism-crystal prism-focus-ring w-full rounded-2xl px-3 py-2.5 text-left space-y-2 border cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                    className="prism-crystal prism-focus-ring w-full rounded-2xl px-3 py-2.5 text-left space-y-2 border cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                     style={
                       isSelected
                         ? {
@@ -389,13 +390,13 @@ export function AgentExecutionTrace({
                       <div className="min-w-0 flex flex-wrap items-center gap-2">
                         <span
                           className="text-xs font-semibold truncate"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {span.agentName}
                         </span>
                         <span
                           className="text-xs truncate"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {span.label}
                         </span>
@@ -445,8 +446,8 @@ export function AgentExecutionTrace({
                         <div
                           data-testid={`agent-trace-bar-${span.id}`}
                           className={cx(
-                            'absolute top-0.5 bottom-0.5 rounded-full transition-all duration-200',
-                            span.status === 'running' && 'animate-pulse'
+                            'absolute top-0.5 bottom-0.5 rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200',
+                            span.status === 'running' && 'animate-pulse motion-reduce:animate-none'
                           )}
                           style={{
                             left: formatPercent(offsetPct),
@@ -460,7 +461,7 @@ export function AgentExecutionTrace({
                       <span
                         data-testid={`agent-trace-duration-${span.id}`}
                         className="font-mono text-[11px] font-medium tabular-nums w-14 text-right shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {formatDuration(safeDurationMs)}
                       </span>
@@ -478,28 +479,28 @@ export function AgentExecutionTrace({
             aria-label="Selected trace span details"
             data-testid="agent-trace-detail"
             className={cx(drawerClass, 'prism-well rounded-2xl p-3.5 space-y-2.5 border')}
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <div className="min-w-0 flex flex-wrap items-baseline gap-2">
                 <span
                   data-testid="agent-trace-detail-agent"
                   className="text-xs font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {selectedItem.span.agentName}
                 </span>
                 <span
                   data-testid="agent-trace-detail-label"
                   className="text-xs"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {selectedItem.span.label}
                 </span>
               </div>
               <span
                 className="font-mono text-[10px] uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Span ID: {selectedItem.span.id}
               </span>
@@ -508,18 +509,18 @@ export function AgentExecutionTrace({
             <dl className="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-xs tabular-nums">
               <div
                 className="prism-crystal rounded-xl px-2.5 py-1.5 border"
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 <dt
                   className="text-[10px] uppercase tracking-wide"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Start Offset
                 </dt>
                 <dd
                   data-testid="agent-trace-detail-start"
                   className="font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {formatDuration(selectedItem.safeStartMs)}
                 </dd>
@@ -527,18 +528,18 @@ export function AgentExecutionTrace({
 
               <div
                 className="prism-crystal rounded-xl px-2.5 py-1.5 border"
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 <dt
                   className="text-[10px] uppercase tracking-wide"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Duration
                 </dt>
                 <dd
                   data-testid="agent-trace-detail-duration"
                   className="font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {formatDuration(selectedItem.safeDurationMs)}
                 </dd>
@@ -546,18 +547,18 @@ export function AgentExecutionTrace({
 
               <div
                 className="prism-crystal rounded-xl px-2.5 py-1.5 border"
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 <dt
                   className="text-[10px] uppercase tracking-wide"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Tokens
                 </dt>
                 <dd
                   data-testid="agent-trace-detail-tokens"
                   className="font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {selectedItem.span.tokens !== undefined
                     ? formatTokenCount(selectedItem.safeTokens)
@@ -585,4 +586,5 @@ export function AgentExecutionTrace({
   );
 }
 
+export const AgentExecutionTrace = memo(AgentExecutionTraceInner);
 AgentExecutionTrace.displayName = 'AgentExecutionTrace';

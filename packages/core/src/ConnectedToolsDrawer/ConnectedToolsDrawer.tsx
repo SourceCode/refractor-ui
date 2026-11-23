@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useId, useMemo } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo } from 'react';
 import { Plug, Server, Wrench, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ToolHealthStatus = 'connected' | 'degraded' | 'disconnected';
@@ -121,7 +122,7 @@ function getScopeVisualMeta(scope: ToolPermissionScope): ScopeVisualMeta {
   }
 }
 
-export function ConnectedToolsDrawer({
+function ConnectedToolsDrawerInner({
   servers,
   defaultServers = EMPTY_SERVERS,
   onToggleServer,
@@ -219,7 +220,7 @@ export function ConnectedToolsDrawer({
     }),
     baseClassName:
       mode === 'drawer'
-        ? 'fixed inset-0 z-50 bg-slate-900/35 backdrop-blur-xs flex justify-end'
+        ? 'fixed inset-0 z-50 prism-backdrop-scrim flex justify-end'
         : 'prism-slab w-full flex flex-col overflow-hidden',
     overrideClassName: override?.className,
     userClassName: className,
@@ -232,12 +233,12 @@ export function ConnectedToolsDrawer({
     <>
       <div
         className="px-5 py-4 flex items-center justify-between gap-3 border-b"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-9 h-9 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Plug className="w-4 h-4 shrink-0" aria-hidden="true" />
           </span>
@@ -245,14 +246,14 @@ export function ConnectedToolsDrawer({
             <h2
               id={titleId}
               className="text-base font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h2>
             <p
               data-testid="connected-tools-summary"
               className="text-xs font-medium tabular-nums truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {enabledCount} active · {totalTools} tools
             </p>
@@ -265,7 +266,7 @@ export function ConnectedToolsDrawer({
             aria-label="Close connected tools drawer"
             onClick={() => setIsOpen(false)}
             className="prism-focus-ring rounded-lg p-1.5 cursor-pointer disabled:cursor-not-allowed enabled:hover:opacity-100 opacity-75 transition-opacity shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -281,15 +282,15 @@ export function ConnectedToolsDrawer({
             <Server
               className="w-7 h-7 opacity-60"
               aria-hidden="true"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <p
               className="text-sm font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               No connected tool servers
             </p>
-            <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
               Connect an MCP server or tool integration to expose capabilities here.
             </p>
           </div>
@@ -310,7 +311,7 @@ export function ConnectedToolsDrawer({
                       <div className="flex flex-wrap items-center gap-2">
                         <p
                           className="text-sm font-semibold leading-snug break-words"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {server.name}
                         </p>
@@ -336,7 +337,7 @@ export function ConnectedToolsDrawer({
                       {server.description ? (
                         <p
                           className="text-xs leading-relaxed break-words"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {server.description}
                         </p>
@@ -349,7 +350,7 @@ export function ConnectedToolsDrawer({
                       aria-checked={server.enabled}
                       aria-label={`Toggle ${server.name}`}
                       onClick={() => handleToggleServer(server.id, !server.enabled)}
-                      className={`prism-focus-ring relative w-12 h-7 rounded-full p-1 inline-flex items-center transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 shrink-0 ${
+                      className={`prism-focus-ring relative w-12 h-7 rounded-full p-1 inline-flex items-center transition-[color,background-color,border-color,opacity,transform] duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 shrink-0 ${
                         server.enabled ? 'prism-emerald' : 'prism-crystal'
                       }`}
                     >
@@ -364,12 +365,12 @@ export function ConnectedToolsDrawer({
 
                   <div
                     className="pt-2 border-t flex flex-wrap items-center justify-between gap-2"
-                    style={{ borderColor: 'var(--prism-divider)' }}
+                    style={STYLE_BORDER_DIVIDER}
                   >
                     <span
                       data-testid={`server-tool-count-${server.id}`}
                       className="prism-well rounded-full px-2.5 py-0.5 inline-flex items-center gap-1 text-[11px] font-medium tabular-nums"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <Wrench className="w-3 h-3 shrink-0" aria-hidden="true" />
                       <span>{server.toolCount} tools</span>
@@ -443,4 +444,5 @@ export function ConnectedToolsDrawer({
   );
 }
 
+export const ConnectedToolsDrawer = memo(ConnectedToolsDrawerInner);
 ConnectedToolsDrawer.displayName = 'ConnectedToolsDrawer';

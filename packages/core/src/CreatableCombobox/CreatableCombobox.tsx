@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +17,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface CreatableOption {
@@ -91,7 +93,7 @@ function createUniqueSlug(
   return `${base}-${suffix}`;
 }
 
-export function CreatableCombobox({
+function CreatableComboboxInner({
   options,
   defaultOptions,
   value,
@@ -326,7 +328,7 @@ export function CreatableCombobox({
           id={labelId}
           htmlFor={inputId}
           className="block text-xs font-semibold mb-1.5 ml-1"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {label}
         </label>
@@ -376,7 +378,7 @@ export function CreatableCombobox({
               setActiveIndex(0);
             }}
             onKeyDown={handleInputKeyDown}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
             className="flex-1 min-w-0 bg-transparent text-sm focus:outline-none disabled:cursor-not-allowed"
           />
 
@@ -393,7 +395,7 @@ export function CreatableCombobox({
                 inputRef.current?.focus();
               }
             }}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
             className="prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center enabled:hover:bg-white/60 dark:enabled:hover:bg-white/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0 transition-colors"
           >
             <ChevronDown
@@ -423,7 +425,7 @@ export function CreatableCombobox({
               role="status"
               data-testid="creatable-combobox-empty"
               className="px-3.5 py-5 text-center text-xs font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               No matching options
             </div>
@@ -444,7 +446,7 @@ export function CreatableCombobox({
                       onMouseEnter={() => setActiveIndex(idx)}
                       onMouseDown={(event) => event.preventDefault()}
                       onClick={() => createOption(candidate.label)}
-                      style={{ color: 'var(--prism-primary-main)' }}
+                      style={STYLE_PRIMARY_MAIN}
                       className={cx(
                         createClass,
                         'prism-focus-ring w-full px-3 py-2.5 rounded-2xl flex items-center justify-between gap-2 text-left text-sm font-medium transition-colors cursor-pointer enabled:hover:bg-white/65 dark:enabled:hover:bg-white/10',
@@ -460,7 +462,7 @@ export function CreatableCombobox({
                       <span
                         aria-hidden="true"
                         className="text-[11px] font-mono shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         ↵
                       </span>
@@ -482,7 +484,7 @@ export function CreatableCombobox({
                     onMouseEnter={() => setActiveIndex(idx)}
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => selectOption(opt)}
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                     className={cx(
                       optionClass,
                       'prism-focus-ring w-full px-3 py-2.5 rounded-2xl flex items-center justify-between gap-3 text-left transition-colors cursor-pointer enabled:hover:bg-white/65 dark:enabled:hover:bg-white/10',
@@ -494,7 +496,7 @@ export function CreatableCombobox({
                       {opt.group ? (
                         <span
                           className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-medium shrink-0"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {opt.group}
                         </span>
@@ -520,4 +522,5 @@ export function CreatableCombobox({
   );
 }
 
+export const CreatableCombobox = memo(CreatableComboboxInner);
 CreatableCombobox.displayName = 'CreatableCombobox';

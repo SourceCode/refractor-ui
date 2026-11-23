@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -23,6 +24,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowSwitcherMode = 'inline' | 'overlay';
@@ -173,7 +175,7 @@ function getDisplayWorkspace(item: SwitcherWindowItem): string | null {
   return trimmed ? trimmed : null;
 }
 
-export function WindowSwitcherOverlay({
+function WindowSwitcherOverlayInner({
   windows,
   defaultWindows,
   mode = 'inline',
@@ -531,7 +533,7 @@ export function WindowSwitcherOverlay({
           <span
             aria-hidden="true"
             className="prism-crystal w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Layers className="w-4 h-4" />
           </span>
@@ -539,14 +541,14 @@ export function WindowSwitcherOverlay({
           <div className="flex flex-wrap items-center gap-2 min-w-0">
             <h2
               className="text-sm font-semibold tracking-[-0.01em] truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Window Switcher
             </h2>
             <span
               data-testid="window-switcher-count"
               className="prism-well inline-flex items-center px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {currentWindows.length} active
             </span>
@@ -556,7 +558,7 @@ export function WindowSwitcherOverlay({
         <div className="flex flex-wrap items-center gap-2 shrink-0">
           <span
             className="inline-flex items-center gap-1 text-[11px] font-mono shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <kbd
               className="prism-crystal inline-flex items-center justify-center h-5 px-1.5 rounded-md text-[10px] font-semibold leading-none border-b"
@@ -587,7 +589,7 @@ export function WindowSwitcherOverlay({
               data-testid="window-switcher-dismiss"
               onClick={() => handleDismiss('button')}
               className="prism-crystal prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -609,19 +611,19 @@ export function WindowSwitcherOverlay({
           <span
             aria-hidden="true"
             className="prism-crystal w-10 h-10 rounded-2xl inline-flex items-center justify-center"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <AppWindow className="w-5 h-5" />
           </span>
           <p
             className="text-sm font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             No active windows
           </p>
           <p
             className="text-xs max-w-sm break-words"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             All open windows have been closed. Launch a workspace app to switch
             between active views.
@@ -673,7 +675,7 @@ export function WindowSwitcherOverlay({
                   onClick={() => commitFocusWindow(win, index)}
                   className={cx(
                     cardClass,
-                    'relative w-52 sm:w-56 shrink-0 rounded-2xl p-2.5 flex flex-col gap-2.5 select-none transition-all duration-150',
+                    'relative w-52 sm:w-56 shrink-0 rounded-2xl p-2.5 flex flex-col gap-2.5 select-none transition-[color,background-color,border-color,opacity,transform] duration-150',
                     isHighlighted ? 'prism-crystal' : 'prism-well',
                     disabled
                       ? 'opacity-55 cursor-not-allowed'
@@ -715,19 +717,15 @@ export function WindowSwitcherOverlay({
                       <span className="inline-flex items-center gap-1 shrink-0">
                         <span
                           className="w-1.5 h-1.5 rounded-full"
-                          style={{ backgroundColor: 'var(--prism-error-main)' }}
+                          style={STYLE_BG_ERROR}
                         />
                         <span
                           className="w-1.5 h-1.5 rounded-full"
-                          style={{
-                            backgroundColor: 'var(--prism-warning-main)',
-                          }}
+                          style={STYLE_BG_WARNING}
                         />
                         <span
                           className="w-1.5 h-1.5 rounded-full"
-                          style={{
-                            backgroundColor: 'var(--prism-success-main)',
-                          }}
+                          style={STYLE_BG_SUCCESS}
                         />
                       </span>
                       <span
@@ -799,14 +797,14 @@ export function WindowSwitcherOverlay({
                         />
                         <span
                           className="text-[11px] font-semibold uppercase tracking-wide truncate"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {displayAppName}
                         </span>
                       </div>
                       <span
                         className="text-xs sm:text-sm font-semibold tracking-[-0.01em] truncate"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {displayTitle}
                       </span>
@@ -822,26 +820,26 @@ export function WindowSwitcherOverlay({
                         closeWindowAt(win, index);
                       }}
                       className="prism-crystal prism-focus-ring w-6 h-6 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <X aria-hidden="true" className="w-3 h-3" />
                     </button>
                   </div>
 
                   {/* Card Footer: Workspace Pill & Active Indicator */}
-                  <div className="flex flex-wrap items-center justify-between gap-1.5 pt-1 border-t min-w-0" style={{ borderColor: 'var(--prism-divider)' }}>
+                  <div className="flex flex-wrap items-center justify-between gap-1.5 pt-1 border-t min-w-0" style={STYLE_BORDER_DIVIDER}>
                     {displayWorkspace ? (
                       <span
                         data-part="workspace-pill"
                         className="prism-well inline-flex items-center px-2 py-0.5 rounded-full font-mono text-[10px] font-medium truncate max-w-[130px]"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {displayWorkspace}
                       </span>
                     ) : (
                       <span
                         className="font-mono text-[10px] tabular-nums"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         #{index + 1}
                       </span>
@@ -874,7 +872,7 @@ export function WindowSwitcherOverlay({
           footerClass,
           'pt-3 border-t flex flex-col gap-2.5 min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center justify-between gap-2.5 min-w-0">
           {/* Active Highlighted Window Readout */}
@@ -882,7 +880,7 @@ export function WindowSwitcherOverlay({
             <span
               data-testid="window-switcher-active-title"
               className="text-xs sm:text-sm font-semibold truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {highlightedWindow
                 ? `${highlightedAppName} — ${highlightedTitle}`
@@ -891,7 +889,7 @@ export function WindowSwitcherOverlay({
             {highlightedWindow ? (
               <span
                 className="prism-well inline-flex items-center px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold tabular-nums shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {highlightedIndex + 1} / {currentWindows.length}
               </span>
@@ -996,7 +994,7 @@ export function WindowSwitcherOverlay({
             panelClass,
             'prism-slab prism-focus-ring relative w-full max-w-4xl min-w-0 p-4 sm:p-5 flex flex-col gap-4 overflow-hidden'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {switcherContent}
         </div>
@@ -1020,4 +1018,5 @@ export function WindowSwitcherOverlay({
   );
 }
 
+export const WindowSwitcherOverlay = memo(WindowSwitcherOverlayInner);
 WindowSwitcherOverlay.displayName = 'WindowSwitcherOverlay';

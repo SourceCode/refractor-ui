@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -24,6 +25,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface FloatingPaletteSection {
@@ -138,7 +140,7 @@ function normalizeSections(
   });
 }
 
-export function FloatingInspectorPalette({
+function FloatingInspectorPaletteInner({
   title = DEFAULT_TITLE,
   parentWorkspaceName = DEFAULT_PARENT_WORKSPACE,
   parentFocused,
@@ -443,7 +445,7 @@ export function FloatingInspectorPalette({
             <span
               data-testid="palette-workspace-name"
               className="text-xs font-medium truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedWorkspaceName}
             </span>
@@ -527,7 +529,7 @@ export function FloatingInspectorPalette({
         >
           <span
             className="text-xs font-medium min-w-0 truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {resolvedTitle} closed
           </span>
@@ -538,7 +540,7 @@ export function FloatingInspectorPalette({
             onClick={handleReopen}
             onKeyDown={(event) => handleControlKeyDown(event, handleReopen)}
             className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
             <span>Reopen Palette</span>
@@ -573,7 +575,7 @@ export function FloatingInspectorPalette({
               aria-live="polite"
               aria-atomic="true"
               className="text-xs font-medium min-w-0 break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {autoHiddenMessage}
             </p>
@@ -588,7 +590,7 @@ export function FloatingInspectorPalette({
               handleControlKeyDown(event, handleToggleAutoHide)
             }
             className="prism-well prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold cursor-pointer disabled:cursor-not-allowed shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Pin aria-hidden="true" className="w-3 h-3 shrink-0" />
             <span>Disable Auto-Hide</span>
@@ -604,7 +606,7 @@ export function FloatingInspectorPalette({
           data-tether-state={isParentFocused ? 'linked' : 'unfocused-pinned'}
           className={cx(
             paletteClass,
-            'prism-crystal relative rounded-2xl overflow-hidden w-full max-w-full sm:max-w-md min-w-0 border transition-all duration-200'
+            'prism-crystal relative rounded-2xl overflow-hidden w-full max-w-full sm:max-w-md min-w-0 border transition-[color,background-color,border-color,opacity,transform] duration-200'
           )}
           style={{
             ...paletteSurfaceStyle,
@@ -621,7 +623,7 @@ export function FloatingInspectorPalette({
               'px-3 py-2 flex flex-wrap items-center justify-between gap-2 min-w-0 max-w-full',
               !isCollapsed ? 'border-b' : ''
             )}
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <div className="flex items-center gap-2 min-w-0 flex-1">
               <span
@@ -639,12 +641,12 @@ export function FloatingInspectorPalette({
               <SlidersHorizontal
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               />
               <h3
                 id={paletteTitleId}
                 className="text-xs font-semibold tracking-[-0.01em] truncate min-w-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {resolvedTitle}
               </h3>
@@ -705,7 +707,7 @@ export function FloatingInspectorPalette({
                   handleControlKeyDown(event, handleToggleCollapse)
                 }
                 className="prism-well prism-focus-ring w-6 h-6 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed shrink-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {isCollapsed ? (
                   <ChevronDown aria-hidden="true" className="w-3.5 h-3.5" />
@@ -722,7 +724,7 @@ export function FloatingInspectorPalette({
                 onClick={handleClose}
                 onKeyDown={(event) => handleControlKeyDown(event, handleClose)}
                 className="prism-well prism-focus-ring w-6 h-6 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed shrink-0"
-                style={{ color: 'var(--prism-error-main)' }}
+                style={STYLE_ERROR_MAIN}
               >
                 <X aria-hidden="true" className="w-3.5 h-3.5" />
               </button>
@@ -816,7 +818,7 @@ export function FloatingInspectorPalette({
                   <p
                     data-testid="palette-sections-empty"
                     className="sm:col-span-2 text-xs py-1.5 px-2 rounded-xl prism-well"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     No inspector tools configured.
                   </p>
@@ -834,7 +836,7 @@ export function FloatingInspectorPalette({
                   <label
                     htmlFor={brushSizeId}
                     className="text-xs font-semibold tracking-tight"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Brush Size
                   </label>
@@ -843,14 +845,14 @@ export function FloatingInspectorPalette({
                     <span
                       data-testid="palette-brush-size-readout"
                       className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {brushSizePx}px
                     </span>
                     <span
                       data-testid="palette-opacity-readout"
                       className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Opacity {opacityPct}%
                     </span>
@@ -861,7 +863,7 @@ export function FloatingInspectorPalette({
                   <div className="prism-crystal w-full h-2 rounded-full overflow-hidden p-0.5">
                     <div
                       data-testid="palette-brush-size-fill"
-                      className="h-full rounded-full transition-all duration-75"
+                      className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                       style={{
                         width: `${brushFillPct}%`,
                         backgroundColor: 'var(--prism-primary-main)',
@@ -908,4 +910,5 @@ export function FloatingInspectorPalette({
   );
 }
 
+export const FloatingInspectorPalette = memo(FloatingInspectorPaletteInner);
 FloatingInspectorPalette.displayName = 'FloatingInspectorPalette';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +16,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type PropertyGridDensity = 'compact' | 'comfortable';
@@ -116,7 +118,7 @@ const DEFAULT_ENTRIES: ReadonlyArray<PropertyGridEntry> = [
   },
 ];
 
-export function PropertyGrid({
+function PropertyGridInner({
   entries,
   columns = 1,
   density = 'comfortable',
@@ -295,21 +297,21 @@ export function PropertyGrid({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <SlidersHorizontal aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="m-0 text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
           <span
             data-testid="property-grid-count"
             className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {countLabel}
           </span>
@@ -325,7 +327,7 @@ export function PropertyGrid({
             <Search
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <input
               id={searchId}
@@ -337,7 +339,7 @@ export function PropertyGrid({
               aria-label={`Filter ${safeTitle} properties`}
               data-testid="property-grid-search-input"
               className="bg-transparent border-0 outline-none text-xs w-full min-w-0 prism-focus-ring rounded-full"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
             {searchQuery.length > 0 ? (
               <button
@@ -346,7 +348,7 @@ export function PropertyGrid({
                 data-testid="property-grid-clear-search"
                 onClick={() => setSearchQuery('')}
                 className="prism-focus-ring rounded-full p-0.5 inline-flex items-center justify-center shrink-0 cursor-pointer transition-opacity hover:opacity-80"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </button>
@@ -362,10 +364,10 @@ export function PropertyGrid({
           aria-live="polite"
           data-testid="property-grid-empty"
           className="prism-well rounded-2xl px-4 py-6 flex flex-col items-center justify-center text-center gap-1.5 min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <Inbox aria-hidden="true" className="w-5 h-5 shrink-0 opacity-75" />
-          <p className="m-0 text-xs font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="m-0 text-xs font-semibold" style={STYLE_TEXT_PRIMARY}>
             No properties available
           </p>
           <p className="m-0 text-xs">
@@ -378,10 +380,10 @@ export function PropertyGrid({
           aria-live="polite"
           data-testid="property-grid-no-matches"
           className="prism-well rounded-2xl px-4 py-6 flex flex-col items-center justify-center text-center gap-2 min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <Search aria-hidden="true" className="w-5 h-5 shrink-0 opacity-75" />
-          <p className="m-0 text-xs font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="m-0 text-xs font-semibold" style={STYLE_TEXT_PRIMARY}>
             No matching properties
           </p>
           <p className="m-0 text-xs">No fields matched &ldquo;{searchQuery.trim()}&rdquo;.</p>
@@ -389,8 +391,8 @@ export function PropertyGrid({
             type="button"
             data-testid="property-grid-reset-filter"
             onClick={() => setSearchQuery('')}
-            className="prism-crystal prism-focus-ring mt-1 h-7 px-3 rounded-full text-xs font-medium cursor-pointer transition-all hover:brightness-105"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring mt-1 h-7 px-3 rounded-full text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] hover:brightness-105"
+            style={STYLE_TEXT_PRIMARY}
           >
             Clear filter
           </button>
@@ -442,7 +444,7 @@ export function PropertyGrid({
                   >
                     <span
                       className="text-xs font-medium leading-snug break-words"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {entry.label}
                     </span>
@@ -450,7 +452,7 @@ export function PropertyGrid({
                       <span
                         data-testid={`property-grid-hint-${entry.key}`}
                         className="text-[11px] leading-snug break-words opacity-80"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {entry.hint}
                       </span>
@@ -470,7 +472,7 @@ export function PropertyGrid({
                         'min-w-0 max-w-full flex-1 break-words text-xs sm:text-sm leading-relaxed',
                         entry.original.monospace ? 'font-mono tabular-nums' : 'font-medium'
                       )}
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {entry.original.value}
                     </div>
@@ -484,7 +486,7 @@ export function PropertyGrid({
                         onClick={() => handleCopyEntry(entry, copyText)}
                         onKeyDown={handleCopyKeyDown(entry, copyText)}
                         className={cx(
-                          'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1 text-[11px] font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer hover:brightness-105',
+                          'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1 text-[11px] font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer hover:brightness-105',
                           isCopied ? 'prism-emerald font-semibold' : 'prism-crystal'
                         )}
                         style={isCopied ? undefined : { color: 'var(--prism-text-secondary)' }}
@@ -523,4 +525,5 @@ export function PropertyGrid({
   );
 }
 
+export const PropertyGrid = memo(PropertyGridInner);
 PropertyGrid.displayName = 'PropertyGrid';

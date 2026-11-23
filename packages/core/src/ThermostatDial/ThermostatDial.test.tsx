@@ -418,7 +418,7 @@ describe('ThermostatDial', () => {
       clientY: 120,
       pointerId: 5,
     });
-    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
+    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function), { passive: true });
     unmount();
     expect(removeSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
     expect(removeSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));

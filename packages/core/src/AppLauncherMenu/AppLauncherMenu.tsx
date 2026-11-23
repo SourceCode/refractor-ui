@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useMemo,
   useState,
@@ -33,6 +34,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AppLauncherCategory =
@@ -357,7 +359,7 @@ function getUserInitials(name: string): string {
   return `${trimmed.charAt(0)}${afterSpace.charAt(0)}`.toUpperCase();
 }
 
-export function AppLauncherMenu({
+function AppLauncherMenuInner({
   userName = DEFAULT_USER_NAME,
   userRole = DEFAULT_USER_ROLE,
   apps,
@@ -635,7 +637,7 @@ export function AppLauncherMenu({
           <Search
             aria-hidden="true"
             className="w-4 h-4 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <input
             type="search"
@@ -656,7 +658,7 @@ export function AppLauncherMenu({
               searchInputClass,
               'prism-focus-ring flex-1 min-w-0 rounded-md bg-transparent text-sm outline-none disabled:cursor-not-allowed'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
           {searchQuery.length > 0 ? (
             <button
@@ -665,7 +667,7 @@ export function AppLauncherMenu({
               disabled={disabled}
               onClick={disabled ? undefined : handleClearSearch}
               className="prism-crystal prism-focus-ring w-6 h-6 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -702,7 +704,7 @@ export function AppLauncherMenu({
                 }
                 className={cx(
                   categoryPillClass,
-                  'prism-focus-ring rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                  'prism-focus-ring rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                   isSelected
                     ? 'prism-btn-primary'
                     : 'prism-crystal enabled:hover:brightness-105'
@@ -751,14 +753,14 @@ export function AppLauncherMenu({
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
           <h3
             className="text-xs font-semibold uppercase tracking-[0.06em]"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activeCategorySpec.heading}
           </h3>
           <span
             data-testid="app-launcher-visible-count"
             className="text-[11px] font-mono tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {visibleApps.length} {visibleApps.length === 1 ? 'app' : 'apps'}
           </span>
@@ -782,19 +784,19 @@ export function AppLauncherMenu({
             <span
               aria-hidden="true"
               className="prism-crystal w-10 h-10 rounded-2xl inline-flex items-center justify-center"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <LayoutGrid className="w-5 h-5" />
             </span>
             <p
               className="text-sm font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               No matching applications
             </p>
             <p
               className="text-xs max-w-sm break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {isSearching
                 ? `No applications match "${searchQuery.trim()}" in ${activeCategorySpec.label}.`
@@ -808,7 +810,7 @@ export function AppLauncherMenu({
                 disabled={disabled}
                 onClick={disabled ? undefined : handleClearSearch}
                 className="prism-crystal prism-focus-ring mt-1 rounded-full px-3 py-1 text-xs font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               >
                 Reset search
               </button>
@@ -820,7 +822,7 @@ export function AppLauncherMenu({
                   disabled ? undefined : () => handleCategorySelect('all')
                 }
                 className="prism-crystal prism-focus-ring mt-1 rounded-full px-3 py-1 text-xs font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               >
                 Browse All Apps
               </button>
@@ -960,13 +962,13 @@ export function AppLauncherMenu({
                     <span className="flex flex-col min-w-0 w-full">
                       <span
                         className="text-xs font-semibold truncate w-full"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {displayName}
                       </span>
                       <span
                         className="text-[10px] capitalize truncate w-full"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {app.category}
                       </span>
@@ -987,19 +989,19 @@ export function AppLauncherMenu({
           recentSectionClass,
           'pt-3 border-t flex flex-col gap-2 min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
           <h3
             className="text-xs font-semibold uppercase tracking-[0.06em]"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Recent Documents
           </h3>
           <span
             data-testid="app-launcher-recent-count"
             className="text-[11px] font-mono tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {visibleRecentDocs.length}{' '}
             {visibleRecentDocs.length === 1 ? 'file' : 'files'}
@@ -1065,11 +1067,11 @@ export function AppLauncherMenu({
                       <FileText
                         aria-hidden="true"
                         className="w-4 h-4 shrink-0"
-                        style={{ color: 'var(--prism-info-main)' }}
+                        style={STYLE_INFO_MAIN}
                       />
                       <span
                         className="text-xs font-medium truncate"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {title}
                       </span>
@@ -1078,13 +1080,13 @@ export function AppLauncherMenu({
                     <span className="inline-flex items-center gap-1.5 shrink-0 max-w-full">
                       <span
                         className="prism-crystal rounded-full px-2 py-0.5 text-[10px] font-medium truncate max-w-[8rem]"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {sourceApp}
                       </span>
                       <span
                         className="inline-flex items-center gap-1 text-[10px] font-mono tabular-nums whitespace-nowrap"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         <Clock aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>{openedAt}</span>
@@ -1105,7 +1107,7 @@ export function AppLauncherMenu({
           footerClass,
           'pt-3 border-t flex flex-col gap-2.5 min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center justify-between gap-3 min-w-0 max-w-full">
           <div
@@ -1130,14 +1132,14 @@ export function AppLauncherMenu({
               <span
                 data-testid="app-launcher-user-name"
                 className="text-xs font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {displayUserName}
               </span>
               <span
                 data-testid="app-launcher-user-role"
                 className="text-[11px] truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {displayUserRole}
               </span>
@@ -1223,4 +1225,5 @@ export function AppLauncherMenu({
   );
 }
 
+export const AppLauncherMenu = memo(AppLauncherMenuInner);
 AppLauncherMenu.displayName = 'AppLauncherMenu';

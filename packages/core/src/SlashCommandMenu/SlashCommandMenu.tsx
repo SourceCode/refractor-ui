@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -31,6 +32,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { splitLiteralHighlight } from '../utils/sanitize';
+import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SlashCommandGroup = 'blocks' | 'media' | 'data' | 'ai';
@@ -297,7 +299,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
         <Heading2
           className={iconClass}
           aria-hidden="true"
-          style={{ color: 'var(--prism-primary-main)' }}
+          style={STYLE_PRIMARY_MAIN}
         />
       );
     case 'callout-admonition':
@@ -305,7 +307,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
         <MessageSquareQuote
           className={iconClass}
           aria-hidden="true"
-          style={{ color: 'var(--prism-warning-main)' }}
+          style={STYLE_WARNING_MAIN}
         />
       );
     case 'checklist':
@@ -313,7 +315,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
         <CheckSquare
           className={iconClass}
           aria-hidden="true"
-          style={{ color: 'var(--prism-success-main)' }}
+          style={STYLE_SUCCESS_MAIN}
         />
       );
     case 'code-block':
@@ -321,7 +323,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
         <Code2
           className={iconClass}
           aria-hidden="true"
-          style={{ color: 'var(--prism-info-main)' }}
+          style={STYLE_INFO_MAIN}
         />
       );
     case 'optical-divider':
@@ -329,7 +331,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
         <Minus
           className={iconClass}
           aria-hidden="true"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         />
       );
     case 'embed-link':
@@ -337,7 +339,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
         <Link2
           className={iconClass}
           aria-hidden="true"
-          style={{ color: 'var(--prism-secondary-dark)' }}
+          style={STYLE_SECONDARY_DARK}
         />
       );
     case 'data-table':
@@ -345,7 +347,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
         <Table2
           className={iconClass}
           aria-hidden="true"
-          style={{ color: 'var(--prism-info-main)' }}
+          style={STYLE_INFO_MAIN}
         />
       );
     case 'ai-summary':
@@ -353,7 +355,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
         <Sparkles
           className={iconClass}
           aria-hidden="true"
-          style={{ color: 'var(--prism-primary-main)' }}
+          style={STYLE_PRIMARY_MAIN}
         />
       );
     default:
@@ -363,7 +365,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
             <Link2
               className={iconClass}
               aria-hidden="true"
-              style={{ color: 'var(--prism-secondary-dark)' }}
+              style={STYLE_SECONDARY_DARK}
             />
           );
         case 'data':
@@ -371,7 +373,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
             <Table2
               className={iconClass}
               aria-hidden="true"
-              style={{ color: 'var(--prism-info-main)' }}
+              style={STYLE_INFO_MAIN}
             />
           );
         case 'ai':
@@ -379,7 +381,7 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
             <Sparkles
               className={iconClass}
               aria-hidden="true"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
           );
         default:
@@ -387,14 +389,14 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
             <Blocks
               className={iconClass}
               aria-hidden="true"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
           );
       }
   }
 }
 
-export function SlashCommandMenu({
+function SlashCommandMenuInner({
   commands = DEFAULT_SLASH_COMMANDS,
   defaultValue = '',
   defaultMenuOpen = true,
@@ -634,12 +636,12 @@ export function SlashCommandMenu({
           <FileText
             className="w-4 h-4 shrink-0"
             aria-hidden="true"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           />
           <span
             data-testid="slash-command-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -662,7 +664,7 @@ export function SlashCommandMenu({
                 <Check
                   className="w-3 h-3 shrink-0"
                   aria-hidden="true"
-                  style={{ color: 'var(--prism-success-main)' }}
+                  style={STYLE_SUCCESS_MAIN}
                 />
                 <span className="truncate">Inserted {lastInsertedLabel}</span>
               </>
@@ -706,7 +708,7 @@ export function SlashCommandMenu({
           placeholder="Type / to insert a block..."
           rows={5}
           className="prism-focus-ring w-full min-w-0 max-w-full rounded-xl bg-transparent px-1 py-0.5 text-sm leading-relaxed font-mono resize-y"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         />
 
         <div
@@ -768,8 +770,8 @@ export function SlashCommandMenu({
             }}
           >
             <span className="inline-flex items-center gap-1.5 font-mono font-semibold min-w-0 truncate">
-              <span style={{ color: 'var(--prism-primary-main)' }}>/</span>
-              <span className="truncate" style={{ color: 'var(--prism-text-primary)' }}>
+              <span style={STYLE_PRIMARY_MAIN}>/</span>
+              <span className="truncate" style={STYLE_TEXT_PRIMARY}>
                 {activeQuery ? activeQuery : 'Insert block'}
               </span>
             </span>
@@ -789,7 +791,7 @@ export function SlashCommandMenu({
               >
                 <p
                   className="text-xs font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeQuery
                     ? `No commands matching "/${activeQuery}"`
@@ -797,7 +799,7 @@ export function SlashCommandMenu({
                 </p>
                 <p
                   className="text-[11px]"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Press Esc to dismiss or refine your query.
                 </p>
@@ -816,7 +818,7 @@ export function SlashCommandMenu({
                     <div
                       id={groupHeadingId}
                       className="px-2 pt-0.5 flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-wider select-none"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <span>{section.label}</span>
                       <span className="tabular-nums">{section.entries.length}</span>
@@ -861,13 +863,13 @@ export function SlashCommandMenu({
                               <span className="min-w-0 flex-1 block">
                                 <span
                                   className="block text-xs font-semibold truncate"
-                                  style={{ color: 'var(--prism-text-primary)' }}
+                                  style={STYLE_TEXT_PRIMARY}
                                 >
                                   {renderHighlightedText(entry.command.label, activeQuery)}
                                 </span>
                                 <span
                                   className="block text-[11px] truncate mt-0.5"
-                                  style={{ color: 'var(--prism-text-secondary)' }}
+                                  style={STYLE_TEXT_SECONDARY}
                                 >
                                   {renderHighlightedText(entry.command.description, activeQuery)}
                                 </span>
@@ -877,7 +879,7 @@ export function SlashCommandMenu({
                             {entry.command.shortcut ? (
                               <kbd
                                 className="prism-well px-1.5 py-0.5 rounded-md font-mono text-[10px] font-semibold shrink-0 mt-0.5"
-                                style={{ color: 'var(--prism-text-secondary)' }}
+                                style={STYLE_TEXT_SECONDARY}
                               >
                                 {entry.command.shortcut}
                               </kbd>
@@ -909,4 +911,5 @@ export function SlashCommandMenu({
   );
 }
 
+export const SlashCommandMenu = memo(SlashCommandMenuInner);
 SlashCommandMenu.displayName = 'SlashCommandMenu';

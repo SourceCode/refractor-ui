@@ -274,7 +274,7 @@ describe('ClipTrimHandle', () => {
     fireEvent.pointerDown(inHandle, { clientX: 160 }); // 6s
     expect(root).toHaveAttribute('data-dragging', 'true');
     expect(inHandle).toHaveAttribute('data-dragging', 'true');
-    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
+    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function), { passive: true });
     expect(addSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
     expect(addSpy).toHaveBeenCalledWith('pointercancel', expect.any(Function));
     expect(onChange).toHaveBeenLastCalledWith({

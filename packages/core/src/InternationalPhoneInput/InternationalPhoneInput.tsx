@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +16,7 @@ import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface PhoneCountrySpec {
@@ -169,7 +171,7 @@ export interface InternationalPhoneInputProps extends InternationalPhoneInputBas
   disabled?: boolean;
 }
 
-export function InternationalPhoneInput({
+function InternationalPhoneInputInner({
   value,
   defaultCountryIso = 'US',
   defaultNationalDigits = '',
@@ -374,12 +376,12 @@ export function InternationalPhoneInput({
           <label
             htmlFor={inputId}
             className="inline-flex items-center gap-1.5 text-xs font-semibold min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Phone
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
             <span className="truncate">{label}</span>
           </label>
@@ -415,24 +417,24 @@ export function InternationalPhoneInput({
           aria-label={`Select country, current ${activeCountry.name} (${activeCountry.iso}) ${activeCountry.dialCode}`}
           data-testid="phone-country-trigger"
           onClick={handleToggleOpen}
-          className="prism-crystal prism-focus-ring h-11 px-2 sm:px-3 rounded-xl inline-flex items-center gap-1.5 sm:gap-2 shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring h-11 px-2 sm:px-3 rounded-xl inline-flex items-center gap-1.5 sm:gap-2 shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_PRIMARY}
         >
           <span
             data-testid="phone-country-iso"
             className="prism-well px-1.5 py-0.5 rounded-md text-[11px] font-mono font-bold tracking-wider"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             {activeCountry.iso}
           </span>
           <span
             data-testid="phone-country-dial"
             className="text-xs font-mono tabular-nums font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeCountry.dialCode}
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             {isOpen ? (
               <ChevronUp className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
             ) : (
@@ -455,7 +457,7 @@ export function InternationalPhoneInput({
             data-testid="phone-national-input"
             onChange={handleNationalChange}
             className="prism-focus-ring w-full min-w-0 bg-transparent font-mono text-xs sm:text-sm tabular-nums rounded-lg px-0.5 sm:px-1 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
 
           {currentValue.nationalDigits.length > 0 ? (
@@ -466,7 +468,7 @@ export function InternationalPhoneInput({
               data-testid="phone-clear-button"
               onClick={handleClearDigits}
               className="prism-focus-ring w-6 h-6 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer enabled:hover:opacity-80 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             </button>
@@ -483,7 +485,7 @@ export function InternationalPhoneInput({
             <Search
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <input
               type="text"
@@ -502,7 +504,7 @@ export function InternationalPhoneInput({
               }}
               onKeyDown={handleSearchKeyDown}
               className="w-full bg-transparent text-xs focus:outline-none"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
             {query.length > 0 ? (
               <button
@@ -514,7 +516,7 @@ export function InternationalPhoneInput({
                   setActiveIndex(0);
                 }}
                 className="prism-focus-ring w-5 h-5 rounded-full inline-flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </button>
@@ -534,11 +536,11 @@ export function InternationalPhoneInput({
               >
                 <p
                   className="text-xs font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   No matching countries
                 </p>
-                <p className="text-[11px]" style={{ color: 'var(--prism-text-secondary)' }}>
+                <p className="text-[11px]" style={STYLE_TEXT_SECONDARY}>
                   {query.trim()
                     ? `No regions matched "${query.trim()}".`
                     : 'No countries configured.'}
@@ -562,7 +564,7 @@ export function InternationalPhoneInput({
                     onClick={() => handleSelectCountry(country)}
                     className={cx(
                       isSelected || isActive ? 'prism-crystal' : 'prism-well',
-                      'prism-focus-ring w-full rounded-xl px-3 py-2 flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 transition-all'
+                      'prism-focus-ring w-full rounded-xl px-3 py-2 flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
                     )}
                     style={
                       isSelected
@@ -575,20 +577,20 @@ export function InternationalPhoneInput({
                     <div className="flex items-center gap-2.5 min-w-0 flex-1">
                       <span
                         className="prism-well px-1.5 py-0.5 rounded-md text-[10px] font-mono font-bold tracking-wider shrink-0"
-                        style={{ color: 'var(--prism-primary-main)' }}
+                        style={STYLE_PRIMARY_MAIN}
                       >
                         {country.iso}
                       </span>
                       <div className="min-w-0 flex-1">
                         <div
                           className="text-xs font-semibold truncate"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {country.name}
                         </div>
                         <div
                           className="text-[10px] font-mono tabular-nums truncate"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {country.mask}
                         </div>
@@ -622,4 +624,5 @@ export function InternationalPhoneInput({
   );
 }
 
+export const InternationalPhoneInput = memo(InternationalPhoneInputInner);
 InternationalPhoneInput.displayName = 'InternationalPhoneInput';

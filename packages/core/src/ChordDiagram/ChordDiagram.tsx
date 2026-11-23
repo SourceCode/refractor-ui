@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ChordTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -205,7 +207,7 @@ function buildChordRibbonPath(
   ].join(' ');
 }
 
-export function ChordDiagram({
+function ChordDiagramInner({
   entities,
   flows,
   title = 'Bi-Directional Chord Flows',
@@ -461,7 +463,7 @@ export function ChordDiagram({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -471,7 +473,7 @@ export function ChordDiagram({
             type="button"
             onClick={() => setSelectedEntityId(null)}
             className="prism-focus-ring prism-crystal px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-opacity hover:opacity-100"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Clear Focus
           </button>
@@ -483,7 +485,7 @@ export function ChordDiagram({
           role="status"
           data-testid="chord-diagram-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           At least two entities and one positive flow are required to render chords.
         </div>
@@ -601,7 +603,7 @@ export function ChordDiagram({
                       'prism-focus-ring flex items-center justify-between gap-3 px-3 py-2 rounded-full sm:rounded-xl text-xs cursor-pointer transition-colors text-left',
                       isSelected ? 'prism-well font-semibold' : 'prism-crystal'
                     )}
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     <span className="inline-flex items-center gap-2 min-w-0">
                       <span
@@ -614,7 +616,7 @@ export function ChordDiagram({
 
                     <span
                       className="shrink-0 font-mono tabular-nums text-[11px]"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {formatMetric(entity.totalVolume, valueUnit)}
                     </span>
@@ -631,7 +633,7 @@ export function ChordDiagram({
               telemetryClass,
               'prism-well rounded-xl px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeEntity ? (
               <>
@@ -647,19 +649,19 @@ export function ChordDiagram({
                 </span>
                 <span
                   className="shrink-0 font-mono font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`${connectedChordCount} ${connectedChordCount === 1 ? 'flow' : 'flows'}`}
                 </span>
               </>
             ) : (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select any entity arc or legend pill to inspect bi-directional flows.
                 </span>
                 <span
                   className="shrink-0 font-mono font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`Total Flow: ${formatMetric(geometry.totalFlowVolume, valueUnit)}`}
                 </span>
@@ -672,4 +674,5 @@ export function ChordDiagram({
   );
 }
 
+export const ChordDiagram = memo(ChordDiagramInner);
 ChordDiagram.displayName = 'ChordDiagram';

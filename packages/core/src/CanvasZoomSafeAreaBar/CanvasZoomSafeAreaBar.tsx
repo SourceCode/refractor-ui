@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -22,6 +23,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CanvasZoomPreset = 'fit' | 50 | 100 | 200;
@@ -238,7 +240,7 @@ function DefaultOpticalCanvasFrame({ gradientPrefix }: DefaultOpticalCanvasFrame
     <div
       data-testid="canvas-default-frame"
       className="prism-studio-surface relative w-full h-full overflow-hidden border"
-      style={{ borderColor: 'var(--prism-divider)' }}
+      style={STYLE_BORDER_DIVIDER}
     >
       <svg
         viewBox="0 0 640 360"
@@ -339,7 +341,7 @@ function DefaultOpticalCanvasFrame({ gradientPrefix }: DefaultOpticalCanvasFrame
   );
 }
 
-export function CanvasZoomSafeAreaBar({
+function CanvasZoomSafeAreaBarInner({
   value,
   defaultValue,
   onChange,
@@ -492,14 +494,14 @@ export function CanvasZoomSafeAreaBar({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Monitor className="w-3.5 h-3.5 shrink-0" />
           </span>
           <span
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate max-w-full"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Canvas Zoom &amp; Safe Area
           </span>
@@ -508,7 +510,7 @@ export function CanvasZoomSafeAreaBar({
         <span
           data-testid="canvas-header-label"
           className="prism-well px-2.5 py-1 rounded-full font-mono text-[11px] font-medium tracking-tight truncate max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {canvasLabel}
         </span>
@@ -612,7 +614,7 @@ export function CanvasZoomSafeAreaBar({
             <span
               data-testid="aspect-mask-badge"
               className="prism-crystal absolute bottom-2.5 left-2.5 px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {maskSpec.label}
             </span>
@@ -732,7 +734,7 @@ export function CanvasZoomSafeAreaBar({
                 data-testid={`zoom-preset-${String(preset.id)}`}
                 onClick={() => handleSelectZoom(preset.id)}
                 className={cx(
-                  'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 font-mono text-xs font-semibold tabular-nums whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                  'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 font-mono text-xs font-semibold tabular-nums whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                   isSelected ? 'prism-btn-primary' : 'prism-btn-secondary'
                 )}
               >
@@ -803,7 +805,7 @@ export function CanvasZoomSafeAreaBar({
             <SquareDashed
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-warning-main)' }}
+              style={STYLE_WARNING_MAIN}
             />
             <span>Title Safe</span>
           </button>
@@ -835,7 +837,7 @@ export function CanvasZoomSafeAreaBar({
             <Scan
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-info-main)' }}
+              style={STYLE_INFO_MAIN}
             />
             <span>Action Safe</span>
           </button>
@@ -846,7 +848,7 @@ export function CanvasZoomSafeAreaBar({
           <Ratio
             aria-hidden="true"
             className="w-3.5 h-3.5 pointer-events-none absolute left-2.5 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <select
             aria-label="Aspect ratio mask"
@@ -870,7 +872,7 @@ export function CanvasZoomSafeAreaBar({
           <ChevronDown
             aria-hidden="true"
             className="w-3.5 h-3.5 pointer-events-none absolute right-2.5 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
         </div>
       </div>
@@ -887,23 +889,23 @@ export function CanvasZoomSafeAreaBar({
           aria-live="polite"
           data-testid="canvas-status-bar"
           className="inline-flex flex-wrap items-center gap-1.5 font-mono text-[11px] font-medium tabular-nums min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <Frame
             aria-hidden="true"
             className="w-3.5 h-3.5 shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           />
           <span className="truncate">{canvasLabel}</span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span>Zoom: {zoomLabel}</span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span>Mask: {maskSpec.label}</span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span>Guides: {enabledGuideCount}/3 active</span>
@@ -912,7 +914,7 @@ export function CanvasZoomSafeAreaBar({
         <span
           aria-hidden="true"
           className="font-mono text-[10px] tracking-tight whitespace-nowrap shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           0 Fit · 1 100% · 2 200%
         </span>
@@ -921,4 +923,5 @@ export function CanvasZoomSafeAreaBar({
   );
 }
 
+export const CanvasZoomSafeAreaBar = memo(CanvasZoomSafeAreaBarInner);
 CanvasZoomSafeAreaBar.displayName = 'CanvasZoomSafeAreaBar';

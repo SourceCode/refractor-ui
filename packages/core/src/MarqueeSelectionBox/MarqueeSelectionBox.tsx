@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -26,6 +27,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MarqueeSelectableItemKind = 'image' | 'code' | 'document' | 'folder';
@@ -197,7 +199,7 @@ function formatSelectionSummary(
   return `${selectedItems.length} of ${totalCount} selected: ${previewNames}, and ${selectedItems.length - 3} more.`;
 }
 
-export function MarqueeSelectionBox({
+function MarqueeSelectionBoxInner({
   title = DEFAULT_TITLE,
   items = DEFAULT_ITEMS,
   selectedIds,
@@ -455,7 +457,7 @@ export function MarqueeSelectionBox({
       };
 
       cleanupPointerRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerUp);
       window.addEventListener('pointercancel', handlePointerCancel);
     },
@@ -576,7 +578,7 @@ export function MarqueeSelectionBox({
             id={titleId}
             data-testid="marquee-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h3>
@@ -586,7 +588,7 @@ export function MarqueeSelectionBox({
           <span
             data-testid="marquee-selection-count"
             className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -610,7 +612,7 @@ export function MarqueeSelectionBox({
               'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed shrink-0',
               disabled || totalCount === 0 || allSelected ? 'opacity-50' : ''
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <CheckSquare aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Select All</span>
@@ -625,7 +627,7 @@ export function MarqueeSelectionBox({
               'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed shrink-0',
               disabled || selectedCount === 0 ? 'opacity-50' : ''
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Clear</span>
@@ -646,12 +648,12 @@ export function MarqueeSelectionBox({
           <Inbox
             aria-hidden="true"
             className="w-7 h-7"
-            style={{ color: 'var(--prism-text-disabled)' }}
+            style={STYLE_TEXT_DISABLED}
           />
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No selectable files
           </p>
-          <p className="text-xs max-w-sm" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs max-w-sm" style={STYLE_TEXT_SECONDARY}>
             Provide file or folder entries to enable optical lasso marquee selection.
           </p>
         </div>
@@ -740,13 +742,13 @@ export function MarqueeSelectionBox({
                   <div className="min-w-0 space-y-0.5">
                     <div
                       className="text-xs font-semibold truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {item.name}
                     </div>
                     <div
                       className="flex items-center justify-between gap-1.5 text-[11px] min-w-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <span className="truncate">{meta.label}</span>
                       <span className="tabular-nums shrink-0">{item.sizeLabel}</span>
@@ -787,13 +789,13 @@ export function MarqueeSelectionBox({
           aria-live="polite"
           aria-atomic="true"
           className="min-w-0 truncate"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {liveSummaryText}
         </p>
         <span
           className="text-[11px] shrink-0"
-          style={{ color: 'var(--prism-text-disabled)' }}
+          style={STYLE_TEXT_DISABLED}
         >
           Drag to lasso · Shift/Ctrl+Click · Ctrl+A · Esc
         </span>
@@ -802,4 +804,5 @@ export function MarqueeSelectionBox({
   );
 }
 
+export const MarqueeSelectionBox = memo(MarqueeSelectionBoxInner);
 MarqueeSelectionBox.displayName = 'MarqueeSelectionBox';

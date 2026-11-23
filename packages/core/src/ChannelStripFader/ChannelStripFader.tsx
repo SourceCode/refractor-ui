@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type FaderScaleMode = 'studio-db' | 'linear-pct';
@@ -160,7 +162,7 @@ function buildCalibrationTicks(
   }));
 }
 
-export function ChannelStripFader({
+function ChannelStripFaderInner({
   label = DEFAULT_LABEL,
   valueDb,
   defaultValueDb = DEFAULT_VALUE_DB,
@@ -308,7 +310,7 @@ export function ChannelStripFader({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -544,7 +546,7 @@ export function ChannelStripFader({
             <div
               aria-hidden="true"
               className="absolute left-1/2 -translate-x-1/2 inset-y-0 w-1.5 rounded-full pointer-events-none"
-              style={{ backgroundColor: 'var(--prism-divider)' }}
+              style={STYLE_BG_DIVIDER}
             />
 
             {/* Unity Detent Crosshair on Rail */}
@@ -591,7 +593,7 @@ export function ChannelStripFader({
             >
               <span
                 className="w-5 h-[1px] rounded-full"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
               <span
                 data-testid="channel-strip-fader-groove"
@@ -600,7 +602,7 @@ export function ChannelStripFader({
               />
               <span
                 className="w-5 h-[1px] rounded-full"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
             </div>
           </div>
@@ -645,7 +647,7 @@ export function ChannelStripFader({
           data-active={isAtUnity ? 'true' : undefined}
           aria-label={`Set ${accessibleLabel} to unity ${unityShortLabel}`}
           onClick={handleUnityClick}
-          className="prism-crystal prism-focus-ring w-full max-w-full min-w-0 h-7 px-2 rounded-full font-mono text-[11px] font-semibold inline-flex items-center justify-center whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+          className="prism-crystal prism-focus-ring w-full max-w-full min-w-0 h-7 px-2 rounded-full font-mono text-[11px] font-semibold inline-flex items-center justify-center whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
           style={
             isAtUnity
               ? {
@@ -667,7 +669,7 @@ export function ChannelStripFader({
           data-active={isMuted ? 'true' : undefined}
           onClick={handleMuteToggle}
           className={cx(
-            'prism-focus-ring w-full max-w-full min-w-0 h-7 px-2 rounded-full font-mono text-[11px] font-bold inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring w-full max-w-full min-w-0 h-7 px-2 rounded-full font-mono text-[11px] font-bold inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             isMuted ? '' : 'prism-crystal'
           )}
           style={
@@ -692,4 +694,5 @@ export function ChannelStripFader({
   );
 }
 
+export const ChannelStripFader = memo(ChannelStripFaderInner);
 ChannelStripFader.displayName = 'ChannelStripFader';

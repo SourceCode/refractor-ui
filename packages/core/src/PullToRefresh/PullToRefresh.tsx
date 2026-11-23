@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -15,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type PullToRefreshStatus = 'idle' | 'pulling' | 'ready' | 'refreshing';
@@ -53,7 +55,7 @@ const DAMPENING_FACTOR = 0.55;
 const MAX_PULL_MULTIPLIER = 1.5;
 const REFRESHING_DRAWER_MIN_HEIGHT = 56;
 
-export function PullToRefresh({
+function PullToRefreshInner({
   children,
   onRefresh,
   refreshing,
@@ -280,7 +282,7 @@ export function PullToRefresh({
             }}
             className={cx(
               'w-4 h-4 shrink-0',
-              isRefreshing ? 'animate-spin' : 'transition-transform duration-75'
+              isRefreshing ? 'animate-spin motion-reduce:animate-none' : 'transition-transform duration-75'
             )}
           />
           <span
@@ -288,7 +290,7 @@ export function PullToRefresh({
             aria-live="polite"
             data-testid="pull-to-refresh-status"
             className="text-xs font-semibold tracking-tight"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {statusText}
           </span>
@@ -321,11 +323,11 @@ export function PullToRefresh({
             toolbarClass,
             'shrink-0 px-4 py-2.5 flex items-center justify-between gap-2 border-b'
           )}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <span
             className="text-xs font-medium"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {statusText}
           </span>
@@ -335,12 +337,12 @@ export function PullToRefresh({
             data-testid="pull-to-refresh-manual-button"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={triggerRefresh}
-            style={{ color: 'var(--prism-text-primary)' }}
-            className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+            style={STYLE_TEXT_PRIMARY}
+            className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
           >
             <RefreshCw
               aria-hidden="true"
-              className={cx('w-3.5 h-3.5 shrink-0', isRefreshing ? 'animate-spin' : '')}
+              className={cx('w-3.5 h-3.5 shrink-0', isRefreshing ? 'animate-spin motion-reduce:animate-none' : '')}
               style={{ color: accentColor }}
             />
             <span>Refresh</span>
@@ -358,4 +360,5 @@ export function PullToRefresh({
   );
 }
 
+export const PullToRefresh = memo(PullToRefreshInner);
 PullToRefresh.displayName = 'PullToRefresh';

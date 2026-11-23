@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useState,
@@ -19,6 +20,7 @@ import {
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CardBrand = 'visa' | 'mastercard' | 'amex' | 'discover' | 'generic';
@@ -256,7 +258,7 @@ function buildCardValue(
   };
 }
 
-export function PaymentCardInput({
+function PaymentCardInputInner({
   defaultCardholderName = '',
   onChange,
   onSubmit,
@@ -367,7 +369,7 @@ export function PaymentCardInput({
           </span>
           <span
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Payment Card
           </span>
@@ -378,7 +380,7 @@ export function PaymentCardInput({
             data-testid="payment-card-brand-pill"
             data-brand={cardValue.brand}
             className="prism-crystal inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-tight shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {getBrandLabel(cardValue.brand)}
           </span>
@@ -402,12 +404,12 @@ export function PaymentCardInput({
           <label
             htmlFor={cardNumberId}
             className="block text-xs font-semibold mb-1.5 ml-1"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Card number
           </label>
           <div
-            className="prism-crystal rounded-2xl p-1 transition-all"
+            className="prism-crystal rounded-2xl p-1 transition-[color,background-color,border-color,opacity,transform]"
             style={
               showLuhnError
                 ? { boxShadow: '0 0 0 1.5px var(--prism-error-main)' }
@@ -439,7 +441,7 @@ export function PaymentCardInput({
                 onChange={handleCardNumberChange}
                 onKeyDown={handleInputKeyDown}
                 className="prism-focus-ring w-full bg-transparent font-mono text-sm tabular-nums rounded-lg px-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
           </div>
@@ -450,7 +452,7 @@ export function PaymentCardInput({
               role="alert"
               data-testid="payment-card-luhn-error"
               className="mt-1.5 ml-1 flex items-center gap-1.5 text-xs font-medium"
-              style={{ color: 'var(--prism-error-main)' }}
+              style={STYLE_ERROR_MAIN}
             >
               <AlertCircle aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>Invalid card number checksum. Check the digits and try again.</span>
@@ -463,16 +465,16 @@ export function PaymentCardInput({
             <label
               htmlFor={expiryId}
               className="block text-xs font-semibold mb-1.5 ml-1"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Expiry
             </label>
-            <div className="prism-crystal rounded-2xl p-1 transition-all">
+            <div className="prism-crystal rounded-2xl p-1 transition-[color,background-color,border-color,opacity,transform]">
               <div className="prism-well rounded-xl h-11 px-3.5 flex items-center gap-2">
                 <Calendar
                   aria-hidden="true"
                   className="w-4 h-4 shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 />
                 <input
                   id={expiryId}
@@ -486,7 +488,7 @@ export function PaymentCardInput({
                   onChange={handleExpiryChange}
                   onKeyDown={handleInputKeyDown}
                   className="prism-focus-ring w-full bg-transparent font-mono text-sm tabular-nums rounded-lg px-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 />
               </div>
             </div>
@@ -496,16 +498,16 @@ export function PaymentCardInput({
             <label
               htmlFor={cvcId}
               className="block text-xs font-semibold mb-1.5 ml-1"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               CVC
             </label>
-            <div className="prism-crystal rounded-2xl p-1 transition-all">
+            <div className="prism-crystal rounded-2xl p-1 transition-[color,background-color,border-color,opacity,transform]">
               <div className="prism-well rounded-xl h-11 px-3.5 flex items-center gap-2">
                 <Lock
                   aria-hidden="true"
                   className="w-4 h-4 shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 />
                 <input
                   id={cvcId}
@@ -519,7 +521,7 @@ export function PaymentCardInput({
                   onChange={handleCvcChange}
                   onKeyDown={handleInputKeyDown}
                   className="prism-focus-ring w-full bg-transparent font-mono text-sm tabular-nums rounded-lg px-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 />
               </div>
             </div>
@@ -531,16 +533,16 @@ export function PaymentCardInput({
             <label
               htmlFor={cardholderId}
               className="block text-xs font-semibold mb-1.5 ml-1"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Cardholder name
             </label>
-            <div className="prism-crystal rounded-2xl p-1 transition-all">
+            <div className="prism-crystal rounded-2xl p-1 transition-[color,background-color,border-color,opacity,transform]">
               <div className="prism-well rounded-xl h-11 px-3.5 flex items-center gap-2">
                 <User
                   aria-hidden="true"
                   className="w-4 h-4 shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 />
                 <input
                   id={cardholderId}
@@ -552,7 +554,7 @@ export function PaymentCardInput({
                   onChange={handleCardholderChange}
                   onKeyDown={handleInputKeyDown}
                   className="prism-focus-ring w-full bg-transparent text-sm rounded-lg px-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 />
               </div>
             </div>
@@ -565,7 +567,7 @@ export function PaymentCardInput({
           type="button"
           disabled={!canSubmit}
           onClick={() => onSubmit(cardValue)}
-          className="prism-btn-primary prism-focus-ring mt-4 w-full h-11 px-6 inline-flex items-center justify-center gap-2 text-sm font-semibold tracking-[-0.01em] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+          className="prism-btn-primary prism-focus-ring mt-4 w-full h-11 px-6 inline-flex items-center justify-center gap-2 text-sm font-semibold tracking-[-0.01em] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
         >
           <ShieldCheck aria-hidden="true" className="w-4 h-4 shrink-0 relative z-10" />
           <span className="relative z-10">{submitLabel}</span>
@@ -575,4 +577,5 @@ export function PaymentCardInput({
   );
 }
 
+export const PaymentCardInput = memo(PaymentCardInputInner);
 PaymentCardInput.displayName = 'PaymentCardInput';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +29,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type EditablePathSuggestionKind = 'folder' | 'mount' | 'recent';
@@ -185,7 +187,7 @@ function renderSuggestionKindIcon(kind: EditablePathSuggestionKind) {
       <HardDrive
         aria-hidden="true"
         className="w-4 h-4 shrink-0"
-        style={{ color: 'var(--prism-secondary-main)' }}
+        style={STYLE_SECONDARY_MAIN}
       />
     );
   }
@@ -194,7 +196,7 @@ function renderSuggestionKindIcon(kind: EditablePathSuggestionKind) {
       <Clock
         aria-hidden="true"
         className="w-4 h-4 shrink-0"
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       />
     );
   }
@@ -202,12 +204,12 @@ function renderSuggestionKindIcon(kind: EditablePathSuggestionKind) {
     <Folder
       aria-hidden="true"
       className="w-4 h-4 shrink-0"
-      style={{ color: 'var(--prism-primary-main)' }}
+      style={STYLE_PRIMARY_MAIN}
     />
   );
 }
 
-export function EditablePathBar({
+function EditablePathBarInner({
   path,
   defaultPath = DEFAULT_EDITABLE_PATH,
   suggestions = DEFAULT_EDITABLE_PATH_SUGGESTIONS,
@@ -583,8 +585,8 @@ export function EditablePathBar({
             disabled={!canGoBack}
             onClick={handleGoBack}
             data-testid="editable-path-back"
-            className="prism-crystal prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             <ArrowLeft aria-hidden="true" className="w-4 h-4 shrink-0" />
           </button>
@@ -595,8 +597,8 @@ export function EditablePathBar({
             disabled={!canGoForward}
             onClick={handleGoForward}
             data-testid="editable-path-forward"
-            className="prism-crystal prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             <ArrowRight aria-hidden="true" className="w-4 h-4 shrink-0" />
           </button>
@@ -607,8 +609,8 @@ export function EditablePathBar({
             disabled={!canGoUp}
             onClick={handleGoUp}
             data-testid="editable-path-up"
-            className="prism-crystal prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             <ArrowUp aria-hidden="true" className="w-4 h-4 shrink-0" />
           </button>
@@ -627,7 +629,7 @@ export function EditablePathBar({
               <Folder
                 aria-hidden="true"
                 className="w-4 h-4 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               />
               <input
                 ref={inputRef}
@@ -645,7 +647,7 @@ export function EditablePathBar({
                 data-testid="editable-path-input"
                 placeholder="/path/to/directory"
                 className="flex-1 min-w-0 bg-transparent font-mono text-xs sm:text-sm focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
               <button
                 type="button"
@@ -653,7 +655,7 @@ export function EditablePathBar({
                 disabled={disabled}
                 onClick={() => commitDraft(draft, true)}
                 data-testid="editable-path-commit"
-                className="prism-btn-primary prism-focus-ring h-7 px-2.5 rounded-lg inline-flex items-center gap-1 text-xs font-semibold shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+                className="prism-btn-primary prism-focus-ring h-7 px-2.5 rounded-lg inline-flex items-center gap-1 text-xs font-semibold shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
               >
                 <CornerDownLeft aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 <span>Go</span>
@@ -664,8 +666,8 @@ export function EditablePathBar({
                 disabled={disabled}
                 onClick={() => cancelEditMode(true)}
                 data-testid="editable-path-cancel"
-                className="prism-crystal prism-focus-ring h-7 w-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                className="prism-crystal prism-focus-ring h-7 w-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </button>
@@ -698,9 +700,9 @@ export function EditablePathBar({
                         segments.length === 0
                           ? 'prism-btn-secondary font-semibold'
                           : 'prism-crystal',
-                        'prism-focus-ring h-7 px-2 rounded-lg inline-flex items-center gap-1 font-mono text-xs shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all'
+                        'prism-focus-ring h-7 px-2 rounded-lg inline-flex items-center gap-1 font-mono text-xs shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
                       )}
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       <HardDrive aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                       <span>/</span>
@@ -717,7 +719,7 @@ export function EditablePathBar({
                         <ChevronRight
                           aria-hidden="true"
                           className="w-3.5 h-3.5 shrink-0"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         />
                         <button
                           type="button"
@@ -729,7 +731,7 @@ export function EditablePathBar({
                             isLast
                               ? 'prism-btn-secondary font-semibold'
                               : 'prism-crystal font-medium',
-                            'prism-focus-ring h-7 px-2 rounded-lg inline-flex items-center text-xs min-w-0 max-w-full break-all sm:break-normal sm:truncate cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all'
+                            'prism-focus-ring h-7 px-2 rounded-lg inline-flex items-center text-xs min-w-0 max-w-full break-all sm:break-normal sm:truncate cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
                           )}
                           style={{
                             color: isLast
@@ -752,8 +754,8 @@ export function EditablePathBar({
                 aria-label="Edit path"
                 data-testid="editable-path-edit-btn"
                 onClick={enterEditMode}
-                className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-lg inline-flex items-center gap-1 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-lg inline-flex items-center gap-1 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                style={STYLE_TEXT_SECONDARY}
               >
                 <Pencil aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 <span>Edit path</span>
@@ -788,7 +790,7 @@ export function EditablePathBar({
                     onClick={() => commitDraft(suggestion.normalizedPath, true)}
                     className={cx(
                       isHighlighted ? 'prism-btn-secondary' : 'prism-crystal',
-                      'prism-focus-ring w-full px-3 py-2 rounded-xl text-left flex flex-wrap items-center justify-between gap-2 min-w-0 cursor-pointer transition-all'
+                      'prism-focus-ring w-full px-3 py-2 rounded-xl text-left flex flex-wrap items-center justify-between gap-2 min-w-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]'
                     )}
                   >
                     <span className="inline-flex items-center gap-2 min-w-0 flex-1">
@@ -796,14 +798,14 @@ export function EditablePathBar({
                       <span className="flex flex-col min-w-0">
                         <span
                           className="font-mono text-xs font-medium break-all"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {suggestion.normalizedPath}
                         </span>
                         {suggestion.label ? (
                           <span
                             className="text-[11px] truncate"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {suggestion.label}
                           </span>
@@ -812,7 +814,7 @@ export function EditablePathBar({
                     </span>
                     <span
                       className="prism-well px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {suggestion.kind}
                     </span>
@@ -837,4 +839,5 @@ export function EditablePathBar({
   );
 }
 
+export const EditablePathBar = memo(EditablePathBarInner);
 EditablePathBar.displayName = 'EditablePathBar';

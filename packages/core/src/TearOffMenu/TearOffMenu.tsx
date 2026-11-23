@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -25,6 +26,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface TearOffMenuItem {
@@ -166,7 +168,7 @@ function pickNextEnabledEntry(
   return enabled[nextIndex];
 }
 
-export function TearOffMenu({
+function TearOffMenuInner({
   menuLabel = DEFAULT_MENU_LABEL,
   items = DEFAULT_TEAR_OFF_MENU_ITEMS,
   open,
@@ -469,7 +471,7 @@ export function TearOffMenu({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -767,7 +769,7 @@ export function TearOffMenu({
                   role="menuitem"
                   aria-disabled="true"
                   className="px-3 py-2 text-xs select-none"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   No actions available
                 </div>
@@ -806,7 +808,7 @@ export function TearOffMenu({
                           {entry.isCheckable && isChecked ? (
                             <Check
                               className="w-3.5 h-3.5"
-                              style={{ color: 'var(--prism-primary-main)' }}
+                              style={STYLE_PRIMARY_MAIN}
                             />
                           ) : null}
                         </span>
@@ -817,7 +819,7 @@ export function TearOffMenu({
                         <span
                           aria-hidden="true"
                           className="shrink-0 font-mono text-[11px] tabular-nums tracking-tight"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {entry.shortcut}
                         </span>
@@ -881,12 +883,12 @@ export function TearOffMenu({
               <Pin
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               />
               <span
                 id={paletteHeadingId}
                 className="text-xs font-bold tracking-[-0.01em] truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {resolvedMenuLabel}
               </span>
@@ -899,7 +901,7 @@ export function TearOffMenu({
                 aria-label="Dock palette back to menu bar"
                 disabled={disabled}
                 onClick={handleDockBack}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
                 className="prism-crystal prism-focus-ring rounded-full px-2.5 py-1 inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
               >
                 <CornerUpLeft aria-hidden="true" className="w-3 h-3 shrink-0" />
@@ -910,7 +912,7 @@ export function TearOffMenu({
                 type="button"
                 disabled={disabled}
                 onClick={handleClosePalette}
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
                 className="prism-well prism-focus-ring rounded-full px-2 py-1 inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-colors enabled:hover:bg-[color-mix(in_srgb,var(--prism-error-main)_12%,transparent)]"
               >
                 <X aria-hidden="true" className="w-3 h-3 shrink-0" />
@@ -928,7 +930,7 @@ export function TearOffMenu({
             {normalizedItems.length === 0 ? (
               <div
                 className="px-3 py-2 text-xs select-none"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 No actions available
               </div>
@@ -969,7 +971,7 @@ export function TearOffMenu({
                         {entry.isCheckable && isChecked ? (
                           <Check
                             className="w-3.5 h-3.5"
-                            style={{ color: 'var(--prism-primary-main)' }}
+                            style={STYLE_PRIMARY_MAIN}
                           />
                         ) : null}
                       </span>
@@ -980,7 +982,7 @@ export function TearOffMenu({
                       <span
                         aria-hidden="true"
                         className="shrink-0 font-mono text-[11px] tabular-nums tracking-tight"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {entry.shortcut}
                       </span>
@@ -1001,4 +1003,5 @@ export function TearOffMenu({
   );
 }
 
+export const TearOffMenu = memo(TearOffMenuInner);
 TearOffMenu.displayName = 'TearOffMenu';

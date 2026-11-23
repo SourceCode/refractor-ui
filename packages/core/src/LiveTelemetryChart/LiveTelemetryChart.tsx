@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -11,10 +12,12 @@ import {
 } from 'react';
 import { Pause, Play, StepForward } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { isDocumentVisible } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_FILL_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TelemetryTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -114,6 +117,7 @@ const GRID_STEPS = 4;
 const MIN_HEIGHT = 140;
 const MAX_HEIGHT = 360;
 const DEFAULT_HEIGHT = 200;
+const MAX_APPENDED_SAMPLES = 240;
 
 const WINDOW_SIZES: readonly TelemetryWindowSize[] = [20, 40, 60];
 
@@ -210,7 +214,7 @@ function selectXAxisPoints(
   return points.filter((pt) => indices.has(pt.index));
 }
 
-export function LiveTelemetryChart({
+function LiveTelemetryChartInner({
   samples,
   title = 'Live Telemetry Stream',
   unit = 'ms',
@@ -273,7 +277,11 @@ export function LiveTelemetryChart({
           sample: nextSample,
           value: normalizeFiniteValue(nextSample.value),
         };
-        setAppendedSamples((prev) => [...prev, entry]);
+        setAppendedSamples((prev) =>
+          prev.length >= MAX_APPENDED_SAMPLES
+            ? [...prev.slice(prev.length - MAX_APPENDED_SAMPLES + 1), entry]
+            : [...prev, entry]
+        );
       }
     },
     []
@@ -284,6 +292,7 @@ export function LiveTelemetryChart({
       return undefined;
     }
     const timerId = setInterval(() => {
+      if (!isDocumentVisible()) return;
       appendGeneratedSample(onGenerateSample);
     }, safeIntervalMs);
     return () => {
@@ -541,7 +550,7 @@ export function LiveTelemetryChart({
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -550,7 +559,7 @@ export function LiveTelemetryChart({
             <span
               data-testid="telemetry-buffered-badge"
               className="prism-crystal rounded-full px-2 py-0.5 text-[11px] font-mono font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-warning-main)' }}
+              style={STYLE_WARNING_MAIN}
             >
               +{bufferedCount} buffered
             </span>
@@ -574,7 +583,7 @@ export function LiveTelemetryChart({
                   data-testid={`telemetry-window-${size}`}
                   onClick={() => setWindowSize(size)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs font-mono tabular-nums cursor-pointer transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs font-mono tabular-nums cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     active ? 'prism-crystal font-semibold' : 'opacity-70 hover:opacity-100'
                   )}
                   style={{
@@ -595,7 +604,7 @@ export function LiveTelemetryChart({
             data-testid="telemetry-pause-toggle"
             onClick={handleTogglePaused}
             className={cx(
-              'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer transition-all enabled:hover:brightness-105',
+              'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] enabled:hover:brightness-105',
               isPaused ? 'prism-emerald font-semibold' : 'prism-crystal'
             )}
             style={
@@ -622,8 +631,8 @@ export function LiveTelemetryChart({
               type="button"
               data-testid="telemetry-step-button"
               onClick={() => appendGeneratedSample(onGenerateSample)}
-              className="prism-focus-ring prism-crystal inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer transition-all enabled:hover:brightness-105"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-focus-ring prism-crystal inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] enabled:hover:brightness-105"
+              style={STYLE_TEXT_PRIMARY}
             >
               <StepForward aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>Step</span>
@@ -636,7 +645,7 @@ export function LiveTelemetryChart({
         <div
           data-testid="telemetry-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No finite telemetry samples available.
         </div>
@@ -661,7 +670,7 @@ export function LiveTelemetryChart({
             >
               <span
                 className="text-[10px] font-medium uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Current
               </span>
@@ -683,13 +692,13 @@ export function LiveTelemetryChart({
             >
               <span
                 className="text-[10px] font-medium uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Min
               </span>
               <span
                 className="text-sm font-mono font-semibold tabular-nums"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatMetric(readyView.stats.min, unit)}
               </span>
@@ -701,13 +710,13 @@ export function LiveTelemetryChart({
             >
               <span
                 className="text-[10px] font-medium uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Avg
               </span>
               <span
                 className="text-sm font-mono font-semibold tabular-nums"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatMetric(readyView.stats.avg, unit)}
               </span>
@@ -719,13 +728,13 @@ export function LiveTelemetryChart({
             >
               <span
                 className="text-[10px] font-medium uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Max
               </span>
               <span
                 className="text-sm font-mono font-semibold tabular-nums"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatMetric(readyView.stats.max, unit)}
               </span>
@@ -765,7 +774,7 @@ export function LiveTelemetryChart({
                     y={tick.y + 3.5}
                     textAnchor="end"
                     className="text-[10px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.label}
                   </text>
@@ -779,7 +788,7 @@ export function LiveTelemetryChart({
                   y={safeHeight - 8}
                   textAnchor="middle"
                   className="text-[10px] font-mono tabular-nums"
-                  style={{ fill: 'var(--prism-text-secondary)' }}
+                  style={STYLE_FILL_SECONDARY}
                 >
                   {pt.sample.timestamp}
                 </text>
@@ -869,7 +878,7 @@ export function LiveTelemetryChart({
                     }
                     stroke={pointColor}
                     strokeWidth={isSelected ? 2.5 : 1.75}
-                    className="prism-focus-ring cursor-pointer transition-all"
+                    className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
                     onClick={() => handleSelectPoint(pt.key, pt.sample, pt.index)}
                     onKeyDown={(event) =>
                       handlePointKeyDown(event, pt.key, pt.sample, pt.index)
@@ -900,7 +909,7 @@ export function LiveTelemetryChart({
               />
               <span
                 className="font-semibold"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {readyView.hasExplicitSelection ? 'Selected sample' : 'Latest sample'}
               </span>
@@ -908,7 +917,7 @@ export function LiveTelemetryChart({
                 <span
                   data-testid="telemetry-inspector-warning"
                   className="prism-crystal rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
-                  style={{ color: 'var(--prism-error-main)' }}
+                  style={STYLE_ERROR_MAIN}
                 >
                   Warning
                 </span>
@@ -934,4 +943,5 @@ export function LiveTelemetryChart({
   );
 }
 
+export const LiveTelemetryChart = memo(LiveTelemetryChartInner);
 LiveTelemetryChart.displayName = 'LiveTelemetryChart';

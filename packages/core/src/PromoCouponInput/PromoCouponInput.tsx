@@ -1,11 +1,12 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { memo, useId, useState } from 'react';
 import { Tag, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface AppliedCoupon {
@@ -32,7 +33,7 @@ export interface PromoCouponInputProps extends BaseProps<HTMLDivElement> {
   disabled?: boolean;
 }
 
-export function PromoCouponInput({
+function PromoCouponInputInner({
   appliedCoupon,
   defaultAppliedCoupon = null,
   onApply,
@@ -111,7 +112,7 @@ export function PromoCouponInput({
           <Tag
             className="w-4 h-4 shrink-0"
             aria-hidden="true"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <input
             id={inputId}
@@ -135,7 +136,7 @@ export function PromoCouponInput({
               }
             }}
             className="w-full min-w-0 bg-transparent text-xs font-mono uppercase tracking-wider focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
         </div>
 
@@ -154,7 +155,7 @@ export function PromoCouponInput({
           id={errorId}
           role="alert"
           className="mt-2 px-1 text-xs font-medium"
-          style={{ color: 'var(--prism-error-main)' }}
+          style={STYLE_ERROR_MAIN}
         >
           {errorMessage}
         </p>
@@ -197,4 +198,5 @@ export function PromoCouponInput({
   );
 }
 
+export const PromoCouponInput = memo(PromoCouponInputInner);
 PromoCouponInput.displayName = 'PromoCouponInput';

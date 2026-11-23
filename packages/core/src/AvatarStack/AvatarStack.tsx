@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useEffect,
   useId,
   useMemo,
@@ -15,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AvatarStackSize = 'sm' | 'md' | 'lg';
@@ -227,7 +229,7 @@ function deriveInitials(name: string): string {
   return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase();
 }
 
-export function AvatarStack({
+function AvatarStackInner({
   users,
   maxVisible = 4,
   size = 'md',
@@ -426,7 +428,7 @@ export function AvatarStack({
             emptyPartClass,
             'prism-well rounded-full px-3.5 py-1.5 inline-flex items-center gap-2 text-xs font-medium min-w-0 max-w-full'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <Users aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           <span className="truncate">No active collaborators</span>
@@ -493,7 +495,7 @@ export function AvatarStack({
                 'prism-crystal prism-focus-ring rounded-full inline-flex items-center justify-center font-mono font-semibold tabular-nums shrink-0 cursor-pointer transition-transform duration-150 hover:scale-105',
                 sizeClasses.counter
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               +{overflowCount}
             </button>
@@ -514,18 +516,18 @@ export function AvatarStack({
         >
           <div
             className="flex items-center justify-between gap-2 pb-1.5 border-b min-w-0"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <div className="flex items-center gap-1.5 min-w-0">
               <span
                 className="text-xs font-semibold tracking-tight truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {trimmedLabel}
               </span>
               <span
                 className="prism-well rounded-full px-1.5 py-0.5 text-[10px] font-mono font-semibold tabular-nums shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {resolvedUsers.length}
               </span>
@@ -535,7 +537,7 @@ export function AvatarStack({
               aria-label="Close users list"
               onClick={handleClosePopover}
               className="prism-focus-ring rounded-lg p-1 cursor-pointer shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -578,7 +580,7 @@ export function AvatarStack({
                       <span className="flex items-center justify-between gap-1.5 min-w-0">
                         <span
                           className="text-xs font-semibold truncate"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {entry.displayName}
                         </span>
@@ -586,7 +588,7 @@ export function AvatarStack({
                           {isOverflow ? (
                             <span
                               className="prism-crystal rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide"
-                              style={{ color: 'var(--prism-primary-main)' }}
+                              style={STYLE_PRIMARY_MAIN}
                             >
                               Overflow
                             </span>
@@ -604,7 +606,7 @@ export function AvatarStack({
                       {entry.user.role ? (
                         <span
                           className="block text-[11px] truncate"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {entry.user.role}
                         </span>
@@ -621,4 +623,5 @@ export function AvatarStack({
   );
 }
 
+export const AvatarStack = memo(AvatarStackInner);
 AvatarStack.displayName = 'AvatarStack';

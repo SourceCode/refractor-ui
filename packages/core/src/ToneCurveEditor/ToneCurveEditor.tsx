@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -18,6 +19,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ToneCurveChannel = 'luma' | 'red' | 'green' | 'blue';
@@ -408,7 +410,7 @@ function buildHistogramBars(rawHistogram: ReadonlyArray<number> | undefined): Hi
   });
 }
 
-export function ToneCurveEditor({
+function ToneCurveEditorInner({
   curves,
   defaultCurves,
   activeChannel,
@@ -616,7 +618,7 @@ export function ToneCurveEditor({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handleWindowPointerMove);
+      window.addEventListener('pointermove', handleWindowPointerMove, { passive: true });
       window.addEventListener('pointerup', handleWindowPointerEnd);
       window.addEventListener('pointercancel', handleWindowPointerEnd);
     };
@@ -689,7 +691,7 @@ export function ToneCurveEditor({
               id={headingId}
               data-testid="tone-curve-title"
               className="text-sm font-semibold tracking-tight truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
@@ -713,7 +715,7 @@ export function ToneCurveEditor({
                   data-channel={ch.id}
                   onClick={() => handleSelectChannel(ch.id)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 inline-flex items-center gap-1.5 text-[11px] font-semibold border cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 inline-flex items-center gap-1.5 text-[11px] font-semibold border cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                     isActive
                       ? 'prism-crystal'
                       : 'prism-well opacity-80 enabled:hover:opacity-100'
@@ -753,7 +755,7 @@ export function ToneCurveEditor({
                   data-testid={`tone-curve-preset-${preset.id}`}
                   onClick={() => handleApplyPreset(preset)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                     isActive
                       ? 'prism-btn-primary'
                       : 'prism-crystal opacity-85 enabled:hover:opacity-100'
@@ -771,7 +773,7 @@ export function ToneCurveEditor({
             disabled={disabled}
             data-testid="tone-curve-reset-button"
             onClick={handleResetChannel}
-            className="prism-btn-secondary prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
             <span>Reset Channel</span>
@@ -958,13 +960,13 @@ export function ToneCurveEditor({
         <span
           data-testid="tone-curve-selected-coords"
           className="font-semibold"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           In: {selectedPoint.x} · Out: {selectedPoint.y}
         </span>
         <span
           data-testid="tone-curve-point-count"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {activePoints.length} / {MAX_POINTS} points · {activeChannelMeta.label}
         </span>
@@ -973,4 +975,5 @@ export function ToneCurveEditor({
   );
 }
 
+export const ToneCurveEditor = memo(ToneCurveEditorInner);
 ToneCurveEditor.displayName = 'ToneCurveEditor';

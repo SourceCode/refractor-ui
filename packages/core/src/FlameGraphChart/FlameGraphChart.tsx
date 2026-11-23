@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { splitLiteralHighlight } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type FlameGraphOrientation = 'flame' | 'icicle';
@@ -443,7 +445,7 @@ function renderLiteralHighlight(source: string, query: string, keyPrefix: string
   });
 }
 
-export function FlameGraphChart({
+function FlameGraphChartInner({
   root,
   orientation,
   defaultOrientation = 'flame',
@@ -651,14 +653,14 @@ export function FlameGraphChart({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
           {resolvedRoot ? (
             <span
               className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-mono font-medium tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {formatMetric(resolvedRoot.totalValue, unit)}
             </span>
@@ -716,13 +718,13 @@ export function FlameGraphChart({
               onKeyDown={handleSearchKeyDown}
               placeholder="Filter frames..."
               className="prism-focus-ring bg-transparent text-xs min-w-0 w-32 sm:w-40 outline-none"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
             {hasSearchQuery ? (
               <span
                 data-testid="flame-search-match-pill"
                 className="prism-crystal px-1.5 py-0.5 rounded-full text-[10px] font-mono font-semibold tabular-nums shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               >
                 {`${formatNumeric(searchMatchSharePct)}%`}
               </span>
@@ -734,7 +736,7 @@ export function FlameGraphChart({
             disabled={!isZoomed}
             onClick={handleResetZoom}
             className="prism-focus-ring prism-crystal px-3 py-1 rounded-full text-xs font-medium cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Reset Zoom
           </button>
@@ -755,7 +757,7 @@ export function FlameGraphChart({
                   <span
                     aria-hidden="true"
                     className="text-xs select-none"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     /
                   </span>
@@ -768,7 +770,7 @@ export function FlameGraphChart({
                     'prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs cursor-pointer max-w-full min-w-0',
                     isCurrent ? 'prism-well font-semibold' : 'prism-crystal font-medium opacity-85 hover:opacity-100'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
@@ -790,7 +792,7 @@ export function FlameGraphChart({
           role="status"
           data-testid="flame-graph-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No CPU stack profile samples available.
         </div>
@@ -877,7 +879,7 @@ export function FlameGraphChart({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs tabular-nums min-w-0 max-w-full'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span className="inline-flex items-center gap-1.5 min-w-0 max-w-full">
               <span
@@ -885,58 +887,58 @@ export function FlameGraphChart({
                 className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ backgroundColor: activeView.display.visual.bg }}
               />
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Frame:</span>
+              <span style={STYLE_TEXT_SECONDARY}>Frame:</span>
               <span className="font-semibold font-mono truncate">{activeView.display.name}</span>
             </span>
 
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               ·
             </span>
 
             <span className="inline-flex items-center gap-1 min-w-0">
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Module:</span>
+              <span style={STYLE_TEXT_SECONDARY}>Module:</span>
               <span className="font-mono truncate">{activeView.display.module}</span>
             </span>
 
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               ·
             </span>
 
             <span className="inline-flex items-center gap-1">
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Total CPU:</span>
+              <span style={STYLE_TEXT_SECONDARY}>Total CPU:</span>
               <span className="font-mono font-semibold">
                 {formatMetric(activeView.display.totalValue, unit)}
               </span>
             </span>
 
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               ·
             </span>
 
             <span className="inline-flex items-center gap-1">
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Self CPU:</span>
+              <span style={STYLE_TEXT_SECONDARY}>Self CPU:</span>
               <span className="font-mono font-semibold">
                 {formatMetric(activeView.display.selfValue, unit)}
               </span>
             </span>
 
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               ·
             </span>
 
             <span className="inline-flex items-center gap-1">
-              <span style={{ color: 'var(--prism-text-secondary)' }}>% of Root:</span>
+              <span style={STYLE_TEXT_SECONDARY}>% of Root:</span>
               <span className="font-mono font-semibold">
                 {`${formatNumeric(activeView.display.rootSharePct)}%`}
               </span>
             </span>
 
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               ·
             </span>
 
             <span className="inline-flex items-center gap-1">
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Search Match %:</span>
+              <span style={STYLE_TEXT_SECONDARY}>Search Match %:</span>
               <span
                 data-testid="flame-readout-search-match"
                 className="font-mono font-semibold"
@@ -956,4 +958,5 @@ export function FlameGraphChart({
   );
 }
 
+export const FlameGraphChart = memo(FlameGraphChartInner);
 FlameGraphChart.displayName = 'FlameGraphChart';

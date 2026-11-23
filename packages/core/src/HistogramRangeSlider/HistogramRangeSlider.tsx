@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface HistogramBin {
@@ -132,7 +134,7 @@ function binOverlapsRange(bin: NormalizedBin, low: number, high: number): boolea
   return bin.max > low && bin.min < high;
 }
 
-export function HistogramRangeSlider({
+function HistogramRangeSliderInner({
   bins,
   value,
   defaultValue,
@@ -306,7 +308,7 @@ export function HistogramRangeSlider({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -395,7 +397,7 @@ export function HistogramRangeSlider({
         <span
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {label}
         </span>
@@ -405,7 +407,7 @@ export function HistogramRangeSlider({
             <span
               data-testid="histogram-range-pill"
               className="prism-crystal px-2.5 py-1 rounded-full font-mono text-xs font-semibold tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {formattedLow} – {formattedHigh}
             </span>
@@ -413,7 +415,7 @@ export function HistogramRangeSlider({
           <span
             data-testid="histogram-count-pill"
             className="prism-well px-2.5 py-1 rounded-full text-xs font-medium tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {matchedCount} / {totalCount} items
           </span>
@@ -425,7 +427,7 @@ export function HistogramRangeSlider({
           role="status"
           data-testid="histogram-empty"
           className="prism-well rounded-2xl px-4 py-6 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No distribution data available
         </div>
@@ -535,7 +537,7 @@ export function HistogramRangeSlider({
 
           <div
             className="flex items-center justify-between text-[11px] font-mono tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <span>{formatValue(domainMin)}</span>
             <span>{formatValue(domainMax)}</span>
@@ -546,4 +548,5 @@ export function HistogramRangeSlider({
   );
 }
 
+export const HistogramRangeSlider = memo(HistogramRangeSliderInner);
 HistogramRangeSlider.displayName = 'HistogramRangeSlider';

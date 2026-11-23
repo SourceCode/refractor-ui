@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { memo, useId, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type NumericStepperSize = 'sm' | 'md' | 'lg';
@@ -118,7 +119,7 @@ function parseDraftNumber(raw: string): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-export function NumericStepper({
+function NumericStepperInner({
   value,
   defaultValue = 1,
   onChange,
@@ -258,7 +259,7 @@ export function NumericStepper({
         <label
           htmlFor={inputId}
           className={cx('font-semibold tracking-tight px-0.5', sizeStyles.label)}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {label}
         </label>
@@ -271,10 +272,10 @@ export function NumericStepper({
           disabled={!canDecrement}
           onClick={() => commitValue(current - safeStep)}
           className={cx(
-            'prism-crystal prism-focus-ring inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-crystal prism-focus-ring inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             sizeStyles.button
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <Minus aria-hidden="true" className={sizeStyles.icon} />
         </button>
@@ -305,13 +306,13 @@ export function NumericStepper({
               'prism-focus-ring w-full min-w-0 bg-transparent text-center font-mono font-semibold tabular-nums rounded-lg focus:outline-none disabled:cursor-not-allowed',
               sizeStyles.input
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
           {unit ? (
             <span
               data-testid="numeric-stepper-unit"
               className={cx('font-mono font-medium select-none shrink-0', sizeStyles.unit)}
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {unit}
             </span>
@@ -324,10 +325,10 @@ export function NumericStepper({
           disabled={!canIncrement}
           onClick={() => commitValue(current + safeStep)}
           className={cx(
-            'prism-crystal prism-focus-ring inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-crystal prism-focus-ring inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             sizeStyles.button
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <Plus aria-hidden="true" className={sizeStyles.icon} />
         </button>
@@ -336,4 +337,5 @@ export function NumericStepper({
   );
 }
 
+export const NumericStepper = memo(NumericStepperInner);
 NumericStepper.displayName = 'NumericStepper';

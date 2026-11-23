@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -32,6 +33,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, compareNaturalStrings } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DesktopWallpaperPreset =
@@ -454,19 +456,19 @@ function arrangeItemsBySortKey(
 ): DesktopIconItem[] {
   const sorted = [...items].sort((a, b) => {
     if (sortKey === 'name') {
-      return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      return compareNaturalStrings(a.name, b.name);
     }
     if (sortKey === 'kind') {
       const kindDiff = a.kind.localeCompare(b.kind);
       return kindDiff !== 0
         ? kindDiff
-        : a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+        : compareNaturalStrings(a.name, b.name);
     }
     const rowDiff = a.row - b.row;
     if (rowDiff !== 0) return rowDiff;
     const colDiff = a.col - b.col;
     if (colDiff !== 0) return colDiff;
-    return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+    return compareNaturalStrings(a.name, b.name);
   });
 
   const maxRow = rows - 1;
@@ -528,7 +530,7 @@ function getReadingOrderIds(items: ReadonlyArray<DesktopIconItem>): string[] {
     .sort((a, b) => {
       if (a.row !== b.row) return a.row - b.row;
       if (a.col !== b.col) return a.col - b.col;
-      return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      return compareNaturalStrings(a.name, b.name);
     })
     .map((item) => item.id);
 }
@@ -576,7 +578,7 @@ function findSpatialNeighbor(
   return best;
 }
 
-export function DesktopIconCanvas({
+function DesktopIconCanvasInner({
   items,
   defaultItems = DEFAULT_DESKTOP_ICONS,
   wallpaper,
@@ -1130,7 +1132,7 @@ export function DesktopIconCanvas({
         };
 
         cleanupPointerRef.current = cleanupIconDrag;
-        window.addEventListener('pointermove', handleIconPointerMove);
+        window.addEventListener('pointermove', handleIconPointerMove, { passive: true });
         window.addEventListener('pointerup', handleIconPointerUp);
         window.addEventListener('pointercancel', handleIconPointerCancel);
         return;
@@ -1247,7 +1249,7 @@ export function DesktopIconCanvas({
       };
 
       cleanupPointerRef.current = cleanupMarquee;
-      window.addEventListener('pointermove', handleMarqueePointerMove);
+      window.addEventListener('pointermove', handleMarqueePointerMove, { passive: true });
       window.addEventListener('pointerup', handleMarqueePointerUp);
       window.addEventListener('pointercancel', handleMarqueePointerCancel);
     },
@@ -1468,12 +1470,12 @@ export function DesktopIconCanvas({
         >
           <span
             className="inline-flex items-center gap-1 text-xs font-semibold mr-1 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Sparkles
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
             <span>Desktop</span>
           </span>
@@ -1548,7 +1550,7 @@ export function DesktopIconCanvas({
             <span
               aria-hidden="true"
               className="inline-flex items-center text-[11px] font-medium px-1"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <ArrowUpDown className="w-3 h-3 mr-0.5 shrink-0" />
               Sort
@@ -1585,7 +1587,7 @@ export function DesktopIconCanvas({
           <span
             data-testid="desktop-selection-count"
             className="prism-well inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -1699,11 +1701,11 @@ export function DesktopIconCanvas({
                 <Inbox
                   aria-hidden="true"
                   className="w-6 h-6"
-                  style={{ color: 'var(--prism-text-disabled)' }}
+                  style={STYLE_TEXT_DISABLED}
                 />
                 <span
                   className="text-xs font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Desktop is empty
                 </span>
@@ -1786,7 +1788,7 @@ export function DesktopIconCanvas({
                         aria-hidden="true"
                         data-testid={`desktop-icon-pin-${item.id}`}
                         className="absolute top-1.5 left-1.5 inline-flex items-center justify-center"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         <Pin className="w-2.5 h-2.5" />
                       </span>
@@ -1878,7 +1880,7 @@ export function DesktopIconCanvas({
                       <span
                         data-testid={`desktop-icon-label-${item.id}`}
                         className="w-full text-[11px] font-semibold leading-tight truncate px-0.5"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {item.name}
                       </span>
@@ -1927,13 +1929,13 @@ export function DesktopIconCanvas({
           aria-atomic="true"
           data-testid="desktop-status-live"
           className="min-w-0 truncate"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {statusMessage}
         </p>
         <span
           className="text-[11px] shrink-0"
-          style={{ color: 'var(--prism-text-disabled)' }}
+          style={STYLE_TEXT_DISABLED}
         >
           Drag icons · Lasso background · Alt+Arrows move · F2 rename · Enter open
         </span>
@@ -1942,4 +1944,5 @@ export function DesktopIconCanvas({
   );
 }
 
+export const DesktopIconCanvas = memo(DesktopIconCanvasInner);
 DesktopIconCanvas.displayName = 'DesktopIconCanvas';

@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useRef, type KeyboardEvent, type ReactNode } from 'react';
+import { memo, useId, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import { CheckCircle2, Circle, Clock, Loader2, Users, Wrench } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AgentRosterStatus = 'idle' | 'thinking' | 'tool' | 'waiting' | 'done';
@@ -82,7 +83,7 @@ function getStatusVisual(status: AgentRosterStatus): RosterStatusVisual {
         pillClass: 'prism-well',
         colorToken: 'var(--prism-primary-main)',
         borderToken: 'var(--prism-primary-main)',
-        icon: <Loader2 aria-hidden="true" className="w-3 h-3 shrink-0 animate-spin" />,
+        icon: <Loader2 aria-hidden="true" className="w-3 h-3 shrink-0 animate-spin motion-reduce:animate-none" />,
       };
     case 'tool':
       return {
@@ -118,7 +119,7 @@ function getStatusVisual(status: AgentRosterStatus): RosterStatusVisual {
   }
 }
 
-export function AgentRosterRail({
+function AgentRosterRailInner({
   agents,
   activeAgentId,
   defaultActiveAgentId,
@@ -207,7 +208,7 @@ export function AgentRosterRail({
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
       <div
         className={cx(headerClass, 'px-4 py-3 flex flex-wrap items-center justify-between gap-2.5 border-b')}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2.5">
           <span
@@ -222,7 +223,7 @@ export function AgentRosterRail({
           <h3
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h3>
@@ -231,7 +232,7 @@ export function AgentRosterRail({
         <span
           data-testid="agent-roster-summary"
           className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {activeWorkingCount} active · {agents.length} total
         </span>
@@ -243,7 +244,7 @@ export function AgentRosterRail({
             data-testid="agent-roster-empty"
             className="prism-well rounded-2xl py-6 px-4 text-center"
           >
-            <p className="text-xs font-medium" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs font-medium" style={STYLE_TEXT_SECONDARY}>
               No agents currently registered in this roster.
             </p>
           </div>
@@ -282,7 +283,7 @@ export function AgentRosterRail({
                     onKeyDown={(event) => handleCardKeyDown(event, index)}
                     className={cx(
                       cardClass,
-                      'prism-crystal prism-focus-ring w-full rounded-2xl p-3 text-left flex flex-col gap-2.5 border cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all'
+                      'prism-crystal prism-focus-ring w-full rounded-2xl p-3 text-left flex flex-col gap-2.5 border cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
                     )}
                     style={
                       isSelected
@@ -314,13 +315,13 @@ export function AgentRosterRail({
                         <div className="min-w-0">
                           <div
                             className="text-xs font-semibold truncate"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {agent.name}
                           </div>
                           <div
                             className="text-[11px] truncate"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {agent.role}
                           </div>
@@ -353,7 +354,7 @@ export function AgentRosterRail({
                       <p
                         data-testid={`agent-roster-task-${agent.id}`}
                         className="prism-well rounded-xl px-2.5 py-1.5 text-[11px] leading-snug break-words"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {agent.currentTask}
                       </p>
@@ -369,4 +370,5 @@ export function AgentRosterRail({
   );
 }
 
+export const AgentRosterRail = memo(AgentRosterRailInner);
 AgentRosterRail.displayName = 'AgentRosterRail';

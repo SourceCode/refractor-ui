@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CohortColorTone = 'primary' | 'emerald' | 'info';
@@ -182,7 +184,7 @@ const LEGEND_STEPS: ReadonlyArray<{ id: string; pct: number; opacity: number }> 
   { id: 'step-100', pct: 100, opacity: computeRetentionOpacity(100) },
 ];
 
-export function CohortRetentionGrid({
+function CohortRetentionGridInner({
   cohorts,
   periodPrefix = 'M',
   tone = 'emerald',
@@ -350,7 +352,7 @@ export function CohortRetentionGrid({
             <h4
               id={headingId}
               className="text-sm font-semibold tracking-tight break-words"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
@@ -359,7 +361,7 @@ export function CohortRetentionGrid({
               <span
                 data-testid="cohort-total-users"
                 className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {`${formatCount(totalUsers)} users`}
               </span>
@@ -376,9 +378,9 @@ export function CohortRetentionGrid({
               <span
                 data-testid="cohort-m1-pill"
                 className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium shrink-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   {`${m1Label} Avg`}
                 </span>
                 <span className="font-mono font-semibold" style={{ color: toneTokens.main }}>
@@ -389,9 +391,9 @@ export function CohortRetentionGrid({
               <span
                 data-testid="cohort-m3-pill"
                 className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium shrink-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   {`${m3Label} Avg`}
                 </span>
                 <span className="font-mono font-semibold" style={{ color: toneTokens.main }}>
@@ -409,7 +411,7 @@ export function CohortRetentionGrid({
             legendClass,
             'prism-crystal px-3 py-1.5 rounded-full inline-flex flex-wrap items-center gap-1.5 text-[11px] font-medium tabular-nums max-w-full shrink-0'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span className="font-mono">0%</span>
           <span className="inline-flex items-center gap-1" aria-hidden="true">
@@ -440,7 +442,7 @@ export function CohortRetentionGrid({
           role="status"
           data-testid="cohort-retention-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No cohort retention data to display.
         </div>
@@ -462,14 +464,14 @@ export function CohortRetentionGrid({
                   <th
                     scope="col"
                     className="px-2.5 py-2 text-left text-[11px] font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Cohort
                   </th>
                   <th
                     scope="col"
                     className="px-2.5 py-2 text-right text-[11px] font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Size
                   </th>
@@ -478,7 +480,7 @@ export function CohortRetentionGrid({
                       key={period.key}
                       scope="col"
                       className="px-2 py-2 text-center text-[11px] font-semibold font-mono whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {period.label}
                     </th>
@@ -492,14 +494,14 @@ export function CohortRetentionGrid({
                     <th
                       scope="row"
                       className="px-2.5 py-1.5 text-left text-[11px] font-semibold whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {row.label}
                     </th>
 
                     <td
                       className="px-2.5 py-1.5 text-right font-mono text-[11px] whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {formatCount(row.size)}
                     </td>
@@ -639,7 +641,7 @@ export function CohortRetentionGrid({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums min-w-0 max-w-full'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeSelection ? (
               <span className="inline-flex flex-wrap items-center gap-2 font-medium min-w-0 break-words">
@@ -660,7 +662,7 @@ export function CohortRetentionGrid({
                 </span>
               </span>
             ) : (
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 Select any elapsed cohort cell to inspect retention and retained users.
               </span>
             )}
@@ -671,4 +673,5 @@ export function CohortRetentionGrid({
   );
 }
 
+export const CohortRetentionGrid = memo(CohortRetentionGridInner);
 CohortRetentionGrid.displayName = 'CohortRetentionGrid';

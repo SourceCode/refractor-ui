@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -29,6 +30,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type LinkPreviewPlacement = 'top' | 'bottom';
@@ -122,7 +124,7 @@ function getEntityKindConfig(kind: LinkPreviewEntityKind): EntityKindConfig {
   }
 }
 
-export function LinkPreviewCard({
+function LinkPreviewCardInner({
   href,
   label,
   preview,
@@ -469,7 +471,7 @@ export function LinkPreviewCard({
               cardClass,
               'prism-slab block w-[min(20rem,calc(100vw-2rem))] p-3.5 text-left space-y-2.5'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {hasSafeThumbnail ? (
               <span
@@ -477,7 +479,7 @@ export function LinkPreviewCard({
                   thumbnailClass,
                   'prism-well block overflow-hidden rounded-xl border max-w-full'
                 )}
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 <img
                   src={safeThumbnailSrc}
@@ -512,7 +514,7 @@ export function LinkPreviewCard({
                 <span
                   data-testid="link-preview-external-indicator"
                   className="inline-flex items-center gap-1 text-[11px] font-mono shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   <span>External</span>
                   <ExternalLink aria-hidden="true" className="w-3 h-3 shrink-0" />
@@ -527,7 +529,7 @@ export function LinkPreviewCard({
                 titleClass,
                 'block text-sm font-semibold leading-snug break-words max-w-full'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {preview.title}
             </span>
@@ -599,7 +601,7 @@ export function LinkPreviewCard({
                       tagClass,
                       'prism-well inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium max-w-full truncate'
                     )}
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {tag}
                   </span>
@@ -613,4 +615,5 @@ export function LinkPreviewCard({
   );
 }
 
+export const LinkPreviewCard = memo(LinkPreviewCardInner);
 LinkPreviewCard.displayName = 'LinkPreviewCard';

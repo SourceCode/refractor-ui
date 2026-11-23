@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -22,6 +23,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AudioMixerChannelTone = 'primary' | 'info' | 'emerald' | 'amber';
@@ -291,7 +293,7 @@ function findDeviceLabel(
   return matched ? matched.label : emptyLabel;
 }
 
-export function PerAppAudioMixer({
+function PerAppAudioMixerInner({
   title = DEFAULT_TITLE,
   outputDevices,
   inputDevices,
@@ -602,7 +604,7 @@ export function PerAppAudioMixer({
       disabled,
     }),
     baseClassName: cx(
-      'prism-slab w-full max-w-full min-w-0 p-4 flex flex-col gap-3.5 transition-all',
+      'prism-slab w-full max-w-full min-w-0 p-4 flex flex-col gap-3.5 transition-[color,background-color,border-color,opacity,transform]',
       disabled ? 'opacity-60' : ''
     ),
     overrideClassName: override?.className,
@@ -640,7 +642,7 @@ export function PerAppAudioMixer({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <SlidersHorizontal
               aria-hidden="true"
@@ -651,19 +653,19 @@ export function PerAppAudioMixer({
             id={titleId}
             data-testid="per-app-audio-mixer-title"
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h2>
           <span
             data-testid="per-app-audio-mixer-active-output"
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium max-w-full min-w-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Speaker
               aria-hidden="true"
               className="w-3 h-3 shrink-0"
-              style={{ color: 'var(--prism-info-main)' }}
+              style={STYLE_INFO_MAIN}
             />
             <span className="truncate min-w-0">{activeOutputLabel}</span>
           </span>
@@ -674,8 +676,8 @@ export function PerAppAudioMixer({
           disabled={disabled}
           data-testid="per-app-audio-mixer-reset"
           onClick={handleResetMix}
-          className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_PRIMARY}
         >
           <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           <span>Reset Mix</span>
@@ -693,7 +695,7 @@ export function PerAppAudioMixer({
           <label
             htmlFor={outputSelectId}
             className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide min-w-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Speaker aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span className="truncate">Output</span>
@@ -707,7 +709,7 @@ export function PerAppAudioMixer({
               disabled={disabled || safeOutputDevices.length === 0}
               onChange={handleOutputDeviceChange}
               className="prism-focus-ring w-full min-w-0 appearance-none bg-transparent rounded-xl pl-3 pr-8 py-2 text-xs font-medium truncate cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeOutputDevices.length === 0 ? (
                 <option value="">No output devices</option>
@@ -722,7 +724,7 @@ export function PerAppAudioMixer({
             <ChevronDown
               aria-hidden="true"
               className="w-3.5 h-3.5 pointer-events-none absolute right-2.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
           </div>
         </div>
@@ -731,7 +733,7 @@ export function PerAppAudioMixer({
           <label
             htmlFor={inputSelectId}
             className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide min-w-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Mic aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span className="truncate">Input</span>
@@ -745,7 +747,7 @@ export function PerAppAudioMixer({
               disabled={disabled || safeInputDevices.length === 0}
               onChange={handleInputDeviceChange}
               className="prism-focus-ring w-full min-w-0 appearance-none bg-transparent rounded-xl pl-3 pr-8 py-2 text-xs font-medium truncate cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeInputDevices.length === 0 ? (
                 <option value="">No input devices</option>
@@ -760,7 +762,7 @@ export function PerAppAudioMixer({
             <ChevronDown
               aria-hidden="true"
               className="w-3.5 h-3.5 pointer-events-none absolute right-2.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
           </div>
         </div>
@@ -784,7 +786,7 @@ export function PerAppAudioMixer({
               data-muted={currentState.masterMuted ? 'true' : undefined}
               onClick={handleToggleMasterMute}
               className={cx(
-                'prism-focus-ring inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                'prism-focus-ring inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                 currentState.masterMuted ? '' : 'prism-well'
               )}
               style={
@@ -875,14 +877,14 @@ export function PerAppAudioMixer({
         <div className="flex flex-wrap items-center justify-between gap-2 px-0.5 min-w-0">
           <span
             className="text-[11px] font-semibold uppercase tracking-wide"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Application Channels
           </span>
           <span
             data-testid="per-app-audio-mixer-active-count"
             className="font-mono text-[11px] font-medium tabular-nums whitespace-nowrap"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activeChannelCount} / {currentState.channels.length} active
           </span>
@@ -896,7 +898,7 @@ export function PerAppAudioMixer({
               emptyClass,
               'prism-well rounded-2xl px-4 py-5 text-center text-xs font-medium min-w-0'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             No active application audio channels. Start playback in an app to
             control its volume independently.
@@ -962,7 +964,7 @@ export function PerAppAudioMixer({
                         data-muted={channel.muted ? 'true' : undefined}
                         onClick={() => handleToggleChannelMute(channel.id)}
                         className={cx(
-                          'prism-focus-ring inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                          'prism-focus-ring inline-flex items-center justify-center w-7 h-7 rounded-full shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                           channel.muted ? '' : 'prism-crystal'
                         )}
                         style={
@@ -1044,4 +1046,5 @@ export function PerAppAudioMixer({
   );
 }
 
+export const PerAppAudioMixer = memo(PerAppAudioMixerInner);
 PerAppAudioMixer.displayName = 'PerAppAudioMixer';

@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -20,7 +22,7 @@ export interface ToggleSwitchProps extends ToggleSwitchBaseProps {
   disabled?: boolean;
 }
 
-export function ToggleSwitch({
+function ToggleSwitchInner({
   checked,
   onChange,
   label,
@@ -53,7 +55,7 @@ export function ToggleSwitch({
         aria-label={ariaLabel || label || 'Toggle setting'}
         disabled={disabled}
         onClick={() => onChange(!checked)}
-        className={`prism-focus-ring relative w-[78px] h-[42px] rounded-full p-1 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0 ${
+        className={`prism-focus-ring relative w-[78px] h-[42px] rounded-full p-1 transition-[color,background-color,border-color,opacity,transform] duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0 ${
           checked ? 'prism-emerald' : 'prism-crystal'
         }`}
       >
@@ -70,4 +72,5 @@ export function ToggleSwitch({
   );
 }
 
+export const ToggleSwitch = memo(ToggleSwitchInner);
 ToggleSwitch.displayName = 'ToggleSwitch';

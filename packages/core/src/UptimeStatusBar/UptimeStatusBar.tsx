@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -20,6 +21,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type UptimeDayState =
@@ -241,7 +243,7 @@ function renderStateIcon(state: UptimeDayState, iconClassName: string) {
   }
 }
 
-export function UptimeStatusBar({
+function UptimeStatusBarInner({
   serviceName = DEFAULT_SERVICE_NAME,
   days,
   slaTargetPct = DEFAULT_SLA_TARGET_PCT,
@@ -470,7 +472,7 @@ export function UptimeStatusBar({
           <h4
             id={headingId}
             className="text-sm font-semibold truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedServiceName}
           </h4>
@@ -506,7 +508,7 @@ export function UptimeStatusBar({
           <span
             data-testid="uptime-empty-sla"
             className="prism-well inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-mono tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             SLA Target {formatSlaPct(safeSlaTargetPct)}
           </span>
@@ -521,7 +523,7 @@ export function UptimeStatusBar({
             emptyClass,
             'prism-well rounded-2xl px-4 py-8 text-center text-xs min-w-0'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No uptime history recorded for {resolvedServiceName}.
         </div>
@@ -585,7 +587,7 @@ export function UptimeStatusBar({
                 captionsClass,
                 'flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono tabular-nums min-w-0'
               )}
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span data-testid="uptime-caption-start" className="shrink-0">
                 {readyView.days.length}{' '}
@@ -594,7 +596,7 @@ export function UptimeStatusBar({
               <span
                 aria-hidden="true"
                 className="hidden sm:block flex-1 h-px min-w-[16px]"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
               <span data-testid="uptime-caption-sla" className="shrink-0">
                 SLA Target {formatSlaPct(safeSlaTargetPct)}
@@ -602,7 +604,7 @@ export function UptimeStatusBar({
               <span
                 aria-hidden="true"
                 className="hidden sm:block flex-1 h-px min-w-[16px]"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
               <span data-testid="uptime-caption-end" className="shrink-0">
                 Today
@@ -624,13 +626,13 @@ export function UptimeStatusBar({
               <span
                 data-testid="uptime-readout-date"
                 className="font-semibold"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {readyView.activeDay.slot.dateLabel}
               </span>
               <span
                 aria-hidden="true"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 ·
               </span>
@@ -649,27 +651,27 @@ export function UptimeStatusBar({
               </span>
               <span
                 aria-hidden="true"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 ·
               </span>
               <span
                 data-testid="uptime-readout-pct"
                 className="font-mono font-semibold tabular-nums"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatUptimePct(readyView.activeDay.uptimePct)}
               </span>
               <span
                 aria-hidden="true"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 ·
               </span>
               <span
                 data-testid="uptime-readout-downtime"
                 className="font-mono tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {formatDowntime(readyView.activeDay.downtimeMinutes)}
               </span>
@@ -678,7 +680,7 @@ export function UptimeStatusBar({
             <p
               data-testid="uptime-readout-summary"
               className="text-xs leading-relaxed break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {readyView.activeDay.summary}
             </p>
@@ -689,4 +691,5 @@ export function UptimeStatusBar({
   );
 }
 
+export const UptimeStatusBar = memo(UptimeStatusBarInner);
 UptimeStatusBar.displayName = 'UptimeStatusBar';

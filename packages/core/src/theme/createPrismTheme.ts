@@ -403,10 +403,17 @@ export function createPrismTheme(
   };
 }
 
+const cssVarsCache = new WeakMap<PrismTheme, Record<`--prism-${string}`, string>>();
+
 /**
  * Serializes a PrismTheme into a flat CSS custom property record for :root or scoped injection.
+ * Cached by PrismTheme object identity via WeakMap to avoid repeated serialization on re-renders.
  */
 export function themeToCssVariables(theme: PrismTheme): Record<`--prism-${string}`, string> {
+  const cached = cssVarsCache.get(theme);
+  if (cached !== undefined) {
+    return cached;
+  }
   const { palette, typography, shape, optics, fx, motion, editor, customTokens } = theme;
   const glowRgb = formatRgbTriplet(parseColorToRgb(fx.glowColor));
   const isAdaptive = fx.adaptiveInk;
@@ -523,8 +530,10 @@ export function themeToCssVariables(theme: PrismTheme): Record<`--prism-${string
     baseVars['--prism-well-border'] = fx.windowBorder;
   }
 
-  return {
+  const result: Record<`--prism-${string}`, string> = {
     ...baseVars,
     ...customTokens,
   };
+  cssVarsCache.set(theme, result);
+  return result;
 }

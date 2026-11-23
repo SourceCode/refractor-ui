@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Globe, Minus, Plus, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ClusterMapTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -208,7 +209,7 @@ function clampFocus(x: number, y: number, zoomLevel: number): MapFocus {
   };
 }
 
-export function PointClusterMap({
+function PointClusterMapInner({
   points,
   title = 'Geospatial Point Cluster Map',
   defaultZoom = DEFAULT_ZOOM,
@@ -508,21 +509,21 @@ export function PointClusterMap({
           <div className="min-w-0 flex flex-wrap items-center gap-2.5">
             <span
               className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               <Globe aria-hidden="true" className="w-4 h-4 shrink-0" />
             </span>
             <h4
               id={headingId}
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
             <span
               data-testid="cluster-map-telemetry"
               className="prism-crystal rounded-full px-2.5 py-0.5 text-[11px] font-mono tabular-nums font-medium shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {visiblePoints.length} markers · {clusters.length} clusters
             </span>
@@ -541,7 +542,7 @@ export function PointClusterMap({
               disabled={zoom <= MIN_ZOOM}
               onClick={handleZoomOut}
               className="prism-well prism-focus-ring h-6 w-6 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:scale-105 transition-transform"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Minus aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -551,13 +552,13 @@ export function PointClusterMap({
               data-testid="cluster-map-zoom-reset"
               onClick={handleZoomReset}
               className="prism-well prism-focus-ring h-6 rounded-full px-2 inline-flex items-center gap-1 text-[11px] font-mono tabular-nums font-medium cursor-pointer transition-opacity"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <RotateCcw aria-hidden="true" className="w-3 h-3" />
               <span>Reset</span>
               <span
                 data-testid="cluster-map-zoom-value"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {formatZoom(zoom)}
               </span>
@@ -569,7 +570,7 @@ export function PointClusterMap({
               disabled={zoom >= MAX_ZOOM}
               onClick={handleZoomIn}
               className="prism-well prism-focus-ring h-6 w-6 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:scale-105 transition-transform"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Plus aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -594,10 +595,10 @@ export function PointClusterMap({
                   data-tone={cat.tone}
                   onClick={() => handleToggleCategory(cat.name)}
                   className={cx(
-                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all',
+                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     isVisible ? 'prism-crystal' : 'prism-well opacity-55 line-through'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
@@ -621,7 +622,7 @@ export function PointClusterMap({
           role="status"
           data-testid="cluster-map-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {isEmpty
             ? 'No valid geographic points available.'
@@ -743,7 +744,7 @@ export function PointClusterMap({
                             isSelected ? 'var(--prism-text-primary)' : 'var(--prism-bg-start)'
                           }
                           strokeWidth={roundTwo((isSelected ? 2 : 1.4) * invScale)}
-                          className="prism-focus-ring cursor-pointer transition-all"
+                          className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
                           onClick={() => handleSelectPoint(item)}
                           onKeyDown={(event) => handlePointKeyDown(event, item)}
                         />
@@ -815,7 +816,7 @@ export function PointClusterMap({
                           fill="var(--prism-primary-main)"
                           stroke="var(--prism-primary-contrast)"
                           strokeWidth={roundTwo(1.5 * invScale)}
-                          className="prism-focus-ring cursor-pointer transition-all"
+                          className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
                           onClick={() => handleSelectCluster(cluster)}
                           onKeyDown={(event) => handleClusterKeyDown(event, cluster)}
                         />
@@ -858,7 +859,7 @@ export function PointClusterMap({
                   <span
                     data-testid="cluster-map-inspector-summary"
                     className="font-semibold font-mono tabular-nums break-words"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {activePoint.point.label} · {activePoint.point.lat.toFixed(2)}°,{' '}
                     {activePoint.point.lng.toFixed(2)}°
@@ -867,7 +868,7 @@ export function PointClusterMap({
                     <span
                       data-testid="cluster-map-inspector-category"
                       className="prism-crystal rounded-full px-2 py-0.5 text-[11px] font-medium shrink-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {activePoint.point.category}
                     </span>
@@ -888,7 +889,7 @@ export function PointClusterMap({
                   data-testid="cluster-map-inspector-clear"
                   onClick={handleClearSelection}
                   className="prism-crystal prism-focus-ring rounded-full px-2 py-0.5 text-[11px] font-medium cursor-pointer shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Clear
                 </button>
@@ -903,7 +904,7 @@ export function PointClusterMap({
                     >
                       {activeClusterMembers.length} clustered markers
                     </span>
-                    <span style={{ color: 'var(--prism-text-secondary)' }}>
+                    <span style={STYLE_TEXT_SECONDARY}>
                       Select a member to inspect coordinates
                     </span>
                   </div>
@@ -914,7 +915,7 @@ export function PointClusterMap({
                     data-testid="cluster-map-inspector-clear"
                     onClick={handleClearSelection}
                     className="prism-crystal prism-focus-ring rounded-full px-2 py-0.5 text-[11px] font-medium cursor-pointer shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Clear
                   </button>
@@ -931,7 +932,7 @@ export function PointClusterMap({
                       data-testid={`cluster-map-member-pill-${member.point.id}`}
                       onClick={() => handleSelectPoint(member)}
                       className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-medium cursor-pointer"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       <span
                         aria-hidden="true"
@@ -944,7 +945,7 @@ export function PointClusterMap({
                 </div>
               </div>
             ) : (
-              <p style={{ color: 'var(--prism-text-secondary)' }}>
+              <p style={STYLE_TEXT_SECONDARY}>
                 Select a pin to inspect coordinates or click a cluster bubble to zoom in and
                 explore grouped markers.
               </p>
@@ -956,4 +957,5 @@ export function PointClusterMap({
   );
 }
 
+export const PointClusterMap = memo(PointClusterMapInner);
 PointClusterMap.displayName = 'PointClusterMap';

@@ -70,7 +70,7 @@ describe('MediaLightbox', () => {
       'inset-0',
       'z-50',
       'bg-slate-950/90',
-      'backdrop-blur-xl',
+      'prism-backdrop-scrim',
       'theme-lightbox',
       'local-lightbox'
     );

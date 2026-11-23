@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   Fragment,
   useCallback,
   useEffect,
@@ -16,6 +17,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ShortcutDisplayMode = 'modal' | 'inline';
@@ -253,7 +255,7 @@ function normalizeShortcutGroups(
   return normalizedGroups;
 }
 
-export function ShortcutCheatSheet({
+function ShortcutCheatSheetInner({
   groups = DEFAULT_SHORTCUT_GROUPS,
   mode = 'modal',
   open,
@@ -442,14 +444,14 @@ export function ShortcutCheatSheet({
       <div className="min-w-0 flex-1">
         <div
           className="text-sm font-medium leading-snug break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {entry.binding.label}
         </div>
         {entry.binding.description ? (
           <div
             className="text-xs leading-snug break-words mt-0.5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {entry.binding.description}
           </div>
@@ -467,7 +469,7 @@ export function ShortcutCheatSheet({
                     joinerClass,
                     'text-[10px] font-mono font-medium select-none leading-none'
                   )}
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   +
                 </span>
@@ -502,7 +504,7 @@ export function ShortcutCheatSheet({
           >
             <Keyboard
               className="w-4 h-4"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
               aria-hidden="true"
             />
           </span>
@@ -510,13 +512,13 @@ export function ShortcutCheatSheet({
             <h2
               id={titleId}
               className="text-base sm:text-lg font-semibold tracking-[-0.01em] truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedTitle}
             </h2>
             <p
               className="text-xs tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {matchingShortcutCount}{' '}
               {matchingShortcutCount === 1 ? 'shortcut' : 'shortcuts'} across{' '}
@@ -534,7 +536,7 @@ export function ShortcutCheatSheet({
               closeClass,
               'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-medium cursor-pointer shrink-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <X className="w-3.5 h-3.5" aria-hidden="true" />
             <span>Close</span>
@@ -551,7 +553,7 @@ export function ShortcutCheatSheet({
       >
         <Search
           className="w-4 h-4 shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
           aria-hidden="true"
         />
         <input
@@ -563,7 +565,7 @@ export function ShortcutCheatSheet({
           placeholder="Filter by action, category, or key..."
           aria-label="Filter keyboard shortcuts"
           className="w-full min-w-0 bg-transparent text-sm focus:outline-none"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         />
         {query.length > 0 ? (
           <button
@@ -574,7 +576,7 @@ export function ShortcutCheatSheet({
               searchInputRef.current?.focus();
             }}
             className="prism-focus-ring inline-flex items-center justify-center w-6 h-6 rounded-full cursor-pointer shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <X className="w-3.5 h-3.5" aria-hidden="true" />
           </button>
@@ -600,7 +602,7 @@ export function ShortcutCheatSheet({
           >
             <p
               className="text-sm font-medium"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {trimmedQuery
                 ? `No shortcuts matching "${trimmedQuery}"`
@@ -614,7 +616,7 @@ export function ShortcutCheatSheet({
                   searchInputRef.current?.focus();
                 }}
                 className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full text-xs font-medium cursor-pointer"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Clear search
               </button>
@@ -638,17 +640,17 @@ export function ShortcutCheatSheet({
               >
                 <div
                   className="flex items-center justify-between gap-2 pb-2 border-b min-w-0"
-                  style={{ borderColor: 'var(--prism-divider)' }}
+                  style={STYLE_BORDER_DIVIDER}
                 >
                   <h3
                     className="text-xs font-semibold uppercase tracking-wider truncate"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {group.title}
                   </h3>
                   <span
                     className="text-[11px] font-mono tabular-nums shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {group.shortcuts.length}
                   </span>
@@ -746,17 +748,17 @@ export function ShortcutCheatSheet({
           triggerClass,
           'prism-crystal prism-focus-ring inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm font-medium max-w-full min-w-0 cursor-pointer transition-transform hover:-translate-y-0.5 active:translate-y-0'
         )}
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         <Keyboard
           className="w-4 h-4 shrink-0"
-          style={{ color: 'var(--prism-primary-main)' }}
+          style={STYLE_PRIMARY_MAIN}
           aria-hidden="true"
         />
         <span className="truncate">Shortcuts</span>
         <span
           aria-hidden="true"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {' · '}
         </span>
@@ -779,7 +781,7 @@ export function ShortcutCheatSheet({
           data-part="backdrop"
           className={cx(
             backdropClass,
-            'fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-xs'
+            'fixed inset-0 z-50 flex items-center justify-center p-4 prism-backdrop-scrim'
           )}
           style={{
             backgroundColor:
@@ -799,7 +801,7 @@ export function ShortcutCheatSheet({
               panelClass,
               'prism-slab w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden p-5 sm:p-6 gap-4 min-w-0 focus:outline-none'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {sheetContent}
           </div>
@@ -809,4 +811,5 @@ export function ShortcutCheatSheet({
   );
 }
 
+export const ShortcutCheatSheet = memo(ShortcutCheatSheetInner);
 ShortcutCheatSheet.displayName = 'ShortcutCheatSheet';

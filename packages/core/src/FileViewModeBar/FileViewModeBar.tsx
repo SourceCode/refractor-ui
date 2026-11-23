@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useMemo,
   useRef,
@@ -25,6 +26,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type FileViewModeId = 'grid' | 'list' | 'columns' | 'gallery';
@@ -275,7 +277,7 @@ function buildIndexedItems(items: ReadonlyArray<FileViewSampleItem>): ReadonlyAr
   });
 }
 
-export function FileViewModeBar({
+function FileViewModeBarInner({
   viewMode,
   defaultViewMode = DEFAULT_VIEW_MODE,
   zoomPx,
@@ -482,7 +484,7 @@ export function FileViewModeBar({
                 onKeyDown={(event) => handleRadioKeyDown(event, index)}
                 className={cx(
                   optionClass,
-                  'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                  'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                   isSelected
                     ? 'prism-btn-primary font-semibold'
                     : 'font-medium enabled:hover:bg-[var(--prism-divider)]'
@@ -514,7 +516,7 @@ export function FileViewModeBar({
             disabled={!canZoomOut}
             onClick={handleZoomOut}
             className="prism-crystal prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Minus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           </button>
@@ -544,7 +546,7 @@ export function FileViewModeBar({
             disabled={!canZoomIn}
             onClick={handleZoomIn}
             className="prism-crystal prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Plus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           </button>
@@ -552,7 +554,7 @@ export function FileViewModeBar({
           <span
             data-testid="file-view-zoom-badge"
             className="prism-crystal rounded-full px-2.5 py-0.5 font-mono text-xs font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeZoom}px
           </span>
@@ -570,10 +572,10 @@ export function FileViewModeBar({
             <div
               data-testid="file-view-preview-empty"
               className="py-8 px-4 flex flex-col items-center justify-center text-center gap-1.5 min-w-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <Inbox aria-hidden="true" className="w-5 h-5 shrink-0 opacity-75" />
-              <p className="m-0 text-xs font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+              <p className="m-0 text-xs font-semibold" style={STYLE_TEXT_PRIMARY}>
                 No files to preview
               </p>
               <p className="m-0 text-xs">
@@ -599,7 +601,7 @@ export function FileViewModeBar({
                   >
                     <div
                       data-testid={`file-view-grid-thumb-${entry.key}`}
-                      className="rounded-xl border flex flex-col items-center justify-center gap-1.5 shrink-0 max-w-full transition-all duration-150"
+                      className="rounded-xl border flex flex-col items-center justify-center gap-1.5 shrink-0 max-w-full transition-[color,background-color,border-color,opacity,transform] duration-150"
                       style={{
                         width: `${activeZoom}px`,
                         height: `${activeZoom}px`,
@@ -619,13 +621,13 @@ export function FileViewModeBar({
                     <div className="w-full min-w-0 text-center flex flex-col gap-0.5">
                       <span
                         className="text-xs font-semibold truncate block"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {entry.item.name}
                       </span>
                       <span
                         className="font-mono text-[11px] tabular-nums truncate block"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {entry.item.sizeLabel} · {entry.item.modifiedAt}
                       </span>
@@ -651,7 +653,7 @@ export function FileViewModeBar({
                       {renderFileKindIcon(entry.item.kind, 'w-4 h-4 shrink-0')}
                       <span
                         className="text-xs font-medium truncate min-w-0"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {entry.item.name}
                       </span>
@@ -666,7 +668,7 @@ export function FileViewModeBar({
                       </span>
                       <span
                         className="prism-crystal rounded-full px-2 py-0.5 font-mono text-[11px] tabular-nums whitespace-nowrap"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {entry.item.sizeLabel}
                       </span>
@@ -725,7 +727,7 @@ export function FileViewModeBar({
                       >
                         <td
                           className="py-2 px-3 font-medium whitespace-nowrap"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           <span className="inline-flex items-center gap-2 min-w-0">
                             {renderFileKindIcon(entry.item.kind, 'w-3.5 h-3.5 shrink-0')}
@@ -742,13 +744,13 @@ export function FileViewModeBar({
                         </td>
                         <td
                           className="py-2 px-3 font-mono tabular-nums whitespace-nowrap text-right"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {entry.item.sizeLabel}
                         </td>
                         <td
                           className="py-2 px-3 font-mono tabular-nums whitespace-nowrap text-right"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {entry.item.modifiedAt}
                         </td>
@@ -789,14 +791,14 @@ export function FileViewModeBar({
                       <span
                         data-testid="file-view-gallery-spotlight-name"
                         className="text-sm font-semibold truncate max-w-full"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {activeGalleryEntry.item.name}
                       </span>
                       <span
                         data-testid="file-view-gallery-spotlight-meta"
                         className="font-mono text-xs tabular-nums"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {activeGalleryEntry.item.sizeLabel} · {activeGalleryEntry.item.modifiedAt}
                       </span>
@@ -824,7 +826,7 @@ export function FileViewModeBar({
                       data-testid={`file-view-gallery-item-${entry.key}`}
                       onClick={() => setSelectedGalleryKey(entry.key)}
                       className={cx(
-                        'prism-focus-ring rounded-xl p-1.5 border flex flex-col items-center gap-1.5 shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                        'prism-focus-ring rounded-xl p-1.5 border flex flex-col items-center gap-1.5 shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                         isSelected ? 'prism-crystal' : 'prism-well'
                       )}
                       style={{
@@ -835,7 +837,7 @@ export function FileViewModeBar({
                     >
                       <span
                         data-testid={`file-view-gallery-thumb-${entry.key}`}
-                        className="rounded-lg flex items-center justify-center shrink-0 transition-all duration-150"
+                        className="rounded-lg flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] duration-150"
                         style={{
                           width: `${activeZoom}px`,
                           height: `${filmstripThumbHeight}px`,
@@ -874,7 +876,7 @@ export function FileViewModeBar({
           statusClass,
           'prism-well rounded-xl px-3 py-1.5 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono tabular-nums min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <span className="truncate min-w-0">{statusAnnouncement}</span>
         <span className="shrink-0">
@@ -885,4 +887,5 @@ export function FileViewModeBar({
   );
 }
 
+export const FileViewModeBar = memo(FileViewModeBarInner);
 FileViewModeBar.displayName = 'FileViewModeBar';

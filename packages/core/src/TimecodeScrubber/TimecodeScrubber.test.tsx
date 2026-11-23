@@ -168,7 +168,7 @@ describe('TimecodeScrubber', () => {
     // Primary drag starts window listeners
     fireEvent.pointerDown(slider, { clientX: 100, button: 0, pointerId: 3 });
     expect(root).toHaveAttribute('data-scrubbing', 'true');
-    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
+    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function), { passive: true });
     expect(addSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
     expect(addSpy).toHaveBeenCalledWith('pointercancel', expect.any(Function));
 

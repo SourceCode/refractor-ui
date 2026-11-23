@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, type KeyboardEvent } from 'react';
+import { memo, useMemo, type KeyboardEvent } from 'react';
 import { CheckCircle2, FileDiff } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -127,7 +127,7 @@ function getMarkerGlyph(kind: DiffLine['kind'] | null): string {
   return ' ';
 }
 
-export function DiffViewer({
+function DiffViewerInner({
   original,
   modified,
   originalLabel = 'Original',
@@ -239,7 +239,7 @@ export function DiffViewer({
             type="button"
             aria-pressed={whitespaceIgnored}
             onClick={() => setWhitespaceIgnored((prev) => !prev)}
-            className={`prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer transition-all ${
+            className={`prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
               whitespaceIgnored
                 ? 'prism-emerald font-semibold'
                 : 'prism-well text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white'
@@ -262,7 +262,7 @@ export function DiffViewer({
                   aria-pressed={selected}
                   onClick={() => setActiveViewMode(mode)}
                   onKeyDown={(e) => handleModeKeyDown(e, mode)}
-                  className={`prism-focus-ring px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-all ${
+                  className={`prism-focus-ring px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                     selected
                       ? 'prism-well text-slate-900 dark:text-white font-semibold'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -323,7 +323,7 @@ export function DiffViewer({
                     <tr
                       key={row.id}
                       data-diff-row="split"
-                      className="border-b border-slate-300/20 dark:border-slate-800/60 last:border-b-0 align-top"
+                      className="prism-cv-row border-b border-slate-300/20 dark:border-slate-800/60 last:border-b-0 align-top"
                     >
                       <td
                         className={`w-11 select-none text-right pr-2 pl-2 text-[11px] text-slate-400 dark:text-slate-500 border-r border-slate-300/25 dark:border-slate-700/40 ${leftTone}`}
@@ -397,7 +397,7 @@ export function DiffViewer({
                       key={rowKey}
                       data-diff-row="unified"
                       data-diff-kind={line.kind}
-                      className={`border-b border-slate-300/20 dark:border-slate-800/60 last:border-b-0 align-top ${rowTone}`}
+                      className={`prism-cv-row border-b border-slate-300/20 dark:border-slate-800/60 last:border-b-0 align-top ${rowTone}`}
                     >
                       <td className="w-12 select-none text-right px-2 text-[11px] text-slate-400 dark:text-slate-500 border-r border-slate-300/25 dark:border-slate-700/40">
                         {line.oldLineNumber ?? ''}
@@ -424,4 +424,5 @@ export function DiffViewer({
   );
 }
 
+export const DiffViewer = memo(DiffViewerInner);
 DiffViewer.displayName = 'DiffViewer';

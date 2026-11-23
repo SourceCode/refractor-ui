@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
+import { memo, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   AlertTriangle,
   AtSign,
@@ -17,6 +17,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type NotificationTone = 'info' | 'mention' | 'warning' | 'success';
@@ -139,7 +140,7 @@ function getToneVisual(tone: NotificationTone): ToneVisual {
   }
 }
 
-export function NotificationCenter({
+function NotificationCenterInner({
   items,
   defaultItems,
   onItemsChange,
@@ -310,20 +311,20 @@ export function NotificationCenter({
     <>
       <header
         className="flex items-center justify-between gap-3 pb-3 border-b"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2">
           <h3
             id={titleId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h3>
           <span
             data-testid="notification-header-unread"
             className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {unreadCount} unread
           </span>
@@ -334,8 +335,8 @@ export function NotificationCenter({
             type="button"
             disabled={unreadCount === 0}
             onClick={handleMarkAllRead}
-            className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             <CheckCheck aria-hidden="true" className="w-3.5 h-3.5" />
             <span>Mark all read</span>
@@ -347,7 +348,7 @@ export function NotificationCenter({
               aria-label="Close notifications"
               onClick={handleClosePanel}
               className="prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center cursor-pointer transition-colors"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-4 h-4" />
             </button>
@@ -369,7 +370,7 @@ export function NotificationCenter({
               role="tab"
               aria-selected={selected}
               onClick={() => setActiveFilter(tab.id)}
-              className={`prism-focus-ring h-8 px-2.5 rounded-full text-xs font-medium inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
+              className={`prism-focus-ring h-8 px-2.5 rounded-full text-xs font-medium inline-flex items-center justify-center gap-1.5 cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                 selected ? 'prism-crystal font-semibold' : ''
               }`}
               style={{
@@ -393,7 +394,7 @@ export function NotificationCenter({
           <div
             data-testid="notification-empty-state"
             className="prism-well rounded-2xl px-4 py-10 text-center text-xs"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {emptyMessage}
           </div>
@@ -410,7 +411,7 @@ export function NotificationCenter({
                   data-notification-id={item.id}
                   data-read={isRead ? 'true' : 'false'}
                   data-tone={tone}
-                  className={`rounded-2xl p-3.5 transition-all ${
+                  className={`prism-cv-item rounded-2xl p-3.5 transition-[color,background-color,border-color,opacity,transform] ${
                     isRead ? 'prism-well opacity-80' : 'prism-crystal'
                   }`}
                 >
@@ -435,7 +436,7 @@ export function NotificationCenter({
                           ) : null}
                           <p
                             className="text-sm font-semibold truncate"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {item.title}
                           </p>
@@ -452,7 +453,7 @@ export function NotificationCenter({
                             }
                             onClick={() => handleToggleRead(item)}
                             className="prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer transition-colors"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {isRead ? (
                               <Circle aria-hidden="true" className="w-3.5 h-3.5" />
@@ -467,7 +468,7 @@ export function NotificationCenter({
                             aria-label={`Dismiss ${item.title}`}
                             onClick={() => handleDismiss(item)}
                             className="prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer transition-colors"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             <X aria-hidden="true" className="w-3.5 h-3.5" />
                           </button>
@@ -476,17 +477,17 @@ export function NotificationCenter({
 
                       <p
                         className="text-xs leading-relaxed break-words"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {item.message}
                       </p>
 
                       <div
                         className="flex flex-wrap items-center gap-2 pt-0.5 text-[11px]"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {item.actor ? (
-                          <span className="font-medium" style={{ color: 'var(--prism-text-primary)' }}>
+                          <span className="font-medium" style={STYLE_TEXT_PRIMARY}>
                             {item.actor}
                           </span>
                         ) : null}
@@ -505,11 +506,7 @@ export function NotificationCenter({
                                 className={`${
                                   isPrimary ? 'prism-btn-primary' : 'prism-crystal'
                                 } prism-focus-ring h-7 px-3 rounded-full text-xs font-medium inline-flex items-center justify-center cursor-pointer`}
-                                style={
-                                  isPrimary
-                                    ? undefined
-                                    : { color: 'var(--prism-text-primary)' }
-                                }
+                                style={isPrimary ? undefined : STYLE_TEXT_PRIMARY}
                               >
                                 <span className="relative z-10">{action.label}</span>
                               </button>
@@ -538,7 +535,7 @@ export function NotificationCenter({
           aria-controls={currentOpen ? panelId : undefined}
           onClick={handleToggleOpen}
           className="prism-crystal prism-focus-ring h-10 px-4 rounded-full inline-flex items-center gap-2 text-sm font-medium cursor-pointer transition-transform"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <Bell aria-hidden="true" className="w-4 h-4 shrink-0" />
           <span>{triggerLabel}</span>
@@ -582,8 +579,8 @@ export function NotificationCenter({
               handleClosePanel();
             }
           }}
-          className="fixed inset-0 z-50 flex justify-end backdrop-blur-xs"
-          style={{ backgroundColor: 'var(--prism-divider)' }}
+          className="fixed inset-0 z-50 flex justify-end prism-backdrop-scrim"
+          style={STYLE_BG_DIVIDER}
         >
           <div
             id={panelId}
@@ -604,4 +601,5 @@ export function NotificationCenter({
   );
 }
 
+export const NotificationCenter = memo(NotificationCenterInner);
 NotificationCenter.displayName = 'NotificationCenter';

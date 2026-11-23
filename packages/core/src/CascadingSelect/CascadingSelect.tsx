@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Check, ChevronDown, ChevronRight } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface CascadeOptionNode {
@@ -80,7 +81,7 @@ function resolvePathNodes(
   return resolved;
 }
 
-export function CascadingSelect({
+function CascadingSelectInner({
   options,
   value,
   defaultValue,
@@ -261,7 +262,7 @@ export function CascadingSelect({
         <span
           id={labelId}
           className="block text-xs font-semibold mb-1.5 ml-1"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {label}
         </span>
@@ -301,7 +302,7 @@ export function CascadingSelect({
               'w-4 h-4 shrink-0 transition-transform duration-150',
               isOpen ? 'rotate-180' : undefined
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
         </button>
 
@@ -314,7 +315,7 @@ export function CascadingSelect({
               clearClass,
               'prism-well prism-focus-ring absolute right-9 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full inline-flex items-center justify-center text-sm leading-none cursor-pointer enabled:hover:opacity-80 transition-opacity'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <span aria-hidden="true">×</span>
           </button>
@@ -337,7 +338,7 @@ export function CascadingSelect({
               role="status"
               data-testid="cascading-select-empty"
               className="px-4 py-5 text-center text-xs font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               No hierarchy options available
             </div>
@@ -359,7 +360,7 @@ export function CascadingSelect({
                 >
                   <div
                     className="px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Level {column.level}
                   </div>
@@ -391,14 +392,14 @@ export function CascadingSelect({
                           'prism-focus-ring w-full px-3 py-2 rounded-xl flex items-center justify-between gap-2 text-left text-sm font-medium transition-colors cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:bg-white/60 dark:enabled:hover:bg-white/10',
                           isActiveBranch ? 'prism-well' : undefined
                         )}
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         <span className="truncate">{node.label}</span>
                         {hasChildren ? (
                           <ChevronRight
                             aria-hidden="true"
                             className="w-3.5 h-3.5 shrink-0"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           />
                         ) : isSelectedLeaf ? (
                           <span
@@ -421,4 +422,5 @@ export function CascadingSelect({
   );
 }
 
+export const CascadingSelect = memo(CascadingSelectInner);
 CascadingSelect.displayName = 'CascadingSelect';

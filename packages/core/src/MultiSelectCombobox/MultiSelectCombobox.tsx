@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { memo, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Check, ChevronDown, Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -70,7 +70,7 @@ function normalizeSelection(
   return out;
 }
 
-export function MultiSelectCombobox({
+function MultiSelectComboboxInner({
   options,
   value,
   defaultValue,
@@ -512,4 +512,5 @@ export function MultiSelectCombobox({
   );
 }
 
+export const MultiSelectCombobox = memo(MultiSelectComboboxInner);
 MultiSelectCombobox.displayName = 'MultiSelectCombobox';

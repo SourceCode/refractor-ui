@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, compareNaturalStrings } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type LollipopOrientation = 'horizontal' | 'vertical';
@@ -221,14 +223,14 @@ function compareByValueDesc(
   if (b.value !== a.value) {
     return b.value - a.value;
   }
-  const labelCmp = a.label.localeCompare(b.label, undefined, { sensitivity: 'base' });
+  const labelCmp = compareNaturalStrings(a.label, b.label);
   if (labelCmp !== 0) {
     return labelCmp;
   }
   return a.originalIndex - b.originalIndex;
 }
 
-export function LollipopChart({
+function LollipopChartInner({
   data,
   orientation,
   defaultOrientation = 'horizontal',
@@ -333,7 +335,7 @@ export function LollipopChart({
           }
           return compareByValueDesc(a, b);
         }
-        const labelCmp = a.label.localeCompare(b.label, undefined, { sensitivity: 'base' });
+        const labelCmp = compareNaturalStrings(a.label, b.label);
         if (labelCmp !== 0) {
           return labelCmp;
         }
@@ -660,7 +662,7 @@ export function LollipopChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0 break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -681,7 +683,7 @@ export function LollipopChart({
                   data-orientation-option={opt.value}
                   onClick={() => setActiveOrientation(opt.value)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs cursor-pointer transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     pressed ? 'prism-crystal font-semibold' : 'font-medium opacity-75'
                   )}
                   style={{
@@ -709,7 +711,7 @@ export function LollipopChart({
                   data-sort-option={opt.value}
                   onClick={() => setActiveSortBy(opt.value)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs cursor-pointer transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     pressed ? 'prism-crystal font-semibold' : 'font-medium opacity-75'
                   )}
                   style={{
@@ -729,7 +731,7 @@ export function LollipopChart({
           role="status"
           data-testid="lollipop-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No lollipop ranking data to display.
         </div>
@@ -957,7 +959,7 @@ export function LollipopChart({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums min-w-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <div className="inline-flex flex-wrap items-center gap-2 min-w-0">
               <span
@@ -980,7 +982,7 @@ export function LollipopChart({
             <span
               data-testid="lollipop-readout-baseline"
               className="shrink-0 font-mono font-medium tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {`${referenceWord}: ${formatValue(comparisonBaseline, valuePrefix, unit)}`}
             </span>
@@ -991,4 +993,5 @@ export function LollipopChart({
   );
 }
 
+export const LollipopChart = memo(LollipopChartInner);
 LollipopChart.displayName = 'LollipopChart';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type HexbinTone = 'primary' | 'secondary' | 'emerald' | 'info';
@@ -261,7 +263,7 @@ function resolveIntensityStep(count: number, maxCount: number): IntensityStep {
   return INTENSITY_STEPS[idx]!;
 }
 
-export function HexbinDensityPlot({
+function HexbinDensityPlotInner({
   points,
   columns = DEFAULT_COLUMNS,
   tone = 'emerald',
@@ -568,14 +570,14 @@ export function HexbinDensityPlot({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
           <span
             data-testid="hexbin-telemetry-pill"
             className="prism-crystal rounded-full px-2.5 py-0.5 text-[11px] font-mono tabular-nums font-medium shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {`${pointSummary} · ${binSummary}`}
           </span>
@@ -588,7 +590,7 @@ export function HexbinDensityPlot({
             legendClass,
             'prism-crystal px-2.5 py-1 rounded-full inline-flex flex-wrap items-center gap-1.5 text-[11px] font-medium shrink-0'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span>Low</span>
           <span className="inline-flex items-center gap-1" aria-hidden="true">
@@ -619,7 +621,7 @@ export function HexbinDensityPlot({
           role="status"
           data-testid="hexbin-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No spatial points available for hexagonal aggregation.
         </div>
@@ -799,7 +801,7 @@ export function HexbinDensityPlot({
               inspectorClass,
               'prism-well rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs tabular-nums min-w-0 max-w-full'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span className="inline-flex items-center gap-1.5 font-semibold min-w-0">
               <span
@@ -821,13 +823,13 @@ export function HexbinDensityPlot({
               <span data-testid="inspector-center">
                 {`Center (${formatCenterNumber(activeBin.centerX)}, ${formatCenterNumber(activeBin.centerY)})`}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 ·
               </span>
               <span data-testid="inspector-count">
                 {`${activeBin.count} ${activeBin.count === 1 ? 'point' : 'points'}`}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 ·
               </span>
               <span
@@ -845,4 +847,5 @@ export function HexbinDensityPlot({
   );
 }
 
+export const HexbinDensityPlot = memo(HexbinDensityPlotInner);
 HexbinDensityPlot.displayName = 'HexbinDensityPlot';

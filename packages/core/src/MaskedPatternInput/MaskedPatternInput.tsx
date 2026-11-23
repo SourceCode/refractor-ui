@@ -1,11 +1,12 @@
 'use client';
 
-import { useId, useMemo, useRef, type ChangeEvent } from 'react';
+import { memo, useId, useMemo, useRef, type ChangeEvent } from 'react';
 import { CheckCircle2, CircleDashed, Hash, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MaskPresetId = 'ipv4' | 'cidr' | 'mac' | 'license' | 'tax-id';
@@ -141,7 +142,7 @@ export function applyPatternMask(
   };
 }
 
-export function MaskedPatternInput({
+function MaskedPatternInputInner({
   pattern,
   preset = 'license',
   value,
@@ -211,12 +212,12 @@ export function MaskedPatternInput({
           <label
             htmlFor={inputId}
             className="inline-flex items-center gap-1.5 text-xs font-semibold min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Hash
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
             <span className="truncate">{label}</span>
           </label>
@@ -228,7 +229,7 @@ export function MaskedPatternInput({
           <span
             data-testid="masked-pattern-hint"
             className="prism-crystal inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono tabular-nums font-medium shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activePattern}
           </span>
@@ -254,7 +255,7 @@ export function MaskedPatternInput({
         </div>
       </div>
 
-      <div className="prism-crystal rounded-2xl p-1 transition-all">
+      <div className="prism-crystal rounded-2xl p-1 transition-[color,background-color,border-color,opacity,transform]">
         <div className="prism-well rounded-xl h-11 px-3 flex items-center gap-2">
           <input
             ref={inputRef}
@@ -269,7 +270,7 @@ export function MaskedPatternInput({
             data-testid="masked-pattern-input"
             onChange={handleInputChange}
             className="prism-focus-ring w-full bg-transparent font-mono text-sm tabular-nums tracking-wider rounded-lg px-1 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
 
           {parsed.masked.length > 0 ? (
@@ -279,7 +280,7 @@ export function MaskedPatternInput({
               aria-label="Clear"
               data-testid="masked-pattern-clear"
               onClick={handleClear}
-              className="prism-btn-secondary prism-focus-ring h-7 px-2 rounded-lg inline-flex items-center gap-1 text-[11px] font-semibold shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="prism-btn-secondary prism-focus-ring h-7 px-2 rounded-lg inline-flex items-center gap-1 text-[11px] font-semibold shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
             >
               <X aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Clear</span>
@@ -291,4 +292,5 @@ export function MaskedPatternInput({
   );
 }
 
+export const MaskedPatternInput = memo(MaskedPatternInputInner);
 MaskedPatternInput.displayName = 'MaskedPatternInput';

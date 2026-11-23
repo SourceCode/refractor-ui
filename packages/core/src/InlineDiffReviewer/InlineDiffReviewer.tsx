@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { Check, CheckCheck, FileDiff, X, XCircle } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DiffHunkLineKind = 'context' | 'add' | 'remove';
@@ -121,7 +122,7 @@ function formatLineNumber(lineNumber: number | undefined): string {
   return String(Math.trunc(lineNumber));
 }
 
-export function InlineDiffReviewer({
+function InlineDiffReviewerInner({
   filePath,
   hunks,
   onHunkDecision,
@@ -227,12 +228,12 @@ export function InlineDiffReviewer({
           <FileDiff
             aria-hidden="true"
             className="w-4 h-4 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <code
             data-testid="inline-diff-filepath"
             className="font-mono text-xs sm:text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {filePath}
           </code>
@@ -241,7 +242,7 @@ export function InlineDiffReviewer({
             aria-live="polite"
             data-testid="inline-diff-counter"
             className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {resolvedCount} / {hunks.length} reviewed
           </span>
@@ -252,7 +253,7 @@ export function InlineDiffReviewer({
             <button
               type="button"
               onClick={handleAcceptAll}
-              className="prism-btn-primary prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3.5 text-xs font-semibold cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+              className="prism-btn-primary prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3.5 text-xs font-semibold cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             >
               <CheckCheck aria-hidden="true" className="w-3.5 h-3.5 shrink-0 relative z-10" />
               <span className="relative z-10">Accept All</span>
@@ -260,7 +261,7 @@ export function InlineDiffReviewer({
             <button
               type="button"
               onClick={handleRejectAll}
-              className="prism-btn-secondary prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+              className="prism-btn-secondary prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             >
               <XCircle aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>Reject All</span>
@@ -275,10 +276,10 @@ export function InlineDiffReviewer({
           data-testid="inline-diff-empty"
           className={cx(emptyClass, 'prism-well rounded-2xl px-5 py-8 text-center space-y-1')}
         >
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No diff hunks to review
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             There are no proposed changes for this file.
           </p>
         </div>
@@ -298,12 +299,12 @@ export function InlineDiffReviewer({
                   hunkHeaderClass,
                   'px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b'
                 )}
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 <div className="flex flex-wrap items-center gap-2 min-w-0">
                   <code
                     className="font-mono text-xs font-medium truncate"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {hunk.header}
                   </code>
@@ -342,7 +343,7 @@ export function InlineDiffReviewer({
                         badgeClass,
                         'prism-crystal inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium shrink-0'
                       )}
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Pending
                     </span>
@@ -356,7 +357,7 @@ export function InlineDiffReviewer({
                       aria-pressed={status === 'accepted'}
                       onClick={() => handleHunkDecision(hunk.id, 'accepted')}
                       className={cx(
-                        'prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                        'prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                         status === 'accepted' ? 'prism-emerald font-semibold' : 'prism-crystal'
                       )}
                       style={
@@ -374,7 +375,7 @@ export function InlineDiffReviewer({
                       aria-pressed={status === 'rejected'}
                       onClick={() => handleHunkDecision(hunk.id, 'rejected')}
                       className={cx(
-                        'prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                        'prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                         status === 'rejected' ? 'border font-semibold' : 'prism-crystal'
                       )}
                       style={
@@ -397,7 +398,7 @@ export function InlineDiffReviewer({
               {keyedLines.length === 0 ? (
                 <div
                   className="px-4 py-3 font-mono text-xs"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   No lines in this hunk.
                 </div>
@@ -421,7 +422,7 @@ export function InlineDiffReviewer({
                           key={rowKey}
                           data-line-kind={line.kind}
                           className={cx('align-top border-b last:border-b-0', getLineRowClass(line.kind))}
-                          style={{ borderColor: 'var(--prism-divider)' }}
+                          style={STYLE_BORDER_DIVIDER}
                         >
                           <td
                             data-col="old-line"
@@ -454,7 +455,7 @@ export function InlineDiffReviewer({
                           <td
                             data-col="content"
                             className="px-2 whitespace-pre"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {line.content}
                           </td>
@@ -472,4 +473,5 @@ export function InlineDiffReviewer({
   );
 }
 
+export const InlineDiffReviewer = memo(InlineDiffReviewerInner);
 InlineDiffReviewer.displayName = 'InlineDiffReviewer';

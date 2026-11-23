@@ -443,9 +443,48 @@ export function DocsGuides({ section }: DocsGuidesProps) {
         </h1>
         <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
           Refractor enforces strict component engineering contracts at compile time, lint time, and test time —
-          achieving <strong>99.6%+ statement coverage</strong>, <strong>0 high/critical CVEs</strong>,
-          and a <strong>9.96/10 mean Creative UX/UI Director score</strong> across all 270 components.
+          achieving <strong>99.7%+ statement coverage</strong>, <strong>0 high/critical CVEs</strong>,
+          <strong> 100% React.memo coverage across all 314 components</strong>, and automatic nested GPU
+          blur elision for sustained 60fps enterprise application workloads.
         </p>
+      </div>
+
+      <div className="prism-slab p-6 space-y-4">
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+          <Layers className="w-4 h-4 text-orange-500" aria-hidden="true" />
+          <span>Full-Application Performance Architecture (v1.48.0)</span>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          {[
+            {
+              title: 'Zero Nested Backdrop-Filter Stalls',
+              detail:
+                'Automatic CSS depth-2+ blur elision strips redundant GPU readback passes on nested cards, buttons, table cells, and inline pills while preserving top-level optical slab frosted glass.',
+            },
+            {
+              title: '100% React.memo & Split Override Context',
+              detail:
+                'All 314 components are wrapped in React.memo and subscribe to a dedicated ComponentOverridesContext so theme, mode, and refraction changes trigger zero React re-renders.',
+            },
+            {
+              title: 'CSS Containment & content-visibility: auto',
+              detail:
+                'Data tables, grids, feeds, diff rows, and masonry cards apply overflow-safe CSS containment and content-visibility: auto to skip offscreen layout and paint.',
+            },
+            {
+              title: 'Zero-Allocation Hot Paths & Three-Tier GPU Profiles',
+              detail:
+                'O(1) cached class/attribute resolvers, 2,885 hoisted frozen style singletons, passive drag listeners, hoisted Intl formatters/collators, and balanced/high/max performanceMode.',
+            },
+          ].map((perf) => (
+            <div key={perf.title} className="prism-well rounded-2xl p-4 space-y-1">
+              <h3 className="text-xs font-semibold text-slate-900 dark:text-white">{perf.title}</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                {perf.detail}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -459,7 +498,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
               href={`https://github.com/SourceCode/refractor-ui/blob/main/docs/adr/${adr.file}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="prism-slab prism-focus-ring p-5 space-y-2 hover:-translate-y-0.5 transition-all block"
+              className="prism-slab prism-focus-ring p-5 space-y-2 hover:-translate-y-0.5 transition-transform block"
             >
               <div className="flex items-center justify-between gap-2">
                 <span className="prism-crystal px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold text-slate-800 dark:text-slate-100">

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useMemo,
   useRef,
@@ -17,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MarqueeDirection = 'left' | 'right';
@@ -165,14 +167,14 @@ function renderPillBody(entry: NormalizedTickerItem) {
       />
       <span
         className="font-semibold tracking-tight"
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         {entry.label}
       </span>
       {entry.value !== undefined ? (
         <span
           className="font-mono font-medium tabular-nums"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {entry.value}
         </span>
@@ -189,7 +191,7 @@ function renderPillBody(entry: NormalizedTickerItem) {
   );
 }
 
-export function MarqueeTicker({
+function MarqueeTickerInner({
   items,
   direction = 'left',
   durationSec = DEFAULT_DURATION_SEC,
@@ -386,7 +388,7 @@ export function MarqueeTicker({
             emptyClass,
             'prism-well rounded-full px-3.5 py-1.5 w-full min-w-0 flex items-center justify-center gap-2 text-xs font-medium'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span
             aria-hidden="true"
@@ -415,9 +417,9 @@ export function MarqueeTicker({
               onKeyDown={handleToggleKeyDown}
               className={cx(
                 toggleClass,
-                'prism-crystal prism-focus-ring rounded-full h-8 px-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-all hover:brightness-105'
+                'prism-crystal prism-focus-ring rounded-full h-8 px-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform] hover:brightness-105'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -499,9 +501,9 @@ export function MarqueeTicker({
                       }
                       className={cx(
                         pillClass,
-                        'prism-well prism-focus-ring rounded-full h-8 px-3 inline-flex items-center gap-2 text-xs whitespace-nowrap shrink-0 cursor-pointer transition-all hover:brightness-105'
+                        'prism-well prism-focus-ring rounded-full h-8 px-3 inline-flex items-center gap-2 text-xs whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform] hover:brightness-105'
                       )}
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {renderPillBody(entry)}
                     </button>
@@ -526,7 +528,7 @@ export function MarqueeTicker({
                       pillClass,
                       'prism-well rounded-full h-8 px-3 inline-flex items-center gap-2 text-xs whitespace-nowrap shrink-0'
                     )}
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {renderPillBody(entry)}
                   </span>
@@ -553,4 +555,5 @@ export function MarqueeTicker({
   );
 }
 
+export const MarqueeTicker = memo(MarqueeTickerInner);
 MarqueeTicker.displayName = 'MarqueeTicker';

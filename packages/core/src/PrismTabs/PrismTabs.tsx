@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, type KeyboardEvent, type ReactNode } from 'react';
+import { memo, useId, type KeyboardEvent, type ReactNode } from 'react';
 import { ChevronsUpDown } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -26,7 +26,7 @@ export interface PrismTabsProps extends PrismTabsBaseProps {
   showSpecimenPill?: boolean;
 }
 
-export function PrismTabs({
+function PrismTabsInner({
   tabs,
   activeTabId,
   onChange,
@@ -113,7 +113,7 @@ export function PrismTabs({
                 aria-controls={tab.content ? `${baseId}-panel-${tab.id}` : undefined}
                 onClick={() => onChange(tab.id)}
                 onKeyDown={(e) => handleTabKeyDown(e, idx)}
-                className={`prism-focus-ring h-9 px-4 rounded-full text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer transition-all ${
+                className={`prism-focus-ring h-9 px-4 rounded-full text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                   active
                     ? 'prism-well text-slate-900 dark:text-white font-semibold'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -140,4 +140,5 @@ export function PrismTabs({
   );
 }
 
+export const PrismTabs = memo(PrismTabsInner);
 PrismTabs.displayName = 'PrismTabs';

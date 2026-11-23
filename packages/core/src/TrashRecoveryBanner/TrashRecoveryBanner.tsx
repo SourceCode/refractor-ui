@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -22,6 +23,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TrashRetentionUrgency = 'normal' | 'warning' | 'critical';
@@ -135,7 +137,7 @@ function buildDefaultStatusText(
   return `${formatItemCount(itemCount)} recoverable · ${selectedCount} selected · ${formatRetentionDays(retentionDays)} remaining`;
 }
 
-export function TrashRecoveryBanner({
+function TrashRecoveryBannerInner({
   itemCount = DEFAULT_ITEM_COUNT,
   selectedCount = DEFAULT_SELECTED_COUNT,
   totalSizeLabel = DEFAULT_TOTAL_SIZE_LABEL,
@@ -324,7 +326,7 @@ export function TrashRecoveryBanner({
                 id={headingId}
                 data-testid="trash-recovery-heading"
                 className="m-0 text-sm sm:text-base font-semibold tracking-tight leading-snug break-words"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {isEmpty ? 'Trash is empty' : 'Trash & Recovery'}
               </h3>
@@ -332,7 +334,7 @@ export function TrashRecoveryBanner({
               <span
                 data-testid="trash-metrics-badge"
                 className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {metricsPillText}
               </span>
@@ -361,7 +363,7 @@ export function TrashRecoveryBanner({
             <p
               data-testid="trash-recovery-description"
               className="m-0 text-xs sm:text-sm leading-relaxed break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {descriptionText}
             </p>
@@ -440,12 +442,12 @@ export function TrashRecoveryBanner({
             <AlertTriangle
               className="w-4 h-4 shrink-0"
               aria-hidden="true"
-              style={{ color: 'var(--prism-error-main)' }}
+              style={STYLE_ERROR_MAIN}
             />
             <span
               data-testid="trash-confirm-message"
               className="text-xs font-semibold break-words"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {`Permanently delete ${itemLabel}${safeTotalSizeLabel ? ` (${safeTotalSizeLabel})` : ''}? This action cannot be undone.`}
             </span>
@@ -473,7 +475,7 @@ export function TrashRecoveryBanner({
               data-testid="trash-cancel-empty-button"
               onClick={handleCancelEmptyTrash}
               className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <X className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
               <span>Cancel</span>
@@ -510,4 +512,5 @@ export function TrashRecoveryBanner({
   );
 }
 
+export const TrashRecoveryBanner = memo(TrashRecoveryBannerInner);
 TrashRecoveryBanner.displayName = 'TrashRecoveryBanner';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, type CSSProperties } from 'react';
+import { memo, useCallback, useId, useMemo, type CSSProperties } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TextClampLines = 2 | 3 | 4 | 5 | 6;
@@ -49,7 +50,7 @@ function countWords(trimmedText: string): number {
   return trimmedText.split(/\s+/).length;
 }
 
-export function ExpandableTextClamp({
+function ExpandableTextClampInner({
   text,
   lines = DEFAULT_LINES,
   charThreshold = DEFAULT_CHAR_THRESHOLD,
@@ -188,7 +189,7 @@ export function ExpandableTextClamp({
             footerClass,
             'flex flex-wrap items-center justify-between gap-2 pt-2 border-t min-w-0 max-w-full'
           )}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <button
             type="button"
@@ -198,9 +199,9 @@ export function ExpandableTextClamp({
             onClick={handleToggle}
             className={cx(
               toggleClass,
-              'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold cursor-pointer transition-all duration-150 hover:brightness-105 shrink-0'
+              'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150 hover:brightness-105 shrink-0'
             )}
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <span>
               {effectiveExpanded ? resolvedCollapseLabel : resolvedExpandLabel}
@@ -227,7 +228,7 @@ export function ExpandableTextClamp({
                 telemetryClass,
                 'prism-well inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono tabular-nums shrink-0'
               )}
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>
                 {wordCount} {wordCount === 1 ? 'word' : 'words'}
@@ -242,4 +243,5 @@ export function ExpandableTextClamp({
   );
 }
 
+export const ExpandableTextClamp = memo(ExpandableTextClampInner);
 ExpandableTextClamp.displayName = 'ExpandableTextClamp';

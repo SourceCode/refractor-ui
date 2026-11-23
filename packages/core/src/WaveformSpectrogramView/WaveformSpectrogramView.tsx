@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AudioCanvasMode = 'waveform' | 'spectrogram' | 'split';
@@ -243,7 +245,7 @@ function resolveSelectionSampleBounds(
   return { startIdx, endIdx };
 }
 
-export function WaveformSpectrogramView({
+function WaveformSpectrogramViewInner({
   samples,
   durationSec = DEFAULT_DURATION_SEC,
   mode,
@@ -406,7 +408,7 @@ export function WaveformSpectrogramView({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointermove', onMove, { passive: true });
       window.addEventListener('pointerup', handleEnd);
       window.addEventListener('pointercancel', handleEnd);
     },
@@ -692,7 +694,7 @@ export function WaveformSpectrogramView({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <AudioWaveform className="w-4 h-4 shrink-0" />
           </span>
@@ -700,7 +702,7 @@ export function WaveformSpectrogramView({
             id={headingId}
             data-testid="waveform-view-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -731,7 +733,7 @@ export function WaveformSpectrogramView({
                   onClick={() => selectMode(option.id)}
                   onKeyDown={(event) => handleModeKeyDown(event, option.id)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+                    'prism-focus-ring rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                     selected ? 'prism-crystal font-semibold shadow-sm' : 'opacity-75 enabled:hover:opacity-100'
                   )}
                   style={{
@@ -762,7 +764,7 @@ export function WaveformSpectrogramView({
                   data-testid={`waveform-zoom-${option.value}x`}
                   onClick={() => setZoom(option.value)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs font-mono font-medium tabular-nums whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs font-mono font-medium tabular-nums whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                     active ? 'prism-crystal font-semibold shadow-sm' : 'opacity-75 enabled:hover:opacity-100'
                   )}
                   style={{
@@ -788,8 +790,8 @@ export function WaveformSpectrogramView({
           disabled={!canEditSelection}
           data-testid="waveform-action-silence"
           onClick={handleSilenceSelection}
-          className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_PRIMARY}
         >
           <VolumeX className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           <span>Silence Selection</span>
@@ -800,8 +802,8 @@ export function WaveformSpectrogramView({
           disabled={!canEditSelection}
           data-testid="waveform-action-cut"
           onClick={handleCutSelection}
-          className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all"
-          style={{ color: 'var(--prism-warning-main)' }}
+          className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_WARNING_MAIN}
         >
           <Scissors className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           <span>Cut Selection</span>
@@ -812,8 +814,8 @@ export function WaveformSpectrogramView({
           disabled={disabled}
           data-testid="waveform-action-reset"
           onClick={handleResetAudio}
-          className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all"
-          style={{ color: 'var(--prism-secondary-main)' }}
+          className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_SECONDARY_MAIN}
         >
           <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           <span>Reset Audio</span>
@@ -830,7 +832,7 @@ export function WaveformSpectrogramView({
             role="status"
             data-testid="waveform-empty-state"
             className="py-10 px-4 text-center text-xs font-medium"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             No audio samples available. Click Reset Audio to restore source waveform.
           </div>
@@ -1114,10 +1116,10 @@ export function WaveformSpectrogramView({
           telemetryClass,
           'prism-well rounded-xl px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs font-mono tabular-nums min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <div className="flex flex-wrap items-center gap-3 min-w-0">
-          <span data-testid="telemetry-duration" style={{ color: 'var(--prism-text-primary)' }}>
+          <span data-testid="telemetry-duration" style={STYLE_TEXT_PRIMARY}>
             Duration {formatSeconds(effectiveDurationSec)}
           </span>
           <span data-testid="telemetry-selection">
@@ -1157,4 +1159,5 @@ export function WaveformSpectrogramView({
   );
 }
 
+export const WaveformSpectrogramView = memo(WaveformSpectrogramViewInner);
 WaveformSpectrogramView.displayName = 'WaveformSpectrogramView';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   Fragment,
   useCallback,
   useEffect,
@@ -8,6 +9,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type DragEvent,
   type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
@@ -34,6 +36,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { buildSafeCsv, clampNumber, isSafeObjectKey } from '../utils/sanitize';
+import { compareNaturalStrings } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type GridCellValue = string | number | boolean;
@@ -170,10 +173,7 @@ function compareCellValues(
     return Number(left) - Number(right);
   }
 
-  return String(left).localeCompare(String(right), undefined, {
-    numeric: true,
-    sensitivity: 'base',
-  });
+  return compareNaturalStrings(String(left), String(right));
 }
 
 function formatDisplayCell(value: GridCellValue | undefined): string {
@@ -182,7 +182,7 @@ function formatDisplayCell(value: GridCellValue | undefined): string {
   return String(value);
 }
 
-export function AdvancedDataGrid({
+function AdvancedDataGridInner({
   columns,
   rows,
   onCellEdit,
@@ -390,6 +390,7 @@ export function AdvancedDataGrid({
   const updateColumnWidth = useCallback((col: AdvancedGridColumn, rawWidth: number) => {
     const clamped = clampColumnWidth(col, rawWidth);
     setWidthOverrides((prev) => {
+      if (prev.get(col.key) === clamped) return prev;
       const updated = new Map(prev);
       updated.set(col.key, clamped);
       return updated;
@@ -422,7 +423,7 @@ export function AdvancedDataGrid({
       };
 
       cleanupResizeRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -622,38 +623,60 @@ export function AdvancedDataGrid({
 
   const groupColumnHeader = validGroupBy ? columnMap.get(validGroupBy)?.header ?? validGroupBy : '';
 
-  const getStickyCellStyle = (col: AdvancedGridColumn, isHeader: boolean) => {
-    const width = getColumnWidth(col);
-    const pin = getPinSide(col);
-    if (pin === 'left') {
-      return {
-        width: `${width}px`,
-        minWidth: `${width}px`,
-        position: 'sticky' as const,
-        left: `${stickyMetrics.leftOffsets.get(col.key) ?? 0}px`,
-        zIndex: isHeader ? 20 : 10,
-      };
+  const stickyCellStyles = useMemo(() => {
+    const headerStyles = new Map<string, CSSProperties>();
+    const bodyStyles = new Map<string, CSSProperties>();
+    for (let i = 0; i < displayColumns.length; i += 1) {
+      const col = displayColumns[i]!;
+      const width = getColumnWidth(col);
+      const pin = getPinSide(col);
+      const widthPx = `${width}px`;
+      if (pin === 'left') {
+        const leftPx = `${stickyMetrics.leftOffsets.get(col.key) ?? 0}px`;
+        headerStyles.set(col.key, {
+          width: widthPx,
+          minWidth: widthPx,
+          position: 'sticky',
+          left: leftPx,
+          zIndex: 20,
+        });
+        bodyStyles.set(col.key, {
+          width: widthPx,
+          minWidth: widthPx,
+          position: 'sticky',
+          left: leftPx,
+          zIndex: 10,
+        });
+      } else if (pin === 'right') {
+        const rightPx = `${stickyMetrics.rightOffsets.get(col.key) ?? 0}px`;
+        headerStyles.set(col.key, {
+          width: widthPx,
+          minWidth: widthPx,
+          position: 'sticky',
+          right: rightPx,
+          zIndex: 20,
+        });
+        bodyStyles.set(col.key, {
+          width: widthPx,
+          minWidth: widthPx,
+          position: 'sticky',
+          right: rightPx,
+          zIndex: 10,
+        });
+      } else {
+        const base: CSSProperties = { width: widthPx, minWidth: widthPx };
+        headerStyles.set(col.key, base);
+        bodyStyles.set(col.key, base);
+      }
     }
-    if (pin === 'right') {
-      return {
-        width: `${width}px`,
-        minWidth: `${width}px`,
-        position: 'sticky' as const,
-        right: `${stickyMetrics.rightOffsets.get(col.key) ?? 0}px`,
-        zIndex: isHeader ? 20 : 10,
-      };
-    }
-    return {
-      width: `${width}px`,
-      minWidth: `${width}px`,
-    };
-  };
+    return { headerStyles, bodyStyles };
+  }, [displayColumns, getColumnWidth, getPinSide, stickyMetrics]);
 
   const renderDataRow = (row: GridRowRecord) => (
     <tr
       key={row.id}
       data-row-id={row.id}
-      className="h-11 transition-colors hover:bg-white/45 dark:hover:bg-white/[0.04]"
+      className="h-11 prism-cv-row transition-colors hover:bg-white/45 dark:hover:bg-white/[0.04]"
     >
       {displayColumns.map((col) => {
         const pin = getPinSide(col);
@@ -673,7 +696,7 @@ export function AdvancedDataGrid({
             data-pinned={pin}
             data-editable={col.editable ? 'true' : undefined}
             tabIndex={col.editable && !isEditing ? 0 : undefined}
-            style={getStickyCellStyle(col, false)}
+            style={stickyCellStyles.bodyStyles.get(col.key)}
             onDoubleClick={col.editable ? () => startEditing(row, col) : undefined}
             onKeyDown={
               col.editable && !isEditing
@@ -689,7 +712,7 @@ export function AdvancedDataGrid({
             className={cx(
               'px-3.5 py-2 text-sm text-slate-800 dark:text-slate-100 whitespace-nowrap overflow-hidden text-ellipsis align-middle prism-focus-ring',
               isRightAligned ? 'text-right font-mono tabular-nums' : 'text-left',
-              pin !== 'none' && 'bg-[var(--prism-bg-start)]/95 backdrop-blur-md',
+              pin !== 'none' && 'bg-[var(--prism-bg-start)]/95',
               isLastLeftPin && 'border-r-2 border-[var(--prism-secondary-main)]/45',
               isFirstRightPin && 'border-l-2 border-[var(--prism-secondary-main)]/45'
             )}
@@ -857,7 +880,7 @@ export function AdvancedDataGrid({
                             : 'none'
                           : undefined
                       }
-                      style={getStickyCellStyle(col, true)}
+                      style={stickyCellStyles.headerStyles.get(col.key)}
                       onDragStart={(e) => handleHeaderDragStart(col.key, e)}
                       onDragOver={(e) => handleHeaderDragOver(col.key, e)}
                       onDragLeave={() => setDragOverColumnKey((prev) => (prev === col.key ? null : prev))}
@@ -866,7 +889,7 @@ export function AdvancedDataGrid({
                       className={cx(
                         'relative px-3 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-200 select-none align-middle',
                         col.align === 'right' ? 'text-right' : 'text-left',
-                        pin !== 'none' && 'bg-[var(--prism-bg-mid)]/95 backdrop-blur-md',
+                        pin !== 'none' && 'bg-[var(--prism-bg-mid)]/95',
                         isLastLeftPin && 'border-r-2 border-[var(--prism-secondary-main)]/45',
                         isFirstRightPin && 'border-l-2 border-[var(--prism-secondary-main)]/45',
                         isDragOver && 'ring-2 ring-inset ring-[var(--prism-secondary-main)]'
@@ -1026,4 +1049,5 @@ export function AdvancedDataGrid({
   );
 }
 
+export const AdvancedDataGrid = memo(AdvancedDataGridInner);
 AdvancedDataGrid.displayName = 'AdvancedDataGrid';

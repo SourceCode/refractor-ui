@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useState,
@@ -29,6 +30,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DesktopWidgetSize = 'sm' | 'md' | 'lg';
@@ -266,7 +268,7 @@ function renderKindIcon(kind: DesktopWidgetKind): ReactNode {
   }
 }
 
-export function DesktopWidgetFrame({
+function DesktopWidgetFrameInner({
   kind = 'telemetry',
   title,
   defaultTitle,
@@ -629,7 +631,7 @@ export function DesktopWidgetFrame({
       disabled,
     }),
     baseClassName: cx(
-      'prism-slab relative max-w-full min-w-0 p-3.5 sm:p-4 flex flex-col gap-3 overflow-hidden transition-all duration-200',
+      'prism-slab relative max-w-full min-w-0 p-3.5 sm:p-4 flex flex-col gap-3 overflow-hidden transition-[color,background-color,border-color,opacity,transform] duration-200',
       getSizeFrameClass(resolvedSize),
       disabled ? 'opacity-65' : ''
     ),
@@ -688,7 +690,7 @@ export function DesktopWidgetFrame({
           headerClass,
           'relative z-10 flex flex-wrap items-start justify-between gap-2 min-w-0 pb-2.5 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex items-center gap-2 min-w-0 flex-1">
           <span
@@ -716,7 +718,7 @@ export function DesktopWidgetFrame({
             <h3
               data-testid="desktop-widget-title"
               className="text-sm font-semibold tracking-tight truncate leading-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedTitle}
             </h3>
@@ -759,7 +761,7 @@ export function DesktopWidgetFrame({
               <span
                 data-testid="desktop-widget-size-badge"
                 className="prism-well rounded-full px-1.5 py-0.5 font-mono text-[10px] font-semibold tabular-nums leading-none"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {getSizeBadgeLabel(resolvedSize)}
               </span>
@@ -780,8 +782,8 @@ export function DesktopWidgetFrame({
             disabled={disabled}
             onClick={handleRefresh}
             onKeyDown={handleImeSafeButtonKeyDown}
-            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_SECONDARY}
           >
             <RefreshCw aria-hidden="true" className="w-3.5 h-3.5" />
           </button>
@@ -794,7 +796,7 @@ export function DesktopWidgetFrame({
             disabled={disabled || resolvedLocked}
             onClick={handleTogglePin}
             onKeyDown={handleImeSafeButtonKeyDown}
-            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             style={{
               color: resolvedPinned ? accentVar : 'var(--prism-text-secondary)',
             }}
@@ -814,7 +816,7 @@ export function DesktopWidgetFrame({
             disabled={disabled}
             onClick={handleToggleLock}
             onKeyDown={handleImeSafeButtonKeyDown}
-            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             style={{
               color: resolvedLocked
                 ? 'var(--prism-warning-main)'
@@ -837,7 +839,7 @@ export function DesktopWidgetFrame({
             disabled={disabled}
             onClick={handleToggleEdit}
             onKeyDown={handleImeSafeButtonKeyDown}
-            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             style={{
               color: isEditing ? accentVar : 'var(--prism-text-secondary)',
             }}
@@ -852,8 +854,8 @@ export function DesktopWidgetFrame({
             disabled={disabled || resolvedLocked}
             onClick={handleRequestRemove}
             onKeyDown={handleImeSafeButtonKeyDown}
-            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_SECONDARY}
           >
             <Trash2 aria-hidden="true" className="w-3.5 h-3.5" />
           </button>
@@ -878,7 +880,7 @@ export function DesktopWidgetFrame({
         >
           <span
             className="text-xs font-medium min-w-0 truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Remove this widget from desktop?
           </span>
@@ -889,8 +891,8 @@ export function DesktopWidgetFrame({
               data-testid="desktop-widget-remove-cancel-btn"
               onClick={handleCancelRemove}
               onKeyDown={handleImeSafeButtonKeyDown}
-              className="prism-crystal prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-crystal prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               <X aria-hidden="true" className="w-3 h-3" />
               <span>Cancel</span>
@@ -901,7 +903,7 @@ export function DesktopWidgetFrame({
               data-testid="desktop-widget-remove-confirm-btn"
               onClick={handleConfirmRemove}
               onKeyDown={handleImeSafeButtonKeyDown}
-              className="prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-110 transition-all"
+              className="prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-110 transition-[color,background-color,border-color,opacity,transform]"
               style={{
                 color: 'var(--prism-error-contrast)',
                 backgroundColor: 'var(--prism-error-main)',
@@ -931,7 +933,7 @@ export function DesktopWidgetFrame({
             <label
               htmlFor={titleInputId}
               className="text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Widget Title
             </label>
@@ -946,7 +948,7 @@ export function DesktopWidgetFrame({
               onKeyDown={handleTitleInputKeyDown}
               placeholder={defaultKindTitle}
               className="prism-well prism-focus-ring w-full min-w-0 h-8 rounded-xl px-2.5 text-xs font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
 
@@ -955,7 +957,7 @@ export function DesktopWidgetFrame({
             <div className="flex items-center justify-between gap-2">
               <span
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Size Preset
               </span>
@@ -963,7 +965,7 @@ export function DesktopWidgetFrame({
                 <span
                   data-testid="desktop-widget-size-locked-hint"
                   className="text-[10px] font-mono font-medium"
-                  style={{ color: 'var(--prism-warning-main)' }}
+                  style={STYLE_WARNING_MAIN}
                 >
                   Unlock to resize
                 </span>
@@ -986,7 +988,7 @@ export function DesktopWidgetFrame({
                     disabled={disabled || resolvedLocked}
                     onClick={() => handleSelectSize(option.value)}
                     onKeyDown={handleImeSafeButtonKeyDown}
-                    className="prism-crystal prism-focus-ring h-7 px-2 rounded-full font-mono text-xs font-semibold tabular-nums cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                    className="prism-crystal prism-focus-ring h-7 px-2 rounded-full font-mono text-xs font-semibold tabular-nums cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                     style={{
                       color: isSelected
                         ? accentVar
@@ -1009,7 +1011,7 @@ export function DesktopWidgetFrame({
           <div className="flex flex-col gap-1 min-w-0">
             <span
               className="text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Accent Tone
             </span>
@@ -1030,7 +1032,7 @@ export function DesktopWidgetFrame({
                     disabled={disabled}
                     onClick={() => handleSelectTone(option.value)}
                     onKeyDown={handleImeSafeButtonKeyDown}
-                    className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                    className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                     style={{
                       color: isSelected
                         ? optionAccent
@@ -1058,7 +1060,7 @@ export function DesktopWidgetFrame({
           <div className="flex flex-col gap-1 min-w-0">
             <span
               className="text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Refresh Cadence
             </span>
@@ -1078,7 +1080,7 @@ export function DesktopWidgetFrame({
                     disabled={disabled}
                     onClick={() => handleSelectRefresh(option.value)}
                     onKeyDown={handleImeSafeButtonKeyDown}
-                    className="prism-crystal prism-focus-ring h-7 px-1.5 rounded-full font-mono text-[11px] font-semibold tabular-nums cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                    className="prism-crystal prism-focus-ring h-7 px-1.5 rounded-full font-mono text-[11px] font-semibold tabular-nums cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                     style={{
                       color: isSelected
                         ? accentVar
@@ -1135,20 +1137,20 @@ export function DesktopWidgetFrame({
                     <div className="flex items-center justify-between gap-2 text-xs">
                       <span
                         className="font-semibold"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {metric.label}
                       </span>
                       <span
                         className="font-mono font-semibold tabular-nums"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {metric.readout}
                       </span>
                     </div>
                     <div className="prism-well h-2 rounded-full p-0.5 overflow-hidden">
                       <div
-                        className="h-full rounded-full transition-all duration-200"
+                        className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200"
                         style={{
                           width: `${metric.pct}%`,
                           backgroundColor: metric.toneVar,
@@ -1163,7 +1165,7 @@ export function DesktopWidgetFrame({
                 <div
                   data-testid="desktop-widget-telemetry-extended"
                   className="prism-well rounded-xl px-3 py-2 flex items-center justify-between gap-2 text-[11px] font-mono tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   <span>Thermal 54°C</span>
                   <span>Uptime 14d 06h</span>
@@ -1171,7 +1173,7 @@ export function DesktopWidgetFrame({
               ) : null}
 
               <div className="flex items-center justify-between gap-2 text-[11px] font-mono tabular-nums">
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Optical Bus Nominal
                 </span>
                 <span
@@ -1195,7 +1197,7 @@ export function DesktopWidgetFrame({
                   <span
                     data-testid="desktop-widget-weather-temp"
                     className="text-3xl font-bold font-mono tabular-nums tracking-tight"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     68°
                   </span>
@@ -1208,7 +1210,7 @@ export function DesktopWidgetFrame({
                 </div>
                 <span
                   className="font-mono text-[11px] font-semibold tabular-nums shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   H 72° / L 58°
                 </span>
@@ -1216,12 +1218,12 @@ export function DesktopWidgetFrame({
 
               <div className="grid grid-cols-2 gap-1.5 min-w-0">
                 <div className="prism-well rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1 text-[11px] font-mono tabular-nums">
-                  <span style={{ color: 'var(--prism-text-secondary)' }}>
+                  <span style={STYLE_TEXT_SECONDARY}>
                     UV
                   </span>
                   <span
                     className="font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     4 Mod
                   </span>
@@ -1229,14 +1231,14 @@ export function DesktopWidgetFrame({
                 <div className="prism-well rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-1 text-[11px] font-mono tabular-nums">
                   <span
                     className="inline-flex items-center gap-1"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <Wind aria-hidden="true" className="w-3 h-3 shrink-0" />
                     Wind
                   </span>
                   <span
                     className="font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     8 mph
                   </span>
@@ -1255,13 +1257,13 @@ export function DesktopWidgetFrame({
                     >
                       <span
                         className="text-[10px]"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {slot.hour}
                       </span>
                       <span
                         className="text-xs font-semibold"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {slot.temp}
                       </span>
@@ -1274,7 +1276,7 @@ export function DesktopWidgetFrame({
                 <div
                   data-testid="desktop-widget-weather-extended"
                   className="prism-well rounded-xl px-3 py-2 flex items-center justify-between gap-2 text-[11px] font-mono tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   <span>Humidity 44%</span>
                   <span>Visibility 10 mi</span>
@@ -1299,7 +1301,7 @@ export function DesktopWidgetFrame({
                 onChange={handleNotesChange}
                 onKeyDown={handleNotesKeyDown}
                 className="prism-well prism-focus-ring w-full flex-1 min-w-0 rounded-xl p-2.5 text-xs leading-relaxed resize-none disabled:opacity-55 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
               <div className="flex items-center justify-between gap-2 text-[11px] font-mono tabular-nums">
                 <span
@@ -1318,7 +1320,7 @@ export function DesktopWidgetFrame({
                 </span>
                 <span
                   data-testid="desktop-widget-notes-count"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {noteText.length} / {MAX_NOTE_LENGTH}
                 </span>
@@ -1335,14 +1337,14 @@ export function DesktopWidgetFrame({
                 <span
                   data-testid="desktop-widget-clock-time"
                   className="text-2xl sm:text-3xl font-bold font-mono tabular-nums tracking-tight"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   14:28 UTC
                 </span>
                 <span
                   data-testid="desktop-widget-clock-date"
                   className="text-xs font-medium truncate"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Thu, Nov 22 · Studio Reference
                 </span>
@@ -1366,7 +1368,7 @@ export function DesktopWidgetFrame({
                       </span>
                       <span
                         className="text-xs font-semibold"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {zone.time}
                       </span>
@@ -1379,7 +1381,7 @@ export function DesktopWidgetFrame({
                 <div
                   data-testid="desktop-widget-clock-extended"
                   className="prism-well rounded-xl px-3 py-2 flex items-center justify-between gap-2 text-[11px] font-mono tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   <span>PTP Sync Lock</span>
                   <span>Drift 0.0ms</span>
@@ -1397,7 +1399,7 @@ export function DesktopWidgetFrame({
                 <p
                   data-testid="desktop-widget-custom-empty"
                   className="text-xs text-center py-4"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Mount custom optical widget content via children.
                 </p>
@@ -1407,7 +1409,7 @@ export function DesktopWidgetFrame({
             <div
               data-testid="desktop-widget-extra-content"
               className="pt-2 border-t min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               {children}
             </div>
@@ -1438,4 +1440,5 @@ export function DesktopWidgetFrame({
   );
 }
 
+export const DesktopWidgetFrame = memo(DesktopWidgetFrameInner);
 DesktopWidgetFrame.displayName = 'DesktopWidgetFrame';

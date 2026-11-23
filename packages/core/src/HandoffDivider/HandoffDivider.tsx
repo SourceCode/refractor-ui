@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState, type ReactNode } from 'react';
+import { memo, useId, useState, type ReactNode } from 'react';
 import {
   ArrowRight,
   ChevronDown,
@@ -14,6 +14,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type HandoffArtifactKind = 'file' | 'summary' | 'plan' | 'data';
@@ -71,7 +72,7 @@ function renderArtifactIcon(kind: HandoffArtifactKind): ReactNode {
   }
 }
 
-export function HandoffDivider({
+function HandoffDividerInner({
   fromAgent,
   toAgent,
   summary,
@@ -145,7 +146,7 @@ export function HandoffDivider({
           <span
             data-testid="handoff-from-agent"
             className="text-xs font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {fromAgent}
           </span>
@@ -154,13 +155,13 @@ export function HandoffDivider({
             aria-hidden="true"
             data-testid="handoff-arrow-icon"
             className="w-3.5 h-3.5 shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           />
 
           <span
             data-testid="handoff-to-agent"
             className="text-xs font-semibold truncate"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             {toAgent}
           </span>
@@ -174,7 +175,7 @@ export function HandoffDivider({
               <time
                 data-testid="handoff-timestamp"
                 className="text-[11px] font-mono tabular-nums shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {timestamp}
               </time>
@@ -195,7 +196,7 @@ export function HandoffDivider({
           summaryClass,
           'm-0 text-xs sm:text-sm leading-relaxed text-center max-w-2xl break-words'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         {summary}
       </p>
@@ -220,13 +221,13 @@ export function HandoffDivider({
                 onClick={() => onArtifactClick?.(artifact)}
                 className={cx(
                   artifactClass,
-                  'prism-crystal prism-focus-ring rounded-full px-3 py-1 inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all'
+                  'prism-crystal prism-focus-ring rounded-full px-3 py-1 inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
                 )}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span
                   className="inline-flex items-center justify-center shrink-0"
-                  style={{ color: 'var(--prism-info-main)' }}
+                  style={STYLE_INFO_MAIN}
                 >
                   {renderArtifactIcon(resolvedKind)}
                 </span>
@@ -246,9 +247,9 @@ export function HandoffDivider({
             onClick={() => setExpanded((prev) => !prev)}
             className={cx(
               payloadToggleClass,
-              'prism-crystal prism-focus-ring rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all'
+              'prism-crystal prism-focus-ring rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {expanded ? (
               <>
@@ -274,7 +275,7 @@ export function HandoffDivider({
             >
               <pre
                 className="m-0 font-mono text-xs leading-relaxed whitespace-pre-wrap break-words"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <code>{payload}</code>
               </pre>
@@ -286,4 +287,5 @@ export function HandoffDivider({
   );
 }
 
+export const HandoffDivider = memo(HandoffDividerInner);
 HandoffDivider.displayName = 'HandoffDivider';

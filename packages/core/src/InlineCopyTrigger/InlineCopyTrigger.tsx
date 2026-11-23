@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -15,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type InlineCopySize = 'sm' | 'md';
@@ -107,7 +109,7 @@ function getVariantStyles(
   }
 }
 
-export function InlineCopyTrigger({
+function InlineCopyTriggerInner({
   value,
   displayText,
   copiedLabel = DEFAULT_COPIED_LABEL,
@@ -251,7 +253,7 @@ export function InlineCopyTrigger({
     baseClassName: cx(
       variantStyles.surfaceClass,
       sizeStyles.buttonClass,
-      'prism-focus-ring max-w-full min-w-0 inline-flex items-center gap-2 rounded-full font-medium tracking-[-0.01em] transition-all duration-150 cursor-pointer enabled:hover:brightness-[1.03] enabled:active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed'
+      'prism-focus-ring max-w-full min-w-0 inline-flex items-center gap-2 rounded-full font-medium tracking-[-0.01em] transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer enabled:hover:brightness-[1.03] enabled:active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed'
     ),
     baseStyle: variantStyles.baseStyle,
     overrideClassName: override?.className,
@@ -294,7 +296,7 @@ export function InlineCopyTrigger({
             className={cx(
               badgePartClass,
               sizeStyles.badgeClass,
-              'inline-flex items-center gap-1 rounded-full font-sans font-semibold leading-none whitespace-nowrap shrink-0 transition-all duration-150'
+              'inline-flex items-center gap-1 rounded-full font-sans font-semibold leading-none whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] duration-150'
             )}
             style={{
               backgroundColor: 'var(--prism-success-main)',
@@ -313,7 +315,7 @@ export function InlineCopyTrigger({
               iconPartClass,
               'inline-flex items-center justify-center shrink-0 transition-colors duration-150'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Copy aria-hidden="true" className={cx(sizeStyles.iconClass, 'shrink-0')} />
           </span>
@@ -327,4 +329,5 @@ export function InlineCopyTrigger({
   );
 }
 
+export const InlineCopyTrigger = memo(InlineCopyTriggerInner);
 InlineCopyTrigger.displayName = 'InlineCopyTrigger';

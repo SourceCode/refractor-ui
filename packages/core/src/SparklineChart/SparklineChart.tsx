@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, type CSSProperties } from 'react';
+import { memo, useMemo, type CSSProperties } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -323,7 +323,7 @@ function computeDelta(series: SanitizedSeries | null): SparklineDelta | null {
     : { label: `${rounded.toFixed(1)}%`, direction: 'negative' };
 }
 
-export function SparklineChart({
+function SparklineChartInner({
   values,
   variant = 'line',
   tone = 'primary',
@@ -500,4 +500,5 @@ export function SparklineChart({
   );
 }
 
+export const SparklineChart = memo(SparklineChartInner);
 SparklineChart.displayName = 'SparklineChart';

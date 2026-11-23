@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -20,7 +22,7 @@ export interface TimelineProps extends BaseProps<HTMLOListElement> {
   entries: ReadonlyArray<TimelineEntry>;
 }
 
-export function Timeline({
+function TimelineInner({
   entries,
   className,
   style,
@@ -86,4 +88,5 @@ export function Timeline({
   );
 }
 
+export const Timeline = memo(TimelineInner);
 Timeline.displayName = 'Timeline';

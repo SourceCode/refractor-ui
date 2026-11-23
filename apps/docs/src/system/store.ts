@@ -1,6 +1,6 @@
 import { configureStore, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import type { RefractionIntensity, ThemeMode } from '@refractor-ui/core';
+import type { RefractionIntensity, ThemeMode, ThemePerformanceMode } from '@refractor-ui/core';
 import { getThemeEntryById, type RefractorThemeId } from '@refractor-ui/themes';
 import {
   type CalendarEventItem,
@@ -100,6 +100,7 @@ interface SystemState {
   themePreset: ThemePresetId;
   themeMode: ThemeMode;
   refraction: RefractionIntensity;
+  performanceMode: ThemePerformanceMode;
   customPalette: CustomPaletteState;
   customizerOpen: boolean;
   studioGrid: boolean;
@@ -130,6 +131,7 @@ const initialState: SystemState = {
   themePreset: 'alabaster',
   themeMode: 'light',
   refraction: 'standard',
+  performanceMode: 'balanced',
   customPalette: DEFAULT_CUSTOM_PALETTE,
   customizerOpen: false,
   studioGrid: false,
@@ -186,6 +188,9 @@ const systemSlice = createSlice({
     setRefraction(state, action: PayloadAction<RefractionIntensity>) {
       state.refraction = action.payload;
     },
+    setPerformanceMode(state, action: PayloadAction<ThemePerformanceMode>) {
+      state.performanceMode = action.payload;
+    },
     updateCustomPalette(state, action: PayloadAction<Partial<CustomPaletteState>>) {
       state.themePreset = 'custom';
       state.customPalette = { ...state.customPalette, ...action.payload };
@@ -194,6 +199,7 @@ const systemSlice = createSlice({
       state.themePreset = 'alabaster';
       state.themeMode = 'light';
       state.refraction = 'standard';
+      state.performanceMode = 'balanced';
       state.customPalette = DEFAULT_CUSTOM_PALETTE;
     },
     setCustomizerOpen(state, action: PayloadAction<boolean>) {
@@ -311,6 +317,7 @@ export const {
   setThemeMode,
   toggleThemeMode,
   setRefraction,
+  setPerformanceMode,
   updateCustomPalette,
   resetCustomPalette,
   setCustomizerOpen,

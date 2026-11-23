@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WaterfallStepKind = 'start' | 'increase' | 'decrease' | 'total';
@@ -150,7 +152,7 @@ function formatSignedDelta(value: number, prefix: string, suffix: string): strin
   return `${prefix}0${suffix}`;
 }
 
-export function WaterfallChart({
+function WaterfallChartInner({
   steps,
   title = 'P&L Waterfall',
   height = 240,
@@ -391,7 +393,7 @@ export function WaterfallChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -428,7 +430,7 @@ export function WaterfallChart({
             <span
               key={item.kind}
               className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -446,7 +448,7 @@ export function WaterfallChart({
           role="status"
           data-testid="waterfall-chart-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No waterfall steps to display.
         </div>
@@ -580,7 +582,7 @@ export function WaterfallChart({
             readoutClass,
             'prism-well rounded-xl px-3.5 py-2 flex flex-wrap items-center gap-2 text-xs tabular-nums'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {activeBar ? (
             <>
@@ -596,12 +598,12 @@ export function WaterfallChart({
               >
                 {formatSignedDelta(activeBar.delta, valuePrefix, valueSuffix)}
               </span>
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 {`Running total: ${formatValue(activeBar.runningTotal, valuePrefix, valueSuffix)}`}
               </span>
             </>
           ) : (
-            <span style={{ color: 'var(--prism-text-secondary)' }}>
+            <span style={STYLE_TEXT_SECONDARY}>
               Select any step bar to inspect exact delta and running total.
             </span>
           )}
@@ -611,4 +613,5 @@ export function WaterfallChart({
   );
 }
 
+export const WaterfallChart = memo(WaterfallChartInner);
 WaterfallChart.displayName = 'WaterfallChart';

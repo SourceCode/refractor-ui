@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   Fragment,
   useId,
   useMemo,
@@ -27,6 +28,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ApprovalChainStatus = 'pending' | 'approved' | 'changes-requested' | 'rejected';
@@ -266,7 +268,7 @@ function formatInitials(initials: string, name: string): string {
   return cleanName ? cleanName.slice(0, 2).toUpperCase() : '?';
 }
 
-export function ApprovalChainStrip({
+function ApprovalChainStripInner({
   title = DEFAULT_TITLE,
   mode = 'sequential',
   reviewers,
@@ -416,7 +418,7 @@ export function ApprovalChainStrip({
             <h3
               id={headingId}
               className="text-sm font-semibold tracking-tight truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeTitle}
             </h3>
@@ -427,7 +429,7 @@ export function ApprovalChainStrip({
               data-testid="approval-mode-badge"
               data-mode={mode}
               className="prism-well inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {mode === 'sequential' ? (
                 <GitCommitHorizontal aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -468,7 +470,7 @@ export function ApprovalChainStrip({
           <div className="flex flex-col gap-1 min-w-0 max-w-full">
             <div
               className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono tabular-nums min-w-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>
                 {verdictMeta.approvedCount} / {verdictMeta.totalCount} stages approved
@@ -487,7 +489,7 @@ export function ApprovalChainStrip({
             >
               <div
                 data-testid="approval-progress-fill"
-                className="h-full rounded-full transition-all duration-200"
+                className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200"
                 style={{
                   width: `${verdictMeta.progressPct}%`,
                   backgroundColor: verdictMeta.colorToken,
@@ -504,10 +506,10 @@ export function ApprovalChainStrip({
           aria-live="polite"
           data-testid="approval-chain-empty"
           className="prism-well rounded-2xl px-4 py-6 flex flex-col items-center justify-center text-center gap-1.5 min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <Users aria-hidden="true" className="w-5 h-5 shrink-0 opacity-75" />
-          <p className="text-xs font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-xs font-semibold" style={STYLE_TEXT_PRIMARY}>
             No approval stages configured
           </p>
           <p className="text-xs">
@@ -551,7 +553,7 @@ export function ApprovalChainStrip({
                     onClick={() => handleSelectReviewer(node.id)}
                     onKeyDown={handleCardKeyDown(index)}
                     className={cx(
-                      'prism-crystal prism-focus-ring rounded-2xl p-3 text-left flex-1 basis-[13rem] min-w-0 max-w-full flex flex-col gap-2 transition-all duration-150 cursor-pointer disabled:opacity-55 disabled:cursor-not-allowed',
+                      'prism-crystal prism-focus-ring rounded-2xl p-3 text-left flex-1 basis-[13rem] min-w-0 max-w-full flex flex-col gap-2 transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer disabled:opacity-55 disabled:cursor-not-allowed',
                       isSelected ? 'opacity-100' : 'opacity-90 enabled:hover:opacity-100'
                     )}
                     style={{
@@ -581,7 +583,7 @@ export function ApprovalChainStrip({
                           <span
                             data-testid={`approval-stage-index-${node.id}`}
                             className="prism-well rounded-full px-2 py-0.5 text-[10px] font-mono font-semibold tabular-nums shrink-0"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             Stage {index + 1}
                           </span>
@@ -606,13 +608,13 @@ export function ApprovalChainStrip({
                     <div className="flex flex-col gap-0.5 min-w-0">
                       <span
                         className="text-xs font-semibold truncate"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {node.name}
                       </span>
                       <span
                         className="text-[11px] truncate"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {node.role}
                       </span>
@@ -622,7 +624,7 @@ export function ApprovalChainStrip({
                       <span
                         data-testid={`approval-node-gated-${node.id}`}
                         className="prism-well rounded-full px-2 py-0.5 inline-flex items-center gap-1 text-[10px] font-medium self-start max-w-full"
-                        style={{ color: 'var(--prism-warning-main)' }}
+                        style={STYLE_WARNING_MAIN}
                       >
                         <Lock aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span className="truncate">Waiting on prior stage</span>
@@ -638,7 +640,7 @@ export function ApprovalChainStrip({
                           <span
                             data-testid={`approval-node-updated-${node.id}`}
                             className="text-[10px] font-mono tabular-nums truncate"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {node.updatedAt}
                           </span>
@@ -647,7 +649,7 @@ export function ApprovalChainStrip({
                           <p
                             data-testid={`approval-node-comment-${node.id}`}
                             className="text-[11px] leading-snug line-clamp-2 break-words inline-flex items-start gap-1 min-w-0"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             <MessageSquare
                               aria-hidden="true"
@@ -704,14 +706,14 @@ export function ApprovalChainStrip({
                 >
                   <span
                     className="font-semibold truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {activeReviewer.name}
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                     ·
                   </span>
-                  <span className="truncate" style={{ color: 'var(--prism-text-secondary)' }}>
+                  <span className="truncate" style={STYLE_TEXT_SECONDARY}>
                     {activeReviewer.role}
                   </span>
                 </div>
@@ -772,7 +774,7 @@ export function ApprovalChainStrip({
                       }
                     }}
                     className="w-full min-w-0 bg-transparent text-xs focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   />
                 </div>
 
@@ -797,7 +799,7 @@ export function ApprovalChainStrip({
                     data-testid="approval-action-changes"
                     onClick={() => applyDecision(activeReviewer, 'changes-requested')}
                     className="prism-btn-secondary prism-focus-ring h-8 px-3.5 inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ color: 'var(--prism-warning-main)' }}
+                    style={STYLE_WARNING_MAIN}
                   >
                     <AlertTriangle aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                     <span>Request Changes</span>
@@ -809,7 +811,7 @@ export function ApprovalChainStrip({
                     data-testid="approval-action-reject"
                     onClick={() => applyDecision(activeReviewer, 'rejected')}
                     className="prism-btn-secondary prism-focus-ring h-8 px-3.5 inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ color: 'var(--prism-error-main)' }}
+                    style={STYLE_ERROR_MAIN}
                   >
                     <XCircle aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                     <span>Reject</span>
@@ -821,7 +823,7 @@ export function ApprovalChainStrip({
                     data-testid="approval-action-reset"
                     onClick={() => applyDecision(activeReviewer, 'pending')}
                     className="prism-crystal prism-focus-ring rounded-full h-8 px-3.5 inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                     <span>Reset Pending</span>
@@ -834,7 +836,7 @@ export function ApprovalChainStrip({
                 aria-atomic="true"
                 data-testid="approval-live-announcement"
                 className="text-[11px] leading-snug min-w-0 break-words"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {announcement ||
                   'Select a reviewer stage and choose an action to update this approval chain.'}
@@ -847,4 +849,5 @@ export function ApprovalChainStrip({
   );
 }
 
+export const ApprovalChainStrip = memo(ApprovalChainStripInner);
 ApprovalChainStrip.displayName = 'ApprovalChainStrip';

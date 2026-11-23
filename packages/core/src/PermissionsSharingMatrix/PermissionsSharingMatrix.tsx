@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +29,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type PosixScopeKey = 'owner' | 'group' | 'public';
@@ -450,7 +452,7 @@ async function copyTextWithFallback(text: string): Promise<CopyResult> {
   return 'unavailable';
 }
 
-export function PermissionsSharingMatrix({
+function PermissionsSharingMatrixInner({
   resourceName = DEFAULT_RESOURCE_NAME,
   shareUrl,
   value,
@@ -696,13 +698,13 @@ export function PermissionsSharingMatrix({
           headerClass,
           'flex flex-wrap items-center justify-between gap-3 pb-4 border-b min-w-0'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex flex-wrap items-center gap-2.5">
           <span
             aria-hidden="true"
             className="prism-well w-9 h-9 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-info-main)' }}
+            style={STYLE_INFO_MAIN}
           >
             <ShieldCheck className="w-4 h-4 shrink-0" />
           </span>
@@ -712,13 +714,13 @@ export function PermissionsSharingMatrix({
               id={headingId}
               data-testid="psm-resource-name"
               className="m-0 text-sm font-semibold tracking-tight break-words"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedResourceName}
             </h2>
             <span
               className="text-[11px] font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               POSIX Permissions &amp; Cloud Link Sharing
             </span>
@@ -727,7 +729,7 @@ export function PermissionsSharingMatrix({
           <span
             data-testid="psm-posix-pill"
             className="prism-well inline-flex items-center px-3 py-1 rounded-full font-mono text-xs font-semibold tabular-nums shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             {`${octal} · ${symbolic}`}
           </span>
@@ -749,7 +751,7 @@ export function PermissionsSharingMatrix({
                 data-testid={`psm-preset-${preset.octal}`}
                 onClick={() => handleApplyPreset(preset)}
                 className={cx(
-                  'prism-focus-ring px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105',
+                  'prism-focus-ring px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105',
                   isActive ? 'prism-btn-cobalt' : 'prism-crystal'
                 )}
                 style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -769,13 +771,13 @@ export function PermissionsSharingMatrix({
           <User
             aria-hidden="true"
             className="w-4 h-4 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <div className="min-w-0 flex-1 flex flex-col gap-0.5">
             <label
               htmlFor={ownerInputId}
               className="text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Owner
             </label>
@@ -790,7 +792,7 @@ export function PermissionsSharingMatrix({
               onKeyDown={handleOwnershipKeyDown}
               placeholder="owner"
               className="prism-focus-ring w-full min-w-0 bg-transparent border-0 p-0 text-sm font-mono font-medium rounded-md disabled:cursor-not-allowed disabled:opacity-60"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
         </div>
@@ -799,13 +801,13 @@ export function PermissionsSharingMatrix({
           <Users
             aria-hidden="true"
             className="w-4 h-4 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <div className="min-w-0 flex-1 flex flex-col gap-0.5">
             <label
               htmlFor={groupInputId}
               className="text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Group
             </label>
@@ -820,7 +822,7 @@ export function PermissionsSharingMatrix({
               onKeyDown={handleOwnershipKeyDown}
               placeholder="group"
               className="prism-focus-ring w-full min-w-0 bg-transparent border-0 p-0 text-sm font-mono font-medium rounded-md disabled:cursor-not-allowed disabled:opacity-60"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
         </div>
@@ -833,19 +835,19 @@ export function PermissionsSharingMatrix({
       >
         <div
           className="px-4 py-2.5 border-b flex flex-wrap items-center justify-between gap-2 min-w-0"
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <h3
             id={matrixHeadingId}
             className="m-0 text-xs font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             POSIX Access Matrix
           </h3>
           <span
             data-testid="psm-chmod-readout"
             className="font-mono text-[11px] font-medium tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {`chmod ${octal}`}
           </span>
@@ -854,11 +856,11 @@ export function PermissionsSharingMatrix({
         <div className="overflow-x-auto">
           <table aria-labelledby={matrixHeadingId} className="w-full border-collapse text-sm">
             <thead>
-              <tr className="border-b" style={{ borderColor: 'var(--prism-divider)' }}>
+              <tr className="border-b" style={STYLE_BORDER_DIVIDER}>
                 <th
                   scope="col"
                   className="px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wider min-w-[140px]"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Scope
                 </th>
@@ -867,7 +869,7 @@ export function PermissionsSharingMatrix({
                     key={bit.key}
                     scope="col"
                     className="px-3 py-2.5 text-center text-xs font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {bit.headerLabel}
                   </th>
@@ -875,7 +877,7 @@ export function PermissionsSharingMatrix({
                 <th
                   scope="col"
                   className="px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wider whitespace-nowrap"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Octal
                 </th>
@@ -892,26 +894,26 @@ export function PermissionsSharingMatrix({
                     key={scope.key}
                     data-scope={scope.key}
                     className="border-t transition-colors"
-                    style={{ borderColor: 'var(--prism-divider)' }}
+                    style={STYLE_BORDER_DIVIDER}
                   >
                     <th scope="row" className="px-4 py-3 text-left align-middle font-normal">
                       <div className="flex flex-wrap items-center gap-2 min-w-0">
                         <span
                           className="text-sm font-semibold"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {scope.label}
                         </span>
                         <span
                           className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-medium tabular-nums shrink-0"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {rowSymbolic}
                         </span>
                       </div>
                       <span
                         className="block text-[11px]"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {scope.caption}
                       </span>
@@ -930,7 +932,7 @@ export function PermissionsSharingMatrix({
                             disabled={disabled}
                             onClick={() => handleToggleBit(scope, bit)}
                             className={cx(
-                              'prism-focus-ring w-7 h-7 rounded-[9px] inline-flex items-center justify-center shrink-0 transition-all duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:scale-105',
+                              'prism-focus-ring w-7 h-7 rounded-[9px] inline-flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:scale-105',
                               checked ? 'prism-emerald' : 'prism-crystal'
                             )}
                           >
@@ -947,7 +949,7 @@ export function PermissionsSharingMatrix({
                         data-testid={`psm-row-octal-${scope.key}`}
                         aria-label={`${scope.label} octal ${rowOctal}`}
                         className="prism-crystal inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded-full font-mono text-xs font-semibold tabular-nums"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {rowOctal}
                       </span>
@@ -970,13 +972,13 @@ export function PermissionsSharingMatrix({
             <h3
               id={sharingHeadingId}
               className="m-0 text-xs font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Cloud Link Sharing
             </h3>
             <p
               className="m-0 text-xs leading-snug"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {accessMeta.description}
             </p>
@@ -1002,7 +1004,7 @@ export function PermissionsSharingMatrix({
             <label
               htmlFor={accessSelectId}
               className="text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Link Access Level
             </label>
@@ -1032,7 +1034,7 @@ export function PermissionsSharingMatrix({
             <label
               htmlFor={expirySelectId}
               className="text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Link Expiration
             </label>
@@ -1065,19 +1067,19 @@ export function PermissionsSharingMatrix({
               <ShieldAlert
                 aria-hidden="true"
                 className="w-4 h-4 shrink-0"
-                style={{ color: 'var(--prism-error-main)' }}
+                style={STYLE_ERROR_MAIN}
               />
             ) : isRestricted ? (
               <Lock
                 aria-hidden="true"
                 className="w-4 h-4 shrink-0"
-                style={{ color: 'var(--prism-info-main)' }}
+                style={STYLE_INFO_MAIN}
               />
             ) : (
               <Link2
                 aria-hidden="true"
                 className="w-4 h-4 shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               />
             )}
 
@@ -1119,7 +1121,7 @@ export function PermissionsSharingMatrix({
             data-testid="psm-copy-link-btn"
             onClick={handleCopyShareLink}
             className={cx(
-              'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+              'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
               copied ? 'prism-emerald' : 'prism-btn-secondary'
             )}
           >
@@ -1151,4 +1153,5 @@ export function PermissionsSharingMatrix({
   );
 }
 
+export const PermissionsSharingMatrix = memo(PermissionsSharingMatrixInner);
 PermissionsSharingMatrix.displayName = 'PermissionsSharingMatrix';

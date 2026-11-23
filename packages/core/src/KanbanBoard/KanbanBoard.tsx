@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useMemo,
   useRef,
@@ -14,6 +15,12 @@ import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import {
+  STYLE_BG_ERROR,
+  STYLE_BG_PRIMARY,
+  STYLE_BG_SUCCESS,
+  STYLE_BG_WARNING,
+} from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type KanbanPriority = 'low' | 'medium' | 'high' | 'critical';
@@ -58,24 +65,24 @@ interface TaggedEntry {
   label: string;
 }
 
-function getPriorityToken(priority: KanbanPriority): string {
+function getPriorityStyle(priority: KanbanPriority) {
   switch (priority) {
     case 'critical':
-      return 'var(--prism-error-main)';
+      return STYLE_BG_ERROR;
     case 'high':
-      return 'var(--prism-primary-main)';
+      return STYLE_BG_PRIMARY;
     case 'low':
-      return 'var(--prism-success-main)';
+      return STYLE_BG_SUCCESS;
     default:
-      return 'var(--prism-warning-main)';
+      return STYLE_BG_WARNING;
   }
 }
 
 function buildUniqueTagEntries(cardId: string, tags: ReadonlyArray<string>): TaggedEntry[] {
   const counts = new Map<string, number>();
   const entries: TaggedEntry[] = [];
-  for (const tag of tags) {
-    const trimmed = tag.trim();
+  for (let i = 0; i < tags.length; i += 1) {
+    const trimmed = tags[i]!.trim();
     if (!trimmed) continue;
     const seen = (counts.get(trimmed) ?? 0) + 1;
     counts.set(trimmed, seen);
@@ -84,7 +91,212 @@ function buildUniqueTagEntries(cardId: string, tags: ReadonlyArray<string>): Tag
   return entries;
 }
 
-export function KanbanBoard({
+interface KanbanCardViewProps {
+  card: KanbanCardItem;
+  isDragging: boolean;
+  prevCol?: KanbanColumnDef;
+  nextCol?: KanbanColumnDef;
+  onDragStart: (e: DragEvent<HTMLElement>, cardId: string) => void;
+  onDragEnd: () => void;
+  onCardSelect?: (card: KanbanCardItem) => void;
+  onMoveCard: (cardId: string, toColumnId: string) => void;
+}
+
+const KanbanCardView = memo(function KanbanCardView({
+  card,
+  isDragging,
+  prevCol,
+  nextCol,
+  onDragStart,
+  onDragEnd,
+  onCardSelect,
+  onMoveCard,
+}: KanbanCardViewProps) {
+  const priority: KanbanPriority = card.priority ?? 'medium';
+  const tagEntries = useMemo(
+    () => (card.tags ? buildUniqueTagEntries(card.id, card.tags) : []),
+    [card.id, card.tags]
+  );
+
+  const cardMerged = mergeProps({
+    themeTarget: themeProps(
+      'kanban-board',
+      {
+        cardId: card.id,
+        priority,
+        dragging: isDragging,
+      },
+      'card'
+    ),
+    baseClassName: `prism-crystal prism-cv-card rounded-2xl p-3 space-y-2 transition-[opacity,transform] ${
+      isDragging ? 'opacity-60 scale-[0.98]' : ''
+    }`,
+  });
+
+  return (
+    <article
+      draggable
+      aria-label={card.title}
+      onDragStart={(e) => onDragStart(e, card.id)}
+      onDragEnd={onDragEnd}
+      {...cardMerged}
+    >
+      <div className="flex items-start gap-2">
+        <span
+          aria-hidden="true"
+          className="mt-1 w-2 h-2 rounded-full shrink-0"
+          style={getPriorityStyle(priority)}
+        />
+        <button
+          type="button"
+          onClick={() => onCardSelect?.(card)}
+          className="prism-focus-ring flex-1 min-w-0 text-left text-sm font-semibold text-slate-900 dark:text-white leading-snug rounded cursor-pointer hover:underline"
+        >
+          {card.title}
+        </button>
+        <GripVertical
+          aria-hidden="true"
+          className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"
+        />
+      </div>
+
+      {card.description ? (
+        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          {card.description}
+        </p>
+      ) : null}
+
+      {tagEntries.length > 0 ? (
+        <div className="flex flex-wrap gap-1">
+          {tagEntries.map((tagEntry) => (
+            <span
+              key={tagEntry.key}
+              className="prism-well px-2 py-0.5 rounded-full text-[10px] font-medium text-slate-700 dark:text-slate-200"
+            >
+              {tagEntry.label}
+            </span>
+          ))}
+        </div>
+      ) : null}
+
+      <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-300/40 dark:border-slate-700/50">
+        <div className="flex items-center gap-1.5 min-w-0">
+          {card.assignee ? (
+            <span className="prism-well px-2 py-0.5 rounded-full text-[11px] font-medium text-slate-700 dark:text-slate-200 truncate max-w-[120px]">
+              {card.assignee}
+            </span>
+          ) : null}
+          <span className="text-[10px] font-mono uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            {priority}
+          </span>
+        </div>
+
+        <div className="inline-flex items-center gap-1 shrink-0">
+          <button
+            type="button"
+            disabled={!prevCol}
+            aria-label={
+              prevCol
+                ? `Move ${card.title} left to ${prevCol.title}`
+                : `Move ${card.title} left`
+            }
+            onClick={prevCol ? () => onMoveCard(card.id, prevCol.id) : undefined}
+            className="prism-crystal prism-focus-ring h-7 w-7 rounded-full inline-flex items-center justify-center text-slate-700 dark:text-slate-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:scale-105 transition-transform"
+          >
+            <ChevronLeft aria-hidden="true" className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            disabled={!nextCol}
+            aria-label={
+              nextCol
+                ? `Move ${card.title} right to ${nextCol.title}`
+                : `Move ${card.title} right`
+            }
+            onClick={nextCol ? () => onMoveCard(card.id, nextCol.id) : undefined}
+            className="prism-crystal prism-focus-ring h-7 w-7 rounded-full inline-flex items-center justify-center text-slate-700 dark:text-slate-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:scale-105 transition-transform"
+          >
+            <ChevronRight aria-hidden="true" className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+});
+
+interface KanbanQuickAddProps {
+  columnId: string;
+  columnTitle: string;
+  onAddCard: (columnId: string, title: string) => void;
+}
+
+/**
+ * Isolated Quick Add state per column so typing keystrokes never re-renders
+ * any cards or sibling columns on the board.
+ */
+const KanbanQuickAddForm = memo(function KanbanQuickAddForm({
+  columnId,
+  columnTitle,
+  onAddCard,
+}: KanbanQuickAddProps) {
+  const [draft, setDraft] = useState('');
+
+  const submitDraft = useCallback(() => {
+    const trimmed = draft.trim();
+    if (!trimmed) return;
+    onAddCard(columnId, trimmed);
+    setDraft('');
+  }, [columnId, draft, onAddCard]);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        if (e.nativeEvent.isComposing) {
+          e.preventDefault();
+          return;
+        }
+        e.preventDefault();
+        submitDraft();
+      }
+    },
+    [submitDraft]
+  );
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      submitDraft();
+    },
+    [submitDraft]
+  );
+
+  return (
+    <form onSubmit={handleSubmit} className="flex items-center gap-1.5 pt-1">
+      <input
+        type="text"
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder={`Add to ${columnTitle}...`}
+        aria-label={`Quick add card to ${columnTitle}`}
+        className="prism-well prism-focus-ring flex-1 min-w-0 h-8 px-3 rounded-full text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
+      />
+      <button
+        type="submit"
+        disabled={draft.trim().length === 0}
+        aria-label={`Add card to ${columnTitle}`}
+        className="prism-btn-secondary prism-focus-ring h-8 px-2.5 text-xs font-medium inline-flex items-center gap-1 shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
+      >
+        <Plus aria-hidden="true" className="w-3.5 h-3.5" />
+        <span>Add</span>
+      </button>
+    </form>
+  );
+});
+
+const EMPTY_COLUMN_CARDS: ReadonlyArray<KanbanCardItem> = Object.freeze([]);
+
+function KanbanBoardInner({
   columns,
   cards,
   defaultCards,
@@ -104,7 +316,6 @@ export function KanbanBoard({
   const idSeqRef = useRef(1);
   const [draggedCardId, setDraggedCardId] = useState<string | null>(null);
   const [dropColumnId, setDropColumnId] = useState<string | null>(null);
-  const [drafts, setDrafts] = useState<Map<string, string>>(() => new Map());
 
   const controlledCards = useMemo(
     () => (cards !== undefined ? [...cards] : undefined),
@@ -124,7 +335,8 @@ export function KanbanBoard({
   const uniqueColumns = useMemo(() => {
     const seen = new Set<string>();
     const out: KanbanColumnDef[] = [];
-    for (const col of columns) {
+    for (let i = 0; i < columns.length; i += 1) {
+      const col = columns[i]!;
       if (!seen.has(col.id)) {
         seen.add(col.id);
         out.push(col);
@@ -140,10 +352,11 @@ export function KanbanBoard({
 
   const cardsByColumn = useMemo(() => {
     const map = new Map<string, KanbanCardItem[]>();
-    for (const col of uniqueColumns) {
-      map.set(col.id, []);
+    for (let i = 0; i < uniqueColumns.length; i += 1) {
+      map.set(uniqueColumns[i]!.id, []);
     }
-    for (const card of currentCards) {
+    for (let i = 0; i < currentCards.length; i += 1) {
+      const card = currentCards[i]!;
       const bucket = map.get(card.columnId);
       if (bucket) {
         bucket.push(card);
@@ -152,10 +365,19 @@ export function KanbanBoard({
     return map;
   }, [uniqueColumns, currentCards]);
 
+  const cardById = useMemo(() => {
+    const map = new Map<string, KanbanCardItem>();
+    for (let i = 0; i < currentCards.length; i += 1) {
+      const card = currentCards[i]!;
+      map.set(card.id, card);
+    }
+    return map;
+  }, [currentCards]);
+
   const moveCard = useCallback(
     (cardId: string, toColumnId: string) => {
       if (!columnIdSet.has(toColumnId)) return;
-      const existing = currentCards.find((card) => card.id === cardId);
+      const existing = cardById.get(cardId);
       if (!existing || existing.columnId === toColumnId) return;
 
       const fromColumnId = existing.columnId;
@@ -165,26 +387,13 @@ export function KanbanBoard({
       setCurrentCards(nextCards);
       onCardMove?.(cardId, fromColumnId, toColumnId);
     },
-    [columnIdSet, currentCards, onCardMove, setCurrentCards]
+    [cardById, columnIdSet, currentCards, onCardMove, setCurrentCards]
   );
 
-  const setColumnDraft = useCallback((columnId: string, value: string) => {
-    setDrafts((prev) => {
-      const next = new Map(prev);
-      next.set(columnId, value);
-      return next;
-    });
-  }, []);
-
   const handleQuickAdd = useCallback(
-    (columnId: string) => {
-      const rawTitle = drafts.get(columnId) ?? '';
-      const trimmedTitle = rawTitle.trim();
-      if (!trimmedTitle) return;
-
-      const existingIds = new Set(currentCards.map((card) => card.id));
+    (columnId: string, trimmedTitle: string) => {
       let nextId = `kanban-card-${idSeqRef.current}`;
-      while (existingIds.has(nextId)) {
+      while (cardById.has(nextId)) {
         idSeqRef.current += 1;
         nextId = `kanban-card-${idSeqRef.current}`;
       }
@@ -199,71 +408,60 @@ export function KanbanBoard({
 
       setCurrentCards([...currentCards, created]);
       onCardAdd?.(columnId, trimmedTitle);
-      setColumnDraft(columnId, '');
     },
-    [currentCards, drafts, onCardAdd, setColumnDraft, setCurrentCards]
+    [cardById, currentCards, onCardAdd, setCurrentCards]
   );
 
-  const handleDragStart = (e: DragEvent<HTMLElement>, cardId: string) => {
+  const handleDragStart = useCallback((e: DragEvent<HTMLElement>, cardId: string) => {
     setDraggedCardId(cardId);
     if (e.dataTransfer) {
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/plain', cardId);
     }
-  };
+  }, []);
 
-  const handleDragEnd = () => {
+  const handleDragEnd = useCallback(() => {
     setDraggedCardId(null);
     setDropColumnId(null);
-  };
+  }, []);
 
-  const handleColumnDragOver = (e: DragEvent<HTMLElement>, columnId: string) => {
-    e.preventDefault();
-    if (e.dataTransfer) {
-      e.dataTransfer.dropEffect = 'move';
-    }
-    if (dropColumnId !== columnId) {
-      setDropColumnId(columnId);
-    }
-  };
+  const handleColumnDragOver = useCallback(
+    (e: DragEvent<HTMLElement>, columnId: string) => {
+      e.preventDefault();
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'move';
+      }
+      if (dropColumnId !== columnId) {
+        setDropColumnId(columnId);
+      }
+    },
+    [dropColumnId]
+  );
 
-  const handleColumnDragLeave = (e: DragEvent<HTMLElement>, columnId: string) => {
+  const handleColumnDragLeave = useCallback((e: DragEvent<HTMLElement>, columnId: string) => {
     const nextTarget = e.relatedTarget;
     if (!(nextTarget instanceof Node) || !e.currentTarget.contains(nextTarget)) {
       setDropColumnId((prev) => (prev === columnId ? null : prev));
     }
-  };
+  }, []);
 
-  const handleColumnDrop = (e: DragEvent<HTMLElement>, columnId: string) => {
-    e.preventDefault();
-    const transferCardId = e.dataTransfer ? e.dataTransfer.getData('text/plain') : '';
-    const transferTargetColumn = e.dataTransfer
-      ? e.dataTransfer.getData('application/x-refractor-column')
-      : '';
-    const resolvedCardId = transferCardId || draggedCardId;
-    const resolvedColumnId = transferTargetColumn || columnId;
-    setDropColumnId(null);
-    setDraggedCardId(null);
-    if (resolvedCardId) {
-      moveCard(resolvedCardId, resolvedColumnId);
-    }
-  };
-
-  const handleQuickAddKeyDown = (e: KeyboardEvent<HTMLInputElement>, columnId: string) => {
-    if (e.key === 'Enter') {
-      if (e.nativeEvent.isComposing) {
-        e.preventDefault();
-        return;
-      }
+  const handleColumnDrop = useCallback(
+    (e: DragEvent<HTMLElement>, columnId: string) => {
       e.preventDefault();
-      handleQuickAdd(columnId);
-    }
-  };
-
-  const handleQuickAddSubmit = (e: FormEvent<HTMLFormElement>, columnId: string) => {
-    e.preventDefault();
-    handleQuickAdd(columnId);
-  };
+      const transferCardId = e.dataTransfer ? e.dataTransfer.getData('text/plain') : '';
+      const transferTargetColumn = e.dataTransfer
+        ? e.dataTransfer.getData('application/x-refractor-column')
+        : '';
+      const resolvedCardId = transferCardId || draggedCardId;
+      const resolvedColumnId = transferTargetColumn || columnId;
+      setDropColumnId(null);
+      setDraggedCardId(null);
+      if (resolvedCardId) {
+        moveCard(resolvedCardId, resolvedColumnId);
+      }
+    },
+    [draggedCardId, moveCard]
+  );
 
   const merged = mergeProps({
     themeTarget: themeProps('kanban-board', {
@@ -294,7 +492,7 @@ export function KanbanBoard({
           }
         >
           {uniqueColumns.map((column, colIndex) => {
-            const columnCards = cardsByColumn.get(column.id) ?? [];
+            const columnCards = cardsByColumn.get(column.id) ?? EMPTY_COLUMN_CARDS;
             const safeWipLimit =
               column.wipLimit !== undefined &&
               Number.isFinite(column.wipLimit) &&
@@ -306,7 +504,6 @@ export function KanbanBoard({
             const prevCol = colIndex > 0 ? uniqueColumns[colIndex - 1] : undefined;
             const nextCol =
               colIndex < uniqueColumns.length - 1 ? uniqueColumns[colIndex + 1] : undefined;
-            const draftValue = drafts.get(column.id) ?? '';
 
             const columnTarget = themeProps(
               'kanban-board',
@@ -327,7 +524,7 @@ export function KanbanBoard({
                 onDrop={(e) => handleColumnDrop(e, column.id)}
                 {...mergeProps({
                   themeTarget: columnTarget,
-                  baseClassName: `prism-slab p-3.5 ${uniqueColumns.length <= 4 ? 'w-full min-w-0' : 'w-72 shrink-0'} flex flex-col gap-3 transition-all ${
+                  baseClassName: `prism-slab p-3.5 ${uniqueColumns.length <= 4 ? 'w-full min-w-0' : 'w-72 shrink-0'} flex flex-col gap-3 transition-[border-color,transform] ${
                     isDropTarget
                       ? 'ring-2 ring-sky-400/80 dark:ring-sky-400/70 scale-[1.01]'
                       : wipExceeded
@@ -365,144 +562,28 @@ export function KanbanBoard({
                       Drop cards here
                     </div>
                   ) : (
-                    columnCards.map((card) => {
-                      const priority: KanbanPriority = card.priority ?? 'medium';
-                      const isDragging = draggedCardId === card.id;
-                      const tagEntries = card.tags ? buildUniqueTagEntries(card.id, card.tags) : [];
-
-                      const cardTarget = themeProps(
-                        'kanban-board',
-                        {
-                          cardId: card.id,
-                          priority,
-                          dragging: isDragging,
-                        },
-                        'card'
-                      );
-
-                      return (
-                        <article
-                          key={card.id}
-                          draggable
-                          aria-label={card.title}
-                          onDragStart={(e) => handleDragStart(e, card.id)}
-                          onDragEnd={handleDragEnd}
-                          {...mergeProps({
-                            themeTarget: cardTarget,
-                            baseClassName: `prism-crystal rounded-2xl p-3 space-y-2 transition-all ${
-                              isDragging ? 'opacity-60 scale-[0.98]' : ''
-                            }`,
-                          })}
-                        >
-                          <div className="flex items-start gap-2">
-                            <span
-                              aria-hidden="true"
-                              className="mt-1 w-2 h-2 rounded-full shrink-0"
-                              style={{ backgroundColor: getPriorityToken(priority) }}
-                            />
-                            <button
-                              type="button"
-                              onClick={() => onCardSelect?.(card)}
-                              className="prism-focus-ring flex-1 min-w-0 text-left text-sm font-semibold text-slate-900 dark:text-white leading-snug rounded cursor-pointer hover:underline"
-                            >
-                              {card.title}
-                            </button>
-                            <GripVertical
-                              aria-hidden="true"
-                              className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"
-                            />
-                          </div>
-
-                          {card.description ? (
-                            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                              {card.description}
-                            </p>
-                          ) : null}
-
-                          {tagEntries.length > 0 ? (
-                            <div className="flex flex-wrap gap-1">
-                              {tagEntries.map((tagEntry) => (
-                                <span
-                                  key={tagEntry.key}
-                                  className="prism-well px-2 py-0.5 rounded-full text-[10px] font-medium text-slate-700 dark:text-slate-200"
-                                >
-                                  {tagEntry.label}
-                                </span>
-                              ))}
-                            </div>
-                          ) : null}
-
-                          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-300/40 dark:border-slate-700/50">
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              {card.assignee ? (
-                                <span className="prism-well px-2 py-0.5 rounded-full text-[11px] font-medium text-slate-700 dark:text-slate-200 truncate max-w-[120px]">
-                                  {card.assignee}
-                                </span>
-                              ) : null}
-                              <span className="text-[10px] font-mono uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                                {priority}
-                              </span>
-                            </div>
-
-                            <div className="inline-flex items-center gap-1 shrink-0">
-                              <button
-                                type="button"
-                                disabled={!prevCol}
-                                aria-label={
-                                  prevCol
-                                    ? `Move ${card.title} left to ${prevCol.title}`
-                                    : `Move ${card.title} left`
-                                }
-                                onClick={prevCol ? () => moveCard(card.id, prevCol.id) : undefined}
-                                className="prism-crystal prism-focus-ring h-7 w-7 rounded-full inline-flex items-center justify-center text-slate-700 dark:text-slate-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:scale-105 transition-transform"
-                              >
-                                <ChevronLeft aria-hidden="true" className="w-3.5 h-3.5" />
-                              </button>
-                              <button
-                                type="button"
-                                disabled={!nextCol}
-                                aria-label={
-                                  nextCol
-                                    ? `Move ${card.title} right to ${nextCol.title}`
-                                    : `Move ${card.title} right`
-                                }
-                                onClick={nextCol ? () => moveCard(card.id, nextCol.id) : undefined}
-                                className="prism-crystal prism-focus-ring h-7 w-7 rounded-full inline-flex items-center justify-center text-slate-700 dark:text-slate-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:scale-105 transition-transform"
-                              >
-                                <ChevronRight aria-hidden="true" className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </div>
-                        </article>
-                      );
-                    })
+                    columnCards.map((card) => (
+                      <KanbanCardView
+                        key={card.id}
+                        card={card}
+                        isDragging={draggedCardId === card.id}
+                        prevCol={prevCol}
+                        nextCol={nextCol}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                        onCardSelect={onCardSelect}
+                        onMoveCard={moveCard}
+                      />
+                    ))
                   )}
                 </div>
 
                 {allowQuickAdd ? (
-                  <form
-                    onSubmit={(e) => handleQuickAddSubmit(e, column.id)}
-                    className="flex items-center gap-1.5 pt-1"
-                  >
-                    <input
-                      type="text"
-                      value={draftValue}
-                      onChange={(e) => setColumnDraft(column.id, e.target.value)}
-                      onKeyDown={(e) => handleQuickAddKeyDown(e, column.id)}
-                      placeholder={`Add to ${column.title}...`}
-                      aria-label={`Quick add card to ${column.title}`}
-                      className="prism-well prism-focus-ring flex-1 min-w-0 h-8 px-3 rounded-full text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
-                    />
-                    <button
-                      type="submit"
-                      disabled={draftValue.trim().length === 0}
-                      aria-label={`Add card to ${column.title}`}
-                      className="prism-btn-secondary prism-focus-ring h-8 px-2.5 text-xs font-medium inline-flex items-center gap-1 shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
-                    >
-                      <Plus aria-hidden="true" className="w-3.5 h-3.5" />
-                      <span>Add</span>
-                    </button>
-                  </form>
+                  <KanbanQuickAddForm
+                    columnId={column.id}
+                    columnTitle={column.title}
+                    onAddCard={handleQuickAdd}
+                  />
                 ) : null}
               </section>
             );
@@ -513,4 +594,5 @@ export function KanbanBoard({
   );
 }
 
+export const KanbanBoard = memo(KanbanBoardInner);
 KanbanBoard.displayName = 'KanbanBoard';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { memo, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Clock, Search, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -79,7 +79,7 @@ function renderHighlightedText(source: string, query: string) {
   );
 }
 
-export function GlobalSearchModal({
+function GlobalSearchModalInner({
   open,
   onClose,
   items,
@@ -226,7 +226,7 @@ export function GlobalSearchModal({
   const merged = mergeProps({
     themeTarget: themeProps('global-search-modal', { open }),
     baseClassName:
-      'fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 bg-slate-900/35 backdrop-blur-xs',
+      'fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 prism-backdrop-scrim',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -311,7 +311,7 @@ export function GlobalSearchModal({
                 setSelectedType(null);
                 setActiveIndex(0);
               }}
-              className={`prism-focus-ring inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 ${
+              className={`prism-focus-ring inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer shrink-0 ${
                 activeType === null
                   ? 'prism-emerald text-white'
                   : 'prism-crystal text-slate-700 dark:text-slate-200'
@@ -333,7 +333,7 @@ export function GlobalSearchModal({
                     setSelectedType(typeName);
                     setActiveIndex(0);
                   }}
-                  className={`prism-focus-ring inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 ${
+                  className={`prism-focus-ring inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer shrink-0 ${
                     isSelected
                       ? 'prism-emerald text-white'
                       : 'prism-crystal text-slate-700 dark:text-slate-200'
@@ -445,4 +445,5 @@ export function GlobalSearchModal({
   );
 }
 
+export const GlobalSearchModal = memo(GlobalSearchModalInner);
 GlobalSearchModal.displayName = 'GlobalSearchModal';

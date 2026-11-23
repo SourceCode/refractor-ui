@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -17,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { hsvToRgb, rgbToHex, type RgbColor } from '../utils/colorMath';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SampleRadius = '1x1' | '3x3' | '5x5';
@@ -173,7 +175,7 @@ function sampleNeighborhood(
   };
 }
 
-export function EyedropperPixelLoupe({
+function EyedropperPixelLoupeInner({
   gridWidth = DEFAULT_GRID_WIDTH,
   gridHeight = DEFAULT_GRID_HEIGHT,
   sampleRadius,
@@ -446,7 +448,7 @@ export function EyedropperPixelLoupe({
           <span
             aria-hidden="true"
             className="prism-crystal w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
               <path
@@ -461,7 +463,7 @@ export function EyedropperPixelLoupe({
           <h3
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h3>
@@ -734,7 +736,7 @@ export function EyedropperPixelLoupe({
                 <span
                   data-testid="eyedropper-hex"
                   className="font-mono text-xs font-semibold tabular-nums"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeSample.hex}
                 </span>
@@ -742,7 +744,7 @@ export function EyedropperPixelLoupe({
               <span
                 data-testid="eyedropper-coords"
                 className="font-mono text-[11px] font-medium tabular-nums shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 ({activeSample.x}, {activeSample.y})
               </span>
@@ -750,37 +752,37 @@ export function EyedropperPixelLoupe({
 
             <div className="grid grid-cols-3 gap-1.5 text-center font-mono text-[11px] tabular-nums">
               <div className="prism-crystal rounded-xl px-1.5 py-1">
-                <span className="block text-[10px]" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="block text-[10px]" style={STYLE_TEXT_SECONDARY}>
                   R
                 </span>
                 <span
                   data-testid="eyedropper-channel-r"
                   className="font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeSample.r}
                 </span>
               </div>
               <div className="prism-crystal rounded-xl px-1.5 py-1">
-                <span className="block text-[10px]" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="block text-[10px]" style={STYLE_TEXT_SECONDARY}>
                   G
                 </span>
                 <span
                   data-testid="eyedropper-channel-g"
                   className="font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeSample.g}
                 </span>
               </div>
               <div className="prism-crystal rounded-xl px-1.5 py-1">
-                <span className="block text-[10px]" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="block text-[10px]" style={STYLE_TEXT_SECONDARY}>
                   B
                 </span>
                 <span
                   data-testid="eyedropper-channel-b"
                   className="font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeSample.b}
                 </span>
@@ -802,7 +804,7 @@ export function EyedropperPixelLoupe({
             <span
               data-testid="eyedropper-history-empty"
               className="text-xs px-1"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               No sampled swatches yet — click the canvas or press Enter to capture up to {MAX_HISTORY_SWATCHES}.
             </span>
@@ -816,7 +818,7 @@ export function EyedropperPixelLoupe({
                 data-testid="eyedropper-history-swatch"
                 onClick={() => handleHistorySwatchClick(entry.pixel)}
                 className="prism-crystal prism-focus-ring rounded-full px-2.5 py-1 inline-flex items-center gap-1.5 text-xs font-mono tabular-nums cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span
                   aria-hidden="true"
@@ -837,7 +839,7 @@ export function EyedropperPixelLoupe({
           disabled={disabled || history.length === 0}
           onClick={handleClearHistory}
           className="prism-crystal prism-focus-ring rounded-full px-3 py-1 text-xs font-medium shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Clear
         </button>
@@ -846,4 +848,5 @@ export function EyedropperPixelLoupe({
   );
 }
 
+export const EyedropperPixelLoupe = memo(EyedropperPixelLoupeInner);
 EyedropperPixelLoupe.displayName = 'EyedropperPixelLoupe';

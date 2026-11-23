@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import { Braces, Code2, Trash2 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -330,7 +330,7 @@ export function formatQueryExpression(
   return formatQueryNode(node, fieldMap, 0);
 }
 
-export function VisualQueryBuilder({
+function VisualQueryBuilderInner({
   fields,
   value,
   defaultValue,
@@ -823,4 +823,5 @@ export function VisualQueryBuilder({
   );
 }
 
+export const VisualQueryBuilder = memo(VisualQueryBuilderInner);
 VisualQueryBuilder.displayName = 'VisualQueryBuilder';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -24,6 +25,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface MergedWindowTabItem {
@@ -150,7 +152,7 @@ function createCollisionSafeTab(
   };
 }
 
-export function MergedWindowTabBar({
+function MergedWindowTabBarInner({
   tabs,
   defaultTabs,
   activeTabId,
@@ -579,9 +581,7 @@ export function MergedWindowTabBar({
           titlebarClass,
           'prism-crystal relative flex flex-wrap items-center gap-2 px-3 py-2 border-b min-w-0 max-w-full'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-        }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <span
           aria-hidden="true"
@@ -705,7 +705,7 @@ export function MergedWindowTabBar({
                   onDragEnd={handleDragEnd}
                   className={cx(
                     tabClass,
-                    'inline-flex items-center gap-1 rounded-xl border px-1.5 py-1 transition-all shrink-0 max-w-[240px]',
+                    'inline-flex items-center gap-1 rounded-xl border px-1.5 py-1 transition-[color,background-color,border-color,opacity,transform] shrink-0 max-w-[240px]',
                     isActive ? 'prism-well font-semibold' : '',
                     isDragging ? 'opacity-60 scale-[0.98]' : '',
                     disabled ? 'opacity-60' : ''
@@ -775,9 +775,7 @@ export function MergedWindowTabBar({
                     aria-label={`Detach ${displayTitle}`}
                     onClick={() => handleTearOffTab(tab, index)}
                     className="prism-focus-ring w-5 h-5 rounded-md inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 transition-opacity enabled:hover:opacity-100 opacity-75"
-                    style={{
-                      color: 'var(--prism-text-secondary)',
-                    }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <ExternalLink aria-hidden="true" className="w-3 h-3" />
                   </button>
@@ -790,9 +788,7 @@ export function MergedWindowTabBar({
                       aria-label={`Close ${displayTitle}`}
                       onClick={() => handleCloseTab(tab, index)}
                       className="prism-focus-ring w-5 h-5 rounded-md inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 transition-opacity enabled:hover:opacity-100 opacity-75"
-                      style={{
-                        color: 'var(--prism-text-secondary)',
-                      }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <X aria-hidden="true" className="w-3 h-3" />
                     </button>
@@ -840,14 +836,14 @@ export function MergedWindowTabBar({
           <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
             <div
               className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <AppWindow aria-hidden="true" className="w-3.5 h-3.5" />
               <span>Detached Windows</span>
             </div>
             <span
               className="prism-well px-2 py-0.5 rounded-full text-[11px] font-mono tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {visibleDetachedTabs.length}
             </span>
@@ -865,30 +861,28 @@ export function MergedWindowTabBar({
                   data-part="detached-window"
                   data-tab-id={detached.id}
                   className="prism-crystal rounded-xl px-2.5 py-1.5 border inline-flex flex-wrap items-center gap-2 min-w-0 max-w-full"
-                  style={{ borderColor: 'var(--prism-divider)' }}
+                  style={STYLE_BORDER_DIVIDER}
                 >
                   <div className="flex items-center gap-1.5 min-w-0">
                     {detached.dirty ? (
                       <span
                         aria-hidden="true"
                         className="w-2 h-2 rounded-full shrink-0"
-                        style={{
-                          backgroundColor: 'var(--prism-primary-main)',
-                        }}
+                        style={STYLE_BG_PRIMARY}
                       />
                     ) : null}
                     <div className="flex flex-col min-w-0">
                       <span
                         id={detachedTitleId}
                         className="text-xs font-medium truncate"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {detachedTitle}
                       </span>
                       {detachedSubtitle ? (
                         <span
                           className="text-[10px] font-mono truncate"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {detachedSubtitle}
                         </span>
@@ -934,7 +928,7 @@ export function MergedWindowTabBar({
               <span
                 aria-hidden="true"
                 className="prism-crystal w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               >
                 <FileText className="w-4 h-4" />
               </span>
@@ -944,7 +938,7 @@ export function MergedWindowTabBar({
                   <h3
                     data-part="preview-title"
                     className="text-sm font-semibold truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {activeDisplayTitle}
                   </h3>
@@ -966,7 +960,7 @@ export function MergedWindowTabBar({
                   <p
                     data-part="preview-subtitle"
                     className="text-xs font-mono truncate mt-0.5"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {activeDisplaySubtitle}
                   </p>
@@ -976,7 +970,7 @@ export function MergedWindowTabBar({
 
             <div
               className="inline-flex items-center gap-2 text-[11px] font-mono shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span className="tabular-nums">
                 Tab {activeTabIndex + 1} / {currentTabs.length}
@@ -994,13 +988,13 @@ export function MergedWindowTabBar({
           >
             <p
               className="text-sm font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               No open window tabs
             </p>
             <p
               className="text-xs"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Open a new tab or merge a detached window back into this titlebar.
             </p>
@@ -1031,4 +1025,5 @@ export function MergedWindowTabBar({
   );
 }
 
+export const MergedWindowTabBar = memo(MergedWindowTabBarInner);
 MergedWindowTabBar.displayName = 'MergedWindowTabBar';

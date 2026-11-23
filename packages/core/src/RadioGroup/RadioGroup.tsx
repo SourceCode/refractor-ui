@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, type KeyboardEvent } from 'react';
+import { memo, useRef, type KeyboardEvent } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -32,7 +32,7 @@ export interface RadioGroupProps extends RadioGroupBaseProps {
   disabled?: boolean;
 }
 
-export function RadioGroup({
+function RadioGroupInner({
   name,
   options,
   value,
@@ -145,4 +145,5 @@ export function RadioGroup({
   );
 }
 
+export const RadioGroup = memo(RadioGroupInner);
 RadioGroup.displayName = 'RadioGroup';

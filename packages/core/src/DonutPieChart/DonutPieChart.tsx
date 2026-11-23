@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DonutSliceTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -194,7 +196,7 @@ function buildSlicePath(
   };
 }
 
-export function DonutPieChart({
+function DonutPieChartInner({
   slices,
   variant = 'donut',
   title = 'Composition Share',
@@ -340,7 +342,7 @@ export function DonutPieChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -378,7 +380,7 @@ export function DonutPieChart({
           role="status"
           data-testid="donut-pie-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No positive slice values to display.
         </div>
@@ -473,7 +475,7 @@ export function DonutPieChart({
                       'prism-focus-ring w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl text-xs cursor-pointer transition-colors text-left',
                       isSelected ? 'prism-well font-semibold' : 'prism-crystal'
                     )}
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     <span className="inline-flex items-center gap-2 min-w-0">
                       <span
@@ -485,7 +487,7 @@ export function DonutPieChart({
                     </span>
 
                     <span className="inline-flex items-center gap-2 shrink-0 font-mono tabular-nums">
-                      <span style={{ color: 'var(--prism-text-secondary)' }}>
+                      <span style={STYLE_TEXT_SECONDARY}>
                         {formatMetric(slice.value, valueUnit)}
                       </span>
                       <span className="font-semibold">{`${formatNumeric(slice.sharePct)}%`}</span>
@@ -503,7 +505,7 @@ export function DonutPieChart({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2 flex items-center justify-between gap-2 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeSelection ? (
               <span className="inline-flex items-center gap-2 min-w-0">
@@ -517,13 +519,13 @@ export function DonutPieChart({
                 </span>
               </span>
             ) : (
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 Select any slice to inspect exact composition share.
               </span>
             )}
             <span
               className="shrink-0 font-mono font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {`${centerLabel}: ${centerValue ?? formatMetric(totalValue, valueUnit)}`}
             </span>
@@ -534,4 +536,5 @@ export function DonutPieChart({
   );
 }
 
+export const DonutPieChart = memo(DonutPieChartInner);
 DonutPieChart.displayName = 'DonutPieChart';

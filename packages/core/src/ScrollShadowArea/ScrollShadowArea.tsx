@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -13,6 +14,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ScrollShadowAxis = 'vertical' | 'horizontal' | 'both';
@@ -101,7 +103,7 @@ function computeEdgeState(
   };
 }
 
-export function ScrollShadowArea({
+function ScrollShadowAreaInner({
   axis = 'vertical',
   maxHeight = DEFAULT_MAX_HEIGHT_PX,
   shadowSizePx = DEFAULT_SHADOW_SIZE_PX,
@@ -160,7 +162,7 @@ export function ScrollShadowArea({
     };
 
     handleMeasure();
-    window.addEventListener('resize', handleMeasure);
+    window.addEventListener('resize', handleMeasure, { passive: true });
 
     let observer: ResizeObserver | null = null;
     if (typeof ResizeObserver !== 'undefined') {
@@ -172,6 +174,12 @@ export function ScrollShadowArea({
       window.removeEventListener('resize', handleMeasure);
       observer?.disconnect();
     };
+  }, [viewportNode, syncEdgesForElement]);
+
+  useEffect(() => {
+    if (viewportNode) {
+      syncEdgesForElement(viewportNode);
+    }
   }, [viewportNode, syncEdgesForElement, children, resolvedMaxHeight]);
 
   const handleScroll = useCallback(
@@ -339,8 +347,8 @@ export function ScrollShadowArea({
               disabled={!edges.top}
               aria-label="Back to top"
               onClick={() => scrollViewportTo(activeControlsViewport, 'top')}
-              className="prism-focus-ring prism-well h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-medium whitespace-nowrap transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-focus-ring prism-well h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
+              style={STYLE_TEXT_PRIMARY}
             >
               <ArrowUp aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>Top</span>
@@ -350,8 +358,8 @@ export function ScrollShadowArea({
               disabled={!edges.bottom}
               aria-label="Jump to end"
               onClick={() => scrollViewportTo(activeControlsViewport, 'bottom')}
-              className="prism-focus-ring prism-well h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-medium whitespace-nowrap transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-focus-ring prism-well h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
+              style={STYLE_TEXT_PRIMARY}
             >
               <ArrowDown aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>End</span>
@@ -363,4 +371,5 @@ export function ScrollShadowArea({
   );
 }
 
+export const ScrollShadowArea = memo(ScrollShadowAreaInner);
 ScrollShadowArea.displayName = 'ScrollShadowArea';

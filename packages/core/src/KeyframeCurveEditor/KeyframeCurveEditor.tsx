@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_FILL_PRIMARY, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type EasingPresetId = 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'overshoot';
@@ -224,7 +226,7 @@ function computeInsertedKeyframe(
   return { id: newId, timePct: bestTime, value: bestValue, easing: [...DEFAULT_EASING] };
 }
 
-export function KeyframeCurveEditor({
+function KeyframeCurveEditorInner({
   propertyName = 'Opacity',
   unit = '%',
   keyframes,
@@ -465,7 +467,7 @@ export function KeyframeCurveEditor({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handleWindowPointerMove);
+      window.addEventListener('pointermove', handleWindowPointerMove, { passive: true });
       window.addEventListener('pointerup', handleWindowPointerEnd);
       window.addEventListener('pointercancel', handleWindowPointerEnd);
     };
@@ -507,7 +509,7 @@ export function KeyframeCurveEditor({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Spline className="w-4 h-4 shrink-0" />
           </span>
@@ -515,14 +517,14 @@ export function KeyframeCurveEditor({
             id={headingId}
             data-testid="keyframe-property-name"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {propertyName}
           </h4>
           <code
             data-testid="keyframe-bezier-badge"
             className="prism-crystal px-2.5 py-1 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {selectedKeyframe ? bezierCss : 'No keyframes'}
           </code>
@@ -534,7 +536,7 @@ export function KeyframeCurveEditor({
             disabled={disabled}
             data-testid="keyframe-add-button"
             onClick={handleAddKeyframe}
-            className="prism-btn-primary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-primary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <Plus aria-hidden="true" className="w-3.5 h-3.5 shrink-0 relative z-10" />
             <span className="relative z-10">Add Keyframe</span>
@@ -545,7 +547,7 @@ export function KeyframeCurveEditor({
             disabled={!canDelete}
             data-testid="keyframe-delete-button"
             onClick={() => handleDeleteKeyframe(selectedKeyframe!)}
-            className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <Trash2 aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Delete</span>
@@ -558,7 +560,7 @@ export function KeyframeCurveEditor({
           role="status"
           data-testid="keyframe-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No keyframes configured for {propertyName}. Click Add Keyframe to create an animation curve.
         </div>
@@ -575,14 +577,14 @@ export function KeyframeCurveEditor({
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
               <span
                 className="font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Keyframe Lane ({normalizedKeyframes.length})
               </span>
               <span
                 data-testid="keyframe-selected-summary"
                 className="font-mono font-semibold tabular-nums"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {selectedKeyframe.timePct}% · {formatKeyframeValue(selectedKeyframe.value, unit)}
               </span>
@@ -592,7 +594,7 @@ export function KeyframeCurveEditor({
               <div
                 aria-hidden="true"
                 className="w-full h-1 rounded-full"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
 
               {LANE_TICKS.map((pct) => (
@@ -643,7 +645,7 @@ export function KeyframeCurveEditor({
                     <span
                       aria-hidden="true"
                       data-testid={`keyframe-diamond-${kf.id}`}
-                      className="w-3.5 h-3.5 rotate-45 rounded-[2px] border-2 transition-all"
+                      className="w-3.5 h-3.5 rotate-45 rounded-[2px] border-2 transition-[color,background-color,border-color,opacity,transform]"
                       style={{
                         backgroundColor: isSelected
                           ? 'var(--prism-primary-main)'
@@ -656,7 +658,7 @@ export function KeyframeCurveEditor({
                     <span
                       aria-hidden="true"
                       className="text-[9px] font-mono tabular-nums whitespace-nowrap leading-none"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {formattedVal}
                     </span>
@@ -668,7 +670,7 @@ export function KeyframeCurveEditor({
             <div
               aria-hidden="true"
               className="flex items-center justify-between px-3 text-[10px] font-mono tabular-nums"
-              style={{ color: 'var(--prism-text-disabled)' }}
+              style={STYLE_TEXT_DISABLED}
             >
               {LANE_TICKS.map((pct) => (
                 <span key={`label-${pct}`}>{pct}%</span>
@@ -745,7 +747,7 @@ export function KeyframeCurveEditor({
                     y={roundTwo(PLOT_Y_BOTTOM - tick.value * PLOT_HEIGHT + 3)}
                     textAnchor="end"
                     className="text-[9px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.text}
                   </text>
@@ -758,7 +760,7 @@ export function KeyframeCurveEditor({
                     y={PLOT_Y_BOTTOM + 14}
                     textAnchor="middle"
                     className="text-[9px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.text}
                   </text>
@@ -870,7 +872,7 @@ export function KeyframeCurveEditor({
                     y={p1Svg.y - 10}
                     textAnchor="middle"
                     className="text-[9px] font-mono font-bold pointer-events-none"
-                    style={{ fill: 'var(--prism-text-primary)' }}
+                    style={STYLE_FILL_PRIMARY}
                   >
                     P1
                   </text>
@@ -924,7 +926,7 @@ export function KeyframeCurveEditor({
                     y={p2Svg.y - 10}
                     textAnchor="middle"
                     className="text-[9px] font-mono font-bold pointer-events-none"
-                    style={{ fill: 'var(--prism-text-primary)' }}
+                    style={STYLE_FILL_PRIMARY}
                   >
                     P2
                   </text>
@@ -936,7 +938,7 @@ export function KeyframeCurveEditor({
               <div className="space-y-2">
                 <span
                   className="block text-xs font-semibold tracking-tight"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Easing Presets
                 </span>
@@ -957,7 +959,7 @@ export function KeyframeCurveEditor({
                         data-testid={`keyframe-preset-${preset.id}`}
                         onClick={() => updateSelectedEasing(selectedKeyframe, [...preset.tuple])}
                         className={cx(
-                          'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                          'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                           isActive
                             ? 'prism-btn-primary'
                             : 'prism-crystal opacity-85 enabled:hover:opacity-100'
@@ -980,29 +982,29 @@ export function KeyframeCurveEditor({
                 )}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span style={{ color: 'var(--prism-text-secondary)' }}>Curve</span>
+                  <span style={STYLE_TEXT_SECONDARY}>Curve</span>
                   <span
                     data-testid="keyframe-preset-label"
                     className="font-sans font-semibold"
-                    style={{ color: 'var(--prism-primary-main)' }}
+                    style={STYLE_PRIMARY_MAIN}
                   >
                     {activePresetLabel}
                   </span>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                  <span style={{ color: 'var(--prism-text-secondary)' }}>P1</span>
+                  <span style={STYLE_TEXT_SECONDARY}>P1</span>
                   <span
                     data-testid="keyframe-p1-coords"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     ({formatCoord(activeEasing[0])}, {formatCoord(activeEasing[1])})
                   </span>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                  <span style={{ color: 'var(--prism-text-secondary)' }}>P2</span>
+                  <span style={STYLE_TEXT_SECONDARY}>P2</span>
                   <span
                     data-testid="keyframe-p2-coords"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     ({formatCoord(activeEasing[2])}, {formatCoord(activeEasing[3])})
                   </span>
@@ -1016,4 +1018,5 @@ export function KeyframeCurveEditor({
   );
 }
 
+export const KeyframeCurveEditor = memo(KeyframeCurveEditorInner);
 KeyframeCurveEditor.displayName = 'KeyframeCurveEditor';

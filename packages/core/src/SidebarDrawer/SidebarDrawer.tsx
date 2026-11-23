@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { memo, useState, type ReactNode } from 'react';
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -29,7 +29,7 @@ export interface SidebarDrawerProps extends SidebarDrawerBaseProps {
   collapsible?: boolean;
 }
 
-export function SidebarDrawer({
+function SidebarDrawerInner({
   title,
   items,
   activeId,
@@ -46,7 +46,7 @@ export function SidebarDrawer({
 
   const merged = mergeProps({
     themeTarget: themeProps('sidebar-drawer', { collapsed, collapsible }),
-    baseClassName: `prism-slab p-3 transition-all duration-200 ${collapsed ? 'w-16' : 'w-64'}`,
+    baseClassName: `prism-slab p-3 transition-[color,background-color,border-color,opacity,transform] duration-200 ${collapsed ? 'w-16' : 'w-64'}`,
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -89,7 +89,7 @@ export function SidebarDrawer({
               aria-label={collapsed ? item.label : undefined}
               title={collapsed ? item.label : undefined}
               onClick={() => onSelect(item.id)}
-              className={`prism-focus-ring w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-2xl text-xs font-medium cursor-pointer transition-all ${
+              className={`prism-focus-ring w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-2xl text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                 active
                   ? 'prism-btn-primary text-white'
                   : 'text-slate-700 dark:text-slate-200 hover:bg-white/55 dark:hover:bg-white/10'
@@ -116,4 +116,5 @@ export function SidebarDrawer({
   );
 }
 
+export const SidebarDrawer = memo(SidebarDrawerInner);
 SidebarDrawer.displayName = 'SidebarDrawer';

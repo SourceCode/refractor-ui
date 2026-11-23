@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -22,6 +23,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_DIVIDER, STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type VirtualDesktopWindowTone =
@@ -236,7 +238,7 @@ function getWindowToneTokens(
   }
 }
 
-export function VirtualDesktopBar({
+function VirtualDesktopBarInner({
   title = 'Virtual Desktops',
   spaces,
   defaultSpaces,
@@ -603,7 +605,7 @@ export function VirtualDesktopBar({
           headerClass,
           'prism-crystal relative flex flex-wrap items-center justify-between gap-2.5 px-3.5 py-2.5 border-b min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <span
           aria-hidden="true"
@@ -619,7 +621,7 @@ export function VirtualDesktopBar({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Monitor className="w-4 h-4" />
           </span>
@@ -627,7 +629,7 @@ export function VirtualDesktopBar({
           <h2
             data-part="title"
             className="text-sm font-semibold truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {headingTitle}
           </h2>
@@ -647,7 +649,7 @@ export function VirtualDesktopBar({
               <span
                 aria-hidden="true"
                 className="w-1.5 h-1.5 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-primary-main)' }}
+                style={STYLE_BG_PRIMARY}
               />
               <span className="truncate">{activeSpaceName}</span>
             </span>
@@ -658,7 +660,7 @@ export function VirtualDesktopBar({
           <span
             data-part="summary-counts"
             className="prism-well px-2.5 py-1 rounded-full text-[11px] font-mono tabular-nums whitespace-nowrap"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {currentSpaces.length} / {resolvedMaxSpaces} desktops ·{' '}
             {formatCount(totalWindows, 'window', 'windows')}
@@ -688,7 +690,7 @@ export function VirtualDesktopBar({
       <div
         data-part="spaces-scroll"
         className="w-full max-w-full min-w-0 overflow-x-auto px-3.5 py-3 border-b"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div
           role="tablist"
@@ -719,7 +721,7 @@ export function VirtualDesktopBar({
                 onDrop={(event) => handleSpaceDrop(event, space.id)}
                 className={cx(
                   cardClass,
-                  'prism-crystal relative flex flex-col gap-2 w-52 sm:w-56 rounded-2xl border p-2.5 shrink-0 transition-all',
+                  'prism-crystal relative flex flex-col gap-2 w-52 sm:w-56 rounded-2xl border p-2.5 shrink-0 transition-[color,background-color,border-color,opacity,transform]',
                   disabled ? 'opacity-60' : ''
                 )}
                 style={{
@@ -765,16 +767,16 @@ export function VirtualDesktopBar({
                       />
                       <span
                         className="w-1.5 h-1.5 rounded-full"
-                        style={{ backgroundColor: 'var(--prism-divider)' }}
+                        style={STYLE_BG_DIVIDER}
                       />
                       <span
                         className="w-1.5 h-1.5 rounded-full"
-                        style={{ backgroundColor: 'var(--prism-divider)' }}
+                        style={STYLE_BG_DIVIDER}
                       />
                     </span>
                     <span
                       className="text-[10px] font-mono tabular-nums"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       #{index + 1}
                     </span>
@@ -803,7 +805,7 @@ export function VirtualDesktopBar({
                             onDragEnd={handleWindowDragEnd}
                             className={cx(
                               windowPillClass,
-                              'inline-flex items-center gap-1 max-w-full rounded-lg border px-1.5 py-1 text-[11px] font-medium select-none transition-all',
+                              'inline-flex items-center gap-1 max-w-full rounded-lg border px-1.5 py-1 text-[11px] font-medium select-none transition-[color,background-color,border-color,opacity,transform]',
                               disabled
                                 ? 'cursor-not-allowed opacity-70'
                                 : 'cursor-grab active:cursor-grabbing',
@@ -833,7 +835,7 @@ export function VirtualDesktopBar({
                     <span
                       data-part="empty-canvas"
                       className="text-[11px] italic my-auto self-center"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {isDropTarget ? 'Drop window here' : 'Empty desktop'}
                     </span>
@@ -872,9 +874,7 @@ export function VirtualDesktopBar({
                           data-part="active-dot"
                           aria-hidden="true"
                           className="w-2 h-2 rounded-full shrink-0"
-                          style={{
-                            backgroundColor: 'var(--prism-primary-main)',
-                          }}
+                          style={STYLE_BG_PRIMARY}
                         />
                       ) : null}
                       <span className="truncate">{spaceName}</span>
@@ -900,7 +900,7 @@ export function VirtualDesktopBar({
                     aria-label={`Close ${spaceName}`}
                     onClick={() => handleCloseSpace(space, index)}
                     className="prism-focus-ring w-6 h-6 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-35 transition-opacity enabled:hover:opacity-100 opacity-75"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <X aria-hidden="true" className="w-3.5 h-3.5" />
                   </button>
@@ -926,14 +926,14 @@ export function VirtualDesktopBar({
             <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
               <div
                 className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider min-w-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <AppWindow aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">Windows in {activeSpaceName}</span>
               </div>
               <span
                 className="text-[11px] font-mono tabular-nums shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {formatCount(activeSpace.windows.length, 'window', 'windows')}
               </span>
@@ -951,7 +951,7 @@ export function VirtualDesktopBar({
                       data-part="transfer-row"
                       data-window-id={win.id}
                       className="prism-well rounded-xl px-2.5 py-2 flex flex-wrap items-center justify-between gap-2 min-w-0 max-w-full border"
-                      style={{ borderColor: 'var(--prism-divider)' }}
+                      style={STYLE_BORDER_DIVIDER}
                     >
                       <div className="inline-flex items-center gap-2 min-w-0 flex-1">
                         <span
@@ -961,7 +961,7 @@ export function VirtualDesktopBar({
                         />
                         <span
                           className="text-xs font-medium truncate"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {winTitle}
                         </span>
@@ -971,7 +971,7 @@ export function VirtualDesktopBar({
                         <ArrowRightLeft
                           aria-hidden="true"
                           className="w-3.5 h-3.5 shrink-0"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         />
                         <select
                           data-part="window-transfer-select"
@@ -1011,7 +1011,7 @@ export function VirtualDesktopBar({
               <div
                 data-part="empty-transfer"
                 className="prism-well rounded-xl px-3 py-4 text-center text-xs min-w-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 No windows in {activeSpaceName}. Drag a window onto this desktop
                 or switch workspaces to transfer one here.
@@ -1022,7 +1022,7 @@ export function VirtualDesktopBar({
           <div
             data-part="empty-spaces"
             className="prism-well rounded-xl px-3 py-4 text-center text-xs min-w-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             No virtual desktops open. Select New Desktop to create a workspace.
           </div>
@@ -1052,4 +1052,5 @@ export function VirtualDesktopBar({
   );
 }
 
+export const VirtualDesktopBar = memo(VirtualDesktopBarInner);
 VirtualDesktopBar.displayName = 'VirtualDesktopBar';

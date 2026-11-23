@@ -1,11 +1,12 @@
 'use client';
 
-import { useId, useMemo, useState } from 'react';
+import { memo, useId, useMemo, useState } from 'react';
 import { AlertCircle, Check, CheckCircle2 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber, isSafeObjectKey, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type VariantKind = 'color' | 'size' | 'material';
@@ -84,7 +85,7 @@ function formatCurrencyAmount(value: number, currencySymbol: string): string {
   const clamped = clampNumber(value, 0, MAX_VARIANT_PRICE, 0);
   const rounded = Math.round(clamped * 100) / 100;
   const formatted = Number.isInteger(rounded)
-    ? rounded.toLocaleString('en-US')
+    ? formatUsNumber(rounded)
     : rounded.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
@@ -159,7 +160,7 @@ function resolveSelection(
   return { idMap, optionMap };
 }
 
-export function ProductVariantSelector({
+function ProductVariantSelectorInner({
   groups,
   selected,
   defaultSelected,
@@ -249,7 +250,7 @@ export function ProductVariantSelector({
         <div
           data-testid="variant-empty-state"
           className="prism-well rounded-2xl py-8 px-4 text-center text-sm"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No product variants available.
         </div>
@@ -272,14 +273,14 @@ export function ProductVariantSelector({
                 <span
                   data-testid="variant-total-price"
                   className="text-2xl font-bold tracking-tight tabular-nums"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {formattedTotalPrice}
                 </span>
                 <span
                   data-testid="variant-selection-summary"
                   className="text-xs font-medium truncate"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {selectionSummary}
                 </span>
@@ -330,14 +331,14 @@ export function ProductVariantSelector({
                     <span
                       id={groupHeadingId}
                       className="text-xs font-semibold uppercase tracking-wider"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {group.label}
                     </span>
                     <span
                       data-testid={`variant-group-selected-${group.id}`}
                       className="text-xs font-semibold"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {selectedInGroup ? selectedInGroup.label : 'Unavailable'}
                     </span>
@@ -385,7 +386,7 @@ export function ProductVariantSelector({
                                 ? undefined
                                 : () => handleSelectOption(group.id, option.id)
                             }
-                            className={`prism-crystal prism-focus-ring relative w-10 h-10 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all ${
+                            className={`prism-crystal prism-focus-ring relative w-10 h-10 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] ${
                               isSelected
                                 ? 'ring-2 ring-[var(--prism-primary-main)]'
                                 : ''
@@ -437,7 +438,7 @@ export function ProductVariantSelector({
                               ? undefined
                               : () => handleSelectOption(group.id, option.id)
                           }
-                          className={`prism-focus-ring inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all ${
+                          className={`prism-focus-ring inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] ${
                             isSelected && !isUnavailable
                               ? 'prism-btn-primary'
                               : 'prism-crystal'
@@ -468,4 +469,5 @@ export function ProductVariantSelector({
   );
 }
 
+export const ProductVariantSelector = memo(ProductVariantSelectorInner);
 ProductVariantSelector.displayName = 'ProductVariantSelector';

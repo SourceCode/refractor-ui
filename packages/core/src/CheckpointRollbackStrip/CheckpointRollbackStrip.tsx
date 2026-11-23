@@ -1,11 +1,14 @@
 'use client';
 
+import { memo } from 'react';
+
 import { Clock, FileCode2, GitFork, History, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface AgentCheckpoint {
@@ -49,7 +52,7 @@ function formatFilesChanged(filesChanged: number): string {
   return safeCount === 1 ? '1 file' : `${safeCount} files`;
 }
 
-export function CheckpointRollbackStrip({
+function CheckpointRollbackStripInner({
   checkpoints,
   activeCheckpointId,
   defaultActiveCheckpointId,
@@ -104,7 +107,7 @@ export function CheckpointRollbackStrip({
           role="status"
           data-testid="checkpoint-empty-state"
           className="prism-well rounded-2xl px-4 py-3 flex items-center gap-2.5 text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <History aria-hidden="true" className="w-4 h-4 shrink-0" />
           <span>No checkpoints recorded yet.</span>
@@ -131,7 +134,7 @@ export function CheckpointRollbackStrip({
                   data-active={isActive ? 'true' : undefined}
                   data-testid={`checkpoint-pill-${cp.id}`}
                   onClick={() => handleSelect(cp)}
-                  className="prism-crystal prism-focus-ring rounded-2xl px-3 py-2 text-left inline-flex flex-col gap-1 shrink-0 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 border-[1.5px] border-solid"
+                  className="prism-crystal prism-focus-ring rounded-2xl px-3 py-2 text-left inline-flex flex-col gap-1 shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 border-[1.5px] border-solid"
                   style={{
                     borderColor: isActive ? 'var(--prism-primary-main)' : 'transparent',
                   }}
@@ -160,7 +163,7 @@ export function CheckpointRollbackStrip({
                     <span
                       data-testid={`checkpoint-files-${cp.id}`}
                       className="prism-well rounded-full px-2 py-0.5 inline-flex items-center gap-1 text-[10px] font-mono tabular-nums whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <FileCode2 aria-hidden="true" className="w-3 h-3 shrink-0" />
                       <span>{filesLabel}</span>
@@ -169,7 +172,7 @@ export function CheckpointRollbackStrip({
 
                   <span
                     className="text-xs font-semibold truncate max-w-[190px]"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {cp.label}
                   </span>
@@ -190,7 +193,7 @@ export function CheckpointRollbackStrip({
               <div
                 data-testid="checkpoint-timestamp"
                 className="inline-flex items-center gap-1.5 text-[11px] font-mono tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <Clock aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 <span>{activeCheckpoint.timestamp}</span>
@@ -200,7 +203,7 @@ export function CheckpointRollbackStrip({
                 <p
                   data-testid="checkpoint-summary"
                   className="text-xs leading-relaxed"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeCheckpoint.summary}
                 </p>
@@ -235,4 +238,5 @@ export function CheckpointRollbackStrip({
   );
 }
 
+export const CheckpointRollbackStrip = memo(CheckpointRollbackStripInner);
 CheckpointRollbackStrip.displayName = 'CheckpointRollbackStrip';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useRef,
   useState,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface DualThumbRange {
@@ -119,7 +121,7 @@ function getEventPointerId(event: ReactPointerEvent<HTMLDivElement>): number {
   return typeof event.pointerId === 'number' ? event.pointerId : 0;
 }
 
-export function DualThumbSlider({
+function DualThumbSliderInner({
   value,
   defaultValue = DEFAULT_RANGE,
   onChange,
@@ -354,7 +356,7 @@ export function DualThumbSlider({
         <span
           id={labelId}
           className={cx(labelClass, 'text-xs font-semibold tracking-tight')}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {label}
         </span>
@@ -364,7 +366,7 @@ export function DualThumbSlider({
             readoutClass,
             'prism-crystal px-2.5 py-0.5 rounded-full font-mono text-xs font-semibold tabular-nums whitespace-nowrap'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {formattedLow} – {formattedHigh}
         </span>
@@ -433,7 +435,7 @@ export function DualThumbSlider({
           <span
             aria-hidden="true"
             className="w-2 h-2 rounded-full pointer-events-none"
-            style={{ backgroundColor: 'var(--prism-primary-main)' }}
+            style={STYLE_BG_PRIMARY}
           />
         </div>
 
@@ -472,7 +474,7 @@ export function DualThumbSlider({
           <span
             aria-hidden="true"
             className="w-2 h-2 rounded-full pointer-events-none"
-            style={{ backgroundColor: 'var(--prism-primary-main)' }}
+            style={STYLE_BG_PRIMARY}
           />
         </div>
       </div>
@@ -480,4 +482,5 @@ export function DualThumbSlider({
   );
 }
 
+export const DualThumbSlider = memo(DualThumbSliderInner);
 DualThumbSlider.displayName = 'DualThumbSlider';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SlopeTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose' | 'info';
@@ -271,7 +273,7 @@ function resolveLabelPositions(
   return result;
 }
 
-export function SlopegraphChart({
+function SlopegraphChartInner({
   items,
   startLabel = 'Q1 2026',
   endLabel = 'Q4 2026',
@@ -585,7 +587,7 @@ export function SlopegraphChart({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight min-w-0 break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -630,12 +632,12 @@ export function SlopegraphChart({
                 'prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer transition-opacity duration-150',
                 directionFilter === 'all' ? 'prism-crystal opacity-100' : 'prism-well opacity-75'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span>All</span>
               <span
                 className="font-mono text-[11px] tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {String(computedItems.length)}
               </span>
@@ -652,17 +654,17 @@ export function SlopegraphChart({
                   ? 'prism-crystal opacity-100'
                   : 'prism-well opacity-75'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-success-main)' }}
+                style={STYLE_BG_SUCCESS}
               />
               <span>Rising Only</span>
               <span
                 className="font-mono text-[11px] tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {String(risingCount)}
               </span>
@@ -679,17 +681,17 @@ export function SlopegraphChart({
                   ? 'prism-crystal opacity-100'
                   : 'prism-well opacity-75'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-error-main)' }}
+                style={STYLE_BG_ERROR}
               />
               <span>Declining Only</span>
               <span
                 className="font-mono text-[11px] tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {String(decliningCount)}
               </span>
@@ -703,7 +705,7 @@ export function SlopegraphChart({
           role="status"
           data-testid="slopegraph-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No slopegraph series to display.
         </div>
@@ -712,7 +714,7 @@ export function SlopegraphChart({
           role="status"
           data-testid="slopegraph-filter-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {directionFilter === 'rising'
             ? 'No rising series match the current filter.'
@@ -993,7 +995,7 @@ export function SlopegraphChart({
             readoutClass,
             'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 w-full max-w-full min-w-0 text-xs tabular-nums'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {activeItem ? (
             <div className="flex flex-wrap items-center gap-1.5 min-w-0 w-full">
@@ -1007,17 +1009,17 @@ export function SlopegraphChart({
                   {activeItem.label}
                 </span>
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                 ·
               </span>
               <span
                 data-testid="slopegraph-readout-range"
                 className="font-mono font-medium"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {`${activeItem.startFormatted} → ${activeItem.endFormatted}`}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                 ·
               </span>
               <span
@@ -1027,35 +1029,35 @@ export function SlopegraphChart({
               >
                 {activeItem.signedDeltaFormatted}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                 ·
               </span>
               <span
                 data-testid="slopegraph-readout-pct"
                 className="prism-crystal rounded-full px-2 py-0.5 text-[11px] font-mono font-medium"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {activeItem.deltaPctFormatted}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                 ·
               </span>
               <span
                 data-testid="slopegraph-readout-rank"
                 className="font-mono font-medium"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {activeItem.rankShiftFormatted}
               </span>
             </div>
           ) : (
             <>
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 Select or focus any slope line (ArrowUp / ArrowDown) to inspect value change and rank shift.
               </span>
               <span
                 className="font-mono font-medium shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {directionFilter === 'all'
                   ? `${computedItems.length} series`
@@ -1069,4 +1071,5 @@ export function SlopegraphChart({
   );
 }
 
+export const SlopegraphChart = memo(SlopegraphChartInner);
 SlopegraphChart.displayName = 'SlopegraphChart';

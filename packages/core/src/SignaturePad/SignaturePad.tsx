@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -161,7 +162,7 @@ function buildKeyboardSignatureStroke(
   ];
 }
 
-export function SignaturePad({
+function SignaturePadInner({
   width = 480,
   height = 180,
   strokeColor = DEFAULT_INK_COLOR,
@@ -527,4 +528,5 @@ export function SignaturePad({
   );
 }
 
+export const SignaturePad = memo(SignaturePadInner);
 SignaturePad.displayName = 'SignaturePad';

@@ -15,6 +15,7 @@ export type {
   ThemeMode,
   ThemeMotionConfig,
   ThemeOverlayFx,
+  ThemePerformanceMode,
   ThemeTokenMap,
   ThemeTokenValue,
 } from './types';

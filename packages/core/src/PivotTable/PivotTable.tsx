@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { isSafeObjectKey } from '../utils/sanitize';
+import { formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type PivotScalar = string | number | boolean;
@@ -126,10 +128,10 @@ function computeAggregate(
 function formatPivotMetric(value: number | null, aggregation: PivotAggregation): string {
   if (value === null || !Number.isFinite(value)) return '—';
   if (aggregation === 'count') {
-    return Math.round(value).toLocaleString('en-US');
+    return formatUsNumber(Math.round(value));
   }
   if (Number.isInteger(value)) {
-    return value.toLocaleString('en-US');
+    return formatUsNumber(value);
   }
   return value.toLocaleString('en-US', {
     minimumFractionDigits: 0,
@@ -137,7 +139,7 @@ function formatPivotMetric(value: number | null, aggregation: PivotAggregation):
   });
 }
 
-export function PivotTable({
+function PivotTableInner({
   data,
   fields,
   defaultRowField,
@@ -622,4 +624,5 @@ export function PivotTable({
   );
 }
 
+export const PivotTable = memo(PivotTableInner);
 PivotTable.displayName = 'PivotTable';

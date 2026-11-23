@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import {
   AlertCircle,
   AlertTriangle,
@@ -17,6 +17,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DistributedTraceSpanStatus = 'ok' | 'slow' | 'error';
@@ -475,7 +476,7 @@ function buildTraceTree(normalizedSpans: ReadonlyArray<NormalizedSpan>): TraceTr
   return rows;
 }
 
-export function DistributedTraceWaterfall({
+function DistributedTraceWaterfallInner({
   spans,
   traceId = DEFAULT_TRACE_ID,
   title = DEFAULT_TITLE,
@@ -694,14 +695,14 @@ export function DistributedTraceWaterfall({
             <h3
               id={headingId}
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeTitle}
             </h3>
             <span
               data-testid="trace-waterfall-trace-id"
               className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {safeTraceId}
             </span>
@@ -711,12 +712,12 @@ export function DistributedTraceWaterfall({
             <span
               data-testid="trace-waterfall-duration"
               className="prism-well rounded-full px-2.5 py-0.5 inline-flex items-center gap-1 font-mono text-[11px] font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Clock
                 aria-hidden="true"
                 className="w-3 h-3 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               />
               <span>{formatDurationMs(totalDurationMs)}</span>
             </span>
@@ -724,7 +725,7 @@ export function DistributedTraceWaterfall({
             <span
               data-testid="trace-waterfall-span-count"
               className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {spanCountLabel}
             </span>
@@ -761,7 +762,7 @@ export function DistributedTraceWaterfall({
             data-testid="trace-filter-errors"
             onClick={handleToggleErrorsOnly}
             className={cx(
-              'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 border transition-all cursor-pointer enabled:hover:brightness-105',
+              'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 border transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105',
               errorsOnly ? 'prism-crystal' : 'prism-well border-transparent'
             )}
             style={
@@ -783,7 +784,7 @@ export function DistributedTraceWaterfall({
             data-testid="trace-filter-critical"
             onClick={handleToggleCriticalPathOnly}
             className={cx(
-              'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105',
+              'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105',
               criticalPathOnly ? 'prism-btn-primary' : 'prism-well'
             )}
             style={criticalPathOnly ? undefined : { color: 'var(--prism-text-secondary)' }}
@@ -797,8 +798,8 @@ export function DistributedTraceWaterfall({
               type="button"
               data-testid="trace-filter-reset"
               onClick={handleResetFilters}
-              className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105"
+              style={STYLE_TEXT_SECONDARY}
             >
               <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Reset</span>
@@ -817,10 +818,10 @@ export function DistributedTraceWaterfall({
             data-testid="trace-waterfall-empty"
             className="py-8 px-4 text-center space-y-1.5"
           >
-            <p className="text-xs font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+            <p className="text-xs font-semibold" style={STYLE_TEXT_PRIMARY}>
               No trace spans recorded
             </p>
-            <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
               Waiting for distributed OpenTelemetry spans on trace {safeTraceId}.
             </p>
           </div>
@@ -830,14 +831,14 @@ export function DistributedTraceWaterfall({
             data-testid="trace-waterfall-filtered-empty"
             className="py-8 px-4 text-center space-y-2.5"
           >
-            <p className="text-xs font-medium" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs font-medium" style={STYLE_TEXT_SECONDARY}>
               No trace spans match the active filters.
             </p>
             <button
               type="button"
               data-testid="trace-waterfall-empty-reset"
               onClick={handleResetFilters}
-              className="prism-btn-secondary prism-focus-ring h-7 px-3 rounded-full text-[11px] font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer enabled:hover:brightness-105 transition-all"
+              className="prism-btn-secondary prism-focus-ring h-7 px-3 rounded-full text-[11px] font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             >
               <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Reset Filters</span>
@@ -940,7 +941,7 @@ export function DistributedTraceWaterfall({
                       onKeyDown={(event) => handleSpanKeyDown(event, span)}
                       className={cx(
                         rowClass,
-                        'prism-focus-ring w-full grid grid-cols-[260px_minmax(220px,1fr)_78px] sm:grid-cols-[300px_minmax(220px,1fr)_78px] items-center gap-2 px-2 py-1.5 rounded-xl border text-left transition-all cursor-pointer',
+                        'prism-focus-ring w-full grid grid-cols-[260px_minmax(220px,1fr)_78px] sm:grid-cols-[300px_minmax(220px,1fr)_78px] items-center gap-2 px-2 py-1.5 rounded-xl border text-left transition-[color,background-color,border-color,opacity,transform] cursor-pointer',
                         isSelected ? 'prism-crystal' : 'border-transparent hover:brightness-105'
                       )}
                       style={
@@ -970,7 +971,7 @@ export function DistributedTraceWaterfall({
                         <span
                           data-testid={`trace-span-operation-${span.id}`}
                           className="text-xs font-medium truncate min-w-0 flex-1"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {span.operation}
                         </span>
@@ -1007,7 +1008,7 @@ export function DistributedTraceWaterfall({
                         <div
                           data-testid={`trace-span-bar-${span.id}`}
                           data-status={span.status}
-                          className="absolute top-1 bottom-1 rounded-full transition-all duration-200"
+                          className="absolute top-1 bottom-1 rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200"
                           style={{
                             left: formatPercent(offsetPct),
                             width: formatPercent(widthPct),
@@ -1051,7 +1052,7 @@ export function DistributedTraceWaterfall({
             inspectorClass,
             'prism-well rounded-2xl p-3.5 space-y-3 border max-w-full min-w-0'
           )}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
             <div className="min-w-0 flex flex-wrap items-center gap-2">
@@ -1068,7 +1069,7 @@ export function DistributedTraceWaterfall({
               <span
                 data-testid="trace-inspector-operation"
                 className="text-xs font-semibold break-words min-w-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {activeSpan.operation}
               </span>
@@ -1113,18 +1114,18 @@ export function DistributedTraceWaterfall({
           <dl className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-xs tabular-nums">
             <div
               className="prism-crystal rounded-xl px-2.5 py-1.5 border min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <dt
                 className="text-[10px] uppercase tracking-wide"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Span ID
               </dt>
               <dd
                 data-testid="trace-inspector-id"
                 className="font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {activeSpan.id}
               </dd>
@@ -1132,18 +1133,18 @@ export function DistributedTraceWaterfall({
 
             <div
               className="prism-crystal rounded-xl px-2.5 py-1.5 border min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <dt
                 className="text-[10px] uppercase tracking-wide"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Parent Span
               </dt>
               <dd
                 data-testid="trace-inspector-parent"
                 className="font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {activeSpan.parentId ?? 'root'}
               </dd>
@@ -1151,18 +1152,18 @@ export function DistributedTraceWaterfall({
 
             <div
               className="prism-crystal rounded-xl px-2.5 py-1.5 border min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <dt
                 className="text-[10px] uppercase tracking-wide"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Start Offset
               </dt>
               <dd
                 data-testid="trace-inspector-start"
                 className="font-semibold"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatDurationMs(activeSpan.startMs)}
               </dd>
@@ -1170,18 +1171,18 @@ export function DistributedTraceWaterfall({
 
             <div
               className="prism-crystal rounded-xl px-2.5 py-1.5 border min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <dt
                 className="text-[10px] uppercase tracking-wide"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Duration
               </dt>
               <dd
                 data-testid="trace-inspector-duration"
                 className="font-semibold"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatDurationMs(activeSpan.durationMs)} ({activeSharePct}%)
               </dd>
@@ -1190,11 +1191,11 @@ export function DistributedTraceWaterfall({
 
           <div
             className="pt-2 border-t space-y-1.5 min-w-0"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <div
               className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <Tag aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Span Tags</span>
@@ -1223,7 +1224,7 @@ export function DistributedTraceWaterfall({
               <p
                 data-testid="trace-inspector-no-tags"
                 className="text-xs"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 No tags attached to this span.
               </p>
@@ -1235,4 +1236,5 @@ export function DistributedTraceWaterfall({
   );
 }
 
+export const DistributedTraceWaterfall = memo(DistributedTraceWaterfallInner);
 DistributedTraceWaterfall.displayName = 'DistributedTraceWaterfall';

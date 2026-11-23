@@ -470,7 +470,7 @@ export function DocsShell() {
                   key={guide.id}
                   type="button"
                   onClick={() => openGuide(guide.id)}
-                  className={`w-full px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-medium cursor-pointer transition-all ${
+                  className={`w-full px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                     selected
                       ? 'prism-emerald text-white font-semibold'
                       : 'text-slate-700 dark:text-slate-200 hover:bg-white/60 dark:hover:bg-white/5'
@@ -491,7 +491,7 @@ export function DocsShell() {
                 setMobileNavOpen(false);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`w-full px-3.5 py-2 rounded-2xl flex items-center justify-between text-xs font-semibold cursor-pointer transition-all ${
+              className={`w-full px-3.5 py-2 rounded-2xl flex items-center justify-between text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                 activeSection === 'examples'
                   ? 'prism-emerald text-white'
                   : 'text-slate-700 dark:text-slate-200 hover:bg-white/60 dark:hover:bg-white/5'
@@ -513,7 +513,7 @@ export function DocsShell() {
                 setMobileNavOpen(false);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`w-full px-3.5 py-2 rounded-2xl flex items-center justify-between text-xs font-semibold cursor-pointer transition-all ${
+              className={`w-full px-3.5 py-2 rounded-2xl flex items-center justify-between text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                 activeSection === 'catalog' && activeCategory === 'overview' && !focusedComponentId
                   ? 'prism-btn-primary text-white'
                   : 'text-slate-700 dark:text-slate-200 hover:bg-white/60 dark:hover:bg-white/5'
@@ -737,7 +737,7 @@ export function DocsShell() {
                 <button
                   type="button"
                   onClick={() => dispatch(setActiveCategory('overview'))}
-                  className={`h-9 px-4 rounded-full text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer transition-all ${
+                  className={`h-9 px-4 rounded-full text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                     activeCategory === 'overview'
                       ? 'prism-btn-primary text-white'
                       : 'prism-crystal text-slate-700 dark:text-slate-200'
@@ -754,7 +754,7 @@ export function DocsShell() {
                       key={cat.id}
                       type="button"
                       onClick={() => dispatch(setActiveCategory(cat.id))}
-                      className={`h-9 px-4 rounded-full text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer transition-all ${
+                      className={`h-9 px-4 rounded-full text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                         active
                           ? 'prism-btn-primary text-white'
                           : 'prism-crystal text-slate-700 dark:text-slate-200'

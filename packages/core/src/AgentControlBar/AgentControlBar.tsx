@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { memo, useId, useState } from 'react';
 import { CornerDownRight, Pause, Play, Square } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AgentRunState = 'idle' | 'running' | 'paused' | 'stopped';
@@ -49,7 +50,7 @@ function getRunStateVisualMeta(state: AgentRunState): RunStateVisualMeta {
       return {
         label: 'Running',
         pillClass: 'prism-emerald',
-        dotClass: 'animate-pulse',
+        dotClass: 'animate-pulse motion-reduce:animate-none',
         dotColorVar: 'var(--prism-success-contrast)',
       };
     case 'paused':
@@ -82,7 +83,7 @@ function getRunStateVisualMeta(state: AgentRunState): RunStateVisualMeta {
   }
 }
 
-export function AgentControlBar({
+function AgentControlBarInner({
   status,
   defaultStatus = 'running',
   onStatusChange,
@@ -191,7 +192,7 @@ export function AgentControlBar({
             <span
               data-testid="agent-current-step"
               className="text-xs font-medium truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {currentStepLabel}
             </span>
@@ -229,7 +230,7 @@ export function AgentControlBar({
               disabled={disabled}
               onClick={handleStop}
               className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-error-main)' }}
+              style={STYLE_ERROR_MAIN}
             >
               <Square aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Stop</span>
@@ -243,7 +244,7 @@ export function AgentControlBar({
           <CornerDownRight
             aria-hidden="true"
             className="w-3.5 h-3.5 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <input
             id={redirectInputId}
@@ -260,7 +261,7 @@ export function AgentControlBar({
               }
             }}
             className="w-full min-w-0 bg-transparent text-xs focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
         </div>
 
@@ -277,4 +278,5 @@ export function AgentControlBar({
   );
 }
 
+export const AgentControlBar = memo(AgentControlBarInner);
 AgentControlBar.displayName = 'AgentControlBar';

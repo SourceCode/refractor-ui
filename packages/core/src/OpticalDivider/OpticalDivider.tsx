@@ -1,10 +1,12 @@
 'use client';
 
+import { memo } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type OpticalDividerOrientation = 'horizontal' | 'vertical';
@@ -87,7 +89,7 @@ function getSplitRailClass(
   return isShort ? 'h-px w-6 shrink-0' : 'h-px flex-1 min-w-[1rem]';
 }
 
-export function OpticalDivider({
+function OpticalDividerInner({
   orientation = 'horizontal',
   variant = 'specular',
   label,
@@ -178,7 +180,7 @@ export function OpticalDivider({
                   labelClass,
                   'text-xs font-medium tracking-wide leading-tight truncate min-w-0'
                 )}
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {renderedLabel}
               </span>
@@ -204,4 +206,5 @@ export function OpticalDivider({
   );
 }
 
+export const OpticalDivider = memo(OpticalDividerInner);
 OpticalDivider.displayName = 'OpticalDivider';

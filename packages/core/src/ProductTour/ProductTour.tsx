@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TourPlacement = 'top' | 'bottom' | 'left' | 'right' | 'center';
@@ -140,7 +142,7 @@ function computeAnchoredCardStyle(
   };
 }
 
-export function ProductTour({
+function ProductTourInner({
   steps,
   open,
   defaultOpen = false,
@@ -196,12 +198,26 @@ export function ProductTour({
     }
 
     const measure = () => {
-      setTargetRect(resolveTargetRect(activeTargetSelector));
+      const next = resolveTargetRect(activeTargetSelector);
+      setTargetRect((prev) => {
+        if (prev === next) return prev;
+        if (
+          prev &&
+          next &&
+          prev.top === next.top &&
+          prev.left === next.left &&
+          prev.width === next.width &&
+          prev.height === next.height
+        ) {
+          return prev;
+        }
+        return next;
+      });
     };
 
     measure();
-    window.addEventListener('resize', measure);
-    window.addEventListener('scroll', measure, true);
+    window.addEventListener('resize', measure, { passive: true });
+    window.addEventListener('scroll', measure, { capture: true, passive: true });
 
     return () => {
       window.removeEventListener('resize', measure);
@@ -291,7 +307,7 @@ export function ProductTour({
           <span
             data-tour-badge="true"
             className="prism-crystal rounded-full px-3 py-1 inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Sparkles aria-hidden="true" className="w-3 h-3 shrink-0" />
             <span className="truncate">{badgeText}</span>
@@ -299,7 +315,7 @@ export function ProductTour({
           {activeStep.badge ? (
             <span
               className="font-mono text-[11px] tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {activeIndex + 1} / {steps.length}
             </span>
@@ -311,7 +327,7 @@ export function ProductTour({
           aria-label="Close tour"
           onClick={handleSkip}
           className="prism-focus-ring rounded-lg p-1 cursor-pointer shrink-0 transition-colors"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <X aria-hidden="true" className="w-4 h-4" />
         </button>
@@ -321,14 +337,14 @@ export function ProductTour({
         <h3
           id={titleId}
           className="text-base font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {activeStep.title}
         </h3>
         <p
           id={descriptionId}
           className="text-sm leading-relaxed"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {activeStep.description}
         </p>
@@ -354,7 +370,7 @@ export function ProductTour({
                 data-active={isCurrent ? 'true' : undefined}
                 onClick={() => goToStep(idx)}
                 className={cx(
-                  'prism-focus-ring h-2 rounded-full transition-all cursor-pointer',
+                  'prism-focus-ring h-2 rounded-full transition-[color,background-color,border-color,opacity,transform] cursor-pointer',
                   isCurrent ? 'w-6' : 'w-2'
                 )}
                 style={{
@@ -372,13 +388,13 @@ export function ProductTour({
 
       <div
         className="pt-2 border-t flex items-center justify-between gap-3"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <button
           type="button"
           onClick={handleSkip}
           className="prism-focus-ring rounded-lg px-2 py-1 text-xs font-medium cursor-pointer transition-colors"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {skipLabel}
         </button>
@@ -451,7 +467,7 @@ export function ProductTour({
   const mergedOverlay = mergeProps({
     themeTarget,
     baseClassName: cx(
-      'fixed inset-0 z-50 p-4 bg-slate-900/35 backdrop-blur-xs',
+      'fixed inset-0 z-50 p-4 prism-backdrop-scrim',
       !anchoredCardStyle && 'flex items-center justify-center'
     ),
     overrideClassName: override?.className,
@@ -477,7 +493,7 @@ export function ProductTour({
         <div
           aria-hidden="true"
           data-tour-spotlight="true"
-          className="fixed pointer-events-none rounded-2xl border-2 transition-all duration-200"
+          className="fixed pointer-events-none rounded-2xl border-2 transition-[color,background-color,border-color,opacity,transform] duration-200"
           style={{
             top: `${Math.max(0, effectiveRect.top - SPOTLIGHT_PAD)}px`,
             left: `${Math.max(0, effectiveRect.left - SPOTLIGHT_PAD)}px`,
@@ -502,4 +518,5 @@ export function ProductTour({
   );
 }
 
+export const ProductTour = memo(ProductTourInner);
 ProductTour.displayName = 'ProductTour';

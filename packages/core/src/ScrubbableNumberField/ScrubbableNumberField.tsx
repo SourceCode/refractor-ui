@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useRef,
   useState,
@@ -14,6 +15,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 type ScrubbableNumberFieldBaseProps = Omit<BaseProps<HTMLDivElement>, 'onChange'>;
@@ -96,7 +98,7 @@ function getModifierMultiplier(shiftKey: boolean, altKey: boolean): number {
   return 1;
 }
 
-export function ScrubbableNumberField({
+function ScrubbableNumberFieldInner({
   value,
   defaultValue = DEFAULT_VALUE,
   onChange,
@@ -328,13 +330,13 @@ export function ScrubbableNumberField({
           onKeyDown={handleInputKeyDown}
           onBlur={commitDraft}
           className="prism-focus-ring w-full min-w-0 bg-transparent text-right font-mono text-sm font-semibold tabular-nums rounded-md focus:outline-none disabled:cursor-not-allowed"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         />
         {suffix ? (
           <span
             data-testid="scrubbable-suffix"
             className="prism-crystal px-1.5 py-0.5 rounded-md font-mono text-[11px] font-semibold select-none shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {suffix}
           </span>
@@ -344,4 +346,5 @@ export function ScrubbableNumberField({
   );
 }
 
+export const ScrubbableNumberField = memo(ScrubbableNumberFieldInner);
 ScrubbableNumberField.displayName = 'ScrubbableNumberField';

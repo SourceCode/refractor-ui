@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BurnChartMode = 'burndown' | 'burnup';
@@ -199,7 +201,7 @@ function buildAreaPath(coords: ReadonlyArray<{ x: number; y: number }>): string 
   return `${segments} L ${last.x.toFixed(2)} ${PLOT_BOTTOM.toFixed(2)} L ${first.x.toFixed(2)} ${PLOT_BOTTOM.toFixed(2)} Z`;
 }
 
-export function BurndownBurnupChart({
+function BurndownBurnupChartInner({
   data,
   mode,
   defaultMode = 'burndown',
@@ -469,7 +471,7 @@ export function BurndownBurnupChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0 truncate"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -507,7 +509,7 @@ export function BurndownBurnupChart({
                   data-testid={`burn-mode-${option.id}`}
                   onClick={() => handleModeSelect(option.id)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     pressed ? 'prism-crystal font-semibold' : 'opacity-75 hover:opacity-100'
                   )}
                   style={{
@@ -529,7 +531,7 @@ export function BurndownBurnupChart({
         >
           <span
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -541,7 +543,7 @@ export function BurndownBurnupChart({
 
           <span
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <span
               aria-hidden="true"
@@ -555,7 +557,7 @@ export function BurndownBurnupChart({
             <span
               data-testid="burn-legend-scope"
               className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium"
-              style={{ color: 'var(--prism-warning-main)' }}
+              style={STYLE_WARNING_MAIN}
             >
               <span
                 aria-hidden="true"
@@ -573,7 +575,7 @@ export function BurndownBurnupChart({
           role="status"
           data-testid="burn-empty-state"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No sprint burn data available.
         </div>
@@ -774,7 +776,7 @@ export function BurndownBurnupChart({
                     data-testid={`burn-point-${pt.index}`}
                     data-point-id={pt.point.id}
                     data-selected={isSelected ? 'true' : 'false'}
-                    className="prism-focus-ring cursor-pointer transition-all duration-150"
+                    className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150"
                     onClick={() => selectPointAtIndex(pt.index, false)}
                     onKeyDown={handleMarkerKeyDown(pt.index)}
                   />
@@ -793,43 +795,43 @@ export function BurndownBurnupChart({
             inspectorClass,
             'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs tabular-nums min-w-0'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <span className="font-semibold" data-testid="burn-inspector-day">
             {activePoint.point.label}
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span data-testid="burn-inspector-remaining">
-            <span style={{ color: 'var(--prism-text-secondary)' }}>Remaining: </span>
+            <span style={STYLE_TEXT_SECONDARY}>Remaining: </span>
             <strong className="font-mono font-semibold">
               {formatWithUnit(activePoint.remaining, unit)}
             </strong>
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span data-testid="burn-inspector-completed">
-            <span style={{ color: 'var(--prism-text-secondary)' }}>Completed: </span>
+            <span style={STYLE_TEXT_SECONDARY}>Completed: </span>
             <strong className="font-mono font-semibold">
               {formatWithUnit(activePoint.completed, unit)}
             </strong>
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span data-testid="burn-inspector-scope">
-            <span style={{ color: 'var(--prism-text-secondary)' }}>Scope: </span>
+            <span style={STYLE_TEXT_SECONDARY}>Scope: </span>
             <strong className="font-mono font-semibold">
               {formatWithUnit(activePoint.scope, unit)}
             </strong>
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span data-testid="burn-inspector-delta">
-            <span style={{ color: 'var(--prism-text-secondary)' }}>Ideal Delta: </span>
+            <span style={STYLE_TEXT_SECONDARY}>Ideal Delta: </span>
             <strong className="font-mono font-semibold" style={{ color: activeDeltaColor }}>
               {formatSignedDelta(activeIdealDelta, unit)}
             </strong>
@@ -840,4 +842,5 @@ export function BurndownBurnupChart({
   );
 }
 
+export const BurndownBurnupChart = memo(BurndownBurnupChartInner);
 BurndownBurnupChart.displayName = 'BurndownBurnupChart';

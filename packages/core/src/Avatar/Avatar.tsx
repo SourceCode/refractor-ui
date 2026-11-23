@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -23,7 +23,7 @@ export interface AvatarProps extends BaseProps<HTMLDivElement> {
   shape?: AvatarShape;
 }
 
-export function Avatar({
+function AvatarInner({
   src,
   alt,
   initials,
@@ -78,4 +78,5 @@ export function Avatar({
   );
 }
 
+export const Avatar = memo(AvatarInner);
 Avatar.displayName = 'Avatar';

@@ -9,6 +9,7 @@ import {
   ToggleSwitch,
   type RefractionIntensity,
   type ThemeCollectionCategory,
+  type ThemePerformanceMode,
 } from '@refractor-ui/core';
 import {
   ALL_THEME_ENTRIES,
@@ -20,6 +21,7 @@ import {
   pushToast,
   resetCustomPalette,
   setCustomizerOpen,
+  setPerformanceMode,
   setRefraction,
   setThemeMode,
   setThemePreset,
@@ -30,7 +32,7 @@ import {
 
 export function ThemeCustomizerDrawer() {
   const dispatch = useAppDispatch();
-  const { customizerOpen, themePreset, themeMode, refraction, customPalette } = useAppSelector(
+  const { customizerOpen, themePreset, themeMode, refraction, performanceMode, customPalette } = useAppSelector(
     (s) => s.system
   );
   const [copied, setCopied] = useState(false);
@@ -133,7 +135,7 @@ const theme = createPrismTheme({
               type="button"
               onClick={() => setActiveCategory('all')}
               aria-pressed={activeCategory === 'all'}
-              className={`px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer transition-all prism-focus-ring ${
+              className={`px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer transition-[color,background-color,transform] prism-focus-ring ${
                 activeCategory === 'all'
                   ? 'prism-btn-primary'
                   : 'prism-crystal text-slate-700 dark:text-slate-200'
@@ -149,7 +151,7 @@ const theme = createPrismTheme({
                   type="button"
                   onClick={() => setActiveCategory(cat.id)}
                   aria-pressed={selected}
-                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer transition-all prism-focus-ring ${
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer transition-[color,background-color,transform] prism-focus-ring ${
                     selected
                       ? 'prism-btn-primary'
                       : 'prism-crystal text-slate-700 dark:text-slate-200'
@@ -234,6 +236,29 @@ const theme = createPrismTheme({
               { value: 'dark', label: 'Dark Mode' },
             ]}
           />
+        </div>
+
+        <div className="space-y-2">
+          <div className="text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center justify-between gap-2">
+            <span>GPU Performance Profile</span>
+            <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400">
+              {performanceMode}
+            </span>
+          </div>
+          <SegmentedControl
+            ariaLabel="GPU performance profile"
+            value={performanceMode}
+            onChange={(v) => dispatch(setPerformanceMode(v as ThemePerformanceMode))}
+            options={[
+              { value: 'balanced', label: 'Balanced' },
+              { value: 'high', label: 'High FPS' },
+              { value: 'max', label: 'Max (No Blur)' },
+            ]}
+          />
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+            Balanced eliminates nested backdrop blurs automatically; High caps blur radius to 8px;
+            Max disables all blur passes and FX overlays for ultra-dense enterprise tables.
+          </p>
         </div>
 
         <div className="space-y-3">

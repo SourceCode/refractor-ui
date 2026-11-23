@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +16,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface CommandVariant {
@@ -146,7 +148,7 @@ function getTokenColor(kind: Exclude<CommandTokenKind, 'whitespace'>): string {
   }
 }
 
-export function CopyableCommandBlock({
+function CopyableCommandBlockInner({
   command,
   variants,
   defaultVariantId,
@@ -309,14 +311,14 @@ export function CopyableCommandBlock({
             <div className="min-w-0 flex items-center gap-2">
               <span
                 className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               >
                 <Terminal aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </span>
               <span
                 id={titleId}
                 className="text-xs sm:text-sm font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {title}
               </span>
@@ -347,7 +349,7 @@ export function CopyableCommandBlock({
                     onClick={() => handleSelectVariant(variant.id)}
                     onKeyDown={(event) => handleTabKeyDown(event, index)}
                     className={cx(
-                      'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center justify-center text-xs transition-all cursor-pointer enabled:hover:brightness-105',
+                      'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center justify-center text-xs transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105',
                       isSelected ? 'prism-crystal font-semibold' : 'prism-well font-medium'
                     )}
                     style={{
@@ -379,7 +381,7 @@ export function CopyableCommandBlock({
             aria-hidden="true"
             data-testid="copyable-command-prefix"
             className="font-mono text-xs sm:text-sm font-semibold select-none shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {prefix}
           </span>
@@ -420,7 +422,7 @@ export function CopyableCommandBlock({
           data-copied={copied ? 'true' : undefined}
           onClick={handleCopy}
           className={cx(
-            'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
+            'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
             copied ? 'prism-emerald font-semibold' : 'prism-crystal'
           )}
           style={copied ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -446,4 +448,5 @@ export function CopyableCommandBlock({
   );
 }
 
+export const CopyableCommandBlock = memo(CopyableCommandBlockInner);
 CopyableCommandBlock.displayName = 'CopyableCommandBlock';

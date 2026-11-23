@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -26,6 +27,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type LightboxMediaKind = 'image' | 'video';
@@ -81,7 +83,7 @@ function roundZoom(value: number): number {
   return Math.round(clampNumber(value, MIN_ZOOM, MAX_ZOOM, MIN_ZOOM) * 10) / 10;
 }
 
-export function MediaLightbox({
+function MediaLightboxInner({
   items,
   open,
   defaultOpen = true,
@@ -256,7 +258,7 @@ export function MediaLightbox({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -281,7 +283,7 @@ export function MediaLightbox({
     baseClassName: cx(
       'flex flex-col gap-3 text-slate-100 select-none',
       resolvedMode === 'overlay'
-        ? 'fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-xl p-4 sm:p-6'
+        ? 'fixed inset-0 z-50 prism-backdrop-scrim bg-slate-950/90 p-4 sm:p-6'
         : 'prism-slab bg-slate-950/90 overflow-hidden p-4'
     ),
     overrideClassName: override?.className,
@@ -401,7 +403,7 @@ export function MediaLightbox({
           >
             <span
               className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 inline-flex items-center justify-center"
-              style={{ color: 'var(--prism-error-main)' }}
+              style={STYLE_ERROR_MAIN}
             >
               <ShieldAlert className="w-5 h-5" aria-hidden="true" />
             </span>
@@ -443,7 +445,7 @@ export function MediaLightbox({
           disabled={itemCount <= 1}
           onPointerDown={(e) => e.stopPropagation()}
           onClick={goPrev}
-          className="prism-focus-ring absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/75 backdrop-blur-md border border-white/20 inline-flex items-center justify-center text-slate-100 shadow-lg transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed enabled:hover:bg-slate-800/90"
+          className="prism-focus-ring absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/85 border border-white/20 inline-flex items-center justify-center text-slate-100 shadow-lg transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed enabled:hover:bg-slate-800/90"
         >
           <ChevronLeft className="w-5 h-5" aria-hidden="true" />
         </button>
@@ -454,7 +456,7 @@ export function MediaLightbox({
           disabled={itemCount <= 1}
           onPointerDown={(e) => e.stopPropagation()}
           onClick={goNext}
-          className="prism-focus-ring absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/75 backdrop-blur-md border border-white/20 inline-flex items-center justify-center text-slate-100 shadow-lg transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed enabled:hover:bg-slate-800/90"
+          className="prism-focus-ring absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-900/85 border border-white/20 inline-flex items-center justify-center text-slate-100 shadow-lg transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed enabled:hover:bg-slate-800/90"
         >
           <ChevronRight className="w-5 h-5" aria-hidden="true" />
         </button>
@@ -497,7 +499,7 @@ export function MediaLightbox({
               data-testid={`lightbox-thumb-${item.id}`}
               onClick={() => selectIndex(idx)}
               className={cx(
-                'prism-focus-ring relative w-16 h-11 rounded-xl overflow-hidden shrink-0 bg-white/10 border transition-all inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed',
+                'prism-focus-ring relative w-16 h-11 rounded-xl overflow-hidden shrink-0 bg-white/10 border transition-[color,background-color,border-color,opacity,transform] inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed',
                 isActive
                   ? 'ring-2 ring-[var(--prism-primary-main)] border-white/40 opacity-100'
                   : 'border-white/15 opacity-65 enabled:hover:opacity-100'
@@ -535,4 +537,5 @@ export function MediaLightbox({
   );
 }
 
+export const MediaLightbox = memo(MediaLightboxInner);
 MediaLightbox.displayName = 'MediaLightbox';

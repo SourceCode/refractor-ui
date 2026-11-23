@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -27,6 +28,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AppDockPosition = 'bottom' | 'left' | 'right';
@@ -240,7 +242,7 @@ function buildAccessibleItemLabel(
   return parts.join(', ');
 }
 
-export function AppDockBar({
+function AppDockBarInner({
   items,
   activeId,
   defaultActiveId = null,
@@ -492,7 +494,7 @@ export function AppDockBar({
             emptyClass,
             'prism-well rounded-full px-4 py-2 min-w-0 max-w-full inline-flex items-center justify-center gap-2 text-xs font-medium'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span
             aria-hidden="true"
@@ -675,7 +677,7 @@ export function AppDockBar({
                         className={cx(
                           runningDotClass,
                           dotSizeClass,
-                          'rounded-full transition-all duration-150'
+                          'rounded-full transition-[color,background-color,border-color,opacity,transform] duration-150'
                         )}
                         style={{
                           backgroundColor: 'var(--prism-primary-main)',
@@ -696,4 +698,5 @@ export function AppDockBar({
   );
 }
 
+export const AppDockBar = memo(AppDockBarInner);
 AppDockBar.displayName = 'AppDockBar';

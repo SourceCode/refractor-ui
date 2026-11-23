@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -12,6 +13,7 @@ import {
 } from 'react';
 import { Pause, Play, Rotate3d, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { isDocumentVisible } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
@@ -228,7 +230,7 @@ function computePrismGeometry(angleDeg: number) {
   };
 }
 
-export function Product360Viewer({
+function Product360ViewerInner({
   title = DEFAULT_TITLE,
   frames,
   angle,
@@ -285,6 +287,7 @@ export function Product360Viewer({
   useEffect(() => {
     if (!isAutoRotating) return;
     const intervalId = window.setInterval(() => {
+      if (!isDocumentVisible()) return;
       commitAngle(angleRef.current + AUTO_ROTATE_STEP_DEG);
     }, AUTO_ROTATE_INTERVAL_MS);
     return () => {
@@ -353,7 +356,7 @@ export function Product360Viewer({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -640,7 +643,7 @@ export function Product360Viewer({
             aria-pressed={isAutoRotating}
             onClick={handleToggleAutoRotate}
             className={cx(
-              'prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-all',
+              'prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
               isAutoRotating
                 ? 'prism-btn-primary'
                 : 'prism-well text-[var(--prism-text-primary)] hover:brightness-105'
@@ -669,4 +672,5 @@ export function Product360Viewer({
   );
 }
 
+export const Product360Viewer = memo(Product360ViewerInner);
 Product360Viewer.displayName = 'Product360Viewer';

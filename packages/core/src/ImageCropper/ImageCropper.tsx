@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -196,7 +197,7 @@ function resizeCropRegion(
   };
 }
 
-export function ImageCropper({
+function ImageCropperInner({
   src,
   alt = 'Editable media',
   defaultCrop,
@@ -327,7 +328,7 @@ export function ImageCropper({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -656,7 +657,7 @@ export function ImageCropper({
                   aria-pressed={active}
                   onClick={() => handleAspectSelect(opt.id)}
                   className={cx(
-                    'prism-focus-ring px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer',
+                    'prism-focus-ring px-3 py-1.5 rounded-full text-xs font-semibold transition-[color,background-color,border-color,opacity,transform] cursor-pointer',
                     active
                       ? 'bg-[var(--prism-primary-main)] text-[var(--prism-primary-contrast)] shadow-sm'
                       : 'prism-well text-slate-700 dark:text-slate-200 hover:brightness-105'
@@ -741,4 +742,5 @@ export function ImageCropper({
   );
 }
 
+export const ImageCropper = memo(ImageCropperInner);
 ImageCropper.displayName = 'ImageCropper';

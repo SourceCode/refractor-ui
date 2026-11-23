@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, type ReactNode } from 'react';
+import { memo, useCallback, useId, type ReactNode } from 'react';
 import {
   AlertTriangle,
   ChevronDown,
@@ -14,6 +14,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AdmonitionKind = 'note' | 'tip' | 'warning' | 'danger' | 'abstract';
@@ -92,7 +93,7 @@ function getAdmonitionVisual(kind: AdmonitionKind): AdmonitionVisual {
   }
 }
 
-export function CalloutAdmonition({
+function CalloutAdmonitionInner({
   kind = 'note',
   title,
   icon,
@@ -180,7 +181,7 @@ export function CalloutAdmonition({
           titleClass,
           'text-sm font-semibold leading-snug break-words min-w-0'
         )}
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         {resolvedTitle}
       </span>
@@ -265,7 +266,7 @@ export function CalloutAdmonition({
                   'w-4 h-4 shrink-0 transition-transform duration-200',
                   isExpanded ? 'rotate-180' : 'rotate-0'
                 )}
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               />
             </button>
           ) : (
@@ -324,4 +325,5 @@ export function CalloutAdmonition({
   );
 }
 
+export const CalloutAdmonition = memo(CalloutAdmonitionInner);
 CalloutAdmonition.displayName = 'CalloutAdmonition';

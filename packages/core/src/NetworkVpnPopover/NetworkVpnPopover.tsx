@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useState,
@@ -20,6 +21,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WifiSecurityKind = 'wpa3' | 'wpa2' | 'open';
@@ -281,7 +283,7 @@ function handleInteractiveKeyDown(
   }
 }
 
-export function NetworkVpnPopover({
+function NetworkVpnPopoverInner({
   title = DEFAULT_TITLE,
   networks,
   vpnProfiles,
@@ -472,7 +474,7 @@ export function NetworkVpnPopover({
           headerClass,
           'prism-crystal relative flex flex-wrap items-center justify-between gap-2.5 px-4 py-3 min-w-0 max-w-full border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <span
           aria-hidden="true"
@@ -506,7 +508,7 @@ export function NetworkVpnPopover({
           <h2
             id={titleId}
             className="text-sm font-semibold tracking-[-0.01em] truncate min-w-0 max-w-full"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h2>
@@ -539,7 +541,7 @@ export function NetworkVpnPopover({
           radioControlsClass,
           'flex flex-wrap items-stretch gap-2.5 px-4 py-3 min-w-0 max-w-full border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         {/* Wi-Fi Switch Tile */}
         <div
@@ -555,25 +557,25 @@ export function NetworkVpnPopover({
               <Wifi
                 aria-hidden="true"
                 className="w-4 h-4 shrink-0"
-                style={{ color: 'var(--prism-success-main)' }}
+                style={STYLE_SUCCESS_MAIN}
               />
             ) : (
               <WifiOff
                 aria-hidden="true"
                 className="w-4 h-4 shrink-0"
-                style={{ color: 'var(--prism-text-disabled)' }}
+                style={STYLE_TEXT_DISABLED}
               />
             )}
             <div className="flex flex-col min-w-0">
               <span
                 className="text-xs font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Wi-Fi
               </span>
               <span
                 className="text-[11px] truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {wifiSublabel}
               </span>
@@ -633,7 +635,7 @@ export function NetworkVpnPopover({
             <div className="flex flex-col min-w-0">
               <span
                 className="text-xs font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Airplane Mode
               </span>
@@ -729,13 +731,13 @@ export function NetworkVpnPopover({
               <h3
                 id={wifiHeadingId}
                 className="text-[11px] font-semibold uppercase tracking-wider truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Available Wi-Fi Networks
               </h3>
               <span
                 className="font-mono text-[10px] font-semibold shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {normalizedNetworks.length}{' '}
                 {normalizedNetworks.length === 1 ? 'network' : 'networks'}
@@ -831,7 +833,7 @@ export function NetworkVpnPopover({
                           <div className="flex flex-wrap items-center gap-1.5 min-w-0">
                             <span
                               className="text-xs sm:text-sm font-semibold truncate min-w-0 max-w-full"
-                              style={{ color: 'var(--prism-text-primary)' }}
+                              style={STYLE_TEXT_PRIMARY}
                             >
                               {network.ssid}
                             </span>
@@ -963,19 +965,19 @@ export function NetworkVpnPopover({
             vpnSectionClass,
             'flex flex-col gap-2 pt-3 border-t min-w-0'
           )}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
             <h3
               id={vpnHeadingId}
               className="text-[11px] font-semibold uppercase tracking-wider flex items-center gap-1.5 truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {activeVpn ? (
                 <ShieldCheck
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-success-main)' }}
+                  style={STYLE_SUCCESS_MAIN}
                 />
               ) : (
                 <Shield aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -1070,7 +1072,7 @@ export function NetworkVpnPopover({
                       <div className="flex flex-col gap-1 min-w-0 flex-1">
                         <span
                           className="text-xs sm:text-sm font-semibold truncate min-w-0 max-w-full"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {profile.name}
                         </span>
@@ -1078,7 +1080,7 @@ export function NetworkVpnPopover({
                         <div className="flex flex-wrap items-center gap-1.5 min-w-0">
                           <span
                             className="inline-flex items-center gap-1 text-[11px] truncate min-w-0"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             <Globe
                               aria-hidden="true"
@@ -1167,4 +1169,5 @@ export function NetworkVpnPopover({
   );
 }
 
+export const NetworkVpnPopover = memo(NetworkVpnPopoverInner);
 NetworkVpnPopover.displayName = 'NetworkVpnPopover';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -26,6 +27,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, splitLiteralHighlight } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DocumentZoomPreset = 75 | 100 | 125 | 150;
@@ -301,7 +303,7 @@ function renderHighlightSegments(
   });
 }
 
-export function DocumentPageViewer({
+function DocumentPageViewerInner({
   pages,
   page,
   defaultPage = 1,
@@ -471,19 +473,19 @@ export function DocumentPageViewer({
           <span
             aria-hidden="true"
             className="prism-crystal w-10 h-10 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <FileText className="w-5 h-5" />
           </span>
           <p
             className="text-sm font-semibold tracking-tight"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             No document pages available
           </p>
           <p
             className="text-xs max-w-sm leading-relaxed"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Provide one or more pages to inspect {documentTitle} with thumbnail navigation, zoom controls, and literal search highlighting.
           </p>
@@ -537,7 +539,7 @@ export function DocumentPageViewer({
               data-testid="document-viewer-thumbnails-toggle"
               onClick={() => setShowThumbnails((prev) => !prev)}
               className={cx(
-                'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-all',
+                'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                 showThumbnails ? 'prism-btn-primary' : 'prism-btn-secondary'
               )}
             >
@@ -548,14 +550,14 @@ export function DocumentPageViewer({
             <div className="flex items-center gap-1.5 min-w-0 max-w-full">
               <FileText
                 className="w-4 h-4 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
                 aria-hidden="true"
               />
               <h2
                 id={titleId}
                 data-testid="document-viewer-title"
                 className="text-xs sm:text-sm font-semibold tracking-tight truncate max-w-[200px] sm:max-w-[280px]"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {documentTitle}
               </h2>
@@ -602,7 +604,7 @@ export function DocumentPageViewer({
               <span
                 data-testid="document-viewer-page-total"
                 className="px-1 font-mono text-xs font-medium tabular-nums whitespace-nowrap"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 / {totalPages}
               </span>
@@ -647,7 +649,7 @@ export function DocumentPageViewer({
                       data-testid={`document-viewer-zoom-${preset}`}
                       onClick={() => setZoomPct(preset)}
                       className={cx(
-                        'prism-focus-ring h-7 px-2 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0 cursor-pointer transition-all',
+                        'prism-focus-ring h-7 px-2 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                         isSelected ? 'prism-btn-primary' : 'prism-btn-secondary'
                       )}
                     >
@@ -675,7 +677,7 @@ export function DocumentPageViewer({
         <div className="prism-well rounded-xl px-2.5 py-1.5 flex flex-wrap items-center gap-2 min-w-0 max-w-full">
           <Search
             className="w-3.5 h-3.5 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
             aria-hidden="true"
           />
 
@@ -688,7 +690,7 @@ export function DocumentPageViewer({
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeyDown}
             className="prism-focus-ring flex-1 min-w-[150px] h-7 bg-transparent text-xs font-medium"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
 
           {searchQuery.length > 0 ? (
@@ -707,7 +709,7 @@ export function DocumentPageViewer({
             <div
               data-testid="document-viewer-search-meta"
               className="flex flex-wrap items-center gap-1.5 font-mono text-[11px] tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span data-testid="document-viewer-match-count" className="font-semibold">
                 {matchCountText}
@@ -751,7 +753,7 @@ export function DocumentPageViewer({
                   data-testid={`document-viewer-thumb-${item.navPageNumber}`}
                   onClick={() => goToPage(item.navPageNumber)}
                   className={cx(
-                    'prism-focus-ring w-36 sm:w-full rounded-xl p-2 text-left flex flex-col gap-1.5 shrink-0 cursor-pointer transition-all',
+                    'prism-focus-ring w-36 sm:w-full rounded-xl p-2 text-left flex flex-col gap-1.5 shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     isCurrent ? 'prism-crystal' : 'prism-well'
                   )}
                   style={{
@@ -770,13 +772,13 @@ export function DocumentPageViewer({
                   >
                     <span
                       className="text-[10px] font-bold leading-tight line-clamp-1"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {item.title}
                     </span>
                     <span
                       className="text-[9px] leading-snug line-clamp-2"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {item.previewSnippet}
                     </span>
@@ -826,7 +828,7 @@ export function DocumentPageViewer({
             data-zoom-pct={String(zoomPct)}
             className={cx(
               canvasClass,
-              'prism-crystal rounded-2xl p-5 sm:p-8 flex flex-col gap-4 transition-all duration-150 mx-auto'
+              'prism-crystal rounded-2xl p-5 sm:p-8 flex flex-col gap-4 transition-[color,background-color,border-color,opacity,transform] duration-150 mx-auto'
             )}
             style={canvasSheetStyle}
           >
@@ -839,7 +841,7 @@ export function DocumentPageViewer({
                   <p
                     data-testid="document-viewer-section"
                     className="font-mono text-[0.72em] font-semibold uppercase tracking-wider break-words"
-                    style={{ color: 'var(--prism-primary-main)' }}
+                    style={STYLE_PRIMARY_MAIN}
                   >
                     {renderHighlightSegments(activePage.sectionSegments, activeHighlightIndex)}
                   </p>
@@ -847,7 +849,7 @@ export function DocumentPageViewer({
                 <h3
                   data-testid="document-viewer-page-heading"
                   className="text-[1.15em] font-bold tracking-tight leading-snug break-words"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {renderHighlightSegments(activePage.titleSegments, activeHighlightIndex)}
                 </h3>
@@ -856,7 +858,7 @@ export function DocumentPageViewer({
               <span
                 data-testid="document-viewer-page-badge"
                 className="prism-well px-2.5 py-1 rounded-full font-mono text-[0.72em] font-semibold tabular-nums whitespace-nowrap shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Page {activePage.pageNumber} / {totalPages}
               </span>
@@ -868,7 +870,7 @@ export function DocumentPageViewer({
                   <p
                     key={paragraph.key}
                     className="text-[0.875em] leading-relaxed break-words"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {renderHighlightSegments(paragraph.segments, activeHighlightIndex)}
                   </p>
@@ -877,7 +879,7 @@ export function DocumentPageViewer({
                 <p
                   data-testid="document-viewer-blank-page"
                   className="text-[0.82em] italic"
-                  style={{ color: 'var(--prism-text-disabled)' }}
+                  style={STYLE_TEXT_DISABLED}
                 >
                   This page contains no body text.
                 </p>
@@ -896,10 +898,10 @@ export function DocumentPageViewer({
           statusClass,
           'prism-well rounded-xl px-3 py-1.5 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] tabular-nums min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <span className="truncate max-w-full">{liveAnnouncement}</span>
-        <span className="whitespace-nowrap shrink-0" style={{ color: 'var(--prism-text-primary)' }}>
+        <span className="whitespace-nowrap shrink-0" style={STYLE_TEXT_PRIMARY}>
           {zoomPct}%
         </span>
       </div>
@@ -907,4 +909,5 @@ export function DocumentPageViewer({
   );
 }
 
+export const DocumentPageViewer = memo(DocumentPageViewerInner);
 DocumentPageViewer.displayName = 'DocumentPageViewer';

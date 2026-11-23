@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo } from 'react';
+import { memo, useCallback, useId, useMemo } from 'react';
 import { Calendar, Check, RotateCcw, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface FacetCategoryOption {
@@ -135,7 +136,7 @@ function parseNumericInput(raw: string): number | undefined {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
-export function FacetedFilterBar({
+function FacetedFilterBarInner({
   categories,
   value,
   defaultValue,
@@ -349,7 +350,7 @@ export function FacetedFilterBar({
               data-result-count={String(formattedResultCount)}
               className="prism-crystal h-9 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold text-slate-800 dark:text-slate-100 tabular-nums"
             >
-              <span>{formattedResultCount.toLocaleString('en-US')}</span>{' '}
+              <span>{formatUsNumber(formattedResultCount)}</span>{' '}
               <span className="font-normal text-slate-600 dark:text-slate-300">
                 {formattedResultCount === 1 ? 'result' : 'results'}
               </span>
@@ -412,7 +413,7 @@ export function FacetedFilterBar({
                         : 'bg-slate-900/10 dark:bg-white/10 text-slate-600 dark:text-slate-300'
                     )}
                   >
-                    {numericCount.toLocaleString('en-US')}
+                    {formatUsNumber(numericCount)}
                   </span>
                 ) : null}
               </button>
@@ -562,4 +563,5 @@ export function FacetedFilterBar({
   );
 }
 
+export const FacetedFilterBar = memo(FacetedFilterBarInner);
 FacetedFilterBar.displayName = 'FacetedFilterBar';

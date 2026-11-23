@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -31,6 +32,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type QuickLookMediaKind = 'image' | 'pdf' | 'audio' | 'code';
@@ -330,7 +332,7 @@ function OpticalPosterFallback({
 
       <span
         className="prism-crystal pointer-events-none absolute bottom-3 left-3 px-2.5 py-1 rounded-full font-mono text-[11px] font-semibold tracking-tight max-w-[80%] truncate"
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         {fileName}
       </span>
@@ -338,7 +340,7 @@ function OpticalPosterFallback({
   );
 }
 
-export function QuickLookPreviewer({
+function QuickLookPreviewerInner({
   files,
   activeIndex,
   defaultActiveIndex = 0,
@@ -579,19 +581,19 @@ export function QuickLookPreviewer({
           <span
             aria-hidden="true"
             className="prism-crystal w-10 h-10 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <FolderOpen className="w-5 h-5" />
           </span>
           <p
             className="text-sm font-semibold tracking-tight"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             No files to preview
           </p>
           <p
             className="text-xs max-w-sm leading-relaxed"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Provide one or more file items to inspect images, PDF documents, audio waveforms, or source code with Quick Look.
           </p>
@@ -621,7 +623,7 @@ export function QuickLookPreviewer({
           <div className="flex flex-wrap items-center justify-between gap-2 min-w-0 max-w-full">
             <span
               className="font-mono text-xs font-medium truncate max-w-full"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Optical Image Inspector
             </span>
@@ -632,7 +634,7 @@ export function QuickLookPreviewer({
               data-testid="quicklook-zoom-toggle"
               onClick={() => setIsActualSize((prev) => !prev)}
               className={cx(
-                'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 font-mono text-xs font-semibold tabular-nums whitespace-nowrap shrink-0 cursor-pointer transition-all',
+                'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 font-mono text-xs font-semibold tabular-nums whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                 isActualSize ? 'prism-btn-primary' : 'prism-btn-secondary'
               )}
             >
@@ -666,7 +668,7 @@ export function QuickLookPreviewer({
                 draggable={false}
                 referrerPolicy="no-referrer"
                 className={cx(
-                  'rounded-lg block transition-all duration-150',
+                  'rounded-lg block transition-[color,background-color,border-color,opacity,transform] duration-150',
                   isActualSize
                     ? 'w-auto h-auto max-w-none max-h-none'
                     : 'max-w-full max-h-[340px] object-contain'
@@ -686,7 +688,7 @@ export function QuickLookPreviewer({
               role="status"
               data-testid="quicklook-image-blocked"
               className="text-xs font-medium"
-              style={{ color: 'var(--prism-warning-main)' }}
+              style={STYLE_WARNING_MAIN}
             >
               Untrusted image URL blocked — showing optical vector fallback.
             </p>
@@ -714,12 +716,12 @@ export function QuickLookPreviewer({
               <div className="flex items-center gap-2 min-w-0">
                 <FileText
                   className="w-4 h-4 shrink-0"
-                  style={{ color: 'var(--prism-error-main)' }}
+                  style={STYLE_ERROR_MAIN}
                   aria-hidden="true"
                 />
                 <span
                   className="text-xs font-semibold tracking-tight truncate"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeFile.name}
                 </span>
@@ -727,7 +729,7 @@ export function QuickLookPreviewer({
               <span
                 data-testid="quicklook-pdf-badge"
                 className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {pageBadge}
               </span>
@@ -771,20 +773,20 @@ export function QuickLookPreviewer({
               <span
                 aria-hidden="true"
                 className="prism-crystal w-9 h-9 rounded-full inline-flex items-center justify-center shrink-0"
-                style={{ color: 'var(--prism-success-main)' }}
+                style={STYLE_SUCCESS_MAIN}
               >
                 <FileAudio className="w-4 h-4" />
               </span>
               <div className="min-w-0">
                 <p
                   className="text-sm font-semibold truncate"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeFile.name}
                 </p>
                 <p
                   className="font-mono text-[11px] tabular-nums truncate"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {isAudioPlaying ? 'Playing · Optical Waveform Monitor' : 'Paused · Ready for audition'}
                 </p>
@@ -797,7 +799,7 @@ export function QuickLookPreviewer({
               data-testid="quicklook-audio-toggle"
               onClick={() => setIsAudioPlaying((prev) => !prev)}
               className={cx(
-                'prism-focus-ring h-8 px-4 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-all',
+                'prism-focus-ring h-8 px-4 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                 isAudioPlaying ? 'prism-btn-primary' : 'prism-btn-secondary'
               )}
             >
@@ -863,12 +865,12 @@ export function QuickLookPreviewer({
           <div className="flex items-center gap-2 min-w-0">
             <FileCode2
               className="w-4 h-4 shrink-0"
-              style={{ color: 'var(--prism-info-main)' }}
+              style={STYLE_INFO_MAIN}
               aria-hidden="true"
             />
             <span
               className="font-mono text-xs font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {activeFile.name}
             </span>
@@ -877,13 +879,13 @@ export function QuickLookPreviewer({
             <span
               data-testid="quicklook-code-language"
               className="prism-crystal px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold uppercase tracking-wide"
-              style={{ color: 'var(--prism-info-main)' }}
+              style={STYLE_INFO_MAIN}
             >
               {languageLabel}
             </span>
             <span
               className="font-mono text-[11px] tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {codeLines.length} lines
             </span>
@@ -911,7 +913,7 @@ export function QuickLookPreviewer({
           </div>
           <pre
             className="m-0 min-w-0 flex-1 overflow-x-auto font-mono text-xs leading-6 whitespace-pre"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <code data-testid="quicklook-code-content">{codeText}</code>
           </pre>
@@ -942,14 +944,14 @@ export function QuickLookPreviewer({
             id={dialogTitleId}
             data-testid="quicklook-title"
             className="text-sm font-semibold tracking-tight truncate max-w-full"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeFile.name}
           </h2>
           <span
             data-testid="quicklook-counter"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {safeIndex + 1} / {fileCount}
           </span>
@@ -962,7 +964,7 @@ export function QuickLookPreviewer({
             data-testid="quicklook-prev"
             disabled={fileCount <= 1}
             onClick={goPrev}
-            className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <ChevronLeft className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -973,7 +975,7 @@ export function QuickLookPreviewer({
             data-testid="quicklook-next"
             disabled={fileCount <= 1}
             onClick={goNext}
-            className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <ChevronRight className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -982,7 +984,7 @@ export function QuickLookPreviewer({
             type="button"
             data-testid="quicklook-open-external"
             onClick={() => onOpenExternal?.(activeFile)}
-            className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-all"
+            className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
           >
             <ExternalLink className="w-3.5 h-3.5 shrink-0 relative z-10" aria-hidden="true" />
             <span className="relative z-10">Open in Editor</span>
@@ -994,7 +996,7 @@ export function QuickLookPreviewer({
               aria-label="Close Quick Look"
               data-testid="quicklook-close"
               onClick={handleClose}
-              className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer transition-all"
+              className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
             >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
@@ -1017,7 +1019,7 @@ export function QuickLookPreviewer({
           aria-live="polite"
           data-testid="quicklook-metadata"
           className="font-mono text-xs font-medium truncate max-w-full min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {metadataSummary}
         </span>
@@ -1025,7 +1027,7 @@ export function QuickLookPreviewer({
         <span
           aria-hidden="true"
           className="font-mono text-[11px] whitespace-nowrap shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {isDialog ? '← / → Navigate · Space / Esc Close' : '← / → Navigate'}
         </span>
@@ -1063,20 +1065,20 @@ export function QuickLookPreviewer({
             <span
               aria-hidden="true"
               className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               <Eye className="w-4 h-4 shrink-0" />
             </span>
             <span
               id={stripHeadingId}
               className="text-sm font-semibold tracking-tight truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Quick Look Files
             </span>
             <span
               className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {fileCount} {fileCount === 1 ? 'file' : 'files'}
             </span>
@@ -1086,7 +1088,7 @@ export function QuickLookPreviewer({
             <span
               aria-hidden="true"
               className="font-mono text-[11px] whitespace-nowrap"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Press Space to inspect
             </span>
@@ -1094,7 +1096,7 @@ export function QuickLookPreviewer({
               type="button"
               data-testid="quicklook-trigger"
               onClick={handleOpen}
-              className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-all"
+              className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
             >
               <Eye className="w-3.5 h-3.5 shrink-0 relative z-10" aria-hidden="true" />
               <span className="relative z-10">Quick Look</span>
@@ -1128,7 +1130,7 @@ export function QuickLookPreviewer({
                 }}
                 onKeyDown={(event) => handleCardKeyDown(event, idx)}
                 className={cx(
-                  'prism-focus-ring rounded-2xl p-3 text-left flex flex-col gap-2 min-w-0 max-w-full cursor-pointer transition-all',
+                  'prism-focus-ring rounded-2xl p-3 text-left flex flex-col gap-2 min-w-0 max-w-full cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                   isSelected ? 'prism-crystal' : 'prism-well'
                 )}
                 style={{
@@ -1158,13 +1160,13 @@ export function QuickLookPreviewer({
                 <div className="min-w-0">
                   <p
                     className="text-xs font-semibold tracking-tight truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {file.name}
                   </p>
                   <p
                     className="font-mono text-[11px] tabular-nums truncate mt-0.5"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {file.sizeLabel}
                   </p>
@@ -1210,4 +1212,5 @@ export function QuickLookPreviewer({
   );
 }
 
+export const QuickLookPreviewer = memo(QuickLookPreviewerInner);
 QuickLookPreviewer.displayName = 'QuickLookPreviewer';

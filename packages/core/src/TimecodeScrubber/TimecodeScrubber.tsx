@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -18,6 +19,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TimecodeFormat = 'smpte' | 'musical';
@@ -282,7 +284,7 @@ function preventBlurOnMouseDown(e: ReactMouseEvent<HTMLButtonElement>): void {
   e.preventDefault();
 }
 
-export function TimecodeScrubber({
+function TimecodeScrubberInner({
   frame,
   defaultFrame = 0,
   maxFrame = DEFAULT_MAX_FRAME,
@@ -493,7 +495,7 @@ export function TimecodeScrubber({
     };
 
     cleanupDragRef.current = cleanup;
-    window.addEventListener('pointermove', handleWindowPointerMove);
+    window.addEventListener('pointermove', handleWindowPointerMove, { passive: true });
     window.addEventListener('pointerup', handleWindowPointerEnd);
     window.addEventListener('pointercancel', handleWindowPointerEnd);
   };
@@ -580,7 +582,7 @@ export function TimecodeScrubber({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             {activeFormat === 'musical' ? (
               <Music className="w-3.5 h-3.5 shrink-0" />
@@ -592,7 +594,7 @@ export function TimecodeScrubber({
             id={labelId}
             data-testid="timecode-label"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -613,7 +615,7 @@ export function TimecodeScrubber({
               onMouseDown={preventBlurOnMouseDown}
               onClick={() => handleFormatSelect('smpte')}
               className={cx(
-                'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                 activeFormat === 'smpte' ? 'prism-btn-primary' : 'opacity-75 enabled:hover:opacity-100'
               )}
               style={
@@ -632,7 +634,7 @@ export function TimecodeScrubber({
               onMouseDown={preventBlurOnMouseDown}
               onClick={() => handleFormatSelect('musical')}
               className={cx(
-                'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                 activeFormat === 'musical'
                   ? 'prism-btn-primary'
                   : 'opacity-75 enabled:hover:opacity-100'
@@ -653,7 +655,7 @@ export function TimecodeScrubber({
               badgeClass,
               'prism-crystal px-2.5 py-1 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activeFormat === 'musical' ? `${safeBpm} BPM` : `${safeFps} fps`}
           </span>
@@ -691,7 +693,7 @@ export function TimecodeScrubber({
                 onKeyDown={handleInputKeyDown}
                 onBlur={commitDraft}
                 className="prism-focus-ring w-full min-w-0 bg-transparent font-mono text-2xl sm:text-3xl font-bold tracking-wider tabular-nums rounded-lg px-2 py-1 focus:outline-none disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
 
@@ -703,7 +705,7 @@ export function TimecodeScrubber({
                 data-testid="timecode-apply-button"
                 onMouseDown={preventBlurOnMouseDown}
                 onClick={commitDraft}
-                className="prism-btn-primary prism-focus-ring h-8 px-3 inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="prism-btn-primary prism-focus-ring h-8 px-3 inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
               >
                 <Check aria-hidden="true" className="w-3.5 h-3.5 shrink-0 relative z-10" />
                 <span className="relative z-10">Set</span>
@@ -715,7 +717,7 @@ export function TimecodeScrubber({
                 data-testid="timecode-cancel-button"
                 onMouseDown={preventBlurOnMouseDown}
                 onClick={cancelEditMode}
-                className="prism-btn-secondary prism-focus-ring h-8 px-2.5 inline-flex items-center justify-center text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="prism-btn-secondary prism-focus-ring h-8 px-2.5 inline-flex items-center justify-center text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
               >
                 <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </button>
@@ -769,7 +771,7 @@ export function TimecodeScrubber({
               aria-label={`Edit ${label}`}
               data-testid="timecode-edit-button"
               onClick={enterEditMode}
-              className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
             >
               <Pencil aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>Edit</span>
@@ -784,7 +786,7 @@ export function TimecodeScrubber({
           role="alert"
           data-testid="timecode-error"
           className="px-1 text-xs font-medium"
-          style={{ color: 'var(--prism-error-main)' }}
+          style={STYLE_ERROR_MAIN}
         >
           {editError}
         </p>
@@ -807,7 +809,7 @@ export function TimecodeScrubber({
 
         <div
           className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono tabular-nums"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span data-testid="timecode-frame-meta">
             Frame {currentFrame} / {safeMaxFrame}
@@ -820,4 +822,5 @@ export function TimecodeScrubber({
   );
 }
 
+export const TimecodeScrubber = memo(TimecodeScrubberInner);
 TimecodeScrubber.displayName = 'TimecodeScrubber';

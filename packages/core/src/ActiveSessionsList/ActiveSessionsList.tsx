@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, useState, type ReactNode } from 'react';
+import { memo, useCallback, useId, useMemo, useState, type ReactNode } from 'react';
 import {
   Clock,
   LogOut,
@@ -16,6 +16,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SessionDeviceType = 'desktop' | 'mobile' | 'tablet' | 'cli';
@@ -84,7 +85,7 @@ function renderDeviceIcon(deviceType: SessionDeviceType): ReactNode {
   }
 }
 
-export function ActiveSessionsList({
+function ActiveSessionsListInner({
   sessions,
   defaultSessions,
   onSessionsChange,
@@ -173,7 +174,7 @@ export function ActiveSessionsList({
         <div className="min-w-0 flex flex-wrap items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-info-main)' }}
+            style={STYLE_INFO_MAIN}
           >
             <ShieldCheck aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
@@ -181,7 +182,7 @@ export function ActiveSessionsList({
           <h3
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h3>
@@ -189,7 +190,7 @@ export function ActiveSessionsList({
           <span
             data-testid="active-sessions-count"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activeSessions.length} {sessionUnit}
           </span>
@@ -199,8 +200,8 @@ export function ActiveSessionsList({
           type="button"
           disabled={otherSessionsCount === 0}
           onClick={handleSignOutAllOthers}
-          className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
+          style={STYLE_TEXT_PRIMARY}
         >
           <LogOut aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           <span>Sign out all others</span>
@@ -212,10 +213,10 @@ export function ActiveSessionsList({
           data-testid="active-sessions-empty"
           className={cx(emptyClass, 'prism-well rounded-2xl mt-4 px-4 py-8 text-center')}
         >
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No active sessions
           </p>
-          <p className="mt-1 text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="mt-1 text-xs" style={STYLE_TEXT_SECONDARY}>
             Signed-in browsers, mobile devices, and CLI tokens will appear here.
           </p>
         </div>
@@ -251,7 +252,7 @@ export function ActiveSessionsList({
                     <div className="flex flex-wrap items-center gap-2">
                       <span
                         className="text-sm font-semibold break-words"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {session.deviceName}
                       </span>
@@ -268,7 +269,7 @@ export function ActiveSessionsList({
 
                     <div
                       className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {session.browserOrClient ? (
                         <span className="break-words">{session.browserOrClient}</span>
@@ -283,7 +284,7 @@ export function ActiveSessionsList({
                         <code
                           data-testid={`session-ip-${session.id}`}
                           className="prism-well px-2 py-0.5 rounded-md font-mono text-[11px] tabular-nums"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {session.ipAddress}
                         </code>
@@ -302,8 +303,8 @@ export function ActiveSessionsList({
                     type="button"
                     aria-label={`Sign out ${session.deviceName}`}
                     onClick={() => handleSignOutSession(session)}
-                    className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 self-start sm:self-center transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-                    style={{ color: 'var(--prism-error-main)' }}
+                    className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 self-start sm:self-center transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
+                    style={STYLE_ERROR_MAIN}
                   >
                     <LogOut aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                     <span>Sign out</span>
@@ -322,4 +323,5 @@ export function ActiveSessionsList({
   );
 }
 
+export const ActiveSessionsList = memo(ActiveSessionsListInner);
 ActiveSessionsList.displayName = 'ActiveSessionsList';

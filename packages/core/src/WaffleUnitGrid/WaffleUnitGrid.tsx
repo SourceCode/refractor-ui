@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WaffleTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose' | 'info';
@@ -134,7 +136,7 @@ function formatMetric(value: number, unit: string): string {
   return `${num} ${trimmedUnit}`;
 }
 
-export function WaffleUnitGrid({
+function WaffleUnitGridInner({
   segments,
   rows = DEFAULT_ROWS,
   columns = DEFAULT_COLUMNS,
@@ -370,7 +372,7 @@ export function WaffleUnitGrid({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0 break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -379,7 +381,7 @@ export function WaffleUnitGrid({
           <span
             data-testid="waffle-resolution-pill"
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-mono font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {`${totalCells} units · 1 sq = ${unitStepPct}%`}
           </span>
@@ -388,9 +390,9 @@ export function WaffleUnitGrid({
             <span
               data-testid="waffle-total-badge"
               className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-mono font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Total</span>
+              <span style={STYLE_TEXT_SECONDARY}>Total</span>
               <span>{formatMetric(totalValue, unit)}</span>
             </span>
           ) : null}
@@ -402,7 +404,7 @@ export function WaffleUnitGrid({
           role="status"
           data-testid="waffle-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No positive proportion values to display.
         </div>
@@ -501,7 +503,7 @@ export function WaffleUnitGrid({
                     onKeyDown={handleCardKeyDown(entry.index, entry)}
                     className={cx(
                       cardClass,
-                      'prism-focus-ring rounded-xl px-3 py-2.5 cursor-pointer transition-all duration-150 min-w-0 max-w-full flex flex-col gap-1.5',
+                      'prism-focus-ring rounded-xl px-3 py-2.5 cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150 min-w-0 max-w-full flex flex-col gap-1.5',
                       isSelected ? 'prism-well' : 'prism-crystal',
                       isDimmed ? 'opacity-60 hover:opacity-85' : 'opacity-100'
                     )}
@@ -529,7 +531,7 @@ export function WaffleUnitGrid({
 
                     <div
                       className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono tabular-nums min-w-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <span>{`${cellCount} / ${totalCells} sq`}</span>
                       <span>{formatMetric(value, unit)}</span>
@@ -547,7 +549,7 @@ export function WaffleUnitGrid({
               calloutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums min-w-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {selectedSegment ? (
               <>
@@ -563,7 +565,7 @@ export function WaffleUnitGrid({
                 </span>
                 <span
                   className="shrink-0 font-mono font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {formatMetric(selectedSegment.resolved.value, unit)}
                 </span>
@@ -572,13 +574,13 @@ export function WaffleUnitGrid({
               <>
                 <span
                   className="min-w-0 break-words"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`Select a category to isolate its unit squares. Lead: ${leadingSegment!.resolved.cellCount} of ${totalCells} units (${leadingSegment!.resolved.sharePct.toFixed(1)}%) — ${leadingSegment!.resolved.label}`}
                 </span>
                 <span
                   className="shrink-0 font-mono font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`${resolvedSegments.length} ${resolvedSegments.length === 1 ? 'category' : 'categories'} · ${safeRows}×${safeColumns}`}
                 </span>
@@ -591,4 +593,5 @@ export function WaffleUnitGrid({
   );
 }
 
+export const WaffleUnitGrid = memo(WaffleUnitGridInner);
 WaffleUnitGrid.displayName = 'WaffleUnitGrid';

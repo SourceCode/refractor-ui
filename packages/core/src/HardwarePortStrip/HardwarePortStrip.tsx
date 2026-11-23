@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useRef,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type HardwarePortKind = 'rj45' | 'sfp+' | 'usb-c' | 'poe';
@@ -289,7 +291,7 @@ function formatWatts(watts: number): string {
 }
 
 function formatMbps(mbps: number): string {
-  return Math.round(mbps).toLocaleString('en-US');
+  return formatUsNumber(Math.round(mbps));
 }
 
 function getKindLabel(kind: HardwarePortKind): string {
@@ -412,7 +414,7 @@ function renderRackEar(side: 'left' | 'right'): ReactNode {
       aria-hidden="true"
       data-testid={`hardware-rack-ear-${side}`}
       className="prism-crystal rounded-xl px-1.5 py-2 flex flex-col items-center justify-center shrink-0 border select-none"
-      style={{ borderColor: 'var(--prism-divider)' }}
+      style={STYLE_BORDER_DIVIDER}
     >
       <svg
         width={18}
@@ -629,7 +631,7 @@ function renderPortSocketGlyph(
   );
 }
 
-export function HardwarePortStrip({
+function HardwarePortStripInner({
   title = DEFAULT_TITLE,
   ports,
   defaultPorts,
@@ -901,20 +903,20 @@ export function HardwarePortStrip({
           headerClass,
           'flex flex-wrap items-center justify-between gap-2.5 min-w-0 pb-2.5 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center gap-2 min-w-0">
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Server className="w-3.5 h-3.5 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
@@ -923,12 +925,12 @@ export function HardwarePortStrip({
             <span
               data-testid="hardware-summary-up"
               className="prism-well inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-success-main)' }}
+                style={STYLE_BG_SUCCESS}
               />
               <span>Up {summaryCounts.up}</span>
             </span>
@@ -936,12 +938,12 @@ export function HardwarePortStrip({
             <span
               data-testid="hardware-summary-warning"
               className="prism-well inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-warning-main)' }}
+                style={STYLE_BG_WARNING}
               />
               <span>Warning {summaryCounts.warning}</span>
             </span>
@@ -949,12 +951,12 @@ export function HardwarePortStrip({
             <span
               data-testid="hardware-summary-down"
               className="prism-well inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-error-main)' }}
+                style={STYLE_BG_ERROR}
               />
               <span>Down {summaryCounts.down}</span>
             </span>
@@ -962,12 +964,12 @@ export function HardwarePortStrip({
             <span
               data-testid="hardware-summary-poe"
               className="prism-well inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Zap
                 aria-hidden="true"
                 className="w-3 h-3 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               />
               <span>PoE {formatWatts(summaryCounts.poeWatts)}</span>
             </span>
@@ -990,7 +992,7 @@ export function HardwarePortStrip({
                 data-testid={`hardware-filter-${option.id}`}
                 data-active={isActiveFilter ? 'true' : undefined}
                 onClick={() => handleSelectFilter(option.id)}
-                className="prism-crystal prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
+                className="prism-crystal prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
                 style={
                   isActiveFilter
                     ? {
@@ -1016,14 +1018,14 @@ export function HardwarePortStrip({
           <Server
             aria-hidden="true"
             className="w-5 h-5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             {effectivePorts.length === 0
               ? 'No hardware ports installed in this chassis'
               : 'No ports match the active status filter'}
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             {effectivePorts.length === 0
               ? 'Provide a ports array to populate the 1U optical patch bay.'
               : 'Switch back to All ports to inspect every faceplate bay.'}
@@ -1034,8 +1036,8 @@ export function HardwarePortStrip({
               disabled={disabled}
               data-testid="hardware-filter-reset"
               onClick={() => handleSelectFilter('all')}
-              className="prism-crystal prism-focus-ring mt-1 px-3 py-1 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-primary-main)' }}
+              className="prism-crystal prism-focus-ring mt-1 px-3 py-1 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_PRIMARY_MAIN}
             >
               Show All Ports
             </button>
@@ -1050,7 +1052,7 @@ export function HardwarePortStrip({
                 faceplateClass,
                 'prism-well rounded-2xl p-2 flex items-stretch gap-2 min-w-max border'
               )}
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               {renderRackEar('left')}
 
@@ -1120,7 +1122,7 @@ export function HardwarePortStrip({
                       {...mergeProps({
                         themeTarget: portTarget,
                         baseClassName: cx(
-                          'prism-crystal prism-focus-ring w-[64px] rounded-xl px-1.5 py-2 flex flex-col items-center justify-between gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all select-none shrink-0',
+                          'prism-crystal prism-focus-ring w-[64px] rounded-xl px-1.5 py-2 flex flex-col items-center justify-between gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] select-none shrink-0',
                           !port.adminEnabled ? 'opacity-60' : undefined
                         ),
                         baseStyle: isSelected
@@ -1138,7 +1140,7 @@ export function HardwarePortStrip({
                         <span
                           data-testid={`port-number-${port.id}`}
                           className="font-mono text-[10px] font-bold tabular-nums leading-none"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {paddedNumber}
                         </span>
@@ -1161,7 +1163,7 @@ export function HardwarePortStrip({
                       <span
                         data-testid={`port-kind-${port.id}`}
                         className="font-mono text-[9px] font-semibold uppercase tracking-wider leading-none"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {kindLabel}
                       </span>
@@ -1181,28 +1183,28 @@ export function HardwarePortStrip({
               inspectorClass,
               'prism-well rounded-2xl p-3.5 flex flex-col gap-3 min-w-0 border'
             )}
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
               <div className="flex flex-wrap items-center justify-between gap-2.5 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 min-w-0">
                   <span
                     data-testid="inspector-port-number"
                     className="prism-crystal px-2 py-0.5 rounded-md font-mono text-xs font-bold tabular-nums shrink-0"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     Port {formatPortNumber(inspectedPort.portNumber)}
                   </span>
                   <span
                     data-testid="inspector-port-label"
                     className="text-sm font-semibold tracking-tight truncate min-w-0"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {inspectedPort.label}
                   </span>
                   <span
                     data-testid="inspector-port-kind"
                     className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold uppercase tracking-wider shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {getKindLabel(inspectedPort.kind)}
                   </span>
@@ -1224,7 +1226,7 @@ export function HardwarePortStrip({
                   <span
                     data-testid="inspector-selection-mode"
                     className="font-mono text-[10px] uppercase tracking-wider shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {isPreviewingOther ? 'Preview' : 'Selected'}
                   </span>
@@ -1236,7 +1238,7 @@ export function HardwarePortStrip({
                   aria-pressed={!inspectedPort.adminEnabled}
                   data-testid="hardware-port-admin-toggle"
                   onClick={() => handleToggleAdmin(inspectedPort)}
-                  className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
+                  className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
                   style={
                     inspectedPort.adminEnabled
                       ? {
@@ -1258,14 +1260,14 @@ export function HardwarePortStrip({
                 <div className="prism-crystal rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
                   <span
                     className="text-[10px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Negotiated Speed
                   </span>
                   <span
                     data-testid="inspector-speed"
                     className="font-mono text-xs font-semibold truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {inspectedPort.speedLabel}
                   </span>
@@ -1274,14 +1276,14 @@ export function HardwarePortStrip({
                 <div className="prism-crystal rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
                   <span
                     className="text-[10px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     VLAN ID
                   </span>
                   <span
                     data-testid="inspector-vlan"
                     className="font-mono text-xs font-semibold truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {inspectedPort.vlan}
                   </span>
@@ -1290,14 +1292,14 @@ export function HardwarePortStrip({
                 <div className="prism-crystal rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
                   <span
                     className="text-[10px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     PoE Draw
                   </span>
                   <span
                     data-testid="inspector-poe"
                     className="font-mono text-xs font-semibold tabular-nums truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatWatts(inspectedPort.poeWatts)}
                   </span>
@@ -1306,7 +1308,7 @@ export function HardwarePortStrip({
                 <div className="prism-crystal rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
                   <span
                     className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <Activity aria-hidden="true" className="w-3 h-3 shrink-0" />
                     <span>RX / TX</span>
@@ -1314,7 +1316,7 @@ export function HardwarePortStrip({
                   <span
                     data-testid="inspector-throughput"
                     className="font-mono text-xs font-semibold tabular-nums truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatMbps(inspectedPort.rxMbps)} / {formatMbps(inspectedPort.txMbps)} Mbps
                   </span>
@@ -1323,14 +1325,14 @@ export function HardwarePortStrip({
                 <div className="prism-crystal rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0 col-span-2 sm:col-span-2 lg:col-span-1">
                   <span
                     className="text-[10px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Connected Device
                   </span>
                   <span
                     data-testid="inspector-device"
                     className="text-xs font-semibold truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {inspectedPort.connectedDevice}
                   </span>
@@ -1343,4 +1345,5 @@ export function HardwarePortStrip({
   );
 }
 
+export const HardwarePortStrip = memo(HardwarePortStripInner);
 HardwarePortStrip.displayName = 'HardwarePortStrip';

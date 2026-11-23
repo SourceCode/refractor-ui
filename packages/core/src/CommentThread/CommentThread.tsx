@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   Fragment,
   useId,
   useMemo,
@@ -21,6 +22,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface CommentReaction {
@@ -272,7 +274,7 @@ function CommentAvatar({ author }: CommentAvatarProps) {
           role="img"
           aria-label={accessibleName}
           className="prism-well w-full h-full rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {initials}
         </span>
@@ -422,7 +424,7 @@ function MentionComposer({
           }}
           onKeyDown={handleKeyDown}
           className="prism-focus-ring w-full resize-none bg-transparent text-sm leading-relaxed focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         />
 
         <div className="flex items-center justify-end gap-2 pt-2">
@@ -432,7 +434,7 @@ function MentionComposer({
               disabled={disabled}
               onClick={onCancel}
               className="prism-crystal prism-focus-ring h-8 px-3 rounded-full text-xs font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Cancel
             </button>
@@ -440,7 +442,7 @@ function MentionComposer({
           <button
             type="submit"
             disabled={!canSubmit}
-            className="prism-btn-primary prism-focus-ring h-8 px-4 rounded-full text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+            className="prism-btn-primary prism-focus-ring h-8 px-4 rounded-full text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
           >
             <Send aria-hidden="true" className="w-3.5 h-3.5 relative z-10" />
             <span className="relative z-10">{submitLabel}</span>
@@ -468,12 +470,12 @@ function MentionComposer({
                 className={`prism-focus-ring w-full px-3 py-2 rounded-xl text-left flex items-center justify-between gap-2 text-xs cursor-pointer transition-colors ${
                   isSelected ? 'prism-crystal font-semibold' : ''
                 }`}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span className="min-w-0 flex items-center gap-2 truncate">
                   <span
                     className="font-mono font-semibold"
-                    style={{ color: 'var(--prism-primary-main)' }}
+                    style={STYLE_PRIMARY_MAIN}
                   >
                     @{user.handle}
                   </span>
@@ -482,7 +484,7 @@ function MentionComposer({
                 {user.role ? (
                   <span
                     className="text-[11px] shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {user.role}
                   </span>
@@ -496,7 +498,7 @@ function MentionComposer({
   );
 }
 
-export function CommentThread({
+function CommentThreadInner({
   comments,
   defaultComments,
   onCommentsChange,
@@ -638,7 +640,7 @@ export function CommentThread({
         data-comment-id={comment.id}
         data-depth={String(depth)}
         data-resolved={isRoot && isResolved ? 'true' : undefined}
-        className={`rounded-2xl p-4 transition-all ${
+        className={`prism-cv-card rounded-2xl p-4 transition-[color,background-color,border-color,opacity,transform] ${
           isRoot && isResolved ? 'prism-well opacity-85' : 'prism-crystal'
         }`}
       >
@@ -650,21 +652,21 @@ export function CommentThread({
               <div className="min-w-0 flex flex-wrap items-center gap-2">
                 <span
                   className="text-sm font-semibold truncate"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {comment.author.name}
                 </span>
                 {comment.author.role ? (
                   <span
                     className="prism-well px-2 py-0.5 rounded-full text-[11px] font-medium"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {comment.author.role}
                   </span>
                 ) : null}
                 <span
                   className="font-mono text-[11px] tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {comment.timestamp}
                 </span>
@@ -681,8 +683,8 @@ export function CommentThread({
                   type="button"
                   disabled={readOnly}
                   onClick={() => handleToggleResolve(comment)}
-                  className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full text-xs font-medium inline-flex items-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full text-xs font-medium inline-flex items-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {isResolved ? (
                     <>
@@ -701,7 +703,7 @@ export function CommentThread({
 
             <p
               className="text-sm leading-relaxed whitespace-pre-wrap break-words"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {bodySegments.map((segment) =>
                 segment.isMention ? (
@@ -709,7 +711,7 @@ export function CommentThread({
                     key={segment.key}
                     data-mention="true"
                     className="prism-well inline-flex items-center px-1.5 py-0.5 rounded-md text-xs font-semibold"
-                    style={{ color: 'var(--prism-primary-main)' }}
+                    style={STYLE_PRIMARY_MAIN}
                   >
                     {segment.text}
                   </span>
@@ -735,7 +737,7 @@ export function CommentThread({
                     onClick={() => handleToggleReaction(comment.id, reaction.emoji)}
                     className={`${
                       isReacted ? 'prism-emerald' : 'prism-well'
-                    } prism-focus-ring h-7 px-2.5 rounded-full text-xs inline-flex items-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all`}
+                    } prism-focus-ring h-7 px-2.5 rounded-full text-xs inline-flex items-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]`}
                     style={
                       isReacted ? undefined : { color: 'var(--prism-text-primary)' }
                     }
@@ -774,8 +776,8 @@ export function CommentThread({
                     setReplyDraft('');
                   }
                 }}
-                className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full text-xs font-medium inline-flex items-center gap-1 ml-auto cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                style={{ color: 'var(--prism-text-primary)' }}
+                className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full text-xs font-medium inline-flex items-center gap-1 ml-auto cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                style={STYLE_TEXT_PRIMARY}
               >
                 <Reply aria-hidden="true" className="w-3 h-3" />
                 <span>Reply</span>
@@ -805,7 +807,7 @@ export function CommentThread({
               <div
                 data-testid={`comment-replies-${comment.id}`}
                 className="mt-3 ml-2 pl-4 space-y-3 border-l"
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 {visibleReplies.map((reply) => renderCommentNode(reply, depth + 1))}
               </div>
@@ -820,18 +822,18 @@ export function CommentThread({
     <div ref={ref} aria-labelledby={headingId} {...rest} {...merged}>
       <header
         className="flex items-center justify-between gap-3 pb-3 border-b"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2">
           <MessageSquare
             aria-hidden="true"
             className="w-4 h-4 shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           />
           <h3
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h3>
@@ -841,7 +843,7 @@ export function CommentThread({
           {readOnly ? (
             <span
               className="prism-well px-2.5 py-0.5 rounded-full text-[11px] font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Read only
             </span>
@@ -849,7 +851,7 @@ export function CommentThread({
           <span
             data-testid="comment-thread-count"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-xs font-semibold tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {totalCommentCount}
           </span>
@@ -861,7 +863,7 @@ export function CommentThread({
           <div
             data-testid="comment-thread-empty"
             className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             No comments yet. Start the discussion below.
           </div>
@@ -888,4 +890,5 @@ export function CommentThread({
   );
 }
 
+export const CommentThread = memo(CommentThreadInner);
 CommentThread.displayName = 'CommentThread';

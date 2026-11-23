@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CalendarHeatmapTone = 'emerald' | 'primary' | 'secondary' | 'rose';
@@ -181,7 +183,7 @@ function quantizeIntensity(count: number, maxCount: number): IntensityLevel {
   return 4;
 }
 
-export function CalendarHeatmap({
+function CalendarHeatmapInner({
   entries,
   title = 'Activity Calendar Heatmap',
   weeks = 12,
@@ -397,7 +399,7 @@ export function CalendarHeatmap({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -406,10 +408,10 @@ export function CalendarHeatmap({
             <span
               data-testid="calendar-heatmap-total"
               className="prism-crystal px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>Total</span>
-              <span className="font-mono font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+              <span className="font-mono font-semibold" style={STYLE_TEXT_PRIMARY}>
                 {formatCountWithUnit(totalCount, unitLabel)}
               </span>
             </span>
@@ -417,10 +419,10 @@ export function CalendarHeatmap({
             <span
               data-testid="calendar-heatmap-active-days"
               className="prism-crystal px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>Active Days</span>
-              <span className="font-mono font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+              <span className="font-mono font-semibold" style={STYLE_TEXT_PRIMARY}>
                 {activeDays}
               </span>
             </span>
@@ -428,10 +430,10 @@ export function CalendarHeatmap({
             <span
               data-testid="calendar-heatmap-best-streak"
               className="prism-crystal px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>Best Streak</span>
-              <span className="font-mono font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+              <span className="font-mono font-semibold" style={STYLE_TEXT_PRIMARY}>
                 {`${bestStreak} ${bestStreak === 1 ? 'day' : 'days'}`}
               </span>
             </span>
@@ -445,7 +447,7 @@ export function CalendarHeatmap({
             legendClass,
             'prism-crystal px-3 py-1 rounded-full inline-flex items-center gap-1.5 text-[11px] font-medium'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span>Less</span>
           <span className="inline-flex items-center gap-1" aria-hidden="true">
@@ -492,7 +494,7 @@ export function CalendarHeatmap({
                   scope="col"
                   aria-label={`Week of ${week.startDate}`}
                   className="px-0 pb-1 text-left text-[10px] font-semibold whitespace-nowrap align-bottom"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {week.monthMarker ? (
                     <span data-role="calendar-month-marker">{week.monthMarker}</span>
@@ -510,7 +512,7 @@ export function CalendarHeatmap({
                 <th
                   scope="row"
                   className="pr-2 text-right text-[10px] font-semibold whitespace-nowrap select-none align-middle"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {row.visible ? (
                     <span data-role="calendar-weekday-label">{row.label}</span>
@@ -574,7 +576,7 @@ export function CalendarHeatmap({
           readoutClass,
           'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
         )}
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         {activeDay ? (
           <span className="inline-flex flex-wrap items-center gap-2 font-medium">
@@ -598,21 +600,21 @@ export function CalendarHeatmap({
             <span
               data-testid="calendar-heatmap-readout-level"
               className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px]"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {`Level ${activeDay.level}/4`}
             </span>
             {activeDay.detail ? (
               <span
                 data-testid="calendar-heatmap-readout-detail"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {activeDay.detail}
               </span>
             ) : null}
           </span>
         ) : (
-          <span style={{ color: 'var(--prism-text-secondary)' }}>
+          <span style={STYLE_TEXT_SECONDARY}>
             Select or activate any day cell to inspect activity details.
           </span>
         )}
@@ -620,7 +622,7 @@ export function CalendarHeatmap({
         <span
           data-testid="calendar-heatmap-window"
           className="font-mono text-[11px]"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {`${gridStartDate} – ${gridEndDate}`}
         </span>
@@ -629,4 +631,5 @@ export function CalendarHeatmap({
   );
 }
 
+export const CalendarHeatmap = memo(CalendarHeatmapInner);
 CalendarHeatmap.displayName = 'CalendarHeatmap';

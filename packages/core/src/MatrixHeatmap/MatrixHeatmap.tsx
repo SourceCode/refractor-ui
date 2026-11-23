@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface HeatmapCell {
@@ -113,7 +115,7 @@ function computeCellOpacity(value: number, minVal: number, maxVal: number): numb
   return Number((0.1 + ratio * 0.8).toFixed(2));
 }
 
-export function MatrixHeatmap({
+function MatrixHeatmapInner({
   rowLabels,
   colLabels,
   cells,
@@ -252,7 +254,7 @@ export function MatrixHeatmap({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -264,7 +266,7 @@ export function MatrixHeatmap({
             legendClass,
             'prism-crystal px-3 py-1 rounded-full inline-flex items-center gap-1.5 text-[11px] font-medium'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span>Low</span>
           <span className="inline-flex items-center gap-1" aria-hidden="true">
@@ -294,7 +296,7 @@ export function MatrixHeatmap({
           role="status"
           data-testid="matrix-heatmap-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No matrix data to display.
         </div>
@@ -315,7 +317,7 @@ export function MatrixHeatmap({
                       key={colEntry.key}
                       scope="col"
                       className="px-2 py-1.5 text-center text-[11px] font-semibold whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {colEntry.label}
                     </th>
@@ -329,7 +331,7 @@ export function MatrixHeatmap({
                     <th
                       scope="row"
                       className="px-2 py-1.5 text-left text-[11px] font-semibold whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {rowEntry.label}
                     </th>
@@ -347,7 +349,7 @@ export function MatrixHeatmap({
                               data-empty-cell="true"
                               aria-label={`${rowEntry.label} × ${colEntry.label}: no data`}
                               className="prism-well w-full min-w-[46px] h-10 rounded-lg inline-flex items-center justify-center font-mono text-[11px]"
-                              style={{ color: 'var(--prism-text-disabled)' }}
+                              style={STYLE_TEXT_DISABLED}
                             >
                               {showValues ? '—' : null}
                             </div>
@@ -418,7 +420,7 @@ export function MatrixHeatmap({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeSelection ? (
               <span className="inline-flex items-center gap-2 font-medium">
@@ -439,7 +441,7 @@ export function MatrixHeatmap({
                 </span>
               </span>
             ) : (
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 Select or focus any cell to inspect exact matrix values.
               </span>
             )}
@@ -448,7 +450,7 @@ export function MatrixHeatmap({
               <span
                 data-testid="matrix-heatmap-range"
                 className="font-mono text-[11px]"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {`Range: ${formatMetric(minVal, valueUnit)} – ${formatMetric(maxVal, valueUnit)}`}
               </span>
@@ -460,4 +462,5 @@ export function MatrixHeatmap({
   );
 }
 
+export const MatrixHeatmap = memo(MatrixHeatmapInner);
 MatrixHeatmap.displayName = 'MatrixHeatmap';

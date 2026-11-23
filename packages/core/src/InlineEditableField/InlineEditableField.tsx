@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useEffect,
   useId,
   useRef,
@@ -41,7 +42,7 @@ export interface InlineEditableFieldProps extends InlineEditableFieldBaseProps {
   disabled?: boolean;
 }
 
-export function InlineEditableField({
+function InlineEditableFieldInner({
   value,
   defaultValue = '',
   onSave,
@@ -173,7 +174,7 @@ export function InlineEditableField({
         >
           <div
             className={cx(
-              'prism-crystal flex-1 p-1 transition-all',
+              'prism-crystal flex-1 p-1 transition-[color,background-color,border-color,opacity,transform]',
               multiline ? 'rounded-2xl' : 'rounded-full',
               errorMessage
                 ? 'ring-2 ring-red-500/70'
@@ -270,7 +271,7 @@ export function InlineEditableField({
           }}
           className={cx(
             viewClass,
-            'prism-crystal prism-focus-ring group w-full text-left px-3.5 py-2 inline-flex items-center justify-between gap-2.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-[1.03]',
+            'prism-crystal prism-focus-ring group w-full text-left px-3.5 py-2 inline-flex items-center justify-between gap-2.5 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-[1.03]',
             multiline ? 'rounded-2xl items-start' : 'rounded-full min-h-10'
           )}
         >
@@ -312,4 +313,5 @@ export function InlineEditableField({
   );
 }
 
+export const InlineEditableField = memo(InlineEditableFieldInner);
 InlineEditableField.displayName = 'InlineEditableField';

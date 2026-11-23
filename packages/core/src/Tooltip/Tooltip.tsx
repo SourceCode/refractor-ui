@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState, type ReactNode } from 'react';
+import { memo, useId, useState, type ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
@@ -18,7 +18,7 @@ export interface TooltipProps extends BaseProps<HTMLSpanElement> {
   children: ReactNode;
 }
 
-export function Tooltip({
+function TooltipInner({
   content,
   placement = 'top',
   children,
@@ -80,4 +80,5 @@ export function Tooltip({
   );
 }
 
+export const Tooltip = memo(TooltipInner);
 Tooltip.displayName = 'Tooltip';

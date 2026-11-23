@@ -3,6 +3,7 @@ import type { DerivedPaletteColor } from '../utils/colorMath';
 
 export type ThemeMode = 'light' | 'dark';
 export type RefractionIntensity = 'subtle' | 'standard' | 'vivid';
+export type ThemePerformanceMode = 'balanced' | 'high' | 'max';
 
 export type ThemeMaterial =
   | 'glass'

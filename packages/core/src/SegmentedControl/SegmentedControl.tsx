@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -32,7 +33,7 @@ export interface SegmentedControlProps extends SegmentedControlBaseProps {
   disabled?: boolean;
 }
 
-export function SegmentedControl({
+function SegmentedControlInner({
   options,
   value,
   onChange,
@@ -70,7 +71,7 @@ export function SegmentedControl({
         const isDisabled = disabled || Boolean(opt.disabled);
         const optionMerged = mergeProps({
           themeTarget: themeProps('segmented-control', { selected, disabled: isDisabled }, 'option'),
-          baseClassName: `prism-focus-ring h-9 px-4 rounded-full text-xs font-medium inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 ${
+          baseClassName: `prism-focus-ring h-9 px-4 rounded-full text-xs font-medium inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform] duration-150 ${
             selected
               ? 'prism-well text-slate-900 dark:text-white font-semibold shadow-sm'
               : 'text-slate-600 dark:text-slate-300 enabled:hover:text-slate-900 dark:enabled:hover:text-white'
@@ -95,4 +96,5 @@ export function SegmentedControl({
   );
 }
 
+export const SegmentedControl = memo(SegmentedControlInner);
 SegmentedControl.displayName = 'SegmentedControl';

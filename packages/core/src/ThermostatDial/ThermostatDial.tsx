@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ThermostatMode = 'cooling' | 'heating' | 'eco' | 'off';
@@ -281,7 +283,7 @@ const DIAL_TICKS: ReadonlyArray<DialTick> = Array.from({ length: 37 }, (_, idx) 
   };
 });
 
-export function ThermostatDial({
+function ThermostatDialInner({
   title = DEFAULT_TITLE,
   targetTempF,
   defaultTargetTempF = DEFAULT_TARGET_TEMP_F,
@@ -490,7 +492,7 @@ export function ThermostatDial({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -605,7 +607,7 @@ export function ThermostatDial({
           <span
             data-testid="thermostat-title"
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {displayTitle}
           </span>
@@ -614,7 +616,7 @@ export function ThermostatDial({
         <span
           data-testid="thermostat-range-badge"
           className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {displayMin}°–{displayMax}°{currentUnit}
         </span>
@@ -847,7 +849,7 @@ export function ThermostatDial({
             <span
               data-testid="thermostat-ambient-readout"
               className="text-[11px] font-medium tabular-nums truncate max-w-full"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {ambientReadout}
             </span>
@@ -870,15 +872,15 @@ export function ThermostatDial({
               aria-label="Decrease target temperature"
               data-testid="thermostat-step-down"
               onClick={() => handleStep(-1)}
-              className="prism-crystal prism-focus-ring inline-flex items-center justify-center w-9 h-9 rounded-full cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-crystal prism-focus-ring inline-flex items-center justify-center w-9 h-9 rounded-full cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
+              style={STYLE_TEXT_PRIMARY}
             >
               <Minus aria-hidden="true" className="w-4 h-4" />
             </button>
 
             <span
               className="font-mono text-[11px] font-semibold tabular-nums px-1"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               ±1°{currentUnit}
             </span>
@@ -889,8 +891,8 @@ export function ThermostatDial({
               aria-label="Increase target temperature"
               data-testid="thermostat-step-up"
               onClick={() => handleStep(1)}
-              className="prism-crystal prism-focus-ring inline-flex items-center justify-center w-9 h-9 rounded-full cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-crystal prism-focus-ring inline-flex items-center justify-center w-9 h-9 rounded-full cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
+              style={STYLE_TEXT_PRIMARY}
             >
               <Plus aria-hidden="true" className="w-4 h-4" />
             </button>
@@ -909,7 +911,7 @@ export function ThermostatDial({
               data-testid="thermostat-unit-f"
               onClick={() => commitUnit('F')}
               className={cx(
-                'prism-focus-ring px-2.5 py-1 rounded-full font-mono text-xs font-bold transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed shrink-0',
+                'prism-focus-ring px-2.5 py-1 rounded-full font-mono text-xs font-bold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed shrink-0',
                 currentUnit === 'F' ? 'prism-crystal' : 'opacity-70'
               )}
               style={{
@@ -929,7 +931,7 @@ export function ThermostatDial({
               data-testid="thermostat-unit-c"
               onClick={() => commitUnit('C')}
               className={cx(
-                'prism-focus-ring px-2.5 py-1 rounded-full font-mono text-xs font-bold transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed shrink-0',
+                'prism-focus-ring px-2.5 py-1 rounded-full font-mono text-xs font-bold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed shrink-0',
                 currentUnit === 'C' ? 'prism-crystal' : 'opacity-70'
               )}
               style={{
@@ -962,7 +964,7 @@ export function ThermostatDial({
                 data-testid={`thermostat-mode-${option.value}`}
                 onClick={() => commitMode(option.value)}
                 className={cx(
-                  'prism-focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 shrink-0',
+                  'prism-focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 shrink-0',
                   isOffActive ? 'prism-well border' : isActive ? '' : 'prism-crystal'
                 )}
                 style={
@@ -1001,7 +1003,7 @@ export function ThermostatDial({
           aria-live="polite"
           data-testid="thermostat-summary"
           className="prism-well rounded-xl px-3 py-2 text-xs font-medium tabular-nums min-w-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {climateSummary}
         </p>
@@ -1010,4 +1012,5 @@ export function ThermostatDial({
   );
 }
 
+export const ThermostatDial = memo(ThermostatDialInner);
 ThermostatDial.displayName = 'ThermostatDial';

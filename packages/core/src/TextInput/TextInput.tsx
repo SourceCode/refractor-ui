@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState, type InputHTMLAttributes, type ReactNode } from 'react';
+import { memo, useId, useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -45,7 +45,7 @@ export interface TextInputProps
   onEnter?: (value: string) => void;
 }
 
-export function TextInput({
+function TextInputInner({
   label,
   helperText,
   errorText,
@@ -92,7 +92,7 @@ export function TextInput({
         </label>
       ) : null}
       <div
-        className={`prism-crystal rounded-full p-1 transition-all ${
+        className={`prism-crystal rounded-full p-1 transition-[color,background-color,border-color,opacity,transform] ${
           errorText ? 'ring-2 ring-red-500/70' : 'focus-within:ring-2 focus-within:ring-sky-400/70'
         }`}
       >
@@ -149,4 +149,5 @@ export function TextInput({
   );
 }
 
+export const TextInput = memo(TextInputInner);
 TextInput.displayName = 'TextInput';

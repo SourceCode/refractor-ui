@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -25,6 +26,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SpotlightResultKind = 'app' | 'file' | 'command' | 'calculation';
@@ -661,7 +663,7 @@ function copyTextResiliently(text: string): void {
   fallbackExecCommandCopy(text);
 }
 
-export function SystemSpotlightLauncher({
+function SystemSpotlightLauncherInner({
   items,
   defaultQuery = '',
   placeholder = 'Search apps, files, commands, or enter math (e.g. 100 km to mi)...',
@@ -919,7 +921,7 @@ export function SystemSpotlightLauncher({
           <Search
             aria-hidden="true"
             className="w-4 h-4 shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           />
           <input
             ref={inputRef}
@@ -936,7 +938,7 @@ export function SystemSpotlightLauncher({
             onChange={(event) => updateQuery(event.target.value)}
             onKeyDown={handleInputKeyDown}
             className="w-full min-w-0 bg-transparent text-sm sm:text-base font-medium focus:outline-none disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
 
           {query.length > 0 ? (
@@ -950,7 +952,7 @@ export function SystemSpotlightLauncher({
                 inputRef.current?.focus();
               }}
               className="prism-crystal prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -959,7 +961,7 @@ export function SystemSpotlightLauncher({
           <kbd
             aria-hidden="true"
             className="prism-crystal hidden sm:inline-flex items-center justify-center h-6 px-2 rounded-lg font-mono text-[10px] font-semibold shrink-0 select-none"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             ESC
           </kbd>
@@ -975,12 +977,12 @@ export function SystemSpotlightLauncher({
           <div className="flex flex-wrap items-center gap-1.5 min-w-0">
             <span
               className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <Sparkles
                 aria-hidden="true"
                 className="w-3 h-3 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               />
               <span>Try</span>
             </span>
@@ -1016,7 +1018,7 @@ export function SystemSpotlightLauncher({
           <span
             data-testid="spotlight-result-count"
             className="text-[11px] font-mono tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {indexedResults.length}{' '}
             {indexedResults.length === 1 ? 'result' : 'results'}
@@ -1101,7 +1103,7 @@ export function SystemSpotlightLauncher({
                           'text-sm font-semibold truncate',
                           isCalculation && 'font-mono tabular-nums'
                         )}
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {displayTitle}
                       </span>
@@ -1118,7 +1120,7 @@ export function SystemSpotlightLauncher({
                     {displaySubtitle ? (
                       <span
                         className="text-xs truncate mt-0.5"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {displaySubtitle}
                       </span>
@@ -1128,7 +1130,7 @@ export function SystemSpotlightLauncher({
                   {item.pathOrShortcut ? (
                     <kbd
                       className="prism-well px-2 py-0.5 rounded-lg font-mono text-[10px] font-semibold shrink-0 max-w-24 truncate"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {item.pathOrShortcut}
                     </kbd>
@@ -1150,13 +1152,13 @@ export function SystemSpotlightLauncher({
               <span
                 aria-hidden="true"
                 className="prism-crystal w-10 h-10 rounded-2xl inline-flex items-center justify-center"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <Search className="w-5 h-5" />
               </span>
               <p
                 className="text-sm font-semibold break-words max-w-full"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {trimmedQuery
                   ? `No matches for "${trimmedQuery}"`
@@ -1164,7 +1166,7 @@ export function SystemSpotlightLauncher({
               </p>
               <p
                 className="text-xs max-w-md break-words"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Try searching for an app, file, or command, or enter an arithmetic
                 expression or unit conversion such as &quot;24 px to rem&quot;.
@@ -1178,7 +1180,7 @@ export function SystemSpotlightLauncher({
                     inputRef.current?.focus();
                   }}
                   className="prism-crystal prism-focus-ring mt-1 h-8 px-3.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Clear Search
                 </button>
@@ -1223,7 +1225,7 @@ export function SystemSpotlightLauncher({
                     <h3
                       data-testid="spotlight-preview-title"
                       className="text-sm sm:text-base font-bold leading-snug break-words"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {activeEntry.item.title.trim() || 'Untitled item'}
                     </h3>
@@ -1233,7 +1235,7 @@ export function SystemSpotlightLauncher({
                 {activeEntry.item.pathOrShortcut ? (
                   <kbd
                     className="prism-crystal px-2 py-0.5 rounded-lg font-mono text-[10px] font-semibold shrink-0 max-w-28 truncate"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {activeEntry.item.pathOrShortcut}
                   </kbd>
@@ -1244,7 +1246,7 @@ export function SystemSpotlightLauncher({
                 <p
                   data-testid="spotlight-preview-subtitle"
                   className="text-xs break-words"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {activeEntry.item.subtitle}
                 </p>
@@ -1263,20 +1265,20 @@ export function SystemSpotlightLauncher({
                 >
                   <span
                     className="font-mono text-xs break-all"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {evalResult?.expression ?? activeEntry.item.previewBody}
                   </span>
                   <div
                     data-testid="spotlight-calc-output"
                     className="font-mono text-2xl sm:text-3xl font-bold tabular-nums tracking-tight break-all"
-                    style={{ color: 'var(--prism-success-main)' }}
+                    style={STYLE_SUCCESS_MAIN}
                   >
                     {activeEntry.item.title}
                   </div>
                   <span
                     className="text-[11px] break-words"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {evalResult?.detail ?? activeEntry.item.subtitle}
                   </span>
@@ -1285,7 +1287,7 @@ export function SystemSpotlightLauncher({
                 <div
                   data-testid="spotlight-preview-body"
                   className="prism-crystal rounded-2xl p-3.5 text-xs sm:text-sm leading-relaxed break-words whitespace-pre-wrap min-w-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeEntry.item.previewBody}
                 </div>
@@ -1304,13 +1306,13 @@ export function SystemSpotlightLauncher({
                     >
                       <span
                         className="font-medium shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {entry.label}
                       </span>
                       <span
                         className="font-mono font-semibold truncate"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {entry.value}
                       </span>
@@ -1323,11 +1325,11 @@ export function SystemSpotlightLauncher({
             {/* Preview Action Footer */}
             <div
               className="pt-2.5 border-t flex flex-wrap items-center justify-between gap-2 min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <span
                 className="text-[11px] font-mono"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 ↑↓ Select · ↵ Run · Esc Clear
               </span>
@@ -1339,7 +1341,7 @@ export function SystemSpotlightLauncher({
                 data-copied={activeEntry.isCalculation && copied ? 'true' : undefined}
                 onClick={disabled ? undefined : () => triggerLaunch(activeEntry.item)}
                 className={cx(
-                  'prism-focus-ring h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all',
+                  'prism-focus-ring h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                   activeEntry.isCalculation && copied
                     ? 'prism-emerald'
                     : 'prism-btn-primary'
@@ -1382,4 +1384,5 @@ export function SystemSpotlightLauncher({
   );
 }
 
+export const SystemSpotlightLauncher = memo(SystemSpotlightLauncherInner);
 SystemSpotlightLauncher.displayName = 'SystemSpotlightLauncher';

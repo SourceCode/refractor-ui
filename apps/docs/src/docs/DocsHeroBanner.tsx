@@ -83,7 +83,7 @@ export function DocsHeroBanner() {
           href="https://github.com/SourceCode/refractor-ui"
           target="_blank"
           rel="noopener noreferrer"
-          className="prism-crystal prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:brightness-105 transition-all"
+          className="prism-crystal prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
         >
           <span>github.com/SourceCode/refractor-ui</span>
           <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
@@ -169,7 +169,7 @@ export function DocsHeroBanner() {
                     role="tab"
                     aria-selected={active}
                     onClick={() => setPkgManager(pm)}
-                    className={`prism-focus-ring px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold cursor-pointer transition-all ${
+                    className={`prism-focus-ring px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                       active
                         ? 'prism-btn-primary text-white'
                         : 'text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { Users } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -218,7 +218,7 @@ function buildConnectorPath(from: TaskGeometry, to: TaskGeometry): string {
   return `M ${x1} ${y1} L ${exitX} ${y1} L ${exitX} ${midY} L ${entryX} ${midY} L ${entryX} ${y2} L ${x2} ${y2}`;
 }
 
-export function GanttChart({
+function GanttChartInner({
   tasks,
   scale,
   defaultScale = 'days',
@@ -769,4 +769,5 @@ export function GanttChart({
   );
 }
 
+export const GanttChart = memo(GanttChartInner);
 GanttChart.displayName = 'GanttChart';

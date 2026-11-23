@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ColorScopeMode = 'histogram' | 'waveform' | 'vectorscope' | 'all';
@@ -404,7 +406,7 @@ function getModeLabel(mode: ColorScopeMode): string {
   }
 }
 
-export function LiveColorScopes({
+function LiveColorScopesInner({
   mode,
   defaultMode = 'all',
   onModeChange,
@@ -668,7 +670,7 @@ export function LiveColorScopes({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Activity className="w-4 h-4 shrink-0" />
           </span>
@@ -676,7 +678,7 @@ export function LiveColorScopes({
             id={headingId}
             data-testid="scope-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -773,7 +775,7 @@ export function LiveColorScopes({
                 onClick={() => selectMode(option.id)}
                 onKeyDown={(event) => handleModeKeyDown(event, option.id)}
                 className={cx(
-                  'prism-focus-ring rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap cursor-pointer transition-all',
+                  'prism-focus-ring rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                   selected ? 'prism-crystal font-semibold shadow-sm' : 'opacity-75 hover:opacity-100'
                 )}
                 style={{
@@ -804,7 +806,7 @@ export function LiveColorScopes({
             <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
               <span
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 RGB + Luma Histogram
               </span>
@@ -827,7 +829,7 @@ export function LiveColorScopes({
                       onClick={() => toggleChannel(ch.id)}
                       onKeyDown={(event) => handleChannelKeyDown(event, ch.id)}
                       className={cx(
-                        'prism-focus-ring inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-mono font-semibold cursor-pointer transition-all',
+                        'prism-focus-ring inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-mono font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                         isVisible ? 'prism-crystal' : 'opacity-50'
                       )}
                       style={{
@@ -874,7 +876,7 @@ export function LiveColorScopes({
                       y={HISTOGRAM_HEIGHT - 5}
                       textAnchor={zone.pct === 0 ? 'start' : zone.pct === 100 ? 'end' : 'middle'}
                       className="text-[8px] font-mono tabular-nums"
-                      style={{ fill: 'var(--prism-text-secondary)' }}
+                      style={STYLE_FILL_SECONDARY}
                     >
                       {zone.label}
                     </text>
@@ -919,7 +921,7 @@ export function LiveColorScopes({
                   y={HISTOGRAM_BASELINE_Y / 2 + 6}
                   textAnchor="middle"
                   className="text-[10px] font-mono"
-                  style={{ fill: 'var(--prism-text-secondary)' }}
+                  style={STYLE_FILL_SECONDARY}
                 >
                   {visibleChannels.size === 0 ? 'All channels hidden' : 'No histogram signal'}
                 </text>
@@ -937,7 +939,7 @@ export function LiveColorScopes({
             <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
               <span
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Luma Waveform
               </span>
@@ -980,7 +982,7 @@ export function LiveColorScopes({
                       y={roundTwo(y + 3)}
                       textAnchor="end"
                       className="text-[8px] font-mono tabular-nums"
-                      style={{ fill: 'var(--prism-text-secondary)' }}
+                      style={STYLE_FILL_SECONDARY}
                     >
                       {ire === 100 ? '100' : String(ire)}
                     </text>
@@ -1054,7 +1056,7 @@ export function LiveColorScopes({
                   y={WAVEFORM_PAD_TOP + WAVEFORM_PLOT_H / 2 + 4}
                   textAnchor="middle"
                   className="text-[10px] font-mono"
-                  style={{ fill: 'var(--prism-text-secondary)' }}
+                  style={STYLE_FILL_SECONDARY}
                 >
                   No waveform signal
                 </text>
@@ -1072,13 +1074,13 @@ export function LiveColorScopes({
             <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
               <span
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Vectorscope
               </span>
               <span
                 className="font-mono text-[10px] font-semibold tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 75% Rec.709
               </span>
@@ -1205,7 +1207,7 @@ export function LiveColorScopes({
                     y={VECTORSCOPE_CENTER + 3}
                     textAnchor="middle"
                     className="text-[9px] font-mono"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     No chroma signal
                   </text>
@@ -1228,7 +1230,7 @@ export function LiveColorScopes({
         <span
           data-testid="scope-telemetry-mode"
           className="font-semibold tracking-tight whitespace-nowrap"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           Mode: {getModeLabel(activeMode)}
         </span>
@@ -1236,20 +1238,20 @@ export function LiveColorScopes({
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] tabular-nums min-w-0">
           <span
             data-testid="scope-telemetry-peak-ire"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Peak {formatIre(waveformData.peakIre)}
           </span>
           <span
             data-testid="scope-telemetry-clip"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Shadow {formatPercent(effectiveShadowClip)} · Highlight{' '}
             {formatPercent(effectiveHighlightClip)}
           </span>
           <span
             data-testid="scope-telemetry-samples"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activeSampleCount} {activeSampleCount === 1 ? 'sample' : 'samples'}
           </span>
@@ -1259,4 +1261,5 @@ export function LiveColorScopes({
   );
 }
 
+export const LiveColorScopes = memo(LiveColorScopesInner);
 LiveColorScopes.displayName = 'LiveColorScopes';

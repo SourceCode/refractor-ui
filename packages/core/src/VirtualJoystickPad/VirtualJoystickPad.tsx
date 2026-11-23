@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -25,6 +26,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type JoystickControlMode = 'analog' | 'dpad';
@@ -226,7 +228,7 @@ function formatSignedAxis(value: number): string {
   return value > 0 ? `+${value.toFixed(2)}` : value.toFixed(2);
 }
 
-export function VirtualJoystickPad({
+function VirtualJoystickPadInner({
   title = DEFAULT_TITLE,
   value,
   defaultValue = DEFAULT_POINT,
@@ -414,7 +416,7 @@ export function VirtualJoystickPad({
       };
 
       cleanupPointerRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -581,7 +583,7 @@ export function VirtualJoystickPad({
           <span
             data-testid="joystick-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -601,7 +603,7 @@ export function VirtualJoystickPad({
               data-testid="joystick-mode-analog"
               onClick={() => handleSelectMode('analog')}
               className={cx(
-                'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:cursor-not-allowed shrink-0',
+                'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed shrink-0',
                 activeMode === 'analog' ? 'prism-crystal' : 'opacity-70',
                 disabled ? 'opacity-50' : ''
               )}
@@ -621,7 +623,7 @@ export function VirtualJoystickPad({
               data-testid="joystick-mode-dpad"
               onClick={() => handleSelectMode('dpad')}
               className={cx(
-                'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:cursor-not-allowed shrink-0',
+                'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed shrink-0',
                 activeMode === 'dpad' ? 'prism-crystal' : 'opacity-70',
                 disabled ? 'opacity-50' : ''
               )}
@@ -647,7 +649,7 @@ export function VirtualJoystickPad({
               'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed shrink-0',
               disabled ? 'opacity-50' : ''
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -672,7 +674,7 @@ export function VirtualJoystickPad({
               'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed shrink-0',
               disabled || isCentered ? 'opacity-50' : ''
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Center</span>
@@ -964,7 +966,7 @@ export function VirtualJoystickPad({
                   : 'var(--prism-well-border)',
               }}
               className={cx(
-                'prism-focus-ring flex flex-col items-center justify-center rounded-2xl border transition-all cursor-pointer disabled:cursor-not-allowed',
+                'prism-focus-ring flex flex-col items-center justify-center rounded-2xl border transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed',
                 isDirActive('N') ? 'prism-well scale-95' : 'prism-crystal',
                 disabled ? 'opacity-50' : ''
               )}
@@ -994,7 +996,7 @@ export function VirtualJoystickPad({
                   : 'var(--prism-well-border)',
               }}
               className={cx(
-                'prism-focus-ring flex flex-col items-center justify-center rounded-2xl border transition-all cursor-pointer disabled:cursor-not-allowed',
+                'prism-focus-ring flex flex-col items-center justify-center rounded-2xl border transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed',
                 isDirActive('W') ? 'prism-well scale-95' : 'prism-crystal',
                 disabled ? 'opacity-50' : ''
               )}
@@ -1022,7 +1024,7 @@ export function VirtualJoystickPad({
                   : 'var(--prism-well-border)',
               }}
               className={cx(
-                'prism-focus-ring flex flex-col items-center justify-center rounded-full border transition-all cursor-pointer disabled:cursor-not-allowed',
+                'prism-focus-ring flex flex-col items-center justify-center rounded-full border transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed',
                 isDirActive('CENTER') ? 'prism-well scale-95' : 'prism-crystal',
                 disabled ? 'opacity-50' : ''
               )}
@@ -1049,7 +1051,7 @@ export function VirtualJoystickPad({
                   : 'var(--prism-well-border)',
               }}
               className={cx(
-                'prism-focus-ring flex flex-col items-center justify-center rounded-2xl border transition-all cursor-pointer disabled:cursor-not-allowed',
+                'prism-focus-ring flex flex-col items-center justify-center rounded-2xl border transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed',
                 isDirActive('E') ? 'prism-well scale-95' : 'prism-crystal',
                 disabled ? 'opacity-50' : ''
               )}
@@ -1079,7 +1081,7 @@ export function VirtualJoystickPad({
                   : 'var(--prism-well-border)',
               }}
               className={cx(
-                'prism-focus-ring flex flex-col items-center justify-center rounded-2xl border transition-all cursor-pointer disabled:cursor-not-allowed',
+                'prism-focus-ring flex flex-col items-center justify-center rounded-2xl border transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed',
                 isDirActive('S') ? 'prism-well scale-95' : 'prism-crystal',
                 disabled ? 'opacity-50' : ''
               )}
@@ -1101,14 +1103,14 @@ export function VirtualJoystickPad({
         <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             X
           </span>
           <span
             data-testid="joystick-readout-x"
             className="font-mono text-xs font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formattedX}
           </span>
@@ -1117,14 +1119,14 @@ export function VirtualJoystickPad({
         <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Y
           </span>
           <span
             data-testid="joystick-readout-y"
             className="font-mono text-xs font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formattedY}
           </span>
@@ -1133,14 +1135,14 @@ export function VirtualJoystickPad({
         <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             MAG
           </span>
           <span
             data-testid="joystick-readout-mag"
             className="font-mono text-xs font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formattedMagnitude}
           </span>
@@ -1149,14 +1151,14 @@ export function VirtualJoystickPad({
         <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             HDG
           </span>
           <span
             data-testid="joystick-readout-hdg"
             className="font-mono text-xs font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formattedHeading}
           </span>
@@ -1165,7 +1167,7 @@ export function VirtualJoystickPad({
         <div className="prism-well rounded-xl px-3 py-2 flex flex-col justify-center gap-0.5 min-w-0 col-span-2 sm:col-span-1">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             DIR
           </span>
@@ -1189,4 +1191,5 @@ export function VirtualJoystickPad({
   );
 }
 
+export const VirtualJoystickPad = memo(VirtualJoystickPadInner);
 VirtualJoystickPad.displayName = 'VirtualJoystickPad';

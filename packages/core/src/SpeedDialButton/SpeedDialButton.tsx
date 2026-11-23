@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -150,7 +151,7 @@ function getLabelPositionClass(direction: SpeedDialDirection): string {
   return 'bottom-full mb-2 left-1/2 -translate-x-1/2';
 }
 
-export function SpeedDialButton({
+function SpeedDialButtonInner({
   actions,
   open,
   defaultOpen = false,
@@ -384,4 +385,5 @@ export function SpeedDialButton({
   );
 }
 
+export const SpeedDialButton = memo(SpeedDialButtonInner);
 SpeedDialButton.displayName = 'SpeedDialButton';

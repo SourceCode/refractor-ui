@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RidgelineTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -269,7 +271,7 @@ function toSelection(row: ComputedRidgeRow): RidgelineSelection {
   };
 }
 
-export function RidgelinePlot({
+function RidgelinePlotInner({
   rows,
   overlap = 0.45,
   unit = '°C',
@@ -605,7 +607,7 @@ export function RidgelinePlot({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight min-w-0 break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -614,10 +616,10 @@ export function RidgelinePlot({
             <span
               data-testid="ridgeline-cohort-badge"
               className="prism-crystal inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span>{geometry.computedRows.length}</span>
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 {geometry.computedRows.length === 1 ? 'Cohort' : 'Cohorts'}
               </span>
             </span>
@@ -665,7 +667,7 @@ export function RidgelinePlot({
           role="status"
           data-testid="ridgeline-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No distribution cohorts to display.
         </div>
@@ -834,7 +836,7 @@ export function RidgelinePlot({
               inspectorClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 min-w-0 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {inspectedRow ? (
               <div className="inline-flex flex-wrap items-center gap-1.5 min-w-0">
@@ -844,39 +846,39 @@ export function RidgelinePlot({
                   style={{ backgroundColor: inspectedRow.color }}
                 />
                 <span className="font-semibold">{inspectedRow.label}</span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
                 <span className="font-mono font-semibold">
                   {`Mode/Peak ${formatMetric(inspectedRow.peakValue, unit)}`}
                 </span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
-                <span className="font-mono" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="font-mono" style={STYLE_TEXT_SECONDARY}>
                   {`Mean ${formatMetric(inspectedRow.mean, unit)}`}
                 </span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
-                <span className="font-mono" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="font-mono" style={STYLE_TEXT_SECONDARY}>
                   {`Median ${formatMetric(inspectedRow.median, unit)}`}
                 </span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
-                <span className="font-mono" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="font-mono" style={STYLE_TEXT_SECONDARY}>
                   {`Samples ${inspectedRow.count}`}
                 </span>
               </div>
             ) : (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select or focus any ridge to inspect Cohort · Mode/Peak · Mean · Median · Samples.
                 </span>
                 <span
                   className="font-mono font-medium shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`Domain: ${formatMetric(geometry.domainMin, unit)} – ${formatMetric(geometry.domainMax, unit)}`}
                 </span>
@@ -889,4 +891,5 @@ export function RidgelinePlot({
   );
 }
 
+export const RidgelinePlot = memo(RidgelinePlotInner);
 RidgelinePlot.displayName = 'RidgelinePlot';

@@ -169,6 +169,20 @@
 }
 
 @layer base {
+  :root {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+  }
+
+  .dark,
+  [data-color-mode="dark"] {
+    scrollbar-color: rgba(148, 163, 184, 0.32) transparent;
+  }
+
+  [data-refractor-theme-adaptive="true"] {
+    scrollbar-color: rgba(var(--prism-primary-rgb), 0.45) transparent;
+  }
+
   html {
     font-family: var(--prism-font-sans);
   }
@@ -177,7 +191,6 @@
     font-family: var(--prism-font-sans);
     letter-spacing: var(--prism-letter-spacing, normal);
     background: var(--prism-wallpaper);
-    background-attachment: fixed;
     color: var(--prism-text-primary);
   }
 
@@ -196,20 +209,6 @@
   pre,
   kbd {
     font-family: var(--prism-font-mono);
-  }
-
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
-  }
-
-  .dark *,
-  [data-color-mode="dark"] * {
-    scrollbar-color: rgba(148, 163, 184, 0.32) transparent;
-  }
-
-  [data-refractor-theme-adaptive="true"] * {
-    scrollbar-color: color-mix(in srgb, var(--prism-primary-main) 45%, transparent) transparent;
   }
 }
 
@@ -233,7 +232,6 @@
 [data-refractor-theme-adaptive="true"] .prism-studio-surface,
 .prism-studio-surface[data-refractor-theme-adaptive="true"] {
   background: var(--prism-wallpaper);
-  background-attachment: fixed;
 }
 
 .prism-studio-grid {
@@ -256,21 +254,20 @@
 /* 1. Primary Action Button (Token-Driven Refractive Glass Capsule) */
 .prism-btn-primary {
   position: relative;
+  contain: layout style;
   border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   color: var(--prism-primary-contrast);
   text-shadow: 0 1px 1px rgba(var(--prism-primary-dark-rgb), 0.38);
   background:
     radial-gradient(96% 52% at 50% 9%, rgba(255, 255, 255, calc(0.56 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.14) 42%, rgba(255, 255, 255, 0) 64%),
-    radial-gradient(85% 65% at 68% 96%, rgba(var(--prism-primary-light-rgb), 0.88) 0%, rgba(var(--prism-primary-light-rgb), 0) 72%),
     linear-gradient(180deg, var(--prism-primary-dark) 0%, var(--prism-primary-main) 52%, var(--prism-primary-light) 100%);
   box-shadow:
     inset 0 2px 1.5px rgba(255, 255, 255, calc(0.88 * var(--prism-specular-opacity))),
     inset 0 -3px 5px rgba(var(--prism-primary-dark-rgb), 0.42),
     inset 0 0 0 1.5px rgba(255, 238, 220, 0.54),
-    0 1px 0 rgba(255, 255, 255, 0.65),
-    0 12px 22px -6px rgba(var(--prism-primary-rgb), 0.46),
-    8px 12px 18px -6px rgba(var(--prism-primary-light-rgb), calc(0.48 * var(--prism-caustic-opacity)));
-  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized), filter var(--prism-motion-fast) var(--prism-easing-emphasized);
+    0 10px 20px -6px rgba(var(--prism-primary-rgb), 0.46),
+    6px 10px 16px -6px rgba(var(--prism-primary-light-rgb), calc(0.44 * var(--prism-caustic-opacity)));
+  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized);
 }
 
 .prism-btn-primary::before {
@@ -281,11 +278,15 @@
   border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   background: linear-gradient(180deg, rgba(255, 255, 255, calc(0.52 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.04) 100%);
   pointer-events: none;
+  transition: opacity var(--prism-motion-fast) var(--prism-easing-emphasized);
 }
 
 .prism-btn-primary:hover:not(:disabled) {
   transform: translateY(-1px);
-  filter: brightness(1.04);
+}
+
+.prism-btn-primary:hover:not(:disabled)::before {
+  opacity: 1.15;
 }
 
 .prism-btn-primary:active:not(:disabled) {
@@ -295,40 +296,36 @@
 /* 2. Secondary Action Button (Cool Crystal Refractive Glass) */
 .prism-btn-secondary {
   position: relative;
+  contain: layout style;
   border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   color: var(--prism-text-primary);
   background:
     radial-gradient(92% 50% at 46% 9%, rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.38) 44%, rgba(255, 255, 255, 0) 68%),
-    radial-gradient(82% 65% at 70% 96%, rgba(var(--prism-secondary-light-rgb), 0.78) 0%, rgba(var(--prism-secondary-light-rgb), 0) 72%),
-    linear-gradient(180deg, rgba(232, 241, 252, 0.88) 0%, rgba(206, 226, 246, 0.76) 64%, rgba(var(--prism-secondary-light-rgb), 0.32) 100%);
+    linear-gradient(180deg, rgba(232, 241, 252, 0.9) 0%, rgba(206, 226, 246, 0.8) 64%, rgba(var(--prism-secondary-light-rgb), 0.34) 100%);
   backdrop-filter: blur(var(--prism-blur-px)) saturate(170%);
   box-shadow:
     0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.34),
-    inset 0 2.5px 1.5px rgba(255, 255, 255, calc(0.98 * var(--prism-specular-opacity))),
-    inset 0 -3px 6px rgba(var(--prism-secondary-dark-rgb), 0.28),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.78),
-    0 12px 22px -6px rgba(28, 52, 88, 0.26),
-    7px 11px 16px -5px rgba(var(--prism-secondary-rgb), calc(0.42 * var(--prism-caustic-opacity)));
-  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized), filter var(--prism-motion-fast) var(--prism-easing-emphasized);
+    inset 0 2px 1.5px rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))),
+    inset 0 -2.5px 5px rgba(var(--prism-secondary-dark-rgb), 0.26),
+    0 10px 20px -6px rgba(28, 52, 88, 0.24),
+    6px 9px 14px -5px rgba(var(--prism-secondary-rgb), calc(0.38 * var(--prism-caustic-opacity)));
+  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized);
 }
 
 .dark .prism-btn-secondary,
 [data-color-mode="dark"] .prism-btn-secondary {
   color: var(--prism-text-primary);
   background:
-    radial-gradient(95% 54% at 48% 10%, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 62%),
-    radial-gradient(80% 65% at 68% 95%, rgba(var(--prism-secondary-rgb), 0.34) 0%, rgba(var(--prism-secondary-rgb), 0) 72%),
-    linear-gradient(180deg, rgba(38, 52, 74, 0.86) 0%, rgba(24, 35, 52, 0.84) 100%);
+    radial-gradient(95% 54% at 48% 10%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0) 62%),
+    linear-gradient(180deg, rgba(38, 52, 74, 0.9) 0%, rgba(24, 35, 52, 0.88) 100%);
   box-shadow:
-    inset 0 1.5px 1px rgba(255, 255, 255, 0.35),
-    inset 0 -2px 5px rgba(var(--prism-secondary-rgb), 0.22),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.32),
     inset 0 0 0 1px rgba(148, 163, 184, 0.3),
-    0 10px 20px -6px rgba(0, 0, 0, 0.55);
+    0 8px 18px -6px rgba(0, 0, 0, 0.52);
 }
 
 .prism-btn-secondary:hover:not(:disabled) {
   transform: translateY(-1px);
-  filter: brightness(1.02);
 }
 
 .prism-btn-secondary:active:not(:disabled) {
@@ -338,63 +335,56 @@
 /* 3. Cobalt / Info Refractive CTA */
 .prism-btn-cobalt {
   position: relative;
+  contain: layout style;
   border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
   color: var(--prism-info-contrast);
   text-shadow: 0 1px 1px rgba(var(--prism-info-dark-rgb), 0.45);
   background:
     radial-gradient(85% 55% at 24% 16%, rgba(var(--prism-info-light-rgb), 0.78) 0%, rgba(var(--prism-info-light-rgb), 0.18) 45%, transparent 70%),
-    radial-gradient(80% 60% at 76% 96%, rgba(var(--prism-info-light-rgb), 0.82) 0%, transparent 70%),
     linear-gradient(135deg, var(--prism-info-light) 0%, var(--prism-info-main) 48%, var(--prism-info-dark) 82%, var(--prism-info-main) 100%);
   box-shadow:
     0 0 0 1px rgba(var(--prism-info-rgb), 0.35),
     inset 0 2px 1.5px rgba(224, 242, 254, calc(0.9 * var(--prism-specular-opacity))),
     inset 0 -3px 5px rgba(var(--prism-info-dark-rgb), 0.5),
-    inset 0 0 0 1.5px rgba(186, 230, 253, 0.58),
-    0 11px 20px -5px rgba(var(--prism-info-rgb), 0.46),
-    6px 10px 16px -4px rgba(var(--prism-info-light-rgb), calc(0.46 * var(--prism-caustic-opacity)));
-  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized), filter var(--prism-motion-fast) var(--prism-easing-emphasized);
+    0 10px 18px -5px rgba(var(--prism-info-rgb), 0.44),
+    5px 9px 14px -4px rgba(var(--prism-info-light-rgb), calc(0.42 * var(--prism-caustic-opacity)));
+  transition: transform var(--prism-motion-fast) var(--prism-easing-emphasized);
 }
 
 .prism-btn-cobalt:hover:not(:disabled) {
   transform: translateY(-1px);
-  filter: brightness(1.05);
 }
 
 /* 4. Clear Optical Crystal Shell */
 .prism-crystal {
   position: relative;
+  contain: style;
   background:
-    radial-gradient(92% 55% at 26% 8%, rgba(255, 255, 255, calc(0.95 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.34) 42%, rgba(255, 255, 255, 0) 68%),
-    radial-gradient(48% 58% at 95% 92%, rgba(var(--prism-caustic-warm-rgb), calc(0.38 * var(--prism-caustic-opacity))) 0%, transparent 70%),
-    radial-gradient(52% 58% at 80% 96%, rgba(var(--prism-caustic-cool-rgb), calc(0.38 * var(--prism-caustic-opacity))) 0%, transparent 72%),
+    radial-gradient(92% 55% at 26% 8%, rgba(255, 255, 255, calc(0.92 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.32) 42%, rgba(255, 255, 255, 0) 68%),
     linear-gradient(180deg, var(--prism-crystal-top) 0%, var(--prism-crystal-mid) 62%, var(--prism-crystal-bottom) 100%);
   backdrop-filter: blur(var(--prism-blur-px)) saturate(170%);
   box-shadow:
     0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.34),
-    inset 0 2px 1.5px rgba(255, 255, 255, calc(0.98 * var(--prism-specular-opacity))),
-    inset 0 -2.5px 4px rgba(30, 41, 59, 0.13),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.8),
-    0 12px 24px -6px rgba(30, 41, 59, 0.22),
-    9px 12px 18px -6px rgba(var(--prism-caustic-warm-rgb), calc(0.42 * var(--prism-caustic-opacity))),
-    -3px 10px 16px -8px rgba(var(--prism-caustic-cool-rgb), calc(0.28 * var(--prism-caustic-opacity)));
+    inset 0 2px 1.5px rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))),
+    inset 0 -2px 4px rgba(30, 41, 59, 0.12),
+    0 10px 22px -6px rgba(30, 41, 59, 0.2),
+    7px 10px 16px -6px rgba(var(--prism-caustic-warm-rgb), calc(0.38 * var(--prism-caustic-opacity)));
 }
 
 .dark .prism-crystal,
 [data-color-mode="dark"] .prism-crystal {
   background:
-    radial-gradient(90% 55% at 28% 8%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 62%),
-    radial-gradient(50% 60% at 94% 92%, rgba(var(--prism-caustic-warm-rgb), calc(0.18 * var(--prism-caustic-opacity))) 0%, transparent 70%),
-    radial-gradient(55% 60% at 80% 96%, rgba(var(--prism-caustic-cool-rgb), calc(0.22 * var(--prism-caustic-opacity))) 0%, transparent 72%),
+    radial-gradient(90% 55% at 28% 8%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 62%),
     linear-gradient(180deg, var(--prism-crystal-top) 0%, var(--prism-crystal-bottom) 100%);
   box-shadow:
-    inset 0 1.5px 1px rgba(255, 255, 255, 0.28),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.45),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.26),
     inset 0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.26),
-    0 12px 26px -7px rgba(0, 0, 0, 0.6);
+    0 10px 22px -7px rgba(0, 0, 0, 0.56);
 }
 
 /* 5. Recessed Frosted Input Well inside Crystal Bezel */
 .prism-well {
+  contain: style;
   background: linear-gradient(180deg, var(--prism-well-start) 0%, var(--prism-well-end) 100%);
   box-shadow:
     inset 0 2px 4px rgba(15, 23, 42, 0.07),
@@ -411,31 +401,32 @@
 
 /* 6. Translucent Seafoam-Emerald Glass */
 .prism-emerald {
+  contain: layout style;
   color: var(--prism-success-contrast);
   background:
     radial-gradient(95% 58% at 32% 12%, rgba(255, 255, 255, calc(0.68 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.14) 48%, transparent 70%),
     linear-gradient(145deg, var(--prism-success-dark) 0%, var(--prism-success-main) 54%, var(--prism-success-light) 100%);
   box-shadow:
-    0 0 0 1.5px rgba(255, 255, 255, 0.82),
-    0 0 0 2.5px rgba(var(--prism-crystal-border-rgb), 0.28),
-    inset 0 2px 1.5px rgba(255, 255, 255, 0.82),
-    inset 0 -2.5px 4px rgba(var(--prism-success-dark-rgb), 0.42),
-    0 8px 16px -4px rgba(var(--prism-success-rgb), 0.42);
+    0 0 0 1.5px rgba(255, 255, 255, 0.8),
+    inset 0 2px 1.5px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 4px rgba(var(--prism-success-dark-rgb), 0.4),
+    0 8px 16px -4px rgba(var(--prism-success-rgb), 0.4);
 }
 
 /* 7. Porcelain 3D Switch Thumb */
 .prism-thumb {
+  contain: layout style;
   background: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
   box-shadow:
     inset 0 1.5px 1px #ffffff,
     inset 0 -1.5px 2px rgba(148, 163, 184, 0.35),
-    0 3px 8px rgba(15, 23, 42, 0.24),
-    0 1px 2px rgba(15, 23, 42, 0.14);
+    0 3px 8px rgba(15, 23, 42, 0.24);
 }
 
 /* 8. Toast Pill with Inner Warm Amber Hairline Ring */
 .prism-toast {
   position: relative;
+  contain: layout style;
   border-radius: var(--prism-radius-btn, var(--prism-radius-pill));
 }
 
@@ -451,6 +442,7 @@
 /* 9. Thick Optical Slab Card */
 .prism-slab {
   position: relative;
+  contain: style;
   border-radius: var(--prism-radius-slab);
   background:
     linear-gradient(128deg, rgba(255, 255, 255, calc(0.84 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.32) 32%, rgba(255, 255, 255, 0.08) 46%, rgba(var(--prism-caustic-cool-rgb), 0.18) 82%, rgba(var(--prism-caustic-warm-rgb), 0.24) 100%),
@@ -458,12 +450,10 @@
   backdrop-filter: blur(var(--prism-slab-blur-px)) saturate(175%);
   box-shadow:
     0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.32),
-    inset 0 2.5px 2px rgba(255, 255, 255, calc(0.98 * var(--prism-specular-opacity))),
-    inset 0 -3px 6px rgba(var(--prism-caustic-cool-rgb), 0.18),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.8),
-    0 18px 32px -10px rgba(30, 41, 59, 0.24),
-    10px 14px 22px -9px rgba(var(--prism-caustic-warm-rgb), calc(0.4 * var(--prism-caustic-opacity))),
-    -6px 12px 20px -10px rgba(var(--prism-caustic-cool-rgb), calc(0.28 * var(--prism-caustic-opacity)));
+    inset 0 2px 2px rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))),
+    inset 0 -2.5px 5px rgba(var(--prism-caustic-cool-rgb), 0.16),
+    0 16px 30px -10px rgba(30, 41, 59, 0.22),
+    8px 12px 20px -9px rgba(var(--prism-caustic-warm-rgb), calc(0.36 * var(--prism-caustic-opacity)));
 }
 
 .dark .prism-slab,
@@ -472,10 +462,9 @@
     linear-gradient(128deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(var(--prism-caustic-cool-rgb), 0.08) 84%, rgba(var(--prism-caustic-warm-rgb), 0.1) 100%),
     linear-gradient(180deg, var(--prism-slab-top) 0%, var(--prism-slab-bottom) 100%);
   box-shadow:
-    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.25),
-    inset 0 -2px 5px rgba(var(--prism-caustic-cool-rgb), 0.12),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.24),
     inset 0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.24),
-    0 18px 36px -10px rgba(0, 0, 0, 0.65);
+    0 16px 32px -10px rgba(0, 0, 0, 0.62);
 }
 
 /* ============================================================================
@@ -1006,6 +995,7 @@
   inset: 0;
   pointer-events: none;
   z-index: -1;
+  contain: strict;
   opacity: var(--prism-fx-opacity, 0.14);
 }
 
@@ -1017,6 +1007,7 @@
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
+  contain: strict;
   opacity: var(--prism-fx-opacity, 0.14);
 }
 
@@ -1106,6 +1097,101 @@
   );
 }
 
+/* ============================================================================
+ * GPU COMPOSITOR, NESTED BLUR ELISION, CONTAINMENT & PERFORMANCE TIERS
+ * Eliminates multi-pass nested backdrop-filter framebuffer stalls in full
+ * enterprise applications (dashboards, backlogs, tables, multi-panel decks).
+ * ============================================================================ */
+
+/* 1. Automatic Nested & Micro-Surface Backdrop-Filter Elision (Depth >= 2) */
+.prism-slab :is(.prism-crystal, .prism-btn-secondary, .prism-slab),
+.prism-crystal :is(.prism-crystal, .prism-btn-secondary),
+.prism-well :is(.prism-crystal, .prism-btn-secondary),
+:root :is(table, tbody, thead, tr, td, th, [role="grid"], [role="table"], [role="row"], [role="list"], [role="listitem"]) :is(.prism-crystal, .prism-btn-secondary),
+:root :is(span, kbd, code, small, time).prism-crystal {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* 2. Lightweight GPU Scrim for Modals, Drawers, & Overlays */
+.prism-backdrop-scrim {
+  background: rgba(15, 23, 42, 0.36);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  contain: layout style paint;
+}
+
+/* 3. Overflow-Safe CSS Containment & Content-Visibility Utilities */
+.prism-contain-style {
+  contain: style;
+}
+
+.prism-contain-leaf {
+  contain: layout style;
+}
+
+.prism-contain-box {
+  contain: layout style paint;
+}
+
+.prism-cv-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 44px;
+}
+
+.prism-cv-item {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 56px;
+}
+
+.prism-cv-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 180px;
+}
+
+/* Automatic offscreen row paint skipping on Refractor tabular & feed surfaces */
+:is(
+  .refractor-data-table,
+  .refractor-advanced-data-grid,
+  .refractor-pivot-table,
+  .refractor-formula-spreadsheet-grid,
+  .refractor-task-manager-dialog
+) tbody > tr {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 44px;
+}
+
+/* 4. Three-Tier GPU Performance Modes ([data-refractor-performance="..."]) */
+[data-refractor-performance="high"] {
+  --prism-blur-px: 8px;
+  --prism-slab-blur-px: 10px;
+  --prism-caustic-opacity: 0.45;
+}
+
+[data-refractor-performance="high"] .prism-backdrop-scrim {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+[data-refractor-performance="max"] {
+  --prism-blur-px: 0px;
+  --prism-slab-blur-px: 0px;
+  --prism-caustic-opacity: 0;
+  --prism-fx-opacity: 0;
+}
+
+[data-refractor-performance="max"] :is(.prism-slab, .prism-crystal, .prism-btn-secondary, .prism-backdrop-scrim),
+[data-refractor-performance="max"][data-refractor-material] :is(.prism-slab, .prism-crystal, .prism-btn-secondary, .prism-backdrop-scrim) {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+[data-refractor-performance="max"] body::before,
+[data-refractor-performance="max"] .prism-studio-surface::before,
+[data-refractor-performance="max"] .prism-theme-fx-layer {
+  display: none;
+}
+
 /* Keep foreground interactive shell strictly above backdrop FX overlays */
 .prism-studio-surface > * {
   position: relative;
@@ -1114,6 +1200,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .prism-btn-primary,
+  .prism-btn-primary::before,
   .prism-btn-secondary,
   .prism-btn-cobalt {
     transition: none;

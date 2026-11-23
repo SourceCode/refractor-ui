@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +29,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_WARNING, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CaptureTargetMode = 'fullscreen' | 'window' | 'region';
@@ -165,7 +167,7 @@ function formatRecordingClock(totalSeconds: number): string {
   return `${mins}:${secs}`;
 }
 
-export function ScreenCaptureHud({
+function ScreenCaptureHudInner({
   defaultTarget = 'fullscreen',
   defaultOutput = 'screenshot',
   defaultDelaySeconds = 0,
@@ -517,7 +519,7 @@ export function ScreenCaptureHud({
                 onClick={() => handleSelectTarget(option.mode)}
                 onKeyDown={(event) => handleTargetKeyDown(event, option.mode)}
                 className={cx(
-                  'prism-focus-ring rounded-xl px-2.5 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
+                  'prism-focus-ring rounded-xl px-2.5 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
                   isSelected ? 'prism-crystal' : ''
                 )}
                 style={
@@ -559,7 +561,7 @@ export function ScreenCaptureHud({
             onClick={() => handleSelectOutput('screenshot')}
             onKeyDown={handleImeSafeKeyDown}
             className={cx(
-              'prism-focus-ring rounded-xl px-2.5 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
+              'prism-focus-ring rounded-xl px-2.5 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
               output === 'screenshot' ? 'prism-crystal' : ''
             )}
             style={
@@ -586,7 +588,7 @@ export function ScreenCaptureHud({
             onClick={() => handleSelectOutput('recording')}
             onKeyDown={handleImeSafeKeyDown}
             className={cx(
-              'prism-focus-ring rounded-xl px-2.5 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
+              'prism-focus-ring rounded-xl px-2.5 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
               output === 'recording' ? 'prism-crystal' : ''
             )}
             style={
@@ -616,12 +618,12 @@ export function ScreenCaptureHud({
             <Timer
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <label
               htmlFor={timerSelectId}
               className="text-[11px] font-semibold whitespace-nowrap"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Timer
             </label>
@@ -634,7 +636,7 @@ export function ScreenCaptureHud({
               onChange={handleDelayChange}
               onKeyDown={handleImeSafeKeyDown}
               className="prism-focus-ring bg-transparent text-xs font-mono font-semibold tabular-nums rounded-md py-0.5 pr-1 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <option value="0" style={SELECT_OPTION_STYLE}>
                 No Delay
@@ -656,12 +658,12 @@ export function ScreenCaptureHud({
             <Folder
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <label
               htmlFor={saveSelectId}
               className="text-[11px] font-semibold whitespace-nowrap"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Save to
             </label>
@@ -674,7 +676,7 @@ export function ScreenCaptureHud({
               onChange={handleSaveLocationChange}
               onKeyDown={handleImeSafeKeyDown}
               className="prism-focus-ring bg-transparent text-xs font-semibold rounded-md py-0.5 pr-1 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <option value="desktop" style={SELECT_OPTION_STYLE}>
                 Desktop
@@ -760,12 +762,12 @@ export function ScreenCaptureHud({
               <span
                 data-testid="screen-capture-countdown"
                 className="prism-well rounded-full px-3 py-1.5 inline-flex items-center gap-2 font-mono text-xs font-semibold tabular-nums whitespace-nowrap"
-                style={{ color: 'var(--prism-warning-main)' }}
+                style={STYLE_WARNING_MAIN}
               >
                 <span
                   aria-hidden="true"
-                  className="w-2 h-2 rounded-full animate-pulse shrink-0"
-                  style={{ backgroundColor: 'var(--prism-warning-main)' }}
+                  className="w-2 h-2 rounded-full animate-pulse motion-reduce:animate-none shrink-0"
+                  style={STYLE_BG_WARNING}
                 />
                 <span>Capturing in {countdownRemaining}s…</span>
               </span>
@@ -777,7 +779,7 @@ export function ScreenCaptureHud({
                 onClick={handleCancelCountdown}
                 onKeyDown={handleImeSafeKeyDown}
                 className="prism-crystal prism-focus-ring rounded-full px-3 py-1.5 inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Cancel
               </button>
@@ -798,7 +800,7 @@ export function ScreenCaptureHud({
                 <span
                   aria-hidden="true"
                   data-testid="screen-capture-rec-dot"
-                  className="w-2.5 h-2.5 rounded-full animate-pulse shrink-0"
+                  className="w-2.5 h-2.5 rounded-full animate-pulse motion-reduce:animate-none shrink-0"
                   style={{
                     backgroundColor: 'var(--prism-error-main)',
                     boxShadow: '0 0 8px var(--prism-error-main)',
@@ -839,7 +841,7 @@ export function ScreenCaptureHud({
               }}
               onKeyDown={handleImeSafeKeyDown}
               className="prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -871,7 +873,7 @@ export function ScreenCaptureHud({
         <span
           data-testid="screen-capture-telemetry"
           className="font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {telemetrySummary}
         </span>
@@ -880,4 +882,5 @@ export function ScreenCaptureHud({
   );
 }
 
+export const ScreenCaptureHud = memo(ScreenCaptureHudInner);
 ScreenCaptureHud.displayName = 'ScreenCaptureHud';

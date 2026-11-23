@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, type ReactNode } from 'react';
+import { memo, useId, type ReactNode } from 'react';
 import {
   AlertCircle,
   CheckCircle2,
@@ -18,6 +18,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ToolCallCategory = 'search' | 'terminal' | 'file' | 'database' | 'api' | 'browser';
@@ -146,7 +147,7 @@ function renderStatusPill(status: ToolCallStatus): ReactNode {
         >
           <Loader2
             aria-hidden="true"
-            className="w-3 h-3 animate-spin animate-pulse shrink-0"
+            className="w-3 h-3 animate-spin motion-reduce:animate-none animate-pulse shrink-0"
           />
           <span>Running</span>
         </span>
@@ -193,7 +194,7 @@ function PayloadBlock({ heading, fields, testId }: PayloadBlockProps) {
     <div data-testid={testId} className="prism-well rounded-2xl p-3 space-y-2">
       <div
         className="text-[11px] font-semibold uppercase tracking-wider"
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         {heading}
       </div>
@@ -202,17 +203,17 @@ function PayloadBlock({ heading, fields, testId }: PayloadBlockProps) {
           <div
             key={reactKey}
             className="grid grid-cols-1 sm:grid-cols-[minmax(100px,auto)_1fr] gap-x-3 gap-y-0.5 items-baseline border-b last:border-b-0 pb-1.5 last:pb-0"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <dt
               className="font-semibold break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {field.key}
             </dt>
             <dd
               className="break-words whitespace-pre-wrap"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {field.value}
             </dd>
@@ -223,7 +224,7 @@ function PayloadBlock({ heading, fields, testId }: PayloadBlockProps) {
   );
 }
 
-export function ToolCallCard({
+function ToolCallCardInner({
   toolName,
   category = 'api',
   status,
@@ -288,7 +289,7 @@ export function ToolCallCard({
         onClick={() => setIsExpanded((prev) => !prev)}
         className={cx(
           triggerClass,
-          'prism-focus-ring w-full px-4 py-3 flex items-center justify-between gap-3 text-left cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all'
+          'prism-focus-ring w-full px-4 py-3 flex items-center justify-between gap-3 text-left cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
         )}
       >
         <span className="min-w-0 flex items-center gap-2.5 flex-1">
@@ -306,7 +307,7 @@ export function ToolCallCard({
             <code
               data-testid="tool-call-name"
               className="font-mono text-xs font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {toolName}
             </code>
@@ -314,7 +315,7 @@ export function ToolCallCard({
               <span
                 data-testid="tool-call-summary"
                 className="text-xs truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {summary}
               </span>
@@ -329,7 +330,7 @@ export function ToolCallCard({
             <span
               data-testid="tool-call-duration"
               className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {formattedDuration}
             </span>
@@ -342,7 +343,7 @@ export function ToolCallCard({
               'w-4 h-4 shrink-0 transition-transform duration-150',
               isExpanded && 'rotate-180'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
         </span>
       </button>
@@ -353,14 +354,14 @@ export function ToolCallCard({
           role="region"
           aria-labelledby={triggerId}
           className={cx(panelClass, 'px-4 pb-4 pt-3 border-t space-y-2.5')}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           {!hasPayload ? (
             <div
               data-testid="tool-call-empty"
               className="prism-well rounded-2xl py-4 px-3 text-center"
             >
-              <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+              <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
                 No payload details recorded.
               </p>
             </div>
@@ -384,18 +385,18 @@ export function ToolCallCard({
                   <AlertCircle
                     aria-hidden="true"
                     className="w-4 h-4 mt-0.5 shrink-0"
-                    style={{ color: 'var(--prism-error-main)' }}
+                    style={STYLE_ERROR_MAIN}
                   />
                   <div className="min-w-0 flex-1 space-y-0.5">
                     <div
                       className="text-[11px] font-semibold uppercase tracking-wider"
-                      style={{ color: 'var(--prism-error-main)' }}
+                      style={STYLE_ERROR_MAIN}
                     >
                       Error
                     </div>
                     <p
                       className="font-mono text-xs leading-relaxed break-words whitespace-pre-wrap"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {normalizedError}
                     </p>
@@ -410,4 +411,5 @@ export function ToolCallCard({
   );
 }
 
+export const ToolCallCard = memo(ToolCallCardInner);
 ToolCallCard.displayName = 'ToolCallCard';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -21,11 +22,13 @@ import {
   X,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { isDocumentVisible } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SystemAboutMode = 'inline' | 'modal';
@@ -423,7 +426,7 @@ function OpticalPrismEmblem({ svgPrefix, className }: OpticalPrismEmblemProps) {
   );
 }
 
-export function SystemAboutCard({
+function SystemAboutCardInner({
   mode = 'inline',
   open = true,
   info = DEFAULT_SYSTEM_ABOUT_INFO,
@@ -495,6 +498,7 @@ export function SystemAboutCard({
     }
 
     const intervalId = window.setInterval(() => {
+      if (!isDocumentVisible()) return;
       setUptimeOffset((prev) => prev + 1);
     }, 1000);
 
@@ -704,7 +708,7 @@ export function SystemAboutCard({
                 id={titleId}
                 data-testid="system-about-os-name"
                 className="m-0 text-lg font-bold tracking-tight truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {info.osName}
               </h2>
@@ -712,7 +716,7 @@ export function SystemAboutCard({
                 <span
                   data-testid="system-about-codename"
                   className="text-xs font-medium truncate"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {trimmedCodename}
                 </span>
@@ -723,7 +727,7 @@ export function SystemAboutCard({
               <span
                 data-testid="system-about-version-badge"
                 className="prism-well inline-flex items-center px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tracking-tight whitespace-nowrap"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               >
                 {versionBadgeText}
               </span>
@@ -732,7 +736,7 @@ export function SystemAboutCard({
                 data-testid="system-about-uptime"
                 data-live={liveUptime ? 'true' : 'false'}
                 className="prism-well inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums whitespace-nowrap"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <Clock
                   aria-hidden="true"
@@ -757,7 +761,7 @@ export function SystemAboutCard({
             data-testid="system-about-close"
             onClick={handleClose}
             onKeyDown={handleButtonKeyDown}
-            className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <X aria-hidden="true" className="w-4 h-4 shrink-0" />
           </button>
@@ -772,7 +776,7 @@ export function SystemAboutCard({
             specsClass,
             'prism-well m-0 rounded-2xl px-4 py-3 flex flex-col divide-y min-w-0'
           )}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           {info.specs.map((spec) => {
             const isSensitive = Boolean(spec.sensitive);
@@ -787,11 +791,11 @@ export function SystemAboutCard({
                 key={spec.id}
                 data-testid={`system-about-spec-${spec.id}`}
                 className="py-2 first:pt-0.5 last:pb-0.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 min-w-0"
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 <dt
                   className="text-xs font-semibold shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {spec.label}
                 </dt>
@@ -803,7 +807,7 @@ export function SystemAboutCard({
                       'text-xs font-medium break-words min-w-0',
                       isSensitive ? 'font-mono tabular-nums tracking-wide' : ''
                     )}
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {displayedValue}
                   </span>
@@ -819,8 +823,8 @@ export function SystemAboutCard({
                       data-testid={`system-about-reveal-${spec.id}`}
                       onClick={() => handleToggleReveal(spec)}
                       onKeyDown={handleButtonKeyDown}
-                      className="prism-crystal prism-focus-ring inline-flex items-center gap-1 h-6 px-2 rounded-full text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      className="prism-crystal prism-focus-ring inline-flex items-center gap-1 h-6 px-2 rounded-full text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {isRevealed ? (
                         <>
@@ -861,7 +865,7 @@ export function SystemAboutCard({
               <span
                 data-testid="system-about-storage-label"
                 className="text-xs font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {normalizedStorage.label}
               </span>
@@ -869,7 +873,7 @@ export function SystemAboutCard({
             <span
               data-testid="system-about-storage-readout"
               className="font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {normalizedStorage.usedGb} / {normalizedStorage.totalGb} GB ({normalizedStorage.pct}%)
             </span>
@@ -892,7 +896,7 @@ export function SystemAboutCard({
           >
             <div
               data-testid="system-about-storage-fill"
-              className="h-full rounded-full transition-all duration-300"
+              className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-300"
               style={{
                 width: `${normalizedStorage.pct}%`,
                 backgroundColor: normalizedStorage.toneVar,
@@ -924,7 +928,7 @@ export function SystemAboutCard({
                 <Check
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0 relative z-10"
-                  style={{ color: 'var(--prism-success-main)' }}
+                  style={STYLE_SUCCESS_MAIN}
                 />
                 <span className="relative z-10">Copied</span>
               </>
@@ -952,7 +956,7 @@ export function SystemAboutCard({
               aria-hidden="true"
               className={cx(
                 'w-3.5 h-3.5 shrink-0 relative z-10',
-                updateState === 'checking' ? 'animate-spin' : ''
+                updateState === 'checking' ? 'animate-spin motion-reduce:animate-none' : ''
               )}
             />
             <span className="relative z-10">Software Update…</span>
@@ -1003,7 +1007,7 @@ export function SystemAboutCard({
                       data-testid={`system-about-link-blocked-${link.id}`}
                       data-sanitized="blocked"
                       className="text-xs font-medium line-through opacity-60 select-none"
-                      style={{ color: 'var(--prism-text-disabled)' }}
+                      style={STYLE_TEXT_DISABLED}
                     >
                       {link.label}
                     </span>
@@ -1017,7 +1021,7 @@ export function SystemAboutCard({
                       aria-disabled="true"
                       data-testid={`system-about-link-disabled-${link.id}`}
                       className="text-xs font-medium opacity-55 cursor-not-allowed"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {link.label}
                     </span>
@@ -1036,7 +1040,7 @@ export function SystemAboutCard({
                     rel={isExternalHttp ? 'noopener noreferrer' : undefined}
                     data-testid={`system-about-link-${link.id}`}
                     className="prism-focus-ring inline-flex items-center gap-1 rounded text-xs font-semibold hover:underline transition-colors"
-                    style={{ color: 'var(--prism-info-main)' }}
+                    style={STYLE_INFO_MAIN}
                   >
                     <span>{link.label}</span>
                     {isExternalHttp ? (
@@ -1052,7 +1056,7 @@ export function SystemAboutCard({
             <p
               data-testid="system-about-copyright"
               className="m-0 text-[11px] leading-snug"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {trimmedCopyright}
             </p>
@@ -1109,4 +1113,5 @@ export function SystemAboutCard({
   );
 }
 
+export const SystemAboutCard = memo(SystemAboutCardInner);
 SystemAboutCard.displayName = 'SystemAboutCard';

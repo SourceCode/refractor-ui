@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type FunnelTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -128,7 +130,7 @@ function formatDropoffBadge(dropoffPct: number): string {
   return '0% drop';
 }
 
-export function FunnelChart({
+function FunnelChartInner({
   stages,
   title = 'Conversion Funnel',
   showDropoff = true,
@@ -260,7 +262,7 @@ export function FunnelChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -269,7 +271,7 @@ export function FunnelChart({
           <span
             data-testid="funnel-overall-badge"
             className="prism-crystal px-2.5 py-1 rounded-full text-xs font-mono font-medium tabular-nums"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {`${formatNumeric(finalConversionPct)}% end-to-end`}
           </span>
@@ -281,7 +283,7 @@ export function FunnelChart({
           role="status"
           data-testid="funnel-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No funnel stages to display.
         </div>
@@ -299,18 +301,18 @@ export function FunnelChart({
                     <span
                       aria-hidden="true"
                       className="h-px flex-1 max-w-[72px]"
-                      style={{ backgroundColor: 'var(--prism-divider)' }}
+                      style={STYLE_BG_DIVIDER}
                     />
                     <span
                       className="prism-well px-2.5 py-0.5 rounded-full text-[11px] font-mono tabular-nums"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {formatDropoffBadge(item.dropoffPct)}
                     </span>
                     <span
                       aria-hidden="true"
                       className="h-px flex-1 max-w-[72px]"
-                      style={{ backgroundColor: 'var(--prism-divider)' }}
+                      style={STYLE_BG_DIVIDER}
                     />
                   </div>
                 ) : null}
@@ -324,7 +326,7 @@ export function FunnelChart({
                   onClick={() => handleSelectStage(item)}
                   onKeyDown={handleStageKeyDown(item)}
                   className={cx(
-                    'prism-focus-ring w-full rounded-2xl p-2.5 text-left cursor-pointer transition-all duration-150 space-y-2',
+                    'prism-focus-ring w-full rounded-2xl p-2.5 text-left cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150 space-y-2',
                     isSelected ? 'prism-crystal' : 'prism-well opacity-95 hover:opacity-100'
                   )}
                   style={{
@@ -336,7 +338,7 @@ export function FunnelChart({
                   <div className="flex flex-wrap items-center justify-between gap-2 px-1 text-xs">
                     <span
                       className="inline-flex items-center gap-2 font-medium min-w-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       <span
                         aria-hidden="true"
@@ -347,9 +349,9 @@ export function FunnelChart({
                     </span>
                     <span
                       className="inline-flex items-center gap-2 font-mono tabular-nums shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
-                      <span className="font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+                      <span className="font-semibold" style={STYLE_TEXT_PRIMARY}>
                         {formatMetric(item.value, valueUnit)}
                       </span>
                       <span>{`${formatNumeric(item.overallPct)}%`}</span>
@@ -360,7 +362,7 @@ export function FunnelChart({
                     <div
                       data-testid={`funnel-bar-${item.id}`}
                       data-width-pct={String(item.widthPct)}
-                      className="h-6 rounded-full px-2.5 flex items-center justify-center text-[11px] font-mono font-semibold tabular-nums transition-all duration-200"
+                      className="h-6 rounded-full px-2.5 flex items-center justify-center text-[11px] font-mono font-semibold tabular-nums transition-[color,background-color,border-color,opacity,transform] duration-200"
                       style={{
                         width: `${item.widthPct}%`,
                         backgroundColor: item.color,
@@ -386,7 +388,7 @@ export function FunnelChart({
             summaryClass,
             'prism-well rounded-xl px-3.5 py-2 flex items-center gap-2 text-xs tabular-nums'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {selectedStage ? (
             <>
@@ -400,7 +402,7 @@ export function FunnelChart({
               </span>
             </>
           ) : (
-            <span style={{ color: 'var(--prism-text-secondary)' }}>
+            <span style={STYLE_TEXT_SECONDARY}>
               Select any funnel stage to inspect volume, overall conversion, and step retention.
             </span>
           )}
@@ -410,4 +412,5 @@ export function FunnelChart({
   );
 }
 
+export const FunnelChart = memo(FunnelChartInner);
 FunnelChart.displayName = 'FunnelChart';

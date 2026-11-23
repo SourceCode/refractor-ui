@@ -1,6 +1,6 @@
 'use client';
 
-import { useId } from 'react';
+import { memo, useId } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -28,7 +28,7 @@ export interface RangeSliderProps extends RangeSliderBaseProps {
   onChange: (value: number) => void;
 }
 
-export function RangeSlider({
+function RangeSliderInner({
   label,
   min = 0,
   max = 100,
@@ -79,7 +79,7 @@ export function RangeSlider({
       <div className={`relative h-8 flex items-center ${disabled ? 'opacity-50' : ''}`}>
         <div className="prism-crystal w-full h-3.5 rounded-full overflow-hidden p-0.5">
           <div
-            className="prism-emerald h-full rounded-full transition-all duration-75"
+            className="prism-emerald h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
             style={{ width: `${pct}%` }}
           />
         </div>
@@ -107,4 +107,5 @@ export function RangeSlider({
   );
 }
 
+export const RangeSlider = memo(RangeSliderInner);
 RangeSlider.displayName = 'RangeSlider';

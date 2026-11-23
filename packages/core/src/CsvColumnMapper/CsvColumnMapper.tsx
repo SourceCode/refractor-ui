@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -26,6 +27,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { isSafeObjectKey, sanitizeCsvCell } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CsvTargetFieldType = 'string' | 'email' | 'number';
@@ -318,7 +320,7 @@ function computeAutoMappings(
   return result;
 }
 
-export function CsvColumnMapper({
+function CsvColumnMapperInner({
   title = DEFAULT_TITLE,
   targetFields,
   defaultCsvText,
@@ -666,7 +668,7 @@ export function CsvColumnMapper({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <FileSpreadsheet aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
@@ -675,7 +677,7 @@ export function CsvColumnMapper({
             <h3
               id={headingId}
               className="m-0 text-sm font-semibold tracking-tight truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeTitle}
             </h3>
@@ -683,7 +685,7 @@ export function CsvColumnMapper({
             <span
               data-testid="csv-column-count"
               className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {parsed.columns.length} {parsed.columns.length === 1 ? 'column' : 'columns'}
             </span>
@@ -691,7 +693,7 @@ export function CsvColumnMapper({
             <span
               data-testid="csv-row-count"
               className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {parsed.rows.length} {parsed.rows.length === 1 ? 'row' : 'rows'}
             </span>
@@ -715,7 +717,7 @@ export function CsvColumnMapper({
             disabled={disabled}
             onClick={() => fileInputRef.current?.click()}
             className="prism-crystal prism-focus-ring rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Upload aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Upload CSV</span>
@@ -726,7 +728,7 @@ export function CsvColumnMapper({
             disabled={disabled}
             onClick={handleLoadSample}
             className="prism-crystal prism-focus-ring rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Load Sample</span>
@@ -737,7 +739,7 @@ export function CsvColumnMapper({
             disabled={disabled || activeCsvText.length === 0}
             onClick={handleClear}
             className="prism-crystal prism-focus-ring rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Trash2 aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Clear</span>
@@ -755,7 +757,7 @@ export function CsvColumnMapper({
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
           <span
             className="text-xs font-semibold tracking-tight"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             CSV Source Data
           </span>
@@ -766,7 +768,7 @@ export function CsvColumnMapper({
             aria-controls={sourcePanelId}
             onClick={() => setIsSourceOpen((prev) => !prev)}
             className="prism-well prism-focus-ring rounded-full px-2.5 py-1 inline-flex items-center gap-1 text-[11px] font-semibold cursor-pointer"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {isSourceOpen ? (
               <>
@@ -796,7 +798,7 @@ export function CsvColumnMapper({
               }}
               onKeyDown={handleTextareaKeyDown}
               className="prism-well prism-focus-ring w-full min-w-0 rounded-xl p-3 font-mono text-xs leading-relaxed resize-y border-0 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
         )}
@@ -817,7 +819,7 @@ export function CsvColumnMapper({
           <AlertTriangle
             aria-hidden="true"
             className="w-4 h-4 shrink-0 mt-0.5"
-            style={{ color: 'var(--prism-warning-main)' }}
+            style={STYLE_WARNING_MAIN}
           />
           <span className="min-w-0 break-words">
             Ignored unsafe header key{parsed.rejectedHeaders.length === 1 ? '' : 's'}:{' '}
@@ -840,7 +842,7 @@ export function CsvColumnMapper({
           <AlertTriangle
             aria-hidden="true"
             className="w-4 h-4 shrink-0 mt-0.5"
-            style={{ color: 'var(--prism-warning-main)' }}
+            style={STYLE_WARNING_MAIN}
           />
           <span className="min-w-0 break-words">
             Missing required target field{missingRequiredFields.length === 1 ? '' : 's'}:{' '}
@@ -866,7 +868,7 @@ export function CsvColumnMapper({
           <XCircle
             aria-hidden="true"
             className="w-4 h-4 shrink-0 mt-0.5"
-            style={{ color: 'var(--prism-error-main)' }}
+            style={STYLE_ERROR_MAIN}
           />
           <span className="min-w-0 break-words">
             Duplicate target assignment:{' '}
@@ -885,7 +887,7 @@ export function CsvColumnMapper({
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
           <span
             className="text-xs font-semibold tracking-tight"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Column Mapping
           </span>
@@ -895,7 +897,7 @@ export function CsvColumnMapper({
             disabled={disabled || parsed.columns.length === 0}
             onClick={handleAutoMap}
             className="prism-crystal prism-focus-ring rounded-full px-3 py-1 inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-info-main)' }}
+            style={STYLE_INFO_MAIN}
           >
             <Sparkles aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Auto-Map Headers</span>
@@ -906,7 +908,7 @@ export function CsvColumnMapper({
           <div
             data-testid="csv-empty-state"
             className="prism-well rounded-2xl px-4 py-6 text-center text-xs min-w-0 max-w-full"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             No CSV headers detected. Paste CSV rows above, upload a `.csv` file, or click Load
             Sample.
@@ -936,7 +938,7 @@ export function CsvColumnMapper({
                   <div className="flex flex-wrap items-center justify-between gap-1.5 min-w-0">
                     <span
                       className="font-mono text-xs font-semibold truncate min-w-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {col.header}
                     </span>
@@ -977,7 +979,7 @@ export function CsvColumnMapper({
                     ) : (
                       <span
                         className="prism-well rounded-full px-2 py-0.5 text-[10px] font-semibold shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         Ignored
                       </span>
@@ -986,7 +988,7 @@ export function CsvColumnMapper({
 
                   <span
                     className="text-[11px] font-mono truncate min-w-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {firstSample.length > 0 ? `Sample: ${firstSample}` : 'Sample: (empty)'}
                   </span>
@@ -997,7 +999,7 @@ export function CsvColumnMapper({
                     value={mappedKey ?? ''}
                     onChange={(event) => handleColumnMappingChange(col.id, event.target.value)}
                     className="prism-well prism-focus-ring w-full min-w-0 rounded-xl px-2.5 py-1.5 text-xs font-medium border-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     <option value="">Ignore Column</option>
                     {safeTargetFields.map((field) => (
@@ -1020,14 +1022,14 @@ export function CsvColumnMapper({
           <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
             <span
               className="text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Row Preview &amp; Validation
             </span>
 
             <span
               className="text-[11px] font-mono tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {activePreviewFields.length} mapped{' '}
               {activePreviewFields.length === 1 ? 'field' : 'fields'}
@@ -1045,7 +1047,7 @@ export function CsvColumnMapper({
                     <th
                       scope="col"
                       className="px-3 py-2 text-left font-mono text-[11px] font-semibold whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Row #
                     </th>
@@ -1054,14 +1056,14 @@ export function CsvColumnMapper({
                         key={field.key}
                         scope="col"
                         className="px-3 py-2 text-left text-[11px] font-semibold whitespace-nowrap"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         <span className="inline-flex items-center gap-1.5">
                           <span>{field.label}</span>
                           {field.required && (
                             <span
                               aria-label="Required"
-                              style={{ color: 'var(--prism-error-main)' }}
+                              style={STYLE_ERROR_MAIN}
                             >
                               *
                             </span>
@@ -1072,14 +1074,14 @@ export function CsvColumnMapper({
                     <th
                       scope="col"
                       className="px-3 py-2 text-left text-[11px] font-semibold whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Status
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-2 text-left text-[11px] font-semibold whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Validation Details
                     </th>
@@ -1091,7 +1093,7 @@ export function CsvColumnMapper({
                       <td
                         colSpan={activePreviewFields.length + 3}
                         className="px-3 py-5 text-center text-xs"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         Header row parsed. Add data rows to preview validation results.
                       </td>
@@ -1108,7 +1110,7 @@ export function CsvColumnMapper({
                           <th
                             scope="row"
                             className="px-3 py-2 text-left font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {evRow.rowIndex + 1}
                           </th>
@@ -1168,11 +1170,11 @@ export function CsvColumnMapper({
 
                           <td className="px-3 py-2 text-xs min-w-[200px]">
                             {hasRowError ? (
-                              <span style={{ color: 'var(--prism-error-main)' }}>
+                              <span style={STYLE_ERROR_MAIN}>
                                 {evRow.errors.map((err) => err.message).join(' ')}
                               </span>
                             ) : (
-                              <span style={{ color: 'var(--prism-text-secondary)' }}>
+                              <span style={STYLE_TEXT_SECONDARY}>
                                 Ready to import
                               </span>
                             )}
@@ -1231,7 +1233,7 @@ export function CsvColumnMapper({
             aria-live="polite"
             data-testid="csv-import-status"
             className="m-0 text-xs min-w-0 break-words"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {statusMessage ?? defaultAnnouncement}
           </p>
@@ -1251,4 +1253,5 @@ export function CsvColumnMapper({
   );
 }
 
+export const CsvColumnMapper = memo(CsvColumnMapperInner);
 CsvColumnMapper.displayName = 'CsvColumnMapper';

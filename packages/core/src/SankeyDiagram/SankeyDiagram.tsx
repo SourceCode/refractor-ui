@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SankeyTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -157,7 +159,7 @@ function resolveNodeTone(tone: SankeyTone | undefined, fallbackIndex: number): S
   return TONE_CYCLE[fallbackIndex % TONE_CYCLE.length]!;
 }
 
-export function SankeyDiagram({
+function SankeyDiagramInner({
   nodes,
   links,
   title = 'Flow Sankey Diagram',
@@ -553,7 +555,7 @@ export function SankeyDiagram({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -563,7 +565,7 @@ export function SankeyDiagram({
             <span
               data-testid="sankey-summary-pill"
               className="prism-crystal inline-flex items-center px-2.5 py-1 rounded-full font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {`${geometry.stageCount} stages · ${geometry.nodes.length} nodes · ${geometry.links.length} links`}
             </span>
@@ -582,7 +584,7 @@ export function SankeyDiagram({
           role="status"
           data-testid="sankey-diagram-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No valid flow nodes or positive links to display.
         </div>
@@ -722,7 +724,7 @@ export function SankeyDiagram({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeLink ? (
               <div className="inline-flex flex-wrap items-center gap-2">
@@ -746,7 +748,7 @@ export function SankeyDiagram({
                   <span className="font-semibold">{activeNode.label}</span>
                   <span
                     className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-medium"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {`Stage ${activeNode.stage}`}
                   </span>
@@ -757,7 +759,7 @@ export function SankeyDiagram({
                 </div>
               </>
             ) : (
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 Select any flow ribbon or node to inspect transfer volume and inflow/outflow
                 summary.
               </span>
@@ -769,4 +771,5 @@ export function SankeyDiagram({
   );
 }
 
+export const SankeyDiagram = memo(SankeyDiagramInner);
 SankeyDiagram.displayName = 'SankeyDiagram';

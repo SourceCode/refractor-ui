@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -26,6 +27,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, isSafeObjectKey } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_DARK, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type JsonPrimitive = string | number | boolean | null;
@@ -116,7 +118,7 @@ function renderPrimitiveValue(value: JsonPrimitive): ReactNode {
       <span
         data-json-type="null"
         className="font-mono italic"
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         null
       </span>
@@ -127,7 +129,7 @@ function renderPrimitiveValue(value: JsonPrimitive): ReactNode {
       <span
         data-json-type="string"
         className="font-mono break-all"
-        style={{ color: 'var(--prism-success-dark)' }}
+        style={STYLE_SUCCESS_DARK}
       >
         {`"${value}"`}
       </span>
@@ -138,7 +140,7 @@ function renderPrimitiveValue(value: JsonPrimitive): ReactNode {
       <span
         data-json-type="number"
         className="font-mono tabular-nums font-medium"
-        style={{ color: 'var(--prism-primary-main)' }}
+        style={STYLE_PRIMARY_MAIN}
       >
         {String(value)}
       </span>
@@ -148,7 +150,7 @@ function renderPrimitiveValue(value: JsonPrimitive): ReactNode {
     <span
       data-json-type="boolean"
       className="font-mono font-semibold"
-      style={{ color: 'var(--prism-info-main)' }}
+      style={STYLE_INFO_MAIN}
     >
       {value ? 'true' : 'false'}
     </span>
@@ -161,7 +163,7 @@ function renderTableCellValue(value: JsonValue): ReactNode {
       <span
         data-json-type={isJsonArray(value) ? 'array' : 'object'}
         className="font-mono break-all"
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         {safeJsonStringify(value)}
       </span>
@@ -196,7 +198,7 @@ function JsonTreeNode({
         className="flex items-baseline gap-1.5 py-0.5 text-xs font-mono leading-relaxed"
       >
         {label !== undefined ? (
-          <span className="font-semibold shrink-0" style={{ color: 'var(--prism-text-primary)' }}>
+          <span className="font-semibold shrink-0" style={STYLE_TEXT_PRIMARY}>
             {label}:
           </span>
         ) : null}
@@ -214,10 +216,10 @@ function JsonTreeNode({
         data-max-depth-reached="true"
         className="flex items-baseline gap-1.5 py-0.5 text-xs font-mono leading-relaxed"
       >
-        <span className="font-semibold shrink-0" style={{ color: 'var(--prism-text-primary)' }}>
+        <span className="font-semibold shrink-0" style={STYLE_TEXT_PRIMARY}>
           {label}:
         </span>
-        <span className="italic" style={{ color: 'var(--prism-text-secondary)' }}>
+        <span className="italic" style={STYLE_TEXT_SECONDARY}>
           {isArr
             ? `[Max depth ${MAX_TREE_DEPTH} reached]`
             : `{Max depth ${MAX_TREE_DEPTH} reached}`}
@@ -265,25 +267,25 @@ function JsonTreeNode({
         aria-expanded={isExpanded}
         onClick={() => onToggle(nodePath, isExpanded)}
         className="prism-focus-ring inline-flex items-center gap-1 rounded-md px-1 py-0.5 text-left cursor-pointer opacity-90 enabled:hover:opacity-100 transition-opacity"
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         {isExpanded ? (
           <ChevronDown
             className="w-3.5 h-3.5 shrink-0"
             aria-hidden="true"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
         ) : (
           <ChevronRight
             className="w-3.5 h-3.5 shrink-0"
             aria-hidden="true"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
         )}
         <span className="font-semibold">
           {label !== undefined ? `${label}:` : isArr ? 'Array' : 'Object'}
         </span>
-        <span className="text-[11px]" style={{ color: 'var(--prism-text-secondary)' }}>
+        <span className="text-[11px]" style={STYLE_TEXT_SECONDARY}>
           {summaryText}
         </span>
       </button>
@@ -291,10 +293,10 @@ function JsonTreeNode({
       {isExpanded ? (
         <div
           className="pl-4 ml-2 border-l space-y-0.5"
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           {childNodes.length === 0 ? (
-            <div className="py-0.5 italic" style={{ color: 'var(--prism-text-disabled)' }}>
+            <div className="py-0.5 italic" style={STYLE_TEXT_DISABLED}>
               {isArr ? 'Empty array' : 'Empty object'}
             </div>
           ) : (
@@ -317,7 +319,7 @@ function JsonTreeNode({
   );
 }
 
-export function StructuredOutputViewer({
+function StructuredOutputViewerInner({
   data,
   mode,
   defaultMode = 'tree',
@@ -430,10 +432,10 @@ export function StructuredOutputViewer({
             data-testid="structured-table-summary"
             className="prism-well rounded-2xl p-5 text-center space-y-1.5"
           >
-            <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+            <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
               No Displayable Columns
             </p>
-            <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
               Array objects contain no safe properties to display in table view.
             </p>
           </div>
@@ -444,13 +446,13 @@ export function StructuredOutputViewer({
         <div className="prism-well rounded-2xl overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs font-mono">
             <thead>
-              <tr className="border-b" style={{ borderColor: 'var(--prism-divider)' }}>
+              <tr className="border-b" style={STYLE_BORDER_DIVIDER}>
                 {columns.map((col) => (
                   <th
                     key={col}
                     scope="col"
                     className="px-3.5 py-2.5 font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {col}
                   </th>
@@ -462,7 +464,7 @@ export function StructuredOutputViewer({
                 <tr
                   key={row.rowId}
                   className="border-b last:border-b-0"
-                  style={{ borderColor: 'var(--prism-divider)' }}
+                  style={STYLE_BORDER_DIVIDER}
                 >
                   {columns.map((col) => {
                     const cellVal = row.cells.get(col);
@@ -470,10 +472,10 @@ export function StructuredOutputViewer({
                       <td
                         key={`${row.rowId}-${col}`}
                         className="px-3.5 py-2 align-top"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {cellVal === undefined ? (
-                          <span style={{ color: 'var(--prism-text-disabled)' }}>—</span>
+                          <span style={STYLE_TEXT_DISABLED}>—</span>
                         ) : (
                           renderTableCellValue(cellVal)
                         )}
@@ -494,18 +496,18 @@ export function StructuredOutputViewer({
         <div className="prism-well rounded-2xl overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs font-mono">
             <thead>
-              <tr className="border-b" style={{ borderColor: 'var(--prism-divider)' }}>
+              <tr className="border-b" style={STYLE_BORDER_DIVIDER}>
                 <th
                   scope="col"
                   className="px-3.5 py-2.5 font-semibold w-1/3"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Key
                 </th>
                 <th
                   scope="col"
                   className="px-3.5 py-2.5 font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Value
                 </th>
@@ -517,7 +519,7 @@ export function StructuredOutputViewer({
                   <td
                     colSpan={2}
                     className="px-3.5 py-4 text-center italic"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Empty object — no properties to display.
                   </td>
@@ -527,12 +529,12 @@ export function StructuredOutputViewer({
                   <tr
                     key={entry.key}
                     className="border-b last:border-b-0"
-                    style={{ borderColor: 'var(--prism-divider)' }}
+                    style={STYLE_BORDER_DIVIDER}
                   >
                     <th
                       scope="row"
                       className="px-3.5 py-2 font-semibold align-top whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {entry.key}
                     </th>
@@ -555,10 +557,10 @@ export function StructuredOutputViewer({
           data-testid="structured-table-summary"
           className="prism-well rounded-2xl p-5 text-center space-y-1.5"
         >
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             {isEmpty ? 'Empty Array' : 'Non-Object Array'}
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             {isEmpty
               ? 'No items are available to display in table view.'
               : `Table view requires an object or array of objects (${data.length} non-object items present).`}
@@ -572,10 +574,10 @@ export function StructuredOutputViewer({
         data-testid="structured-table-summary"
         className="prism-well rounded-2xl p-5 flex flex-col items-center text-center gap-2"
       >
-        <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+        <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
           Scalar Value ({describePrimitiveType(data)})
         </p>
-        <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+        <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
           Tabular view requires an object or array of objects.
         </p>
         <div className="prism-crystal rounded-xl px-3 py-1.5 text-xs">
@@ -609,19 +611,19 @@ export function StructuredOutputViewer({
           headerClass,
           'px-4 py-3 flex flex-wrap items-center justify-between gap-3 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Braces className="w-4 h-4 shrink-0" aria-hidden="true" />
           </span>
           <h2
             id={titleId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h2>
@@ -647,7 +649,7 @@ export function StructuredOutputViewer({
                   onClick={() => setCurrentMode(option.mode)}
                   onKeyDown={(event) => handleTabKeyDown(event, idx)}
                   className={cx(
-                    'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-all',
+                    'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     isSelected ? 'prism-btn-primary' : 'opacity-75 enabled:hover:opacity-100'
                   )}
                   style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -665,7 +667,7 @@ export function StructuredOutputViewer({
             data-copied={copied ? 'true' : undefined}
             onClick={handleCopyJson}
             className={cx(
-              'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-all',
+              'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
               copied ? 'prism-emerald' : 'prism-btn-secondary'
             )}
           >
@@ -706,7 +708,7 @@ export function StructuredOutputViewer({
         ) : (
           <pre
             className="prism-well rounded-2xl p-4 overflow-x-auto text-xs font-mono leading-relaxed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <code>{rawJson}</code>
           </pre>
@@ -720,4 +722,5 @@ export function StructuredOutputViewer({
   );
 }
 
+export const StructuredOutputViewer = memo(StructuredOutputViewerInner);
 StructuredOutputViewer.displayName = 'StructuredOutputViewer';

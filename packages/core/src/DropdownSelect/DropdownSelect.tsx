@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { memo, useEffect, useId, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -35,7 +35,7 @@ export interface DropdownSelectProps extends DropdownSelectBaseProps {
   disabled?: boolean;
 }
 
-export function DropdownSelect({
+function DropdownSelectInner({
   options,
   value,
   onChange,
@@ -178,4 +178,5 @@ export function DropdownSelect({
   );
 }
 
+export const DropdownSelect = memo(DropdownSelectInner);
 DropdownSelect.displayName = 'DropdownSelect';

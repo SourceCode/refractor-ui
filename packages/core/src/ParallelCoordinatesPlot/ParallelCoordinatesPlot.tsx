@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ParallelTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -241,7 +243,7 @@ function truncateLabel(text: string, maxChars: number): string {
   return `${text.slice(0, limit - 1)}…`;
 }
 
-export function ParallelCoordinatesPlot({
+function ParallelCoordinatesPlotInner({
   axes,
   records,
   title = 'Parallel Coordinates Analysis',
@@ -578,7 +580,7 @@ export function ParallelCoordinatesPlot({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0 break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -587,7 +589,7 @@ export function ParallelCoordinatesPlot({
           <span
             data-testid="parallel-coordinates-count-badge"
             className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {countBadgeText}
           </span>
@@ -610,12 +612,12 @@ export function ParallelCoordinatesPlot({
               'prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer transition-opacity duration-150',
               resolvedActiveGroup === null ? 'prism-crystal opacity-100' : 'prism-well opacity-70'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span>All</span>
             <span
               className="font-mono text-[11px] tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {String(computedRecords.length)}
             </span>
@@ -638,7 +640,7 @@ export function ParallelCoordinatesPlot({
                   isGroupSelected ? 'prism-crystal opacity-100' : 'prism-well',
                   isGroupDimmed ? 'opacity-55' : 'opacity-100'
                 )}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span
                   aria-hidden="true"
@@ -648,7 +650,7 @@ export function ParallelCoordinatesPlot({
                 <span>{group.name}</span>
                 <span
                   className="font-mono text-[11px] tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {String(group.count)}
                 </span>
@@ -663,7 +665,7 @@ export function ParallelCoordinatesPlot({
           role="status"
           data-testid="parallel-coordinates-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {sourceAxes.length < 2
             ? 'Provide at least 2 axes to plot parallel coordinates.'
@@ -875,7 +877,7 @@ export function ParallelCoordinatesPlot({
               inspectorClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2.5 w-full max-w-full min-w-0 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeRecord ? (
               <div className="flex flex-wrap items-center gap-2 min-w-0 w-full">
@@ -889,7 +891,7 @@ export function ParallelCoordinatesPlot({
                   {activeRecord.group ? (
                     <span
                       className="prism-crystal rounded-full px-2 py-0.5 text-[10px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {activeRecord.group}
                     </span>
@@ -902,9 +904,9 @@ export function ParallelCoordinatesPlot({
                       key={`badge-${vertex.key}`}
                       data-testid={`parallel-inspector-badge-${vertex.axisId}`}
                       className="prism-crystal inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-mono tabular-nums"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
-                      <span style={{ color: 'var(--prism-text-secondary)' }}>
+                      <span style={STYLE_TEXT_SECONDARY}>
                         {`${vertex.axisLabel}:`}
                       </span>
                       <span className="font-semibold">
@@ -918,12 +920,12 @@ export function ParallelCoordinatesPlot({
               </div>
             ) : (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select or focus any trajectory (ArrowUp / ArrowDown) to inspect dimension values.
                 </span>
                 <span
                   className="font-mono font-medium shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {resolvedActiveGroup !== null
                     ? `${resolvedActiveGroup}: ${filteredRecords.length} shown`
@@ -938,4 +940,5 @@ export function ParallelCoordinatesPlot({
   );
 }
 
+export const ParallelCoordinatesPlot = memo(ParallelCoordinatesPlotInner);
 ParallelCoordinatesPlot.displayName = 'ParallelCoordinatesPlot';

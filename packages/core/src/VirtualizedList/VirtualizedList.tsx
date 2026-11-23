@@ -1,11 +1,12 @@
 'use client';
 
-import { useMemo, useRef, useState, type ReactNode, type UIEvent } from 'react';
+import { memo, useCallback, useMemo, useRef, useState, type ReactNode, type UIEvent } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface VirtualizedListItem {
@@ -39,7 +40,7 @@ export interface VirtualizedListProps<T extends VirtualizedListItem = Virtualize
   showTelemetry?: boolean;
 }
 
-export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListItem>({
+function VirtualizedListInner<T extends VirtualizedListItem = VirtualizedListItem>({
   items,
   itemHeight = 48,
   height = 320,
@@ -57,7 +58,8 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
   ...rest
 }: VirtualizedListProps<T>) {
   const override = useComponentOverride('VirtualizedList');
-  const [scrollTop, setScrollTop] = useState(0);
+  // Track row-quantized visibleStart index so sub-row pixel scrolling avoids redundant React re-renders
+  const [visibleStartState, setVisibleStartState] = useState(0);
   const lastEndReachedLengthRef = useRef<number | null>(null);
 
   const safeItemHeight = clampNumber(itemHeight, 20, 10000, 48);
@@ -67,9 +69,8 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
 
   const totalHeight = items.length * safeItemHeight;
   const maxScrollTop = Math.max(0, totalHeight - safeHeight);
-  const effectiveScrollTop = clampNumber(scrollTop, 0, maxScrollTop, 0);
-
-  const visibleStart = Math.floor(effectiveScrollTop / safeItemHeight);
+  const maxVisibleStart = Math.floor(maxScrollTop / safeItemHeight);
+  const visibleStart = Math.min(visibleStartState, maxVisibleStart);
   const visibleCount = Math.ceil(safeHeight / safeItemHeight);
   const startIndex = items.length === 0 ? 0 : Math.max(0, visibleStart - safeOverscan);
   const endIndex =
@@ -84,27 +85,45 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
     [items, startIndex, endIndex]
   );
 
-  const telemetryLabel =
-    items.length === 0
-      ? 'Rows 0 of 0'
-      : `Rows ${(startIndex + 1).toLocaleString('en-US')}–${(endIndex + 1).toLocaleString('en-US')} of ${items.length.toLocaleString('en-US')}`;
+  const telemetryLabel = useMemo(
+    () =>
+      items.length === 0
+        ? 'Rows 0 of 0'
+        : `Rows ${formatUsNumber(startIndex + 1)}–${formatUsNumber(endIndex + 1)} of ${formatUsNumber(items.length)}`,
+    [endIndex, items.length, startIndex]
+  );
 
-  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-    const rawTop = e.currentTarget.scrollTop;
-    const nextScrollTop = clampNumber(rawTop, 0, maxScrollTop, 0);
-    setScrollTop(nextScrollTop);
+  const viewportStyle = useMemo(() => ({ height: `${safeHeight}px` }), [safeHeight]);
+  const spacerStyle = useMemo(
+    () => ({ height: `${totalHeight}px`, position: 'relative' as const }),
+    [totalHeight]
+  );
+  const windowStyle = useMemo(
+    () => ({ transform: `translateY(${offsetY}px)`, willChange: 'transform' as const }),
+    [offsetY]
+  );
+  const rowStyle = useMemo(() => ({ height: `${safeItemHeight}px` }), [safeItemHeight]);
 
-    if (onEndReached && !loadingMore && items.length > 0) {
-      const distanceFromBottom = totalHeight - (nextScrollTop + safeHeight);
-      if (
-        distanceFromBottom <= safeThreshold &&
-        lastEndReachedLengthRef.current !== items.length
-      ) {
-        lastEndReachedLengthRef.current = items.length;
-        onEndReached();
+  const handleScroll = useCallback(
+    (e: UIEvent<HTMLDivElement>) => {
+      const rawTop = e.currentTarget.scrollTop;
+      const nextScrollTop = clampNumber(rawTop, 0, maxScrollTop, 0);
+      const nextVisibleStart = Math.floor(nextScrollTop / safeItemHeight);
+      setVisibleStartState((prev) => (prev === nextVisibleStart ? prev : nextVisibleStart));
+
+      if (onEndReached && !loadingMore && items.length > 0) {
+        const distanceFromBottom = totalHeight - (nextScrollTop + safeHeight);
+        if (
+          distanceFromBottom <= safeThreshold &&
+          lastEndReachedLengthRef.current !== items.length
+        ) {
+          lastEndReachedLengthRef.current = items.length;
+          onEndReached();
+        }
       }
-    }
-  };
+    },
+    [items.length, loadingMore, maxScrollTop, onEndReached, safeHeight, safeItemHeight, safeThreshold, totalHeight]
+  );
 
   const merged = mergeProps({
     themeTarget: themeProps('virtualized-list', {
@@ -134,7 +153,7 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
             {telemetryLabel}
           </span>
           <span className="text-[11px] font-mono tabular-nums text-slate-500 dark:text-slate-400">
-            {visibleItems.length.toLocaleString('en-US')} mounted
+            {formatUsNumber(visibleItems.length)} mounted
           </span>
         </div>
       ) : null}
@@ -147,7 +166,7 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
         aria-label="Virtualized list viewport"
         tabIndex={0}
         onScroll={handleScroll}
-        style={{ height: `${safeHeight}px` }}
+        style={viewportStyle}
         className="prism-focus-ring overflow-y-auto relative"
       >
         {items.length === 0 ? (
@@ -155,15 +174,8 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
             {emptyMessage}
           </div>
         ) : (
-          <div
-            data-part="spacer"
-            style={{ height: `${totalHeight}px`, position: 'relative' }}
-          >
-            <div
-              role="list"
-              data-part="window"
-              style={{ transform: `translateY(${offsetY}px)`, willChange: 'transform' }}
-            >
+          <div data-part="spacer" style={spacerStyle}>
+            <div role="list" data-part="window" style={windowStyle}>
               {visibleItems.map((item, sliceOffset) => {
                 const index = startIndex + sliceOffset;
                 return (
@@ -173,8 +185,8 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
                     aria-posinset={index + 1}
                     aria-setsize={items.length}
                     data-index={String(index)}
-                    style={{ height: `${safeItemHeight}px` }}
-                    className="box-border flex items-center w-full min-w-0 overflow-hidden px-3 sm:px-4 border-b border-slate-200/45 dark:border-slate-700/40 hover:bg-white/40 dark:hover:bg-white/[0.04] transition-colors"
+                    style={rowStyle}
+                    className="box-border flex items-center w-full min-w-0 overflow-hidden px-3 sm:px-4 border-b border-slate-200/45 dark:border-slate-700/40 hover:bg-white/40 dark:hover:bg-white/[0.04] transition-colors prism-contain-leaf"
                   >
                     {renderItem(item, index)}
                   </div>
@@ -193,7 +205,7 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
           className="px-4 py-2 border-t border-slate-300/45 dark:border-slate-700/50 flex items-center justify-center bg-white/25 dark:bg-white/[0.02]"
         >
           <span className="prism-crystal rounded-full px-3.5 py-1 inline-flex items-center gap-2 text-xs font-medium text-slate-700 dark:text-slate-200">
-            <Loader2 aria-hidden="true" className="w-3.5 h-3.5 animate-spin" />
+            <Loader2 aria-hidden="true" className="w-3.5 h-3.5 animate-spin motion-reduce:animate-none" />
             <span>Loading more items…</span>
           </span>
         </div>
@@ -202,4 +214,9 @@ export function VirtualizedList<T extends VirtualizedListItem = VirtualizedListI
   );
 }
 
+type VirtualizedListComponent = (<T extends VirtualizedListItem = VirtualizedListItem>(
+  props: VirtualizedListProps<T>
+) => ReactNode) & { displayName?: string };
+
+export const VirtualizedList = memo(VirtualizedListInner) as VirtualizedListComponent;
 VirtualizedList.displayName = 'VirtualizedList';

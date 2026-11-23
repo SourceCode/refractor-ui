@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -247,7 +248,7 @@ function allocateUniqueId(
   return candidate;
 }
 
-export function NodeGraphCanvas({
+function NodeGraphCanvasInner({
   nodes,
   defaultNodes,
   edges,
@@ -599,7 +600,7 @@ export function NodeGraphCanvas({
       };
 
       cleanupPointerRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -641,7 +642,7 @@ export function NodeGraphCanvas({
       };
 
       cleanupPointerRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -1145,4 +1146,5 @@ export function NodeGraphCanvas({
   );
 }
 
+export const NodeGraphCanvas = memo(NodeGraphCanvasInner);
 NodeGraphCanvas.displayName = 'NodeGraphCanvas';

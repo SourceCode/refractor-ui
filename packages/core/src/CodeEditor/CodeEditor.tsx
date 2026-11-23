@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -511,7 +512,7 @@ function getLineStartOffset(code: string, targetLine: number): number {
   return offset;
 }
 
-export function CodeEditor({
+function CodeEditorInner({
   value,
   defaultValue = '',
   onChange,
@@ -1012,4 +1013,5 @@ export function CodeEditor({
   );
 }
 
+export const CodeEditor = memo(CodeEditorInner);
 CodeEditor.displayName = 'CodeEditor';

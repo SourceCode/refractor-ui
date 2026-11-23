@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface BeforeAfterSliderProps extends BaseProps<HTMLDivElement> {
@@ -89,7 +91,7 @@ function ComparisonLayer({ slot, label, content, safeSrc, isBlocked }: Compariso
       >
         <span
           className="w-10 h-10 rounded-2xl bg-white/10 border border-white/15 inline-flex items-center justify-center"
-          style={{ color: 'var(--prism-error-main)' }}
+          style={STYLE_ERROR_MAIN}
         >
           <ShieldAlert className="w-5 h-5" aria-hidden="true" />
         </span>
@@ -117,7 +119,7 @@ function ComparisonLayer({ slot, label, content, safeSrc, isBlocked }: Compariso
       </span>
       <span
         className="text-xs font-semibold tracking-tight"
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         {label}
       </span>
@@ -125,7 +127,7 @@ function ComparisonLayer({ slot, label, content, safeSrc, isBlocked }: Compariso
   );
 }
 
-export function BeforeAfterSlider({
+function BeforeAfterSliderInner({
   beforeLabel = 'Before',
   afterLabel = 'After',
   beforeSrc,
@@ -224,7 +226,7 @@ export function BeforeAfterSlider({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -322,7 +324,7 @@ export function BeforeAfterSlider({
         <span
           data-testid="before-after-before-badge"
           className="prism-crystal pointer-events-none select-none absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-xs font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {beforeLabel}
         </span>
@@ -330,7 +332,7 @@ export function BeforeAfterSlider({
         <span
           data-testid="before-after-after-badge"
           className="prism-crystal pointer-events-none select-none absolute top-3 right-3 z-10 px-2.5 py-1 rounded-full text-xs font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {afterLabel}
         </span>
@@ -339,7 +341,7 @@ export function BeforeAfterSlider({
         <span
           data-testid="before-after-readout"
           className="prism-crystal pointer-events-none select-none absolute bottom-3 left-1/2 -translate-x-1/2 z-10 px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {roundedPos}%
         </span>
@@ -386,4 +388,5 @@ export function BeforeAfterSlider({
   );
 }
 
+export const BeforeAfterSlider = memo(BeforeAfterSliderInner);
 BeforeAfterSlider.displayName = 'BeforeAfterSlider';

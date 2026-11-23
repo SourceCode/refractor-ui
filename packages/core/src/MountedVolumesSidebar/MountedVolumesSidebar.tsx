@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useRef,
@@ -30,6 +31,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type VolumeMountKind = 'local' | 'network' | 'cloud' | 'removable';
@@ -418,7 +420,7 @@ function renderEjectGlyph(): ReactNode {
   );
 }
 
-export function MountedVolumesSidebar({
+function MountedVolumesSidebarInner({
   title = DEFAULT_TITLE,
   places,
   defaultVolumes,
@@ -670,25 +672,25 @@ export function MountedVolumesSidebar({
         data-testid={`volumes-section-toggle-${key}`}
         onClick={() => toggleSection(key)}
         onKeyDown={(event) => handleSectionKeyDown(event, key)}
-        className="prism-focus-ring w-full flex items-center justify-between gap-2 px-2 py-1.5 rounded-xl text-left cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all min-w-0"
+        className="prism-focus-ring w-full flex items-center justify-between gap-2 px-2 py-1.5 rounded-xl text-left cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] min-w-0"
       >
         <span className="inline-flex items-center gap-1.5 min-w-0">
           {isOpen ? (
             <ChevronDown
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
           ) : (
             <ChevronRight
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
           )}
           <span
             className="text-[11px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {label}
           </span>
@@ -696,7 +698,7 @@ export function MountedVolumesSidebar({
         <span
           data-testid={`volumes-section-count-${key}`}
           className="prism-well px-1.5 py-0.5 rounded-full font-mono text-[10px] font-semibold tabular-nums shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {count}
         </span>
@@ -727,7 +729,7 @@ export function MountedVolumesSidebar({
         onKeyDown={(event) => handleItemKeyDown(event, item.id)}
         className={cx(
           itemClass,
-          'prism-crystal prism-focus-ring w-full rounded-xl px-2.5 py-2 flex items-center justify-between gap-2 min-w-0 text-left cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all'
+          'prism-crystal prism-focus-ring w-full rounded-xl px-2.5 py-2 flex items-center justify-between gap-2 min-w-0 text-left cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
         )}
         style={
           isActive
@@ -744,7 +746,7 @@ export function MountedVolumesSidebar({
             <span className="block text-xs font-semibold truncate">{item.label}</span>
             <span
               className="block font-mono text-[10px] truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {item.path}
             </span>
@@ -755,14 +757,14 @@ export function MountedVolumesSidebar({
             <Pin
               aria-hidden="true"
               className="w-3 h-3 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
           ) : null}
           {item.count !== undefined ? (
             <span
               data-testid={`places-count-${item.id}`}
               className="prism-well px-1.5 py-0.5 rounded-full font-mono text-[10px] font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {item.count}
             </span>
@@ -784,7 +786,7 @@ export function MountedVolumesSidebar({
             volumeClass,
             'prism-well rounded-xl px-2.5 py-2 flex flex-wrap items-center justify-between gap-2 min-w-0 border'
           )}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <span className="shrink-0">
@@ -793,13 +795,13 @@ export function MountedVolumesSidebar({
             <div className="min-w-0 flex-1">
               <span
                 className="block text-xs font-medium truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {volume.name}
               </span>
               <span
                 className="block font-mono text-[10px] uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-disabled)' }}
+                style={STYLE_TEXT_DISABLED}
               >
                 Unmounted
               </span>
@@ -812,8 +814,8 @@ export function MountedVolumesSidebar({
             aria-label={`Mount ${volume.name}`}
             data-testid={`volume-mount-${volume.id}`}
             onClick={() => handleRemountVolume(volume)}
-            className="prism-crystal prism-focus-ring inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-primary-main)' }}
+            className="prism-crystal prism-focus-ring inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_PRIMARY_MAIN}
           >
             <RefreshCw aria-hidden="true" className="w-3 h-3 shrink-0" />
             <span>Mount</span>
@@ -834,7 +836,7 @@ export function MountedVolumesSidebar({
         data-volume-kind={volume.kind}
         className={cx(
           volumeClass,
-          'prism-crystal rounded-xl p-2 flex flex-col gap-1.5 min-w-0 transition-all'
+          'prism-crystal rounded-xl p-2 flex flex-col gap-1.5 min-w-0 transition-[color,background-color,border-color,opacity,transform]'
         )}
         style={
           isActive
@@ -858,7 +860,7 @@ export function MountedVolumesSidebar({
             data-active={isActive ? 'true' : undefined}
             onClick={() => handleSelectLocation(volume.id, volume.mountPath, volume.name)}
             onKeyDown={(event) => handleItemKeyDown(event, volume.id)}
-            className="prism-focus-ring flex-1 min-w-0 text-left flex items-center gap-2 rounded-lg p-0.5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all"
+            className="prism-focus-ring flex-1 min-w-0 text-left flex items-center gap-2 rounded-lg p-0.5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
           >
             <span className="prism-well w-6 h-6 rounded-lg inline-flex items-center justify-center shrink-0">
               {renderVolumeIcon(volume.kind, iconColor)}
@@ -874,7 +876,7 @@ export function MountedVolumesSidebar({
               </span>
               <span
                 className="block font-mono text-[10px] truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {volume.mountPath}
               </span>
@@ -888,8 +890,8 @@ export function MountedVolumesSidebar({
               aria-label={`Eject ${volume.name}`}
               data-testid={`volume-eject-${volume.id}`}
               onClick={() => handleEjectVolume(volume)}
-              className="prism-well prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              className="prism-well prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_SECONDARY}
             >
               {renderEjectGlyph()}
             </button>
@@ -900,14 +902,14 @@ export function MountedVolumesSidebar({
           <div className="flex flex-wrap items-center justify-between gap-1.5 min-w-0">
             <span
               className="font-mono text-[10px] uppercase tracking-wider shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {getVolumeKindLabel(volume.kind)}
             </span>
             <span
               data-testid={`volume-capacity-label-${volume.id}`}
               className="font-mono text-[10px] font-semibold tabular-nums truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {capacity.usedGb}/{capacity.totalGb} GB ({capacity.percent}%)
             </span>
@@ -925,7 +927,7 @@ export function MountedVolumesSidebar({
           >
             <div
               data-testid={`volume-capacity-fill-${volume.id}`}
-              className="h-full rounded-full transition-all"
+              className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform]"
               style={{
                 width: `${capacity.percent}%`,
                 backgroundColor: capacity.colorToken,
@@ -951,20 +953,20 @@ export function MountedVolumesSidebar({
           headerClass,
           'flex flex-wrap items-center justify-between gap-2 min-w-0 pb-2.5 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex items-center gap-2 min-w-0">
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <HardDrive className="w-3.5 h-3.5 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
@@ -973,7 +975,7 @@ export function MountedVolumesSidebar({
         <span
           data-testid="mounted-volumes-summary"
           className="prism-well inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <span
             aria-hidden="true"
@@ -1008,7 +1010,7 @@ export function MountedVolumesSidebar({
                 <p
                   data-testid="volumes-empty-favorites"
                   className="px-2.5 py-1.5 text-xs"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   No favorite places
                 </p>
@@ -1035,7 +1037,7 @@ export function MountedVolumesSidebar({
                 <p
                   data-testid="volumes-empty-smart"
                   className="px-2.5 py-1.5 text-xs"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   No smart folders
                 </p>
@@ -1062,7 +1064,7 @@ export function MountedVolumesSidebar({
                 <p
                   data-testid="volumes-empty-local"
                   className="px-2.5 py-1.5 text-xs"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   No local drives attached
                 </p>
@@ -1089,7 +1091,7 @@ export function MountedVolumesSidebar({
                 <p
                   data-testid="volumes-empty-mounts"
                   className="px-2.5 py-1.5 text-xs"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   No network or cloud mounts
                 </p>
@@ -1107,7 +1109,7 @@ export function MountedVolumesSidebar({
           footerClass,
           'prism-well rounded-xl px-3 py-2 flex items-center gap-2 min-w-0 border'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <span
           aria-hidden="true"
@@ -1120,7 +1122,7 @@ export function MountedVolumesSidebar({
         />
         <span
           className="text-xs font-medium truncate min-w-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {statusText}
         </span>
@@ -1129,4 +1131,5 @@ export function MountedVolumesSidebar({
   );
 }
 
+export const MountedVolumesSidebar = memo(MountedVolumesSidebarInner);
 MountedVolumesSidebar.displayName = 'MountedVolumesSidebar';

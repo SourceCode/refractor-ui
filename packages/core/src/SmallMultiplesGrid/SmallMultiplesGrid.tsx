@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SmallMultipleChartKind = 'area' | 'bar';
@@ -346,7 +348,7 @@ function resolveDeltaColor(delta: number): string {
   return 'var(--prism-text-secondary)';
 }
 
-export function SmallMultiplesGrid({
+function SmallMultiplesGridInner({
   labels,
   series,
   chartKind,
@@ -659,7 +661,7 @@ export function SmallMultiplesGrid({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight min-w-0 break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -675,14 +677,14 @@ export function SmallMultiplesGrid({
                 disabled={safeActiveIndex <= 0}
                 onClick={() => updateActiveIndex(safeActiveIndex - 1)}
                 className="prism-focus-ring prism-crystal w-6 h-6 inline-flex items-center justify-center rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 &lt;
               </button>
               <span
                 data-testid="small-multiples-period-badge"
                 className="px-2 text-[11px] font-mono font-semibold tabular-nums whitespace-nowrap"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {`Period: ${activePeriodLabel}`}
               </span>
@@ -692,7 +694,7 @@ export function SmallMultiplesGrid({
                 disabled={safeActiveIndex >= periodCount - 1}
                 onClick={() => updateActiveIndex(safeActiveIndex + 1)}
                 className="prism-focus-ring prism-crystal w-6 h-6 inline-flex items-center justify-center rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 &gt;
               </button>
@@ -770,7 +772,7 @@ export function SmallMultiplesGrid({
           role="status"
           data-testid="small-multiples-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No small multiples series to display.
         </div>
@@ -807,7 +809,7 @@ export function SmallMultiplesGrid({
                     <div className="min-w-0 flex flex-col gap-0.5">
                       <span
                         className="inline-flex items-center gap-1.5 text-xs font-semibold min-w-0"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         <span
                           aria-hidden="true"
@@ -819,7 +821,7 @@ export function SmallMultiplesGrid({
                       {facet.subtitle ? (
                         <span
                           className="text-[10px] pl-3.5 truncate"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {facet.subtitle}
                         </span>
@@ -830,7 +832,7 @@ export function SmallMultiplesGrid({
                       <span
                         data-testid={`facet-value-${facet.id}`}
                         className="text-xs font-mono font-semibold"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {formattedValue}
                       </span>
@@ -974,7 +976,7 @@ export function SmallMultiplesGrid({
 
                   <div
                     className="flex items-center justify-between gap-2 text-[10px] font-mono tabular-nums min-w-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <span className="truncate">{normalizedLabels[0]}</span>
                     <span
@@ -997,26 +999,26 @@ export function SmallMultiplesGrid({
               summaryClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums min-w-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0 font-mono text-[11px]">
               <span className="font-semibold">{`Active Period: ${summaryMetrics.periodLabel}`}</span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                 ·
               </span>
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 {`Global Y Domain: ${globalDomainLabel}`}
               </span>
             </div>
 
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0 font-mono text-[11px]">
-              <span style={{ color: 'var(--prism-success-main)' }}>
+              <span style={STYLE_SUCCESS_MAIN}>
                 {`Highest: ${summaryMetrics.highest.title} (${formatMetric(summaryMetrics.highest.activeValue, unit)})`}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                 ·
               </span>
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 {`Lowest: ${summaryMetrics.lowest.title} (${formatMetric(summaryMetrics.lowest.activeValue, unit)})`}
               </span>
             </div>
@@ -1027,4 +1029,5 @@ export function SmallMultiplesGrid({
   );
 }
 
+export const SmallMultiplesGrid = memo(SmallMultiplesGridInner);
 SmallMultiplesGrid.displayName = 'SmallMultiplesGrid';

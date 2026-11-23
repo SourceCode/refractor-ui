@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ClipTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -282,7 +284,7 @@ function timelineSecToHandleValue(
   return timelineSec;
 }
 
-export function ClipTrimHandle({
+function ClipTrimHandleInner({
   label,
   totalDurationSec = DEFAULT_TOTAL_DURATION,
   inSec,
@@ -545,7 +547,7 @@ export function ClipTrimHandle({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handleWindowPointerMove);
+      window.addEventListener('pointermove', handleWindowPointerMove, { passive: true });
       window.addEventListener('pointerup', handleWindowPointerEnd);
       window.addEventListener('pointercancel', handleWindowPointerEnd);
     };
@@ -700,7 +702,7 @@ export function ClipTrimHandle({
             id={labelId}
             data-testid="clip-trim-label"
             className="text-sm font-semibold tracking-tight truncate max-w-full"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -731,7 +733,7 @@ export function ClipTrimHandle({
             data-testid="clip-trim-tool-toggle"
             onClick={handleToggleTool}
             className={cx(
-              'prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+              'prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
               tool === 'razor' ? 'prism-btn-primary' : 'prism-btn-secondary'
             )}
           >
@@ -750,7 +752,7 @@ export function ClipTrimHandle({
             disabled={!canSplitMidpoint}
             data-testid="clip-trim-split-midpoint"
             onClick={handleSplitMidpoint}
-            className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <Scissors aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Split at Midpoint</span>
@@ -761,7 +763,7 @@ export function ClipTrimHandle({
             disabled={disabled}
             data-testid="clip-trim-reset"
             onClick={handleReset}
-            className="prism-btn-secondary prism-focus-ring h-8 px-2.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring h-8 px-2.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Reset</span>
@@ -774,7 +776,7 @@ export function ClipTrimHandle({
         <div
           aria-hidden="true"
           className="flex items-center justify-between px-1 font-mono text-[10px] font-medium tabular-nums"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {rulerTicks.map((tick) => (
             <span key={tick.id}>{tick.label}</span>
@@ -913,7 +915,7 @@ export function ClipTrimHandle({
             >
               <span
                 className="font-mono text-[11px] font-semibold tabular-nums truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatSec(currentState.inSec)} – {formatSec(currentState.outSec)}
               </span>
@@ -1131,14 +1133,14 @@ export function ClipTrimHandle({
         <div className="flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             In
           </span>
           <span
             data-testid="clip-trim-telemetry-in"
             className="font-mono text-xs sm:text-sm font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formatSec(currentState.inSec)}
           </span>
@@ -1147,14 +1149,14 @@ export function ClipTrimHandle({
         <div className="flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Out
           </span>
           <span
             data-testid="clip-trim-telemetry-out"
             className="font-mono text-xs sm:text-sm font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formatSec(currentState.outSec)}
           </span>
@@ -1163,7 +1165,7 @@ export function ClipTrimHandle({
         <div className="flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Dur
           </span>
@@ -1179,14 +1181,14 @@ export function ClipTrimHandle({
         <div className="flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Fade In
           </span>
           <span
             data-testid="clip-trim-telemetry-fade-in"
             className="font-mono text-xs sm:text-sm font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formatSec(currentState.fadeInSec)}
           </span>
@@ -1195,14 +1197,14 @@ export function ClipTrimHandle({
         <div className="flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Fade Out
           </span>
           <span
             data-testid="clip-trim-telemetry-fade-out"
             className="font-mono text-xs sm:text-sm font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formatSec(currentState.fadeOutSec)}
           </span>
@@ -1211,14 +1213,14 @@ export function ClipTrimHandle({
         <div className="flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Splits
           </span>
           <span
             data-testid="clip-trim-telemetry-splits"
             className="font-mono text-xs sm:text-sm font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {currentState.splits.length}
           </span>
@@ -1228,4 +1230,5 @@ export function ClipTrimHandle({
   );
 }
 
+export const ClipTrimHandle = memo(ClipTrimHandleInner);
 ClipTrimHandle.displayName = 'ClipTrimHandle';

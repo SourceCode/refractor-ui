@@ -1,9 +1,11 @@
 'use client';
 
+import { memo, useMemo } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { formatLocaleNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SortDirection = 'asc' | 'desc';
@@ -36,7 +38,65 @@ export interface DataTableProps extends BaseProps<HTMLDivElement> {
   emptyMessage?: string;
 }
 
-export function DataTable({
+interface DataTableRowViewProps {
+  row: DataTableRow;
+  checked: boolean;
+  onToggleSelect: (id: string) => void;
+}
+
+const DataTableRowView = memo(function DataTableRowView({
+  row,
+  checked,
+  onToggleSelect,
+}: DataTableRowViewProps) {
+  return (
+    <tr
+      className={`h-11 prism-cv-row transition-colors ${
+        checked ? 'bg-emerald-500/10' : 'hover:bg-white/45 dark:hover:bg-white/[0.04]'
+      }`}
+    >
+      <td className="px-3.5">
+        <input
+          type="checkbox"
+          checked={checked}
+          aria-label={`Select ${row.project}`}
+          onChange={() => onToggleSelect(row.id)}
+          className="prism-focus-ring w-4 h-4 accent-emerald-600 rounded cursor-pointer"
+        />
+      </td>
+      <td className="px-3.5 font-mono text-xs tabular-nums text-slate-500 dark:text-slate-400 whitespace-nowrap">
+        {row.id}
+      </td>
+      <td className="px-3.5 font-medium text-slate-900 dark:text-slate-100 whitespace-nowrap">
+        {row.project}
+      </td>
+      <td className="px-3.5 text-slate-600 dark:text-slate-300 whitespace-nowrap">
+        {row.owner}
+      </td>
+      <td className="px-3.5 text-xs font-medium whitespace-nowrap">
+        <span
+          className={
+            row.status === 'Active'
+              ? 'text-emerald-700 dark:text-emerald-400'
+              : row.status === 'Review'
+                ? 'text-amber-700 dark:text-amber-400'
+                : 'text-slate-500 dark:text-slate-400'
+          }
+        >
+          {row.status}
+        </span>
+      </td>
+      <td className="px-3.5 text-right font-mono text-xs tabular-nums text-slate-700 dark:text-slate-200">
+        {row.completion}%
+      </td>
+      <td className="px-3.5 text-right font-mono text-xs tabular-nums text-slate-800 dark:text-slate-100">
+        ${formatLocaleNumber(row.budgetUsd)}
+      </td>
+    </tr>
+  );
+});
+
+function DataTableInner({
   rows,
   sortBy,
   sortDir,
@@ -51,6 +111,8 @@ export function DataTable({
   ...rest
 }: DataTableProps) {
   const override = useComponentOverride('DataTable');
+
+  const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
 
   const merged = mergeProps({
     themeTarget: themeProps('data-table', {
@@ -124,57 +186,14 @@ export function DataTable({
                 </td>
               </tr>
             ) : (
-              rows.map((row) => {
-                const checked = selectedIds.includes(row.id);
-                return (
-                  <tr
-                    key={row.id}
-                    className={`h-11 transition-colors ${
-                      checked
-                        ? 'bg-emerald-500/10'
-                        : 'hover:bg-white/45 dark:hover:bg-white/[0.04]'
-                    }`}
-                  >
-                    <td className="px-3.5">
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        aria-label={`Select ${row.project}`}
-                        onChange={() => onToggleSelect(row.id)}
-                        className="prism-focus-ring w-4 h-4 accent-emerald-600 rounded cursor-pointer"
-                      />
-                    </td>
-                    <td className="px-3.5 font-mono text-xs tabular-nums text-slate-500 dark:text-slate-400 whitespace-nowrap">
-                      {row.id}
-                    </td>
-                    <td className="px-3.5 font-medium text-slate-900 dark:text-slate-100 whitespace-nowrap">
-                      {row.project}
-                    </td>
-                    <td className="px-3.5 text-slate-600 dark:text-slate-300 whitespace-nowrap">
-                      {row.owner}
-                    </td>
-                    <td className="px-3.5 text-xs font-medium whitespace-nowrap">
-                      <span
-                        className={
-                          row.status === 'Active'
-                            ? 'text-emerald-700 dark:text-emerald-400'
-                            : row.status === 'Review'
-                              ? 'text-amber-700 dark:text-amber-400'
-                              : 'text-slate-500 dark:text-slate-400'
-                        }
-                      >
-                        {row.status}
-                      </span>
-                    </td>
-                    <td className="px-3.5 text-right font-mono text-xs tabular-nums text-slate-700 dark:text-slate-200">
-                      {row.completion}%
-                    </td>
-                    <td className="px-3.5 text-right font-mono text-xs tabular-nums text-slate-800 dark:text-slate-100">
-                      ${row.budgetUsd.toLocaleString()}
-                    </td>
-                  </tr>
-                );
-              })
+              rows.map((row) => (
+                <DataTableRowView
+                  key={row.id}
+                  row={row}
+                  checked={selectedSet.has(row.id)}
+                  onToggleSelect={onToggleSelect}
+                />
+              ))
             )}
           </tbody>
         </table>
@@ -183,4 +202,5 @@ export function DataTable({
   );
 }
 
+export const DataTable = memo(DataTableInner);
 DataTable.displayName = 'DataTable';

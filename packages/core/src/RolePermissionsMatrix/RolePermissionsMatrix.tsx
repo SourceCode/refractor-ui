@@ -1,10 +1,11 @@
 'use client';
 
-import { useCallback, useId, useMemo, useState } from 'react';
+import { memo, useCallback, useId, useMemo, useState } from 'react';
 import { Check, Lock, ShieldCheck } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface RoleColumn {
@@ -71,7 +72,7 @@ function grantsMapToRecord(map: Map<string, Set<string>>): Record<string, string
   );
 }
 
-export function RolePermissionsMatrix({
+function RolePermissionsMatrixInner({
   roles,
   permissions,
   grants,
@@ -197,12 +198,12 @@ export function RolePermissionsMatrix({
     <div ref={ref} {...rest} {...merged}>
       <div
         className="px-5 py-4 border-b flex flex-wrap items-center justify-between gap-3"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex flex-wrap items-center gap-2.5">
           <span
             className="prism-well w-9 h-9 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-info-main)' }}
+            style={STYLE_INFO_MAIN}
           >
             <ShieldCheck aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
@@ -210,7 +211,7 @@ export function RolePermissionsMatrix({
           <h2
             id={headingId}
             className="text-sm font-semibold tracking-tight break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h2>
@@ -218,7 +219,7 @@ export function RolePermissionsMatrix({
           <span
             data-testid="rpm-permission-count"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {permissions.length} {permUnit}
           </span>
@@ -233,12 +234,12 @@ export function RolePermissionsMatrix({
               <span
                 key={item.category}
                 className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span>{item.category}</span>
                 <span
                   className="font-mono text-[10px] tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {item.count}
                 </span>
@@ -251,14 +252,14 @@ export function RolePermissionsMatrix({
       <div className="overflow-x-auto">
         <table aria-labelledby={headingId} className="w-full border-collapse text-sm">
           <thead>
-            <tr className="border-b" style={{ borderColor: 'var(--prism-divider)' }}>
+            <tr className="border-b" style={STYLE_BORDER_DIVIDER}>
               <th
                 scope="col"
                 className="px-5 py-3.5 text-left align-bottom min-w-[220px]"
               >
                 <span
                   className="text-xs font-semibold uppercase tracking-wider"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Permission
                 </span>
@@ -286,7 +287,7 @@ export function RolePermissionsMatrix({
                       <div className="flex flex-wrap items-center justify-center gap-1.5">
                         <span
                           className="text-xs font-semibold break-words"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {role.name}
                         </span>
@@ -295,7 +296,7 @@ export function RolePermissionsMatrix({
                           <span
                             data-testid={`rpm-locked-pill-${role.id}`}
                             className="prism-well inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0"
-                            style={{ color: 'var(--prism-warning-main)' }}
+                            style={STYLE_WARNING_MAIN}
                           >
                             <Lock aria-hidden="true" className="w-2.5 h-2.5 shrink-0" />
                             <span>Locked</span>
@@ -306,7 +307,7 @@ export function RolePermissionsMatrix({
                       {role.description ? (
                         <span
                           className="text-[11px] font-normal leading-snug max-w-[180px] break-words"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {role.description}
                         </span>
@@ -315,7 +316,7 @@ export function RolePermissionsMatrix({
                       <span
                         data-testid={`rpm-role-count-${role.id}`}
                         className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {grantedCount}/{permissions.length}
                       </span>
@@ -326,8 +327,8 @@ export function RolePermissionsMatrix({
                         aria-label={`Toggle all permissions for ${role.name}`}
                         data-all-granted={allGranted ? 'true' : 'false'}
                         onClick={() => handleToggleAllForRole(role)}
-                        className="prism-focus-ring prism-crystal mt-0.5 px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105 transition-all"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        className="prism-focus-ring prism-crystal mt-0.5 px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         Toggle all
                       </button>
@@ -345,7 +346,7 @@ export function RolePermissionsMatrix({
                   <div
                     data-testid="rpm-empty-state"
                     className="prism-well rounded-2xl px-4 py-6 text-center text-xs"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {emptyMessage}
                   </div>
@@ -360,14 +361,14 @@ export function RolePermissionsMatrix({
                     key={perm.id}
                     data-permission-id={perm.id}
                     className="border-t transition-colors"
-                    style={{ borderColor: 'var(--prism-divider)' }}
+                    style={STYLE_BORDER_DIVIDER}
                   >
                     <th scope="row" className="px-5 py-3 text-left align-middle font-normal">
                       <div className="flex flex-col gap-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span
                             className="text-sm font-medium break-words"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {perm.label}
                           </span>
@@ -376,7 +377,7 @@ export function RolePermissionsMatrix({
                             <span
                               data-testid={`rpm-perm-category-${perm.id}`}
                               className="prism-crystal px-2 py-0.5 rounded-full text-[10px] font-medium shrink-0"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               {permCategory}
                             </span>
@@ -386,7 +387,7 @@ export function RolePermissionsMatrix({
                         {perm.description ? (
                           <span
                             className="text-xs leading-snug break-words"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {perm.description}
                           </span>
@@ -407,7 +408,7 @@ export function RolePermissionsMatrix({
                             aria-label={`${role.name}: ${perm.label}`}
                             disabled={isLocked}
                             onClick={() => handleTogglePermission(role, perm)}
-                            className={`prism-focus-ring w-7 h-7 rounded-[9px] inline-flex items-center justify-center shrink-0 transition-all duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:scale-105 ${
+                            className={`prism-focus-ring w-7 h-7 rounded-[9px] inline-flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:scale-105 ${
                               checked ? 'prism-emerald' : 'prism-well'
                             }`}
                           >
@@ -439,4 +440,5 @@ export function RolePermissionsMatrix({
   );
 }
 
+export const RolePermissionsMatrix = memo(RolePermissionsMatrixInner);
 RolePermissionsMatrix.displayName = 'RolePermissionsMatrix';

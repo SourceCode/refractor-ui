@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { memo, useEffect, useId, useRef, useState } from 'react';
 import { Plus, Search, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -38,7 +38,7 @@ export interface SearchWithSuggestionsProps extends SearchWithSuggestionsBasePro
   disabled?: boolean;
 }
 
-export function SearchWithSuggestions({
+function SearchWithSuggestionsInner({
   value,
   onChange,
   suggestions,
@@ -177,4 +177,5 @@ export function SearchWithSuggestions({
   );
 }
 
+export const SearchWithSuggestions = memo(SearchWithSuggestionsInner);
 SearchWithSuggestions.displayName = 'SearchWithSuggestions';

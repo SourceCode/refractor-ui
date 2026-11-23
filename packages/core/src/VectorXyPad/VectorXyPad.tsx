@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type XyPadGridMode = 'cartesian' | 'polar';
@@ -188,7 +190,7 @@ function formatUnsignedMetric(value: number, span: number, unit: string): string
   return unit ? `${formatted}${unit}` : formatted;
 }
 
-export function VectorXyPad({
+function VectorXyPadInner({
   value,
   defaultValue = DEFAULT_VECTOR,
   minX = DEFAULT_MIN,
@@ -354,7 +356,7 @@ export function VectorXyPad({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -470,7 +472,7 @@ export function VectorXyPad({
           <span
             data-testid="xy-pad-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -490,7 +492,7 @@ export function VectorXyPad({
               data-testid="xy-mode-cartesian"
               onClick={() => setActiveGridMode('cartesian')}
               className={cx(
-                'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:cursor-not-allowed shrink-0',
+                'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed shrink-0',
                 activeGridMode === 'cartesian' ? 'prism-crystal' : 'opacity-70',
                 disabled ? 'opacity-50' : ''
               )}
@@ -510,7 +512,7 @@ export function VectorXyPad({
               data-testid="xy-mode-polar"
               onClick={() => setActiveGridMode('polar')}
               className={cx(
-                'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:cursor-not-allowed shrink-0',
+                'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed shrink-0',
                 activeGridMode === 'polar' ? 'prism-crystal' : 'opacity-70',
                 disabled ? 'opacity-50' : ''
               )}
@@ -536,7 +538,7 @@ export function VectorXyPad({
               'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed shrink-0',
               disabled || isAtCenter ? 'opacity-50' : ''
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>{resetLabel}</span>
@@ -842,14 +844,14 @@ export function VectorXyPad({
         <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[11px] font-medium truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {xLabel}
           </span>
           <span
             data-testid="xy-readout-x"
             className="font-mono text-xs font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formattedX}
           </span>
@@ -858,14 +860,14 @@ export function VectorXyPad({
         <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[11px] font-medium truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {yLabel}
           </span>
           <span
             data-testid="xy-readout-y"
             className="font-mono text-xs font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {formattedY}
           </span>
@@ -874,14 +876,14 @@ export function VectorXyPad({
         <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
           <span
             className="text-[11px] font-medium truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Vector (r · θ°)
           </span>
           <span
             data-testid="xy-readout-polar"
             className="font-mono text-xs font-semibold tabular-nums truncate"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             {polarSummary}
           </span>
@@ -891,4 +893,5 @@ export function VectorXyPad({
   );
 }
 
+export const VectorXyPad = memo(VectorXyPadInner);
 VectorXyPad.displayName = 'VectorXyPad';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -30,6 +31,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_CONTRAST, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type FileInspectorKind = 'image' | 'code' | 'audio' | 'document' | 'archive';
@@ -765,7 +767,7 @@ function OpticalPreviewCanvas({ fileName, kind, svgPrefix }: OpticalPreviewCanva
   );
 }
 
-export function FileMetadataInspector({
+function FileMetadataInspectorInner({
   file,
   open,
   defaultOpen = true,
@@ -1004,7 +1006,7 @@ export function FileMetadataInspector({
               id={titleId}
               data-testid="file-inspector-title"
               className="m-0 text-sm font-semibold tracking-tight break-words min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedFile ? resolvedFile.name : 'No file selected'}
             </h3>
@@ -1014,13 +1016,13 @@ export function FileMetadataInspector({
                 <span
                   data-testid="file-inspector-mime"
                   className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-medium max-w-full truncate"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {resolvedFile.mimeType}
                 </span>
                 <span
                   className="font-mono text-[11px] font-medium tabular-nums whitespace-nowrap"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {resolvedFile.sizeLabel}
                 </span>
@@ -1071,19 +1073,19 @@ export function FileMetadataInspector({
               <span
                 aria-hidden="true"
                 className="prism-crystal w-10 h-10 rounded-full inline-flex items-center justify-center shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <FileSearch className="w-5 h-5" />
               </span>
               <p
                 className="m-0 text-sm font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 No file selected
               </p>
               <p
                 className="m-0 text-xs max-w-xs leading-relaxed"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Select a file to inspect its optical preview, metadata details, EXIF specs, and semantic color tags.
               </p>
@@ -1104,7 +1106,7 @@ export function FileMetadataInspector({
                 <div className="flex flex-wrap items-center justify-between gap-2 px-1 min-w-0">
                   <span
                     className="text-[11px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Optical Preview
                   </span>
@@ -1120,7 +1122,7 @@ export function FileMetadataInspector({
               <section aria-label="File Metadata" className="flex flex-col gap-2 min-w-0">
                 <h4
                   className="m-0 text-[11px] font-semibold uppercase tracking-wider"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Metadata
                 </h4>
@@ -1134,13 +1136,13 @@ export function FileMetadataInspector({
                   <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
                     <dt
                       className="text-[11px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Size
                     </dt>
                     <dd
                       className="m-0 font-mono text-xs font-semibold tabular-nums truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {resolvedFile.sizeLabel}
                     </dd>
@@ -1149,13 +1151,13 @@ export function FileMetadataInspector({
                   <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
                     <dt
                       className="text-[11px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       MIME Type
                     </dt>
                     <dd
                       className="m-0 font-mono text-xs font-semibold truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {resolvedFile.mimeType}
                     </dd>
@@ -1164,13 +1166,13 @@ export function FileMetadataInspector({
                   <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
                     <dt
                       className="text-[11px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Created
                     </dt>
                     <dd
                       className="m-0 font-mono text-xs tabular-nums truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {resolvedFile.createdAt}
                     </dd>
@@ -1179,13 +1181,13 @@ export function FileMetadataInspector({
                   <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0">
                     <dt
                       className="text-[11px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Modified
                     </dt>
                     <dd
                       className="m-0 font-mono text-xs tabular-nums truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {resolvedFile.modifiedAt}
                     </dd>
@@ -1194,13 +1196,13 @@ export function FileMetadataInspector({
                   <div className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0 sm:col-span-2">
                     <dt
                       className="text-[11px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Location
                     </dt>
                     <dd
                       className="m-0 font-mono text-xs break-all"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {resolvedFile.location}
                     </dd>
@@ -1214,7 +1216,7 @@ export function FileMetadataInspector({
                       <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
                         <dt
                           className="text-[11px] font-medium"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           SHA-256 Checksum
                         </dt>
@@ -1225,7 +1227,7 @@ export function FileMetadataInspector({
                           data-testid="file-inspector-copy-sha"
                           onClick={() => handleCopyChecksum(checksumValue)}
                           className={cx(
-                            'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                            'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                             copied ? 'prism-emerald' : 'prism-crystal'
                           )}
                           style={copied ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -1246,7 +1248,7 @@ export function FileMetadataInspector({
                       <dd
                         data-testid="file-inspector-checksum-value"
                         className="m-0 font-mono text-[11px] leading-relaxed tabular-nums break-all"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {checksumValue}
                       </dd>
@@ -1264,13 +1266,13 @@ export function FileMetadataInspector({
                   <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
                     <h4
                       className="m-0 text-[11px] font-semibold uppercase tracking-wider"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       EXIF &amp; Media Specs
                     </h4>
                     <span
                       className="prism-well px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold tabular-nums"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {keyedExifEntries.length}
                     </span>
@@ -1288,13 +1290,13 @@ export function FileMetadataInspector({
                       >
                         <dt
                           className="text-[11px] font-medium truncate"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {entry.label}
                         </dt>
                         <dd
                           className="m-0 font-mono text-xs font-semibold tabular-nums break-words"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {entry.value}
                         </dd>
@@ -1313,11 +1315,11 @@ export function FileMetadataInspector({
                     <Tag
                       aria-hidden="true"
                       className="w-3.5 h-3.5 shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     />
                     <h4
                       className="m-0 text-[11px] font-semibold uppercase tracking-wider"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Color Tags
                     </h4>
@@ -1352,7 +1354,7 @@ export function FileMetadataInspector({
                             <Check
                               aria-hidden="true"
                               className="w-3 h-3 shrink-0"
-                              style={{ color: 'var(--prism-primary-contrast)' }}
+                              style={STYLE_PRIMARY_CONTRAST}
                             />
                           ) : null}
                         </button>
@@ -1369,7 +1371,7 @@ export function FileMetadataInspector({
                     <span
                       data-testid="file-inspector-no-tags"
                       className="text-xs"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       No tags applied yet.
                     </span>
@@ -1420,7 +1422,7 @@ export function FileMetadataInspector({
                     onChange={handleTagDraftChange}
                     onKeyDown={handleTagInputKeyDown}
                     className="prism-well prism-focus-ring h-8 px-3 rounded-full text-xs min-w-0 flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   />
                   <button
                     type="button"
@@ -1453,4 +1455,5 @@ export function FileMetadataInspector({
   );
 }
 
+export const FileMetadataInspector = memo(FileMetadataInspectorInner);
 FileMetadataInspector.displayName = 'FileMetadataInspector';

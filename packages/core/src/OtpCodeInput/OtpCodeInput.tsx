@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +16,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 type OtpCodeInputBaseProps = Omit<BaseProps<HTMLDivElement>, 'onChange'>;
@@ -114,7 +116,7 @@ function parseCellInput(
   return { kind: 'multi', chars: sanitized };
 }
 
-export function OtpCodeInput({
+function OtpCodeInputInner({
   length = 6,
   value,
   defaultValue = '',
@@ -345,7 +347,7 @@ export function OtpCodeInput({
         <span
           id={labelId}
           className="text-xs font-semibold ml-1"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {label}
         </span>
@@ -356,8 +358,8 @@ export function OtpCodeInput({
             disabled={disabled}
             aria-label="Clear verification code"
             onClick={handleClear}
-            className="prism-crystal prism-focus-ring inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            className="prism-crystal prism-focus-ring inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_SECONDARY}
           >
             <X aria-hidden="true" className="w-3 h-3 shrink-0" />
             <span>Clear</span>
@@ -370,7 +372,7 @@ export function OtpCodeInput({
         aria-labelledby={labelId}
         aria-describedby={describedBy}
         onPaste={(e) => handlePaste(focusedIndex ?? 0, e)}
-        className="prism-crystal inline-flex flex-wrap items-center gap-2 rounded-2xl p-2 transition-all"
+        className="prism-crystal inline-flex flex-wrap items-center gap-2 rounded-2xl p-2 transition-[color,background-color,border-color,opacity,transform]"
         style={
           error
             ? { boxShadow: '0 0 0 1.5px var(--prism-error-main)' }
@@ -410,7 +412,7 @@ export function OtpCodeInput({
                 e.stopPropagation();
                 handlePaste(slot.position, e);
               }}
-              className="prism-well prism-focus-ring w-11 h-12 rounded-xl text-center font-mono text-lg font-semibold tabular-nums focus:outline-none transition-all disabled:opacity-55 disabled:cursor-not-allowed enabled:hover:brightness-105"
+              className="prism-well prism-focus-ring w-11 h-12 rounded-xl text-center font-mono text-lg font-semibold tabular-nums focus:outline-none transition-[color,background-color,border-color,opacity,transform] disabled:opacity-55 disabled:cursor-not-allowed enabled:hover:brightness-105"
               style={{
                 color: 'var(--prism-text-primary)',
                 ...(error ? { boxShadow: 'inset 0 0 0 1.5px var(--prism-error-main)' } : {}),
@@ -425,7 +427,7 @@ export function OtpCodeInput({
           id={errorId}
           role="alert"
           className="mt-2 ml-1 text-xs font-medium"
-          style={{ color: 'var(--prism-error-main)' }}
+          style={STYLE_ERROR_MAIN}
         >
           {error}
         </p>
@@ -434,4 +436,5 @@ export function OtpCodeInput({
   );
 }
 
+export const OtpCodeInput = memo(OtpCodeInputInner);
 OtpCodeInput.displayName = 'OtpCodeInput';

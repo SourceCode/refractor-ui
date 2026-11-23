@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef } from 'react';
+import { memo, useEffect, useId, useRef } from 'react';
 import { Check, Minus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TriCheckboxState = 'unchecked' | 'checked' | 'indeterminate';
@@ -33,7 +34,7 @@ export interface TriStateCheckboxProps extends TriStateCheckboxBaseProps {
   disabled?: boolean;
 }
 
-export function TriStateCheckbox({
+function TriStateCheckboxInner({
   state,
   defaultState = 'unchecked',
   onChange,
@@ -168,7 +169,7 @@ export function TriStateCheckbox({
           <span
             id={labelId}
             className={cx(labelClass, 'text-sm font-medium tracking-tight')}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -189,7 +190,7 @@ export function TriStateCheckbox({
           <span
             id={descriptionId}
             className={cx(descriptionClass, 'block text-xs mt-0.5')}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {description}
           </span>
@@ -199,4 +200,5 @@ export function TriStateCheckbox({
   );
 }
 
+export const TriStateCheckbox = memo(TriStateCheckboxInner);
 TriStateCheckbox.displayName = 'TriStateCheckbox';

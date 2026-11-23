@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RulerMarkerTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -251,7 +253,7 @@ function sanitizeMarkers(
   return resolved;
 }
 
-export function PlayheadScrubRuler({
+function PlayheadScrubRulerInner({
   durationSec = DEFAULT_DURATION_SEC,
   timeSec,
   defaultTimeSec = 0,
@@ -377,7 +379,7 @@ export function PlayheadScrubRuler({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handleMove);
+      window.addEventListener('pointermove', handleMove, { passive: true });
       window.addEventListener('pointerup', handleEnd);
       window.addEventListener('pointercancel', handleEnd);
     },
@@ -471,12 +473,12 @@ export function PlayheadScrubRuler({
             aria-live="polite"
             data-testid="playhead-timecode"
             className="prism-well rounded-full px-3 py-1 inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-semibold tabular-nums whitespace-nowrap"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
               className="w-2 h-2 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-primary-main)' }}
+              style={STYLE_BG_PRIMARY}
             />
             <span>{formattedTime}</span>
           </div>
@@ -497,10 +499,10 @@ export function PlayheadScrubRuler({
         <div
           data-testid="playhead-duration"
           className="inline-flex items-center gap-1.5 font-mono text-xs tabular-nums whitespace-nowrap"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span className="text-[10px] uppercase tracking-wider opacity-75">Dur</span>
-          <span style={{ color: 'var(--prism-text-primary)' }}>{formattedDuration}</span>
+          <span style={STYLE_TEXT_PRIMARY}>{formattedDuration}</span>
         </div>
       </div>
 
@@ -654,7 +656,7 @@ export function PlayheadScrubRuler({
                     data-active={isAtMarker ? 'true' : undefined}
                     aria-label={`Jump to marker ${item.marker.label} at ${markerTimecode}`}
                     onClick={() => handleMarkerClick(item)}
-                    className="prism-crystal prism-focus-ring absolute z-10 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium whitespace-nowrap max-w-[140px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                    className="prism-crystal prism-focus-ring absolute z-10 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium whitespace-nowrap max-w-[140px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                     style={{
                       left: `${item.percent}%`,
                       top: '50%',
@@ -730,4 +732,5 @@ export function PlayheadScrubRuler({
   );
 }
 
+export const PlayheadScrubRuler = memo(PlayheadScrubRulerInner);
 PlayheadScrubRuler.displayName = 'PlayheadScrubRuler';

@@ -88,9 +88,24 @@ export function buildGoogleFontsHref(families: ReadonlyArray<string>): string | 
   return `${GOOGLE_FONTS_ORIGIN}/css2?${query}&display=swap`;
 }
 
+const loadedFontLinksByDoc = new WeakMap<Document, Map<string, HTMLLinkElement>>();
+const preconnectLinksByDoc = new WeakMap<Document, Map<string, HTMLLinkElement>>();
+
 function ensurePreconnect(doc: Document, href: string, crossOrigin?: string): void {
+  let docMap = preconnectLinksByDoc.get(doc);
+  if (!docMap) {
+    docMap = new Map<string, HTMLLinkElement>();
+    preconnectLinksByDoc.set(doc, docMap);
+  }
+  const existing = docMap.get(href);
+  if (existing && existing.isConnected) return;
+
   const selector = `link[data-refractor-font-preconnect="${href}"]`;
-  if (doc.head.querySelector(selector)) return;
+  const domExisting = doc.head.querySelector<HTMLLinkElement>(selector);
+  if (domExisting) {
+    docMap.set(href, domExisting);
+    return;
+  }
   const link = doc.createElement('link');
   link.rel = 'preconnect';
   link.href = href;
@@ -99,11 +114,13 @@ function ensurePreconnect(doc: Document, href: string, crossOrigin?: string): vo
   }
   link.setAttribute('data-refractor-font-preconnect', href);
   doc.head.appendChild(link);
+  docMap.set(href, link);
 }
 
 /**
  * Lazily injects a deduplicated Google Fonts stylesheet for the requested font families.
- * Safe in SSR, jsdom, and offline environments. Returns true if a new stylesheet was appended.
+ * Uses a per-document WeakMap cache with DOM connectedness verification to avoid
+ * repeated head.querySelector walks on theme switches.
  */
 export function ensureThemeFontsLoaded(
   families: ReadonlyArray<string>,
@@ -122,7 +139,22 @@ export function ensureThemeFontsLoaded(
     .join('|');
 
   if (!key) return false;
-  if (targetDoc.head.querySelector(`link[data-refractor-font-key="${key}"]`)) {
+
+  let docFonts = loadedFontLinksByDoc.get(targetDoc);
+  if (!docFonts) {
+    docFonts = new Map<string, HTMLLinkElement>();
+    loadedFontLinksByDoc.set(targetDoc, docFonts);
+  }
+  const cachedLink = docFonts.get(key);
+  if (cachedLink && cachedLink.isConnected) {
+    return false;
+  }
+
+  const domExisting = targetDoc.head.querySelector<HTMLLinkElement>(
+    `link[data-refractor-font-key="${key}"]`
+  );
+  if (domExisting) {
+    docFonts.set(key, domExisting);
     return false;
   }
 
@@ -134,6 +166,7 @@ export function ensureThemeFontsLoaded(
   link.href = href;
   link.setAttribute('data-refractor-font-key', key);
   targetDoc.head.appendChild(link);
+  docFonts.set(key, link);
   return true;
 }
 

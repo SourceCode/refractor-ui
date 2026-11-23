@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MeshRenderStyle = 'shaded' | 'wireframe';
@@ -389,7 +391,7 @@ function buildSurfaceScene(
   };
 }
 
-export function SurfaceMesh3DPlot({
+function SurfaceMesh3DPlotInner({
   grid,
   defaultYawDeg = DEFAULT_YAW_DEG,
   defaultPitchDeg = DEFAULT_PITCH_DEG,
@@ -536,7 +538,7 @@ export function SurfaceMesh3DPlot({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -631,7 +633,7 @@ export function SurfaceMesh3DPlot({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Box className="w-4 h-4 shrink-0" />
           </span>
@@ -639,7 +641,7 @@ export function SurfaceMesh3DPlot({
             id={headingId}
             data-testid="surface-mesh-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -663,7 +665,7 @@ export function SurfaceMesh3DPlot({
                   data-testid={`surface-mesh-style-${option.id}`}
                   onClick={() => setActiveRenderStyle(option.id)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap cursor-pointer transition-all',
+                    'prism-focus-ring rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     pressed ? 'prism-crystal font-semibold shadow-sm' : 'opacity-75 hover:opacity-100'
                   )}
                   style={{
@@ -689,15 +691,15 @@ export function SurfaceMesh3DPlot({
               aria-label="Zoom out"
               data-testid="surface-mesh-zoom-out"
               onClick={handleZoomOut}
-              className="prism-focus-ring prism-crystal w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-focus-ring prism-crystal w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               <Minus className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
             </button>
             <span
               data-testid="surface-mesh-zoom-badge"
               className="px-1.5 text-xs font-mono font-semibold tabular-nums min-w-[3.25rem] text-center"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {zoomLabel}
             </span>
@@ -707,8 +709,8 @@ export function SurfaceMesh3DPlot({
               aria-label="Zoom in"
               data-testid="surface-mesh-zoom-in"
               onClick={handleZoomIn}
-              className="prism-focus-ring prism-crystal w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-focus-ring prism-crystal w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               <Plus className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
             </button>
@@ -719,8 +721,8 @@ export function SurfaceMesh3DPlot({
             type="button"
             data-testid="surface-mesh-reset"
             onClick={handleResetView}
-            className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
             <span>Reset View</span>
@@ -734,7 +736,7 @@ export function SurfaceMesh3DPlot({
           role="status"
           data-testid="surface-mesh-empty"
           className="prism-well rounded-2xl px-4 py-10 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Surface mesh requires at least a 2×2 elevation grid to project 3D facets.
         </div>
@@ -763,7 +765,7 @@ export function SurfaceMesh3DPlot({
             data-testid="surface-mesh-legend"
             aria-label="Elevation color ramp"
             className="flex flex-wrap items-center justify-between gap-2 px-1 pb-1.5 text-[11px]"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <span className="inline-flex flex-wrap items-center gap-2.5">
               {ELEVATION_LEGEND.map((item) => (
@@ -922,38 +924,38 @@ export function SurfaceMesh3DPlot({
           telemetryClass,
           'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-mono tabular-nums min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         <span data-testid="surface-mesh-telemetry-yaw">
-          <span style={{ color: 'var(--prism-text-secondary)' }}>Yaw </span>
+          <span style={STYLE_TEXT_SECONDARY}>Yaw </span>
           {yawDeg}°
         </span>
-        <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+        <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
           ·
         </span>
         <span data-testid="surface-mesh-telemetry-pitch">
-          <span style={{ color: 'var(--prism-text-secondary)' }}>Pitch </span>
+          <span style={STYLE_TEXT_SECONDARY}>Pitch </span>
           {pitchDeg}°
         </span>
-        <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+        <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
           ·
         </span>
         <span data-testid="surface-mesh-telemetry-zoom">
-          <span style={{ color: 'var(--prism-text-secondary)' }}>Zoom </span>
+          <span style={STYLE_TEXT_SECONDARY}>Zoom </span>
           {zoomLabel}
         </span>
-        <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+        <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
           ·
         </span>
         <span data-testid="surface-mesh-telemetry-z-range">
-          <span style={{ color: 'var(--prism-text-secondary)' }}>Z Range </span>
+          <span style={STYLE_TEXT_SECONDARY}>Z Range </span>
           {zRangeLabel}
         </span>
-        <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+        <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
           ·
         </span>
         <span data-testid="surface-mesh-telemetry-active-cell">
-          <span style={{ color: 'var(--prism-text-secondary)' }}>Active Cell </span>
+          <span style={STYLE_TEXT_SECONDARY}>Active Cell </span>
           {activeCellLabel}
         </span>
       </div>
@@ -961,4 +963,5 @@ export function SurfaceMesh3DPlot({
   );
 }
 
+export const SurfaceMesh3DPlot = memo(SurfaceMesh3DPlotInner);
 SurfaceMesh3DPlot.displayName = 'SurfaceMesh3DPlot';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Star } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -23,7 +23,7 @@ export interface RatingControlProps extends RatingControlBaseProps {
   disabled?: boolean;
 }
 
-export function RatingControl({
+function RatingControlInner({
   value,
   max = 5,
   onChange,
@@ -97,4 +97,5 @@ export function RatingControl({
   );
 }
 
+export const RatingControl = memo(RatingControlInner);
 RatingControl.displayName = 'RatingControl';

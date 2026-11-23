@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useRef,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CrosshairTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -271,7 +273,7 @@ function computeYDomain(seriesList: ReadonlyArray<NormalizedSeries>): {
   return { min: rawMin, max: rawMax };
 }
 
-export function ChartCrosshairTooltip({
+function ChartCrosshairTooltipInner({
   labels,
   series,
   title = 'Crosshair Multi-Series Inspector',
@@ -627,14 +629,14 @@ export function ChartCrosshairTooltip({
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Crosshair aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -647,7 +649,7 @@ export function ChartCrosshairTooltip({
                 <span
                   data-testid="crosshair-active-badge"
                   className="prism-crystal rounded-full px-2.5 py-1 text-xs font-mono font-medium tabular-nums"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeColumn.snapshot.label}
                 </span>
@@ -658,7 +660,7 @@ export function ChartCrosshairTooltip({
                     data-testid="crosshair-pin-button"
                     aria-pressed={true}
                     onClick={clearSelection}
-                    className="prism-emerald prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all"
+                    className="prism-emerald prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
                   >
                     <PinOff aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                     <span>Pinned · Unpin</span>
@@ -669,8 +671,8 @@ export function ChartCrosshairTooltip({
                     data-testid="crosshair-pin-button"
                     aria-pressed={false}
                     onClick={() => setPinnedIndex(activeColumn.snapshot.index)}
-                    className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     <Pin aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                     <span>Pin</span>
@@ -681,7 +683,7 @@ export function ChartCrosshairTooltip({
               <span
                 data-testid="crosshair-idle-hint"
                 className="prism-well rounded-full px-2.5 py-1 text-xs"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Hover or focus to inspect
               </span>
@@ -698,7 +700,7 @@ export function ChartCrosshairTooltip({
             emptyClass,
             'prism-well rounded-2xl px-4 py-8 text-center text-xs'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No finite series data available to inspect.
         </div>
@@ -731,7 +733,7 @@ export function ChartCrosshairTooltip({
                   y={tick.y + 3.5}
                   textAnchor="end"
                   className="text-[10px] font-mono tabular-nums"
-                  style={{ fill: 'var(--prism-text-secondary)' }}
+                  style={STYLE_FILL_SECONDARY}
                 >
                   {tick.label}
                 </text>
@@ -890,7 +892,7 @@ export function ChartCrosshairTooltip({
                 <span
                   data-testid="crosshair-tooltip-label"
                   className="text-xs font-semibold truncate"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {activeColumn.snapshot.label}
                 </span>
@@ -922,7 +924,7 @@ export function ChartCrosshairTooltip({
                       />
                       <span
                         className="truncate font-medium"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {row.item.label}
                       </span>
@@ -932,7 +934,7 @@ export function ChartCrosshairTooltip({
                       <span
                         data-testid={`crosshair-value-${row.item.seriesId}`}
                         className="font-semibold"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {formatTabularValue(row.item.value, row.item.unit)}
                       </span>
@@ -955,4 +957,5 @@ export function ChartCrosshairTooltip({
   );
 }
 
+export const ChartCrosshairTooltip = memo(ChartCrosshairTooltipInner);
 ChartCrosshairTooltip.displayName = 'ChartCrosshairTooltip';

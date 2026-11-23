@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -24,6 +25,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BatchRenameCaseMode = 'preserve' | 'lower' | 'upper' | 'title' | 'kebab' | 'snake';
@@ -338,7 +340,7 @@ function isInvalidFilename(name: string): boolean {
   return false;
 }
 
-export function BatchRenameUtility({
+function BatchRenameUtilityInner({
   title = DEFAULT_TITLE,
   files,
   onApplyRename,
@@ -539,14 +541,14 @@ export function BatchRenameUtility({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <FileEdit aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="m-0 text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
@@ -555,7 +557,7 @@ export function BatchRenameUtility({
         <span
           data-testid="batch-rename-file-count"
           className="prism-well rounded-full px-3 py-1 font-mono text-[11px] font-medium tabular-nums shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {`${sourceFiles.length} ${sourceFiles.length === 1 ? 'file' : 'files'}`}
         </span>
@@ -568,12 +570,12 @@ export function BatchRenameUtility({
           <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
             <span
               className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Search
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               />
               <span>Literal Find &amp; Replace</span>
             </span>
@@ -581,7 +583,7 @@ export function BatchRenameUtility({
             <label
               htmlFor={matchCaseId}
               className="inline-flex items-center gap-1.5 text-xs font-medium select-none"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <input
                 id={matchCaseId}
@@ -604,7 +606,7 @@ export function BatchRenameUtility({
               <label
                 htmlFor={findInputId}
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Find
               </label>
@@ -621,7 +623,7 @@ export function BatchRenameUtility({
                 }}
                 onKeyDown={handleInputKeyDown}
                 className="prism-well prism-focus-ring h-9 w-full min-w-0 rounded-xl px-3 text-xs font-mono disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
 
@@ -629,7 +631,7 @@ export function BatchRenameUtility({
               <label
                 htmlFor={replaceInputId}
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Replace
               </label>
@@ -646,7 +648,7 @@ export function BatchRenameUtility({
                 }}
                 onKeyDown={handleInputKeyDown}
                 className="prism-well prism-focus-ring h-9 w-full min-w-0 rounded-xl px-3 text-xs font-mono disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
           </div>
@@ -658,12 +660,12 @@ export function BatchRenameUtility({
             <label
               htmlFor={presetSelectId}
               className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Sparkles
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-info-main)' }}
+                style={STYLE_INFO_MAIN}
               />
               <span>Pattern Preset</span>
             </label>
@@ -678,7 +680,7 @@ export function BatchRenameUtility({
                 setStatusMessage('');
               }}
               className="prism-well prism-focus-ring h-9 w-full min-w-0 rounded-xl px-2.5 text-xs font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <option value="none">None</option>
               <option value="strip-spaces">Replace Spaces with Hyphens</option>
@@ -691,12 +693,12 @@ export function BatchRenameUtility({
             <label
               htmlFor={caseSelectId}
               className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <CaseSensitive
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-secondary-dark)' }}
+                style={STYLE_SECONDARY_DARK}
               />
               <span>Case Formatting</span>
             </label>
@@ -711,7 +713,7 @@ export function BatchRenameUtility({
                 setStatusMessage('');
               }}
               className="prism-well prism-focus-ring h-9 w-full min-w-0 rounded-xl px-2.5 text-xs font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <option value="preserve">Preserve</option>
               <option value="lower">lowercase</option>
@@ -728,12 +730,12 @@ export function BatchRenameUtility({
           <div className="flex flex-wrap items-center justify-between gap-2.5 min-w-0">
             <span
               className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Hash
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-success-dark)' }}
+                style={STYLE_SUCCESS_DARK}
               />
               <span>Sequential Numbering &amp; Affixes</span>
             </span>
@@ -742,7 +744,7 @@ export function BatchRenameUtility({
               <label
                 htmlFor={enableNumberingId}
                 className="inline-flex items-center gap-1.5 text-xs font-medium select-none"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <input
                   id={enableNumberingId}
@@ -762,7 +764,7 @@ export function BatchRenameUtility({
               <label
                 htmlFor={preserveExtId}
                 className="inline-flex items-center gap-1.5 text-xs font-medium select-none"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <input
                   id={preserveExtId}
@@ -786,7 +788,7 @@ export function BatchRenameUtility({
               <label
                 htmlFor={prefixInputId}
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Prefix
               </label>
@@ -803,7 +805,7 @@ export function BatchRenameUtility({
                 }}
                 onKeyDown={handleInputKeyDown}
                 className="prism-well prism-focus-ring h-9 w-full min-w-0 rounded-xl px-3 text-xs font-mono disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
 
@@ -811,7 +813,7 @@ export function BatchRenameUtility({
               <label
                 htmlFor={suffixInputId}
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Suffix
               </label>
@@ -828,7 +830,7 @@ export function BatchRenameUtility({
                 }}
                 onKeyDown={handleInputKeyDown}
                 className="prism-well prism-focus-ring h-9 w-full min-w-0 rounded-xl px-3 text-xs font-mono disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
 
@@ -836,7 +838,7 @@ export function BatchRenameUtility({
               <label
                 htmlFor={startIndexInputId}
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Start Index
               </label>
@@ -854,7 +856,7 @@ export function BatchRenameUtility({
                 }}
                 onKeyDown={handleInputKeyDown}
                 className="prism-well prism-focus-ring h-9 w-full min-w-0 rounded-xl px-3 text-xs font-mono tabular-nums disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
 
@@ -862,7 +864,7 @@ export function BatchRenameUtility({
               <label
                 htmlFor={zeroPadInputId}
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Zero Pad
               </label>
@@ -880,7 +882,7 @@ export function BatchRenameUtility({
                 }}
                 onKeyDown={handleInputKeyDown}
                 className="prism-well prism-focus-ring h-9 w-full min-w-0 rounded-xl px-3 text-xs font-mono tabular-nums disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
           </div>
@@ -892,13 +894,13 @@ export function BatchRenameUtility({
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
           <span
             className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-tight"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span>Before</span>
             <ArrowRight
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
             <span>After Live Preview</span>
           </span>
@@ -915,28 +917,28 @@ export function BatchRenameUtility({
                   <th
                     scope="col"
                     className="px-3 py-2 text-left font-mono text-[11px] font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     #
                   </th>
                   <th
                     scope="col"
                     className="px-3 py-2 text-left text-[11px] font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Before
                   </th>
                   <th
                     scope="col"
                     className="px-3 py-2 text-left text-[11px] font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     After
                   </th>
                   <th
                     scope="col"
                     className="px-3 py-2 text-left text-[11px] font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Status
                   </th>
@@ -949,7 +951,7 @@ export function BatchRenameUtility({
                       colSpan={4}
                       data-testid="batch-rename-empty"
                       className="px-3 py-6 text-center text-xs"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       No files queued for batch rename.
                     </td>
@@ -973,13 +975,13 @@ export function BatchRenameUtility({
                         <th
                           scope="row"
                           className="px-3 py-2 text-left font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {index + 1}
                         </th>
                         <td
                           className="px-3 py-2 font-mono text-xs whitespace-nowrap"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {row.before}
                         </td>
@@ -1043,7 +1045,7 @@ export function BatchRenameUtility({
                           ) : (
                             <span
                               className="prism-crystal inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               Unchanged
                             </span>
@@ -1088,7 +1090,7 @@ export function BatchRenameUtility({
             aria-atomic="true"
             data-testid="batch-rename-status"
             className="m-0 text-xs min-w-0 break-words"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {statusMessage}
           </p>
@@ -1100,7 +1102,7 @@ export function BatchRenameUtility({
             disabled={disabled}
             onClick={handleResetRules}
             className="prism-crystal prism-focus-ring rounded-full px-3.5 py-2 inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Reset Rules</span>
@@ -1121,4 +1123,5 @@ export function BatchRenameUtility({
   );
 }
 
+export const BatchRenameUtility = memo(BatchRenameUtilityInner);
 BatchRenameUtility.displayName = 'BatchRenameUtility';

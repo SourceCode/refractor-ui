@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   Fragment,
   useCallback,
   useId,
@@ -27,6 +28,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RichContextQuickActionId = 'cut' | 'copy' | 'paste' | 'rename' | 'delete';
@@ -158,7 +160,7 @@ function resolveRovingItem<T>(
   return items[nextIndex];
 }
 
-export function RichContextMenu({
+function RichContextMenuInner({
   targetLabel = DEFAULT_TARGET_LABEL,
   actions,
   selectedTags,
@@ -459,7 +461,7 @@ export function RichContextMenu({
           <span
             aria-hidden="true"
             className="prism-crystal w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <FileImage className="w-4 h-4 shrink-0" />
           </span>
@@ -468,14 +470,14 @@ export function RichContextMenu({
             <span
               data-testid="rich-context-target-label"
               className="text-sm font-semibold tracking-tight truncate min-w-0 max-w-full"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedTargetLabel}
             </span>
             <div className="flex flex-wrap items-center gap-1.5 min-w-0">
               <span
                 className="text-[11px] font-medium"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Active item context
               </span>
@@ -533,15 +535,15 @@ export function RichContextMenu({
       >
         <span
           className="text-xs font-medium min-w-0 break-words flex-1"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Right-click preview area for{' '}
-          <strong style={{ color: 'var(--prism-text-primary)' }}>{resolvedTargetLabel}</strong>
+          <strong style={STYLE_TEXT_PRIMARY}>{resolvedTargetLabel}</strong>
         </span>
         <span
           data-testid="rich-context-surface-tag-summary"
           className="font-mono text-[11px] font-medium shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Tags: {activeTagsSummary}
         </span>
@@ -557,7 +559,7 @@ export function RichContextMenu({
             panelClass,
             'prism-crystal rounded-2xl p-2.5 sm:p-3 w-full max-w-full sm:max-w-[23rem] min-w-0 flex flex-col gap-2.5 border'
           )}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           {/* 1. Top Quick-Action Icon Strip */}
           <div
@@ -622,14 +624,14 @@ export function RichContextMenu({
           <div
             aria-hidden="true"
             className="h-px w-full"
-            style={{ backgroundColor: 'var(--prism-divider)' }}
+            style={STYLE_BG_DIVIDER}
           />
 
           {/* 2. Semantic Color-Tag Dot Row */}
           <div className="flex flex-wrap items-center justify-between gap-2 px-1 min-w-0 max-w-full">
             <span
               className="text-[11px] font-semibold uppercase tracking-wider shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Color Tags
             </span>
@@ -682,7 +684,7 @@ export function RichContextMenu({
           <div
             aria-hidden="true"
             className="h-px w-full"
-            style={{ backgroundColor: 'var(--prism-divider)' }}
+            style={STYLE_BG_DIVIDER}
           />
 
           {/* 3. Standard Vertical Menu Actions */}
@@ -700,7 +702,7 @@ export function RichContextMenu({
                 aria-disabled="true"
                 data-testid="rich-context-menu-empty"
                 className="px-3 py-2 text-xs font-medium select-none"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 No actions available
               </div>
@@ -716,7 +718,7 @@ export function RichContextMenu({
                         role="separator"
                         data-testid={`rich-context-divider-${action.id}`}
                         className="my-1 mx-2 h-px"
-                        style={{ backgroundColor: 'var(--prism-divider)' }}
+                        style={STYLE_BG_DIVIDER}
                       />
                     ) : null}
                     <button
@@ -772,7 +774,7 @@ export function RichContextMenu({
           statusClass,
           'prism-well rounded-xl px-3 py-2 flex flex-wrap items-center gap-2 text-xs font-medium min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <span
           aria-hidden="true"
@@ -790,4 +792,5 @@ export function RichContextMenu({
   );
 }
 
+export const RichContextMenu = memo(RichContextMenuInner);
 RichContextMenu.displayName = 'RichContextMenu';

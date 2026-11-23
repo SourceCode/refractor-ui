@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   Fragment,
   useCallback,
   useEffect,
@@ -25,6 +26,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MillerNodeKind = 'folder' | 'code' | 'image' | 'document' | 'audio';
@@ -363,7 +365,7 @@ function resolveBrowserState(
   };
 }
 
-export function MillerColumnsBrowser({
+function MillerColumnsBrowserInner({
   roots,
   defaultSelectedPath,
   onSelectNode,
@@ -581,14 +583,14 @@ export function MillerColumnsBrowser({
             <span
               aria-hidden="true"
               className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               <FolderTree aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             </span>
             <h3
               id={headingId}
               className="m-0 text-sm font-semibold tracking-tight truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeTitle}
             </h3>
@@ -599,7 +601,7 @@ export function MillerColumnsBrowser({
               <span
                 data-testid="miller-columns-depth-cap"
                 className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tabular-nums shrink-0"
-                style={{ color: 'var(--prism-warning-main)' }}
+                style={STYLE_WARNING_MAIN}
               >
                 Max depth {MAX_DEPTH}
               </span>
@@ -607,7 +609,7 @@ export function MillerColumnsBrowser({
             <span
               data-testid="miller-columns-count"
               className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {itemCountLabel}
             </span>
@@ -627,7 +629,7 @@ export function MillerColumnsBrowser({
               <li
                 data-testid="miller-columns-breadcrumb-root"
                 className="font-mono text-[11px] truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Root
               </li>
@@ -640,7 +642,7 @@ export function MillerColumnsBrowser({
                       <li
                         aria-hidden="true"
                         className="select-none px-0.5 text-[11px]"
-                        style={{ color: 'var(--prism-text-disabled)' }}
+                        style={STYLE_TEXT_DISABLED}
                       >
                         /
                       </li>
@@ -680,10 +682,10 @@ export function MillerColumnsBrowser({
           aria-live="polite"
           data-testid="miller-columns-empty"
           className="prism-well rounded-2xl px-4 py-8 flex flex-col items-center justify-center text-center gap-1.5 min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <Inbox aria-hidden="true" className="w-5 h-5 shrink-0 opacity-75" />
-          <p className="m-0 text-xs font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="m-0 text-xs font-semibold" style={STYLE_TEXT_PRIMARY}>
             No files or folders
           </p>
           <p className="m-0 text-xs">
@@ -733,7 +735,7 @@ export function MillerColumnsBrowser({
                     role="status"
                     data-testid={`miller-columns-col-empty-${colIndex}`}
                     className="flex-1 flex flex-col items-center justify-center text-center px-3 py-6 gap-1"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <Folder aria-hidden="true" className="w-4 h-4 opacity-60" />
                     <span className="text-xs">Empty folder</span>
@@ -764,7 +766,7 @@ export function MillerColumnsBrowser({
                           onKeyDown={handleItemKeyDown(colIndex, column, itemIndex, node)}
                           className={cx(
                             itemClass,
-                            'prism-focus-ring w-full min-w-0 px-2.5 py-1.5 rounded-xl flex items-center justify-between gap-2 text-left text-xs cursor-pointer transition-all',
+                            'prism-focus-ring w-full min-w-0 px-2.5 py-1.5 rounded-xl flex items-center justify-between gap-2 text-left text-xs cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                             isActiveLeaf
                               ? 'prism-emerald font-semibold'
                               : isSelected
@@ -828,7 +830,7 @@ export function MillerColumnsBrowser({
                   <h4
                     data-testid="miller-columns-preview-name"
                     className="m-0 text-sm font-semibold leading-snug break-words"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {resolved.activeFile.name}
                   </h4>
@@ -842,7 +844,7 @@ export function MillerColumnsBrowser({
                     </span>
                     <span
                       className="text-[11px]"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {KIND_META[resolved.activeFile.kind].label}
                     </span>
@@ -864,14 +866,14 @@ export function MillerColumnsBrowser({
                 <div className="flex flex-col gap-0.5 min-w-0">
                   <dt
                     className="text-[10px] uppercase tracking-wide font-medium"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Size
                   </dt>
                   <dd
                     data-testid="miller-columns-preview-size"
                     className="m-0 font-mono tabular-nums text-xs truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {resolved.activeFile.sizeLabel ?? '—'}
                   </dd>
@@ -879,14 +881,14 @@ export function MillerColumnsBrowser({
                 <div className="flex flex-col gap-0.5 min-w-0">
                   <dt
                     className="text-[10px] uppercase tracking-wide font-medium"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Modified
                   </dt>
                   <dd
                     data-testid="miller-columns-preview-modified"
                     className="m-0 text-xs truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {resolved.activeFile.modifiedAt ?? '—'}
                   </dd>
@@ -896,7 +898,7 @@ export function MillerColumnsBrowser({
               <div className="flex flex-col gap-1.5 min-w-0 max-w-full flex-1">
                 <span
                   className="text-[10px] uppercase tracking-wide font-semibold"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Preview
                 </span>
@@ -905,7 +907,7 @@ export function MillerColumnsBrowser({
                     <pre
                       data-testid="miller-columns-preview-content"
                       className="prism-well rounded-xl p-3 m-0 text-[11px] font-mono leading-relaxed whitespace-pre-wrap break-words overflow-x-auto max-w-full"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       <code>{resolved.activeFile.previewText}</code>
                     </pre>
@@ -913,7 +915,7 @@ export function MillerColumnsBrowser({
                     <div
                       data-testid="miller-columns-preview-content"
                       className="prism-well rounded-xl p-3 text-xs leading-relaxed whitespace-pre-wrap break-words max-w-full"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {resolved.activeFile.previewText}
                     </div>
@@ -922,7 +924,7 @@ export function MillerColumnsBrowser({
                   <p
                     data-testid="miller-columns-preview-empty"
                     className="prism-well rounded-xl p-3 m-0 text-xs italic"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     No preview text available for this file.
                   </p>
@@ -936,4 +938,5 @@ export function MillerColumnsBrowser({
   );
 }
 
+export const MillerColumnsBrowser = memo(MillerColumnsBrowserInner);
 MillerColumnsBrowser.displayName = 'MillerColumnsBrowser';
