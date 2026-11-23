@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useCallback, useId, useState } from 'react';
+import { useCallback, useId, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface AccordionItem {
@@ -108,5 +109,4 @@ function AccordionInner({
   );
 }
 
-export const Accordion = memo(AccordionInner);
-Accordion.displayName = 'Accordion';
+export const Accordion = /*#__PURE__*/ memoWithDisplayName(AccordionInner, 'Accordion');

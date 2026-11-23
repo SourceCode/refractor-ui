@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useState,
@@ -31,6 +30,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type LayerKind = 'image' | 'adjustment' | 'text' | 'shape' | 'mask';
@@ -252,6 +252,11 @@ function createNextAdjustmentLayer(existing: ReadonlyArray<BlendLayerItem>): Ble
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('layer-blend-stack', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('layer-blend-stack', 'controls');
+const listClass = /*#__PURE__*/ stableClassName('layer-blend-stack', 'list');
+const statusClass = /*#__PURE__*/ stableClassName('layer-blend-stack', 'status');
+
 function LayerBlendStackInner({
   layers,
   defaultLayers,
@@ -427,10 +432,6 @@ function LayerBlendStackInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('layer-blend-stack', 'header');
-  const controlsClass = stableClassName('layer-blend-stack', 'controls');
-  const listClass = stableClassName('layer-blend-stack', 'list');
-  const statusClass = stableClassName('layer-blend-stack', 'status');
 
   return (
     <div
@@ -575,7 +576,7 @@ function LayerBlendStackInner({
                     color: 'var(--prism-primary-main)',
                     boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)',
                   }
-                : { color: 'var(--prism-text-secondary)' }
+                : STYLE_TEXT_SECONDARY
             }
           >
             <CornerDownRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -605,7 +606,7 @@ function LayerBlendStackInner({
                     color: 'var(--prism-warning-main)',
                     boxShadow: 'inset 0 0 0 1.5px var(--prism-warning-main)',
                   }
-                : { color: 'var(--prism-text-secondary)' }
+                : STYLE_TEXT_SECONDARY
             }
           >
             {isActiveLocked ? (
@@ -858,5 +859,4 @@ function LayerBlendStackInner({
   );
 }
 
-export const LayerBlendStack = memo(LayerBlendStackInner);
-LayerBlendStack.displayName = 'LayerBlendStack';
+export const LayerBlendStack = /*#__PURE__*/ memoWithDisplayName(LayerBlendStackInner, 'LayerBlendStack');

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, type KeyboardEvent } from 'react';
+import { useCallback, useId, useMemo, type KeyboardEvent } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type LedDisplayStyle = '7-segment' | 'nixie';
@@ -309,6 +310,11 @@ function buildReadoutLayout(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('digital-led-readout', 'header');
+const windowClass = /*#__PURE__*/ stableClassName('digital-led-readout', 'window');
+const unitClass = /*#__PURE__*/ stableClassName('digital-led-readout', 'unit');
+const toggleGroupClass = /*#__PURE__*/ stableClassName('digital-led-readout', 'toggle');
+
 function DigitalLedReadoutInner({
   value,
   label,
@@ -411,10 +417,6 @@ function DigitalLedReadoutInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('digital-led-readout', 'header');
-  const windowClass = stableClassName('digital-led-readout', 'window');
-  const unitClass = stableClassName('digital-led-readout', 'unit');
-  const toggleGroupClass = stableClassName('digital-led-readout', 'toggle');
 
   const showHeader = trimmedLabel.length > 0 || showStyleToggle;
 
@@ -479,9 +481,7 @@ function DigitalLedReadoutInner({
                         color: phosphorColor,
                         boxShadow: `inset 0 0 0 1px color-mix(in srgb, ${phosphorColor} 45%, transparent)`,
                       }
-                    : {
-                        color: 'var(--prism-text-secondary)',
-                      }
+                    : STYLE_TEXT_SECONDARY
                 }
               >
                 7-Segment
@@ -503,9 +503,7 @@ function DigitalLedReadoutInner({
                         color: phosphorColor,
                         boxShadow: `inset 0 0 0 1px color-mix(in srgb, ${phosphorColor} 45%, transparent)`,
                       }
-                    : {
-                        color: 'var(--prism-text-secondary)',
-                      }
+                    : STYLE_TEXT_SECONDARY
                 }
               >
                 Nixie
@@ -539,7 +537,7 @@ function DigitalLedReadoutInner({
             className={cx(
               'block max-w-full w-auto shrink-0 select-none',
               activeStyle === 'nixie' ? sizeMetrics.nixieHeight : sizeMetrics.sevenSegHeight
-            )}
+            , 'prism-contain-box')}
           >
             <defs>
               <filter id={glowFilterId} x="-35%" y="-35%" width="170%" height="170%">
@@ -823,5 +821,4 @@ function DigitalLedReadoutInner({
   );
 }
 
-export const DigitalLedReadout = memo(DigitalLedReadoutInner);
-DigitalLedReadout.displayName = 'DigitalLedReadout';
+export const DigitalLedReadout = /*#__PURE__*/ memoWithDisplayName(DigitalLedReadoutInner, 'DigitalLedReadout');

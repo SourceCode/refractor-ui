@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Layers, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type LegendTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -104,6 +105,14 @@ function formatReadout(value: string | number | undefined, unit?: string): strin
   const cleanUnit = unit?.trim() ?? '';
   return cleanUnit ? `${formatted}${cleanUnit}` : formatted;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('interactive-legend', 'header');
+const listClass = /*#__PURE__*/ stableClassName('interactive-legend', 'list');
+const itemClass = /*#__PURE__*/ stableClassName('interactive-legend', 'item');
+const swatchClass = /*#__PURE__*/ stableClassName('interactive-legend', 'swatch');
+const readoutClass = /*#__PURE__*/ stableClassName('interactive-legend', 'readout');
+const soloClass = /*#__PURE__*/ stableClassName('interactive-legend', 'solo');
+const emptyClass = /*#__PURE__*/ stableClassName('interactive-legend', 'empty');
 
 function InteractiveLegendInner({
   items,
@@ -245,13 +254,6 @@ function InteractiveLegendInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('interactive-legend', 'header');
-  const listClass = stableClassName('interactive-legend', 'list');
-  const itemClass = stableClassName('interactive-legend', 'item');
-  const swatchClass = stableClassName('interactive-legend', 'swatch');
-  const readoutClass = stableClassName('interactive-legend', 'readout');
-  const soloClass = stableClassName('interactive-legend', 'solo');
-  const emptyClass = stableClassName('interactive-legend', 'empty');
 
   const isAllActive = !isEmpty && !hasHidden;
 
@@ -281,7 +283,7 @@ function InteractiveLegendInner({
               'inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold font-mono tabular-nums',
               isAllActive ? 'prism-emerald' : 'prism-well'
             )}
-            style={isAllActive ? undefined : { color: 'var(--prism-text-secondary)' }}
+            style={isAllActive ? undefined : STYLE_TEXT_SECONDARY}
           >
             {visibleCount} / {totalCount} active
           </span>
@@ -388,7 +390,7 @@ function InteractiveLegendInner({
                         viewBox="0 0 16 6"
                         data-testid={`interactive-legend-swatch-${item.id}`}
                         data-swatch="dashed"
-                        className={cx(swatchClass, 'shrink-0')}
+                        className={cx(swatchClass, 'shrink-0', 'prism-contain-box')}
                       >
                         <line
                           x1="0"
@@ -452,7 +454,7 @@ function InteractiveLegendInner({
                       'prism-focus-ring shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                       isSoloed ? 'prism-emerald' : 'prism-well'
                     )}
-                    style={isSoloed ? undefined : { color: 'var(--prism-text-secondary)' }}
+                    style={isSoloed ? undefined : STYLE_TEXT_SECONDARY}
                   >
                     Solo
                   </button>
@@ -466,5 +468,4 @@ function InteractiveLegendInner({
   );
 }
 
-export const InteractiveLegend = memo(InteractiveLegendInner);
-InteractiveLegend.displayName = 'InteractiveLegend';
+export const InteractiveLegend = /*#__PURE__*/ memoWithDisplayName(InteractiveLegendInner, 'InteractiveLegend');

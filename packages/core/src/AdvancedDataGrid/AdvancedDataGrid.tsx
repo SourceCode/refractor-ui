@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   Fragment,
   useCallback,
   useEffect,
@@ -31,12 +30,14 @@ import {
   X,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { buildSafeCsv, clampNumber, isSafeObjectKey } from '../utils/sanitize';
 import { compareNaturalStrings } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type GridCellValue = string | number | boolean;
@@ -181,6 +182,10 @@ function formatDisplayCell(value: GridCellValue | undefined): string {
   if (typeof value === 'boolean') return value ? 'True' : 'False';
   return String(value);
 }
+
+const toolbarClass = /*#__PURE__*/ stableClassName('advanced-data-grid', 'toolbar');
+const tableClass = /*#__PURE__*/ stableClassName('advanced-data-grid', 'table');
+const groupHeaderClass = /*#__PURE__*/ stableClassName('advanced-data-grid', 'group-header');
 
 function AdvancedDataGridInner({
   columns,
@@ -407,11 +412,12 @@ function AdvancedDataGridInner({
       const startX = event.clientX;
       const startWidth = getColumnWidth(col);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         updateColumnWidth(col, startWidth + (moveEvent.clientX - startX));
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -617,9 +623,6 @@ function AdvancedDataGridInner({
     userStyle: style,
   });
 
-  const toolbarClass = stableClassName('advanced-data-grid', 'toolbar');
-  const tableClass = stableClassName('advanced-data-grid', 'table');
-  const groupHeaderClass = stableClassName('advanced-data-grid', 'group-header');
 
   const groupColumnHeader = validGroupBy ? columnMap.get(validGroupBy)?.header ?? validGroupBy : '';
 
@@ -1049,5 +1052,4 @@ function AdvancedDataGridInner({
   );
 }
 
-export const AdvancedDataGrid = memo(AdvancedDataGridInner);
-AdvancedDataGrid.displayName = 'AdvancedDataGrid';
+export const AdvancedDataGrid = /*#__PURE__*/ memoWithDisplayName(AdvancedDataGridInner, 'AdvancedDataGrid');

@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { ArrowLeft, Search, X } from 'lucide-react';
 import type { BaseProps, OpticalStyleTokens } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface MasterDetailItem {
@@ -348,5 +349,7 @@ type MasterDetailViewComponent = (<T extends MasterDetailItem = MasterDetailItem
   props: MasterDetailViewProps<T>
 ) => ReactNode) & { displayName?: string };
 
-export const MasterDetailView = memo(MasterDetailViewInner) as MasterDetailViewComponent;
-MasterDetailView.displayName = 'MasterDetailView';
+export const MasterDetailView = /*#__PURE__*/ memoWithDisplayName(
+  MasterDetailViewInner,
+  'MasterDetailView'
+) as MasterDetailViewComponent;

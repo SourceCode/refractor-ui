@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BulletTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -234,6 +234,12 @@ function getTelemetryBandAppearance(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('bullet-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('bullet-chart', 'legend');
+const rowsClass = /*#__PURE__*/ stableClassName('bullet-chart', 'rows');
+const trackClass = /*#__PURE__*/ stableClassName('bullet-chart', 'track');
+const telemetryClass = /*#__PURE__*/ stableClassName('bullet-chart', 'telemetry');
+
 function BulletChartInner({
   items,
   title = 'Target Performance Bullet Chart',
@@ -353,11 +359,6 @@ function BulletChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('bullet-chart', 'header');
-  const legendClass = stableClassName('bullet-chart', 'legend');
-  const rowsClass = stableClassName('bullet-chart', 'rows');
-  const trackClass = stableClassName('bullet-chart', 'track');
-  const telemetryClass = stableClassName('bullet-chart', 'telemetry');
 
   const itemCountLabel = `${normalizedItems.length} ${normalizedItems.length === 1 ? 'metric' : 'metrics'}`;
   const selectedBandAppearance = selectedItem
@@ -544,7 +545,7 @@ function BulletChartInner({
                   data-testid={`bullet-track-${entry.id}`}
                   width="100%"
                   height={TRACK_HEIGHT}
-                  className={cx(trackClass, 'w-full block overflow-visible')}
+                  className={cx(trackClass, 'w-full block overflow-visible', 'prism-contain-leaf')}
                 >
                   <defs>
                     <clipPath id={clipId}>
@@ -679,5 +680,4 @@ function BulletChartInner({
   );
 }
 
-export const BulletChart = memo(BulletChartInner);
-BulletChart.displayName = 'BulletChart';
+export const BulletChart = /*#__PURE__*/ memoWithDisplayName(BulletChartInner, 'BulletChart');

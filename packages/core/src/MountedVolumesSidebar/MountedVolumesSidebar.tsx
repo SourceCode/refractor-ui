@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useRef,
@@ -32,6 +31,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type VolumeMountKind = 'local' | 'network' | 'cloud' | 'removable';
@@ -413,12 +413,19 @@ function renderEjectGlyph(): ReactNode {
       height={12}
       viewBox="0 0 16 16"
       aria-hidden="true"
-      className="block shrink-0 pointer-events-none"
+      className="block shrink-0 pointer-events-none prism-contain-box"
     >
       <path d="M8 3.2L3.2 9.2h9.6L8 3.2zM3.2 11h9.6v1.8H3.2V11z" fill="currentColor" />
     </svg>
   );
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('mounted-volumes-sidebar', 'header');
+const navClass = /*#__PURE__*/ stableClassName('mounted-volumes-sidebar', 'nav');
+const sectionClass = /*#__PURE__*/ stableClassName('mounted-volumes-sidebar', 'section');
+const itemClass = /*#__PURE__*/ stableClassName('mounted-volumes-sidebar', 'item');
+const volumeClass = /*#__PURE__*/ stableClassName('mounted-volumes-sidebar', 'volume');
+const footerClass = /*#__PURE__*/ stableClassName('mounted-volumes-sidebar', 'footer');
 
 function MountedVolumesSidebarInner({
   title = DEFAULT_TITLE,
@@ -643,12 +650,6 @@ function MountedVolumesSidebarInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('mounted-volumes-sidebar', 'header');
-  const navClass = stableClassName('mounted-volumes-sidebar', 'nav');
-  const sectionClass = stableClassName('mounted-volumes-sidebar', 'section');
-  const itemClass = stableClassName('mounted-volumes-sidebar', 'item');
-  const volumeClass = stableClassName('mounted-volumes-sidebar', 'volume');
-  const footerClass = stableClassName('mounted-volumes-sidebar', 'footer');
 
   const statusText =
     announcement ??
@@ -737,7 +738,7 @@ function MountedVolumesSidebarInner({
                 color: 'var(--prism-primary-main)',
                 boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)',
               }
-            : { color: 'var(--prism-text-primary)' }
+            : STYLE_TEXT_PRIMARY
         }
       >
         <span className="flex items-center gap-2 min-w-0 flex-1">
@@ -1131,5 +1132,4 @@ function MountedVolumesSidebarInner({
   );
 }
 
-export const MountedVolumesSidebar = memo(MountedVolumesSidebarInner);
-MountedVolumesSidebar.displayName = 'MountedVolumesSidebar';
+export const MountedVolumesSidebar = /*#__PURE__*/ memoWithDisplayName(MountedVolumesSidebarInner, 'MountedVolumesSidebar');

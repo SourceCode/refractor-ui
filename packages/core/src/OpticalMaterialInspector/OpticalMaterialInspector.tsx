@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -17,6 +16,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type OpticalMaterialPreset =
@@ -263,6 +263,14 @@ function toPercent(value: number, min: number, max: number): number {
   return roundTwo(clampNumber(((value - min) / (max - min)) * 100, 0, 100, 0));
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('optical-material-inspector', 'header');
+const presetsClass = /*#__PURE__*/ stableClassName('optical-material-inspector', 'presets');
+const workbenchClass = /*#__PURE__*/ stableClassName('optical-material-inspector', 'workbench');
+const specimenClass = /*#__PURE__*/ stableClassName('optical-material-inspector', 'specimen');
+const controlsClass = /*#__PURE__*/ stableClassName('optical-material-inspector', 'controls');
+const tintsClass = /*#__PURE__*/ stableClassName('optical-material-inspector', 'tints');
+const summaryClass = /*#__PURE__*/ stableClassName('optical-material-inspector', 'summary');
+
 function OpticalMaterialInspectorInner({
   value,
   defaultValue = DEFAULT_MATERIAL_STATE,
@@ -444,13 +452,6 @@ function OpticalMaterialInspectorInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('optical-material-inspector', 'header');
-  const presetsClass = stableClassName('optical-material-inspector', 'presets');
-  const workbenchClass = stableClassName('optical-material-inspector', 'workbench');
-  const specimenClass = stableClassName('optical-material-inspector', 'specimen');
-  const controlsClass = stableClassName('optical-material-inspector', 'controls');
-  const tintsClass = stableClassName('optical-material-inspector', 'tints');
-  const summaryClass = stableClassName('optical-material-inspector', 'summary');
 
   return (
     <div
@@ -522,7 +523,7 @@ function OpticalMaterialInspectorInner({
                   'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed',
                   disabled ? 'opacity-50' : ''
                 )}
-                style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                style={isActive ? undefined : STYLE_TEXT_PRIMARY}
               >
                 {preset.label}
               </button>
@@ -568,7 +569,7 @@ function OpticalMaterialInspectorInner({
           {/* Interactive SVG Refractive Sphere & Slab Preview */}
           <svg
             viewBox="0 0 240 200"
-            className="w-full h-auto max-w-[260px] mx-auto block"
+            className="w-full h-auto max-w-[260px] mx-auto block prism-contain-box"
             aria-hidden="true"
             data-testid="optical-specimen-svg"
           >
@@ -1058,7 +1059,7 @@ function OpticalMaterialInspectorInner({
                       'prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed',
                       disabled ? 'opacity-50' : ''
                     )}
-                    style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
+                    style={isSelected ? undefined : STYLE_TEXT_PRIMARY}
                   >
                     <span
                       aria-hidden="true"
@@ -1109,5 +1110,4 @@ function OpticalMaterialInspectorInner({
   );
 }
 
-export const OpticalMaterialInspector = memo(OpticalMaterialInspectorInner);
-OpticalMaterialInspector.displayName = 'OpticalMaterialInspector';
+export const OpticalMaterialInspector = /*#__PURE__*/ memoWithDisplayName(OpticalMaterialInspectorInner, 'OpticalMaterialInspector');

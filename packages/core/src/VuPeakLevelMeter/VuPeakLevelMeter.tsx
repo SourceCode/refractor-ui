@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,7 +14,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_DISABLED, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MeterOrientation = 'vertical' | 'horizontal';
@@ -213,6 +213,13 @@ function renderChannelSegments(
     );
   });
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('vu-peak-level-meter', 'header');
+const readoutClass = /*#__PURE__*/ stableClassName('vu-peak-level-meter', 'readout');
+const clipButtonClass = /*#__PURE__*/ stableClassName('vu-peak-level-meter', 'clip');
+const resetButtonClass = /*#__PURE__*/ stableClassName('vu-peak-level-meter', 'reset');
+const meterWellClass = /*#__PURE__*/ stableClassName('vu-peak-level-meter', 'meter');
+const scaleClass = /*#__PURE__*/ stableClassName('vu-peak-level-meter', 'scale');
 
 function VuPeakLevelMeterInner({
   channels,
@@ -413,7 +420,7 @@ function VuPeakLevelMeterInner({
       empty: isEmpty,
     }),
     baseClassName:
-      'prism-slab relative w-full max-w-full min-w-0 p-4 flex flex-col gap-3 transition-[color,background-color,border-color,opacity,transform]',
+      'prism-contain-leaf prism-slab relative w-full max-w-full min-w-0 p-4 flex flex-col gap-3 transition-[color,background-color,border-color,opacity,transform]',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -421,12 +428,6 @@ function VuPeakLevelMeterInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('vu-peak-level-meter', 'header');
-  const readoutClass = stableClassName('vu-peak-level-meter', 'readout');
-  const clipButtonClass = stableClassName('vu-peak-level-meter', 'clip');
-  const resetButtonClass = stableClassName('vu-peak-level-meter', 'reset');
-  const meterWellClass = stableClassName('vu-peak-level-meter', 'meter');
-  const scaleClass = stableClassName('vu-peak-level-meter', 'scale');
 
   return (
     <div
@@ -484,9 +485,7 @@ function VuPeakLevelMeterInner({
                     color: 'var(--prism-error-contrast)',
                     boxShadow: '0 0 12px var(--prism-error-main)',
                   }
-                : {
-                    color: 'var(--prism-text-secondary)',
-                  }
+                : STYLE_TEXT_SECONDARY
             }
           >
             {isClipped ? (
@@ -495,7 +494,7 @@ function VuPeakLevelMeterInner({
               <span
                 aria-hidden="true"
                 className="w-1.5 h-1.5 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-text-disabled)' }}
+                style={STYLE_BG_DISABLED}
               />
             )}
             <span>CLIP</span>
@@ -745,5 +744,4 @@ function VuPeakLevelMeterInner({
   );
 }
 
-export const VuPeakLevelMeter = memo(VuPeakLevelMeterInner);
-VuPeakLevelMeter.displayName = 'VuPeakLevelMeter';
+export const VuPeakLevelMeter = /*#__PURE__*/ memoWithDisplayName(VuPeakLevelMeterInner, 'VuPeakLevelMeter');

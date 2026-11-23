@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useMemo,
   useState,
@@ -35,6 +34,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AppLauncherCategory =
@@ -359,6 +359,29 @@ function getUserInitials(name: string): string {
   return `${trimmed.charAt(0)}${afterSpace.charAt(0)}`.toUpperCase();
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'header');
+const searchBarClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'search-bar');
+const searchInputClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'search-input');
+const categoryBarClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'category-bar');
+const categoryPillClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'category-pill');
+const appsSectionClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'apps-section');
+const appsGridClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'apps-grid');
+const appTileClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'app-tile');
+const appLaunchBtnClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'app-launch-btn');
+const appIconClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'app-icon');
+const appBadgeClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'app-badge');
+const appPinBtnClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'app-pin-btn');
+const emptyClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'empty');
+const recentSectionClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'recent-section');
+const recentListClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'recent-list');
+const recentRowClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'recent-row');
+const footerClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'footer');
+const userCardClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'user-card');
+const userAvatarClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'user-avatar');
+const powerControlsClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'power-controls');
+const powerBtnClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'power-btn');
+const statusClass = /*#__PURE__*/ stableClassName('app-launcher-menu', 'status');
+
 function AppLauncherMenuInner({
   userName = DEFAULT_USER_NAME,
   userRole = DEFAULT_USER_ROLE,
@@ -570,40 +593,6 @@ function AppLauncherMenuInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('app-launcher-menu', 'header');
-  const searchBarClass = stableClassName('app-launcher-menu', 'search-bar');
-  const searchInputClass = stableClassName('app-launcher-menu', 'search-input');
-  const categoryBarClass = stableClassName('app-launcher-menu', 'category-bar');
-  const categoryPillClass = stableClassName(
-    'app-launcher-menu',
-    'category-pill'
-  );
-  const appsSectionClass = stableClassName('app-launcher-menu', 'apps-section');
-  const appsGridClass = stableClassName('app-launcher-menu', 'apps-grid');
-  const appTileClass = stableClassName('app-launcher-menu', 'app-tile');
-  const appLaunchBtnClass = stableClassName(
-    'app-launcher-menu',
-    'app-launch-btn'
-  );
-  const appIconClass = stableClassName('app-launcher-menu', 'app-icon');
-  const appBadgeClass = stableClassName('app-launcher-menu', 'app-badge');
-  const appPinBtnClass = stableClassName('app-launcher-menu', 'app-pin-btn');
-  const emptyClass = stableClassName('app-launcher-menu', 'empty');
-  const recentSectionClass = stableClassName(
-    'app-launcher-menu',
-    'recent-section'
-  );
-  const recentListClass = stableClassName('app-launcher-menu', 'recent-list');
-  const recentRowClass = stableClassName('app-launcher-menu', 'recent-row');
-  const footerClass = stableClassName('app-launcher-menu', 'footer');
-  const userCardClass = stableClassName('app-launcher-menu', 'user-card');
-  const userAvatarClass = stableClassName('app-launcher-menu', 'user-avatar');
-  const powerControlsClass = stableClassName(
-    'app-launcher-menu',
-    'power-controls'
-  );
-  const powerBtnClass = stableClassName('app-launcher-menu', 'power-btn');
-  const statusClass = stableClassName('app-launcher-menu', 'status');
 
   return (
     <div
@@ -712,7 +701,7 @@ function AppLauncherMenuInner({
                 style={
                   isSelected
                     ? undefined
-                    : { color: 'var(--prism-text-primary)' }
+                    : STYLE_TEXT_PRIMARY
                 }
               >
                 <span>{categorySpec.label}</span>
@@ -1225,5 +1214,4 @@ function AppLauncherMenuInner({
   );
 }
 
-export const AppLauncherMenu = memo(AppLauncherMenuInner);
-AppLauncherMenu.displayName = 'AppLauncherMenu';
+export const AppLauncherMenu = /*#__PURE__*/ memoWithDisplayName(AppLauncherMenuInner, 'AppLauncherMenu');

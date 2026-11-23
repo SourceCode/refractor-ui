@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useId, useMemo, useRef, useState } from 'react';
 import {
   Captions,
   Film,
@@ -18,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface VideoChapter {
@@ -95,6 +96,9 @@ function formatMediaTime(rawSeconds: number): string {
   const secs = safe % 60;
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
+
+const stageClass = /*#__PURE__*/ stableClassName('custom-video-player', 'stage');
+const controlsClass = /*#__PURE__*/ stableClassName('custom-video-player', 'controls');
 
 function CustomVideoPlayerInner({
   src,
@@ -272,8 +276,6 @@ function CustomVideoPlayerInner({
     userStyle: style,
   });
 
-  const stageClass = stableClassName('custom-video-player', 'stage');
-  const controlsClass = stableClassName('custom-video-player', 'controls');
   const displayedVolume = isMuted ? 0 : volume;
   const formattedCurrent = formatMediaTime(clampedTime);
   const formattedDuration = formatMediaTime(safeDuration);
@@ -347,7 +349,7 @@ function CustomVideoPlayerInner({
                   'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold',
                   isPlaying ? 'prism-emerald' : 'prism-well'
                 )}
-                style={isPlaying ? undefined : { color: 'var(--prism-text-secondary)' }}
+                style={isPlaying ? undefined : STYLE_TEXT_SECONDARY}
               >
                 <span>{isPlaying ? 'Playing' : 'Paused'}</span>
                 {activeChapter ? (
@@ -379,7 +381,7 @@ function CustomVideoPlayerInner({
                 'px-2.5 py-1 rounded-full text-[11px] font-semibold shrink-0',
                 isPlaying ? 'prism-emerald' : 'prism-crystal'
               )}
-              style={isPlaying ? undefined : { color: 'var(--prism-text-secondary)' }}
+              style={isPlaying ? undefined : STYLE_TEXT_SECONDARY}
             >
               {isPlaying ? 'Playing' : 'Paused'}
             </span>
@@ -538,7 +540,7 @@ function CustomVideoPlayerInner({
                 'prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-semibold cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                 captionsEnabled ? 'prism-emerald' : 'prism-well'
               )}
-              style={captionsEnabled ? undefined : { color: 'var(--prism-text-primary)' }}
+              style={captionsEnabled ? undefined : STYLE_TEXT_PRIMARY}
             >
               <Captions className="w-3.5 h-3.5" aria-hidden="true" />
               <span>CC</span>
@@ -585,7 +587,7 @@ function CustomVideoPlayerInner({
                     'prism-focus-ring px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                     isCurrentChapter ? 'prism-emerald' : 'prism-well'
                   )}
-                  style={isCurrentChapter ? undefined : { color: 'var(--prism-text-primary)' }}
+                  style={isCurrentChapter ? undefined : STYLE_TEXT_PRIMARY}
                 >
                   <span className="font-mono text-[11px] tabular-nums">
                     {formatMediaTime(chapter.timeSeconds)}
@@ -601,5 +603,4 @@ function CustomVideoPlayerInner({
   );
 }
 
-export const CustomVideoPlayer = memo(CustomVideoPlayerInner);
-CustomVideoPlayer.displayName = 'CustomVideoPlayer';
+export const CustomVideoPlayer = /*#__PURE__*/ memoWithDisplayName(CustomVideoPlayerInner, 'CustomVideoPlayer');

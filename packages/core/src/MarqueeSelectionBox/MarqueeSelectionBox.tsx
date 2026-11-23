@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -24,10 +23,12 @@ import {
   X,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MarqueeSelectableItemKind = 'image' | 'code' | 'document' | 'folder';
@@ -198,6 +199,12 @@ function formatSelectionSummary(
   }
   return `${selectedItems.length} of ${totalCount} selected: ${previewNames}, and ${selectedItems.length - 3} more.`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('marquee-selection-box', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('marquee-selection-box', 'stage');
+const tileClass = /*#__PURE__*/ stableClassName('marquee-selection-box', 'tile');
+const lassoClass = /*#__PURE__*/ stableClassName('marquee-selection-box', 'lasso');
+const footerClass = /*#__PURE__*/ stableClassName('marquee-selection-box', 'footer');
 
 function MarqueeSelectionBoxInner({
   title = DEFAULT_TITLE,
@@ -418,7 +425,7 @@ function MarqueeSelectionBoxInner({
         });
       }
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const distance = Math.hypot(
           moveEvent.clientX - startClientX,
           moveEvent.clientY - startClientY
@@ -431,9 +438,10 @@ function MarqueeSelectionBoxInner({
         }
         didMove = true;
         updateLasso(moveEvent.clientX, moveEvent.clientY);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerUp);
         window.removeEventListener('pointercancel', handlePointerCancel);
@@ -553,11 +561,6 @@ function MarqueeSelectionBoxInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('marquee-selection-box', 'header');
-  const stageClass = stableClassName('marquee-selection-box', 'stage');
-  const tileClass = stableClassName('marquee-selection-box', 'tile');
-  const lassoClass = stableClassName('marquee-selection-box', 'lasso');
-  const footerClass = stableClassName('marquee-selection-box', 'footer');
 
   return (
     <div ref={ref} role="region" aria-labelledby={titleId} {...rest} {...merged}>
@@ -804,5 +807,4 @@ function MarqueeSelectionBoxInner({
   );
 }
 
-export const MarqueeSelectionBox = memo(MarqueeSelectionBoxInner);
-MarqueeSelectionBox.displayName = 'MarqueeSelectionBox';
+export const MarqueeSelectionBox = /*#__PURE__*/ memoWithDisplayName(MarqueeSelectionBoxInner, 'MarqueeSelectionBox');

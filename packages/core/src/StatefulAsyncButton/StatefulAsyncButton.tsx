@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useRef,
@@ -19,6 +18,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AsyncButtonState = 'idle' | 'loading' | 'success' | 'error';
@@ -130,6 +130,9 @@ function isPromiseLike(value: void | Promise<void>): value is Promise<void> {
     typeof value.then === 'function'
   );
 }
+
+const iconWrapperClass = /*#__PURE__*/ stableClassName('stateful-async-button', 'icon');
+const labelClass = /*#__PURE__*/ stableClassName('stateful-async-button', 'label');
 
 function StatefulAsyncButtonInner({
   idleLabel,
@@ -297,8 +300,6 @@ function StatefulAsyncButtonInner({
     userStyle: style,
   });
 
-  const iconWrapperClass = stableClassName('stateful-async-button', 'icon');
-  const labelClass = stableClassName('stateful-async-button', 'label');
 
   let currentLabel: string;
   let currentIcon: ReactNode = null;
@@ -375,5 +376,4 @@ function StatefulAsyncButtonInner({
   );
 }
 
-export const StatefulAsyncButton = memo(StatefulAsyncButtonInner);
-StatefulAsyncButton.displayName = 'StatefulAsyncButton';
+export const StatefulAsyncButton = /*#__PURE__*/ memoWithDisplayName(StatefulAsyncButtonInner, 'StatefulAsyncButton');

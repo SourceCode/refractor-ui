@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BarSeriesTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -147,6 +147,11 @@ function formatMetric(value: number, unit?: string): string {
   const num = formatNumeric(value);
   return unit ? `${num}${unit}` : num;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('bar-column-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('bar-column-chart', 'legend');
+const svgClass = /*#__PURE__*/ stableClassName('bar-column-chart', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('bar-column-chart', 'readout');
 
 function BarColumnChartInner({
   categories,
@@ -484,10 +489,6 @@ function BarColumnChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('bar-column-chart', 'header');
-  const legendClass = stableClassName('bar-column-chart', 'legend');
-  const svgClass = stableClassName('bar-column-chart', 'svg');
-  const readoutClass = stableClassName('bar-column-chart', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -614,7 +615,7 @@ function BarColumnChartInner({
             aria-label={`${title} ${activeOrientation} ${activeLayout} bar chart`}
             viewBox={`0 0 ${SVG_WIDTH} ${clampedHeight}`}
             style={{ height: `${clampedHeight}px` }}
-            className={cx(svgClass, 'w-full block overflow-visible')}
+            className={cx(svgClass, 'w-full block overflow-visible', 'prism-contain-leaf')}
           >
             {geometry.gridLines.map((line) => (
               <g key={line.key}>
@@ -719,5 +720,4 @@ function BarColumnChartInner({
   );
 }
 
-export const BarColumnChart = memo(BarColumnChartInner);
-BarColumnChart.displayName = 'BarColumnChart';
+export const BarColumnChart = /*#__PURE__*/ memoWithDisplayName(BarColumnChartInner, 'BarColumnChart');

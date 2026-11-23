@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -12,12 +11,14 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface HistogramBin {
@@ -133,6 +134,11 @@ function binOverlapsRange(bin: NormalizedBin, low: number, high: number): boolea
   }
   return bin.max > low && bin.min < high;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('histogram-range-slider', 'header');
+const chartClass = /*#__PURE__*/ stableClassName('histogram-range-slider', 'chart');
+const trackClass = /*#__PURE__*/ stableClassName('histogram-range-slider', 'track');
+const thumbClass = /*#__PURE__*/ stableClassName('histogram-range-slider', 'thumb');
 
 function HistogramRangeSliderInner({
   bins,
@@ -288,14 +294,15 @@ function HistogramRangeSliderInner({
         latestUpdateRef.current(thumb, initialVal);
       }
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const nextVal = valueFromClientX(moveEvent.clientX);
         if (nextVal !== null) {
           latestUpdateRef.current(thumb, nextVal);
         }
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -376,10 +383,6 @@ function HistogramRangeSliderInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('histogram-range-slider', 'header');
-  const chartClass = stableClassName('histogram-range-slider', 'chart');
-  const trackClass = stableClassName('histogram-range-slider', 'track');
-  const thumbClass = stableClassName('histogram-range-slider', 'thumb');
 
   const formattedLow = formatValue(low);
   const formattedHigh = formatValue(high);
@@ -443,7 +446,7 @@ function HistogramRangeSliderInner({
             preserveAspectRatio="none"
             role="img"
             aria-label={`${label} distribution histogram (${matchedCount} of ${totalCount} items matched)`}
-            className={cx(chartClass, 'w-full h-24 block overflow-visible')}
+            className={cx(chartClass, 'w-full h-24 block overflow-visible', 'prism-contain-leaf')}
           >
             {bars.map((bar) => (
               <rect
@@ -548,5 +551,4 @@ function HistogramRangeSliderInner({
   );
 }
 
-export const HistogramRangeSlider = memo(HistogramRangeSliderInner);
-HistogramRangeSlider.displayName = 'HistogramRangeSlider';
+export const HistogramRangeSlider = /*#__PURE__*/ memoWithDisplayName(HistogramRangeSliderInner, 'HistogramRangeSlider');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +27,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, splitLiteralHighlight } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DocumentZoomPreset = 75 | 100 | 125 | 150;
@@ -303,6 +303,11 @@ function renderHighlightSegments(
   });
 }
 
+const toolbarClass = /*#__PURE__*/ stableClassName('document-page-viewer', 'toolbar');
+const thumbnailsClass = /*#__PURE__*/ stableClassName('document-page-viewer', 'thumbnails');
+const canvasClass = /*#__PURE__*/ stableClassName('document-page-viewer', 'canvas');
+const statusClass = /*#__PURE__*/ stableClassName('document-page-viewer', 'status');
+
 function DocumentPageViewerInner({
   pages,
   page,
@@ -441,10 +446,6 @@ function DocumentPageViewerInner({
     [handleClearSearch, handleJumpToNextMatch, searchQuery.length]
   );
 
-  const toolbarClass = stableClassName('document-page-viewer', 'toolbar');
-  const thumbnailsClass = stableClassName('document-page-viewer', 'thumbnails');
-  const canvasClass = stableClassName('document-page-viewer', 'canvas');
-  const statusClass = stableClassName('document-page-viewer', 'status');
 
   const merged = mergeProps({
     themeTarget: themeProps('document-page-viewer', {
@@ -909,5 +910,4 @@ function DocumentPageViewerInner({
   );
 }
 
-export const DocumentPageViewer = memo(DocumentPageViewerInner);
-DocumentPageViewer.displayName = 'DocumentPageViewer';
+export const DocumentPageViewer = /*#__PURE__*/ memoWithDisplayName(DocumentPageViewerInner, 'DocumentPageViewer');

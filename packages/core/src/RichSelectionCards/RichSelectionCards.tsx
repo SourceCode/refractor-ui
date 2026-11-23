@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useMemo, useRef, type KeyboardEvent, type ReactNode } from 'react';
+import { useMemo, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import { Check, Inbox } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RichSelectionMode = 'single' | 'multiple';
@@ -54,6 +55,12 @@ function getColumnsGridClass(columns: 1 | 2 | 3): string {
   if (columns === 3) return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3';
   return 'grid grid-cols-1 sm:grid-cols-2 gap-3';
 }
+
+const cardClass = /*#__PURE__*/ stableClassName('rich-selection-cards', 'card');
+const medallionClass = /*#__PURE__*/ stableClassName('rich-selection-cards', 'medallion');
+const badgeClass = /*#__PURE__*/ stableClassName('rich-selection-cards', 'badge');
+const checkClass = /*#__PURE__*/ stableClassName('rich-selection-cards', 'check');
+const emptyClass = /*#__PURE__*/ stableClassName('rich-selection-cards', 'empty');
 
 function RichSelectionCardsInner({
   options,
@@ -142,11 +149,6 @@ function RichSelectionCardsInner({
     userStyle: style,
   });
 
-  const cardClass = stableClassName('rich-selection-cards', 'card');
-  const medallionClass = stableClassName('rich-selection-cards', 'medallion');
-  const badgeClass = stableClassName('rich-selection-cards', 'badge');
-  const checkClass = stableClassName('rich-selection-cards', 'check');
-  const emptyClass = stableClassName('rich-selection-cards', 'empty');
 
   return (
     <div
@@ -281,5 +283,4 @@ function RichSelectionCardsInner({
   );
 }
 
-export const RichSelectionCards = memo(RichSelectionCardsInner);
-RichSelectionCards.displayName = 'RichSelectionCards';
+export const RichSelectionCards = /*#__PURE__*/ memoWithDisplayName(RichSelectionCardsInner, 'RichSelectionCards');

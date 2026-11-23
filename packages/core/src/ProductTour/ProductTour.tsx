@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +16,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TourPlacement = 'top' | 'bottom' | 'left' | 'right' | 'center';
@@ -518,5 +518,4 @@ function ProductTourInner({
   );
 }
 
-export const ProductTour = memo(ProductTourInner);
-ProductTour.displayName = 'ProductTour';
+export const ProductTour = /*#__PURE__*/ memoWithDisplayName(ProductTourInner, 'ProductTour');

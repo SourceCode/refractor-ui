@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { ExternalLink, FileSearch, Globe, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface CitationChipProps extends BaseProps<HTMLSpanElement> {
@@ -204,5 +205,4 @@ function CitationChipInner({
   );
 }
 
-export const CitationChip = memo(CitationChipInner);
-CitationChip.displayName = 'CitationChip';
+export const CitationChip = /*#__PURE__*/ memoWithDisplayName(CitationChipInner, 'CitationChip');

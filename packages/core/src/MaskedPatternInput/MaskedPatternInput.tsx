@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useId, useMemo, useRef, type ChangeEvent } from 'react';
+import { useId, useMemo, useRef, type ChangeEvent } from 'react';
 import { CheckCircle2, CircleDashed, Hash, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MaskPresetId = 'ipv4' | 'cidr' | 'mac' | 'license' | 'tax-id';
@@ -243,7 +244,7 @@ function MaskedPatternInputInner({
               parsed.complete ? 'prism-emerald' : 'prism-well',
               'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-tight shrink-0'
             )}
-            style={parsed.complete ? undefined : { color: 'var(--prism-text-secondary)' }}
+            style={parsed.complete ? undefined : STYLE_TEXT_SECONDARY}
           >
             {parsed.complete ? (
               <CheckCircle2 aria-hidden="true" className="w-3 h-3 shrink-0" />
@@ -292,5 +293,4 @@ function MaskedPatternInputInner({
   );
 }
 
-export const MaskedPatternInput = memo(MaskedPatternInputInner);
-MaskedPatternInput.displayName = 'MaskedPatternInput';
+export const MaskedPatternInput = /*#__PURE__*/ memoWithDisplayName(MaskedPatternInputInner, 'MaskedPatternInput');

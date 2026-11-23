@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowLayoutTemplateId =
@@ -174,6 +174,17 @@ const WINDOW_LAYOUT_TEMPLATES: ReadonlyArray<LayoutTemplateConfig> = [
     ],
   },
 ];
+
+const headerClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'header');
+const titleGroupClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'title-group');
+const badgeClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'active-badge');
+const anchorClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'anchor');
+const triggerClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'trigger');
+const popoverClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'popover');
+const gridClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'grid');
+const templateClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'template');
+const slotClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'slot');
+const statusBarClass = /*#__PURE__*/ stableClassName('window-layout-popover', 'status-bar');
 
 function WindowLayoutPopoverInner({
   windowTitle = DEFAULT_WINDOW_TITLE,
@@ -384,19 +395,6 @@ function WindowLayoutPopoverInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('window-layout-popover', 'header');
-  const titleGroupClass = stableClassName(
-    'window-layout-popover',
-    'title-group'
-  );
-  const badgeClass = stableClassName('window-layout-popover', 'active-badge');
-  const anchorClass = stableClassName('window-layout-popover', 'anchor');
-  const triggerClass = stableClassName('window-layout-popover', 'trigger');
-  const popoverClass = stableClassName('window-layout-popover', 'popover');
-  const gridClass = stableClassName('window-layout-popover', 'grid');
-  const templateClass = stableClassName('window-layout-popover', 'template');
-  const slotClass = stableClassName('window-layout-popover', 'slot');
-  const statusBarClass = stableClassName('window-layout-popover', 'status-bar');
 
   const popoverFooterSelection = visiblePreview ?? activeSelection;
   const defaultStatusMessage = activeSelection
@@ -750,5 +748,4 @@ function WindowLayoutPopoverInner({
   );
 }
 
-export const WindowLayoutPopover = memo(WindowLayoutPopoverInner);
-WindowLayoutPopover.displayName = 'WindowLayoutPopover';
+export const WindowLayoutPopover = /*#__PURE__*/ memoWithDisplayName(WindowLayoutPopoverInner, 'WindowLayoutPopover');

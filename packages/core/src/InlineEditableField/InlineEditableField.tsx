@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useEffect,
   useId,
   useRef,
@@ -13,6 +12,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type InlineEditableFieldBaseProps = Omit<BaseProps<HTMLDivElement>, 'children' | 'onChange'>;
@@ -41,6 +41,10 @@ export interface InlineEditableFieldProps extends InlineEditableFieldBaseProps {
   /** Prevents entering edit mode and dims the crystal capsule trigger (defaults to false). */
   disabled?: boolean;
 }
+
+const viewClass = /*#__PURE__*/ stableClassName('inline-editable-field', 'view');
+const editorClass = /*#__PURE__*/ stableClassName('inline-editable-field', 'editor');
+const actionsClass = /*#__PURE__*/ stableClassName('inline-editable-field', 'actions');
 
 function InlineEditableFieldInner({
   value,
@@ -154,9 +158,6 @@ function InlineEditableFieldInner({
     userStyle: style,
   });
 
-  const viewClass = stableClassName('inline-editable-field', 'view');
-  const editorClass = stableClassName('inline-editable-field', 'editor');
-  const actionsClass = stableClassName('inline-editable-field', 'actions');
 
   const hasValue = currentValue.length > 0;
   const editorAriaLabel = ariaLabel ?? 'Editable field';
@@ -313,5 +314,4 @@ function InlineEditableFieldInner({
   );
 }
 
-export const InlineEditableField = memo(InlineEditableFieldInner);
-InlineEditableField.displayName = 'InlineEditableField';
+export const InlineEditableField = /*#__PURE__*/ memoWithDisplayName(InlineEditableFieldInner, 'InlineEditableField');

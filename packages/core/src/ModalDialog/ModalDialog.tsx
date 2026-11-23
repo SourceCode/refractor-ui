@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useEffect, useId, type ReactNode } from 'react';
+import { useEffect, useId, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface ModalDialogProps extends BaseProps<HTMLDivElement> {
@@ -135,5 +136,4 @@ function ModalDialogInner({
   );
 }
 
-export const ModalDialog = memo(ModalDialogInner);
-ModalDialog.displayName = 'ModalDialog';
+export const ModalDialog = /*#__PURE__*/ memoWithDisplayName(ModalDialogInner, 'ModalDialog');

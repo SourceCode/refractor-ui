@@ -4,6 +4,7 @@ export * from './hooks/useMergedRefs';
 export * from './hooks/useControllableState';
 export * from './hooks/useRafCallback';
 export * from './utils/composeEventHandlers';
+export * from './utils/memo';
 export * from './utils/mergeProps';
 export * from './utils/styles';
 export * from './utils/themeProps';

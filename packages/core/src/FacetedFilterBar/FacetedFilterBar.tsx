@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo } from 'react';
+import { useCallback, useId, useMemo } from 'react';
 import { Calendar, Check, RotateCcw, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface FacetCategoryOption {
@@ -135,6 +136,11 @@ function parseNumericInput(raw: string): number | undefined {
   const parsed = Number(trimmed);
   return Number.isFinite(parsed) ? parsed : undefined;
 }
+
+const searchBarClass = /*#__PURE__*/ stableClassName('faceted-filter-bar', 'search');
+const categoriesClass = /*#__PURE__*/ stableClassName('faceted-filter-bar', 'categories');
+const rangesClass = /*#__PURE__*/ stableClassName('faceted-filter-bar', 'ranges');
+const chipsClass = /*#__PURE__*/ stableClassName('faceted-filter-bar', 'chips');
 
 function FacetedFilterBarInner({
   categories,
@@ -296,10 +302,6 @@ function FacetedFilterBarInner({
     userStyle: style,
   });
 
-  const searchBarClass = stableClassName('faceted-filter-bar', 'search');
-  const categoriesClass = stableClassName('faceted-filter-bar', 'categories');
-  const rangesClass = stableClassName('faceted-filter-bar', 'ranges');
-  const chipsClass = stableClassName('faceted-filter-bar', 'chips');
 
   return (
     <div ref={ref} role="search" aria-label="Faceted filter bar" {...rest} {...merged}>
@@ -563,5 +565,4 @@ function FacetedFilterBarInner({
   );
 }
 
-export const FacetedFilterBar = memo(FacetedFilterBarInner);
-FacetedFilterBar.displayName = 'FacetedFilterBar';
+export const FacetedFilterBar = /*#__PURE__*/ memoWithDisplayName(FacetedFilterBarInner, 'FacetedFilterBar');

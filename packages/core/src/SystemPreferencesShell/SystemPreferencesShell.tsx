@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -30,6 +29,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, splitLiteralHighlight } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type PreferenceControlKind = 'toggle' | 'select' | 'slider' | 'segmented';
@@ -617,6 +617,13 @@ function renderSearchText(
   });
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('system-preferences-shell', 'header');
+const sidebarClass = /*#__PURE__*/ stableClassName('system-preferences-shell', 'sidebar');
+const detailClass = /*#__PURE__*/ stableClassName('system-preferences-shell', 'detail');
+const groupClass = /*#__PURE__*/ stableClassName('system-preferences-shell', 'group');
+const rowClass = /*#__PURE__*/ stableClassName('system-preferences-shell', 'row');
+const statusClass = /*#__PURE__*/ stableClassName('system-preferences-shell', 'status');
+
 function SystemPreferencesShellInner({
   title = DEFAULT_TITLE,
   sections = DEFAULT_PREFERENCE_SECTIONS,
@@ -935,12 +942,6 @@ function SystemPreferencesShellInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('system-preferences-shell', 'header');
-  const sidebarClass = stableClassName('system-preferences-shell', 'sidebar');
-  const detailClass = stableClassName('system-preferences-shell', 'detail');
-  const groupClass = stableClassName('system-preferences-shell', 'group');
-  const rowClass = stableClassName('system-preferences-shell', 'row');
-  const statusClass = stableClassName('system-preferences-shell', 'status');
 
   return (
     <div
@@ -1697,5 +1698,4 @@ function SystemPreferencesShellInner({
   );
 }
 
-export const SystemPreferencesShell = memo(SystemPreferencesShellInner);
-SystemPreferencesShell.displayName = 'SystemPreferencesShell';
+export const SystemPreferencesShell = /*#__PURE__*/ memoWithDisplayName(SystemPreferencesShellInner, 'SystemPreferencesShell');

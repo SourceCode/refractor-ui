@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useId, useMemo, useState, type ReactNode } from 'react';
 import {
   Clock,
   LogOut,
@@ -17,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SessionDeviceType = 'desktop' | 'mobile' | 'tablet' | 'cli';
@@ -84,6 +85,11 @@ function renderDeviceIcon(deviceType: SessionDeviceType): ReactNode {
       return <Monitor aria-hidden="true" className="w-4 h-4 shrink-0" />;
   }
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('active-sessions-list', 'header');
+const listClass = /*#__PURE__*/ stableClassName('active-sessions-list', 'list');
+const rowClass = /*#__PURE__*/ stableClassName('active-sessions-list', 'row');
+const emptyClass = /*#__PURE__*/ stableClassName('active-sessions-list', 'empty');
 
 function ActiveSessionsListInner({
   sessions,
@@ -156,10 +162,6 @@ function ActiveSessionsListInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('active-sessions-list', 'header');
-  const listClass = stableClassName('active-sessions-list', 'list');
-  const rowClass = stableClassName('active-sessions-list', 'row');
-  const emptyClass = stableClassName('active-sessions-list', 'empty');
 
   return (
     <div
@@ -323,5 +325,4 @@ function ActiveSessionsListInner({
   );
 }
 
-export const ActiveSessionsList = memo(ActiveSessionsListInner);
-ActiveSessionsList.displayName = 'ActiveSessionsList';
+export const ActiveSessionsList = /*#__PURE__*/ memoWithDisplayName(ActiveSessionsListInner, 'ActiveSessionsList');

@@ -1,13 +1,14 @@
 'use client';
 
-import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { BarChart3 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_BG_PRIMARY, STYLE_BG_SUCCESS, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_PRIMARY, STYLE_BG_SECONDARY, STYLE_BG_SUCCESS, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface ComputedHistogramBin {
@@ -150,6 +151,11 @@ export function computeHistogramBins(
 
   return bins;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('histogram-chart', 'header');
+const statsClass = /*#__PURE__*/ stableClassName('histogram-chart', 'stats');
+const canvasClass = /*#__PURE__*/ stableClassName('histogram-chart', 'canvas');
+const readoutClass = /*#__PURE__*/ stableClassName('histogram-chart', 'readout');
 
 function HistogramChartInner({
   values,
@@ -334,10 +340,6 @@ function HistogramChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('histogram-chart', 'header');
-  const statsClass = stableClassName('histogram-chart', 'stats');
-  const canvasClass = stableClassName('histogram-chart', 'canvas');
-  const readoutClass = stableClassName('histogram-chart', 'readout');
   const markersClose =
     showMean && showMedian && Math.abs(geometry.meanX - geometry.medianX) < 56;
 
@@ -380,7 +382,7 @@ function HistogramChartInner({
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-secondary-main)' }}
+                style={STYLE_BG_SECONDARY}
               />
               Mean: {formatValue(stats.mean, valueUnit)}
             </span>
@@ -417,7 +419,7 @@ function HistogramChartInner({
               aria-label={`${title} frequency histogram`}
               data-testid="histogram-svg"
               viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
-              className="w-full overflow-visible block"
+              className="w-full overflow-visible block prism-contain-leaf"
               style={{ height: `${safeHeight}px` }}
             >
               {geometry.yTicks.map((tick) => (
@@ -576,5 +578,4 @@ function HistogramChartInner({
   );
 }
 
-export const HistogramChart = memo(HistogramChartInner);
-HistogramChart.displayName = 'HistogramChart';
+export const HistogramChart = /*#__PURE__*/ memoWithDisplayName(HistogramChartInner, 'HistogramChart');

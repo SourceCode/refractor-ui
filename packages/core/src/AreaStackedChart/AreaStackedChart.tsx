@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Layers } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_FILL_SECONDARY, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AreaSeriesTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -185,6 +186,12 @@ function buildAreaPaths(
     areaPath: `${strokePath} ${bottomPath} Z`,
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('area-stacked-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('area-stacked-chart', 'legend');
+const canvasClass = /*#__PURE__*/ stableClassName('area-stacked-chart', 'canvas');
+const slicesClass = /*#__PURE__*/ stableClassName('area-stacked-chart', 'slices');
+const readoutClass = /*#__PURE__*/ stableClassName('area-stacked-chart', 'readout');
 
 function AreaStackedChartInner({
   labels,
@@ -406,11 +413,6 @@ function AreaStackedChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('area-stacked-chart', 'header');
-  const legendClass = stableClassName('area-stacked-chart', 'legend');
-  const canvasClass = stableClassName('area-stacked-chart', 'canvas');
-  const slicesClass = stableClassName('area-stacked-chart', 'slices');
-  const readoutClass = stableClassName('area-stacked-chart', 'readout');
 
   const sliceStepWidth =
     normalizedLabels.length > 1
@@ -523,7 +525,7 @@ function AreaStackedChartInner({
               aria-label={`${title} ${isStacked ? 'stacked' : 'overlay'} area chart`}
               data-testid="area-chart-svg"
               viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
-              className="w-full overflow-visible block"
+              className="w-full overflow-visible block prism-contain-leaf"
               style={{ height: `${safeHeight}px` }}
             >
               <defs>
@@ -742,5 +744,4 @@ function AreaStackedChartInner({
   );
 }
 
-export const AreaStackedChart = memo(AreaStackedChartInner);
-AreaStackedChart.displayName = 'AreaStackedChart';
+export const AreaStackedChart = /*#__PURE__*/ memoWithDisplayName(AreaStackedChartInner, 'AreaStackedChart');

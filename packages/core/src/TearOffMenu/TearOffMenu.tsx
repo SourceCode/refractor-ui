@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -21,12 +20,14 @@ import {
   X,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface TearOffMenuItem {
@@ -167,6 +168,15 @@ function pickNextEnabledEntry(
           enabled.length;
   return enabled[nextIndex];
 }
+
+const barClass = /*#__PURE__*/ stableClassName('tear-off-menu', 'bar');
+const triggerClass = /*#__PURE__*/ stableClassName('tear-off-menu', 'trigger');
+const statusPillClass = /*#__PURE__*/ stableClassName('tear-off-menu', 'status-pill');
+const dropdownClass = /*#__PURE__*/ stableClassName('tear-off-menu', 'dropdown');
+const gripClass = /*#__PURE__*/ stableClassName('tear-off-menu', 'grip');
+const paletteClass = /*#__PURE__*/ stableClassName('tear-off-menu', 'palette');
+const paletteHeaderClass = /*#__PURE__*/ stableClassName('tear-off-menu', 'palette-header');
+const itemClass = /*#__PURE__*/ stableClassName('tear-off-menu', 'item');
 
 function TearOffMenuInner({
   menuLabel = DEFAULT_MENU_LABEL,
@@ -445,7 +455,7 @@ function TearOffMenuInner({
       setIsDraggingGrip(true);
       setDragDistancePx(0);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const distance = Math.hypot(
           moveEvent.clientX - startX,
           moveEvent.clientY - startY
@@ -455,9 +465,10 @@ function TearOffMenuInner({
         } else {
           setDragDistancePx(distance);
         }
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -625,14 +636,6 @@ function TearOffMenuInner({
     userStyle: style,
   });
 
-  const barClass = stableClassName('tear-off-menu', 'bar');
-  const triggerClass = stableClassName('tear-off-menu', 'trigger');
-  const statusPillClass = stableClassName('tear-off-menu', 'status-pill');
-  const dropdownClass = stableClassName('tear-off-menu', 'dropdown');
-  const gripClass = stableClassName('tear-off-menu', 'grip');
-  const paletteClass = stableClassName('tear-off-menu', 'palette');
-  const paletteHeaderClass = stableClassName('tear-off-menu', 'palette-header');
-  const itemClass = stableClassName('tear-off-menu', 'item');
 
   const perforationBorderToken = effectiveDragging
     ? 'var(--prism-primary-main)'
@@ -661,7 +664,7 @@ function TearOffMenuInner({
             style={
               isDockedDropdownOpen
                 ? undefined
-                : { color: 'var(--prism-text-primary)' }
+                : STYLE_TEXT_PRIMARY
             }
             className={cx(
               triggerClass,
@@ -1003,5 +1006,4 @@ function TearOffMenuInner({
   );
 }
 
-export const TearOffMenu = memo(TearOffMenuInner);
-TearOffMenu.displayName = 'TearOffMenu';
+export const TearOffMenu = /*#__PURE__*/ memoWithDisplayName(TearOffMenuInner, 'TearOffMenu');

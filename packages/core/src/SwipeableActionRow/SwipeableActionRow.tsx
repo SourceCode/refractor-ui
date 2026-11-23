@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useRef,
   useState,
@@ -17,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SwipeActionTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -137,6 +137,10 @@ function resolveReleaseSide(
   if (hasRight && finalOffset <= -threshold) return 'right';
   return 'none';
 }
+
+const leftTrayClass = /*#__PURE__*/ stableClassName('swipeable-action-row', 'left-tray');
+const rightTrayClass = /*#__PURE__*/ stableClassName('swipeable-action-row', 'right-tray');
+const foregroundClass = /*#__PURE__*/ stableClassName('swipeable-action-row', 'foreground');
 
 function SwipeableActionRowInner({
   children,
@@ -319,9 +323,6 @@ function SwipeableActionRowInner({
     userStyle: style,
   });
 
-  const leftTrayClass = stableClassName('swipeable-action-row', 'left-tray');
-  const rightTrayClass = stableClassName('swipeable-action-row', 'right-tray');
-  const foregroundClass = stableClassName('swipeable-action-row', 'foreground');
 
   const renderActionButton = (action: SwipeActionItem, side: 'left' | 'right') => {
     const tone: SwipeActionTone = action.tone ?? 'secondary';
@@ -461,5 +462,4 @@ function SwipeableActionRowInner({
   );
 }
 
-export const SwipeableActionRow = memo(SwipeableActionRowInner);
-SwipeableActionRow.displayName = 'SwipeableActionRow';
+export const SwipeableActionRow = /*#__PURE__*/ memoWithDisplayName(SwipeableActionRowInner, 'SwipeableActionRow');

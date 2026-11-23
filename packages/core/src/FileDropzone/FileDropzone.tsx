@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Upload, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { formatFileSize } from '../utils/dateGrid';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface UploadedFileSummary {
@@ -157,5 +158,4 @@ function FileDropzoneInner({
   );
 }
 
-export const FileDropzone = memo(FileDropzoneInner);
-FileDropzone.displayName = 'FileDropzone';
+export const FileDropzone = /*#__PURE__*/ memoWithDisplayName(FileDropzoneInner, 'FileDropzone');

@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useState, type KeyboardEvent } from 'react';
+import { useState, type KeyboardEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface CarouselSlide {
@@ -144,5 +145,4 @@ function CarouselSliderInner({
   );
 }
 
-export const CarouselSlider = memo(CarouselSliderInner);
-CarouselSlider.displayName = 'CarouselSlider';
+export const CarouselSlider = /*#__PURE__*/ memoWithDisplayName(CarouselSliderInner, 'CarouselSlider');

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, type CSSProperties } from 'react';
+import { useCallback, useId, useMemo, type CSSProperties } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TextClampLines = 2 | 3 | 4 | 5 | 6;
@@ -49,6 +50,13 @@ function countWords(trimmedText: string): number {
   }
   return trimmedText.split(/\s+/).length;
 }
+
+const bodyClass = /*#__PURE__*/ stableClassName('expandable-text-clamp', 'body');
+const contentClass = /*#__PURE__*/ stableClassName('expandable-text-clamp', 'content');
+const fadeClass = /*#__PURE__*/ stableClassName('expandable-text-clamp', 'fade');
+const footerClass = /*#__PURE__*/ stableClassName('expandable-text-clamp', 'footer');
+const toggleClass = /*#__PURE__*/ stableClassName('expandable-text-clamp', 'toggle');
+const telemetryClass = /*#__PURE__*/ stableClassName('expandable-text-clamp', 'telemetry');
 
 function ExpandableTextClampInner({
   text,
@@ -143,12 +151,6 @@ function ExpandableTextClampInner({
     userStyle: style,
   });
 
-  const bodyClass = stableClassName('expandable-text-clamp', 'body');
-  const contentClass = stableClassName('expandable-text-clamp', 'content');
-  const fadeClass = stableClassName('expandable-text-clamp', 'fade');
-  const footerClass = stableClassName('expandable-text-clamp', 'footer');
-  const toggleClass = stableClassName('expandable-text-clamp', 'toggle');
-  const telemetryClass = stableClassName('expandable-text-clamp', 'telemetry');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -243,5 +245,4 @@ function ExpandableTextClampInner({
   );
 }
 
-export const ExpandableTextClamp = memo(ExpandableTextClampInner);
-ExpandableTextClamp.displayName = 'ExpandableTextClamp';
+export const ExpandableTextClamp = /*#__PURE__*/ memoWithDisplayName(ExpandableTextClampInner, 'ExpandableTextClamp');

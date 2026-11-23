@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_ERROR, STYLE_BG_PRIMARY, STYLE_BG_SUCCESS, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface TreemapTile {
@@ -182,6 +182,10 @@ function partitionTreemap(
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('treemap-chart', 'header');
+const svgClass = /*#__PURE__*/ stableClassName('treemap-chart', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('treemap-chart', 'inspector');
+
 function TreemapChartInner({
   tiles,
   title = 'Hierarchical Treemap',
@@ -314,9 +318,6 @@ function TreemapChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('treemap-chart', 'header');
-  const svgClass = stableClassName('treemap-chart', 'svg');
-  const inspectorClass = stableClassName('treemap-chart', 'inspector');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -375,7 +376,7 @@ function TreemapChartInner({
               aria-label={`${title} hierarchical treemap`}
               viewBox={`0 0 ${SVG_WIDTH} ${clampedHeight}`}
               style={{ height: `${clampedHeight}px` }}
-              className={cx(svgClass, 'w-full block')}
+              className={cx(svgClass, 'w-full block', 'prism-contain-box')}
             >
               <defs>
                 {positionedTiles.map((tile) => (
@@ -543,5 +544,4 @@ function TreemapChartInner({
   );
 }
 
-export const TreemapChart = memo(TreemapChartInner);
-TreemapChart.displayName = 'TreemapChart';
+export const TreemapChart = /*#__PURE__*/ memoWithDisplayName(TreemapChartInner, 'TreemapChart');

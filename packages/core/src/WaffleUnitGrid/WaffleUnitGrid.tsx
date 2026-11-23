@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WaffleTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose' | 'info';
@@ -135,6 +135,14 @@ function formatMetric(value: number, unit: string): string {
   }
   return `${num} ${trimmedUnit}`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('waffle-unit-grid', 'header');
+const layoutClass = /*#__PURE__*/ stableClassName('waffle-unit-grid', 'layout');
+const wellClass = /*#__PURE__*/ stableClassName('waffle-unit-grid', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('waffle-unit-grid', 'svg');
+const breakdownClass = /*#__PURE__*/ stableClassName('waffle-unit-grid', 'breakdown');
+const cardClass = /*#__PURE__*/ stableClassName('waffle-unit-grid', 'card');
+const calloutClass = /*#__PURE__*/ stableClassName('waffle-unit-grid', 'callout');
 
 function WaffleUnitGridInner({
   segments,
@@ -358,13 +366,6 @@ function WaffleUnitGridInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('waffle-unit-grid', 'header');
-  const layoutClass = stableClassName('waffle-unit-grid', 'layout');
-  const wellClass = stableClassName('waffle-unit-grid', 'well');
-  const svgClass = stableClassName('waffle-unit-grid', 'svg');
-  const breakdownClass = stableClassName('waffle-unit-grid', 'breakdown');
-  const cardClass = stableClassName('waffle-unit-grid', 'card');
-  const calloutClass = stableClassName('waffle-unit-grid', 'callout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -430,7 +431,7 @@ function WaffleUnitGridInner({
                 data-columns={String(safeColumns)}
                 data-total-cells={String(totalCells)}
                 viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-                className={cx(svgClass, 'w-full h-auto block select-none')}
+                className={cx(svgClass, 'w-full h-auto block select-none', 'prism-contain-box')}
                 style={{ maxWidth: `${Math.min(svgWidth, 320)}px` }}
               >
                 {cells.map((cell) => {
@@ -593,5 +594,4 @@ function WaffleUnitGridInner({
   );
 }
 
-export const WaffleUnitGrid = memo(WaffleUnitGridInner);
-WaffleUnitGrid.displayName = 'WaffleUnitGrid';
+export const WaffleUnitGrid = /*#__PURE__*/ memoWithDisplayName(WaffleUnitGridInner, 'WaffleUnitGrid');

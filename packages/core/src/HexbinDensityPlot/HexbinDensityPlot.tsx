@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type HexbinTone = 'primary' | 'secondary' | 'emerald' | 'info';
@@ -262,6 +262,12 @@ function resolveIntensityStep(count: number, maxCount: number): IntensityStep {
   );
   return INTENSITY_STEPS[idx]!;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('hexbin-density-plot', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('hexbin-density-plot', 'legend');
+const wellClass = /*#__PURE__*/ stableClassName('hexbin-density-plot', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('hexbin-density-plot', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('hexbin-density-plot', 'inspector');
 
 function HexbinDensityPlotInner({
   points,
@@ -551,11 +557,6 @@ function HexbinDensityPlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('hexbin-density-plot', 'header');
-  const legendClass = stableClassName('hexbin-density-plot', 'legend');
-  const wellClass = stableClassName('hexbin-density-plot', 'well');
-  const svgClass = stableClassName('hexbin-density-plot', 'svg');
-  const inspectorClass = stableClassName('hexbin-density-plot', 'inspector');
 
   const pointSummary = validPoints.length === 1 ? '1 point' : `${validPoints.length} points`;
   const binSummary =
@@ -637,7 +638,7 @@ function HexbinDensityPlotInner({
               role="img"
               aria-label={`${title} hexbin density plot aggregating ${pointSummary} into ${binSummary}`}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block')}
+              className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
             >
               <g data-role="hexbin-axes" aria-hidden="true">
                 <line
@@ -847,5 +848,4 @@ function HexbinDensityPlotInner({
   );
 }
 
-export const HexbinDensityPlot = memo(HexbinDensityPlotInner);
-HexbinDensityPlot.displayName = 'HexbinDensityPlot';
+export const HexbinDensityPlot = /*#__PURE__*/ memoWithDisplayName(HexbinDensityPlotInner, 'HexbinDensityPlot');

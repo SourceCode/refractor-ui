@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RadarTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -150,6 +150,11 @@ function getAxisBaseline(angleRadians: number): 'auto' | 'central' | 'hanging' {
   }
   return 'central';
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('radar-spider-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('radar-spider-chart', 'legend');
+const svgClass = /*#__PURE__*/ stableClassName('radar-spider-chart', 'svg');
+const comparisonClass = /*#__PURE__*/ stableClassName('radar-spider-chart', 'comparison');
 
 function RadarSpiderChartInner({
   axes,
@@ -330,10 +335,6 @@ function RadarSpiderChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('radar-spider-chart', 'header');
-  const legendClass = stableClassName('radar-spider-chart', 'legend');
-  const svgClass = stableClassName('radar-spider-chart', 'svg');
-  const comparisonClass = stableClassName('radar-spider-chart', 'comparison');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -407,7 +408,7 @@ function RadarSpiderChartInner({
               width={clampedSize}
               height={clampedSize}
               style={{ width: `${clampedSize}px`, height: `${clampedSize}px` }}
-              className={cx(svgClass, 'block overflow-visible')}
+              className={cx(svgClass, 'block overflow-visible', 'prism-contain-leaf')}
             >
               <g data-testid="radar-web-rings">
                 {webRings.map((ring) => (
@@ -618,5 +619,4 @@ function RadarSpiderChartInner({
   );
 }
 
-export const RadarSpiderChart = memo(RadarSpiderChartInner);
-RadarSpiderChart.displayName = 'RadarSpiderChart';
+export const RadarSpiderChart = /*#__PURE__*/ memoWithDisplayName(RadarSpiderChartInner, 'RadarSpiderChart');

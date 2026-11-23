@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useId, useState, type ChangeEvent } from 'react';
+import { useEffect, useId, useState, type ChangeEvent } from 'react';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -20,6 +20,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FileConflictResolution = 'replace' | 'skip' | 'keep-both';
@@ -390,6 +391,13 @@ function ConflictVersionCard({
   );
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('file-conflict-dialog', 'header');
+const bodyClass = /*#__PURE__*/ stableClassName('file-conflict-dialog', 'body');
+const cardClass = /*#__PURE__*/ stableClassName('file-conflict-dialog', 'card');
+const footerClass = /*#__PURE__*/ stableClassName('file-conflict-dialog', 'footer');
+const statusClass = /*#__PURE__*/ stableClassName('file-conflict-dialog', 'status');
+const panelClass = /*#__PURE__*/ stableClassName('file-conflict-dialog', 'panel');
+
 function FileConflictDialogInner({
   fileName = DEFAULT_FILE_NAME,
   incoming = DEFAULT_INCOMING_VERSION,
@@ -479,12 +487,6 @@ function FileConflictDialogInner({
 
   const showCancelButton = Boolean(onCancel) || isModal;
 
-  const headerClass = stableClassName('file-conflict-dialog', 'header');
-  const bodyClass = stableClassName('file-conflict-dialog', 'body');
-  const cardClass = stableClassName('file-conflict-dialog', 'card');
-  const footerClass = stableClassName('file-conflict-dialog', 'footer');
-  const statusClass = stableClassName('file-conflict-dialog', 'status');
-  const panelClass = stableClassName('file-conflict-dialog', 'panel');
 
   const merged = mergeProps({
     themeTarget: themeProps('file-conflict-dialog', {
@@ -769,5 +771,4 @@ function FileConflictDialogInner({
   );
 }
 
-export const FileConflictDialog = memo(FileConflictDialogInner);
-FileConflictDialog.displayName = 'FileConflictDialog';
+export const FileConflictDialog = /*#__PURE__*/ memoWithDisplayName(FileConflictDialogInner, 'FileConflictDialog');

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Calendar, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { buildMonthGrid } from '../utils/dateGrid';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface DateRangeValue {
@@ -147,6 +148,10 @@ function formatRangeSummary(range: DateRangeValue): string {
   return 'Select start & end date';
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('date-range-picker', 'header');
+const presetsClass = /*#__PURE__*/ stableClassName('date-range-picker', 'presets');
+const calendarsClass = /*#__PURE__*/ stableClassName('date-range-picker', 'calendars');
+
 function DateRangePickerInner({
   value,
   defaultValue = DEFAULT_RANGE_VALUE,
@@ -283,9 +288,6 @@ function DateRangePickerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('date-range-picker', 'header');
-  const presetsClass = stableClassName('date-range-picker', 'presets');
-  const calendarsClass = stableClassName('date-range-picker', 'calendars');
 
   const navButtonClass =
     'prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
@@ -370,7 +372,7 @@ function DateRangePickerInner({
                   'prism-focus-ring px-3 py-2 rounded-xl text-left text-xs transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
                   isActive ? 'prism-emerald font-semibold' : 'prism-well font-medium'
                 )}
-                style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                style={isActive ? undefined : STYLE_TEXT_PRIMARY}
               >
                 {preset.label}
               </button>
@@ -479,7 +481,7 @@ function DateRangePickerInner({
                               ? 'bg-[var(--prism-primary-main)]/15 font-medium enabled:hover:brightness-95'
                               : 'enabled:hover:bg-[var(--prism-primary-main)]/10'
                         )}
-                        style={isEndpoint ? undefined : { color: 'var(--prism-text-primary)' }}
+                        style={isEndpoint ? undefined : STYLE_TEXT_PRIMARY}
                       >
                         {cell.dayOfMonth}
                       </button>
@@ -499,5 +501,4 @@ function DateRangePickerInner({
   );
 }
 
-export const DateRangePicker = memo(DateRangePickerInner);
-DateRangePicker.displayName = 'DateRangePicker';
+export const DateRangePicker = /*#__PURE__*/ memoWithDisplayName(DateRangePickerInner, 'DateRangePicker');

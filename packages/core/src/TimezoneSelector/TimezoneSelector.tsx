@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +16,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface TimezoneEntry {
@@ -544,5 +544,4 @@ function TimezoneSelectorInner({
   );
 }
 
-export const TimezoneSelector = memo(TimezoneSelectorInner);
-TimezoneSelector.displayName = 'TimezoneSelector';
+export const TimezoneSelector = /*#__PURE__*/ memoWithDisplayName(TimezoneSelectorInner, 'TimezoneSelector');

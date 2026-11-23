@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface DrawerNavItem {
@@ -116,5 +117,4 @@ function SidebarDrawerInner({
   );
 }
 
-export const SidebarDrawer = memo(SidebarDrawerInner);
-SidebarDrawer.displayName = 'SidebarDrawer';
+export const SidebarDrawer = /*#__PURE__*/ memoWithDisplayName(SidebarDrawerInner, 'SidebarDrawer');

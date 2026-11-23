@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +27,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ModelSpeedTier = 'fast' | 'balanced' | 'reasoning';
@@ -640,5 +640,4 @@ function ModelParameterSwitcherInner({
   );
 }
 
-export const ModelParameterSwitcher = memo(ModelParameterSwitcherInner);
-ModelParameterSwitcher.displayName = 'ModelParameterSwitcher';
+export const ModelParameterSwitcher = /*#__PURE__*/ memoWithDisplayName(ModelParameterSwitcherInner, 'ModelParameterSwitcher');

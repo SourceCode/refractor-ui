@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface ProgressAndSpinnerProps extends BaseProps<HTMLDivElement> {
@@ -35,7 +35,7 @@ function ProgressAndSpinnerInner({
 
   const merged = mergeProps({
     themeTarget: themeProps('progress-and-spinner', { indeterminate: indeterminateSpinner }),
-    baseClassName: 'space-y-4 w-full',
+    baseClassName: 'prism-contain-leaf space-y-4 w-full',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -73,7 +73,7 @@ function ProgressAndSpinnerInner({
             viewBox="0 0 24 24"
             role="status"
             aria-label="Loading"
-            className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-spin motion-reduce:animate-none"
+            className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-spin motion-reduce:animate-none prism-contain-box"
             fill="none"
             stroke="currentColor"
             strokeWidth="2.4"
@@ -90,5 +90,4 @@ function ProgressAndSpinnerInner({
   );
 }
 
-export const ProgressAndSpinner = memo(ProgressAndSpinnerInner);
-ProgressAndSpinner.displayName = 'ProgressAndSpinner';
+export const ProgressAndSpinner = /*#__PURE__*/ memoWithDisplayName(ProgressAndSpinnerInner, 'ProgressAndSpinner');

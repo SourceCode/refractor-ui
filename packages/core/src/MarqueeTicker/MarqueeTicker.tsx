@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useMemo,
   useRef,
@@ -18,7 +17,8 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MarqueeDirection = 'left' | 'right';
@@ -191,6 +191,17 @@ function renderPillBody(entry: NormalizedTickerItem) {
   );
 }
 
+const controlsClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'controls');
+const toggleClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'toggle');
+const statusDotClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'status-dot');
+const viewportClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'viewport');
+const fadeLeftClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'fade-left');
+const fadeRightClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'fade-right');
+const trackClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'track');
+const stripClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'strip');
+const pillClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'pill');
+const emptyClass = /*#__PURE__*/ stableClassName('marquee-ticker', 'empty');
+
 function MarqueeTickerInner({
   items,
   direction = 'left',
@@ -350,16 +361,6 @@ function MarqueeTickerInner({
     userStyle: style,
   });
 
-  const controlsClass = stableClassName('marquee-ticker', 'controls');
-  const toggleClass = stableClassName('marquee-ticker', 'toggle');
-  const statusDotClass = stableClassName('marquee-ticker', 'status-dot');
-  const viewportClass = stableClassName('marquee-ticker', 'viewport');
-  const fadeLeftClass = stableClassName('marquee-ticker', 'fade-left');
-  const fadeRightClass = stableClassName('marquee-ticker', 'fade-right');
-  const trackClass = stableClassName('marquee-ticker', 'track');
-  const stripClass = stableClassName('marquee-ticker', 'strip');
-  const pillClass = stableClassName('marquee-ticker', 'pill');
-  const emptyClass = stableClassName('marquee-ticker', 'empty');
 
   const animationName =
     direction === 'right'
@@ -393,7 +394,7 @@ function MarqueeTickerInner({
           <span
             aria-hidden="true"
             className="w-2 h-2 rounded-full shrink-0"
-            style={{ backgroundColor: 'var(--prism-text-disabled)' }}
+            style={STYLE_BG_DISABLED}
           />
           <span className="truncate">No live ticker items available.</span>
         </div>
@@ -555,5 +556,4 @@ function MarqueeTickerInner({
   );
 }
 
-export const MarqueeTicker = memo(MarqueeTickerInner);
-MarqueeTicker.displayName = 'MarqueeTicker';
+export const MarqueeTicker = /*#__PURE__*/ memoWithDisplayName(MarqueeTickerInner, 'MarqueeTicker');

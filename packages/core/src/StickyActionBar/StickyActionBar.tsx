@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react';
+import { useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type StickyActionPosition = 'bottom' | 'top' | 'inline';
@@ -237,5 +238,4 @@ function StickyActionBarInner({
   );
 }
 
-export const StickyActionBar = memo(StickyActionBarInner);
-StickyActionBar.displayName = 'StickyActionBar';
+export const StickyActionBar = /*#__PURE__*/ memoWithDisplayName(StickyActionBarInner, 'StickyActionBar');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -18,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface CreatableOption {
@@ -92,6 +92,11 @@ function createUniqueSlug(
   }
   return `${base}-${suffix}`;
 }
+
+const wellClass = /*#__PURE__*/ stableClassName('creatable-combobox', 'well');
+const listboxClass = /*#__PURE__*/ stableClassName('creatable-combobox', 'listbox');
+const optionClass = /*#__PURE__*/ stableClassName('creatable-combobox', 'option');
+const createClass = /*#__PURE__*/ stableClassName('creatable-combobox', 'create');
 
 function CreatableComboboxInner({
   options,
@@ -316,10 +321,6 @@ function CreatableComboboxInner({
     userStyle: style,
   });
 
-  const wellClass = stableClassName('creatable-combobox', 'well');
-  const listboxClass = stableClassName('creatable-combobox', 'listbox');
-  const optionClass = stableClassName('creatable-combobox', 'option');
-  const createClass = stableClassName('creatable-combobox', 'create');
 
   return (
     <div ref={mergedRef} {...rest} {...merged}>
@@ -522,5 +523,4 @@ function CreatableComboboxInner({
   );
 }
 
-export const CreatableCombobox = memo(CreatableComboboxInner);
-CreatableCombobox.displayName = 'CreatableCombobox';
+export const CreatableCombobox = /*#__PURE__*/ memoWithDisplayName(CreatableComboboxInner, 'CreatableCombobox');

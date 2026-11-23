@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   Fragment,
   useCallback,
   useEffect,
@@ -27,6 +26,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MillerNodeKind = 'folder' | 'code' | 'image' | 'document' | 'audio';
@@ -365,6 +365,13 @@ function resolveBrowserState(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('miller-columns-browser', 'header');
+const breadcrumbsClass = /*#__PURE__*/ stableClassName('miller-columns-browser', 'breadcrumbs');
+const viewportClass = /*#__PURE__*/ stableClassName('miller-columns-browser', 'viewport');
+const columnClass = /*#__PURE__*/ stableClassName('miller-columns-browser', 'column');
+const itemClass = /*#__PURE__*/ stableClassName('miller-columns-browser', 'item');
+const previewClass = /*#__PURE__*/ stableClassName('miller-columns-browser', 'preview');
+
 function MillerColumnsBrowserInner({
   roots,
   defaultSelectedPath,
@@ -554,12 +561,6 @@ function MillerColumnsBrowserInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('miller-columns-browser', 'header');
-  const breadcrumbsClass = stableClassName('miller-columns-browser', 'breadcrumbs');
-  const viewportClass = stableClassName('miller-columns-browser', 'viewport');
-  const columnClass = stableClassName('miller-columns-browser', 'column');
-  const itemClass = stableClassName('miller-columns-browser', 'item');
-  const previewClass = stableClassName('miller-columns-browser', 'preview');
 
   return (
     <div
@@ -773,7 +774,7 @@ function MillerColumnsBrowserInner({
                                 ? 'prism-crystal font-semibold'
                                 : 'hover:bg-[var(--prism-divider)] font-medium'
                           )}
-                          style={isActiveLeaf ? undefined : { color: 'var(--prism-text-primary)' }}
+                          style={isActiveLeaf ? undefined : STYLE_TEXT_PRIMARY}
                         >
                           <span className="flex items-center gap-2 min-w-0 flex-1">
                             {renderKindIcon(
@@ -794,7 +795,7 @@ function MillerColumnsBrowserInner({
                             <span
                               className="font-mono tabular-nums text-[10px] shrink-0 opacity-80"
                               style={
-                                isActiveLeaf ? undefined : { color: 'var(--prism-text-secondary)' }
+                                isActiveLeaf ? undefined : STYLE_TEXT_SECONDARY
                               }
                             >
                               {node.sizeLabel}
@@ -938,5 +939,4 @@ function MillerColumnsBrowserInner({
   );
 }
 
-export const MillerColumnsBrowser = memo(MillerColumnsBrowserInner);
-MillerColumnsBrowser.displayName = 'MillerColumnsBrowser';
+export const MillerColumnsBrowser = /*#__PURE__*/ memoWithDisplayName(MillerColumnsBrowserInner, 'MillerColumnsBrowser');

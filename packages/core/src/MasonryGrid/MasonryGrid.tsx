@@ -5,6 +5,7 @@ import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface MasonryItem {
@@ -222,5 +223,7 @@ type MasonryGridComponent = (<T extends MasonryItem = MasonryItem>(
   props: MasonryGridProps<T>
 ) => ReactNode) & { displayName?: string };
 
-export const MasonryGrid = memo(MasonryGridInner) as MasonryGridComponent;
-MasonryGrid.displayName = 'MasonryGrid';
+export const MasonryGrid = /*#__PURE__*/ memoWithDisplayName(
+  MasonryGridInner,
+  'MasonryGrid'
+) as MasonryGridComponent;

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +27,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ArtifactKind = 'code' | 'document' | 'preview';
@@ -120,6 +120,10 @@ function renderLayoutIcon(mode: ArtifactViewMode): ReactNode {
       return <PanelRight className="w-3.5 h-3.5 shrink-0 relative z-10" aria-hidden="true" />;
   }
 }
+
+const topbarClass = /*#__PURE__*/ stableClassName('split-artifact-canvas', 'topbar');
+const conversationClass = /*#__PURE__*/ stableClassName('split-artifact-canvas', 'conversation');
+const artifactClass = /*#__PURE__*/ stableClassName('split-artifact-canvas', 'artifact');
 
 function SplitArtifactCanvasInner({
   conversationPane,
@@ -310,9 +314,6 @@ function SplitArtifactCanvasInner({
     userStyle: style,
   });
 
-  const topbarClass = stableClassName('split-artifact-canvas', 'topbar');
-  const conversationClass = stableClassName('split-artifact-canvas', 'conversation');
-  const artifactClass = stableClassName('split-artifact-canvas', 'artifact');
 
   const artifactCountLabel =
     uniqueArtifacts.length === 1 ? '1 artifact' : `${uniqueArtifacts.length} artifacts`;
@@ -615,5 +616,4 @@ function SplitArtifactCanvasInner({
   );
 }
 
-export const SplitArtifactCanvas = memo(SplitArtifactCanvasInner);
-SplitArtifactCanvas.displayName = 'SplitArtifactCanvas';
+export const SplitArtifactCanvas = /*#__PURE__*/ memoWithDisplayName(SplitArtifactCanvasInner, 'SplitArtifactCanvas');

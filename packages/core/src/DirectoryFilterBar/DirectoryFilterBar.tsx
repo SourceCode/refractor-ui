@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo } from 'react';
+import { useCallback, useId, useMemo } from 'react';
 import {
   ArrowDownWideNarrow,
   ArrowUpNarrowWide,
@@ -22,6 +22,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN, compareLocaleStrings, compareNaturalStrings } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DirectoryGroupBy = 'none' | 'kind' | 'date' | 'size';
@@ -479,6 +480,12 @@ function renderFileIcon(extension: string) {
   );
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('directory-filter-bar', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('directory-filter-bar', 'controls');
+const extensionsClass = /*#__PURE__*/ stableClassName('directory-filter-bar', 'extensions');
+const tagsClass = /*#__PURE__*/ stableClassName('directory-filter-bar', 'tags');
+const resultsClass = /*#__PURE__*/ stableClassName('directory-filter-bar', 'results');
+
 function DirectoryFilterBarInner({
   title = DEFAULT_TITLE,
   items,
@@ -600,11 +607,6 @@ function DirectoryFilterBarInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('directory-filter-bar', 'header');
-  const controlsClass = stableClassName('directory-filter-bar', 'controls');
-  const extensionsClass = stableClassName('directory-filter-bar', 'extensions');
-  const tagsClass = stableClassName('directory-filter-bar', 'tags');
-  const resultsClass = stableClassName('directory-filter-bar', 'results');
 
   return (
     <div
@@ -801,7 +803,7 @@ function DirectoryFilterBarInner({
                 state.extension === 'all' ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
               )}
               style={
-                state.extension === 'all' ? undefined : { color: 'var(--prism-text-primary)' }
+                state.extension === 'all' ? undefined : STYLE_TEXT_PRIMARY
               }
             >
               All
@@ -823,7 +825,7 @@ function DirectoryFilterBarInner({
                     'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center font-mono text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                     selected ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
                   )}
-                  style={selected ? undefined : { color: 'var(--prism-text-primary)' }}
+                  style={selected ? undefined : STYLE_TEXT_PRIMARY}
                 >
                   {ext}
                 </button>
@@ -856,7 +858,7 @@ function DirectoryFilterBarInner({
                 'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                 state.tag === 'all' ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
               )}
-              style={state.tag === 'all' ? undefined : { color: 'var(--prism-text-primary)' }}
+              style={state.tag === 'all' ? undefined : STYLE_TEXT_PRIMARY}
             >
               All
             </button>
@@ -1032,5 +1034,4 @@ function DirectoryFilterBarInner({
   );
 }
 
-export const DirectoryFilterBar = memo(DirectoryFilterBarInner);
-DirectoryFilterBar.displayName = 'DirectoryFilterBar';
+export const DirectoryFilterBar = /*#__PURE__*/ memoWithDisplayName(DirectoryFilterBarInner, 'DirectoryFilterBar');

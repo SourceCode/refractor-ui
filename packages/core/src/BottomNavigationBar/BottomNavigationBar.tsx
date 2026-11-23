@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useMemo, useRef, type KeyboardEvent, type ReactNode } from 'react';
+import { useMemo, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface BottomNavItem {
@@ -246,5 +247,4 @@ function BottomNavigationBarInner({
   );
 }
 
-export const BottomNavigationBar = memo(BottomNavigationBarInner);
-BottomNavigationBar.displayName = 'BottomNavigationBar';
+export const BottomNavigationBar = /*#__PURE__*/ memoWithDisplayName(BottomNavigationBarInner, 'BottomNavigationBar');

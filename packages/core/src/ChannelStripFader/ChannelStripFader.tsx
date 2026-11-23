@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -12,12 +11,14 @@ import {
 } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_BG_DIVIDER } from '../utils/styles';
+import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FaderScaleMode = 'studio-db' | 'linear-pct';
@@ -162,6 +163,15 @@ function buildCalibrationTicks(
   }));
 }
 
+const labelClass = /*#__PURE__*/ stableClassName('channel-strip-fader', 'label');
+const readoutClass = /*#__PURE__*/ stableClassName('channel-strip-fader', 'readout');
+const slotClass = /*#__PURE__*/ stableClassName('channel-strip-fader', 'slot');
+const ticksClass = /*#__PURE__*/ stableClassName('channel-strip-fader', 'ticks');
+const fillClass = /*#__PURE__*/ stableClassName('channel-strip-fader', 'fill');
+const capClass = /*#__PURE__*/ stableClassName('channel-strip-fader', 'cap');
+const grooveClass = /*#__PURE__*/ stableClassName('channel-strip-fader', 'groove');
+const controlsClass = /*#__PURE__*/ stableClassName('channel-strip-fader', 'controls');
+
 function ChannelStripFaderInner({
   label = DEFAULT_LABEL,
   valueDb,
@@ -293,11 +303,12 @@ function ChannelStripFaderInner({
       setIsDragging(true);
       applyFromClientY(event.clientY);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         applyFromClientY(moveEvent.clientY);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -394,14 +405,6 @@ function ChannelStripFaderInner({
     userStyle: style,
   });
 
-  const labelClass = stableClassName('channel-strip-fader', 'label');
-  const readoutClass = stableClassName('channel-strip-fader', 'readout');
-  const slotClass = stableClassName('channel-strip-fader', 'slot');
-  const ticksClass = stableClassName('channel-strip-fader', 'ticks');
-  const fillClass = stableClassName('channel-strip-fader', 'fill');
-  const capClass = stableClassName('channel-strip-fader', 'cap');
-  const grooveClass = stableClassName('channel-strip-fader', 'groove');
-  const controlsClass = stableClassName('channel-strip-fader', 'controls');
 
   const readoutColor = isMuted
     ? 'var(--prism-text-disabled)'
@@ -654,7 +657,7 @@ function ChannelStripFaderInner({
                   color: 'var(--prism-primary-main)',
                   boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)',
                 }
-              : { color: 'var(--prism-text-primary)' }
+              : STYLE_TEXT_PRIMARY
           }
         >
           Unity {unityShortLabel}
@@ -679,7 +682,7 @@ function ChannelStripFaderInner({
                   color: 'var(--prism-error-contrast)',
                   boxShadow: '0 0 0 1px var(--prism-error-main)',
                 }
-              : { color: 'var(--prism-text-secondary)' }
+              : STYLE_TEXT_SECONDARY
           }
         >
           {isMuted ? (
@@ -694,5 +697,4 @@ function ChannelStripFaderInner({
   );
 }
 
-export const ChannelStripFader = memo(ChannelStripFaderInner);
-ChannelStripFader.displayName = 'ChannelStripFader';
+export const ChannelStripFader = /*#__PURE__*/ memoWithDisplayName(ChannelStripFaderInner, 'ChannelStripFader');

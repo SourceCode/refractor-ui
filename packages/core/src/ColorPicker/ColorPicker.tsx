@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -12,6 +11,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import {
@@ -25,6 +25,7 @@ import {
 } from '../utils/colorMath';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 const DEFAULT_HEX = '#E75C24';
@@ -97,6 +98,12 @@ function getWcagGrade(ratio: number): string {
   if (ratio >= 3) return 'AA+';
   return 'Low';
 }
+
+const spectrumClass = /*#__PURE__*/ stableClassName('color-picker', 'spectrum');
+const slidersClass = /*#__PURE__*/ stableClassName('color-picker', 'sliders');
+const inputsClass = /*#__PURE__*/ stableClassName('color-picker', 'inputs');
+const contrastClass = /*#__PURE__*/ stableClassName('color-picker', 'contrast');
+const presetsClass = /*#__PURE__*/ stableClassName('color-picker', 'presets');
 
 function ColorPickerInner({
   value,
@@ -228,9 +235,9 @@ function ColorPickerInner({
   useEffect(() => {
     if (!isDraggingSpectrum || disabled) return;
 
-    const handlePointerMove = (event: PointerEvent) => {
+    const handlePointerMove = createCoalescedPointerMove((event: PointerEvent) => {
       updateSpectrumFromPoint(event.clientX, event.clientY);
-    };
+    });
 
     const handlePointerUp = () => {
       setIsDraggingSpectrum(false);
@@ -241,6 +248,7 @@ function ColorPickerInner({
     window.addEventListener('pointercancel', handlePointerUp);
 
     return () => {
+      handlePointerMove.cancel();
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
       window.removeEventListener('pointercancel', handlePointerUp);
@@ -316,11 +324,6 @@ function ColorPickerInner({
     userStyle: style,
   });
 
-  const spectrumClass = stableClassName('color-picker', 'spectrum');
-  const slidersClass = stableClassName('color-picker', 'sliders');
-  const inputsClass = stableClassName('color-picker', 'inputs');
-  const contrastClass = stableClassName('color-picker', 'contrast');
-  const presetsClass = stableClassName('color-picker', 'presets');
 
   const huePct = clampNumber((activeHsv.h / 360) * 100, 0, 100, 0);
 
@@ -724,5 +727,4 @@ function ColorPickerInner({
   );
 }
 
-export const ColorPicker = memo(ColorPickerInner);
-ColorPicker.displayName = 'ColorPicker';
+export const ColorPicker = /*#__PURE__*/ memoWithDisplayName(ColorPickerInner, 'ColorPicker');

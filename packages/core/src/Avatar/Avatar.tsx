@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AvatarSize = 'sm' | 'md' | 'lg';
@@ -47,7 +48,7 @@ function AvatarInner({
 
   const merged = mergeProps({
     themeTarget: themeProps('avatar', { size, shape, fallback: !showImage }),
-    baseClassName: `prism-crystal ${dims} ${radius} p-0.5 inline-flex items-center justify-center overflow-hidden shrink-0`,
+    baseClassName: `prism-contain-leaf prism-crystal ${dims} ${radius} p-0.5 inline-flex items-center justify-center overflow-hidden shrink-0`,
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -78,5 +79,4 @@ function AvatarInner({
   );
 }
 
-export const Avatar = memo(AvatarInner);
-Avatar.displayName = 'Avatar';
+export const Avatar = /*#__PURE__*/ memoWithDisplayName(AvatarInner, 'Avatar');

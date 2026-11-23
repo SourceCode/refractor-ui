@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Clock, Search, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { splitLiteralHighlight } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface GlobalSearchItem {
@@ -445,5 +446,4 @@ function GlobalSearchModalInner({
   );
 }
 
-export const GlobalSearchModal = memo(GlobalSearchModalInner);
-GlobalSearchModal.displayName = 'GlobalSearchModal';
+export const GlobalSearchModal = /*#__PURE__*/ memoWithDisplayName(GlobalSearchModalInner, 'GlobalSearchModal');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useState,
@@ -30,7 +29,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { STYLE_BADGE_ERROR, STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DesktopWidgetSize = 'sm' | 'md' | 'lg';
@@ -267,6 +267,12 @@ function renderKindIcon(kind: DesktopWidgetKind): ReactNode {
       return <LayoutGrid aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />;
   }
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('desktop-widget-frame', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('desktop-widget-frame', 'controls');
+const bodyClass = /*#__PURE__*/ stableClassName('desktop-widget-frame', 'body');
+const editorClass = /*#__PURE__*/ stableClassName('desktop-widget-frame', 'editor');
+const footerClass = /*#__PURE__*/ stableClassName('desktop-widget-frame', 'footer');
 
 function DesktopWidgetFrameInner({
   kind = 'telemetry',
@@ -647,11 +653,6 @@ function DesktopWidgetFrameInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('desktop-widget-frame', 'header');
-  const controlsClass = stableClassName('desktop-widget-frame', 'controls');
-  const bodyClass = stableClassName('desktop-widget-frame', 'body');
-  const editorClass = stableClassName('desktop-widget-frame', 'editor');
-  const footerClass = stableClassName('desktop-widget-frame', 'footer');
 
   const isExpandedSize = resolvedSize === 'md' || resolvedSize === 'lg';
 
@@ -904,10 +905,7 @@ function DesktopWidgetFrameInner({
               onClick={handleConfirmRemove}
               onKeyDown={handleImeSafeButtonKeyDown}
               className="prism-focus-ring inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-110 transition-[color,background-color,border-color,opacity,transform]"
-              style={{
-                color: 'var(--prism-error-contrast)',
-                backgroundColor: 'var(--prism-error-main)',
-              }}
+              style={STYLE_BADGE_ERROR}
             >
               <Trash2 aria-hidden="true" className="w-3 h-3" />
               <span>Confirm Remove</span>
@@ -1423,10 +1421,7 @@ function DesktopWidgetFrameInner({
           footerClass,
           'relative z-10 pt-2 border-t flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono tabular-nums min-w-0'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-          color: 'var(--prism-text-secondary)',
-        }}
+        style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
       >
         <span data-testid="desktop-widget-last-updated" className="truncate">
           {resolvedLastUpdatedLabel}
@@ -1440,5 +1435,4 @@ function DesktopWidgetFrameInner({
   );
 }
 
-export const DesktopWidgetFrame = memo(DesktopWidgetFrameInner);
-DesktopWidgetFrame.displayName = 'DesktopWidgetFrame';
+export const DesktopWidgetFrame = /*#__PURE__*/ memoWithDisplayName(DesktopWidgetFrameInner, 'DesktopWidgetFrame');

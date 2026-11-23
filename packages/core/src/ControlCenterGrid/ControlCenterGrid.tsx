@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -34,6 +33,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ControlCenterThemeChoice = 'light' | 'dark';
@@ -185,6 +185,13 @@ function normalizeDisplayTrack(track: ControlCenterTrack | undefined): ControlCe
     durationLabel: track.durationLabel.trim() || '--:--',
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('control-center-grid', 'header');
+const tilesClass = /*#__PURE__*/ stableClassName('control-center-grid', 'tiles');
+const tileClass = /*#__PURE__*/ stableClassName('control-center-grid', 'tile');
+const slidersClass = /*#__PURE__*/ stableClassName('control-center-grid', 'sliders');
+const mediaClass = /*#__PURE__*/ stableClassName('control-center-grid', 'media');
+const statusClass = /*#__PURE__*/ stableClassName('control-center-grid', 'status');
 
 function ControlCenterGridInner({
   title = DEFAULT_TITLE,
@@ -439,12 +446,6 @@ function ControlCenterGridInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('control-center-grid', 'header');
-  const tilesClass = stableClassName('control-center-grid', 'tiles');
-  const tileClass = stableClassName('control-center-grid', 'tile');
-  const slidersClass = stableClassName('control-center-grid', 'sliders');
-  const mediaClass = stableClassName('control-center-grid', 'media');
-  const statusClass = stableClassName('control-center-grid', 'status');
 
   return (
     <div
@@ -809,7 +810,7 @@ function ControlCenterGridInner({
               style={
                 currentState.playing
                   ? undefined
-                  : { color: 'var(--prism-text-primary)' }
+                  : STYLE_TEXT_PRIMARY
               }
             >
               {currentState.playing ? (
@@ -870,5 +871,4 @@ function ControlCenterGridInner({
   );
 }
 
-export const ControlCenterGrid = memo(ControlCenterGridInner);
-ControlCenterGrid.displayName = 'ControlCenterGrid';
+export const ControlCenterGrid = /*#__PURE__*/ memoWithDisplayName(ControlCenterGridInner, 'ControlCenterGrid');

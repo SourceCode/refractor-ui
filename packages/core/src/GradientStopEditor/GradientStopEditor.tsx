@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -14,11 +13,13 @@ import {
 } from 'react';
 import { ArrowLeftRight, Blend, Plus, Trash2 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type GradientKind = 'linear' | 'radial' | 'conic';
@@ -350,6 +351,14 @@ function reverseGradientStops(
   return reversed;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('gradient-stop-editor', 'header');
+const previewClass = /*#__PURE__*/ stableClassName('gradient-stop-editor', 'preview');
+const trackClass = /*#__PURE__*/ stableClassName('gradient-stop-editor', 'track');
+const thumbClass = /*#__PURE__*/ stableClassName('gradient-stop-editor', 'thumb');
+const midpointClass = /*#__PURE__*/ stableClassName('gradient-stop-editor', 'midpoint');
+const inspectorClass = /*#__PURE__*/ stableClassName('gradient-stop-editor', 'inspector');
+const telemetryClass = /*#__PURE__*/ stableClassName('gradient-stop-editor', 'telemetry');
+
 function GradientStopEditorInner({
   value,
   defaultValue,
@@ -494,7 +503,7 @@ function GradientStopEditorInner({
       cleanupDragRef.current?.();
       setDraggingTarget(target);
 
-      const handleWindowPointerMove = (moveEvent: PointerEvent) => {
+      const handleWindowPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (moveEvent.pointerId !== pointerId) return;
         const rect = getTrackRect();
         if (!rect) return;
@@ -515,9 +524,10 @@ function GradientStopEditorInner({
 
         const relativeMidpoint = ((trackPct - stopA.positionPct) / span) * 100;
         latestRef.current.moveMidpoint(target.stopId, relativeMidpoint);
-      };
+      });
 
       const cleanup = () => {
+        handleWindowPointerMove.cancel();
         window.removeEventListener('pointermove', handleWindowPointerMove);
         window.removeEventListener('pointerup', handleWindowPointerEnd);
         window.removeEventListener('pointercancel', handleWindowPointerEnd);
@@ -693,13 +703,6 @@ function GradientStopEditorInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('gradient-stop-editor', 'header');
-  const previewClass = stableClassName('gradient-stop-editor', 'preview');
-  const trackClass = stableClassName('gradient-stop-editor', 'track');
-  const thumbClass = stableClassName('gradient-stop-editor', 'thumb');
-  const midpointClass = stableClassName('gradient-stop-editor', 'midpoint');
-  const inspectorClass = stableClassName('gradient-stop-editor', 'inspector');
-  const telemetryClass = stableClassName('gradient-stop-editor', 'telemetry');
 
   const anglePct = Math.round((currentState.angleDeg / MAX_ANGLE_DEG) * 100);
 
@@ -761,7 +764,7 @@ function GradientStopEditorInner({
                       ? 'prism-btn-primary'
                       : 'prism-crystal opacity-85 enabled:hover:opacity-100'
                   )}
-                  style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                  style={isActive ? undefined : STYLE_TEXT_PRIMARY}
                 >
                   <span className="relative z-10">{kindMeta.label}</span>
                 </button>
@@ -1206,5 +1209,4 @@ function GradientStopEditorInner({
   );
 }
 
-export const GradientStopEditor = memo(GradientStopEditorInner);
-GradientStopEditor.displayName = 'GradientStopEditor';
+export const GradientStopEditor = /*#__PURE__*/ memoWithDisplayName(GradientStopEditorInner, 'GradientStopEditor');

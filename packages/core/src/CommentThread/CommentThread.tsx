@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   Fragment,
   useId,
   useMemo,
@@ -23,6 +22,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface CommentReaction {
@@ -739,7 +739,7 @@ function CommentThreadInner({
                       isReacted ? 'prism-emerald' : 'prism-well'
                     } prism-focus-ring h-7 px-2.5 rounded-full text-xs inline-flex items-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]`}
                     style={
-                      isReacted ? undefined : { color: 'var(--prism-text-primary)' }
+                      isReacted ? undefined : STYLE_TEXT_PRIMARY
                     }
                   >
                     <span aria-hidden="true">{reaction.emoji}</span>
@@ -890,5 +890,4 @@ function CommentThreadInner({
   );
 }
 
-export const CommentThread = memo(CommentThreadInner);
-CommentThread.displayName = 'CommentThread';
+export const CommentThread = /*#__PURE__*/ memoWithDisplayName(CommentThreadInner, 'CommentThread');

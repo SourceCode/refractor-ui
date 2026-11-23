@@ -1,13 +1,14 @@
 'use client';
 
-import { memo, useId } from 'react';
+import { useId } from 'react';
 import { Check, Minus, Sparkles } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { STYLE_BADGE_PRIMARY, STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BillingCycle = 'monthly' | 'annual';
@@ -163,7 +164,7 @@ function PricingTierMatrixInner({
             style={
               activeCycle === 'monthly'
                 ? undefined
-                : { color: 'var(--prism-text-secondary)' }
+                : STYLE_TEXT_SECONDARY
             }
           >
             Monthly
@@ -182,7 +183,7 @@ function PricingTierMatrixInner({
             style={
               activeCycle === 'annual'
                 ? undefined
-                : { color: 'var(--prism-text-secondary)' }
+                : STYLE_TEXT_SECONDARY
             }
           >
             <span>Annual</span>
@@ -262,11 +263,8 @@ function PricingTierMatrixInner({
                         }`}
                         style={
                           isPopular
-                            ? {
-                                backgroundColor: 'var(--prism-primary-main)',
-                                color: 'var(--prism-primary-contrast)',
-                              }
-                            : { color: 'var(--prism-text-primary)' }
+                            ? STYLE_BADGE_PRIMARY
+                            : STYLE_TEXT_PRIMARY
                         }
                       >
                         {isPopular ? (
@@ -365,5 +363,4 @@ function PricingTierMatrixInner({
   );
 }
 
-export const PricingTierMatrix = memo(PricingTierMatrixInner);
-PricingTierMatrix.displayName = 'PricingTierMatrix';
+export const PricingTierMatrix = /*#__PURE__*/ memoWithDisplayName(PricingTierMatrixInner, 'PricingTierMatrix');

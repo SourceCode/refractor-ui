@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -19,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SequencerTrackTone = 'primary' | 'amber' | 'info' | 'emerald';
@@ -313,6 +313,15 @@ function getPresetAnnouncement(preset: SequencerPresetId): string {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('step-sequencer-matrix', 'header');
+const transportClass = /*#__PURE__*/ stableClassName('step-sequencer-matrix', 'transport');
+const tempoClass = /*#__PURE__*/ stableClassName('step-sequencer-matrix', 'tempo');
+const presetsClass = /*#__PURE__*/ stableClassName('step-sequencer-matrix', 'presets');
+const matrixClass = /*#__PURE__*/ stableClassName('step-sequencer-matrix', 'matrix');
+const rowClass = /*#__PURE__*/ stableClassName('step-sequencer-matrix', 'row');
+const padClass = /*#__PURE__*/ stableClassName('step-sequencer-matrix', 'pad');
+const statusClass = /*#__PURE__*/ stableClassName('step-sequencer-matrix', 'status');
+
 function StepSequencerMatrixInner({
   title = DEFAULT_TITLE,
   tracks,
@@ -606,14 +615,6 @@ function StepSequencerMatrixInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('step-sequencer-matrix', 'header');
-  const transportClass = stableClassName('step-sequencer-matrix', 'transport');
-  const tempoClass = stableClassName('step-sequencer-matrix', 'tempo');
-  const presetsClass = stableClassName('step-sequencer-matrix', 'presets');
-  const matrixClass = stableClassName('step-sequencer-matrix', 'matrix');
-  const rowClass = stableClassName('step-sequencer-matrix', 'row');
-  const padClass = stableClassName('step-sequencer-matrix', 'pad');
-  const statusClass = stableClassName('step-sequencer-matrix', 'status');
 
   return (
     <div
@@ -659,7 +660,7 @@ function StepSequencerMatrixInner({
               'prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
               isPlaying ? 'prism-btn-primary' : 'prism-crystal'
             )}
-            style={isPlaying ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={isPlaying ? undefined : STYLE_TEXT_PRIMARY}
           >
             {isPlaying ? (
               <Square aria-hidden="true" className="w-3 h-3 shrink-0" />
@@ -743,7 +744,7 @@ function StepSequencerMatrixInner({
                             'color-mix(in srgb, var(--prism-primary-main) 14%, transparent)',
                           boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)',
                         }
-                      : { color: 'var(--prism-text-primary)' }
+                      : STYLE_TEXT_PRIMARY
                   }
                 >
                   {preset.label}
@@ -884,7 +885,7 @@ function StepSequencerMatrixInner({
                               color: 'var(--prism-error-contrast)',
                               boxShadow: '0 0 0 1px var(--prism-error-main)',
                             }
-                          : { color: 'var(--prism-text-secondary)' }
+                          : STYLE_TEXT_SECONDARY
                       }
                     >
                       M
@@ -1024,5 +1025,4 @@ function StepSequencerMatrixInner({
   );
 }
 
-export const StepSequencerMatrix = memo(StepSequencerMatrixInner);
-StepSequencerMatrix.displayName = 'StepSequencerMatrix';
+export const StepSequencerMatrix = /*#__PURE__*/ memoWithDisplayName(StepSequencerMatrixInner, 'StepSequencerMatrix');

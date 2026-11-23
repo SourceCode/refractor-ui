@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Check, Copy, RefreshCw, Share2, ThumbsDown, ThumbsUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ResponseFeedback = 'up' | 'down' | null;
@@ -38,6 +39,10 @@ const COPY_FEEDBACK_DURATION_MS = 1800;
 
 const IDLE_BUTTON_CLASS =
   'text-slate-700 dark:text-slate-200 enabled:hover:bg-white/60 dark:enabled:hover:bg-white/10 enabled:hover:text-slate-950 dark:enabled:hover:text-white';
+
+const actionGroupClass = /*#__PURE__*/ stableClassName('response-action-bar', 'actions');
+const feedbackGroupClass = /*#__PURE__*/ stableClassName('response-action-bar', 'feedback');
+const extraGroupClass = /*#__PURE__*/ stableClassName('response-action-bar', 'extra');
 
 function ResponseActionBarInner({
   contentToCopy,
@@ -129,9 +134,6 @@ function ResponseActionBarInner({
     userStyle: style,
   });
 
-  const actionGroupClass = stableClassName('response-action-bar', 'actions');
-  const feedbackGroupClass = stableClassName('response-action-bar', 'feedback');
-  const extraGroupClass = stableClassName('response-action-bar', 'extra');
 
   const baseButtonClass =
     'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed';
@@ -252,5 +254,4 @@ function ResponseActionBarInner({
   );
 }
 
-export const ResponseActionBar = memo(ResponseActionBarInner);
-ResponseActionBar.displayName = 'ResponseActionBar';
+export const ResponseActionBar = /*#__PURE__*/ memoWithDisplayName(ResponseActionBarInner, 'ResponseActionBar');

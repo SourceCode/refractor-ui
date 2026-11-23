@@ -1,6 +1,5 @@
 'use client';
 
-import { memo } from 'react';
 import type {
   ButtonHTMLAttributes,
   KeyboardEvent,
@@ -13,6 +12,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CycleButtonTone = 'neutral' | 'primary' | 'secondary' | 'emerald' | 'amber';
@@ -90,6 +90,11 @@ function getToneVisualTokens(tone: CycleButtonTone): ToneVisualTokens {
       };
   }
 }
+
+const iconClass = /*#__PURE__*/ stableClassName('multi-state-cycle-button', 'icon');
+const labelClass = /*#__PURE__*/ stableClassName('multi-state-cycle-button', 'label');
+const dotsClass = /*#__PURE__*/ stableClassName('multi-state-cycle-button', 'step-dots');
+const dotClass = /*#__PURE__*/ stableClassName('multi-state-cycle-button', 'step-dot');
 
 function MultiStateCycleButtonInner({
   states,
@@ -178,10 +183,6 @@ function MultiStateCycleButtonInner({
     userStyle: style,
   });
 
-  const iconClass = stableClassName('multi-state-cycle-button', 'icon');
-  const labelClass = stableClassName('multi-state-cycle-button', 'label');
-  const dotsClass = stableClassName('multi-state-cycle-button', 'step-dots');
-  const dotClass = stableClassName('multi-state-cycle-button', 'step-dot');
 
   const liveAnnouncement = activeOption
     ? `${activeOption.label} (${activeIdx + 1} of ${states.length})`
@@ -250,5 +251,4 @@ function MultiStateCycleButtonInner({
   );
 }
 
-export const MultiStateCycleButton = memo(MultiStateCycleButtonInner);
-MultiStateCycleButton.displayName = 'MultiStateCycleButton';
+export const MultiStateCycleButton = /*#__PURE__*/ memoWithDisplayName(MultiStateCycleButtonInner, 'MultiStateCycleButton');

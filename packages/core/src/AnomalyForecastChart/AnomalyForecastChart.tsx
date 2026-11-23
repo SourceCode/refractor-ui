@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,7 +12,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BG_ERROR, STYLE_BG_PRIMARY, STYLE_BG_WARNING, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { STYLE_BG_ERROR, STYLE_BG_INFO, STYLE_BG_PRIMARY, STYLE_BG_WARNING, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AnomalyDirection = 'normal' | 'upper-breach' | 'lower-breach';
@@ -252,6 +252,13 @@ function buildMarkerAriaLabel(pt: PlottedPoint, unit: string): string {
   }
   return `${pt.point.label}: Actual ${formatWithUnit(pt.actual, unit)} vs Expected ${formatWithUnit(pt.expected, unit)}, Confidence Band ${bandText}, Deviation ${formatSignedDelta(pt.deviation, unit)}, Status ${status}`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('anomaly-forecast-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('anomaly-forecast-chart', 'legend');
+const canvasClass = /*#__PURE__*/ stableClassName('anomaly-forecast-chart', 'canvas');
+const svgClass = /*#__PURE__*/ stableClassName('anomaly-forecast-chart', 'svg');
+const jumpBarClass = /*#__PURE__*/ stableClassName('anomaly-forecast-chart', 'anomalies');
+const inspectorClass = /*#__PURE__*/ stableClassName('anomaly-forecast-chart', 'inspector');
 
 function AnomalyForecastChartInner({
   data,
@@ -530,12 +537,6 @@ function AnomalyForecastChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('anomaly-forecast-chart', 'header');
-  const legendClass = stableClassName('anomaly-forecast-chart', 'legend');
-  const canvasClass = stableClassName('anomaly-forecast-chart', 'canvas');
-  const svgClass = stableClassName('anomaly-forecast-chart', 'svg');
-  const jumpBarClass = stableClassName('anomaly-forecast-chart', 'anomalies');
-  const inspectorClass = stableClassName('anomaly-forecast-chart', 'inspector');
 
   const countPillColor =
     totalAnomalies > 0 ? 'var(--prism-error-main)' : 'var(--prism-success-main)';
@@ -639,7 +640,7 @@ function AnomalyForecastChartInner({
             <span
               aria-hidden="true"
               className="w-2.5 h-2 rounded-sm shrink-0 opacity-60"
-              style={{ backgroundColor: 'var(--prism-info-main)' }}
+              style={STYLE_BG_INFO}
             />
             <span>Confidence Band</span>
           </span>
@@ -695,7 +696,7 @@ function AnomalyForecastChartInner({
             aria-label={`${title} chart across ${chartModel.plottedPoints.length} checkpoints with ${totalAnomalies} detected ${totalAnomalies === 1 ? 'anomaly' : 'anomalies'}`}
             data-testid="anomaly-chart-svg"
             viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-            className={cx(svgClass, 'w-full h-auto select-none')}
+            className={cx(svgClass, 'w-full h-auto select-none', 'prism-contain-box')}
           >
             {chartModel.nowDividerX !== null ? (
               <rect
@@ -1085,5 +1086,4 @@ function AnomalyForecastChartInner({
   );
 }
 
-export const AnomalyForecastChart = memo(AnomalyForecastChartInner);
-AnomalyForecastChart.displayName = 'AnomalyForecastChart';
+export const AnomalyForecastChart = /*#__PURE__*/ memoWithDisplayName(AnomalyForecastChartInner, 'AnomalyForecastChart');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RidgelineTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -270,6 +270,12 @@ function toSelection(row: ComputedRidgeRow): RidgelineSelection {
     median: row.median,
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('ridgeline-plot', 'header');
+const presetsClass = /*#__PURE__*/ stableClassName('ridgeline-plot', 'presets');
+const wellClass = /*#__PURE__*/ stableClassName('ridgeline-plot', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('ridgeline-plot', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('ridgeline-plot', 'inspector');
 
 function RidgelinePlotInner({
   rows,
@@ -594,11 +600,6 @@ function RidgelinePlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('ridgeline-plot', 'header');
-  const presetsClass = stableClassName('ridgeline-plot', 'presets');
-  const wellClass = stableClassName('ridgeline-plot', 'well');
-  const svgClass = stableClassName('ridgeline-plot', 'svg');
-  const inspectorClass = stableClassName('ridgeline-plot', 'inspector');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -683,7 +684,7 @@ function RidgelinePlotInner({
               role="img"
               aria-label={`${title} ridgeline density plot across ${geometry.computedRows.length} ${geometry.computedRows.length === 1 ? 'cohort' : 'cohorts'}`}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block')}
+              className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
             >
               <defs>
                 {TONE_LIST.map((tone) => (
@@ -891,5 +892,4 @@ function RidgelinePlotInner({
   );
 }
 
-export const RidgelinePlot = memo(RidgelinePlotInner);
-RidgelinePlot.displayName = 'RidgelinePlot';
+export const RidgelinePlot = /*#__PURE__*/ memoWithDisplayName(RidgelinePlotInner, 'RidgelinePlot');

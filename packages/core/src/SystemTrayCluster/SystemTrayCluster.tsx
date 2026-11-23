@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -34,7 +33,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_BORDER_DIVIDER, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_PRIMARY, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SystemTrayIndicatorId =
@@ -261,6 +261,12 @@ function TraySwitchRow({
     </div>
   );
 }
+
+const barClass = /*#__PURE__*/ stableClassName('system-tray-cluster', 'bar');
+const toolbarClass = /*#__PURE__*/ stableClassName('system-tray-cluster', 'toolbar');
+const triggerClass = /*#__PURE__*/ stableClassName('system-tray-cluster', 'trigger');
+const popoverClass = /*#__PURE__*/ stableClassName('system-tray-cluster', 'popover');
+const statusBarClass = /*#__PURE__*/ stableClassName('system-tray-cluster', 'status-bar');
 
 function SystemTrayClusterInner({
   value,
@@ -525,11 +531,6 @@ function SystemTrayClusterInner({
     userStyle: style,
   });
 
-  const barClass = stableClassName('system-tray-cluster', 'bar');
-  const toolbarClass = stableClassName('system-tray-cluster', 'toolbar');
-  const triggerClass = stableClassName('system-tray-cluster', 'trigger');
-  const popoverClass = stableClassName('system-tray-cluster', 'popover');
-  const statusBarClass = stableClassName('system-tray-cluster', 'status-bar');
 
   const defaultStatusMessage = activeIndicator
     ? `${INDICATOR_META[activeIndicator].label} popover open`
@@ -916,10 +917,7 @@ function SystemTrayClusterInner({
                             'color-mix(in srgb, var(--prism-primary-main) 16%, transparent)',
                           color: 'var(--prism-primary-main)',
                         }
-                      : {
-                          borderColor: 'var(--prism-divider)',
-                          color: 'var(--prism-text-primary)',
-                        }
+                      : STYLE_BORDER_DIVIDER_TEXT_PRIMARY
                   }
                 >
                   {state.muted ? (
@@ -982,10 +980,7 @@ function SystemTrayClusterInner({
                             'color-mix(in srgb, var(--prism-primary-main) 16%, transparent)',
                           color: 'var(--prism-primary-main)',
                         }
-                      : {
-                          borderColor: 'var(--prism-divider)',
-                          color: 'var(--prism-text-primary)',
-                        }
+                      : STYLE_BORDER_DIVIDER_TEXT_PRIMARY
                   }
                 >
                   <span className="font-mono text-xs font-bold tracking-tight">
@@ -1029,10 +1024,7 @@ function SystemTrayClusterInner({
             </span>
             <div
               className="pt-2 mt-0.5 border-t flex items-center justify-between gap-2 text-[11px] min-w-0"
-              style={{
-                borderColor: 'var(--prism-divider)',
-                color: 'var(--prism-text-secondary)',
-              }}
+              style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
             >
               <span className="inline-flex items-center gap-1.5 shrink-0">
                 <Globe
@@ -1205,5 +1197,4 @@ function SystemTrayClusterInner({
   );
 }
 
-export const SystemTrayCluster = memo(SystemTrayClusterInner);
-SystemTrayCluster.displayName = 'SystemTrayCluster';
+export const SystemTrayCluster = /*#__PURE__*/ memoWithDisplayName(SystemTrayClusterInner, 'SystemTrayCluster');

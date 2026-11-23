@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Check, CheckCheck, FileDiff, X, XCircle } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DiffHunkLineKind = 'context' | 'add' | 'remove';
@@ -122,6 +123,12 @@ function formatLineNumber(lineNumber: number | undefined): string {
   return String(Math.trunc(lineNumber));
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('inline-diff-reviewer', 'header');
+const hunkClass = /*#__PURE__*/ stableClassName('inline-diff-reviewer', 'hunk');
+const hunkHeaderClass = /*#__PURE__*/ stableClassName('inline-diff-reviewer', 'hunk-header');
+const badgeClass = /*#__PURE__*/ stableClassName('inline-diff-reviewer', 'badge');
+const emptyClass = /*#__PURE__*/ stableClassName('inline-diff-reviewer', 'empty');
+
 function InlineDiffReviewerInner({
   filePath,
   hunks,
@@ -210,11 +217,6 @@ function InlineDiffReviewerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('inline-diff-reviewer', 'header');
-  const hunkClass = stableClassName('inline-diff-reviewer', 'hunk');
-  const hunkHeaderClass = stableClassName('inline-diff-reviewer', 'hunk-header');
-  const badgeClass = stableClassName('inline-diff-reviewer', 'badge');
-  const emptyClass = stableClassName('inline-diff-reviewer', 'empty');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -363,7 +365,7 @@ function InlineDiffReviewerInner({
                       style={
                         status === 'accepted'
                           ? undefined
-                          : { color: 'var(--prism-text-primary)' }
+                          : STYLE_TEXT_PRIMARY
                       }
                     >
                       <Check aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -385,7 +387,7 @@ function InlineDiffReviewerInner({
                               color: 'var(--prism-rose-contrast, var(--prism-error-contrast))',
                               borderColor: 'var(--prism-rose-border, var(--prism-error-main))',
                             }
-                          : { color: 'var(--prism-text-primary)' }
+                          : STYLE_TEXT_PRIMARY
                       }
                     >
                       <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -427,20 +429,14 @@ function InlineDiffReviewerInner({
                           <td
                             data-col="old-line"
                             className="w-12 select-none text-right px-2 text-[11px] border-r"
-                            style={{
-                              color: 'var(--prism-text-secondary)',
-                              borderColor: 'var(--prism-divider)',
-                            }}
+                            style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
                           >
                             {formatLineNumber(line.oldLine)}
                           </td>
                           <td
                             data-col="new-line"
                             className="w-12 select-none text-right px-2 text-[11px] border-r"
-                            style={{
-                              color: 'var(--prism-text-secondary)',
-                              borderColor: 'var(--prism-divider)',
-                            }}
+                            style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
                           >
                             {formatLineNumber(line.newLine)}
                           </td>
@@ -473,5 +469,4 @@ function InlineDiffReviewerInner({
   );
 }
 
-export const InlineDiffReviewer = memo(InlineDiffReviewerInner);
-InlineDiffReviewer.displayName = 'InlineDiffReviewer';
+export const InlineDiffReviewer = /*#__PURE__*/ memoWithDisplayName(InlineDiffReviewerInner, 'InlineDiffReviewer');

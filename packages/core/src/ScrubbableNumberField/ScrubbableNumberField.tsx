@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useRef,
   useState,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type ScrubbableNumberFieldBaseProps = Omit<BaseProps<HTMLDivElement>, 'onChange'>;
@@ -269,7 +269,7 @@ function ScrubbableNumberFieldInner({
       disabled,
       scrubbing: isScrubbing ? 'true' : 'false',
     }),
-    baseClassName: 'prism-crystal rounded-2xl p-1.5 inline-flex items-center gap-1.5 transition-shadow',
+    baseClassName: 'prism-contain-leaf prism-crystal rounded-2xl p-1.5 inline-flex items-center gap-1.5 transition-shadow',
     overrideClassName: override?.className,
     userClassName: className,
     baseStyle: isScrubbing
@@ -346,5 +346,4 @@ function ScrubbableNumberFieldInner({
   );
 }
 
-export const ScrubbableNumberField = memo(ScrubbableNumberFieldInner);
-ScrubbableNumberField.displayName = 'ScrubbableNumberField';
+export const ScrubbableNumberField = /*#__PURE__*/ memoWithDisplayName(ScrubbableNumberFieldInner, 'ScrubbableNumberField');

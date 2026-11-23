@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   Fragment,
   useId,
   useMemo,
@@ -28,7 +27,8 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { STYLE_BG_DISABLED, STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ApprovalChainStatus = 'pending' | 'approved' | 'changes-requested' | 'rejected';
@@ -268,6 +268,10 @@ function formatInitials(initials: string, name: string): string {
   return cleanName ? cleanName.slice(0, 2).toUpperCase() : '?';
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('approval-chain-strip', 'header');
+const stripClass = /*#__PURE__*/ stableClassName('approval-chain-strip', 'strip');
+const actionBarClass = /*#__PURE__*/ stableClassName('approval-chain-strip', 'action-bar');
+
 function ApprovalChainStripInner({
   title = DEFAULT_TITLE,
   mode = 'sequential',
@@ -396,9 +400,6 @@ function ApprovalChainStripInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('approval-chain-strip', 'header');
-  const stripClass = stableClassName('approval-chain-strip', 'strip');
-  const actionBarClass = stableClassName('approval-chain-strip', 'action-bar');
 
   const modeLabel = mode === 'sequential' ? 'Sequential Chain' : 'Parallel Sign-Off';
 
@@ -680,7 +681,7 @@ function ApprovalChainStripInner({
                       ) : (
                         <span
                           className="w-1.5 h-1.5 rounded-full"
-                          style={{ backgroundColor: 'var(--prism-text-disabled)' }}
+                          style={STYLE_BG_DISABLED}
                         />
                       )}
                     </span>
@@ -849,5 +850,4 @@ function ApprovalChainStripInner({
   );
 }
 
-export const ApprovalChainStrip = memo(ApprovalChainStripInner);
-ApprovalChainStrip.displayName = 'ApprovalChainStrip';
+export const ApprovalChainStrip = /*#__PURE__*/ memoWithDisplayName(ApprovalChainStripInner, 'ApprovalChainStrip');

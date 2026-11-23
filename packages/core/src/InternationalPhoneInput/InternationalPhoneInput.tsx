@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +16,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface PhoneCountrySpec {
@@ -398,7 +398,7 @@ function InternationalPhoneInputInner({
               isComplete ? 'prism-emerald' : 'prism-crystal',
               'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-mono tabular-nums font-semibold tracking-tight shrink-0'
             )}
-            style={isComplete ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={isComplete ? undefined : STYLE_TEXT_PRIMARY}
           >
             <Globe aria-hidden="true" className="w-3 h-3 shrink-0" />
             <span>{currentValue.e164}</span>
@@ -624,5 +624,4 @@ function InternationalPhoneInputInner({
   );
 }
 
-export const InternationalPhoneInput = memo(InternationalPhoneInputInner);
-InternationalPhoneInput.displayName = 'InternationalPhoneInput';
+export const InternationalPhoneInput = /*#__PURE__*/ memoWithDisplayName(InternationalPhoneInputInner, 'InternationalPhoneInput');

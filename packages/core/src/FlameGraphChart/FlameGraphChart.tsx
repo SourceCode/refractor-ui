@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { splitLiteralHighlight } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FlameGraphOrientation = 'flame' | 'icicle';
@@ -445,6 +445,11 @@ function renderLiteralHighlight(source: string, query: string, keyPrefix: string
   });
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('flame-graph-chart', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('flame-graph-chart', 'controls');
+const canvasClass = /*#__PURE__*/ stableClassName('flame-graph-chart', 'canvas');
+const readoutClass = /*#__PURE__*/ stableClassName('flame-graph-chart', 'readout');
+
 function FlameGraphChartInner({
   root,
   orientation,
@@ -641,10 +646,6 @@ function FlameGraphChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('flame-graph-chart', 'header');
-  const controlsClass = stableClassName('flame-graph-chart', 'controls');
-  const canvasClass = stableClassName('flame-graph-chart', 'canvas');
-  const readoutClass = stableClassName('flame-graph-chart', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -958,5 +959,4 @@ function FlameGraphChartInner({
   );
 }
 
-export const FlameGraphChart = memo(FlameGraphChartInner);
-FlameGraphChart.displayName = 'FlameGraphChart';
+export const FlameGraphChart = /*#__PURE__*/ memoWithDisplayName(FlameGraphChartInner, 'FlameGraphChart');

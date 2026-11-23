@@ -1,12 +1,12 @@
 'use client';
 
-import { memo } from 'react';
 import type { ReactNode } from 'react';
 import { Inbox } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { PrimaryButton } from '../PrimaryButton/PrimaryButton';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface EmptyStateProps extends BaseProps<HTMLDivElement> {
@@ -39,7 +39,7 @@ function EmptyStateInner({
   const merged = mergeProps({
     themeTarget: themeProps('empty-state'),
     baseClassName:
-      'prism-slab p-8 text-center flex flex-col items-center justify-center max-w-md mx-auto',
+      'prism-contain-leaf prism-slab p-8 text-center flex flex-col items-center justify-center max-w-md mx-auto',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -63,5 +63,4 @@ function EmptyStateInner({
   );
 }
 
-export const EmptyState = memo(EmptyStateInner);
-EmptyState.displayName = 'EmptyState';
+export const EmptyState = /*#__PURE__*/ memoWithDisplayName(EmptyStateInner, 'EmptyState');

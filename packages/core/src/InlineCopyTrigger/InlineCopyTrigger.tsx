@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useRef,
@@ -17,6 +16,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type InlineCopySize = 'sm' | 'md';
@@ -108,6 +108,10 @@ function getVariantStyles(
       };
   }
 }
+
+const valuePartClass = /*#__PURE__*/ stableClassName('inline-copy-trigger', 'value');
+const iconPartClass = /*#__PURE__*/ stableClassName('inline-copy-trigger', 'icon');
+const badgePartClass = /*#__PURE__*/ stableClassName('inline-copy-trigger', 'badge');
 
 function InlineCopyTriggerInner({
   value,
@@ -263,9 +267,6 @@ function InlineCopyTriggerInner({
     userStyle: style,
   });
 
-  const valuePartClass = stableClassName('inline-copy-trigger', 'value');
-  const iconPartClass = stableClassName('inline-copy-trigger', 'icon');
-  const badgePartClass = stableClassName('inline-copy-trigger', 'badge');
 
   return (
     <>
@@ -329,5 +330,4 @@ function InlineCopyTriggerInner({
   );
 }
 
-export const InlineCopyTrigger = memo(InlineCopyTriggerInner);
-InlineCopyTrigger.displayName = 'InlineCopyTrigger';
+export const InlineCopyTrigger = /*#__PURE__*/ memoWithDisplayName(InlineCopyTriggerInner, 'InlineCopyTrigger');

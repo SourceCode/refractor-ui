@@ -1,9 +1,10 @@
 'use client';
 
-import { memo, useRef, type KeyboardEvent } from 'react';
+import { useRef, type KeyboardEvent } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RadioGroupOrientation = 'vertical' | 'horizontal';
@@ -145,5 +146,4 @@ function RadioGroupInner({
   );
 }
 
-export const RadioGroup = memo(RadioGroupInner);
-RadioGroup.displayName = 'RadioGroup';
+export const RadioGroup = /*#__PURE__*/ memoWithDisplayName(RadioGroupInner, 'RadioGroup');

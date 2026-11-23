@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -26,6 +25,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BatchRenameCaseMode = 'preserve' | 'lower' | 'upper' | 'title' | 'kebab' | 'snake';
@@ -340,6 +340,11 @@ function isInvalidFilename(name: string): boolean {
   return false;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('batch-rename-utility', 'header');
+const rulesClass = /*#__PURE__*/ stableClassName('batch-rename-utility', 'rules');
+const previewClass = /*#__PURE__*/ stableClassName('batch-rename-utility', 'preview');
+const footerClass = /*#__PURE__*/ stableClassName('batch-rename-utility', 'footer');
+
 function BatchRenameUtilityInner({
   title = DEFAULT_TITLE,
   files,
@@ -516,10 +521,6 @@ function BatchRenameUtilityInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('batch-rename-utility', 'header');
-  const rulesClass = stableClassName('batch-rename-utility', 'rules');
-  const previewClass = stableClassName('batch-rename-utility', 'preview');
-  const footerClass = stableClassName('batch-rename-utility', 'footer');
 
   return (
     <div
@@ -1123,5 +1124,4 @@ function BatchRenameUtilityInner({
   );
 }
 
-export const BatchRenameUtility = memo(BatchRenameUtilityInner);
-BatchRenameUtility.displayName = 'BatchRenameUtility';
+export const BatchRenameUtility = /*#__PURE__*/ memoWithDisplayName(BatchRenameUtilityInner, 'BatchRenameUtility');

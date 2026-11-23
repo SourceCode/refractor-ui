@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface PrismListItem {
@@ -89,5 +89,4 @@ function PrismListInner({
   );
 }
 
-export const PrismList = memo(PrismListInner);
-PrismList.displayName = 'PrismList';
+export const PrismList = /*#__PURE__*/ memoWithDisplayName(PrismListInner, 'PrismList');

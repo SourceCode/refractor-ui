@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, useState } from 'react';
+import { useCallback, useId, useMemo, useState } from 'react';
 import { Check, Lock, ShieldCheck } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface RoleColumn {
@@ -440,5 +441,4 @@ function RolePermissionsMatrixInner({
   );
 }
 
-export const RolePermissionsMatrix = memo(RolePermissionsMatrixInner);
-RolePermissionsMatrix.displayName = 'RolePermissionsMatrix';
+export const RolePermissionsMatrix = /*#__PURE__*/ memoWithDisplayName(RolePermissionsMatrixInner, 'RolePermissionsMatrix');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -35,6 +34,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { sanitizeHtml, sanitizeUrl } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface RichTextViewModeMap {
@@ -690,6 +690,9 @@ function stripAllFormatting(input: string): string {
   return plain;
 }
 
+const toolbarClass = /*#__PURE__*/ stableClassName('rich-text-editor', 'toolbar');
+const previewClass = /*#__PURE__*/ stableClassName('rich-text-editor', 'preview');
+
 function RichTextEditorInner({
   value,
   defaultValue = '',
@@ -951,8 +954,6 @@ function RichTextEditorInner({
     userStyle: style,
   });
 
-  const toolbarClass = stableClassName('rich-text-editor', 'toolbar');
-  const previewClass = stableClassName('rich-text-editor', 'preview');
 
   const toolbarBtnClass =
     'prism-focus-ring inline-flex items-center justify-center gap-1 h-8 px-2.5 rounded-full text-xs font-medium text-slate-700 dark:text-slate-200 cursor-pointer enabled:hover:bg-slate-900/5 dark:enabled:hover:bg-white/10 disabled:opacity-45 disabled:cursor-not-allowed transition-colors';
@@ -1424,5 +1425,4 @@ function RichTextEditorInner({
   );
 }
 
-export const RichTextEditor = memo(RichTextEditorInner);
-RichTextEditor.displayName = 'RichTextEditor';
+export const RichTextEditor = /*#__PURE__*/ memoWithDisplayName(RichTextEditorInner, 'RichTextEditor');

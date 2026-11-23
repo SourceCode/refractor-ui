@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo, useState, type ReactNode } from 'react';
+import { useId, useMemo, useState, type ReactNode } from 'react';
 import {
   Activity,
   AlertCircle,
@@ -16,7 +16,8 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_PRIMARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TraceSpanKind = 'llm' | 'tool' | 'handoff' | 'retrieval';
@@ -168,6 +169,11 @@ function getStatusVisual(status: TraceSpanStatus): StatusVisual {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('agent-execution-trace', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('agent-execution-trace', 'filters');
+const timelineClass = /*#__PURE__*/ stableClassName('agent-execution-trace', 'timeline');
+const drawerClass = /*#__PURE__*/ stableClassName('agent-execution-trace', 'drawer');
+
 function AgentExecutionTraceInner({
   spans,
   title = 'Execution Waterfall Trace',
@@ -241,10 +247,6 @@ function AgentExecutionTraceInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('agent-execution-trace', 'header');
-  const filtersClass = stableClassName('agent-execution-trace', 'filters');
-  const timelineClass = stableClassName('agent-execution-trace', 'timeline');
-  const drawerClass = stableClassName('agent-execution-trace', 'drawer');
 
   const spanCountLabel =
     activeFilter === 'all'
@@ -320,7 +322,7 @@ function AgentExecutionTraceInner({
                   'prism-focus-ring h-7 px-3 rounded-full text-[11px] font-semibold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                   isPressed ? 'prism-btn-primary' : 'prism-well'
                 )}
-                style={isPressed ? undefined : { color: 'var(--prism-text-secondary)' }}
+                style={isPressed ? undefined : STYLE_TEXT_SECONDARY}
               >
                 <span className="relative z-10">{option.label}</span>
               </button>
@@ -381,9 +383,7 @@ function AgentExecutionTraceInner({
                             borderColor: 'var(--prism-primary-main)',
                             boxShadow: '0 0 0 2px var(--prism-primary-main)',
                           }
-                        : {
-                            borderColor: 'var(--prism-divider)',
-                          }
+                        : STYLE_BORDER_DIVIDER
                     }
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -571,10 +571,7 @@ function AgentExecutionTraceInner({
               <p
                 data-testid="agent-trace-detail-text"
                 className="text-xs leading-relaxed whitespace-pre-wrap break-words pt-1 border-t"
-                style={{
-                  color: 'var(--prism-text-primary)',
-                  borderColor: 'var(--prism-divider)',
-                }}
+                style={STYLE_BORDER_DIVIDER_TEXT_PRIMARY}
               >
                 {selectedItem.span.detail}
               </p>
@@ -586,5 +583,4 @@ function AgentExecutionTraceInner({
   );
 }
 
-export const AgentExecutionTrace = memo(AgentExecutionTraceInner);
-AgentExecutionTrace.displayName = 'AgentExecutionTrace';
+export const AgentExecutionTrace = /*#__PURE__*/ memoWithDisplayName(AgentExecutionTraceInner, 'AgentExecutionTrace');

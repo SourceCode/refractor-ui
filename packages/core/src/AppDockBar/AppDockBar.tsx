@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -28,7 +27,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BADGE_ERROR, STYLE_BG_DISABLED, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AppDockPosition = 'bottom' | 'left' | 'right';
@@ -242,6 +242,16 @@ function buildAccessibleItemLabel(
   return parts.join(', ');
 }
 
+const trayClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'tray');
+const slotClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'slot');
+const itemClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'item');
+const glyphClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'glyph');
+const attentionGlyphClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'attention-glyph');
+const badgeClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'badge');
+const runningDotClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'running-dot');
+const tooltipClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'tooltip');
+const emptyClass = /*#__PURE__*/ stableClassName('app-dock-bar', 'empty');
+
 function AppDockBarInner({
   items,
   activeId,
@@ -442,15 +452,6 @@ function AppDockBarInner({
     userStyle: style,
   });
 
-  const trayClass = stableClassName('app-dock-bar', 'tray');
-  const slotClass = stableClassName('app-dock-bar', 'slot');
-  const itemClass = stableClassName('app-dock-bar', 'item');
-  const glyphClass = stableClassName('app-dock-bar', 'glyph');
-  const attentionGlyphClass = stableClassName('app-dock-bar', 'attention-glyph');
-  const badgeClass = stableClassName('app-dock-bar', 'badge');
-  const runningDotClass = stableClassName('app-dock-bar', 'running-dot');
-  const tooltipClass = stableClassName('app-dock-bar', 'tooltip');
-  const emptyClass = stableClassName('app-dock-bar', 'empty');
 
   const transformOrigin = getTransformOrigin(position);
 
@@ -499,7 +500,7 @@ function AppDockBarInner({
           <span
             aria-hidden="true"
             className="w-2 h-2 rounded-full shrink-0"
-            style={{ backgroundColor: 'var(--prism-text-disabled)' }}
+            style={STYLE_BG_DISABLED}
           />
           <span className="truncate">No pinned applications in dock.</span>
         </div>
@@ -659,10 +660,7 @@ function AppDockBarInner({
                           badgeClass,
                           'pointer-events-none absolute -top-1.5 -right-1.5 z-20 min-w-[18px] h-[18px] px-1 rounded-full inline-flex items-center justify-center text-[10px] font-mono font-bold tabular-nums leading-none shadow-sm'
                         )}
-                        style={{
-                          backgroundColor: 'var(--prism-error-main)',
-                          color: 'var(--prism-error-contrast)',
-                        }}
+                        style={STYLE_BADGE_ERROR}
                       >
                         {entry.badgeText}
                       </span>
@@ -698,5 +696,4 @@ function AppDockBarInner({
   );
 }
 
-export const AppDockBar = memo(AppDockBarInner);
-AppDockBar.displayName = 'AppDockBar';
+export const AppDockBar = /*#__PURE__*/ memoWithDisplayName(AppDockBarInner, 'AppDockBar');

@@ -68,6 +68,20 @@ export default defineConfig({
       ),
     },
   },
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            { name: 'vendor-react', test: /node_modules[\\/](?:react|react-dom|scheduler)[\\/]/, priority: 30 },
+            { name: 'vendor-redux', test: /node_modules[\\/](?:@reduxjs|react-redux|redux|immer)[\\/]/, priority: 25 },
+            { name: 'vendor-lucide', test: /node_modules[\\/]lucide-react[\\/]/, priority: 20 },
+            { name: 'refractor-themes', test: /packages[\\/]themes[\\/]/, priority: 15 },
+          ],
+        },
+      },
+    },
+  },
   server: {
     hmr: process.env.DISABLE_HMR !== 'true',
     watch: process.env.DISABLE_HMR === 'true' ? null : {},

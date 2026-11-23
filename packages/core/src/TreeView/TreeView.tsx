@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { FileCode, Folder, FolderOpen } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { compareLocaleStrings } from '../utils/styles';
 import { formatFileSize, type TreeNodeItem } from '../utils/dateGrid';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 const DEFAULT_EXPANDED_IDS: ReadonlyArray<string> = [
@@ -177,5 +178,7 @@ type TreeViewComponent = (<T extends TreeNodeItem = TreeNodeItem>(
   props: TreeViewProps<T>
 ) => ReactNode) & { displayName?: string };
 
-export const TreeView = memo(TreeViewInner) as TreeViewComponent;
-TreeView.displayName = 'TreeView';
+export const TreeView = /*#__PURE__*/ memoWithDisplayName(
+  TreeViewInner,
+  'TreeView'
+) as TreeViewComponent;

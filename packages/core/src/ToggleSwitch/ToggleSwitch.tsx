@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type ToggleSwitchBaseProps = Omit<BaseProps<HTMLDivElement>, 'onChange'>;
@@ -38,7 +38,7 @@ function ToggleSwitchInner({
 
   const merged = mergeProps({
     themeTarget: themeProps('toggle-switch', { checked, disabled }),
-    baseClassName: 'inline-flex items-center gap-3',
+    baseClassName: 'prism-contain-leaf inline-flex items-center gap-3',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -72,5 +72,4 @@ function ToggleSwitchInner({
   );
 }
 
-export const ToggleSwitch = memo(ToggleSwitchInner);
-ToggleSwitch.displayName = 'ToggleSwitch';
+export const ToggleSwitch = /*#__PURE__*/ memoWithDisplayName(ToggleSwitchInner, 'ToggleSwitch');

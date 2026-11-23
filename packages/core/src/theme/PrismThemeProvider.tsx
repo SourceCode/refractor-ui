@@ -16,16 +16,16 @@ import type {
   ThemePerformanceMode,
 } from './types';
 
-const DEFAULT_THEME = createPrismTheme('light', 'standard');
-const EMPTY_COMPONENT_OVERRIDES: ComponentOverridesMap = Object.freeze({});
+const DEFAULT_THEME = /*#__PURE__*/ createPrismTheme('light', 'standard');
+const EMPTY_COMPONENT_OVERRIDES: ComponentOverridesMap = /*#__PURE__*/ Object.freeze({});
 
-const PrismThemeContext = createContext<PrismTheme>(DEFAULT_THEME);
+const PrismThemeContext = /*#__PURE__*/ createContext<PrismTheme>(DEFAULT_THEME);
 /**
  * Dedicated context for `theme.components` overrides so components calling
  * `useComponentOverride()` do NOT re-render on color-mode, refraction, or theme
  * switches when component-level class/style overrides have not changed.
  */
-const PrismComponentOverridesContext = createContext<ComponentOverridesMap>(
+const PrismComponentOverridesContext = /*#__PURE__*/ createContext<ComponentOverridesMap>(
   EMPTY_COMPONENT_OVERRIDES
 );
 

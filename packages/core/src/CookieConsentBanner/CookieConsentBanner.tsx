@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -25,6 +24,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface CookieConsentPreferences {
@@ -467,5 +467,4 @@ function CookieConsentBannerInner({
   );
 }
 
-export const CookieConsentBanner = memo(CookieConsentBannerInner);
-CookieConsentBanner.displayName = 'CookieConsentBanner';
+export const CookieConsentBanner = /*#__PURE__*/ memoWithDisplayName(CookieConsentBannerInner, 'CookieConsentBanner');

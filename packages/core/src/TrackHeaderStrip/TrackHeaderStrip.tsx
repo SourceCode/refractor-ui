@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useEffect,
   useId,
   useRef,
@@ -29,6 +28,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TrackLaneType = 'video' | 'audio' | 'effect' | 'subtitle';
@@ -193,6 +193,11 @@ function buildLaneStatusBadges(state: TrackHeaderState): LaneStatusBadge[] {
 function preventBlurOnMouseDown(event: ReactMouseEvent<HTMLButtonElement>): void {
   event.preventDefault();
 }
+
+const accentClass = /*#__PURE__*/ stableClassName('track-header-strip', 'accent');
+const headerRowClass = /*#__PURE__*/ stableClassName('track-header-strip', 'header');
+const controlsRowClass = /*#__PURE__*/ stableClassName('track-header-strip', 'controls');
+const statusWellClass = /*#__PURE__*/ stableClassName('track-header-strip', 'status');
 
 function TrackHeaderStripInner({
   name,
@@ -371,10 +376,6 @@ function TrackHeaderStripInner({
     userStyle: style,
   });
 
-  const accentClass = stableClassName('track-header-strip', 'accent');
-  const headerRowClass = stableClassName('track-header-strip', 'header');
-  const controlsRowClass = stableClassName('track-header-strip', 'controls');
-  const statusWellClass = stableClassName('track-header-strip', 'status');
 
   return (
     <div
@@ -537,7 +538,7 @@ function TrackHeaderStripInner({
                   color: 'var(--prism-warning-contrast)',
                   boxShadow: '0 0 0 1px var(--prism-warning-main)',
                 }
-              : { color: 'var(--prism-text-secondary)' }
+              : STYLE_TEXT_SECONDARY
           }
         >
           M
@@ -555,7 +556,7 @@ function TrackHeaderStripInner({
             'prism-focus-ring h-7 min-w-7 px-2 rounded-full font-mono text-xs font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             headerState.solo ? 'prism-emerald' : 'prism-crystal'
           )}
-          style={headerState.solo ? undefined : { color: 'var(--prism-text-secondary)' }}
+          style={headerState.solo ? undefined : STYLE_TEXT_SECONDARY}
         >
           S
         </button>
@@ -605,7 +606,7 @@ function TrackHeaderStripInner({
                   color: 'var(--prism-primary-main)',
                   boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)',
                 }
-              : { color: 'var(--prism-text-secondary)' }
+              : STYLE_TEXT_SECONDARY
           }
         >
           {headerState.locked ? (
@@ -661,5 +662,4 @@ function TrackHeaderStripInner({
   );
 }
 
-export const TrackHeaderStrip = memo(TrackHeaderStripInner);
-TrackHeaderStrip.displayName = 'TrackHeaderStrip';
+export const TrackHeaderStrip = /*#__PURE__*/ memoWithDisplayName(TrackHeaderStripInner, 'TrackHeaderStrip');

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   AlertTriangle,
   AtSign,
@@ -18,6 +18,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type NotificationTone = 'info' | 'mention' | 'warning' | 'success';
@@ -601,5 +602,4 @@ function NotificationCenterInner({
   );
 }
 
-export const NotificationCenter = memo(NotificationCenterInner);
-NotificationCenter.displayName = 'NotificationCenter';
+export const NotificationCenter = /*#__PURE__*/ memoWithDisplayName(NotificationCenterInner, 'NotificationCenter');

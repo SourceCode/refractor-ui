@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -19,6 +18,7 @@ import { hsvToRgb, rgbToHex, type RgbColor } from '../utils/colorMath';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SampleRadius = '1x1' | '3x3' | '5x5';
@@ -174,6 +174,11 @@ function sampleNeighborhood(
     y: cy,
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('eyedropper-pixel-loupe', 'header');
+const canvasClass = /*#__PURE__*/ stableClassName('eyedropper-pixel-loupe', 'canvas');
+const loupeClass = /*#__PURE__*/ stableClassName('eyedropper-pixel-loupe', 'loupe');
+const historyClass = /*#__PURE__*/ stableClassName('eyedropper-pixel-loupe', 'history');
 
 function EyedropperPixelLoupeInner({
   gridWidth = DEFAULT_GRID_WIDTH,
@@ -419,10 +424,6 @@ function EyedropperPixelLoupeInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('eyedropper-pixel-loupe', 'header');
-  const canvasClass = stableClassName('eyedropper-pixel-loupe', 'canvas');
-  const loupeClass = stableClassName('eyedropper-pixel-loupe', 'loupe');
-  const historyClass = stableClassName('eyedropper-pixel-loupe', 'history');
 
   const svgWidth = safeWidth * CANVAS_CELL_SIZE;
   const svgHeight = safeHeight * CANVAS_CELL_SIZE;
@@ -450,7 +451,7 @@ function EyedropperPixelLoupeInner({
             className="prism-crystal w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
             style={STYLE_PRIMARY_MAIN}
           >
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <svg className="prism-contain-box" width="14" height="14" viewBox="0 0 16 16" fill="none">
               <path
                 d="M11.6 2.4a1.7 1.7 0 0 1 2.4 2.4l-1.7 1.7.9.9-1.1 1.1-.9-.9-4.7 4.7a2 2 0 0 1-1.1.56l-2.3.34.34-2.3a2 2 0 0 1 .56-1.1l4.7-4.7-.9-.9L8.9 4.1l.9.9 1.8-2.6Z"
                 stroke="currentColor"
@@ -533,7 +534,7 @@ function EyedropperPixelLoupeInner({
           >
             <svg
               viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-              className="w-full h-auto block max-w-full"
+              className="w-full h-auto block max-w-full prism-contain-box"
               aria-hidden="true"
               data-testid="eyedropper-mosaic-svg"
             >
@@ -631,7 +632,7 @@ function EyedropperPixelLoupeInner({
           <div className="prism-crystal rounded-full p-1.5 inline-flex items-center justify-center shrink-0">
             <svg
               viewBox="0 0 140 140"
-              className="w-36 h-36 mx-auto block"
+              className="w-36 h-36 mx-auto block prism-contain-box"
               role="img"
               aria-label={`Magnified 5 by 5 pixel loupe at ${safeCursorX}, ${safeCursorY}, sampled color ${activeSample.hex}`}
               data-testid="eyedropper-loupe-svg"
@@ -848,5 +849,4 @@ function EyedropperPixelLoupeInner({
   );
 }
 
-export const EyedropperPixelLoupe = memo(EyedropperPixelLoupeInner);
-EyedropperPixelLoupe.displayName = 'EyedropperPixelLoupe';
+export const EyedropperPixelLoupe = /*#__PURE__*/ memoWithDisplayName(EyedropperPixelLoupeInner, 'EyedropperPixelLoupe');

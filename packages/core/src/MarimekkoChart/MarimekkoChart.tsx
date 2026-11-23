@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MarimekkoTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -249,6 +249,12 @@ function toSelection(cell: ComputedSegment): MarimekkoSelection {
     totalSharePct: cell.totalSharePct,
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('marimekko-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('marimekko-chart', 'legend');
+const wellClass = /*#__PURE__*/ stableClassName('marimekko-chart', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('marimekko-chart', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('marimekko-chart', 'inspector');
 
 function MarimekkoChartInner({
   columns,
@@ -555,11 +561,6 @@ function MarimekkoChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('marimekko-chart', 'header');
-  const legendClass = stableClassName('marimekko-chart', 'legend');
-  const wellClass = stableClassName('marimekko-chart', 'well');
-  const svgClass = stableClassName('marimekko-chart', 'svg');
-  const inspectorClass = stableClassName('marimekko-chart', 'inspector');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -647,7 +648,7 @@ function MarimekkoChartInner({
               role="img"
               aria-label={`${title} proportional marimekko chart across ${computedColumns.length} columns`}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block')}
+              className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
             >
               {gridLines.map((line) => (
                 <line
@@ -880,5 +881,4 @@ function MarimekkoChartInner({
   );
 }
 
-export const MarimekkoChart = memo(MarimekkoChartInner);
-MarimekkoChart.displayName = 'MarimekkoChart';
+export const MarimekkoChart = /*#__PURE__*/ memoWithDisplayName(MarimekkoChartInner, 'MarimekkoChart');

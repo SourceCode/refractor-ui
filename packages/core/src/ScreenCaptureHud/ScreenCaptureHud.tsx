@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -30,6 +29,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_WARNING, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CaptureTargetMode = 'fullscreen' | 'window' | 'region';
@@ -166,6 +166,13 @@ function formatRecordingClock(totalSeconds: number): string {
   const secs = String(safeSeconds % 60).padStart(2, '0');
   return `${mins}:${secs}`;
 }
+
+const toolbarClass = /*#__PURE__*/ stableClassName('screen-capture-hud', 'toolbar');
+const targetsClass = /*#__PURE__*/ stableClassName('screen-capture-hud', 'targets');
+const outputsClass = /*#__PURE__*/ stableClassName('screen-capture-hud', 'outputs');
+const optionsClass = /*#__PURE__*/ stableClassName('screen-capture-hud', 'options');
+const actionsClass = /*#__PURE__*/ stableClassName('screen-capture-hud', 'actions');
+const statusClass = /*#__PURE__*/ stableClassName('screen-capture-hud', 'status');
 
 function ScreenCaptureHudInner({
   defaultTarget = 'fullscreen',
@@ -466,12 +473,6 @@ function ScreenCaptureHudInner({
     userStyle: style,
   });
 
-  const toolbarClass = stableClassName('screen-capture-hud', 'toolbar');
-  const targetsClass = stableClassName('screen-capture-hud', 'targets');
-  const outputsClass = stableClassName('screen-capture-hud', 'outputs');
-  const optionsClass = stableClassName('screen-capture-hud', 'options');
-  const actionsClass = stableClassName('screen-capture-hud', 'actions');
-  const statusClass = stableClassName('screen-capture-hud', 'status');
 
   return (
     <div
@@ -533,7 +534,7 @@ function ScreenCaptureHudInner({
                         boxShadow:
                           '0 0 12px -4px color-mix(in srgb, var(--prism-primary-main) 45%, transparent)',
                       }
-                    : { color: 'var(--prism-text-secondary)' }
+                    : STYLE_TEXT_SECONDARY
                 }
               >
                 {option.icon}
@@ -572,7 +573,7 @@ function ScreenCaptureHudInner({
                     borderStyle: 'solid',
                     borderColor: 'color-mix(in srgb, var(--prism-info-main) 48%, transparent)',
                   }
-                : { color: 'var(--prism-text-secondary)' }
+                : STYLE_TEXT_SECONDARY
             }
           >
             <Camera aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -599,7 +600,7 @@ function ScreenCaptureHudInner({
                     borderStyle: 'solid',
                     borderColor: 'color-mix(in srgb, var(--prism-error-main) 48%, transparent)',
                   }
-                : { color: 'var(--prism-text-secondary)' }
+                : STYLE_TEXT_SECONDARY
             }
           >
             <Video aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -882,5 +883,4 @@ function ScreenCaptureHudInner({
   );
 }
 
-export const ScreenCaptureHud = memo(ScreenCaptureHudInner);
-ScreenCaptureHud.displayName = 'ScreenCaptureHud';
+export const ScreenCaptureHud = /*#__PURE__*/ memoWithDisplayName(ScreenCaptureHudInner, 'ScreenCaptureHud');

@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SplitButtonTone = 'primary' | 'crystal';
@@ -154,5 +155,4 @@ function SplitButtonInner({
   );
 }
 
-export const SplitButton = memo(SplitButtonInner);
-SplitButton.displayName = 'SplitButton';
+export const SplitButton = /*#__PURE__*/ memoWithDisplayName(SplitButtonInner, 'SplitButton');

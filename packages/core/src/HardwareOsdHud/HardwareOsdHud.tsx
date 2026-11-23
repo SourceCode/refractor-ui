@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useRef,
@@ -25,6 +24,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type HardwareOsdKind = 'volume' | 'brightness' | 'media' | 'caps-lock';
@@ -248,6 +248,13 @@ function renderOsdIcon(payload: NormalizedHardwareOsdPayload): ReactNode {
       );
   }
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('hardware-osd-hud', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('hardware-osd-hud', 'stage');
+const capsuleClass = /*#__PURE__*/ stableClassName('hardware-osd-hud', 'capsule');
+const levelBarClass = /*#__PURE__*/ stableClassName('hardware-osd-hud', 'level-bar');
+const statePillClass = /*#__PURE__*/ stableClassName('hardware-osd-hud', 'state-pill');
+const triggersClass = /*#__PURE__*/ stableClassName('hardware-osd-hud', 'triggers');
 
 function HardwareOsdHudInner({
   payload,
@@ -521,12 +528,6 @@ function HardwareOsdHudInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('hardware-osd-hud', 'header');
-  const stageClass = stableClassName('hardware-osd-hud', 'stage');
-  const capsuleClass = stableClassName('hardware-osd-hud', 'capsule');
-  const levelBarClass = stableClassName('hardware-osd-hud', 'level-bar');
-  const statePillClass = stableClassName('hardware-osd-hud', 'state-pill');
-  const triggersClass = stableClassName('hardware-osd-hud', 'triggers');
 
   return (
     <div
@@ -794,5 +795,4 @@ function HardwareOsdHudInner({
   );
 }
 
-export const HardwareOsdHud = memo(HardwareOsdHudInner);
-HardwareOsdHud.displayName = 'HardwareOsdHud';
+export const HardwareOsdHud = /*#__PURE__*/ memoWithDisplayName(HardwareOsdHudInner, 'HardwareOsdHud');

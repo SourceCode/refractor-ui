@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useMemo,
   useRef,
@@ -27,6 +26,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FileViewModeId = 'grid' | 'list' | 'columns' | 'gallery';
@@ -277,6 +277,13 @@ function buildIndexedItems(items: ReadonlyArray<FileViewSampleItem>): ReadonlyAr
   });
 }
 
+const controlsClass = /*#__PURE__*/ stableClassName('file-view-mode-bar', 'controls');
+const radiogroupClass = /*#__PURE__*/ stableClassName('file-view-mode-bar', 'radiogroup');
+const optionClass = /*#__PURE__*/ stableClassName('file-view-mode-bar', 'option');
+const zoomClass = /*#__PURE__*/ stableClassName('file-view-mode-bar', 'zoom');
+const stageClass = /*#__PURE__*/ stableClassName('file-view-mode-bar', 'stage');
+const statusClass = /*#__PURE__*/ stableClassName('file-view-mode-bar', 'status');
+
 function FileViewModeBarInner({
   viewMode,
   defaultViewMode = DEFAULT_VIEW_MODE,
@@ -429,12 +436,6 @@ function FileViewModeBarInner({
     userStyle: style,
   });
 
-  const controlsClass = stableClassName('file-view-mode-bar', 'controls');
-  const radiogroupClass = stableClassName('file-view-mode-bar', 'radiogroup');
-  const optionClass = stableClassName('file-view-mode-bar', 'option');
-  const zoomClass = stableClassName('file-view-mode-bar', 'zoom');
-  const stageClass = stableClassName('file-view-mode-bar', 'stage');
-  const statusClass = stableClassName('file-view-mode-bar', 'status');
 
   const gridThumbIconSize = Math.max(18, Math.round(activeZoom * 0.36));
   const filmstripThumbHeight = Math.max(36, Math.round(activeZoom * 0.72));
@@ -489,7 +490,7 @@ function FileViewModeBarInner({
                     ? 'prism-btn-primary font-semibold'
                     : 'font-medium enabled:hover:bg-[var(--prism-divider)]'
                 )}
-                style={isSelected ? undefined : { color: 'var(--prism-text-secondary)' }}
+                style={isSelected ? undefined : STYLE_TEXT_SECONDARY}
               >
                 <span className="relative z-10 inline-flex items-center gap-1.5">
                   {renderViewModeIcon(option.id)}
@@ -887,5 +888,4 @@ function FileViewModeBarInner({
   );
 }
 
-export const FileViewModeBar = memo(FileViewModeBarInner);
-FileViewModeBar.displayName = 'FileViewModeBar';
+export const FileViewModeBar = /*#__PURE__*/ memoWithDisplayName(FileViewModeBarInner, 'FileViewModeBar');

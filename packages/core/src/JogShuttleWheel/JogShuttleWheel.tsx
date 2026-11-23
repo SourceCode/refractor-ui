@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -12,11 +11,13 @@ import {
 } from 'react';
 import { Disc3 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface JogShuttleWheelProps extends BaseProps<HTMLDivElement> {
@@ -173,6 +174,11 @@ const KNURL_TICKS: ReadonlyArray<KnurlTick> = Array.from({ length: 36 }, (_, idx
   };
 });
 
+const headerClass = /*#__PURE__*/ stableClassName('jog-shuttle-wheel', 'header');
+const wheelClass = /*#__PURE__*/ stableClassName('jog-shuttle-wheel', 'wheel');
+const shuttleClass = /*#__PURE__*/ stableClassName('jog-shuttle-wheel', 'shuttle');
+const detentsClass = /*#__PURE__*/ stableClassName('jog-shuttle-wheel', 'detents');
+
 function JogShuttleWheelInner({
   title = DEFAULT_TITLE,
   frame,
@@ -294,7 +300,7 @@ function JogShuttleWheelInner({
       setIsJogDragging(true);
       setDragSubAngleDeg(0);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const dx = moveEvent.clientX - lastX;
         lastX = moveEvent.clientX;
         const totalPx = residualPx + dx;
@@ -330,9 +336,10 @@ function JogShuttleWheelInner({
         } else {
           setDragSubAngleDeg(roundTwo((residualPx / JOG_PX_PER_FRAME) * DEGREES_PER_FRAME));
         }
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -409,11 +416,12 @@ function JogShuttleWheelInner({
       setIsShuttleDragging(true);
       applySpeedFromClientX(event.clientX);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         applySpeedFromClientX(moveEvent.clientX);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -490,10 +498,6 @@ function JogShuttleWheelInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('jog-shuttle-wheel', 'header');
-  const wheelClass = stableClassName('jog-shuttle-wheel', 'wheel');
-  const shuttleClass = stableClassName('jog-shuttle-wheel', 'shuttle');
-  const detentsClass = stableClassName('jog-shuttle-wheel', 'detents');
 
   const accentColor =
     safeShuttleSpeed > 0
@@ -594,7 +598,7 @@ function JogShuttleWheelInner({
               viewBox={`0 0 ${WHEEL_VIEWBOX} ${WHEEL_VIEWBOX}`}
               aria-hidden="true"
               data-testid="jog-wheel-svg"
-              className="block overflow-visible pointer-events-none"
+              className="block overflow-visible pointer-events-none prism-contain-leaf"
             >
               {/* Concentric Crystal Outer Rim */}
               <circle
@@ -896,5 +900,4 @@ function JogShuttleWheelInner({
   );
 }
 
-export const JogShuttleWheel = memo(JogShuttleWheelInner);
-JogShuttleWheel.displayName = 'JogShuttleWheel';
+export const JogShuttleWheel = /*#__PURE__*/ memoWithDisplayName(JogShuttleWheelInner, 'JogShuttleWheel');

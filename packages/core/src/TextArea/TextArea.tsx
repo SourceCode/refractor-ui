@@ -1,9 +1,10 @@
 'use client';
 
-import { memo, useId, type TextareaHTMLAttributes } from 'react';
+import { useId, type TextareaHTMLAttributes } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type TextAreaBaseProps = Omit<BaseProps<HTMLTextAreaElement>, 'onChange'>;
@@ -136,5 +137,4 @@ function TextAreaInner({
   );
 }
 
-export const TextArea = memo(TextAreaInner);
-TextArea.displayName = 'TextArea';
+export const TextArea = /*#__PURE__*/ memoWithDisplayName(TextAreaInner, 'TextArea');

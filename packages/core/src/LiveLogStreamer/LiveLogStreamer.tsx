@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -19,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type LogSeverity = 'debug' | 'info' | 'warn' | 'error';
@@ -104,6 +104,11 @@ const SEVERITY_META: Record<LogSeverity, SeverityMeta> = {
     },
   },
 };
+
+const headerClass = /*#__PURE__*/ stableClassName('live-log-streamer', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('live-log-streamer', 'controls');
+const viewportClass = /*#__PURE__*/ stableClassName('live-log-streamer', 'viewport');
+const entryClass = /*#__PURE__*/ stableClassName('live-log-streamer', 'entry');
 
 function LiveLogStreamerInner({
   entries,
@@ -266,10 +271,6 @@ function LiveLogStreamerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('live-log-streamer', 'header');
-  const controlsClass = stableClassName('live-log-streamer', 'controls');
-  const viewportClass = stableClassName('live-log-streamer', 'viewport');
-  const entryClass = stableClassName('live-log-streamer', 'entry');
 
   const controlButtonClass =
     'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
@@ -317,7 +318,7 @@ function LiveLogStreamerInner({
                 controlButtonClass,
                 following ? 'prism-emerald font-semibold' : 'prism-crystal'
               )}
-              style={following ? undefined : { color: 'var(--prism-text-primary)' }}
+              style={following ? undefined : STYLE_TEXT_PRIMARY}
             >
               {following ? (
                 <>
@@ -500,5 +501,4 @@ function LiveLogStreamerInner({
   );
 }
 
-export const LiveLogStreamer = memo(LiveLogStreamerInner);
-LiveLogStreamer.displayName = 'LiveLogStreamer';
+export const LiveLogStreamer = /*#__PURE__*/ memoWithDisplayName(LiveLogStreamerInner, 'LiveLogStreamer');

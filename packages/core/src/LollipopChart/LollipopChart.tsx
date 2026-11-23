@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, compareNaturalStrings } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type LollipopOrientation = 'horizontal' | 'vertical';
@@ -229,6 +229,11 @@ function compareByValueDesc(
   }
   return a.originalIndex - b.originalIndex;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('lollipop-chart', 'header');
+const wellClass = /*#__PURE__*/ stableClassName('lollipop-chart', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('lollipop-chart', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('lollipop-chart', 'readout');
 
 function LollipopChartInner({
   data,
@@ -643,10 +648,6 @@ function LollipopChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('lollipop-chart', 'header');
-  const wellClass = stableClassName('lollipop-chart', 'well');
-  const svgClass = stableClassName('lollipop-chart', 'svg');
-  const readoutClass = stableClassName('lollipop-chart', 'readout');
 
   const readoutDelta = readoutItem ? roundOneDecimal(readoutItem.value - comparisonBaseline) : 0;
   const readoutDeltaColor =
@@ -743,7 +744,7 @@ function LollipopChartInner({
               aria-label={`${title} ${activeOrientation} lollipop chart with ${sortedItems.length} ranked items`}
               data-testid="lollipop-svg"
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none')}
+              className={cx(svgClass, 'w-full h-auto select-none', 'prism-contain-box')}
             >
               <g data-testid="lollipop-grid" pointerEvents="none">
                 {geometry.ticks.map((tick) =>
@@ -993,5 +994,4 @@ function LollipopChartInner({
   );
 }
 
-export const LollipopChart = memo(LollipopChartInner);
-LollipopChart.displayName = 'LollipopChart';
+export const LollipopChart = /*#__PURE__*/ memoWithDisplayName(LollipopChartInner, 'LollipopChart');

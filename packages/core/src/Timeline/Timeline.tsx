@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TimelineTone = 'emerald' | 'amber' | 'cobalt';
@@ -88,5 +88,4 @@ function TimelineInner({
   );
 }
 
-export const Timeline = memo(TimelineInner);
-Timeline.displayName = 'Timeline';
+export const Timeline = /*#__PURE__*/ memoWithDisplayName(TimelineInner, 'Timeline');

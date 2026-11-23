@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Plus, Search, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface SearchSuggestion {
@@ -177,5 +178,4 @@ function SearchWithSuggestionsInner({
   );
 }
 
-export const SearchWithSuggestions = memo(SearchWithSuggestionsInner);
-SearchWithSuggestions.displayName = 'SearchWithSuggestions';
+export const SearchWithSuggestions = /*#__PURE__*/ memoWithDisplayName(SearchWithSuggestionsInner, 'SearchWithSuggestions');

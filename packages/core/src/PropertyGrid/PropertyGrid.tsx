@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type PropertyGridDensity = 'compact' | 'comfortable';
@@ -117,6 +117,13 @@ const DEFAULT_ENTRIES: ReadonlyArray<PropertyGridEntry> = [
     hint: 'Zero-downtime canary promotion completed',
   },
 ];
+
+const headerClass = /*#__PURE__*/ stableClassName('property-grid', 'header');
+const searchClass = /*#__PURE__*/ stableClassName('property-grid', 'search');
+const listClass = /*#__PURE__*/ stableClassName('property-grid', 'list');
+const rowClass = /*#__PURE__*/ stableClassName('property-grid', 'row');
+const labelClass = /*#__PURE__*/ stableClassName('property-grid', 'label');
+const valueClass = /*#__PURE__*/ stableClassName('property-grid', 'value');
 
 function PropertyGridInner({
   entries,
@@ -266,12 +273,6 @@ function PropertyGridInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('property-grid', 'header');
-  const searchClass = stableClassName('property-grid', 'search');
-  const listClass = stableClassName('property-grid', 'list');
-  const rowClass = stableClassName('property-grid', 'row');
-  const labelClass = stableClassName('property-grid', 'label');
-  const valueClass = stableClassName('property-grid', 'value');
 
   const countLabel = hasActiveFilter
     ? `${visibleEntries.length} / ${preparedEntries.length} ${preparedEntries.length === 1 ? 'property' : 'properties'}`
@@ -489,7 +490,7 @@ function PropertyGridInner({
                           'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1 text-[11px] font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer hover:brightness-105',
                           isCopied ? 'prism-emerald font-semibold' : 'prism-crystal'
                         )}
-                        style={isCopied ? undefined : { color: 'var(--prism-text-secondary)' }}
+                        style={isCopied ? undefined : STYLE_TEXT_SECONDARY}
                       >
                         {isCopied ? (
                           <>
@@ -525,5 +526,4 @@ function PropertyGridInner({
   );
 }
 
-export const PropertyGrid = memo(PropertyGridInner);
-PropertyGrid.displayName = 'PropertyGrid';
+export const PropertyGrid = /*#__PURE__*/ memoWithDisplayName(PropertyGridInner, 'PropertyGrid');

@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface SelectOption {
@@ -112,7 +113,7 @@ function DropdownSelectInner({
           <svg
             aria-hidden="true"
             viewBox="0 0 24 24"
-            className="w-5 h-5 text-slate-800 dark:text-slate-100 shrink-0"
+            className="w-5 h-5 text-slate-800 dark:text-slate-100 shrink-0 prism-contain-box"
             fill="none"
             stroke="currentColor"
             strokeWidth="2.2"
@@ -178,5 +179,4 @@ function DropdownSelectInner({
   );
 }
 
-export const DropdownSelect = memo(DropdownSelectInner);
-DropdownSelect.displayName = 'DropdownSelect';
+export const DropdownSelect = /*#__PURE__*/ memoWithDisplayName(DropdownSelectInner, 'DropdownSelect');

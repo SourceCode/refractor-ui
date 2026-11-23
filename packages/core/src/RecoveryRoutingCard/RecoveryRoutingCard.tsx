@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useState, type ReactNode } from 'react';
+import { useId, useState, type ReactNode } from 'react';
 import {
   AlertTriangle,
   ChevronDown,
@@ -14,7 +14,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_PRIMARY_CONTRAST, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RecoveryRouteKind = 'retry' | 'edit' | 'switch' | 'skip';
@@ -68,6 +69,13 @@ function renderRouteIcon(kind: RecoveryRouteKind | undefined): ReactNode {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('recovery-routing-card', 'header');
+const errorCodeClass = /*#__PURE__*/ stableClassName('recovery-routing-card', 'error-code');
+const traceToggleClass = /*#__PURE__*/ stableClassName('recovery-routing-card', 'trace-toggle');
+const traceClass = /*#__PURE__*/ stableClassName('recovery-routing-card', 'trace');
+const routesClass = /*#__PURE__*/ stableClassName('recovery-routing-card', 'routes');
+const routeClass = /*#__PURE__*/ stableClassName('recovery-routing-card', 'route');
+
 function RecoveryRoutingCardInner({
   title,
   errorMessage,
@@ -112,12 +120,6 @@ function RecoveryRoutingCardInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('recovery-routing-card', 'header');
-  const errorCodeClass = stableClassName('recovery-routing-card', 'error-code');
-  const traceToggleClass = stableClassName('recovery-routing-card', 'trace-toggle');
-  const traceClass = stableClassName('recovery-routing-card', 'trace');
-  const routesClass = stableClassName('recovery-routing-card', 'routes');
-  const routeClass = stableClassName('recovery-routing-card', 'route');
 
   return (
     <div ref={ref} role="alert" {...rest} {...merged}>
@@ -246,8 +248,8 @@ function RecoveryRoutingCardInner({
                     className="mt-0.5 inline-flex items-center justify-center shrink-0 relative z-10"
                     style={
                       isPrimary
-                        ? { color: 'var(--prism-primary-contrast)' }
-                        : { color: 'var(--prism-text-primary)' }
+                        ? STYLE_PRIMARY_CONTRAST
+                        : STYLE_TEXT_PRIMARY
                     }
                   >
                     {icon}
@@ -259,8 +261,8 @@ function RecoveryRoutingCardInner({
                     className="text-xs sm:text-sm font-semibold leading-snug break-words"
                     style={
                       isPrimary
-                        ? { color: 'var(--prism-primary-contrast)' }
-                        : { color: 'var(--prism-text-primary)' }
+                        ? STYLE_PRIMARY_CONTRAST
+                        : STYLE_TEXT_PRIMARY
                     }
                   >
                     {route.label}
@@ -274,8 +276,8 @@ function RecoveryRoutingCardInner({
                       )}
                       style={
                         isPrimary
-                          ? { color: 'var(--prism-primary-contrast)' }
-                          : { color: 'var(--prism-text-secondary)' }
+                          ? STYLE_PRIMARY_CONTRAST
+                          : STYLE_TEXT_SECONDARY
                       }
                     >
                       {route.description}
@@ -291,5 +293,4 @@ function RecoveryRoutingCardInner({
   );
 }
 
-export const RecoveryRoutingCard = memo(RecoveryRoutingCardInner);
-RecoveryRoutingCard.displayName = 'RecoveryRoutingCard';
+export const RecoveryRoutingCard = /*#__PURE__*/ memoWithDisplayName(RecoveryRoutingCardInner, 'RecoveryRoutingCard');

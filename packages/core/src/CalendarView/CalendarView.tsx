@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { buildMonthGrid } from '../utils/dateGrid';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 const MONTH_NAMES = [
@@ -194,5 +195,4 @@ function CalendarViewInner({
   );
 }
 
-export const CalendarView = memo(CalendarViewInner);
-CalendarView.displayName = 'CalendarView';
+export const CalendarView = /*#__PURE__*/ memoWithDisplayName(CalendarViewInner, 'CalendarView');

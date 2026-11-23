@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   Fragment,
   useCallback,
   useEffect,
@@ -17,7 +16,8 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ShortcutDisplayMode = 'modal' | 'inline';
@@ -255,6 +255,18 @@ function normalizeShortcutGroups(
   return normalizedGroups;
 }
 
+const triggerClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'trigger');
+const backdropClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'backdrop');
+const panelClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'panel');
+const searchWellClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'search');
+const gridClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'grid');
+const groupClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'group');
+const itemClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'item');
+const keycapClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'keycap');
+const joinerClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'joiner');
+const emptyClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'empty');
+const closeClass = /*#__PURE__*/ stableClassName('shortcut-cheat-sheet', 'close');
+
 function ShortcutCheatSheetInner({
   groups = DEFAULT_SHORTCUT_GROUPS,
   mode = 'modal',
@@ -411,17 +423,6 @@ function ShortcutCheatSheetInner({
     title.trim().length > 0 ? title.trim() : 'Keyboard Shortcuts';
   const isEffectiveOpen = mode === 'inline' ? true : isModalOpen;
 
-  const triggerClass = stableClassName('shortcut-cheat-sheet', 'trigger');
-  const backdropClass = stableClassName('shortcut-cheat-sheet', 'backdrop');
-  const panelClass = stableClassName('shortcut-cheat-sheet', 'panel');
-  const searchWellClass = stableClassName('shortcut-cheat-sheet', 'search');
-  const gridClass = stableClassName('shortcut-cheat-sheet', 'grid');
-  const groupClass = stableClassName('shortcut-cheat-sheet', 'group');
-  const itemClass = stableClassName('shortcut-cheat-sheet', 'item');
-  const keycapClass = stableClassName('shortcut-cheat-sheet', 'keycap');
-  const joinerClass = stableClassName('shortcut-cheat-sheet', 'joiner');
-  const emptyClass = stableClassName('shortcut-cheat-sheet', 'empty');
-  const closeClass = stableClassName('shortcut-cheat-sheet', 'close');
 
   const merged = mergeProps({
     themeTarget: themeProps('shortcut-cheat-sheet', {
@@ -700,10 +701,7 @@ function ShortcutCheatSheetInner({
       {/* Footer Hint */}
       <div
         className="pt-3 border-t flex flex-wrap items-center justify-between gap-2 text-[11px]"
-        style={{
-          borderColor: 'var(--prism-divider)',
-          color: 'var(--prism-text-secondary)',
-        }}
+        style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
       >
         <span>
           {mode === 'modal'
@@ -811,5 +809,4 @@ function ShortcutCheatSheetInner({
   );
 }
 
-export const ShortcutCheatSheet = memo(ShortcutCheatSheetInner);
-ShortcutCheatSheet.displayName = 'ShortcutCheatSheet';
+export const ShortcutCheatSheet = /*#__PURE__*/ memoWithDisplayName(ShortcutCheatSheetInner, 'ShortcutCheatSheet');

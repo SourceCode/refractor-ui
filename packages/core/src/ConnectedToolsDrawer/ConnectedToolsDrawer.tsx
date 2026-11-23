@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useEffect, useId, useMemo } from 'react';
+import { useCallback, useEffect, useId, useMemo } from 'react';
 import { Plug, Server, Wrench, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ToolHealthStatus = 'connected' | 'degraded' | 'disconnected';
@@ -444,5 +445,4 @@ function ConnectedToolsDrawerInner({
   );
 }
 
-export const ConnectedToolsDrawer = memo(ConnectedToolsDrawerInner);
-ConnectedToolsDrawer.displayName = 'ConnectedToolsDrawer';
+export const ConnectedToolsDrawer = /*#__PURE__*/ memoWithDisplayName(ConnectedToolsDrawerInner, 'ConnectedToolsDrawer');

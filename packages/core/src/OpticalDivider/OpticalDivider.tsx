@@ -1,12 +1,12 @@
 'use client';
 
-import { memo } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type OpticalDividerOrientation = 'horizontal' | 'vertical';
@@ -89,6 +89,11 @@ function getSplitRailClass(
   return isShort ? 'h-px w-6 shrink-0' : 'h-px flex-1 min-w-[1rem]';
 }
 
+const railClass = /*#__PURE__*/ stableClassName('optical-divider', 'rail');
+const medallionClass = /*#__PURE__*/ stableClassName('optical-divider', 'medallion');
+const iconClass = /*#__PURE__*/ stableClassName('optical-divider', 'icon');
+const labelClass = /*#__PURE__*/ stableClassName('optical-divider', 'label');
+
 function OpticalDividerInner({
   orientation = 'horizontal',
   variant = 'specular',
@@ -110,10 +115,6 @@ function OpticalDividerInner({
   const hasMedallion = hasLabel || hasIcon;
   const renderedLabel = typeof label === 'string' ? label.trim() : label;
 
-  const railClass = stableClassName('optical-divider', 'rail');
-  const medallionClass = stableClassName('optical-divider', 'medallion');
-  const iconClass = stableClassName('optical-divider', 'icon');
-  const labelClass = stableClassName('optical-divider', 'label');
 
   const merged = mergeProps({
     themeTarget: themeProps('optical-divider', {
@@ -206,5 +207,4 @@ function OpticalDividerInner({
   );
 }
 
-export const OpticalDivider = memo(OpticalDividerInner);
-OpticalDivider.displayName = 'OpticalDivider';
+export const OpticalDivider = /*#__PURE__*/ memoWithDisplayName(OpticalDividerInner, 'OpticalDivider');

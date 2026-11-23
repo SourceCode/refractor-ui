@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -30,6 +29,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
 import { STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ApiHttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -398,6 +398,14 @@ function cloneRows(rows?: ReadonlyArray<ApiKeyValueRow>): ApiKeyValueRow[] {
   return rows ? rows.map((row) => ({ ...row })) : [];
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('api-request-builder', 'header');
+const requestBarClass = /*#__PURE__*/ stableClassName('api-request-builder', 'request-bar');
+const errorBannerClass = /*#__PURE__*/ stableClassName('api-request-builder', 'error-banner');
+const resolvedUrlClass = /*#__PURE__*/ stableClassName('api-request-builder', 'resolved-url');
+const tabsClass = /*#__PURE__*/ stableClassName('api-request-builder', 'tabs');
+const inspectorClass = /*#__PURE__*/ stableClassName('api-request-builder', 'inspector');
+const responseClass = /*#__PURE__*/ stableClassName('api-request-builder', 'response');
+
 function ApiRequestBuilderInner({
   title = 'API Request Builder',
   defaultMethod = 'GET',
@@ -706,13 +714,6 @@ function ApiRequestBuilderInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('api-request-builder', 'header');
-  const requestBarClass = stableClassName('api-request-builder', 'request-bar');
-  const errorBannerClass = stableClassName('api-request-builder', 'error-banner');
-  const resolvedUrlClass = stableClassName('api-request-builder', 'resolved-url');
-  const tabsClass = stableClassName('api-request-builder', 'tabs');
-  const inspectorClass = stableClassName('api-request-builder', 'inspector');
-  const responseClass = stableClassName('api-request-builder', 'response');
 
   const renderKeyValueEditor = (section: 'params' | 'headers') => {
     const isParams = section === 'params';
@@ -1027,9 +1028,9 @@ function ApiRequestBuilderInner({
                     )}
                     style={
                       jsonValidation.status === 'invalid'
-                        ? { color: 'var(--prism-error-main)' }
+                        ? STYLE_ERROR_MAIN
                         : jsonValidation.status === 'empty'
-                          ? { color: 'var(--prism-text-secondary)' }
+                          ? STYLE_TEXT_SECONDARY
                           : undefined
                     }
                   >
@@ -1166,7 +1167,7 @@ function ApiRequestBuilderInner({
                   'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
                   copiedBody ? 'prism-emerald font-semibold' : 'prism-crystal'
                 )}
-                style={copiedBody ? undefined : { color: 'var(--prism-text-primary)' }}
+                style={copiedBody ? undefined : STYLE_TEXT_PRIMARY}
               >
                 {copiedBody ? (
                   <>
@@ -1249,5 +1250,4 @@ function ApiRequestBuilderInner({
   );
 }
 
-export const ApiRequestBuilder = memo(ApiRequestBuilderInner);
-ApiRequestBuilder.displayName = 'ApiRequestBuilder';
+export const ApiRequestBuilder = /*#__PURE__*/ memoWithDisplayName(ApiRequestBuilderInner, 'ApiRequestBuilder');

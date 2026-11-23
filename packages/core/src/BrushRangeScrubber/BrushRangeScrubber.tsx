@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -12,12 +11,14 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BrushTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -189,6 +190,13 @@ function buildSparklineGeometry(
   return { polylinePoints, areaPoints, plotHeight, baselineY };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('brush-range-scrubber', 'header');
+const presetsClass = /*#__PURE__*/ stableClassName('brush-range-scrubber', 'presets');
+const overviewClass = /*#__PURE__*/ stableClassName('brush-range-scrubber', 'overview');
+const windowClass = /*#__PURE__*/ stableClassName('brush-range-scrubber', 'window');
+const handleClass = /*#__PURE__*/ stableClassName('brush-range-scrubber', 'handle');
+const readoutClass = /*#__PURE__*/ stableClassName('brush-range-scrubber', 'readout');
+
 function BrushRangeScrubberInner({
   data,
   title = 'Timeline Brush Scrubber',
@@ -327,8 +335,11 @@ function BrushRangeScrubberInner({
       cleanupDragRef.current?.();
       setActiveDrag(mode);
 
+      const coalescedMove = createCoalescedPointerMove(onMove);
+
       const cleanup = () => {
-        window.removeEventListener('pointermove', onMove);
+        coalescedMove.cancel();
+        window.removeEventListener('pointermove', coalescedMove);
         window.removeEventListener('pointerup', handleEnd);
         window.removeEventListener('pointercancel', handleEnd);
         cleanupDragRef.current = null;
@@ -340,7 +351,7 @@ function BrushRangeScrubberInner({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', onMove, { passive: true });
+      window.addEventListener('pointermove', coalescedMove, { passive: true });
       window.addEventListener('pointerup', handleEnd);
       window.addEventListener('pointercancel', handleEnd);
     },
@@ -452,12 +463,6 @@ function BrushRangeScrubberInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('brush-range-scrubber', 'header');
-  const presetsClass = stableClassName('brush-range-scrubber', 'presets');
-  const overviewClass = stableClassName('brush-range-scrubber', 'overview');
-  const windowClass = stableClassName('brush-range-scrubber', 'window');
-  const handleClass = stableClassName('brush-range-scrubber', 'handle');
-  const readoutClass = stableClassName('brush-range-scrubber', 'readout');
 
   const startPoint = isEmpty ? null : sanitizedData[startIndex]!;
   const endPoint = isEmpty ? null : sanitizedData[endIndex]!;
@@ -561,7 +566,7 @@ function BrushRangeScrubberInner({
               data-testid="brush-scrubber-svg"
               viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
               preserveAspectRatio="none"
-              className="w-full block overflow-visible touch-none"
+              className="w-full block overflow-visible touch-none prism-contain-leaf"
               style={{ height: `${safeHeight}px`, touchAction: 'none' }}
             >
               <defs>
@@ -805,5 +810,4 @@ function BrushRangeScrubberInner({
   );
 }
 
-export const BrushRangeScrubber = memo(BrushRangeScrubberInner);
-BrushRangeScrubber.displayName = 'BrushRangeScrubber';
+export const BrushRangeScrubber = /*#__PURE__*/ memoWithDisplayName(BrushRangeScrubberInner, 'BrushRangeScrubber');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,7 +12,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_BG_PRIMARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_PRIMARY, STYLE_BG_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface ComboDualAxisChartProps extends BaseProps<HTMLDivElement> {
@@ -106,6 +106,10 @@ function computeLineScale(values: ReadonlyArray<number>): { min: number; max: nu
     max: maxVal,
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('combo-dual-axis-chart', 'header');
+const svgClass = /*#__PURE__*/ stableClassName('combo-dual-axis-chart', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('combo-dual-axis-chart', 'readout');
 
 function ComboDualAxisChartInner({
   labels,
@@ -252,9 +256,6 @@ function ComboDualAxisChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('combo-dual-axis-chart', 'header');
-  const svgClass = stableClassName('combo-dual-axis-chart', 'svg');
-  const readoutClass = stableClassName('combo-dual-axis-chart', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -275,7 +276,7 @@ function ComboDualAxisChartInner({
             <span
               aria-hidden="true"
               className="w-2.5 h-2.5 rounded-sm shrink-0"
-              style={{ backgroundColor: 'var(--prism-secondary-main)' }}
+              style={STYLE_BG_SECONDARY}
             />
             <span>{barLabel}</span>
           </span>
@@ -309,7 +310,7 @@ function ComboDualAxisChartInner({
             aria-label={`${title} dual-axis chart comparing ${barLabel} and ${lineLabel}`}
             viewBox={`0 0 ${SVG_WIDTH} ${clampedHeight}`}
             style={{ height: `${clampedHeight}px` }}
-            className={cx(svgClass, 'w-full block overflow-visible')}
+            className={cx(svgClass, 'w-full block overflow-visible', 'prism-contain-leaf')}
           >
             <defs>
               <filter id={glowFilterId} x="-20%" y="-20%" width="140%" height="140%">
@@ -494,5 +495,4 @@ function ComboDualAxisChartInner({
   );
 }
 
-export const ComboDualAxisChart = memo(ComboDualAxisChartInner);
-ComboDualAxisChart.displayName = 'ComboDualAxisChart';
+export const ComboDualAxisChart = /*#__PURE__*/ memoWithDisplayName(ComboDualAxisChartInner, 'ComboDualAxisChart');

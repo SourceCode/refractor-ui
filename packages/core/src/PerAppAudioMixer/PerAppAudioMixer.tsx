@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -23,7 +22,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BADGE_ERROR, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AudioMixerChannelTone = 'primary' | 'info' | 'emerald' | 'amber';
@@ -292,6 +292,14 @@ function findDeviceLabel(
   const matched = devices.find((device) => device.id === deviceId);
   return matched ? matched.label : emptyLabel;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('per-app-audio-mixer', 'header');
+const routingClass = /*#__PURE__*/ stableClassName('per-app-audio-mixer', 'routing');
+const masterClass = /*#__PURE__*/ stableClassName('per-app-audio-mixer', 'master');
+const meterClass = /*#__PURE__*/ stableClassName('per-app-audio-mixer', 'meter');
+const channelsClass = /*#__PURE__*/ stableClassName('per-app-audio-mixer', 'channels');
+const channelRowClass = /*#__PURE__*/ stableClassName('per-app-audio-mixer', 'channel');
+const emptyClass = /*#__PURE__*/ stableClassName('per-app-audio-mixer', 'empty');
 
 function PerAppAudioMixerInner({
   title = DEFAULT_TITLE,
@@ -614,13 +622,6 @@ function PerAppAudioMixerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('per-app-audio-mixer', 'header');
-  const routingClass = stableClassName('per-app-audio-mixer', 'routing');
-  const masterClass = stableClassName('per-app-audio-mixer', 'master');
-  const meterClass = stableClassName('per-app-audio-mixer', 'meter');
-  const channelsClass = stableClassName('per-app-audio-mixer', 'channels');
-  const channelRowClass = stableClassName('per-app-audio-mixer', 'channel');
-  const emptyClass = stableClassName('per-app-audio-mixer', 'empty');
 
   return (
     <div
@@ -791,11 +792,8 @@ function PerAppAudioMixerInner({
               )}
               style={
                 currentState.masterMuted
-                  ? {
-                      backgroundColor: 'var(--prism-error-main)',
-                      color: 'var(--prism-error-contrast)',
-                    }
-                  : { color: 'var(--prism-text-primary)' }
+                  ? STYLE_BADGE_ERROR
+                  : STYLE_TEXT_PRIMARY
               }
             >
               {currentState.masterMuted ? (
@@ -969,11 +967,8 @@ function PerAppAudioMixerInner({
                         )}
                         style={
                           channel.muted
-                            ? {
-                                backgroundColor: 'var(--prism-error-main)',
-                                color: 'var(--prism-error-contrast)',
-                              }
-                            : { color: 'var(--prism-text-secondary)' }
+                            ? STYLE_BADGE_ERROR
+                            : STYLE_TEXT_SECONDARY
                         }
                       >
                         {channel.muted ? (
@@ -1046,5 +1041,4 @@ function PerAppAudioMixerInner({
   );
 }
 
-export const PerAppAudioMixer = memo(PerAppAudioMixerInner);
-PerAppAudioMixer.displayName = 'PerAppAudioMixer';
+export const PerAppAudioMixer = /*#__PURE__*/ memoWithDisplayName(PerAppAudioMixerInner, 'PerAppAudioMixer');

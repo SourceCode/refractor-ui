@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useId } from 'react';
+import { useId } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type RangeSliderBaseProps = Omit<BaseProps<HTMLDivElement>, 'onChange'>;
@@ -57,7 +58,7 @@ function RangeSliderInner({
 
   const merged = mergeProps({
     themeTarget: themeProps('range-slider', { disabled }),
-    baseClassName: 'w-full',
+    baseClassName: 'prism-contain-leaf w-full',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -107,5 +108,4 @@ function RangeSliderInner({
   );
 }
 
-export const RangeSlider = memo(RangeSliderInner);
-RangeSlider.displayName = 'RangeSlider';
+export const RangeSlider = /*#__PURE__*/ memoWithDisplayName(RangeSliderInner, 'RangeSlider');

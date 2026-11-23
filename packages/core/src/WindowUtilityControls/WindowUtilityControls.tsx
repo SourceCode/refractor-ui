@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -22,7 +21,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_BG_SUCCESS, STYLE_BORDER_DIVIDER, STYLE_SECONDARY_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_SUCCESS, STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_SECONDARY_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface WindowUtilityState {
@@ -81,6 +81,14 @@ function resolveUtilityState(
     opacityPct: sanitizeOpacityPct(raw?.opacityPct, fallback.opacityPct),
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('window-utility-controls', 'header');
+const titleGroupClass = /*#__PURE__*/ stableClassName('window-utility-controls', 'title-group');
+const pillsClass = /*#__PURE__*/ stableClassName('window-utility-controls', 'pills');
+const controlsClass = /*#__PURE__*/ stableClassName('window-utility-controls', 'controls');
+const opacityClass = /*#__PURE__*/ stableClassName('window-utility-controls', 'opacity');
+const presetsClass = /*#__PURE__*/ stableClassName('window-utility-controls', 'presets');
+const bodyClass = /*#__PURE__*/ stableClassName('window-utility-controls', 'body');
 
 function WindowUtilityControlsInner({
   title = DEFAULT_TITLE,
@@ -230,16 +238,6 @@ function WindowUtilityControlsInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('window-utility-controls', 'header');
-  const titleGroupClass = stableClassName(
-    'window-utility-controls',
-    'title-group'
-  );
-  const pillsClass = stableClassName('window-utility-controls', 'pills');
-  const controlsClass = stableClassName('window-utility-controls', 'controls');
-  const opacityClass = stableClassName('window-utility-controls', 'opacity');
-  const presetsClass = stableClassName('window-utility-controls', 'presets');
-  const bodyClass = stableClassName('window-utility-controls', 'body');
 
   const leadingIconColor = disabled
     ? 'var(--prism-text-disabled)'
@@ -391,10 +389,7 @@ function WindowUtilityControlsInner({
                         'color-mix(in srgb, var(--prism-primary-main) 16%, transparent)',
                       color: 'var(--prism-primary-main)',
                     }
-                  : {
-                      borderColor: 'var(--prism-divider)',
-                      color: 'var(--prism-text-secondary)',
-                    }
+                  : STYLE_BORDER_DIVIDER_TEXT_SECONDARY
               }
             >
               {state.pinned ? (
@@ -431,10 +426,7 @@ function WindowUtilityControlsInner({
                         'color-mix(in srgb, var(--prism-info-main) 16%, transparent)',
                       color: 'var(--prism-info-main)',
                     }
-                  : {
-                      borderColor: 'var(--prism-divider)',
-                      color: 'var(--prism-text-secondary)',
-                    }
+                  : STYLE_BORDER_DIVIDER_TEXT_SECONDARY
               }
             >
               {state.shaded ? (
@@ -536,7 +528,7 @@ function WindowUtilityControlsInner({
                     style={
                       isActive
                         ? undefined
-                        : { color: 'var(--prism-text-primary)' }
+                        : STYLE_TEXT_PRIMARY
                     }
                   >
                     {preset}%
@@ -693,5 +685,4 @@ function WindowUtilityControlsInner({
   );
 }
 
-export const WindowUtilityControls = memo(WindowUtilityControlsInner);
-WindowUtilityControls.displayName = 'WindowUtilityControls';
+export const WindowUtilityControls = /*#__PURE__*/ memoWithDisplayName(WindowUtilityControlsInner, 'WindowUtilityControls');

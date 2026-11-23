@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface PaginationProps extends BaseProps<HTMLElement> {
@@ -90,5 +90,4 @@ function PaginationInner({
   );
 }
 
-export const Pagination = memo(PaginationInner);
-Pagination.displayName = 'Pagination';
+export const Pagination = /*#__PURE__*/ memoWithDisplayName(PaginationInner, 'Pagination');

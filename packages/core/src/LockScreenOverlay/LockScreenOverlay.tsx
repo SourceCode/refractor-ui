@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -30,6 +29,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type LockScreenDisplayMode = 'inline' | 'fullscreen';
@@ -170,6 +170,15 @@ function getDisplayInitials(user: LockScreenUserAccount): string {
     .join('');
   return nameChars.slice(0, 2).toUpperCase() || 'UA';
 }
+
+const panelClass = /*#__PURE__*/ stableClassName('lock-screen-overlay', 'panel');
+const clockClass = /*#__PURE__*/ stableClassName('lock-screen-overlay', 'clock');
+const accountsClass = /*#__PURE__*/ stableClassName('lock-screen-overlay', 'accounts');
+const avatarClass = /*#__PURE__*/ stableClassName('lock-screen-overlay', 'avatar');
+const formClass = /*#__PURE__*/ stableClassName('lock-screen-overlay', 'form');
+const powerClass = /*#__PURE__*/ stableClassName('lock-screen-overlay', 'power');
+const unlockedClass = /*#__PURE__*/ stableClassName('lock-screen-overlay', 'unlocked');
+const statusClass = /*#__PURE__*/ stableClassName('lock-screen-overlay', 'status');
 
 function LockScreenOverlayInner({
   mode = 'inline',
@@ -447,14 +456,6 @@ function LockScreenOverlayInner({
     userStyle: style,
   });
 
-  const panelClass = stableClassName('lock-screen-overlay', 'panel');
-  const clockClass = stableClassName('lock-screen-overlay', 'clock');
-  const accountsClass = stableClassName('lock-screen-overlay', 'accounts');
-  const avatarClass = stableClassName('lock-screen-overlay', 'avatar');
-  const formClass = stableClassName('lock-screen-overlay', 'form');
-  const powerClass = stableClassName('lock-screen-overlay', 'power');
-  const unlockedClass = stableClassName('lock-screen-overlay', 'unlocked');
-  const statusClass = stableClassName('lock-screen-overlay', 'status');
 
   // Inline Unlocked Confirmation Bar
   if (!isLocked) {
@@ -935,5 +936,4 @@ function LockScreenOverlayInner({
   );
 }
 
-export const LockScreenOverlay = memo(LockScreenOverlayInner);
-LockScreenOverlay.displayName = 'LockScreenOverlay';
+export const LockScreenOverlay = /*#__PURE__*/ memoWithDisplayName(LockScreenOverlayInner, 'LockScreenOverlay');

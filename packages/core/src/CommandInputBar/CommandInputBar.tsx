@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { CornerDownLeft } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type CommandInputBarBaseProps = Omit<BaseProps<HTMLDivElement>, 'onSubmit' | 'onChange'>;
@@ -262,5 +263,4 @@ function CommandInputBarInner({
   );
 }
 
-export const CommandInputBar = memo(CommandInputBarInner);
-CommandInputBar.displayName = 'CommandInputBar';
+export const CommandInputBar = /*#__PURE__*/ memoWithDisplayName(CommandInputBarInner, 'CommandInputBar');

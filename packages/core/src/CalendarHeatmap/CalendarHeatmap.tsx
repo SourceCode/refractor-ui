@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CalendarHeatmapTone = 'emerald' | 'primary' | 'secondary' | 'rose';
@@ -182,6 +182,12 @@ function quantizeIntensity(count: number, maxCount: number): IntensityLevel {
   if (ratio <= 0.75) return 3;
   return 4;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('calendar-heatmap', 'header');
+const summaryClass = /*#__PURE__*/ stableClassName('calendar-heatmap', 'summary');
+const legendClass = /*#__PURE__*/ stableClassName('calendar-heatmap', 'legend');
+const gridClass = /*#__PURE__*/ stableClassName('calendar-heatmap', 'grid');
+const readoutClass = /*#__PURE__*/ stableClassName('calendar-heatmap', 'readout');
 
 function CalendarHeatmapInner({
   entries,
@@ -386,11 +392,6 @@ function CalendarHeatmapInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('calendar-heatmap', 'header');
-  const summaryClass = stableClassName('calendar-heatmap', 'summary');
-  const legendClass = stableClassName('calendar-heatmap', 'legend');
-  const gridClass = stableClassName('calendar-heatmap', 'grid');
-  const readoutClass = stableClassName('calendar-heatmap', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -631,5 +632,4 @@ function CalendarHeatmapInner({
   );
 }
 
-export const CalendarHeatmap = memo(CalendarHeatmapInner);
-CalendarHeatmap.displayName = 'CalendarHeatmap';
+export const CalendarHeatmap = /*#__PURE__*/ memoWithDisplayName(CalendarHeatmapInner, 'CalendarHeatmap');

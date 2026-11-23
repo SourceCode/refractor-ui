@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -25,7 +24,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, compareNaturalStrings, formatUsNumber } from '../utils/styles';
+import { STYLE_BADGE_ERROR, STYLE_BADGE_PRIMARY, STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, compareNaturalStrings, formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TaskProcessStatus = 'running' | 'unresponsive' | 'sleeping';
@@ -241,6 +241,13 @@ function compareProcessEntries(
 function formatMemoryGb(totalMemoryMb: number): string {
   return `${(totalMemoryMb / 1024).toFixed(2)} GB`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('task-manager-dialog', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('task-manager-dialog', 'controls');
+const tableWrapClass = /*#__PURE__*/ stableClassName('task-manager-dialog', 'table-wrap');
+const tableClass = /*#__PURE__*/ stableClassName('task-manager-dialog', 'table');
+const footerClass = /*#__PURE__*/ stableClassName('task-manager-dialog', 'footer');
+const emptyClass = /*#__PURE__*/ stableClassName('task-manager-dialog', 'empty');
 
 function TaskManagerDialogInner({
   title = DEFAULT_TITLE,
@@ -465,12 +472,6 @@ function TaskManagerDialogInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('task-manager-dialog', 'header');
-  const controlsClass = stableClassName('task-manager-dialog', 'controls');
-  const tableWrapClass = stableClassName('task-manager-dialog', 'table-wrap');
-  const tableClass = stableClassName('task-manager-dialog', 'table');
-  const footerClass = stableClassName('task-manager-dialog', 'footer');
-  const emptyClass = stableClassName('task-manager-dialog', 'empty');
 
   const processCountLabel =
     activeEntries.length === 1
@@ -601,11 +602,8 @@ function TaskManagerDialogInner({
           )}
           style={
             unresponsiveOnly
-              ? {
-                  backgroundColor: 'var(--prism-error-main)',
-                  color: 'var(--prism-error-contrast)',
-                }
-              : { color: 'var(--prism-text-primary)' }
+              ? STYLE_BADGE_ERROR
+              : STYLE_TEXT_PRIMARY
           }
         >
           <AlertTriangle
@@ -614,7 +612,7 @@ function TaskManagerDialogInner({
             style={
               unresponsiveOnly
                 ? undefined
-                : { color: 'var(--prism-error-main)' }
+                : STYLE_ERROR_MAIN
             }
           />
           <span>Unresponsive Only</span>
@@ -933,11 +931,8 @@ function TaskManagerDialogInner({
                           )}
                           style={
                             isSelected
-                              ? {
-                                  backgroundColor: 'var(--prism-primary-main)',
-                                  color: 'var(--prism-primary-contrast)',
-                                }
-                              : { color: 'var(--prism-text-primary)' }
+                              ? STYLE_BADGE_PRIMARY
+                              : STYLE_TEXT_PRIMARY
                           }
                         >
                           {isSelected ? 'Selected' : 'Select'}
@@ -987,11 +982,8 @@ function TaskManagerDialogInner({
           )}
           style={
             disabled || selectedEntry === null
-              ? { color: 'var(--prism-text-secondary)' }
-              : {
-                  backgroundColor: 'var(--prism-error-main)',
-                  color: 'var(--prism-error-contrast)',
-                }
+              ? STYLE_TEXT_SECONDARY
+              : STYLE_BADGE_ERROR
           }
         >
           <Power aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -1012,5 +1004,4 @@ function TaskManagerDialogInner({
   );
 }
 
-export const TaskManagerDialog = memo(TaskManagerDialogInner);
-TaskManagerDialog.displayName = 'TaskManagerDialog';
+export const TaskManagerDialog = /*#__PURE__*/ memoWithDisplayName(TaskManagerDialogInner, 'TaskManagerDialog');

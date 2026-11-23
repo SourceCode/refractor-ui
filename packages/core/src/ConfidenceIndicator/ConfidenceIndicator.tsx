@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { AlertTriangle, CheckCircle2, Info, ShieldCheck, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ConfidenceLevel = 'verified' | 'high' | 'moderate' | 'needs-review';
@@ -307,5 +308,4 @@ function ConfidenceIndicatorInner({
   );
 }
 
-export const ConfidenceIndicator = memo(ConfidenceIndicatorInner);
-ConfidenceIndicator.displayName = 'ConfidenceIndicator';
+export const ConfidenceIndicator = /*#__PURE__*/ memoWithDisplayName(ConfidenceIndicatorInner, 'ConfidenceIndicator');

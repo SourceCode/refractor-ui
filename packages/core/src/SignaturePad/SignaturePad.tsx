@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -16,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface SignaturePoint {
@@ -108,7 +108,7 @@ function buildSvgDataUrl(
   height: number
 ): string {
   const markup = strokes.map(buildStrokeSvgMarkup).join('');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${markup}</svg>`;
+  const svg = `<svg className="prism-contain-box" xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${markup}</svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
@@ -161,6 +161,9 @@ function buildKeyboardSignatureStroke(
     { x: roundOne(startX + span), y: roundOne(baselineY - height * 0.02) },
   ];
 }
+
+const surfaceClass = /*#__PURE__*/ stableClassName('signature-pad', 'surface');
+const actionsClass = /*#__PURE__*/ stableClassName('signature-pad', 'actions');
 
 function SignaturePadInner({
   width = 480,
@@ -350,8 +353,6 @@ function SignaturePadInner({
     userStyle: style,
   });
 
-  const surfaceClass = stableClassName('signature-pad', 'surface');
-  const actionsClass = stableClassName('signature-pad', 'actions');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -426,7 +427,7 @@ function SignaturePadInner({
           className={cx(
             'prism-focus-ring block w-full h-auto touch-none rounded-[18px]',
             disabled ? 'cursor-not-allowed' : 'cursor-crosshair'
-          )}
+          , 'prism-contain-box')}
         >
           {/* Crisp signing baseline rule */}
           <g aria-hidden="true" opacity="0.45">
@@ -528,5 +529,4 @@ function SignaturePadInner({
   );
 }
 
-export const SignaturePad = memo(SignaturePadInner);
-SignaturePad.displayName = 'SignaturePad';
+export const SignaturePad = /*#__PURE__*/ memoWithDisplayName(SignaturePadInner, 'SignaturePad');

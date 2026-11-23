@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useCallback, useMemo, useRef, useState, type ReactNode, type UIEvent } from 'react';
+import { useCallback, useMemo, useRef, useState, type ReactNode, type UIEvent } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface VirtualizedListItem {
@@ -218,5 +219,7 @@ type VirtualizedListComponent = (<T extends VirtualizedListItem = VirtualizedLis
   props: VirtualizedListProps<T>
 ) => ReactNode) & { displayName?: string };
 
-export const VirtualizedList = memo(VirtualizedListInner) as VirtualizedListComponent;
-VirtualizedList.displayName = 'VirtualizedList';
+export const VirtualizedList = /*#__PURE__*/ memoWithDisplayName(
+  VirtualizedListInner,
+  'VirtualizedList'
+) as VirtualizedListComponent;

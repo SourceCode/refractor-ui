@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ContourTone = 'primary' | 'secondary' | 'emerald' | 'info';
@@ -524,6 +524,12 @@ function computeContourField(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('contour-density-plot', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('contour-density-plot', 'legend');
+const canvasClass = /*#__PURE__*/ stableClassName('contour-density-plot', 'canvas');
+const svgClass = /*#__PURE__*/ stableClassName('contour-density-plot', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('contour-density-plot', 'readout');
+
 function ContourDensityPlotInner({
   points,
   levels = DEFAULT_LEVELS,
@@ -646,11 +652,6 @@ function ContourDensityPlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('contour-density-plot', 'header');
-  const legendClass = stableClassName('contour-density-plot', 'legend');
-  const canvasClass = stableClassName('contour-density-plot', 'canvas');
-  const svgClass = stableClassName('contour-density-plot', 'svg');
-  const readoutClass = stableClassName('contour-density-plot', 'readout');
 
   const sampleBadgeLabel =
     validPoints.length === 1 ? '1 sample' : `${validPoints.length} samples`;
@@ -767,7 +768,7 @@ function ContourDensityPlotInner({
               data-tone={tone}
               data-levels={String(safeLevels)}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block')}
+              className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
             >
               <rect
                 x={PAD_LEFT}
@@ -1002,5 +1003,4 @@ function ContourDensityPlotInner({
   );
 }
 
-export const ContourDensityPlot = memo(ContourDensityPlotInner);
-ContourDensityPlot.displayName = 'ContourDensityPlot';
+export const ContourDensityPlot = /*#__PURE__*/ memoWithDisplayName(ContourDensityPlotInner, 'ContourDensityPlot');

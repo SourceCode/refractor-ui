@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -29,6 +28,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SystemAboutMode = 'inline' | 'modal';
@@ -312,7 +312,7 @@ function OpticalPrismEmblem({ svgPrefix, className }: OpticalPrismEmblemProps) {
       viewBox="0 0 72 72"
       aria-hidden="true"
       data-testid="system-about-emblem"
-      className={cx('w-16 h-16 shrink-0 block', className)}
+      className={cx('w-16 h-16 shrink-0 block', className, 'prism-contain-box')}
     >
       <defs>
         <linearGradient id={prismGradId} x1="15%" y1="10%" x2="85%" y2="90%">
@@ -425,6 +425,15 @@ function OpticalPrismEmblem({ svgPrefix, className }: OpticalPrismEmblemProps) {
     </svg>
   );
 }
+
+const panelClass = /*#__PURE__*/ stableClassName('system-about-card', 'panel');
+const headerClass = /*#__PURE__*/ stableClassName('system-about-card', 'header');
+const emblemClass = /*#__PURE__*/ stableClassName('system-about-card', 'emblem');
+const specsClass = /*#__PURE__*/ stableClassName('system-about-card', 'specs');
+const storageClass = /*#__PURE__*/ stableClassName('system-about-card', 'storage');
+const actionsClass = /*#__PURE__*/ stableClassName('system-about-card', 'actions');
+const linksClass = /*#__PURE__*/ stableClassName('system-about-card', 'links');
+const statusClass = /*#__PURE__*/ stableClassName('system-about-card', 'status');
 
 function SystemAboutCardInner({
   mode = 'inline',
@@ -645,14 +654,6 @@ function SystemAboutCardInner({
     return null;
   }
 
-  const panelClass = stableClassName('system-about-card', 'panel');
-  const headerClass = stableClassName('system-about-card', 'header');
-  const emblemClass = stableClassName('system-about-card', 'emblem');
-  const specsClass = stableClassName('system-about-card', 'specs');
-  const storageClass = stableClassName('system-about-card', 'storage');
-  const actionsClass = stableClassName('system-about-card', 'actions');
-  const linksClass = stableClassName('system-about-card', 'links');
-  const statusClass = stableClassName('system-about-card', 'status');
 
   const merged = mergeProps({
     themeTarget: themeProps('system-about-card', {
@@ -1113,5 +1114,4 @@ function SystemAboutCardInner({
   );
 }
 
-export const SystemAboutCard = memo(SystemAboutCardInner);
-SystemAboutCard.displayName = 'SystemAboutCard';
+export const SystemAboutCard = /*#__PURE__*/ memoWithDisplayName(SystemAboutCardInner, 'SystemAboutCard');

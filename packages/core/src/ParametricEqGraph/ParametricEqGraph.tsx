@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,11 +12,13 @@ import {
 } from 'react';
 import { Power, RotateCcw, SlidersHorizontal } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type EqBandFilterType = 'low-shelf' | 'bell' | 'high-shelf';
@@ -314,6 +315,13 @@ function buildBandPreviewPath(band: EqBand): string {
   return parts.join(' ');
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('parametric-eq-graph', 'header');
+const pillsClass = /*#__PURE__*/ stableClassName('parametric-eq-graph', 'pills');
+const graphClass = /*#__PURE__*/ stableClassName('parametric-eq-graph', 'graph');
+const nodeClass = /*#__PURE__*/ stableClassName('parametric-eq-graph', 'node');
+const inspectorClass = /*#__PURE__*/ stableClassName('parametric-eq-graph', 'inspector');
+const emptyClass = /*#__PURE__*/ stableClassName('parametric-eq-graph', 'empty');
+
 function ParametricEqGraphInner({
   bands,
   defaultBands,
@@ -466,7 +474,7 @@ function ParametricEqGraphInner({
       const pointerId = event.pointerId;
       setDraggingBandId(bandId);
 
-      const handleWindowPointerMove = (moveEvent: PointerEvent) => {
+      const handleWindowPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (moveEvent.pointerId !== pointerId) return;
         const rect = getSvgRect();
         if (!rect) return;
@@ -474,9 +482,10 @@ function ParametricEqGraphInner({
         const svgY = ((moveEvent.clientY - rect.top) / rect.height) * SVG_HEIGHT;
         const { frequencyHz, gainDb } = svgToBandCoords(svgX, svgY);
         latestRef.current.updateBand(bandId, { frequencyHz, gainDb });
-      };
+      });
 
       const cleanup = () => {
+        handleWindowPointerMove.cancel();
         window.removeEventListener('pointermove', handleWindowPointerMove);
         window.removeEventListener('pointerup', handleWindowPointerEnd);
         window.removeEventListener('pointercancel', handleWindowPointerEnd);
@@ -546,12 +555,6 @@ function ParametricEqGraphInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('parametric-eq-graph', 'header');
-  const pillsClass = stableClassName('parametric-eq-graph', 'pills');
-  const graphClass = stableClassName('parametric-eq-graph', 'graph');
-  const nodeClass = stableClassName('parametric-eq-graph', 'node');
-  const inspectorClass = stableClassName('parametric-eq-graph', 'inspector');
-  const emptyClass = stableClassName('parametric-eq-graph', 'empty');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -662,7 +665,7 @@ function ParametricEqGraphInner({
               aria-label={`${title} logarithmic frequency response graph with ${resolvedBands.length} bands`}
               data-testid="eq-graph-svg"
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className="w-full h-auto select-none block overflow-visible touch-none"
+              className="w-full h-auto select-none block overflow-visible touch-none prism-contain-leaf"
               style={{ touchAction: 'none' }}
             >
               <defs>
@@ -890,7 +893,7 @@ function ParametricEqGraphInner({
                   'prism-focus-ring rounded-full h-7 px-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                   activeBand.enabled ? 'prism-emerald' : 'prism-crystal opacity-75'
                 )}
-                style={activeBand.enabled ? undefined : { color: 'var(--prism-text-secondary)' }}
+                style={activeBand.enabled ? undefined : STYLE_TEXT_SECONDARY}
               >
                 <Power aria-hidden="true" className="w-3 h-3 shrink-0" />
                 <span>
@@ -920,7 +923,7 @@ function ParametricEqGraphInner({
                           ? 'prism-btn-primary'
                           : 'prism-crystal opacity-85 enabled:hover:opacity-100'
                       )}
-                      style={isTypeActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                      style={isTypeActive ? undefined : STYLE_TEXT_PRIMARY}
                     >
                       <span className="relative z-10">{filterType.label}</span>
                     </button>
@@ -1068,5 +1071,4 @@ function ParametricEqGraphInner({
   );
 }
 
-export const ParametricEqGraph = memo(ParametricEqGraphInner);
-ParametricEqGraph.displayName = 'ParametricEqGraph';
+export const ParametricEqGraph = /*#__PURE__*/ memoWithDisplayName(ParametricEqGraphInner, 'ParametricEqGraph');

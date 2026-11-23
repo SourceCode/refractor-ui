@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -22,12 +21,14 @@ import {
   X,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DockPosition = 'left' | 'right' | 'bottom' | 'center' | 'floating';
@@ -146,6 +147,9 @@ function getDockLayoutClasses(position: DockPosition): string {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('dockable-panel', 'header');
+const bodyClass = /*#__PURE__*/ stableClassName('dockable-panel', 'body');
+
 function DockablePanelInner({
   title,
   subtitle,
@@ -234,7 +238,7 @@ function DockablePanelInner({
 
       setIsDragging(true);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const dx = moveEvent.clientX - startX;
         const dy = moveEvent.clientY - startY;
         if (dx !== 0 || dy !== 0) {
@@ -257,9 +261,10 @@ function DockablePanelInner({
           pendingSnap = null;
           setSnapPreview(null);
         }
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerUp);
         window.removeEventListener('pointercancel', handlePointerCancel);
@@ -336,8 +341,6 @@ function DockablePanelInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('dockable-panel', 'header');
-  const bodyClass = stableClassName('dockable-panel', 'body');
 
   const dockZones: ReadonlyArray<{
     zone: DockPosition;
@@ -486,5 +489,4 @@ function DockablePanelInner({
   );
 }
 
-export const DockablePanel = memo(DockablePanelInner);
-DockablePanel.displayName = 'DockablePanel';
+export const DockablePanel = /*#__PURE__*/ memoWithDisplayName(DockablePanelInner, 'DockablePanel');

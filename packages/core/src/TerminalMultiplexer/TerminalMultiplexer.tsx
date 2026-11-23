@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -25,6 +24,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TerminalSessionStatus = 'running' | 'idle' | 'error';
@@ -116,6 +116,10 @@ function toNumberedLines(
   }
   return entries;
 }
+
+const topbarClass = /*#__PURE__*/ stableClassName('terminal-multiplexer', 'topbar');
+const workspaceClass = /*#__PURE__*/ stableClassName('terminal-multiplexer', 'workspace');
+const paneClass = /*#__PURE__*/ stableClassName('terminal-multiplexer', 'pane');
 
 function TerminalMultiplexerInner({
   panes,
@@ -274,9 +278,6 @@ function TerminalMultiplexerInner({
     userStyle: style,
   });
 
-  const topbarClass = stableClassName('terminal-multiplexer', 'topbar');
-  const workspaceClass = stableClassName('terminal-multiplexer', 'workspace');
-  const paneClass = stableClassName('terminal-multiplexer', 'pane');
 
   const renderPaneSurface = (pane: TerminalSessionPane, isSplitMode: boolean) => {
     const status: TerminalSessionStatus = pane.status ?? 'idle';
@@ -505,7 +506,7 @@ function TerminalMultiplexerInner({
                 ? 'prism-btn-primary'
                 : 'opacity-75 enabled:hover:opacity-100'
             )}
-            style={currentLayout === 'tabs' ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={currentLayout === 'tabs' ? undefined : STYLE_TEXT_PRIMARY}
           >
             <Layers className="w-3.5 h-3.5 shrink-0 relative z-10" aria-hidden="true" />
             <span className="relative z-10">Tabs</span>
@@ -521,7 +522,7 @@ function TerminalMultiplexerInner({
                 ? 'prism-btn-primary'
                 : 'opacity-75 enabled:hover:opacity-100'
             )}
-            style={currentLayout === 'split' ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={currentLayout === 'split' ? undefined : STYLE_TEXT_PRIMARY}
           >
             <Columns2 className="w-3.5 h-3.5 shrink-0 relative z-10" aria-hidden="true" />
             <span className="relative z-10">Split</span>
@@ -572,5 +573,4 @@ function TerminalMultiplexerInner({
   );
 }
 
-export const TerminalMultiplexer = memo(TerminalMultiplexerInner);
-TerminalMultiplexer.displayName = 'TerminalMultiplexer';
+export const TerminalMultiplexer = /*#__PURE__*/ memoWithDisplayName(TerminalMultiplexerInner, 'TerminalMultiplexer');

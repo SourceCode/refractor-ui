@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 
 import { Check } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface StepDefinition {
@@ -112,5 +112,4 @@ function StepperInner({
   );
 }
 
-export const Stepper = memo(StepperInner);
-Stepper.displayName = 'Stepper';
+export const Stepper = /*#__PURE__*/ memoWithDisplayName(StepperInner, 'Stepper');

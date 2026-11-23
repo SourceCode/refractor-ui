@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SecondaryButtonSize = 'sm' | 'md' | 'lg';
@@ -71,5 +71,4 @@ function SecondaryButtonInner({
   );
 }
 
-export const SecondaryButton = memo(SecondaryButtonInner);
-SecondaryButton.displayName = 'SecondaryButton';
+export const SecondaryButton = /*#__PURE__*/ memoWithDisplayName(SecondaryButtonInner, 'SecondaryButton');

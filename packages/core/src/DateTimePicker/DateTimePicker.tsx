@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useState, type KeyboardEvent } from 'react';
+import { useState, type KeyboardEvent } from 'react';
 import { Calendar, Clock } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { buildMonthGrid } from '../utils/dateGrid';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 const DEFAULT_TIME_SLOTS: ReadonlyArray<string> = [
@@ -165,5 +166,4 @@ function DateTimePickerInner({
   );
 }
 
-export const DateTimePicker = memo(DateTimePickerInner);
-DateTimePicker.displayName = 'DateTimePicker';
+export const DateTimePicker = /*#__PURE__*/ memoWithDisplayName(DateTimePickerInner, 'DateTimePicker');

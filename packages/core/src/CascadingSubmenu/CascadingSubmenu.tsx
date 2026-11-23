@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -19,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface SafeTrianglePoint {
@@ -187,6 +187,13 @@ function pickColumnTarget(
   const nextIndex = (currentIndex + delta + enabled.length) % enabled.length;
   return enabled[nextIndex] as CascadingMenuItem;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('cascading-submenu', 'header');
+const statusClass = /*#__PURE__*/ stableClassName('cascading-submenu', 'status');
+const panesClass = /*#__PURE__*/ stableClassName('cascading-submenu', 'panes');
+const columnClass = /*#__PURE__*/ stableClassName('cascading-submenu', 'column');
+const itemClass = /*#__PURE__*/ stableClassName('cascading-submenu', 'item');
+const emptyClass = /*#__PURE__*/ stableClassName('cascading-submenu', 'empty');
 
 function CascadingSubmenuInner({
   title = DEFAULT_TITLE,
@@ -593,12 +600,6 @@ function CascadingSubmenuInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('cascading-submenu', 'header');
-  const statusClass = stableClassName('cascading-submenu', 'status');
-  const panesClass = stableClassName('cascading-submenu', 'panes');
-  const columnClass = stableClassName('cascading-submenu', 'column');
-  const itemClass = stableClassName('cascading-submenu', 'item');
-  const emptyClass = stableClassName('cascading-submenu', 'empty');
 
   const statusDotColor =
     statusTone === 'selected'
@@ -842,5 +843,4 @@ function CascadingSubmenuInner({
   );
 }
 
-export const CascadingSubmenu = memo(CascadingSubmenuInner);
-CascadingSubmenu.displayName = 'CascadingSubmenu';
+export const CascadingSubmenu = /*#__PURE__*/ memoWithDisplayName(CascadingSubmenuInner, 'CascadingSubmenu');

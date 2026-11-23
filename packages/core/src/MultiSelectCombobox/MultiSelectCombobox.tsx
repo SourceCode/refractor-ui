@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Check, ChevronDown, Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface ComboboxOption {
@@ -512,5 +513,4 @@ function MultiSelectComboboxInner({
   );
 }
 
-export const MultiSelectCombobox = memo(MultiSelectComboboxInner);
-MultiSelectCombobox.displayName = 'MultiSelectCombobox';
+export const MultiSelectCombobox = /*#__PURE__*/ memoWithDisplayName(MultiSelectComboboxInner, 'MultiSelectCombobox');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,11 +12,12 @@ import {
 } from 'react';
 import { Pause, Play, Rotate3d, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
-import { isDocumentVisible } from '../hooks/useRafCallback';
+import { createCoalescedPointerMove, isDocumentVisible } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface Product360Frame {
@@ -230,6 +230,9 @@ function computePrismGeometry(angleDeg: number) {
   };
 }
 
+const stageClass = /*#__PURE__*/ stableClassName('product-360-viewer', 'stage');
+const dockClass = /*#__PURE__*/ stableClassName('product-360-viewer', 'dock');
+
 function Product360ViewerInner({
   title = DEFAULT_TITLE,
   frames,
@@ -335,15 +338,16 @@ function Product360ViewerInner({
       const startAngle = angleRef.current;
       setIsDragging(true);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const rect = viewportRef.current?.getBoundingClientRect();
         const dragSpan =
           rect && Number.isFinite(rect.width) && rect.width > 0 ? Math.max(240, rect.width) : 360;
         const deltaDeg = ((moveEvent.clientX - startClientX) / dragSpan) * 360;
         commitAngle(startAngle + deltaDeg);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -419,8 +423,6 @@ function Product360ViewerInner({
     userStyle: style,
   });
 
-  const stageClass = stableClassName('product-360-viewer', 'stage');
-  const dockClass = stableClassName('product-360-viewer', 'dock');
 
   return (
     <div ref={ref} role="region" aria-label={`360 product viewer for ${title}`} {...rest} {...merged}>
@@ -486,7 +488,7 @@ function Product360ViewerInner({
             viewBox="0 0 320 220"
             role="img"
             aria-label={`Interactive 3D refractive glass prism oriented at ${normalizedAngle} degrees (${viewpointLabel})`}
-            className="w-full h-full max-w-[360px] pointer-events-none"
+            className="w-full h-full max-w-[360px] pointer-events-none prism-contain-box"
           >
             <defs>
               <linearGradient id={`${svgGradId}-top`} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -672,5 +674,4 @@ function Product360ViewerInner({
   );
 }
 
-export const Product360Viewer = memo(Product360ViewerInner);
-Product360Viewer.displayName = 'Product360Viewer';
+export const Product360Viewer = /*#__PURE__*/ memoWithDisplayName(Product360ViewerInner, 'Product360Viewer');

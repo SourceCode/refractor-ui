@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 
 import { Search } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface NavLinkItem {
@@ -104,5 +104,4 @@ function TopNavBarInner({
   );
 }
 
-export const TopNavBar = memo(TopNavBarInner);
-TopNavBar.displayName = 'TopNavBar';
+export const TopNavBar = /*#__PURE__*/ memoWithDisplayName(TopNavBarInner, 'TopNavBar');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -24,7 +23,8 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_PRIMARY_CONTRAST, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface WorldClockZoneSpec {
@@ -308,6 +308,13 @@ function getAgendaToneToken(tone: ClockAgendaItem['tone']): string {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('clock-calendar-popover', 'header');
+const triggerClass = /*#__PURE__*/ stableClassName('clock-calendar-popover', 'trigger');
+const popoverClass = /*#__PURE__*/ stableClassName('clock-calendar-popover', 'popover');
+const calendarClass = /*#__PURE__*/ stableClassName('clock-calendar-popover', 'calendar');
+const agendaClass = /*#__PURE__*/ stableClassName('clock-calendar-popover', 'agenda');
+const worldClass = /*#__PURE__*/ stableClassName('clock-calendar-popover', 'world-clocks');
+
 function ClockCalendarPopoverInner({
   referenceUtcIso = DEFAULT_REFERENCE_UTC_ISO,
   worldClocks = DEFAULT_WORLD_CLOCKS,
@@ -557,12 +564,6 @@ function ClockCalendarPopoverInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('clock-calendar-popover', 'header');
-  const triggerClass = stableClassName('clock-calendar-popover', 'trigger');
-  const popoverClass = stableClassName('clock-calendar-popover', 'popover');
-  const calendarClass = stableClassName('clock-calendar-popover', 'calendar');
-  const agendaClass = stableClassName('clock-calendar-popover', 'agenda');
-  const worldClass = stableClassName('clock-calendar-popover', 'world-clocks');
 
   return (
     <div
@@ -811,18 +812,14 @@ function ClockCalendarPopoverInner({
                 }
 
                 const dayStyle: OpticalStyleTokens = isSelected
-                  ? {
-                      color: 'var(--prism-primary-contrast)',
-                    }
+                  ? STYLE_PRIMARY_CONTRAST
                   : isToday
                     ? {
                         color: 'var(--prism-text-primary)',
                         boxShadow: 'inset 0 0 0 1.5px var(--prism-secondary-main)',
                       }
                     : cell.inCurrentMonth
-                      ? {
-                          color: 'var(--prism-text-primary)',
-                        }
+                      ? STYLE_TEXT_PRIMARY
                       : {
                           color: 'var(--prism-text-disabled)',
                         };
@@ -928,10 +925,7 @@ function ClockCalendarPopoverInner({
                   data-part="agenda-empty"
                   data-testid="clock-calendar-agenda-empty"
                   className="rounded-xl px-3 py-4 text-center text-xs border border-dashed"
-                  style={{
-                    color: 'var(--prism-text-secondary)',
-                    borderColor: 'var(--prism-divider)',
-                  }}
+                  style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
                 >
                   No events scheduled for {activeSelectedIso}
                 </div>
@@ -1013,10 +1007,7 @@ function ClockCalendarPopoverInner({
                 <p
                   data-testid="clock-calendar-world-empty"
                   className="rounded-xl px-3 py-3 text-center text-xs border border-dashed"
-                  style={{
-                    color: 'var(--prism-text-secondary)',
-                    borderColor: 'var(--prism-divider)',
-                  }}
+                  style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
                 >
                   No world clocks configured
                 </p>
@@ -1113,5 +1104,4 @@ function ClockCalendarPopoverInner({
   );
 }
 
-export const ClockCalendarPopover = memo(ClockCalendarPopoverInner);
-ClockCalendarPopover.displayName = 'ClockCalendarPopover';
+export const ClockCalendarPopover = /*#__PURE__*/ memoWithDisplayName(ClockCalendarPopoverInner, 'ClockCalendarPopover');

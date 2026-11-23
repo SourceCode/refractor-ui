@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useMemo, useState, type KeyboardEvent } from 'react';
+import { useCallback, useMemo, useState, type KeyboardEvent } from 'react';
 import { AudioLines, Pause, Play } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface AudioWaveformPlayerProps extends BaseProps<HTMLDivElement> {
@@ -76,6 +77,8 @@ function formatAudioTime(rawSeconds: number): string {
   const secs = safe % 60;
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
+
+const waveformClass = /*#__PURE__*/ stableClassName('audio-waveform-player', 'waveform');
 
 function AudioWaveformPlayerInner({
   title = 'Audio Track',
@@ -199,7 +202,6 @@ function AudioWaveformPlayerInner({
     userStyle: style,
   });
 
-  const waveformClass = stableClassName('audio-waveform-player', 'waveform');
   const formattedCurrent = formatAudioTime(safeCurrentTime);
   const formattedDuration = formatAudioTime(safeDuration);
 
@@ -321,5 +323,4 @@ function AudioWaveformPlayerInner({
   );
 }
 
-export const AudioWaveformPlayer = memo(AudioWaveformPlayerInner);
-AudioWaveformPlayer.displayName = 'AudioWaveformPlayer';
+export const AudioWaveformPlayer = /*#__PURE__*/ memoWithDisplayName(AudioWaveformPlayerInner, 'AudioWaveformPlayer');

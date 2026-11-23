@@ -67,6 +67,54 @@ export function useRafCallback<A extends ReadonlyArray<number | string | boolean
   return invoke;
 }
 
+export interface CoalescedPointerMoveListener {
+  (event: PointerEvent): void;
+  cancel: () => void;
+}
+
+/**
+ * Wraps a window `pointermove` listener with 60fps `requestAnimationFrame` coalescing
+ * for real high-polling-rate (120Hz–1000Hz) browser pointer streams (`event.isTrusted`)
+ * while executing synthetic/programmatic events immediately for deterministic latency.
+ */
+export function createCoalescedPointerMove(
+  handler: (event: PointerEvent) => void
+): CoalescedPointerMoveListener {
+  let rafId: number | null = null;
+  let pendingEvent: PointerEvent | null = null;
+
+  const cancel = () => {
+    if (rafId !== null && typeof cancelAnimationFrame === 'function') {
+      cancelAnimationFrame(rafId);
+    }
+    rafId = null;
+    pendingEvent = null;
+  };
+
+  const listener = ((event: PointerEvent) => {
+    if (!event.isTrusted || typeof requestAnimationFrame !== 'function') {
+      handler(event);
+      return;
+    }
+    if (rafId === null) {
+      handler(event);
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const queued = pendingEvent;
+        pendingEvent = null;
+        if (queued !== null) {
+          handler(queued);
+        }
+      });
+    } else {
+      pendingEvent = event;
+    }
+  }) as CoalescedPointerMoveListener;
+
+  listener.cancel = cancel;
+  return listener;
+}
+
 /**
  * Returns true when the current browser tab is visible, avoiding wasted background
  * interval ticks when a tab is hidden or minimized.

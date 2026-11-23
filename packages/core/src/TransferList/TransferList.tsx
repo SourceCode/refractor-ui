@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useState, type KeyboardEvent } from 'react';
 import {
   Check,
   ChevronLeft,
@@ -13,6 +13,7 @@ import {
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface TransferListItem {
@@ -506,5 +507,4 @@ function TransferListInner({
   );
 }
 
-export const TransferList = memo(TransferListInner);
-TransferList.displayName = 'TransferList';
+export const TransferList = /*#__PURE__*/ memoWithDisplayName(TransferListInner, 'TransferList');

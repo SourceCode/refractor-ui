@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useRef, type KeyboardEvent, type ReactNode } from 'react';
+import { useId, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import { CheckCircle2, Circle, Clock, Loader2, Users, Wrench } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AgentRosterStatus = 'idle' | 'thinking' | 'tool' | 'waiting' | 'done';
@@ -119,6 +120,10 @@ function getStatusVisual(status: AgentRosterStatus): RosterStatusVisual {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('agent-roster-rail', 'header');
+const railClass = /*#__PURE__*/ stableClassName('agent-roster-rail', 'rail');
+const cardClass = /*#__PURE__*/ stableClassName('agent-roster-rail', 'card');
+
 function AgentRosterRailInner({
   agents,
   activeAgentId,
@@ -200,9 +205,6 @@ function AgentRosterRailInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('agent-roster-rail', 'header');
-  const railClass = stableClassName('agent-roster-rail', 'rail');
-  const cardClass = stableClassName('agent-roster-rail', 'card');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -291,9 +293,7 @@ function AgentRosterRailInner({
                             borderColor: 'var(--prism-primary-main)',
                             boxShadow: '0 0 0 2px var(--prism-primary-main)',
                           }
-                        : {
-                            borderColor: 'var(--prism-divider)',
-                          }
+                        : STYLE_BORDER_DIVIDER
                     }
                   >
                     <div className="flex items-start justify-between gap-2">
@@ -306,7 +306,7 @@ function AgentRosterRailInner({
                             isSelected ? 'prism-btn-primary' : 'prism-well'
                           )}
                           style={
-                            isSelected ? undefined : { color: 'var(--prism-text-primary)' }
+                            isSelected ? undefined : STYLE_TEXT_PRIMARY
                           }
                         >
                           <span className="relative z-10">{initials}</span>
@@ -370,5 +370,4 @@ function AgentRosterRailInner({
   );
 }
 
-export const AgentRosterRail = memo(AgentRosterRailInner);
-AgentRosterRail.displayName = 'AgentRosterRail';
+export const AgentRosterRail = /*#__PURE__*/ memoWithDisplayName(AgentRosterRailInner, 'AgentRosterRail');

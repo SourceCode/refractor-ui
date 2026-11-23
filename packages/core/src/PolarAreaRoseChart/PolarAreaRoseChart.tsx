@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RoseTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -226,6 +226,12 @@ function buildWedgePath(
   return `M ${center} ${center} L ${start.x} ${start.y} A ${r} ${r} 0 0 1 ${end.x} ${end.y} Z`;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('polar-area-rose-chart', 'header');
+const wellClass = /*#__PURE__*/ stableClassName('polar-area-rose-chart', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('polar-area-rose-chart', 'svg');
+const legendClass = /*#__PURE__*/ stableClassName('polar-area-rose-chart', 'legend');
+const inspectorClass = /*#__PURE__*/ stableClassName('polar-area-rose-chart', 'inspector');
+
 function PolarAreaRoseChartInner({
   slices,
   scaleMode,
@@ -435,11 +441,6 @@ function PolarAreaRoseChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('polar-area-rose-chart', 'header');
-  const wellClass = stableClassName('polar-area-rose-chart', 'well');
-  const svgClass = stableClassName('polar-area-rose-chart', 'svg');
-  const legendClass = stableClassName('polar-area-rose-chart', 'legend');
-  const inspectorClass = stableClassName('polar-area-rose-chart', 'inspector');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -534,7 +535,7 @@ function PolarAreaRoseChartInner({
               aria-label={`${title} polar area rose chart (${scaleModeLabel} scale across ${computedSlices.length} sectors)`}
               data-testid="polar-rose-svg"
               viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
-              className={cx(svgClass, 'w-full max-w-[320px] h-auto mx-auto select-none block')}
+              className={cx(svgClass, 'w-full max-w-[320px] h-auto mx-auto select-none block', 'prism-contain-box')}
             >
               <g data-testid="polar-rose-rings" pointerEvents="none">
                 {rings.map((ring) => (
@@ -766,5 +767,4 @@ function PolarAreaRoseChartInner({
   );
 }
 
-export const PolarAreaRoseChart = memo(PolarAreaRoseChartInner);
-PolarAreaRoseChart.displayName = 'PolarAreaRoseChart';
+export const PolarAreaRoseChart = /*#__PURE__*/ memoWithDisplayName(PolarAreaRoseChartInner, 'PolarAreaRoseChart');

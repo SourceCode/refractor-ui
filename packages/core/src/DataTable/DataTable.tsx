@@ -6,6 +6,7 @@ import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { formatLocaleNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SortDirection = 'asc' | 'desc';
@@ -202,5 +203,4 @@ function DataTableInner({
   );
 }
 
-export const DataTable = memo(DataTableInner);
-DataTable.displayName = 'DataTable';
+export const DataTable = /*#__PURE__*/ memoWithDisplayName(DataTableInner, 'DataTable');

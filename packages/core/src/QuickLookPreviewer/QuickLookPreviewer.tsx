@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -33,6 +32,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
 import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type QuickLookMediaKind = 'image' | 'pdf' | 'audio' | 'code';
@@ -269,7 +269,7 @@ function OpticalPosterFallback({
         preserveAspectRatio="xMidYMid slice"
         role="img"
         aria-label={`${fileName} optical vector preview`}
-        className="w-full h-full block"
+        className="w-full h-full block prism-contain-box"
       >
         <defs>
           <linearGradient id={bgGradId} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -339,6 +339,13 @@ function OpticalPosterFallback({
     </div>
   );
 }
+
+const stripClass = /*#__PURE__*/ stableClassName('quick-look-previewer', 'strip');
+const backdropClass = /*#__PURE__*/ stableClassName('quick-look-previewer', 'backdrop');
+const panelClass = /*#__PURE__*/ stableClassName('quick-look-previewer', 'panel');
+const headerClass = /*#__PURE__*/ stableClassName('quick-look-previewer', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('quick-look-previewer', 'stage');
+const metadataClass = /*#__PURE__*/ stableClassName('quick-look-previewer', 'metadata');
 
 function QuickLookPreviewerInner({
   files,
@@ -545,12 +552,6 @@ function QuickLookPreviewerInner({
     return toIndexedLines(activeFile.id, codeText);
   }, [activeFile, codeText]);
 
-  const stripClass = stableClassName('quick-look-previewer', 'strip');
-  const backdropClass = stableClassName('quick-look-previewer', 'backdrop');
-  const panelClass = stableClassName('quick-look-previewer', 'panel');
-  const headerClass = stableClassName('quick-look-previewer', 'header');
-  const stageClass = stableClassName('quick-look-previewer', 'stage');
-  const metadataClass = stableClassName('quick-look-previewer', 'metadata');
 
   const merged = mergeProps({
     themeTarget: themeProps('quick-look-previewer', {
@@ -822,7 +823,7 @@ function QuickLookPreviewerInner({
               preserveAspectRatio="xMidYMid meet"
               role="img"
               aria-label={`${activeFile.name} amplitude waveform`}
-              className="w-full h-[116px] block"
+              className="w-full h-[116px] block prism-contain-box"
             >
               <line
                 x1="8"
@@ -1212,5 +1213,4 @@ function QuickLookPreviewerInner({
   );
 }
 
-export const QuickLookPreviewer = memo(QuickLookPreviewerInner);
-QuickLookPreviewer.displayName = 'QuickLookPreviewer';
+export const QuickLookPreviewer = /*#__PURE__*/ memoWithDisplayName(QuickLookPreviewerInner, 'QuickLookPreviewer');

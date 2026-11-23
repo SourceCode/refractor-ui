@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -23,7 +22,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CanvasZoomPreset = 'fit' | 50 | 100 | 200;
@@ -246,7 +246,7 @@ function DefaultOpticalCanvasFrame({ gradientPrefix }: DefaultOpticalCanvasFrame
         viewBox="0 0 640 360"
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
-        className="w-full h-full block pointer-events-none"
+        className="w-full h-full block pointer-events-none prism-contain-box"
       >
         <defs>
           <linearGradient id={skyGradId} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -340,6 +340,12 @@ function DefaultOpticalCanvasFrame({ gradientPrefix }: DefaultOpticalCanvasFrame
     </div>
   );
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('canvas-zoom-safe-area-bar', 'header');
+const viewportClass = /*#__PURE__*/ stableClassName('canvas-zoom-safe-area-bar', 'viewport');
+const stageClass = /*#__PURE__*/ stableClassName('canvas-zoom-safe-area-bar', 'stage');
+const toolbarClass = /*#__PURE__*/ stableClassName('canvas-zoom-safe-area-bar', 'toolbar');
+const statusClass = /*#__PURE__*/ stableClassName('canvas-zoom-safe-area-bar', 'status');
 
 function CanvasZoomSafeAreaBarInner({
   value,
@@ -468,11 +474,6 @@ function CanvasZoomSafeAreaBarInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('canvas-zoom-safe-area-bar', 'header');
-  const viewportClass = stableClassName('canvas-zoom-safe-area-bar', 'viewport');
-  const stageClass = stableClassName('canvas-zoom-safe-area-bar', 'stage');
-  const toolbarClass = stableClassName('canvas-zoom-safe-area-bar', 'toolbar');
-  const statusClass = stableClassName('canvas-zoom-safe-area-bar', 'status');
 
   const hasCustomChildren = children !== undefined && children !== null;
 
@@ -628,7 +629,7 @@ function CanvasZoomSafeAreaBarInner({
             viewBox="0 0 640 360"
             preserveAspectRatio="none"
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full pointer-events-none z-20"
+            className="absolute inset-0 w-full h-full pointer-events-none z-20 prism-contain-box"
           >
             <g
               stroke="var(--prism-text-secondary)"
@@ -764,10 +765,7 @@ function CanvasZoomSafeAreaBarInner({
                       'color-mix(in srgb, var(--prism-text-secondary) 16%, transparent)',
                     color: 'var(--prism-text-primary)',
                   }
-                : {
-                    borderColor: 'var(--prism-divider)',
-                    color: 'var(--prism-text-secondary)',
-                  }
+                : STYLE_BORDER_DIVIDER_TEXT_SECONDARY
             }
             className={cx(
               'prism-focus-ring h-8 px-2.5 rounded-full border inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors',
@@ -792,10 +790,7 @@ function CanvasZoomSafeAreaBarInner({
                       'color-mix(in srgb, var(--prism-warning-main) 18%, transparent)',
                     color: 'var(--prism-text-primary)',
                   }
-                : {
-                    borderColor: 'var(--prism-divider)',
-                    color: 'var(--prism-text-secondary)',
-                  }
+                : STYLE_BORDER_DIVIDER_TEXT_SECONDARY
             }
             className={cx(
               'prism-focus-ring h-8 px-2.5 rounded-full border inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors',
@@ -824,10 +819,7 @@ function CanvasZoomSafeAreaBarInner({
                       'color-mix(in srgb, var(--prism-info-main) 18%, transparent)',
                     color: 'var(--prism-text-primary)',
                   }
-                : {
-                    borderColor: 'var(--prism-divider)',
-                    color: 'var(--prism-text-secondary)',
-                  }
+                : STYLE_BORDER_DIVIDER_TEXT_SECONDARY
             }
             className={cx(
               'prism-focus-ring h-8 px-2.5 rounded-full border inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors',
@@ -923,5 +915,4 @@ function CanvasZoomSafeAreaBarInner({
   );
 }
 
-export const CanvasZoomSafeAreaBar = memo(CanvasZoomSafeAreaBarInner);
-CanvasZoomSafeAreaBar.displayName = 'CanvasZoomSafeAreaBar';
+export const CanvasZoomSafeAreaBar = /*#__PURE__*/ memoWithDisplayName(CanvasZoomSafeAreaBarInner, 'CanvasZoomSafeAreaBar');

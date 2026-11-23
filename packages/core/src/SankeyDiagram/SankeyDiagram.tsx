@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SankeyTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -158,6 +158,10 @@ function resolveNodeTone(tone: SankeyTone | undefined, fallbackIndex: number): S
   }
   return TONE_CYCLE[fallbackIndex % TONE_CYCLE.length]!;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('sankey-diagram', 'header');
+const svgClass = /*#__PURE__*/ stableClassName('sankey-diagram', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('sankey-diagram', 'readout');
 
 function SankeyDiagramInner({
   nodes,
@@ -545,9 +549,6 @@ function SankeyDiagramInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('sankey-diagram', 'header');
-  const svgClass = stableClassName('sankey-diagram', 'svg');
-  const readoutClass = stableClassName('sankey-diagram', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -596,7 +597,7 @@ function SankeyDiagramInner({
               aria-label={`${title} sankey diagram with ${geometry.nodes.length} nodes and ${geometry.links.length} links`}
               viewBox={`0 0 ${SVG_WIDTH} ${clampedHeight}`}
               style={{ height: `${clampedHeight}px` }}
-              className={cx(svgClass, 'w-full block overflow-visible')}
+              className={cx(svgClass, 'w-full block overflow-visible', 'prism-contain-leaf')}
             >
               {geometry.stageGuides.map((guide) => (
                 <g key={guide.key} pointerEvents="none">
@@ -771,5 +772,4 @@ function SankeyDiagramInner({
   );
 }
 
-export const SankeyDiagram = memo(SankeyDiagramInner);
-SankeyDiagram.displayName = 'SankeyDiagram';
+export const SankeyDiagram = /*#__PURE__*/ memoWithDisplayName(SankeyDiagramInner, 'SankeyDiagram');

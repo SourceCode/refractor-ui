@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -14,11 +13,13 @@ import {
 } from 'react';
 import { Copy, Maximize2, Minimize2, Minus, Square, X } from 'lucide-react';
 import type { BaseProps, OpticalStyleTokens } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowChromeStyle = 'macos' | 'windows';
@@ -65,6 +66,17 @@ function isInteractiveEventTarget(target: EventTarget | null): boolean {
     target instanceof Element && target.closest(INTERACTIVE_SELECTOR) !== null
   );
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('window-titlebar', 'header');
+const sheenClass = /*#__PURE__*/ stableClassName('window-titlebar', 'sheen');
+const controlsClass = /*#__PURE__*/ stableClassName('window-titlebar', 'controls');
+const controlClass = /*#__PURE__*/ stableClassName('window-titlebar', 'control');
+const titleGroupClass = /*#__PURE__*/ stableClassName('window-titlebar', 'title-group');
+const titleClass = /*#__PURE__*/ stableClassName('window-titlebar', 'title');
+const subtitleClass = /*#__PURE__*/ stableClassName('window-titlebar', 'subtitle');
+const modifiedDotClass = /*#__PURE__*/ stableClassName('window-titlebar', 'modified-dot');
+const trailingClass = /*#__PURE__*/ stableClassName('window-titlebar', 'trailing');
+const bodyClass = /*#__PURE__*/ stableClassName('window-titlebar', 'body');
 
 function WindowTitlebarInner({
   title = DEFAULT_WINDOW_TITLE,
@@ -195,7 +207,7 @@ function WindowTitlebarInner({
 
       setIsDragging(true);
 
-      const handleWindowPointerMove = (moveEvent: PointerEvent) => {
+      const handleWindowPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (moveEvent.pointerId !== pointerId) {
           return;
         }
@@ -206,9 +218,10 @@ function WindowTitlebarInner({
         if (dx !== 0 || dy !== 0) {
           onDragMoveRef.current?.(dx, dy);
         }
-      };
+      });
 
       const cleanup = () => {
+        handleWindowPointerMove.cancel();
         window.removeEventListener('pointermove', handleWindowPointerMove);
         window.removeEventListener('pointerup', handleWindowPointerEnd);
         window.removeEventListener('pointercancel', handleWindowPointerEnd);
@@ -263,16 +276,6 @@ function WindowTitlebarInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('window-titlebar', 'header');
-  const sheenClass = stableClassName('window-titlebar', 'sheen');
-  const controlsClass = stableClassName('window-titlebar', 'controls');
-  const controlClass = stableClassName('window-titlebar', 'control');
-  const titleGroupClass = stableClassName('window-titlebar', 'title-group');
-  const titleClass = stableClassName('window-titlebar', 'title');
-  const subtitleClass = stableClassName('window-titlebar', 'subtitle');
-  const modifiedDotClass = stableClassName('window-titlebar', 'modified-dot');
-  const trailingClass = stableClassName('window-titlebar', 'trailing');
-  const bodyClass = stableClassName('window-titlebar', 'body');
 
   const maximizeLabel = isMaximized ? 'Restore window' : 'Maximize window';
 
@@ -626,5 +629,4 @@ function WindowTitlebarInner({
   );
 }
 
-export const WindowTitlebar = memo(WindowTitlebarInner);
-WindowTitlebar.displayName = 'WindowTitlebar';
+export const WindowTitlebar = /*#__PURE__*/ memoWithDisplayName(WindowTitlebarInner, 'WindowTitlebar');

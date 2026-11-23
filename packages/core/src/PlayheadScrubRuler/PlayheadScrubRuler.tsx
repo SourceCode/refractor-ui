@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -12,12 +11,14 @@ import {
   type ReactNode,
 } from 'react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_PRIMARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RulerMarkerTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -253,6 +254,12 @@ function sanitizeMarkers(
   return resolved;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('playhead-scrub-ruler', 'header');
+const rulerClass = /*#__PURE__*/ stableClassName('playhead-scrub-ruler', 'ruler');
+const playheadClass = /*#__PURE__*/ stableClassName('playhead-scrub-ruler', 'playhead');
+const markersClass = /*#__PURE__*/ stableClassName('playhead-scrub-ruler', 'markers');
+const stageClass = /*#__PURE__*/ stableClassName('playhead-scrub-ruler', 'stage');
+
 function PlayheadScrubRulerInner({
   durationSec = DEFAULT_DURATION_SEC,
   timeSec,
@@ -362,11 +369,12 @@ function PlayheadScrubRulerInner({
       cleanupDragRef.current?.();
       setIsDragging(true);
 
-      const handleMove = (moveEvent: PointerEvent) => {
+      const handleMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         latestScrubRef.current(moveEvent.clientX);
-      };
+      });
 
       const cleanup = () => {
+        handleMove.cancel();
         window.removeEventListener('pointermove', handleMove);
         window.removeEventListener('pointerup', handleEnd);
         window.removeEventListener('pointercancel', handleEnd);
@@ -451,11 +459,6 @@ function PlayheadScrubRulerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('playhead-scrub-ruler', 'header');
-  const rulerClass = stableClassName('playhead-scrub-ruler', 'ruler');
-  const playheadClass = stableClassName('playhead-scrub-ruler', 'playhead');
-  const markersClass = stableClassName('playhead-scrub-ruler', 'markers');
-  const stageClass = stableClassName('playhead-scrub-ruler', 'stage');
 
   return (
     <div
@@ -490,7 +493,7 @@ function PlayheadScrubRulerInner({
               snapToFrame ? 'prism-emerald font-semibold' : 'prism-crystal font-medium opacity-80',
               'rounded-full px-2.5 py-0.5 font-mono text-[10px] tracking-wider uppercase whitespace-nowrap'
             )}
-            style={snapToFrame ? undefined : { color: 'var(--prism-text-secondary)' }}
+            style={snapToFrame ? undefined : STYLE_TEXT_SECONDARY}
           >
             {snapToFrame ? `Snap · ${safeFps}fps` : `Free · ${safeFps}fps`}
           </span>
@@ -574,7 +577,7 @@ function PlayheadScrubRulerInner({
               data-testid="playhead-ruler-ticks"
               viewBox={`0 0 ${RULER_VIEW_WIDTH} ${RULER_VIEW_HEIGHT}`}
               preserveAspectRatio="none"
-              className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-7 block overflow-visible"
+              className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-7 block overflow-visible prism-contain-leaf"
             >
               {ticks.map((tick) => (
                 <line
@@ -609,7 +612,7 @@ function PlayheadScrubRulerInner({
                 width="16"
                 height="20"
                 viewBox="0 0 16 20"
-                className="block overflow-visible"
+                className="block overflow-visible prism-contain-leaf"
                 aria-hidden="true"
               >
                 <path
@@ -732,5 +735,4 @@ function PlayheadScrubRulerInner({
   );
 }
 
-export const PlayheadScrubRuler = memo(PlayheadScrubRulerInner);
-PlayheadScrubRuler.displayName = 'PlayheadScrubRuler';
+export const PlayheadScrubRuler = /*#__PURE__*/ memoWithDisplayName(PlayheadScrubRulerInner, 'PlayheadScrubRuler');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useRef,
@@ -22,12 +21,14 @@ import {
   ZoomOut,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
 import { STYLE_ERROR_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type LightboxMediaKind = 'image' | 'video';
@@ -82,6 +83,10 @@ const ZERO_PAN: PanOffset = { x: 0, y: 0 };
 function roundZoom(value: number): number {
   return Math.round(clampNumber(value, MIN_ZOOM, MAX_ZOOM, MIN_ZOOM) * 10) / 10;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('media-lightbox', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('media-lightbox', 'stage');
+const filmstripClass = /*#__PURE__*/ stableClassName('media-lightbox', 'filmstrip');
 
 function MediaLightboxInner({
   items,
@@ -236,16 +241,17 @@ function MediaLightboxInner({
 
       setIsDragging(true);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const dx = moveEvent.clientX - startX;
         const dy = moveEvent.clientY - startY;
         setPan({
           x: Math.round(clampNumber(startPan.x + dx, -maxOffset, maxOffset, 0)),
           y: Math.round(clampNumber(startPan.y + dy, -maxOffset, maxOffset, 0)),
         });
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -293,9 +299,6 @@ function MediaLightboxInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('media-lightbox', 'header');
-  const stageClass = stableClassName('media-lightbox', 'stage');
-  const filmstripClass = stableClassName('media-lightbox', 'filmstrip');
   const transformStyle = {
     transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${zoom})`,
   };
@@ -537,5 +540,4 @@ function MediaLightboxInner({
   );
 }
 
-export const MediaLightbox = memo(MediaLightboxInner);
-MediaLightbox.displayName = 'MediaLightbox';
+export const MediaLightbox = /*#__PURE__*/ memoWithDisplayName(MediaLightboxInner, 'MediaLightbox');

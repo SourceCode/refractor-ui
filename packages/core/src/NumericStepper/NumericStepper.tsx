@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { useId, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type NumericStepperSize = 'sm' | 'md' | 'lg';
@@ -245,7 +246,7 @@ function NumericStepperInner({
       atMin: current <= safeMin,
       atMax: current >= safeMax,
     }),
-    baseClassName: 'inline-flex flex-col gap-1.5',
+    baseClassName: 'prism-contain-leaf inline-flex flex-col gap-1.5',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -337,5 +338,4 @@ function NumericStepperInner({
   );
 }
 
-export const NumericStepper = memo(NumericStepperInner);
-NumericStepper.displayName = 'NumericStepper';
+export const NumericStepper = /*#__PURE__*/ memoWithDisplayName(NumericStepperInner, 'NumericStepper');

@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Check, Copy, Eye, EyeOff, KeyRound, RefreshCw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type SecretKeyFieldBaseProps = Omit<BaseProps<HTMLDivElement>, 'onCopy'>;
@@ -59,6 +60,10 @@ function maskSecretValue(value: string, prefixChars: number, suffixChars: number
   const bulletCount = Math.min(hiddenCount, MAX_DISPLAY_BULLETS);
   return `${prefix}${'•'.repeat(bulletCount)}${suffix}`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('secret-key-field', 'header');
+const readoutClass = /*#__PURE__*/ stableClassName('secret-key-field', 'readout');
+const actionsClass = /*#__PURE__*/ stableClassName('secret-key-field', 'actions');
 
 function SecretKeyFieldInner({
   label = 'API Secret Key',
@@ -153,9 +158,6 @@ function SecretKeyFieldInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('secret-key-field', 'header');
-  const readoutClass = stableClassName('secret-key-field', 'readout');
-  const actionsClass = stableClassName('secret-key-field', 'actions');
 
   const actionButtonClass =
     'prism-focus-ring h-9 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
@@ -192,7 +194,7 @@ function SecretKeyFieldInner({
             'inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-tight shrink-0',
             effectiveRevealed ? 'prism-emerald' : 'prism-well'
           )}
-          style={effectiveRevealed ? undefined : { color: 'var(--prism-text-secondary)' }}
+          style={effectiveRevealed ? undefined : STYLE_TEXT_SECONDARY}
         >
           {isEmpty ? 'Unconfigured' : effectiveRevealed ? 'Visible' : 'Masked'}
         </span>
@@ -251,7 +253,7 @@ function SecretKeyFieldInner({
               actionButtonClass,
               copied ? 'prism-emerald font-semibold' : 'prism-crystal'
             )}
-            style={copied ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={copied ? undefined : STYLE_TEXT_PRIMARY}
           >
             {copied ? (
               <>
@@ -298,5 +300,4 @@ function SecretKeyFieldInner({
   );
 }
 
-export const SecretKeyField = memo(SecretKeyFieldInner);
-SecretKeyField.displayName = 'SecretKeyField';
+export const SecretKeyField = /*#__PURE__*/ memoWithDisplayName(SecretKeyFieldInner, 'SecretKeyField');

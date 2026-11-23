@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useState,
@@ -33,6 +32,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FileTransferOpKind = 'copy' | 'move' | 'upload' | 'extract';
@@ -237,6 +237,11 @@ function normalizeJobs(list: ReadonlyArray<FileTransferJob>): FileTransferJob[] 
   return normalized;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('file-transfer-queue', 'header');
+const listClass = /*#__PURE__*/ stableClassName('file-transfer-queue', 'list');
+const emptyClass = /*#__PURE__*/ stableClassName('file-transfer-queue', 'empty');
+const statusBarClass = /*#__PURE__*/ stableClassName('file-transfer-queue', 'status-bar');
+
 function FileTransferQueueInner({
   title = DEFAULT_TITLE,
   jobs,
@@ -394,10 +399,6 @@ function FileTransferQueueInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('file-transfer-queue', 'header');
-  const listClass = stableClassName('file-transfer-queue', 'list');
-  const emptyClass = stableClassName('file-transfer-queue', 'empty');
-  const statusBarClass = stableClassName('file-transfer-queue', 'status-bar');
 
   const actionBtnClass =
     'prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]';
@@ -826,5 +827,4 @@ function FileTransferQueueInner({
   );
 }
 
-export const FileTransferQueue = memo(FileTransferQueueInner);
-FileTransferQueue.displayName = 'FileTransferQueue';
+export const FileTransferQueue = /*#__PURE__*/ memoWithDisplayName(FileTransferQueueInner, 'FileTransferQueue');

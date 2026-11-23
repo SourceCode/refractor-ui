@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FloatingActionButtonTone = 'primary' | 'cobalt' | 'crystal';
@@ -78,5 +78,4 @@ function FloatingActionButtonInner({
   );
 }
 
-export const FloatingActionButton = memo(FloatingActionButtonInner);
-FloatingActionButton.displayName = 'FloatingActionButton';
+export const FloatingActionButton = /*#__PURE__*/ memoWithDisplayName(FloatingActionButtonInner, 'FloatingActionButton');

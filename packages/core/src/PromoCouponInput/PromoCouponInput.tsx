@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { Tag, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface AppliedCoupon {
@@ -198,5 +199,4 @@ function PromoCouponInputInner({
   );
 }
 
-export const PromoCouponInput = memo(PromoCouponInputInner);
-PromoCouponInput.displayName = 'PromoCouponInput';
+export const PromoCouponInput = /*#__PURE__*/ memoWithDisplayName(PromoCouponInputInner, 'PromoCouponInput');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SlopeTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose' | 'info';
@@ -272,6 +272,12 @@ function resolveLabelPositions(
 
   return result;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('slopegraph-chart', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('slopegraph-chart', 'filters');
+const wellClass = /*#__PURE__*/ stableClassName('slopegraph-chart', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('slopegraph-chart', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('slopegraph-chart', 'readout');
 
 function SlopegraphChartInner({
   items,
@@ -562,11 +568,6 @@ function SlopegraphChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('slopegraph-chart', 'header');
-  const filtersClass = stableClassName('slopegraph-chart', 'filters');
-  const wellClass = stableClassName('slopegraph-chart', 'well');
-  const svgClass = stableClassName('slopegraph-chart', 'svg');
-  const readoutClass = stableClassName('slopegraph-chart', 'readout');
 
   const avgBadgeText =
     netAvgDelta === null
@@ -731,7 +732,7 @@ function SlopegraphChartInner({
             role="img"
             aria-label={`${title} comparing ${startLabel} and ${endLabel} across ${positionedItems.length} series`}
             viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-            className={cx(svgClass, 'w-full h-auto select-none block')}
+            className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
           >
             <g data-role="axis-rails">
               <text
@@ -1071,5 +1072,4 @@ function SlopegraphChartInner({
   );
 }
 
-export const SlopegraphChart = memo(SlopegraphChartInner);
-SlopegraphChart.displayName = 'SlopegraphChart';
+export const SlopegraphChart = /*#__PURE__*/ memoWithDisplayName(SlopegraphChartInner, 'SlopegraphChart');

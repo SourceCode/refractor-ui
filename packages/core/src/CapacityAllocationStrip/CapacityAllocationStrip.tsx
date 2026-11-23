@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -20,7 +19,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_WARNING, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AllocationTone =
@@ -200,6 +200,11 @@ function resolveQuotaTotal(total: number | undefined, usedTotal: number): number
   return total;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('capacity-allocation-strip', 'header');
+const barClass = /*#__PURE__*/ stableClassName('capacity-allocation-strip', 'bar');
+const pillsClass = /*#__PURE__*/ stableClassName('capacity-allocation-strip', 'pills');
+const footerClass = /*#__PURE__*/ stableClassName('capacity-allocation-strip', 'footer');
+
 function CapacityAllocationStripInner({
   segments,
   total,
@@ -350,7 +355,7 @@ function CapacityAllocationStripInner({
       empty: isEmpty,
       selectedSegment: activeSelection?.id,
     }),
-    baseClassName: 'prism-slab p-4 w-full max-w-full min-w-0 space-y-3.5',
+    baseClassName: 'prism-contain-leaf prism-slab p-4 w-full max-w-full min-w-0 space-y-3.5',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -358,10 +363,6 @@ function CapacityAllocationStripInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('capacity-allocation-strip', 'header');
-  const barClass = stableClassName('capacity-allocation-strip', 'bar');
-  const pillsClass = stableClassName('capacity-allocation-strip', 'pills');
-  const footerClass = stableClassName('capacity-allocation-strip', 'footer');
 
   const positiveBarSegments = useMemo(
     () => computedSegments.filter((segment) => segment.value > 0),
@@ -475,7 +476,7 @@ function CapacityAllocationStripInner({
                 <span
                   aria-hidden="true"
                   className="inline-block w-3 border-t-2 border-dashed"
-                  style={{ borderColor: 'var(--prism-warning-main)' }}
+                  style={STYLE_BORDER_WARNING}
                 />
                 <span>
                   Warn {formatPercent(safeWarningPct)} · Crit {formatPercent(safeCriticalPct)}
@@ -709,5 +710,4 @@ function CapacityAllocationStripInner({
   );
 }
 
-export const CapacityAllocationStrip = memo(CapacityAllocationStripInner);
-CapacityAllocationStrip.displayName = 'CapacityAllocationStrip';
+export const CapacityAllocationStrip = /*#__PURE__*/ memoWithDisplayName(CapacityAllocationStripInner, 'CapacityAllocationStrip');

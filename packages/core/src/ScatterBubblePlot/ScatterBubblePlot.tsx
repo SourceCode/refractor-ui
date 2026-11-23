@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { ChartScatter } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ScatterTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -167,6 +168,11 @@ function computeBubbleRadius(
   const ratio = (size - minSize) / (maxSize - minSize);
   return MIN_RADIUS + ratio * (MAX_RADIUS - MIN_RADIUS);
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('scatter-bubble-plot', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('scatter-bubble-plot', 'filters');
+const canvasClass = /*#__PURE__*/ stableClassName('scatter-bubble-plot', 'canvas');
+const readoutClass = /*#__PURE__*/ stableClassName('scatter-bubble-plot', 'readout');
 
 function ScatterBubblePlotInner({
   points,
@@ -377,10 +383,6 @@ function ScatterBubblePlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('scatter-bubble-plot', 'header');
-  const filtersClass = stableClassName('scatter-bubble-plot', 'filters');
-  const canvasClass = stableClassName('scatter-bubble-plot', 'canvas');
-  const readoutClass = stableClassName('scatter-bubble-plot', 'readout');
   const resolvedSizeLabel = sizeLabel?.trim() || 'Size';
   const midX = PAD_LEFT + plotWidth / 2;
   const midY = PAD_TOP + plotHeight / 2;
@@ -463,7 +465,7 @@ function ScatterBubblePlotInner({
               aria-label={`${title} scatter and bubble plot`}
               data-testid="scatter-plot-svg"
               viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
-              className="w-full overflow-visible block"
+              className="w-full overflow-visible block prism-contain-leaf"
               style={{ height: `${safeHeight}px` }}
             >
               {geometry.yTicks.map((tick) => (
@@ -654,5 +656,4 @@ function ScatterBubblePlotInner({
   );
 }
 
-export const ScatterBubblePlot = memo(ScatterBubblePlotInner);
-ScatterBubblePlot.displayName = 'ScatterBubblePlot';
+export const ScatterBubblePlot = /*#__PURE__*/ memoWithDisplayName(ScatterBubblePlotInner, 'ScatterBubblePlot');

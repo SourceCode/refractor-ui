@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,12 +12,14 @@ import {
 } from 'react';
 import { Activity, Minus, Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_PRIMARY, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface TimelineViewportWindow {
@@ -152,6 +153,14 @@ function zoomAroundCenter(
 
   return normalizeWindowRange({ startPct: nextStart, endPct: nextEnd }, minWindowPct);
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('timeline-zoom-navigator', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('timeline-zoom-navigator', 'controls');
+const trackClass = /*#__PURE__*/ stableClassName('timeline-zoom-navigator', 'track');
+const viewportClass = /*#__PURE__*/ stableClassName('timeline-zoom-navigator', 'viewport');
+const handleClass = /*#__PURE__*/ stableClassName('timeline-zoom-navigator', 'handle');
+const playheadClass = /*#__PURE__*/ stableClassName('timeline-zoom-navigator', 'playhead');
+const footerClass = /*#__PURE__*/ stableClassName('timeline-zoom-navigator', 'footer');
 
 function TimelineZoomNavigatorInner({
   totalDurationSec = DEFAULT_TOTAL_DURATION_SEC,
@@ -289,8 +298,11 @@ function TimelineZoomNavigatorInner({
       cleanupDragRef.current?.();
       setActiveDrag(mode);
 
+      const coalescedMove = createCoalescedPointerMove(onMove);
+
       const cleanup = () => {
-        window.removeEventListener('pointermove', onMove);
+        coalescedMove.cancel();
+        window.removeEventListener('pointermove', coalescedMove);
         window.removeEventListener('pointerup', handleEnd);
         window.removeEventListener('pointercancel', handleEnd);
         cleanupDragRef.current = null;
@@ -302,7 +314,7 @@ function TimelineZoomNavigatorInner({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', onMove, { passive: true });
+      window.addEventListener('pointermove', coalescedMove, { passive: true });
       window.addEventListener('pointerup', handleEnd);
       window.addEventListener('pointercancel', handleEnd);
     },
@@ -458,13 +470,6 @@ function TimelineZoomNavigatorInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('timeline-zoom-navigator', 'header');
-  const controlsClass = stableClassName('timeline-zoom-navigator', 'controls');
-  const trackClass = stableClassName('timeline-zoom-navigator', 'track');
-  const viewportClass = stableClassName('timeline-zoom-navigator', 'viewport');
-  const handleClass = stableClassName('timeline-zoom-navigator', 'handle');
-  const playheadClass = stableClassName('timeline-zoom-navigator', 'playhead');
-  const footerClass = stableClassName('timeline-zoom-navigator', 'footer');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -799,5 +804,4 @@ function TimelineZoomNavigatorInner({
   );
 }
 
-export const TimelineZoomNavigator = memo(TimelineZoomNavigatorInner);
-TimelineZoomNavigator.displayName = 'TimelineZoomNavigator';
+export const TimelineZoomNavigator = /*#__PURE__*/ memoWithDisplayName(TimelineZoomNavigatorInner, 'TimelineZoomNavigator');
