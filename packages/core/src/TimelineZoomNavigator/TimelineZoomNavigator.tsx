@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface TimelineViewportWindow {
@@ -151,7 +153,7 @@ function zoomAroundCenter(
   return normalizeWindowRange({ startPct: nextStart, endPct: nextEnd }, minWindowPct);
 }
 
-export function TimelineZoomNavigator({
+function TimelineZoomNavigatorInner({
   totalDurationSec = DEFAULT_TOTAL_DURATION_SEC,
   windowRange,
   defaultWindowRange = DEFAULT_WINDOW_RANGE,
@@ -300,7 +302,7 @@ export function TimelineZoomNavigator({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointermove', onMove, { passive: true });
       window.addEventListener('pointerup', handleEnd);
       window.addEventListener('pointercancel', handleEnd);
     },
@@ -471,7 +473,7 @@ export function TimelineZoomNavigator({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-secondary-main)' }}
+            style={STYLE_SECONDARY_MAIN}
           >
             <Activity className="w-3.5 h-3.5 shrink-0" />
           </span>
@@ -479,7 +481,7 @@ export function TimelineZoomNavigator({
             id={headingId}
             data-testid="timeline-navigator-label"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </h4>
@@ -512,7 +514,7 @@ export function TimelineZoomNavigator({
               data-testid="timeline-zoom-out"
               onClick={handleZoomOut}
               className="prism-focus-ring h-7 w-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity opacity-85 enabled:hover:opacity-100"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Minus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             </button>
@@ -525,7 +527,7 @@ export function TimelineZoomNavigator({
               data-testid="timeline-zoom-fit"
               onClick={handleFitAll}
               className={cx(
-                'prism-focus-ring h-7 px-2.5 rounded-full text-[11px] font-semibold tracking-tight whitespace-nowrap inline-flex items-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all',
+                'prism-focus-ring h-7 px-2.5 rounded-full text-[11px] font-semibold tracking-tight whitespace-nowrap inline-flex items-center gap-1 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                 isFitAll ? 'prism-emerald' : 'opacity-80 enabled:hover:opacity-100'
               )}
               style={{
@@ -545,7 +547,7 @@ export function TimelineZoomNavigator({
               data-testid="timeline-zoom-in"
               onClick={handleZoomIn}
               className="prism-focus-ring h-7 w-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity opacity-85 enabled:hover:opacity-100"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Plus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             </button>
@@ -765,11 +767,11 @@ export function TimelineZoomNavigator({
           >
             <span
               className="w-2 h-1.5 rounded-b-sm shrink-0"
-              style={{ backgroundColor: 'var(--prism-primary-main)' }}
+              style={STYLE_BG_PRIMARY}
             />
             <span
               className="w-0.5 flex-1"
-              style={{ backgroundColor: 'var(--prism-primary-main)' }}
+              style={STYLE_BG_PRIMARY}
             />
           </div>
         ) : null}
@@ -782,13 +784,13 @@ export function TimelineZoomNavigator({
           footerClass,
           'prism-well rounded-xl px-3 py-1.5 flex flex-wrap items-center justify-between gap-2 text-xs font-mono tabular-nums'
         )}
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         <span data-testid="timeline-visible-span">{visibleReadout}</span>
         <span
           data-testid="timeline-total-duration"
           className="text-[11px]"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Total {totalFormatted}
         </span>
@@ -797,4 +799,5 @@ export function TimelineZoomNavigator({
   );
 }
 
+export const TimelineZoomNavigator = memo(TimelineZoomNavigatorInner);
 TimelineZoomNavigator.displayName = 'TimelineZoomNavigator';

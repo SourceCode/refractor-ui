@@ -9,6 +9,7 @@ function ThemedRoot() {
   const themePreset = useAppSelector((s) => s.system.themePreset);
   const mode = useAppSelector((s) => s.system.themeMode);
   const refraction = useAppSelector((s) => s.system.refraction);
+  const performanceMode = useAppSelector((s) => s.system.performanceMode);
   const customPalette = useAppSelector((s) => s.system.customPalette);
 
   const activeTheme = useMemo(() => {
@@ -38,7 +39,12 @@ function ThemedRoot() {
   }, [customPalette, mode, refraction, themePreset]);
 
   return (
-    <PrismThemeProvider theme={activeTheme} mode={mode} refraction={refraction}>
+    <PrismThemeProvider
+      theme={activeTheme}
+      mode={mode}
+      refraction={refraction}
+      performanceMode={performanceMode}
+    >
       <DocsShell />
     </PrismThemeProvider>
   );

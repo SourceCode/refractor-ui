@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Calendar, ChevronLeft, ChevronRight, Clock, Minus, Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { buildMonthGrid } from '../utils/dateGrid';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DateTimeClockFormat = '12h' | '24h';
@@ -157,7 +158,7 @@ function shiftYearMonth(year: number, month: number, deltaMonths: number): { yea
   };
 }
 
-export function CombinedDateTimePicker({
+function CombinedDateTimePickerInner({
   value,
   defaultValue = DEFAULT_DATE_TIME_ISO,
   onChange,
@@ -292,7 +293,7 @@ export function CombinedDateTimePicker({
   const timePanelClass = stableClassName('combined-date-time-picker', 'time-panel');
 
   const iconButtonClass =
-    'prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
+    'prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
 
   return (
     <div
@@ -308,19 +309,19 @@ export function CombinedDateTimePicker({
           headerClass,
           'flex flex-wrap items-center justify-between gap-2.5 pb-3.5 mb-4 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Calendar aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <span
             id={labelId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -329,9 +330,9 @@ export function CombinedDateTimePicker({
         <span
           data-testid="combined-datetime-readout"
           className="prism-well inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tabular-nums"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
-          <Clock aria-hidden="true" className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--prism-primary-main)' }} />
+          <Clock aria-hidden="true" className="w-3.5 h-3.5 shrink-0" style={STYLE_PRIMARY_MAIN} />
           <span>{readoutText}</span>
         </span>
       </div>
@@ -345,14 +346,14 @@ export function CombinedDateTimePicker({
               disabled={disabled}
               onClick={() => handleNavigateMonth(-1)}
               className={iconButtonClass}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <ChevronLeft aria-hidden="true" className="w-4 h-4 shrink-0" />
             </button>
 
             <span
               className="text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {monthHeading}
             </span>
@@ -363,7 +364,7 @@ export function CombinedDateTimePicker({
               disabled={disabled}
               onClick={() => handleNavigateMonth(1)}
               className={iconButtonClass}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <ChevronRight aria-hidden="true" className="w-4 h-4 shrink-0" />
             </button>
@@ -371,7 +372,7 @@ export function CombinedDateTimePicker({
 
           <div
             className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold mb-1.5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {WEEKDAYS.map((dayName) => (
               <span key={dayName} className="py-0.5">
@@ -393,7 +394,7 @@ export function CombinedDateTimePicker({
                   disabled={disabled}
                   onClick={() => handleSelectDay(cell.dateIso, cell.inCurrentMonth)}
                   className={cx(
-                    'prism-focus-ring h-8 rounded-xl text-xs tabular-nums transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                    'prism-focus-ring h-8 rounded-xl text-xs tabular-nums transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                     isSelected
                       ? 'prism-btn-primary font-semibold'
                       : 'enabled:hover:bg-[var(--prism-primary-main)]/10'
@@ -424,7 +425,7 @@ export function CombinedDateTimePicker({
             <div className="flex items-center justify-between">
               <span
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Hour
               </span>
@@ -435,14 +436,14 @@ export function CombinedDateTimePicker({
                   disabled={disabled}
                   onClick={() => handleAdjustHour(-1)}
                   className={iconButtonClass}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <Minus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 </button>
                 <span
                   data-testid="combined-datetime-hour"
                   className="prism-crystal w-10 h-8 rounded-xl inline-flex items-center justify-center text-sm font-semibold tabular-nums"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {displayedHour}
                 </span>
@@ -452,7 +453,7 @@ export function CombinedDateTimePicker({
                   disabled={disabled}
                   onClick={() => handleAdjustHour(1)}
                   className={iconButtonClass}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <Plus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 </button>
@@ -462,7 +463,7 @@ export function CombinedDateTimePicker({
             <div className="flex items-center justify-between">
               <span
                 className="text-[11px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Minute
               </span>
@@ -473,14 +474,14 @@ export function CombinedDateTimePicker({
                   disabled={disabled}
                   onClick={() => handleAdjustMinute(-safeMinuteStep)}
                   className={iconButtonClass}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <Minus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 </button>
                 <span
                   data-testid="combined-datetime-minute"
                   className="prism-crystal w-10 h-8 rounded-xl inline-flex items-center justify-center text-sm font-semibold tabular-nums"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {displayedMinute}
                 </span>
@@ -490,7 +491,7 @@ export function CombinedDateTimePicker({
                   disabled={disabled}
                   onClick={() => handleAdjustMinute(safeMinuteStep)}
                   className={iconButtonClass}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <Plus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 </button>
@@ -501,7 +502,7 @@ export function CombinedDateTimePicker({
               <div className="flex items-center justify-between pt-1">
                 <span
                   className="text-[11px] font-semibold uppercase tracking-wider"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Period
                 </span>
@@ -516,7 +517,7 @@ export function CombinedDateTimePicker({
                         disabled={disabled}
                         onClick={() => handleSelectPeriod(meridiem)}
                         className={cx(
-                          'prism-focus-ring h-8 px-3 rounded-full text-xs transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
+                          'prism-focus-ring h-8 px-3 rounded-full text-xs transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
                           active ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
                         )}
                         style={active ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -530,10 +531,10 @@ export function CombinedDateTimePicker({
             ) : null}
           </div>
 
-          <div className="pt-3 border-t space-y-2" style={{ borderColor: 'var(--prism-divider)' }}>
+          <div className="pt-3 border-t space-y-2" style={STYLE_BORDER_DIVIDER}>
             <span
               className="block text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Quick Presets
             </span>
@@ -549,7 +550,7 @@ export function CombinedDateTimePicker({
                     disabled={disabled}
                     onClick={() => handleSelectPreset(preset)}
                     className={cx(
-                      'prism-focus-ring h-8 rounded-full text-xs tabular-nums transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
+                      'prism-focus-ring h-8 rounded-full text-xs tabular-nums transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
                       isActive ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
                     )}
                     style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -570,4 +571,5 @@ export function CombinedDateTimePicker({
   );
 }
 
+export const CombinedDateTimePicker = memo(CombinedDateTimePickerInner);
 CombinedDateTimePicker.displayName = 'CombinedDateTimePicker';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +16,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface TimezoneEntry {
@@ -135,7 +137,7 @@ function toSafeOptionId(listboxId: string, tzId: string): string {
   return `${listboxId}-opt-${tzId.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
 }
 
-export function TimezoneSelector({
+function TimezoneSelectorInner({
   value,
   defaultValue = 'America/Los_Angeles',
   onChange,
@@ -303,7 +305,7 @@ export function TimezoneSelector({
         <span
           id={labelId}
           className="block text-xs font-semibold mb-1.5 ml-1"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {label}
         </span>
@@ -320,14 +322,14 @@ export function TimezoneSelector({
         aria-label={!label ? 'Timezone' : undefined}
         data-testid="timezone-trigger"
         onClick={handleToggleOpen}
-        className="prism-crystal prism-focus-ring w-full min-h-12 px-3.5 py-2 rounded-2xl flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-        style={{ color: 'var(--prism-text-primary)' }}
+        className="prism-crystal prism-focus-ring w-full min-h-12 px-3.5 py-2 rounded-2xl flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+        style={STYLE_TEXT_PRIMARY}
       >
         <span className="flex items-center gap-2.5 min-w-0 flex-1">
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Globe className="w-4 h-4 shrink-0" aria-hidden="true" />
           </span>
@@ -336,7 +338,7 @@ export function TimezoneSelector({
             <span
               data-testid="timezone-selected-label"
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {selectedEntry ? selectedEntry.label : selectedId || 'Select timezone'}
             </span>
@@ -356,17 +358,17 @@ export function TimezoneSelector({
           <span
             data-testid="timezone-selected-time"
             className="prism-well inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono tabular-nums font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Clock
               aria-hidden="true"
               className="w-3 h-3 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <span>{triggerLocalTime}</span>
           </span>
 
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             {isOpen ? (
               <ChevronUp className="w-4 h-4 shrink-0" aria-hidden="true" />
             ) : (
@@ -385,7 +387,7 @@ export function TimezoneSelector({
             <Search
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <input
               type="text"
@@ -404,7 +406,7 @@ export function TimezoneSelector({
               }}
               onKeyDown={handleSearchKeyDown}
               className="w-full bg-transparent text-xs focus:outline-none"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
             {query.length > 0 ? (
               <button
@@ -416,7 +418,7 @@ export function TimezoneSelector({
                   setActiveIndex(0);
                 }}
                 className="prism-focus-ring w-5 h-5 rounded-full inline-flex items-center justify-center cursor-pointer transition-opacity hover:opacity-80 shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
               </button>
@@ -437,11 +439,11 @@ export function TimezoneSelector({
               >
                 <p
                   className="text-xs font-semibold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   No matching timezones
                 </p>
-                <p className="text-[11px]" style={{ color: 'var(--prism-text-secondary)' }}>
+                <p className="text-[11px]" style={STYLE_TEXT_SECONDARY}>
                   {query.trim()
                     ? `No zones matched "${query.trim()}".`
                     : 'No timezones configured.'}
@@ -466,7 +468,7 @@ export function TimezoneSelector({
                     onClick={() => handleSelectEntry(tz)}
                     className={cx(
                       isSelected || isActive ? 'prism-crystal' : 'prism-well',
-                      'prism-focus-ring w-full rounded-xl px-3 py-2 flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 transition-all'
+                      'prism-focus-ring w-full rounded-xl px-3 py-2 flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
                     )}
                     style={
                       isSelected
@@ -479,26 +481,26 @@ export function TimezoneSelector({
                     <div className="min-w-0 flex-1 space-y-0.5">
                       <div
                         className="text-xs font-semibold truncate"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {tz.label}
                       </div>
                       <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
                         <span
                           className="font-mono truncate"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {tz.id}
                         </span>
                         <span
                           aria-hidden="true"
-                          style={{ color: 'var(--prism-text-disabled)' }}
+                          style={STYLE_TEXT_DISABLED}
                         >
                           ·
                         </span>
                         <span
                           data-testid={`timezone-region-${tz.id}`}
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {tz.region}
                         </span>
@@ -509,7 +511,7 @@ export function TimezoneSelector({
                       <span
                         data-testid={`timezone-offset-${tz.id}`}
                         className="prism-well px-2 py-0.5 rounded-full text-[10px] font-mono tabular-nums font-medium"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {tz.offsetLabel}
                       </span>
@@ -517,7 +519,7 @@ export function TimezoneSelector({
                       <span
                         data-testid={`timezone-time-${tz.id}`}
                         className="prism-well px-2 py-0.5 rounded-full text-[11px] font-mono tabular-nums font-semibold"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {optionLocalTime}
                       </span>
@@ -542,4 +544,5 @@ export function TimezoneSelector({
   );
 }
 
+export const TimezoneSelector = memo(TimezoneSelectorInner);
 TimezoneSelector.displayName = 'TimezoneSelector';

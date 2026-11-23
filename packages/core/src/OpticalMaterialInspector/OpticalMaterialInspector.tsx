@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type OpticalMaterialPreset =
@@ -261,7 +263,7 @@ function toPercent(value: number, min: number, max: number): number {
   return roundTwo(clampNumber(((value - min) / (max - min)) * 100, 0, 100, 0));
 }
 
-export function OpticalMaterialInspector({
+function OpticalMaterialInspectorInner({
   value,
   defaultValue = DEFAULT_MATERIAL_STATE,
   onChange,
@@ -475,7 +477,7 @@ export function OpticalMaterialInspector({
             <span
               data-testid="optical-inspector-title"
               className="text-sm font-semibold tracking-tight truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </span>
@@ -491,7 +493,7 @@ export function OpticalMaterialInspector({
               'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 cursor-pointer disabled:cursor-not-allowed',
               disabled || isAtDefault ? 'opacity-45' : ''
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Reset</span>
@@ -813,7 +815,7 @@ export function OpticalMaterialInspector({
             </span>
             <span
               data-testid="optical-tint-badge"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {tintMeta.label} · n={currentState.ior.toFixed(2)}
             </span>
@@ -828,14 +830,14 @@ export function OpticalMaterialInspector({
               <label
                 htmlFor={blurInputId}
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Blur Radius (px)
               </label>
               <span
                 data-testid="optical-blur-pill"
                 className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3.25rem] text-center"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {currentState.blurPx}px
               </span>
@@ -845,7 +847,7 @@ export function OpticalMaterialInspector({
               <div className="prism-well w-full h-2.5 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="optical-blur-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${blurPct}%`,
                     backgroundColor: 'var(--prism-secondary-main)',
@@ -879,14 +881,14 @@ export function OpticalMaterialInspector({
               <label
                 htmlFor={iorInputId}
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Index of Refraction (IOR 1.00–2.50)
               </label>
               <span
                 data-testid="optical-ior-pill"
                 className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3.25rem] text-center"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {currentState.ior.toFixed(2)}
               </span>
@@ -896,7 +898,7 @@ export function OpticalMaterialInspector({
               <div className="prism-well w-full h-2.5 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="optical-ior-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${iorPct}%`,
                     backgroundColor: 'var(--prism-primary-main)',
@@ -930,14 +932,14 @@ export function OpticalMaterialInspector({
               <label
                 htmlFor={dispersionInputId}
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Chromatic Dispersion (%)
               </label>
               <span
                 data-testid="optical-dispersion-pill"
                 className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3.25rem] text-center"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {currentState.dispersion}%
               </span>
@@ -947,7 +949,7 @@ export function OpticalMaterialInspector({
               <div className="prism-well w-full h-2.5 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="optical-dispersion-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${dispersionPct}%`,
                     backgroundColor: 'var(--prism-success-main)',
@@ -981,14 +983,14 @@ export function OpticalMaterialInspector({
               <label
                 htmlFor={specularInputId}
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Specular Intensity (%)
               </label>
               <span
                 data-testid="optical-specular-pill"
                 className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3.25rem] text-center"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {currentState.specularPct}%
               </span>
@@ -998,7 +1000,7 @@ export function OpticalMaterialInspector({
               <div className="prism-well w-full h-2.5 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="optical-specular-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${specularNormPct}%`,
                     backgroundColor: 'var(--prism-warning-main)',
@@ -1030,7 +1032,7 @@ export function OpticalMaterialInspector({
           <div className="space-y-1.5 pt-1 min-w-0">
             <span
               className="block text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Surface Tint
             </span>
@@ -1088,7 +1090,7 @@ export function OpticalMaterialInspector({
           aria-atomic="true"
           data-testid="optical-material-readout"
           className="font-mono text-xs font-medium tabular-nums min-w-0 break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {uniformSummary}
         </div>
@@ -1107,4 +1109,5 @@ export function OpticalMaterialInspector({
   );
 }
 
+export const OpticalMaterialInspector = memo(OpticalMaterialInspectorInner);
 OpticalMaterialInspector.displayName = 'OpticalMaterialInspector';

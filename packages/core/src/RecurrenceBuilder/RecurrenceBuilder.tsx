@@ -1,11 +1,12 @@
 'use client';
 
-import { useId, type ChangeEvent } from 'react';
+import { memo, useId, type ChangeEvent } from 'react';
 import { Calendar, Clock, Minus, Plus, Repeat, Terminal } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RecurrenceFrequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
@@ -202,7 +203,7 @@ export function formatRecurrenceSummary(rule: RecurrenceRule): string {
   return `${cadence} at ${timeText}${endClause}`;
 }
 
-export function RecurrenceBuilder({
+function RecurrenceBuilderInner({
   value,
   defaultValue = DEFAULT_RECURRENCE_RULE,
   onChange,
@@ -331,13 +332,13 @@ export function RecurrenceBuilder({
         <div className="flex items-center gap-2.5 min-w-0">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Repeat aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <span
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -345,7 +346,7 @@ export function RecurrenceBuilder({
 
         <span
           className="prism-crystal inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold capitalize shrink-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {rule.frequency}
         </span>
@@ -354,7 +355,7 @@ export function RecurrenceBuilder({
       <div>
         <span
           className="block text-[11px] font-semibold uppercase tracking-wider mb-2 ml-1"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Frequency
         </span>
@@ -372,7 +373,7 @@ export function RecurrenceBuilder({
                 aria-pressed={active}
                 disabled={disabled}
                 onClick={() => handleFrequencyChange(option.value)}
-                className={`prism-focus-ring h-9 px-3 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all ${
+                className={`prism-focus-ring h-9 px-3 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] ${
                   active ? 'prism-btn-primary' : 'prism-btn-secondary'
                 }`}
               >
@@ -388,7 +389,7 @@ export function RecurrenceBuilder({
           <label
             htmlFor={intervalId}
             className="text-[11px] font-semibold uppercase tracking-wider px-1"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Repeat Every
           </label>
@@ -399,7 +400,7 @@ export function RecurrenceBuilder({
                 disabled={disabled || rule.interval <= 1}
                 aria-label="Decrease interval"
                 onClick={() => commitRule({ ...rule, interval: rule.interval - 1 })}
-                className="prism-btn-secondary prism-focus-ring w-7 h-7 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                className="prism-btn-secondary prism-focus-ring w-7 h-7 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
               >
                 <Minus aria-hidden="true" className="w-3.5 h-3.5" />
               </button>
@@ -414,21 +415,21 @@ export function RecurrenceBuilder({
                 disabled={disabled}
                 onChange={handleIntervalChange}
                 className="prism-focus-ring w-full min-w-0 bg-transparent text-center font-mono text-sm font-semibold tabular-nums rounded-lg py-1 focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
               <button
                 type="button"
                 disabled={disabled || rule.interval >= 99}
                 aria-label="Increase interval"
                 onClick={() => commitRule({ ...rule, interval: rule.interval + 1 })}
-                className="prism-btn-secondary prism-focus-ring w-7 h-7 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                className="prism-btn-secondary prism-focus-ring w-7 h-7 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
               >
                 <Plus aria-hidden="true" className="w-3.5 h-3.5" />
               </button>
             </div>
             <span
               className="text-xs font-medium shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {getFrequencyUnitLabel(rule.frequency, rule.interval)}
             </span>
@@ -438,7 +439,7 @@ export function RecurrenceBuilder({
         <div className="prism-crystal rounded-2xl p-3 flex flex-col gap-2">
           <span
             className="text-[11px] font-semibold uppercase tracking-wider px-1 flex items-center gap-1.5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Clock aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Time (24h)</span>
@@ -448,7 +449,7 @@ export function RecurrenceBuilder({
               <label
                 htmlFor={hourId}
                 className="text-[11px] font-medium shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Hr
               </label>
@@ -463,7 +464,7 @@ export function RecurrenceBuilder({
                 disabled={disabled}
                 onChange={handleHourChange}
                 className="prism-focus-ring w-full min-w-0 bg-transparent text-center font-mono text-sm font-semibold tabular-nums rounded-lg focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
 
@@ -471,7 +472,7 @@ export function RecurrenceBuilder({
               <label
                 htmlFor={minuteId}
                 className="text-[11px] font-medium shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Min
               </label>
@@ -486,7 +487,7 @@ export function RecurrenceBuilder({
                 disabled={disabled}
                 onChange={handleMinuteChange}
                 className="prism-focus-ring w-full min-w-0 bg-transparent text-center font-mono text-sm font-semibold tabular-nums rounded-lg focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
           </div>
@@ -497,7 +498,7 @@ export function RecurrenceBuilder({
         <div>
           <span
             className="block text-[11px] font-semibold uppercase tracking-wider mb-2 ml-1"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Weekdays
           </span>
@@ -515,7 +516,7 @@ export function RecurrenceBuilder({
                   aria-pressed={selected}
                   disabled={disabled}
                   onClick={() => handleToggleWeekday(day.index)}
-                  className={`prism-focus-ring h-9 rounded-xl text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all ${
+                  className={`prism-focus-ring h-9 rounded-xl text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] ${
                     selected ? 'prism-emerald' : 'prism-well'
                   }`}
                   style={selected ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -533,12 +534,12 @@ export function RecurrenceBuilder({
           <label
             htmlFor={monthDayId}
             className="text-xs font-semibold flex items-center gap-1.5"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Calendar
               aria-hidden="true"
               className="w-4 h-4 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <span>Day of month</span>
           </label>
@@ -554,7 +555,7 @@ export function RecurrenceBuilder({
               disabled={disabled}
               onChange={handleMonthDayChange}
               className="prism-focus-ring w-full min-w-0 bg-transparent text-center font-mono text-sm font-semibold tabular-nums rounded-lg focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
         </div>
@@ -563,7 +564,7 @@ export function RecurrenceBuilder({
       <div className="space-y-2.5">
         <span
           className="block text-[11px] font-semibold uppercase tracking-wider ml-1"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Ends
         </span>
@@ -581,7 +582,7 @@ export function RecurrenceBuilder({
                 aria-pressed={active}
                 disabled={disabled}
                 onClick={() => handleEndKindChange(option.value)}
-                className={`prism-focus-ring h-9 px-3 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all ${
+                className={`prism-focus-ring h-9 px-3 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] ${
                   active ? 'prism-btn-primary' : 'prism-btn-secondary'
                 }`}
               >
@@ -596,7 +597,7 @@ export function RecurrenceBuilder({
             <label
               htmlFor={untilDateId}
               className="text-xs font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Until date
             </label>
@@ -609,7 +610,7 @@ export function RecurrenceBuilder({
                 disabled={disabled}
                 onChange={handleUntilDateChange}
                 className="prism-focus-ring bg-transparent font-mono text-xs font-semibold tabular-nums rounded-lg focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
           </div>
@@ -620,7 +621,7 @@ export function RecurrenceBuilder({
             <label
               htmlFor={countId}
               className="text-xs font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Occurrences
             </label>
@@ -636,7 +637,7 @@ export function RecurrenceBuilder({
                 disabled={disabled}
                 onChange={handleCountChange}
                 className="prism-focus-ring w-full min-w-0 bg-transparent text-center font-mono text-sm font-semibold tabular-nums rounded-lg focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
           </div>
@@ -652,7 +653,7 @@ export function RecurrenceBuilder({
           aria-live="polite"
           data-testid="recurrence-summary"
           className="text-xs font-medium min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {summary}
         </p>
@@ -661,12 +662,12 @@ export function RecurrenceBuilder({
           <span
             data-testid="recurrence-cron"
             className="prism-well inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-xs font-semibold tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Terminal
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
             <code>{cron}</code>
           </span>
@@ -676,4 +677,5 @@ export function RecurrenceBuilder({
   );
 }
 
+export const RecurrenceBuilder = memo(RecurrenceBuilderInner);
 RecurrenceBuilder.displayName = 'RecurrenceBuilder';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SunburstTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -263,7 +265,7 @@ function buildAnnularArcPath(
   };
 }
 
-export function SunburstChart({
+function SunburstChartInner({
   root,
   title = 'Hierarchical Sunburst',
   size = 260,
@@ -488,7 +490,7 @@ export function SunburstChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -498,7 +500,7 @@ export function SunburstChart({
             type="button"
             onClick={handleResetZoom}
             className="prism-focus-ring prism-crystal px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-opacity hover:opacity-100"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Reset Zoom
           </button>
@@ -518,7 +520,7 @@ export function SunburstChart({
                   <span
                     aria-hidden="true"
                     className="text-xs select-none"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     /
                   </span>
@@ -531,7 +533,7 @@ export function SunburstChart({
                     'prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs cursor-pointer transition-opacity',
                     isCurrent ? 'prism-well font-semibold' : 'prism-crystal font-medium opacity-85 hover:opacity-100'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
@@ -551,7 +553,7 @@ export function SunburstChart({
           role="status"
           data-testid="sunburst-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No hierarchical data to display.
         </div>
@@ -656,7 +658,7 @@ export function SunburstChart({
             readoutClass,
             'prism-well rounded-xl px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <div className="inline-flex items-center gap-2 min-w-0">
             <span
@@ -670,7 +672,7 @@ export function SunburstChart({
                 : `${activeFocus.label}: ${formatMetric(activeFocus.total, valueUnit)} (${focusShareOfRoot}% of ${resolvedRoot.label})`}
             </span>
           </div>
-          <span className="text-[11px]" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span className="text-[11px]" style={STYLE_TEXT_SECONDARY}>
             {activeFocus.children.length === 0
               ? 'Leaf focus · Click center or breadcrumb to zoom out.'
               : isZoomed
@@ -683,4 +685,5 @@ export function SunburstChart({
   );
 }
 
+export const SunburstChart = memo(SunburstChartInner);
 SunburstChart.displayName = 'SunburstChart';

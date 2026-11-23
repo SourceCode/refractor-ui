@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ContourTone = 'primary' | 'secondary' | 'emerald' | 'info';
@@ -522,7 +524,7 @@ function computeContourField(
   };
 }
 
-export function ContourDensityPlot({
+function ContourDensityPlotInner({
   points,
   levels = DEFAULT_LEVELS,
   showPoints = true,
@@ -661,14 +663,14 @@ export function ContourDensityPlot({
             <h4
               id={headingId}
               className="text-sm font-semibold tracking-tight truncate max-w-full"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
             <span
               data-testid="contour-sample-count"
               className="prism-crystal rounded-full px-2.5 py-0.5 text-[11px] font-mono tabular-nums font-medium shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {sampleBadgeLabel}
             </span>
@@ -681,10 +683,10 @@ export function ContourDensityPlot({
               data-testid="contour-toggle-points"
               onClick={() => setPointsVisible((prev) => !prev)}
               className={cx(
-                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition-all shrink-0',
+                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] shrink-0',
                 pointsVisible ? 'prism-crystal' : 'prism-well opacity-70'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -707,7 +709,7 @@ export function ContourDensityPlot({
             legendClass,
             'prism-crystal rounded-full px-3 py-1 inline-flex flex-wrap items-center gap-2 text-[11px] font-medium max-w-full'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span>Density</span>
           <span className="inline-flex flex-wrap items-center gap-1.5">
@@ -741,7 +743,7 @@ export function ContourDensityPlot({
           role="status"
           data-testid="contour-density-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No 2D sample observations available to compute contour density.
         </div>
@@ -973,7 +975,7 @@ export function ContourDensityPlot({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums min-w-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span className="inline-flex flex-wrap items-center gap-2 font-mono text-[11px] min-w-0">
               <span
@@ -1000,4 +1002,5 @@ export function ContourDensityPlot({
   );
 }
 
+export const ContourDensityPlot = memo(ContourDensityPlotInner);
 ContourDensityPlot.displayName = 'ContourDensityPlot';

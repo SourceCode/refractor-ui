@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Check, Copy, RefreshCw, Share2, ThumbsDown, ThumbsUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -39,7 +39,7 @@ const COPY_FEEDBACK_DURATION_MS = 1800;
 const IDLE_BUTTON_CLASS =
   'text-slate-700 dark:text-slate-200 enabled:hover:bg-white/60 dark:enabled:hover:bg-white/10 enabled:hover:text-slate-950 dark:enabled:hover:text-white';
 
-export function ResponseActionBar({
+function ResponseActionBarInner({
   contentToCopy,
   onCopy,
   onRegenerate,
@@ -134,10 +134,10 @@ export function ResponseActionBar({
   const extraGroupClass = stableClassName('response-action-bar', 'extra');
 
   const baseButtonClass =
-    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed';
+    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed';
 
   const thumbButtonClass =
-    'prism-focus-ring h-7 w-7 rounded-full inline-flex items-center justify-center shrink-0 transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed';
+    'prism-focus-ring h-7 w-7 rounded-full inline-flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed';
 
   return (
     <div
@@ -252,4 +252,5 @@ export function ResponseActionBar({
   );
 }
 
+export const ResponseActionBar = memo(ResponseActionBarInner);
 ResponseActionBar.displayName = 'ResponseActionBar';

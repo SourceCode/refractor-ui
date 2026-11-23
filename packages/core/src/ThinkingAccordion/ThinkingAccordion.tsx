@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, type ReactNode } from 'react';
+import { memo, useId, type ReactNode } from 'react';
 import {
   AlertCircle,
   CheckCircle2,
@@ -14,6 +14,7 @@ import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ThinkingStepStatus = 'pending' | 'active' | 'done' | 'error';
@@ -66,7 +67,7 @@ function getStepStatusVisual(status: ThinkingStepStatus): StepStatusVisual {
       };
     case 'active':
       return {
-        icon: <Loader2 aria-hidden="true" className="w-4 h-4 shrink-0 animate-spin" />,
+        icon: <Loader2 aria-hidden="true" className="w-4 h-4 shrink-0 animate-spin motion-reduce:animate-none" />,
         colorToken: 'var(--prism-info-main)',
         srLabel: 'In progress',
       };
@@ -93,7 +94,7 @@ function formatDurationMs(durationMs: number | undefined): string | null {
   return `${safeMs}ms`;
 }
 
-export function ThinkingAccordion({
+function ThinkingAccordionInner({
   steps,
   title = 'Reasoning trace',
   isStreaming = false,
@@ -143,7 +144,7 @@ export function ThinkingAccordion({
         aria-expanded={isOpen}
         aria-controls={panelId}
         onClick={() => setIsOpen((prev) => !prev)}
-        className="prism-focus-ring w-full px-4 py-3.5 flex items-center justify-between gap-3 text-left cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+        className="prism-focus-ring w-full px-4 py-3.5 flex items-center justify-between gap-3 text-left cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
       >
         <span className="min-w-0 flex items-center gap-2.5">
           <span
@@ -154,13 +155,13 @@ export function ThinkingAccordion({
           >
             <Sparkles
               aria-hidden="true"
-              className={`w-4 h-4 shrink-0 ${isStreaming ? 'animate-pulse' : ''}`}
+              className={`w-4 h-4 shrink-0 ${isStreaming ? 'animate-pulse motion-reduce:animate-none' : ''}`}
             />
           </span>
 
           <span
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -172,7 +173,7 @@ export function ThinkingAccordion({
               data-testid="thinking-streaming-pill"
               className="prism-emerald inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-tight shrink-0"
             >
-              <Loader2 aria-hidden="true" className="w-3 h-3 animate-spin shrink-0" />
+              <Loader2 aria-hidden="true" className="w-3 h-3 animate-spin motion-reduce:animate-none shrink-0" />
               <span>Thinking...</span>
             </span>
           ) : null}
@@ -182,7 +183,7 @@ export function ThinkingAccordion({
           <span
             data-testid="thinking-step-count"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {completedCount}/{totalCount} {stepUnit}
           </span>
@@ -191,7 +192,7 @@ export function ThinkingAccordion({
             <span
               data-testid="thinking-duration-label"
               className="font-mono text-[11px] tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {durationLabel}
             </span>
@@ -202,7 +203,7 @@ export function ThinkingAccordion({
             className={`w-4 h-4 shrink-0 transition-transform duration-150 ${
               isOpen ? 'rotate-180' : ''
             }`}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
         </span>
       </button>
@@ -213,14 +214,14 @@ export function ThinkingAccordion({
           role="region"
           aria-labelledby={triggerId}
           className="px-4 pb-4 pt-3 border-t"
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <div className="prism-well rounded-2xl p-3">
             {totalCount === 0 ? (
               <p
                 data-testid="thinking-empty-state"
                 className="py-4 px-2 text-center text-xs"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {isStreaming
                   ? 'Initializing reasoning trace...'
@@ -253,7 +254,7 @@ export function ThinkingAccordion({
                           <div className="min-w-0 flex flex-wrap items-center gap-2">
                             <span
                               className="text-xs font-semibold leading-snug break-words"
-                              style={{ color: 'var(--prism-text-primary)' }}
+                              style={STYLE_TEXT_PRIMARY}
                             >
                               {step.title}
                             </span>
@@ -262,7 +263,7 @@ export function ThinkingAccordion({
                               <span
                                 data-testid={`thinking-step-tool-${step.id}`}
                                 className="prism-crystal inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-mono text-[11px] font-medium shrink-0"
-                                style={{ color: 'var(--prism-text-primary)' }}
+                                style={STYLE_TEXT_PRIMARY}
                               >
                                 <Terminal aria-hidden="true" className="w-3 h-3 shrink-0" />
                                 <span>{step.toolName}</span>
@@ -274,7 +275,7 @@ export function ThinkingAccordion({
                             <span
                               data-testid={`thinking-step-duration-${step.id}`}
                               className="font-mono text-[11px] tabular-nums shrink-0"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               {formattedDuration}
                             </span>
@@ -284,7 +285,7 @@ export function ThinkingAccordion({
                         {step.detail ? (
                           <p
                             className="mt-1 text-xs leading-relaxed break-words whitespace-pre-wrap"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {step.detail}
                           </p>
@@ -302,4 +303,5 @@ export function ThinkingAccordion({
   );
 }
 
+export const ThinkingAccordion = memo(ThinkingAccordionInner);
 ThinkingAccordion.displayName = 'ThinkingAccordion';

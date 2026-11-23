@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -145,7 +146,7 @@ function getDockLayoutClasses(position: DockPosition): string {
   }
 }
 
-export function DockablePanel({
+function DockablePanelInner({
   title,
   subtitle,
   dockPosition,
@@ -281,7 +282,7 @@ export function DockablePanel({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerUp);
       window.addEventListener('pointercancel', handlePointerCancel);
     },
@@ -418,7 +419,7 @@ export function DockablePanel({
                   title={item.label}
                   onClick={() => setCurrentDock(item.zone)}
                     className={cx(
-                      'prism-focus-ring p-1 rounded-lg cursor-pointer disabled:cursor-not-allowed transition-all',
+                      'prism-focus-ring p-1 rounded-lg cursor-pointer disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                       active
                         ? 'prism-btn-primary text-white'
                         : 'text-slate-600 dark:text-slate-300 hover:bg-white/65 dark:hover:bg-white/10'
@@ -485,4 +486,5 @@ export function DockablePanel({
   );
 }
 
+export const DockablePanel = memo(DockablePanelInner);
 DockablePanel.displayName = 'DockablePanel';

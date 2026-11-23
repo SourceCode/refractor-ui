@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { memo, useState, type FormEvent } from 'react';
 import { Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -48,7 +48,7 @@ export interface CalendarViewProps extends BaseProps<HTMLDivElement> {
   initialSelectedDate?: string;
 }
 
-export function CalendarView({
+function CalendarViewInner({
   events,
   onAddEvent,
   year = 2026,
@@ -123,7 +123,7 @@ export function CalendarView({
               data-date={cell.dateIso}
               aria-pressed={isSelected}
               onClick={() => setSelectedDate(cell.dateIso)}
-              className={`prism-focus-ring min-h-[54px] p-1.5 rounded-2xl text-left flex flex-col justify-between cursor-pointer transition-all ${
+              className={`prism-focus-ring min-h-[54px] p-1.5 rounded-2xl text-left flex flex-col justify-between cursor-pointer transition-[color,background-color,border-color,opacity,transform] ${
                 isSelected
                   ? 'prism-btn-primary text-white'
                   : cell.inCurrentMonth
@@ -194,4 +194,5 @@ export function CalendarView({
   );
 }
 
+export const CalendarView = memo(CalendarViewInner);
 CalendarView.displayName = 'CalendarView';

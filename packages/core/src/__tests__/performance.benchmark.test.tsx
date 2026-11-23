@@ -1,0 +1,486 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { memo, useRef, useState } from 'react';
+import * as Core from '../index';
+import {
+  buildMonthGrid,
+  compareLocaleStrings,
+  compareNaturalStrings,
+  composeEventHandlers,
+  computeLineDiff,
+  createPrismTheme,
+  cx,
+  DataTable,
+  defineTheme,
+  formatLocaleNumber,
+  formatUsNumber,
+  getContrastRatio,
+  isDocumentVisible,
+  KanbanBoard,
+  LiveTelemetryChart,
+  mergeProps,
+  parseColorToRgb,
+  PrimaryButton,
+  PrismThemeProvider,
+  sanitizeUrl,
+  stableClassName,
+  STYLE_BORDER_DIVIDER,
+  STYLE_TEXT_PRIMARY,
+  STYLE_TEXT_SECONDARY,
+  themeProps,
+  themeToCssVariables,
+  useComponentOverride,
+  useControllableState,
+  useMergedRefs,
+  useRafCallback,
+  VirtualizedList,
+  type DataTableRow,
+  type KanbanCardItem,
+  type KanbanColumnDef,
+  type ThemePerformanceMode,
+} from '../index';
+
+const REACT_MEMO_SYMBOL = Symbol.for('react.memo');
+
+interface MemoLikeObject {
+  $$typeof?: symbol;
+  displayName?: string;
+}
+
+type CoreExportValue = string | number | boolean | MemoLikeObject | ((...args: never[]) => never) | undefined;
+
+function asMemoLike(value: CoreExportValue): MemoLikeObject | null {
+  if (!value || typeof value !== 'object') return null;
+  return value;
+}
+
+function isMemoExoticComponent(value: CoreExportValue): boolean {
+  const obj = asMemoLike(value);
+  return obj !== null && obj.$$typeof === REACT_MEMO_SYMBOL;
+}
+
+afterEach(() => {
+  document.documentElement.removeAttribute('data-refractor-performance');
+  document.documentElement.removeAttribute('data-refractor-material');
+  document.documentElement.removeAttribute('data-refractor-theme');
+  document.documentElement.removeAttribute('style');
+  vi.restoreAllMocks();
+});
+
+describe('Refractor v1.48.0 Performance Architecture & Regression Suite', () => {
+  it('wraps every single one of the 314 exported components in React.memo with displayName', () => {
+    const coreSrcDir = path.resolve(process.cwd(), 'packages/core/src');
+    const componentNames = fs
+      .readdirSync(coreSrcDir, { withFileTypes: true })
+      .filter((d) => d.isDirectory() && /^[A-Z][A-Za-z0-9]+$/.test(d.name))
+      .map((d) => d.name)
+      .sort();
+
+    expect(componentNames.length).toBeGreaterThanOrEqual(314);
+
+    const coreEntries = new Map<string, CoreExportValue>(
+      Object.entries(Core) as Array<[string, CoreExportValue]>
+    );
+
+    const unmemoized: string[] = [];
+    const missingDisplayName: string[] = [];
+
+    for (const name of componentNames) {
+      const exported = coreEntries.get(name);
+      if (!isMemoExoticComponent(exported)) {
+        unmemoized.push(name);
+      }
+      if (asMemoLike(exported)?.displayName !== name) {
+        missingDisplayName.push(name);
+      }
+    }
+
+    expect(unmemoized).toEqual([]);
+    expect(missingDisplayName).toEqual([]);
+  });
+
+  it('guarantees zero transition-all occurrences across all 314 component sources', () => {
+    const coreSrcDir = path.resolve(process.cwd(), 'packages/core/src');
+    const componentNames = fs
+      .readdirSync(coreSrcDir, { withFileTypes: true })
+      .filter((d) => d.isDirectory() && /^[A-Z][A-Za-z0-9]+$/.test(d.name))
+      .map((d) => d.name);
+
+    const offenders: string[] = [];
+    for (const name of componentNames) {
+      const source = fs.readFileSync(path.join(coreSrcDir, name, `${name}.tsx`), 'utf8');
+      if (/\btransition-all\b/.test(source)) {
+        offenders.push(name);
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
+
+  it('enforces GPU compositor, nested blur elision, containment, and scroll-fast invariants in refractor.css', () => {
+    const cssPath = path.resolve(process.cwd(), 'packages/core/src/refractor.css');
+    const css = fs.readFileSync(cssPath, 'utf8');
+
+    // Scroll-repaint killer removed
+    expect(css).not.toContain('background-attachment: fixed');
+    // Universal scrollbar selector de-universalized
+    expect(css).not.toMatch(/^\s*\*\s*\{\s*scrollbar-width:/m);
+    expect(css).not.toContain('[data-refractor-theme-adaptive="true"] *');
+    // Nested backdrop-filter elision present
+    expect(css).toContain('.prism-slab :is(.prism-crystal, .prism-btn-secondary, .prism-slab)');
+    expect(css).toContain(':root :is(span, kbd, code, small, time).prism-crystal');
+    // Containment & content-visibility utilities present
+    expect(css).toContain('.prism-contain-leaf');
+    expect(css).toContain('.prism-cv-row');
+    expect(css).toContain('content-visibility: auto');
+    // Three-tier performance mode rules present
+    expect(css).toContain('[data-refractor-performance="high"]');
+    expect(css).toContain('[data-refractor-performance="max"]');
+    expect(css).toContain('.prism-backdrop-scrim');
+  });
+
+  it('splits ComponentOverridesContext so theme/mode/refraction switches trigger ZERO re-renders in memoized consumers', () => {
+    let renderCount = 0;
+
+    const MemoizedConsumer = memo(function MemoizedConsumer() {
+      renderCount += 1;
+      const override = useComponentOverride('PrimaryButton');
+      return <span data-testid="override-status">{override?.className ?? 'none'}</span>;
+    });
+
+    const neonTheme = defineTheme({
+      name: 'neon-zero-rerender',
+      material: 'neon',
+      palette: { mode: 'dark', primary: { main: '#00F0FF' } },
+    });
+
+    const { rerender } = render(
+      <PrismThemeProvider mode="light" refraction="standard" performanceMode="balanced" loadFonts={false}>
+        <MemoizedConsumer />
+        <PrimaryButton>Launch</PrimaryButton>
+      </PrismThemeProvider>
+    );
+
+    expect(renderCount).toBe(1);
+    expect(document.documentElement.getAttribute('data-refractor-performance')).toBe('balanced');
+
+    // Switch mode, refraction, theme, and performanceMode — ZERO component overrides changed
+    rerender(
+      <PrismThemeProvider theme={neonTheme} mode="dark" refraction="vivid" performanceMode="max" loadFonts={false}>
+        <MemoizedConsumer />
+        <PrimaryButton>Launch</PrimaryButton>
+      </PrismThemeProvider>
+    );
+
+    expect(renderCount).toBe(1);
+    expect(document.documentElement.getAttribute('data-refractor-performance')).toBe('max');
+
+    // Changing actual component overrides updates subscribers as expected
+    const overrideTheme = defineTheme({
+      name: 'override-active',
+      components: { PrimaryButton: { className: 'custom-cta', style: { letterSpacing: '0.02em' } } },
+    });
+    rerender(
+      <PrismThemeProvider theme={overrideTheme} performanceMode="high" loadFonts={false}>
+        <MemoizedConsumer />
+        <PrimaryButton>Launch</PrimaryButton>
+      </PrismThemeProvider>
+    );
+    expect(renderCount).toBe(2);
+    expect(screen.getByTestId('override-status')).toHaveTextContent('custom-cta');
+    expect(document.documentElement.getAttribute('data-refractor-performance')).toBe('high');
+
+    // Re-rendering with structurally equal overrides keeps identity stable (zero extra render)
+    const equalOverrideTheme = defineTheme({
+      name: 'override-active-2',
+      palette: { mode: 'dark' },
+      components: { PrimaryButton: { className: 'custom-cta', style: { letterSpacing: '0.02em' } } },
+    });
+    rerender(
+      <PrismThemeProvider theme={equalOverrideTheme} performanceMode="high" loadFonts={false}>
+        <MemoizedConsumer />
+        <PrimaryButton>Launch</PrimaryButton>
+      </PrismThemeProvider>
+    );
+    expect(renderCount).toBe(2);
+  });
+
+  it('supports performanceMode on local scoped PrismThemeProvider instances', () => {
+    const modes: ReadonlyArray<ThemePerformanceMode> = ['balanced', 'high', 'max'];
+    const { container, rerender } = render(
+      <PrismThemeProvider scope="local" performanceMode={modes[0]} loadFonts={false}>
+        <span>Scoped</span>
+      </PrismThemeProvider>
+    );
+    expect(container.querySelector('[data-refractor-performance="balanced"]')).not.toBeNull();
+
+    rerender(
+      <PrismThemeProvider scope="local" performanceMode={modes[2]} loadFonts={false}>
+        <span>Scoped</span>
+      </PrismThemeProvider>
+    );
+    expect(container.querySelector('[data-refractor-performance="max"]')).not.toBeNull();
+  });
+
+  it('preserves referential stability on hot-path utilities, caches, formatters, and hooks', () => {
+    // stableClassName & stateless themeProps caching
+    expect(stableClassName('PrimaryButton')).toBe('refractor-primary-button');
+    expect(stableClassName('PrimaryButton')).toBe('refractor-primary-button');
+    const statelessA = themeProps('badge-status');
+    const statelessB = themeProps('badge-status');
+    expect(statelessA).toBe(statelessB);
+
+    // mergeProps single-style zero-allocation passthrough
+    const singleStyle = { padding: '8px' };
+    const mergedSingle = mergeProps({ baseClassName: 'prism-slab', userStyle: singleStyle });
+    expect(mergedSingle.style).toBe(singleStyle);
+    expect(cx('  a ', null, false, undefined, 'b  ', '   ')).toBe('a b');
+
+    // composeEventHandlers zero-wrapper fast paths
+    const fn = vi.fn();
+    expect(composeEventHandlers(undefined, fn)).toBe(fn);
+    expect(composeEventHandlers(fn, undefined)).toBe(fn);
+    const noop = composeEventHandlers(undefined, undefined);
+    expect(() => noop({ defaultPrevented: false })).not.toThrow();
+
+    // themeToCssVariables WeakMap cache hit
+    const theme = createPrismTheme('dark', 'vivid');
+    expect(themeToCssVariables(theme)).toBe(themeToCssVariables(theme));
+
+    // buildMonthGrid cache hit
+    expect(buildMonthGrid(2026, 10)).toBe(buildMonthGrid(2026, 10));
+
+    // colorMath LUT & fast hex parser cache
+    const rgbA = parseColorToRgb('#E75C24');
+    const rgbB = parseColorToRgb('#E75C24');
+    expect(rgbA).toBe(rgbB);
+    expect(getContrastRatio('#FFFFFF', '#000000')).toBeCloseTo(21, 1);
+
+    // sanitizeUrl clean fast path
+    expect(sanitizeUrl('https://refractor.dev/docs')).toBe('https://refractor.dev/docs');
+
+    // diffAlgorithm prefix/suffix trimmed flat Int32Array diff
+    const baseLines = Array.from({ length: 120 }, (_, i) => `line-${i}`);
+    const modLines = [...baseLines];
+    modLines[60] = 'line-60-edited';
+    const diff = computeLineDiff(baseLines.join('\n'), modLines.join('\n'));
+    expect(diff.unchanged).toBe(119);
+    expect(diff.additions).toBe(1);
+    expect(diff.deletions).toBe(1);
+
+    // Shared frozen style singletons & hoisted Intl helpers
+    expect(Object.isFrozen(STYLE_TEXT_PRIMARY)).toBe(true);
+    expect(Object.isFrozen(STYLE_TEXT_SECONDARY)).toBe(true);
+    expect(Object.isFrozen(STYLE_BORDER_DIVIDER)).toBe(true);
+    expect(formatUsNumber(1234567)).toBe('1,234,567');
+    expect(formatLocaleNumber(42)).toBe('42');
+    expect(compareNaturalStrings('item-2', 'item-10')).toBeLessThan(0);
+    expect(compareLocaleStrings('alpha', 'beta')).toBeLessThan(0);
+  });
+
+  it('keeps useControllableState setter and useMergedRefs callback referentially stable across renders', () => {
+    const observedSetters: Array<(next: number | ((p: number) => number)) => void> = [];
+    const observedRefs: Array<(node: HTMLDivElement | null) => void> = [];
+
+    function StabilityHarness() {
+      const [count, setCount] = useControllableState({ defaultValue: 0 });
+      const localRef = useRef<HTMLDivElement>(null);
+      const mergedRef = useMergedRefs(localRef);
+      observedSetters.push(setCount);
+      observedRefs.push(mergedRef);
+      return (
+        <div ref={mergedRef}>
+          <button type="button" onClick={() => setCount((n) => n + 1)}>
+            Count {count}
+          </button>
+          <button type="button" onClick={() => setCount(count)}>
+            Noop
+          </button>
+        </div>
+      );
+    }
+
+    render(<StabilityHarness />);
+    fireEvent.click(screen.getByRole('button', { name: 'Count 0' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Count 1' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Noop' }));
+
+    expect(observedSetters.length).toBeGreaterThanOrEqual(3);
+    expect(observedSetters[0]).toBe(observedSetters[1]);
+    expect(observedSetters[1]).toBe(observedSetters[2]);
+    expect(observedRefs[0]).toBe(observedRefs[1]);
+    expect(observedRefs[1]).toBe(observedRefs[2]);
+  });
+
+  it('coalesces high-frequency bursts with useRafCallback and checks isDocumentVisible()', () => {
+    expect(isDocumentVisible()).toBe(true);
+
+    let scheduledFrame: FrameRequestCallback | null = null;
+    const rafSpy = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((cb: FrameRequestCallback) => {
+        scheduledFrame = cb;
+        return 42;
+      });
+    const cafSpy = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {});
+
+    const received: number[] = [];
+
+    function RafHarness() {
+      const throttled = useRafCallback((val: number) => {
+        received.push(val);
+      });
+      return (
+        <div>
+          <button
+            type="button"
+            onClick={() => {
+              throttled(1);
+              throttled(2);
+              throttled(3);
+            }}
+          >
+            Burst
+          </button>
+          <button type="button" onClick={() => throttled.flush()}>
+            Flush
+          </button>
+          <button type="button" onClick={() => throttled.cancel()}>
+            Cancel
+          </button>
+        </div>
+      );
+    }
+
+    const { unmount } = render(<RafHarness />);
+    fireEvent.click(screen.getByRole('button', { name: 'Burst' }));
+    // Leading call executes immediately; 2 & 3 coalesce to 3
+    expect(received).toEqual([1]);
+    expect(rafSpy).toHaveBeenCalledTimes(1);
+
+    // Executing scheduled animation frame delivers the latest coalesced value (3)
+    act(() => {
+      scheduledFrame?.(16.7);
+    });
+    expect(received).toEqual([1, 3]);
+
+    // Trigger another burst and manually flush
+    fireEvent.click(screen.getByRole('button', { name: 'Burst' }));
+    expect(received).toEqual([1, 3, 1]);
+    fireEvent.click(screen.getByRole('button', { name: 'Flush' }));
+    expect(received).toEqual([1, 3, 1, 3]);
+
+    // Trigger another burst and cancel / unmount cleanly
+    fireEvent.click(screen.getByRole('button', { name: 'Burst' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(cafSpy).toHaveBeenCalled();
+    unmount();
+  });
+
+  it('avoids redundant VirtualizedList re-renders on sub-row pixel scrolls and caps LiveTelemetryChart memory', () => {
+    const items = Array.from({ length: 200 }, (_, i) => ({ id: `row-${i}`, label: `Item ${i}` }));
+    const renderItem = vi.fn((item: { id: string; label: string }) => <span>{item.label}</span>);
+
+    render(
+      <VirtualizedList
+        items={items}
+        itemHeight={48}
+        height={240}
+        overscan={2}
+        renderItem={renderItem}
+      />
+    );
+
+    const initialCalls = renderItem.mock.calls.length;
+    const viewport = screen.getByRole('region', { name: 'Virtualized list viewport' });
+
+    // Sub-row scroll offsets (10px, 25px, 40px within a 48px row) keep visibleStart === 0 -> ZERO re-renders!
+    fireEvent.scroll(viewport, { target: { scrollTop: 10 } });
+    fireEvent.scroll(viewport, { target: { scrollTop: 25 } });
+    fireEvent.scroll(viewport, { target: { scrollTop: 40 } });
+    expect(renderItem.mock.calls.length).toBe(initialCalls);
+
+    // Crossing row boundary (96px -> visibleStart === 2) updates slice cleanly
+    fireEvent.scroll(viewport, { target: { scrollTop: 96 } });
+    expect(renderItem.mock.calls.length).toBeGreaterThan(initialCalls);
+
+    // LiveTelemetryChart bounded stream memory & DataTable + KanbanBoard integration
+    vi.useFakeTimers();
+    try {
+      render(
+        <LiveTelemetryChart
+          samples={[{ id: 's0', timestamp: '00:00', value: 12 }]}
+          streamingIntervalMs={10}
+          onGenerateSample={(seq) => ({ timestamp: `t-${seq}`, value: 10 + (seq % 20) })}
+        />
+      );
+      act(() => {
+        vi.advanceTimersByTime(2600);
+      });
+      expect(screen.getByTestId('telemetry-chart-svg')).toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('isolates KanbanBoard Quick Add typing and DataTable selection lookups cleanly', () => {
+    const columns: KanbanColumnDef[] = [
+      { id: 'todo', title: 'To Do' },
+      { id: 'done', title: 'Done' },
+    ];
+    const cards: KanbanCardItem[] = [
+      { id: 'c1', columnId: 'todo', title: 'Ship compositor fix', priority: 'high' },
+    ];
+    const onCardAdd = vi.fn();
+    render(<KanbanBoard columns={columns} defaultCards={cards} onCardAdd={onCardAdd} />);
+    const input = screen.getByLabelText('Quick add card to To Do');
+    fireEvent.change(input, { target: { value: 'Verify 60fps' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    expect(onCardAdd).toHaveBeenCalledWith('todo', 'Verify 60fps');
+
+    const rows: DataTableRow[] = [
+      {
+        id: 'R-1',
+        project: 'Compositor',
+        owner: 'Ada',
+        department: 'Core',
+        status: 'Active',
+        completion: 92,
+        budgetUsd: 12000,
+        updatedAt: '2026-11-22',
+      },
+      {
+        id: 'R-2',
+        project: 'Virtualizer',
+        owner: 'Grace',
+        department: 'Core',
+        status: 'Review',
+        completion: 84,
+        budgetUsd: 8500,
+        updatedAt: '2026-11-22',
+      },
+    ];
+
+    function TableHarness() {
+      const [selected, setSelected] = useState<string[]>([]);
+      return (
+        <DataTable
+          rows={rows}
+          sortBy="id"
+          sortDir="asc"
+          onSortChange={() => {}}
+          selectedIds={selected}
+          onToggleSelect={(id) =>
+            setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
+          }
+        />
+      );
+    }
+
+    render(<TableHarness />);
+    const checkbox = screen.getByLabelText('Select Compositor');
+    fireEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+  });
+});

@@ -1,11 +1,12 @@
 'use client';
 
-import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { memo, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { CornerDownLeft } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 type CommandInputBarBaseProps = Omit<BaseProps<HTMLDivElement>, 'onSubmit' | 'onChange'>;
@@ -33,7 +34,7 @@ export interface CommandInputBarProps extends CommandInputBarBaseProps {
   submitLabel?: string;
 }
 
-export function CommandInputBar({
+function CommandInputBarInner({
   value,
   defaultValue = '',
   onChange,
@@ -196,7 +197,7 @@ export function CommandInputBar({
             htmlFor={inputId}
             data-testid="command-prompt"
             className="font-mono text-xs font-bold shrink-0 select-none"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             {prompt}
           </label>
@@ -210,7 +211,7 @@ export function CommandInputBar({
                 <span className="invisible">{currentValue}</span>
                 <span
                   data-testid="command-ghost-text"
-                  style={{ color: 'var(--prism-text-disabled)' }}
+                  style={STYLE_TEXT_DISABLED}
                 >
                   {ghostSuffix}
                 </span>
@@ -232,7 +233,7 @@ export function CommandInputBar({
               }}
               onKeyDown={handleKeyDown}
               className="relative z-10 w-full min-w-0 bg-transparent font-mono text-xs focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
 
@@ -240,7 +241,7 @@ export function CommandInputBar({
             <span
               aria-hidden="true"
               className="prism-crystal rounded px-1.5 py-0.5 font-mono text-[10px] font-semibold shrink-0 select-none"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Tab
             </span>
@@ -261,4 +262,5 @@ export function CommandInputBar({
   );
 }
 
+export const CommandInputBar = memo(CommandInputBarInner);
 CommandInputBar.displayName = 'CommandInputBar';

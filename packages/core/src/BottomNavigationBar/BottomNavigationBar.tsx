@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo, useRef, type KeyboardEvent, type ReactNode } from 'react';
+import { memo, useMemo, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface BottomNavItem {
@@ -50,7 +51,7 @@ function formatBadgeCount(count?: number): string | null {
   return whole > 99 ? '99+' : String(whole);
 }
 
-export function BottomNavigationBar({
+function BottomNavigationBarInner({
   items,
   activeId,
   defaultActiveId,
@@ -145,7 +146,7 @@ export function BottomNavigationBar({
           role="status"
           data-testid="bottom-nav-empty"
           className="prism-well rounded-2xl py-3 px-4 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No navigation destinations available.
         </div>
@@ -165,7 +166,7 @@ export function BottomNavigationBar({
                 { active: isActive, disabled: isDisabled },
                 'item'
               ),
-              baseClassName: `prism-focus-ring relative min-h-[48px] px-2 py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-[11px] leading-tight transition-all duration-150 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed ${
+              baseClassName: `prism-focus-ring relative min-h-[48px] px-2 py-1.5 rounded-2xl flex flex-col items-center justify-center gap-0.5 text-[11px] leading-tight transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed ${
                 isActive
                   ? 'prism-crystal font-semibold'
                   : 'font-medium enabled:hover:bg-[var(--prism-divider)]'
@@ -233,7 +234,7 @@ export function BottomNavigationBar({
                     aria-hidden="true"
                     data-testid={`bottom-nav-active-pill-${item.id}`}
                     className="w-5 h-0.5 rounded-full mt-0.5 shrink-0"
-                    style={{ backgroundColor: 'var(--prism-primary-main)' }}
+                    style={STYLE_BG_PRIMARY}
                   />
                 ) : null}
               </button>
@@ -245,4 +246,5 @@ export function BottomNavigationBar({
   );
 }
 
+export const BottomNavigationBar = memo(BottomNavigationBarInner);
 BottomNavigationBar.displayName = 'BottomNavigationBar';

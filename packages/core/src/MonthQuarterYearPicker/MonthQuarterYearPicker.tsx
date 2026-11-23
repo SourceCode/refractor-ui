@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useId, useMemo, useState } from 'react';
+import { memo, useCallback, useId, useMemo, useState } from 'react';
 import { CalendarRange, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type PeriodGranularity = 'month' | 'quarter' | 'year';
@@ -176,7 +177,7 @@ export function formatPeriodValue(period: PeriodValue): string {
   }
 }
 
-export function MonthQuarterYearPicker({
+function MonthQuarterYearPickerInner({
   value,
   defaultValue = DEFAULT_PERIOD_VALUE,
   onChange,
@@ -325,14 +326,14 @@ export function MonthQuarterYearPicker({
             <span
               aria-hidden="true"
               className="prism-well w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               <CalendarRange className="w-4 h-4 shrink-0" aria-hidden="true" />
             </span>
             <span
               id={headingId}
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {label}
             </span>
@@ -365,7 +366,7 @@ export function MonthQuarterYearPicker({
                   onClick={() => handleGranularityChange(granularity)}
                   className={cx(
                     isSelected ? 'prism-btn-primary' : 'prism-crystal',
-                    'prism-focus-ring flex-1 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all'
+                    'prism-focus-ring flex-1 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
                   )}
                   style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
                 >
@@ -387,8 +388,8 @@ export function MonthQuarterYearPicker({
           disabled={disabled || isPrevDisabled}
           data-testid="period-nav-prev"
           onClick={handlePrevNavigation}
-          className="prism-crystal prism-focus-ring w-8 h-8 rounded-xl inline-flex items-center justify-center cursor-pointer enabled:hover:brightness-105 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring w-8 h-8 rounded-xl inline-flex items-center justify-center cursor-pointer enabled:hover:brightness-105 disabled:opacity-40 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_PRIMARY}
         >
           <ChevronLeft className="w-4 h-4 shrink-0" aria-hidden="true" />
         </button>
@@ -396,7 +397,7 @@ export function MonthQuarterYearPicker({
         <span
           data-testid="period-nav-heading"
           className="text-xs font-mono tabular-nums font-semibold tracking-wide"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {isYearView ? `${decadeStart}–${decadeStart + 11}` : clampedViewYear}
         </span>
@@ -407,8 +408,8 @@ export function MonthQuarterYearPicker({
           disabled={disabled || isNextDisabled}
           data-testid="period-nav-next"
           onClick={handleNextNavigation}
-          className="prism-crystal prism-focus-ring w-8 h-8 rounded-xl inline-flex items-center justify-center cursor-pointer enabled:hover:brightness-105 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring w-8 h-8 rounded-xl inline-flex items-center justify-center cursor-pointer enabled:hover:brightness-105 disabled:opacity-40 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_PRIMARY}
         >
           <ChevronRight className="w-4 h-4 shrink-0" aria-hidden="true" />
         </button>
@@ -435,7 +436,7 @@ export function MonthQuarterYearPicker({
                 onClick={() => handleSelectMonth(item.month)}
                 className={cx(
                   isSelected ? 'prism-btn-primary' : 'prism-crystal',
-                  'prism-focus-ring h-10 rounded-xl text-xs font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all'
+                  'prism-focus-ring h-10 rounded-xl text-xs font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
                 )}
                 style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
               >
@@ -467,7 +468,7 @@ export function MonthQuarterYearPicker({
                 onClick={() => handleSelectQuarter(item.quarter)}
                 className={cx(
                   isSelected ? 'prism-btn-primary' : 'prism-crystal',
-                  'prism-focus-ring px-3 py-3 rounded-2xl flex flex-col items-center justify-center gap-0.5 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all'
+                  'prism-focus-ring px-3 py-3 rounded-2xl flex flex-col items-center justify-center gap-0.5 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
                 )}
                 style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
               >
@@ -507,7 +508,7 @@ export function MonthQuarterYearPicker({
                 onClick={() => handleSelectYear(yearValue)}
                 className={cx(
                   isSelected ? 'prism-btn-primary' : outOfBounds ? 'prism-well' : 'prism-crystal',
-                  'prism-focus-ring h-10 rounded-xl text-xs font-mono tabular-nums font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-40 disabled:cursor-not-allowed transition-all'
+                  'prism-focus-ring h-10 rounded-xl text-xs font-mono tabular-nums font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-40 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
                 )}
                 style={
                   isSelected
@@ -529,4 +530,5 @@ export function MonthQuarterYearPicker({
   );
 }
 
+export const MonthQuarterYearPicker = memo(MonthQuarterYearPickerInner);
 MonthQuarterYearPicker.displayName = 'MonthQuarterYearPicker';

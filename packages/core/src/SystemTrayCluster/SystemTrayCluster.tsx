@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -33,6 +34,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SystemTrayIndicatorId =
@@ -216,18 +218,18 @@ function TraySwitchRow({
   return (
     <div
       className="prism-well rounded-xl px-3 py-2.5 flex items-center justify-between gap-3 border min-w-0"
-      style={{ borderColor: 'var(--prism-divider)' }}
+      style={STYLE_BORDER_DIVIDER}
     >
       <div className="flex flex-col min-w-0">
         <span
           className="text-xs font-semibold truncate"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {label}
         </span>
         <span
           className="text-[11px] truncate"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {description}
         </span>
@@ -260,7 +262,7 @@ function TraySwitchRow({
   );
 }
 
-export function SystemTrayCluster({
+function SystemTrayClusterInner({
   value,
   defaultValue,
   openIndicator,
@@ -708,12 +710,12 @@ export function SystemTrayCluster({
             />
             <div
               className="prism-well rounded-xl px-3 py-2.5 flex items-center justify-between gap-2 border min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <div className="flex flex-col min-w-0">
                 <span
                   className="text-[10px] font-semibold uppercase tracking-wider"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Active Network
                 </span>
@@ -762,12 +764,12 @@ export function SystemTrayCluster({
             />
             <div
               className="prism-well rounded-xl px-3 py-2.5 flex items-center justify-between gap-2 border min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <div className="flex flex-col min-w-0">
                 <span
                   className="text-[10px] font-semibold uppercase tracking-wider"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Connected Device
                 </span>
@@ -810,13 +812,13 @@ export function SystemTrayCluster({
           <div className="flex flex-col gap-2.5 min-w-0">
             <div
               className="prism-well rounded-xl px-3 py-2.5 flex flex-col gap-2 border min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <div className="flex items-center justify-between gap-2 min-w-0">
                 <span
                   data-testid="system-tray-battery-pct"
                   className="tabular-nums text-2xl font-bold tracking-tight"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {state.batteryPct}%
                 </span>
@@ -857,11 +859,11 @@ export function SystemTrayCluster({
                 aria-valuetext={`${state.batteryPct}%${state.charging ? ', charging' : ''}`}
                 data-testid="system-tray-battery-progressbar"
                 className="prism-well h-2.5 w-full rounded-full overflow-hidden p-0.5 border"
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 <div
                   data-testid="system-tray-battery-fill"
-                  className="h-full rounded-full transition-all"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform]"
                   style={{
                     width: `${state.batteryPct}%`,
                     backgroundColor: batteryAccent,
@@ -890,13 +892,13 @@ export function SystemTrayCluster({
           <div className="flex flex-col gap-2.5 min-w-0">
             <div
               className="prism-well rounded-xl px-3 py-2.5 flex flex-col gap-2.5 border min-w-0"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <div className="flex items-center justify-between gap-2 min-w-0">
                 <span
                   data-testid="system-tray-volume-readout"
                   className="tabular-nums text-sm font-bold"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {state.muted ? 'Muted' : `${state.volumePct}%`}
                 </span>
@@ -1009,19 +1011,19 @@ export function SystemTrayCluster({
         return (
           <div
             className="prism-well rounded-xl p-3 flex flex-col gap-2 border min-w-0"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <span
               data-testid="system-tray-clock-time"
               className="tabular-nums text-2xl font-bold tracking-tight leading-none"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {clockDisplay}
             </span>
             <span
               data-testid="system-tray-clock-date"
               className="text-xs font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {dateDisplay}
             </span>
@@ -1036,14 +1038,14 @@ export function SystemTrayCluster({
                 <Globe
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-secondary-main)' }}
+                  style={STYLE_SECONDARY_MAIN}
                 />
                 <span>Universal Time</span>
               </span>
               <span
                 data-testid="system-tray-clock-utc"
                 className="font-mono tabular-nums font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {utcDisplay}
               </span>
@@ -1069,7 +1071,7 @@ export function SystemTrayCluster({
           barClass,
           'prism-crystal relative flex flex-wrap items-center justify-end gap-2 px-3 py-2 min-w-0 max-w-full rounded-t-[inherit] border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         {/* Top Specular Edge Sheen */}
         <span
@@ -1149,13 +1151,13 @@ export function SystemTrayCluster({
               <h3
                 id={popoverTitleId}
                 className="text-[11px] font-semibold uppercase tracking-wider truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {INDICATOR_META[activeIndicator].label}
               </h3>
               <span
                 className="prism-well px-1.5 py-0.5 rounded font-mono text-[10px] font-semibold shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Esc
               </span>
@@ -1173,7 +1175,7 @@ export function SystemTrayCluster({
           statusBarClass,
           'px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <div
           role="status"
@@ -1203,4 +1205,5 @@ export function SystemTrayCluster({
   );
 }
 
+export const SystemTrayCluster = memo(SystemTrayClusterInner);
 SystemTrayCluster.displayName = 'SystemTrayCluster';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -24,6 +25,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, compareNaturalStrings, formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TaskProcessStatus = 'running' | 'unresponsive' | 'sleeping';
@@ -230,7 +232,7 @@ function compareProcessEntries(
       return b.item.memoryMb - a.item.memoryMb || a.item.pid - b.item.pid;
     case 'name':
       return (
-        a.item.name.localeCompare(b.item.name, 'en', { sensitivity: 'base' }) ||
+        compareNaturalStrings(a.item.name, b.item.name) ||
         a.item.pid - b.item.pid
       );
   }
@@ -240,7 +242,7 @@ function formatMemoryGb(totalMemoryMb: number): string {
   return `${(totalMemoryMb / 1024).toFixed(2)} GB`;
 }
 
-export function TaskManagerDialog({
+function TaskManagerDialogInner({
   title = DEFAULT_TITLE,
   processes,
   defaultProcesses,
@@ -453,7 +455,7 @@ export function TaskManagerDialog({
       disabled,
     }),
     baseClassName: cx(
-      'prism-slab w-full max-w-full min-w-0 p-4 flex flex-col gap-3.5 transition-all',
+      'prism-slab w-full max-w-full min-w-0 p-4 flex flex-col gap-3.5 transition-[color,background-color,border-color,opacity,transform]',
       disabled ? 'opacity-60' : ''
     ),
     overrideClassName: override?.className,
@@ -495,7 +497,7 @@ export function TaskManagerDialog({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Activity aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
@@ -504,7 +506,7 @@ export function TaskManagerDialog({
             id={titleId}
             data-testid="task-manager-title"
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h2>
@@ -512,7 +514,7 @@ export function TaskManagerDialog({
           <span
             data-testid="task-manager-process-count"
             className="prism-well inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {processCountLabel}
           </span>
@@ -522,7 +524,7 @@ export function TaskManagerDialog({
           <span
             data-testid="task-manager-total-cpu"
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Cpu
               aria-hidden="true"
@@ -535,12 +537,12 @@ export function TaskManagerDialog({
           <span
             data-testid="task-manager-total-memory"
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <HardDrive
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-info-main)' }}
+              style={STYLE_INFO_MAIN}
             />
             <span>Mem {formatMemoryGb(totalMemoryMb)}</span>
           </span>
@@ -558,7 +560,7 @@ export function TaskManagerDialog({
           <Search
             aria-hidden="true"
             className="w-3.5 h-3.5 pointer-events-none absolute left-3 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <input
             type="search"
@@ -570,7 +572,7 @@ export function TaskManagerDialog({
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeyDown}
             className="prism-focus-ring w-full min-w-0 bg-transparent rounded-full pl-8 pr-8 py-1.5 text-xs font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
           {searchQuery.length > 0 ? (
             <button
@@ -580,7 +582,7 @@ export function TaskManagerDialog({
               data-testid="task-manager-search-clear"
               onClick={handleClearSearch}
               className="prism-focus-ring absolute right-1.5 w-5 h-5 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3 h-3 shrink-0" />
             </button>
@@ -594,7 +596,7 @@ export function TaskManagerDialog({
           data-testid="task-manager-unresponsive-toggle"
           onClick={handleToggleUnresponsiveOnly}
           className={cx(
-            'prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             unresponsiveOnly ? '' : 'prism-crystal'
           )}
           style={
@@ -643,7 +645,7 @@ export function TaskManagerDialog({
           <label
             htmlFor={sortSelectId}
             className="text-[11px] font-semibold whitespace-nowrap"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Sort by
           </label>
@@ -656,7 +658,7 @@ export function TaskManagerDialog({
               disabled={disabled}
               onChange={handleSortChange}
               className="prism-focus-ring appearance-none bg-transparent rounded-full pl-3 pr-7 py-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <option value="cpu">CPU %</option>
               <option value="memory">Memory MB</option>
@@ -665,7 +667,7 @@ export function TaskManagerDialog({
             <ChevronDown
               aria-hidden="true"
               className="w-3.5 h-3.5 pointer-events-none absolute right-2 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
           </div>
         </div>
@@ -683,13 +685,13 @@ export function TaskManagerDialog({
         >
           <p
             className="text-sm font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {isEmpty ? 'No active processes' : 'No matching processes'}
           </p>
           <p
             className="text-xs max-w-md"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {isEmpty
               ? 'All applications and background processes have been terminated.'
@@ -701,8 +703,8 @@ export function TaskManagerDialog({
               disabled={disabled}
               data-testid="task-manager-reset-filters"
               onClick={handleResetFilters}
-              className="prism-crystal prism-focus-ring mt-1 inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-crystal prism-focus-ring mt-1 inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Reset Filters</span>
@@ -725,40 +727,40 @@ export function TaskManagerDialog({
               <thead>
                 <tr
                   className="border-b"
-                  style={{ borderColor: 'var(--prism-divider)' }}
+                  style={STYLE_BORDER_DIVIDER}
                 >
                   <th
                     scope="col"
                     className="px-3.5 py-2.5 text-left font-semibold uppercase tracking-wider text-[10px] min-w-[200px]"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Process
                   </th>
                   <th
                     scope="col"
                     className="px-3 py-2.5 text-right font-semibold uppercase tracking-wider text-[10px] whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     PID
                   </th>
                   <th
                     scope="col"
                     className="px-3 py-2.5 text-right font-semibold uppercase tracking-wider text-[10px] whitespace-nowrap min-w-[120px]"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     CPU %
                   </th>
                   <th
                     scope="col"
                     className="px-3 py-2.5 text-right font-semibold uppercase tracking-wider text-[10px] whitespace-nowrap min-w-[132px]"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Memory
                   </th>
                   <th
                     scope="col"
                     className="px-3.5 py-2.5 text-right font-semibold uppercase tracking-wider text-[10px] whitespace-nowrap"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Select
                   </th>
@@ -779,7 +781,7 @@ export function TaskManagerDialog({
                     )
                   );
                   const memoryColor = getMemoryMeterColor(memoryFillPct);
-                  const formattedMemory = `${proc.memoryMb.toLocaleString('en-US')} MB`;
+                  const formattedMemory = `${formatUsNumber(proc.memoryMb)} MB`;
 
                   return (
                     <tr
@@ -807,13 +809,13 @@ export function TaskManagerDialog({
                             <span
                               data-testid={`task-manager-name-${entry.rowKey}`}
                               className="font-semibold break-words"
-                              style={{ color: 'var(--prism-text-primary)' }}
+                              style={STYLE_TEXT_PRIMARY}
                             >
                               {proc.name}
                             </span>
                             <span
                               className="prism-crystal inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium whitespace-nowrap shrink-0"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               {proc.kind === 'app' ? 'App' : 'Background'}
                             </span>
@@ -841,7 +843,7 @@ export function TaskManagerDialog({
                       <td
                         data-testid={`task-manager-pid-${entry.rowKey}`}
                         className="px-3 py-2.5 text-right align-middle font-mono tabular-nums whitespace-nowrap"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {proc.pid}
                       </td>
@@ -851,7 +853,7 @@ export function TaskManagerDialog({
                           <span
                             data-testid={`task-manager-cpu-${entry.rowKey}`}
                             className="font-mono font-semibold tabular-nums"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {proc.cpuPct.toFixed(1)}%
                           </span>
@@ -864,11 +866,11 @@ export function TaskManagerDialog({
                             aria-valuetext={`${proc.cpuPct.toFixed(1)}%`}
                             data-testid={`task-manager-cpu-meter-${entry.rowKey}`}
                             className="w-full h-1.5 rounded-full overflow-hidden"
-                            style={{ backgroundColor: 'var(--prism-divider)' }}
+                            style={STYLE_BG_DIVIDER}
                           >
                             <div
                               data-testid={`task-manager-cpu-bar-${entry.rowKey}`}
-                              className="h-full rounded-full transition-all"
+                              className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform]"
                               style={{
                                 width: `${proc.cpuPct}%`,
                                 backgroundColor: cpuColor,
@@ -883,7 +885,7 @@ export function TaskManagerDialog({
                           <span
                             data-testid={`task-manager-mem-${entry.rowKey}`}
                             className="font-mono font-semibold tabular-nums"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {formattedMemory}
                           </span>
@@ -896,11 +898,11 @@ export function TaskManagerDialog({
                             aria-valuetext={formattedMemory}
                             data-testid={`task-manager-mem-meter-${entry.rowKey}`}
                             className="w-full h-1.5 rounded-full overflow-hidden"
-                            style={{ backgroundColor: 'var(--prism-divider)' }}
+                            style={STYLE_BG_DIVIDER}
                           >
                             <div
                               data-testid={`task-manager-mem-bar-${entry.rowKey}`}
-                              className="h-full rounded-full transition-all"
+                              className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform]"
                               style={{
                                 width: `${memoryFillPct}%`,
                                 backgroundColor: memoryColor,
@@ -926,7 +928,7 @@ export function TaskManagerDialog({
                             handleSelectEntry(entry);
                           }}
                           className={cx(
-                            'prism-focus-ring inline-flex items-center justify-center h-7 px-2.5 rounded-full text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                            'prism-focus-ring inline-flex items-center justify-center h-7 px-2.5 rounded-full text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                             isSelected ? '' : 'prism-crystal'
                           )}
                           style={
@@ -956,7 +958,7 @@ export function TaskManagerDialog({
           footerClass,
           'pt-2.5 border-t flex flex-wrap items-center justify-between gap-2.5 min-w-0'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <p
           data-testid="task-manager-selected-summary"
@@ -980,7 +982,7 @@ export function TaskManagerDialog({
             selectedEntry ? () => handleForceQuit(selectedEntry) : undefined
           }
           className={cx(
-            'prism-focus-ring inline-flex items-center justify-center gap-1.5 h-8 px-3.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring inline-flex items-center justify-center gap-1.5 h-8 px-3.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             disabled || selectedEntry === null ? 'prism-well' : ''
           )}
           style={
@@ -1010,4 +1012,5 @@ export function TaskManagerDialog({
   );
 }
 
+export const TaskManagerDialog = memo(TaskManagerDialogInner);
 TaskManagerDialog.displayName = 'TaskManagerDialog';

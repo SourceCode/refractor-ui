@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -13,7 +14,7 @@ export interface SkeletonLoaderProps extends BaseProps<HTMLDivElement> {
   children?: ReactNode;
 }
 
-export function SkeletonLoader({
+function SkeletonLoaderInner({
   loading,
   children,
   className,
@@ -53,18 +54,19 @@ export function SkeletonLoader({
       {...merged}
     >
       <div className="flex items-center gap-3.5">
-        <div className="w-11 h-11 rounded-full bg-slate-300/70 dark:bg-slate-700/70 animate-pulse shrink-0" />
+        <div className="w-11 h-11 rounded-full bg-slate-300/70 dark:bg-slate-700/70 animate-pulse motion-reduce:animate-none shrink-0" />
         <div className="space-y-2 flex-1">
-          <div className="h-3.5 w-2/5 rounded-full bg-slate-300/80 dark:bg-slate-700/80 animate-pulse" />
-          <div className="h-2.5 w-3/5 rounded-full bg-slate-300/60 dark:bg-slate-700/60 animate-pulse" />
+          <div className="h-3.5 w-2/5 rounded-full bg-slate-300/80 dark:bg-slate-700/80 animate-pulse motion-reduce:animate-none" />
+          <div className="h-2.5 w-3/5 rounded-full bg-slate-300/60 dark:bg-slate-700/60 animate-pulse motion-reduce:animate-none" />
         </div>
       </div>
       <div className="space-y-2">
-        <div className="h-3 w-full rounded-full bg-slate-300/65 dark:bg-slate-700/65 animate-pulse" />
-        <div className="h-3 w-4/5 rounded-full bg-slate-300/55 dark:bg-slate-700/55 animate-pulse" />
+        <div className="h-3 w-full rounded-full bg-slate-300/65 dark:bg-slate-700/65 animate-pulse motion-reduce:animate-none" />
+        <div className="h-3 w-4/5 rounded-full bg-slate-300/55 dark:bg-slate-700/55 animate-pulse motion-reduce:animate-none" />
       </div>
     </div>
   );
 }
 
+export const SkeletonLoader = memo(SkeletonLoaderInner);
 SkeletonLoader.displayName = 'SkeletonLoader';

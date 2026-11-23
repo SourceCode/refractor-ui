@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import { Check } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -21,7 +23,7 @@ export interface StepperProps extends BaseProps<HTMLOListElement> {
   onStepClick?: (index: number) => void;
 }
 
-export function Stepper({
+function StepperInner({
   steps,
   activeStepIndex,
   onStepClick,
@@ -110,4 +112,5 @@ export function Stepper({
   );
 }
 
+export const Stepper = memo(StepperInner);
 Stepper.displayName = 'Stepper';

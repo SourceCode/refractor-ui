@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -26,6 +27,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowAttachedSheetTone = 'info' | 'warning' | 'critical';
@@ -128,7 +130,7 @@ function renderToneIcon(tone: WindowAttachedSheetTone): ReactNode {
   }
 }
 
-export function WindowAttachedSheet({
+function WindowAttachedSheetInner({
   windowTitle = DEFAULT_WINDOW_TITLE,
   sheetTitle = DEFAULT_SHEET_TITLE,
   sheetDescription = DEFAULT_SHEET_DESCRIPTION,
@@ -294,7 +296,7 @@ export function WindowAttachedSheet({
       ? 'prism-btn-cobalt prism-focus-ring h-9 px-4 inline-flex items-center justify-center gap-1.5 text-xs font-semibold tracking-[-0.01em] whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
       : tone === 'warning'
         ? 'prism-btn-primary prism-focus-ring h-9 px-4 inline-flex items-center justify-center gap-1.5 text-xs font-semibold tracking-[-0.01em] whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
-        : 'prism-focus-ring h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold tracking-[-0.01em] whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all border';
+        : 'prism-focus-ring h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold tracking-[-0.01em] whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform] border';
 
   const confirmButtonStyle =
     tone === 'critical'
@@ -352,7 +354,7 @@ export function WindowAttachedSheet({
               titlebarClass,
               'prism-crystal relative z-20 flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 min-w-0 max-w-full border-b'
             )}
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <div className="flex items-center gap-2.5 min-w-0 flex-1">
               <div
@@ -361,29 +363,29 @@ export function WindowAttachedSheet({
               >
                 <span
                   className="w-2.5 h-2.5 rounded-full"
-                  style={{ backgroundColor: 'var(--prism-error-main)' }}
+                  style={STYLE_BG_ERROR}
                 />
                 <span
                   className="w-2.5 h-2.5 rounded-full"
-                  style={{ backgroundColor: 'var(--prism-warning-main)' }}
+                  style={STYLE_BG_WARNING}
                 />
                 <span
                   className="w-2.5 h-2.5 rounded-full"
-                  style={{ backgroundColor: 'var(--prism-success-main)' }}
+                  style={STYLE_BG_SUCCESS}
                 />
               </div>
 
               <FileText
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               />
 
               <h2
                 id={targetWindowTitleId}
                 data-testid="window-attached-sheet-window-title"
                 className="text-xs sm:text-sm font-semibold tracking-[-0.01em] truncate min-w-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {resolvedWindowTitle}
               </h2>
@@ -417,7 +419,7 @@ export function WindowAttachedSheet({
                 data-active={isOpen ? 'true' : undefined}
                 onClick={handleOpenSheet}
                 className={cx(
-                  'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed transition-all',
+                  'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                   isOpen ? 'prism-well' : 'prism-btn-secondary'
                 )}
                 style={
@@ -452,22 +454,22 @@ export function WindowAttachedSheet({
               aria-hidden={isOpen}
               className={cx(
                 bodyClass,
-                'col-start-1 row-start-1 p-4 flex flex-col justify-between gap-4 min-w-0 max-w-full transition-all duration-200',
+                'col-start-1 row-start-1 p-4 flex flex-col justify-between gap-4 min-w-0 max-w-full transition-[color,background-color,border-color,opacity,transform] duration-200',
                 isOpen ? 'pointer-events-none select-none opacity-45' : 'opacity-100'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <div className="flex flex-col gap-2.5 min-w-0">
                 <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
                   <span
                     className="text-[11px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Document Buffer
                   </span>
                   <span
                     className="font-mono text-[11px] tabular-nums"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {targetEditCount} format pass{targetEditCount === 1 ? '' : 'es'}
                   </span>
@@ -475,7 +477,7 @@ export function WindowAttachedSheet({
 
                 <div
                   className="prism-well rounded-xl p-3 font-mono text-xs leading-relaxed flex flex-col gap-1 min-w-0 overflow-x-auto"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <code className="block break-words">
                     --prism-blur-px: 18px;
@@ -485,7 +487,7 @@ export function WindowAttachedSheet({
                   </code>
                   <code
                     className="block break-words"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {/* Pending calibration lines */}
                     {'/* 3 unsaved optical token edits */'}
@@ -495,11 +497,11 @@ export function WindowAttachedSheet({
 
               <div
                 className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t min-w-0"
-                style={{ borderColor: 'var(--prism-divider)' }}
+                style={STYLE_BORDER_DIVIDER}
               >
                 <span
                   className="text-xs min-w-0 break-words"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {isOpen
                     ? 'Window controls suspended while sheet is active.'
@@ -600,7 +602,7 @@ export function WindowAttachedSheet({
                             id={sheetTitleId}
                             data-testid="window-attached-sheet-title"
                             className="text-sm font-semibold tracking-[-0.01em] break-words min-w-0"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {resolvedSheetTitle}
                           </h3>
@@ -622,7 +624,7 @@ export function WindowAttachedSheet({
                             id={sheetDescriptionId}
                             data-testid="window-attached-sheet-description"
                             className="text-xs leading-relaxed break-words"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {resolvedSheetDescription}
                           </p>
@@ -637,7 +639,7 @@ export function WindowAttachedSheet({
                           customContentClass,
                           'prism-well rounded-xl p-3 text-xs min-w-0 max-w-full'
                         )}
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {children}
                       </div>
@@ -645,7 +647,7 @@ export function WindowAttachedSheet({
 
                     <div
                       className="flex flex-wrap items-center justify-end gap-2 pt-3 border-t min-w-0"
-                      style={{ borderColor: 'var(--prism-divider)' }}
+                      style={STYLE_BORDER_DIVIDER}
                     >
                       <button
                         type="button"
@@ -700,18 +702,18 @@ export function WindowAttachedSheet({
           >
             <header
               className="prism-crystal flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 min-w-0 max-w-full border-b"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <div className="flex items-center gap-2 min-w-0 flex-1">
                 <StickyNote
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-secondary-dark)' }}
+                  style={STYLE_SECONDARY_DARK}
                 />
                 <h2
                   id={siblingWindowTitleId}
                   className="text-xs sm:text-sm font-semibold tracking-[-0.01em] truncate min-w-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Reference Notes
                 </h2>
@@ -719,7 +721,7 @@ export function WindowAttachedSheet({
 
               <span
                 className="prism-well inline-flex items-center px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold uppercase tracking-wide whitespace-nowrap shrink-0"
-                style={{ color: 'var(--prism-success-main)' }}
+                style={STYLE_SUCCESS_MAIN}
               >
                 Unblocked
               </span>
@@ -729,12 +731,12 @@ export function WindowAttachedSheet({
               <div className="flex flex-col gap-2.5 min-w-0">
                 <p
                   className="text-xs leading-relaxed break-words"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Because the attached sheet scopes modality strictly to{' '}
                   <strong
                     className="font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {resolvedWindowTitle}
                   </strong>
@@ -743,18 +745,18 @@ export function WindowAttachedSheet({
 
                 <div
                   className="prism-well rounded-xl px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 min-w-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     className="text-[11px] font-medium"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Sibling pings
                   </span>
                   <span
                     data-testid="window-attached-sheet-sibling-count"
                     className="font-mono text-xs font-bold tabular-nums"
-                    style={{ color: 'var(--prism-primary-main)' }}
+                    style={STYLE_PRIMARY_MAIN}
                   >
                     {siblingPingCount}
                   </span>
@@ -815,4 +817,5 @@ export function WindowAttachedSheet({
   );
 }
 
+export const WindowAttachedSheet = memo(WindowAttachedSheetInner);
 WindowAttachedSheet.displayName = 'WindowAttachedSheet';

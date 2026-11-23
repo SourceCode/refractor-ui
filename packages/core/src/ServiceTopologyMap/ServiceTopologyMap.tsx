@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_ERROR_MAIN, STYLE_FILL_PRIMARY, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TopologyNodeKind = 'gateway' | 'service' | 'database' | 'queue' | 'cache';
@@ -550,7 +552,7 @@ function buildTopologyLayout(
   };
 }
 
-export function ServiceTopologyMap({
+function ServiceTopologyMapInner({
   nodes = DEFAULT_TOPOLOGY_NODES,
   edges = DEFAULT_TOPOLOGY_EDGES,
   title = 'Service Dependency Topology',
@@ -704,14 +706,14 @@ export function ServiceTopologyMap({
         <div className="min-w-0 flex flex-wrap items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Network aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -727,12 +729,12 @@ export function ServiceTopologyMap({
             <span
               data-testid="topology-count-healthy"
               className="prism-well inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono tabular-nums font-medium shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-success-main)' }}
+                style={STYLE_BG_SUCCESS}
               />
               <span>Healthy {layout.healthCounts.healthy}</span>
             </span>
@@ -740,12 +742,12 @@ export function ServiceTopologyMap({
             <span
               data-testid="topology-count-degraded"
               className="prism-well inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono tabular-nums font-medium shrink-0"
-              style={{ color: 'var(--prism-warning-main)' }}
+              style={STYLE_WARNING_MAIN}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-warning-main)' }}
+                style={STYLE_BG_WARNING}
               />
               <span>Degraded {layout.healthCounts.degraded}</span>
             </span>
@@ -753,12 +755,12 @@ export function ServiceTopologyMap({
             <span
               data-testid="topology-count-error"
               className="prism-well inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono tabular-nums font-medium shrink-0"
-              style={{ color: 'var(--prism-error-main)' }}
+              style={STYLE_ERROR_MAIN}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-error-main)' }}
+                style={STYLE_BG_ERROR}
               />
               <span>Error {layout.healthCounts.error}</span>
             </span>
@@ -770,7 +772,7 @@ export function ServiceTopologyMap({
             data-testid="topology-issues-toggle"
             onClick={() => setIssuesOnly((prev) => !prev)}
             className={cx(
-              'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition-all shrink-0',
+              'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] shrink-0',
               issuesOnly ? 'prism-crystal font-semibold' : 'prism-well opacity-85 hover:opacity-100'
             )}
             style={{
@@ -790,7 +792,7 @@ export function ServiceTopologyMap({
           role="status"
           data-testid="topology-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No services in topology — provide nodes to render dependency telemetry.
         </div>
@@ -864,7 +866,7 @@ export function ServiceTopologyMap({
                     y={18}
                     textAnchor="middle"
                     className="text-[9px] font-mono font-semibold tracking-wider"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {column.label}
                   </text>
@@ -1114,7 +1116,7 @@ export function ServiceTopologyMap({
                         x={roundTwo(left + 19)}
                         y={roundTwo(top + 16)}
                         className="text-[8px] font-mono uppercase tracking-wider"
-                        style={{ fill: 'var(--prism-text-secondary)' }}
+                        style={STYLE_FILL_SECONDARY}
                       >
                         {getKindLabel(node.kind)}
                       </text>
@@ -1124,7 +1126,7 @@ export function ServiceTopologyMap({
                         x={roundTwo(left + 9)}
                         y={roundTwo(top + 31)}
                         className="text-[10px] font-semibold"
-                        style={{ fill: 'var(--prism-text-primary)' }}
+                        style={STYLE_FILL_PRIMARY}
                       >
                         {truncateLabel(node.label)}
                       </text>
@@ -1162,17 +1164,17 @@ export function ServiceTopologyMap({
                 <div className="min-w-0 flex flex-wrap items-center gap-x-2 gap-y-1">
                   <span
                     className="font-semibold truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {activeNode.label}
                   </span>
                   <span
                     className="font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {getKindLabel(activeNode.kind)}
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                     ·
                   </span>
                   <span
@@ -1181,25 +1183,25 @@ export function ServiceTopologyMap({
                   >
                     {getHealthLabel(activeNode.health)}
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                     ·
                   </span>
                   <span
                     className="font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatRps(activeNode.rps)} rps
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                     ·
                   </span>
                   <span
                     className="font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     P95 {formatMs(activeNode.p95Ms)}
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                     ·
                   </span>
                   <span
@@ -1213,12 +1215,12 @@ export function ServiceTopologyMap({
                   >
                     {formatPct(activeNode.errorRatePct)} err
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                     ·
                   </span>
                   <span
                     className="font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {activeNode.upstreamIds.size} upstream / {activeNode.downstreamIds.size}{' '}
                     downstream
@@ -1230,7 +1232,7 @@ export function ServiceTopologyMap({
                   data-testid="topology-clear-selection"
                   onClick={handleClearSelection}
                   className="prism-focus-ring prism-crystal inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium cursor-pointer shrink-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <X aria-hidden="true" className="w-3 h-3 shrink-0" />
                   <span>Clear</span>
@@ -1241,7 +1243,7 @@ export function ServiceTopologyMap({
                 <div className="min-w-0 flex flex-wrap items-center gap-x-2 gap-y-1">
                   <span
                     className="font-semibold truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {activeEdge.sourceLabel} → {activeEdge.targetLabel}
                   </span>
@@ -1251,16 +1253,16 @@ export function ServiceTopologyMap({
                   >
                     {getHealthLabel(activeEdge.health)}
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                     ·
                   </span>
                   <span
                     className="font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatMs(activeEdge.latencyMs)} latency
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                     ·
                   </span>
                   <span
@@ -1274,12 +1276,12 @@ export function ServiceTopologyMap({
                   >
                     {formatPct(activeEdge.errorRatePct)} err
                   </span>
-                  <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+                  <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                     ·
                   </span>
                   <span
                     className="font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {formatRps(activeEdge.rps)} rps
                   </span>
@@ -1290,7 +1292,7 @@ export function ServiceTopologyMap({
                   data-testid="topology-clear-selection"
                   onClick={handleClearSelection}
                   className="prism-focus-ring prism-crystal inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium cursor-pointer shrink-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <X aria-hidden="true" className="w-3 h-3 shrink-0" />
                   <span>Clear</span>
@@ -1298,12 +1300,12 @@ export function ServiceTopologyMap({
               </>
             ) : (
               <div className="min-w-0 flex flex-wrap items-center justify-between gap-2 w-full">
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select a service node or dependency edge to inspect live telemetry.
                 </span>
                 <span
                   className="font-mono tabular-nums text-[11px] shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {layout.nodes.length} services · {layout.edges.length} links ·{' '}
                   {issueNodeCount} degraded/error
@@ -1317,4 +1319,5 @@ export function ServiceTopologyMap({
   );
 }
 
+export const ServiceTopologyMap = memo(ServiceTopologyMapInner);
 ServiceTopologyMap.displayName = 'ServiceTopologyMap';

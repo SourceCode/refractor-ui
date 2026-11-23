@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MotionCurveMode = 'spring' | 'bezier';
@@ -441,14 +443,14 @@ function CurveParameterSlider({
         <label
           htmlFor={sliderId}
           className="font-semibold tracking-tight truncate"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {label}
         </label>
         <span
           data-testid={`${testId}-value`}
           className="font-mono font-semibold tabular-nums whitespace-nowrap shrink-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {formattedValue}
         </span>
@@ -456,7 +458,7 @@ function CurveParameterSlider({
       <div className={cx('relative h-6 flex items-center', disabled ? 'opacity-50' : undefined)}>
         <div className="prism-well w-full h-2.5 rounded-full overflow-hidden p-0.5">
           <div
-            className="h-full rounded-full transition-all duration-75"
+            className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
             style={{
               width: `${pct}%`,
               backgroundColor: accentToken,
@@ -487,7 +489,7 @@ function CurveParameterSlider({
   );
 }
 
-export function SpringEasingPicker({
+function SpringEasingPickerInner({
   value,
   defaultValue,
   onChange,
@@ -748,7 +750,7 @@ export function SpringEasingPicker({
             <span
               aria-hidden="true"
               className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               <Activity className="w-4 h-4 shrink-0" />
             </span>
@@ -756,7 +758,7 @@ export function SpringEasingPicker({
               id={headingId}
               data-testid="spring-easing-title"
               className="text-sm font-semibold tracking-tight truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
@@ -775,7 +777,7 @@ export function SpringEasingPicker({
               data-testid="spring-easing-mode-spring"
               onClick={() => handleModeChange('spring')}
               className={cx(
-                'prism-focus-ring rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                'prism-focus-ring rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                 safeConfig.mode === 'spring'
                   ? 'prism-btn-primary'
                   : 'prism-crystal opacity-85 enabled:hover:opacity-100'
@@ -791,7 +793,7 @@ export function SpringEasingPicker({
               data-testid="spring-easing-mode-bezier"
               onClick={() => handleModeChange('bezier')}
               className={cx(
-                'prism-focus-ring rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                'prism-focus-ring rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                 safeConfig.mode === 'bezier'
                   ? 'prism-btn-primary'
                   : 'prism-crystal opacity-85 enabled:hover:opacity-100'
@@ -820,7 +822,7 @@ export function SpringEasingPicker({
                 data-testid={`spring-easing-preset-${preset.key}`}
                 onClick={() => handlePresetClick(preset)}
                 className={cx(
-                  'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold border cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                  'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold border cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                   isSelected
                     ? 'prism-crystal'
                     : 'prism-well opacity-85 enabled:hover:opacity-100'
@@ -878,7 +880,7 @@ export function SpringEasingPicker({
                         y={roundTo(gy + 3, 2)}
                         textAnchor="end"
                         className="text-[9px] font-mono tabular-nums"
-                        style={{ fill: 'var(--prism-text-secondary)' }}
+                        style={STYLE_FILL_SECONDARY}
                       >
                         {tick.label}
                       </text>
@@ -906,7 +908,7 @@ export function SpringEasingPicker({
                         y={PLOT_Y_BOTTOM + 14}
                         textAnchor="middle"
                         className="text-[9px] font-mono tabular-nums"
-                        style={{ fill: 'var(--prism-text-secondary)' }}
+                        style={STYLE_FILL_SECONDARY}
                       >
                         {tick.label}
                       </text>
@@ -999,14 +1001,14 @@ export function SpringEasingPicker({
             <div className="flex items-center justify-between gap-2 text-[11px] min-w-0">
               <span
                 className="font-semibold tracking-tight truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Live Motion Track
               </span>
               <span
                 data-testid="spring-easing-progress-readout"
                 className="font-mono font-semibold tabular-nums whitespace-nowrap shrink-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 t={progressPct}% · x={currentMotionValue.toFixed(2)}
               </span>
@@ -1016,7 +1018,7 @@ export function SpringEasingPicker({
               <div
                 aria-hidden="true"
                 className="w-full h-1.5 rounded-full"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
               <span
                 aria-hidden="true"
@@ -1048,7 +1050,7 @@ export function SpringEasingPicker({
                 aria-pressed={isPlaying}
                 data-testid="spring-easing-play-button"
                 onClick={handleTogglePlay}
-                className="prism-btn-primary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="prism-btn-primary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
               >
                 {isPlaying ? (
                   <Pause aria-hidden="true" className="w-3.5 h-3.5 shrink-0 relative z-10" />
@@ -1064,7 +1066,7 @@ export function SpringEasingPicker({
                 aria-label="Reset preview to start"
                 data-testid="spring-easing-reset-button"
                 onClick={handleResetPreview}
-                className="prism-btn-secondary prism-focus-ring h-8 px-2.5 inline-flex items-center justify-center text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="prism-btn-secondary prism-focus-ring h-8 px-2.5 inline-flex items-center justify-center text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
               >
                 <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               </button>
@@ -1118,14 +1120,14 @@ export function SpringEasingPicker({
                   <div
                     data-testid="spring-easing-settling-time"
                     className="text-xs font-mono font-semibold tabular-nums"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     Settling ~{springMetrics.settlingTimeMs}ms
                   </div>
                   <div
                     data-testid="spring-easing-damping-ratio"
                     className="text-[11px] font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     ζ = {springMetrics.dampingRatio.toFixed(2)}
                   </div>
@@ -1188,16 +1190,16 @@ export function SpringEasingPicker({
                 data-testid="spring-easing-bezier-metrics"
                 className="prism-well rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono tabular-nums min-w-0"
               >
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   P1 ({safeConfig.bezier[0].toFixed(2)}, {safeConfig.bezier[1].toFixed(2)})
                 </span>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   P2 ({safeConfig.bezier[2].toFixed(2)}, {safeConfig.bezier[3].toFixed(2)})
                 </span>
                 <span
                   data-testid="spring-easing-duration-pill"
                   className="prism-crystal rounded-full px-2 py-0.5 font-semibold"
-                  style={{ color: 'var(--prism-primary-main)' }}
+                  style={STYLE_PRIMARY_MAIN}
                 >
                   {safeConfig.durationMs}ms
                 </span>
@@ -1280,7 +1282,7 @@ export function SpringEasingPicker({
           aria-live="polite"
           data-testid="spring-easing-code-summary"
           className="font-mono text-xs font-semibold tabular-nums break-all min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {codeSummary}
         </code>
@@ -1292,7 +1294,7 @@ export function SpringEasingPicker({
           onClick={() => {
             void handleCopyCode();
           }}
-          className="prism-crystal prism-focus-ring rounded-full h-7 px-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          className="prism-crystal prism-focus-ring rounded-full h-7 px-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           style={{
             color: copied ? 'var(--prism-success-main)' : 'var(--prism-text-primary)',
           }}
@@ -1309,4 +1311,5 @@ export function SpringEasingPicker({
   );
 }
 
+export const SpringEasingPicker = memo(SpringEasingPickerInner);
 SpringEasingPicker.displayName = 'SpringEasingPicker';

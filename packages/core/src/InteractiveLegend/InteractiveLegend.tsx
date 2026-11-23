@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { memo, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Layers, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type LegendTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -104,7 +105,7 @@ function formatReadout(value: string | number | undefined, unit?: string): strin
   return cleanUnit ? `${formatted}${cleanUnit}` : formatted;
 }
 
-export function InteractiveLegend({
+function InteractiveLegendInner({
   items,
   title = 'Series Legend',
   orientation = 'horizontal',
@@ -260,14 +261,14 @@ export function InteractiveLegend({
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Layers aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -291,8 +292,8 @@ export function InteractiveLegend({
               data-testid="interactive-legend-show-all"
               onClick={handleShowAll}
               onKeyDown={(event) => handleButtonKeyDown(event, handleShowAll)}
-              className="prism-crystal prism-focus-ring inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-crystal prism-focus-ring inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Show All</span>
@@ -307,7 +308,7 @@ export function InteractiveLegend({
           aria-live="polite"
           data-testid="interactive-legend-empty"
           className={cx(emptyClass, 'prism-well rounded-2xl px-4 py-6 text-center text-xs')}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No series available in legend.
         </div>
@@ -342,8 +343,8 @@ export function InteractiveLegend({
                 className={cx(
                   itemClass,
                   orientation === 'vertical'
-                    ? 'flex items-center justify-between gap-2 rounded-2xl px-3 py-2 transition-all'
-                    : 'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 transition-all',
+                    ? 'flex items-center justify-between gap-2 rounded-2xl px-3 py-2 transition-[color,background-color,border-color,opacity,transform]'
+                    : 'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 transition-[color,background-color,border-color,opacity,transform]',
                   isHidden ? 'prism-well opacity-60' : 'prism-crystal'
                 )}
                 style={
@@ -448,7 +449,7 @@ export function InteractiveLegend({
                     }
                     className={cx(
                       soloClass,
-                      'prism-focus-ring shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide cursor-pointer transition-all',
+                      'prism-focus-ring shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                       isSoloed ? 'prism-emerald' : 'prism-well'
                     )}
                     style={isSoloed ? undefined : { color: 'var(--prism-text-secondary)' }}
@@ -465,4 +466,5 @@ export function InteractiveLegend({
   );
 }
 
+export const InteractiveLegend = memo(InteractiveLegendInner);
 InteractiveLegend.displayName = 'InteractiveLegend';

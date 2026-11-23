@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { ChartScatter } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ScatterTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -167,7 +168,7 @@ function computeBubbleRadius(
   return MIN_RADIUS + ratio * (MAX_RADIUS - MIN_RADIUS);
 }
 
-export function ScatterBubblePlot({
+function ScatterBubblePlotInner({
   points,
   title = 'Scatter & Bubble Plot',
   xLabel = 'X Axis',
@@ -390,14 +391,14 @@ export function ScatterBubblePlot({
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <ChartScatter aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -421,10 +422,10 @@ export function ScatterBubblePlot({
                   data-tone={grp.tone}
                   onClick={() => handleToggleGroup(grp.name)}
                   className={cx(
-                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all enabled:hover:opacity-100',
+                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] enabled:hover:opacity-100',
                     isVisible ? 'prism-crystal' : 'prism-well opacity-55 line-through'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
@@ -447,7 +448,7 @@ export function ScatterBubblePlot({
         <div
           data-testid="scatter-plot-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {isEmpty
             ? 'No valid scatter points available.'
@@ -481,7 +482,7 @@ export function ScatterBubblePlot({
                     y={tick.pos + 3.5}
                     textAnchor="end"
                     className="text-[10px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.label}
                   </text>
@@ -504,7 +505,7 @@ export function ScatterBubblePlot({
                     y={PAD_TOP + plotHeight + 16}
                     textAnchor="middle"
                     className="text-[10px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.label}
                   </text>
@@ -544,7 +545,7 @@ export function ScatterBubblePlot({
                 y={safeHeight - 8}
                 textAnchor="middle"
                 className="text-[11px] font-medium"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 {xLabel}
               </text>
@@ -556,7 +557,7 @@ export function ScatterBubblePlot({
                 textAnchor="middle"
                 transform={`rotate(-90 16 ${midY})`}
                 className="text-[11px] font-medium"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 {yLabel}
               </text>
@@ -596,7 +597,7 @@ export function ScatterBubblePlot({
                       fillOpacity={0.72}
                       stroke={bubble.colorToken}
                       strokeWidth={isSelected ? 2.5 : 1.5}
-                      className="prism-focus-ring cursor-pointer transition-all"
+                      className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
                       onClick={() => handleSelectBubble(bubble)}
                       onKeyDown={(event) => handleBubbleKeyDown(event, bubble)}
                     />
@@ -622,13 +623,13 @@ export function ScatterBubblePlot({
               />
               <span
                 className="font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {resolvedActive.point.label}
               </span>
               <span
                 className="font-mono tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 · {xLabel}: {formatNumber(resolvedActive.point.x)} · {yLabel}:{' '}
                 {formatNumber(resolvedActive.point.y)}
@@ -641,7 +642,7 @@ export function ScatterBubblePlot({
             {resolvedActive.group ? (
               <span
                 className="prism-crystal rounded-full px-2 py-0.5 text-[11px] font-medium shrink-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {resolvedActive.group}
               </span>
@@ -653,4 +654,5 @@ export function ScatterBubblePlot({
   );
 }
 
+export const ScatterBubblePlot = memo(ScatterBubblePlotInner);
 ScatterBubblePlot.displayName = 'ScatterBubblePlot';

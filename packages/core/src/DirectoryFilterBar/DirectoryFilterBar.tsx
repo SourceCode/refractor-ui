@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo } from 'react';
+import { memo, useCallback, useId, useMemo } from 'react';
 import {
   ArrowDownWideNarrow,
   ArrowUpNarrowWide,
@@ -21,6 +21,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN, compareLocaleStrings, compareNaturalStrings } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DirectoryGroupBy = 'none' | 'kind' | 'date' | 'size';
@@ -331,11 +332,11 @@ function sortDirectoryItems(
 ): DirectoryFilterItem[] {
   const direction = sortDir === 'asc' ? 1 : -1;
   return [...items].sort((a, b) => {
-    const byName = a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
+    const byName = compareNaturalStrings(a.name, b.name);
     if (byName !== 0) {
       return byName * direction;
     }
-    return a.id.localeCompare(b.id, 'en') * direction;
+    return compareLocaleStrings(a.id, b.id) * direction;
   });
 }
 
@@ -406,7 +407,7 @@ function groupAndSortItems(
       const orderB = rankB === -1 ? DATE_GROUP_ORDER.length : rankB;
       if (orderA !== orderB) return orderA - orderB;
     }
-    return labelA.localeCompare(labelB, 'en');
+    return compareLocaleStrings(labelA, labelB);
   });
 
   return orderedEntries.map(([label, bucketItems]) => {
@@ -429,7 +430,7 @@ function renderFileIcon(extension: string) {
       <FileCode
         aria-hidden="true"
         className={iconClass}
-        style={{ color: 'var(--prism-info-main)' }}
+        style={STYLE_INFO_MAIN}
       />
     );
   }
@@ -438,7 +439,7 @@ function renderFileIcon(extension: string) {
       <FileImage
         aria-hidden="true"
         className={iconClass}
-        style={{ color: 'var(--prism-success-main)' }}
+        style={STYLE_SUCCESS_MAIN}
       />
     );
   }
@@ -447,7 +448,7 @@ function renderFileIcon(extension: string) {
       <FileText
         aria-hidden="true"
         className={iconClass}
-        style={{ color: 'var(--prism-error-main)' }}
+        style={STYLE_ERROR_MAIN}
       />
     );
   }
@@ -456,7 +457,7 @@ function renderFileIcon(extension: string) {
       <FileArchive
         aria-hidden="true"
         className={iconClass}
-        style={{ color: 'var(--prism-warning-main)' }}
+        style={STYLE_WARNING_MAIN}
       />
     );
   }
@@ -465,7 +466,7 @@ function renderFileIcon(extension: string) {
       <FileAudio
         aria-hidden="true"
         className={iconClass}
-        style={{ color: 'var(--prism-primary-main)' }}
+        style={STYLE_PRIMARY_MAIN}
       />
     );
   }
@@ -473,12 +474,12 @@ function renderFileIcon(extension: string) {
     <File
       aria-hidden="true"
       className={iconClass}
-      style={{ color: 'var(--prism-text-secondary)' }}
+      style={STYLE_TEXT_SECONDARY}
     />
   );
 }
 
-export function DirectoryFilterBar({
+function DirectoryFilterBarInner({
   title = DEFAULT_TITLE,
   items,
   value,
@@ -519,7 +520,7 @@ export function DirectoryFilterBar({
         extSet.add(ext);
       }
     }
-    return Array.from(extSet).sort((a, b) => a.localeCompare(b, 'en'));
+    return Array.from(extSet).sort((a, b) => compareLocaleStrings(a, b));
   }, [sourceItems]);
 
   const filteredItems = useMemo(
@@ -625,14 +626,14 @@ export function DirectoryFilterBar({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <SlidersHorizontal aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="m-0 text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
@@ -646,7 +647,7 @@ export function DirectoryFilterBar({
             data-matching-count={String(matchingCount)}
             data-total-count={String(totalCount)}
             className="prism-well rounded-full px-3 py-1 font-mono text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {`Showing ${matchingCount} of ${totalCount} items`}
           </span>
@@ -658,7 +659,7 @@ export function DirectoryFilterBar({
               data-testid="directory-filter-reset"
               onClick={handleResetFilters}
               className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-opacity"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>Reset Filters</span>
@@ -675,7 +676,7 @@ export function DirectoryFilterBar({
             <Search
               aria-hidden="true"
               className="w-4 h-4 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <label htmlFor={searchInputId} className="sr-only">
               Filter folder by filename
@@ -698,7 +699,7 @@ export function DirectoryFilterBar({
                 }
               }}
               className="prism-focus-ring w-full min-w-0 bg-transparent text-xs sm:text-sm rounded-lg disabled:cursor-not-allowed disabled:opacity-60"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
             {state.query.length > 0 ? (
               <button
@@ -708,7 +709,7 @@ export function DirectoryFilterBar({
                 data-testid="directory-filter-clear-query"
                 onClick={() => commitState({ ...state, query: '' })}
                 className="prism-focus-ring rounded-full p-1 shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X aria-hidden="true" className="w-3.5 h-3.5" />
               </button>
@@ -719,7 +720,7 @@ export function DirectoryFilterBar({
             <label
               htmlFor={groupSelectId}
               className="text-xs font-medium shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Group by
             </label>
@@ -733,7 +734,7 @@ export function DirectoryFilterBar({
                 commitState({ ...state, groupBy: parseGroupBy(e.target.value) })
               }
               className="prism-well prism-focus-ring h-9 rounded-xl px-2.5 text-xs font-semibold cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <option value="none">None</option>
               <option value="kind">Kind</option>
@@ -749,22 +750,22 @@ export function DirectoryFilterBar({
               data-testid="directory-filter-sort-toggle"
               onClick={handleToggleSortDir}
               className={cx(
-                'prism-focus-ring h-9 px-3 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+                'prism-focus-ring h-9 px-3 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                 state.sortDir === 'desc' ? 'prism-crystal' : 'prism-well'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {state.sortDir === 'asc' ? (
                 <ArrowUpNarrowWide
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-primary-main)' }}
+                  style={STYLE_PRIMARY_MAIN}
                 />
               ) : (
                 <ArrowDownWideNarrow
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-secondary-dark)' }}
+                  style={STYLE_SECONDARY_DARK}
                 />
               )}
               <span>{state.sortDir === 'asc' ? 'Sort Asc' : 'Sort Desc'}</span>
@@ -782,7 +783,7 @@ export function DirectoryFilterBar({
           >
             <span
               className="text-[11px] font-semibold uppercase tracking-wider mr-0.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Extension
             </span>
@@ -796,7 +797,7 @@ export function DirectoryFilterBar({
               data-testid="directory-filter-ext-all"
               onClick={() => handleSelectExtension('all')}
               className={cx(
-                'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+                'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                 state.extension === 'all' ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
               )}
               style={
@@ -819,7 +820,7 @@ export function DirectoryFilterBar({
                   data-testid={`directory-filter-ext-${ext}`}
                   onClick={() => handleSelectExtension(ext)}
                   className={cx(
-                    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center font-mono text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+                    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center font-mono text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                     selected ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
                   )}
                   style={selected ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -838,7 +839,7 @@ export function DirectoryFilterBar({
           >
             <span
               className="text-[11px] font-semibold uppercase tracking-wider mr-0.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Tag
             </span>
@@ -852,7 +853,7 @@ export function DirectoryFilterBar({
               data-testid="directory-filter-tag-all"
               onClick={() => handleSelectTag('all')}
               className={cx(
-                'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+                'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                 state.tag === 'all' ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
               )}
               style={state.tag === 'all' ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -873,7 +874,7 @@ export function DirectoryFilterBar({
                   data-testid={`directory-filter-tag-${meta.tone}`}
                   onClick={() => handleSelectTag(meta.tone)}
                   className={cx(
-                    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+                    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 transition-[color,background-color,border-color,opacity,transform]',
                     selected ? 'font-semibold' : 'font-medium'
                   )}
                   style={{
@@ -907,12 +908,12 @@ export function DirectoryFilterBar({
               resultsClass,
               'prism-well rounded-2xl px-4 py-8 flex flex-col items-center justify-center text-center gap-1.5 min-w-0 max-w-full'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <FolderSearch aria-hidden="true" className="w-5 h-5 shrink-0 opacity-80" />
             <p
               className="m-0 text-xs font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               No matching directory items
             </p>
@@ -948,13 +949,13 @@ export function DirectoryFilterBar({
                   >
                     <span
                       className="text-xs font-semibold truncate min-w-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {group.label}
                     </span>
                     <span
                       className="prism-crystal rounded-full px-2 py-0.5 font-mono text-[11px] font-medium tabular-nums shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {group.items.length}
                     </span>
@@ -975,7 +976,7 @@ export function DirectoryFilterBar({
                           {renderFileIcon(item.extension)}
                           <span
                             className="text-xs font-semibold truncate min-w-0"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {item.name}
                           </span>
@@ -1004,7 +1005,7 @@ export function DirectoryFilterBar({
 
                         <div
                           className="flex flex-wrap items-center gap-2 shrink-0 text-[11px] font-mono tabular-nums"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           <span className="prism-well rounded-full px-2 py-0.5">
                             {item.extension}
@@ -1013,7 +1014,7 @@ export function DirectoryFilterBar({
                           <span>{item.modifiedGroup}</span>
                           <span
                             className="font-semibold"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {formatByteSize(item.sizeBytes)}
                           </span>
@@ -1031,4 +1032,5 @@ export function DirectoryFilterBar({
   );
 }
 
+export const DirectoryFilterBar = memo(DirectoryFilterBarInner);
 DirectoryFilterBar.displayName = 'DirectoryFilterBar';

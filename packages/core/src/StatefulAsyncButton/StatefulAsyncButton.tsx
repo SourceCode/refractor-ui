@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -17,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AsyncButtonState = 'idle' | 'loading' | 'success' | 'error';
@@ -129,7 +131,7 @@ function isPromiseLike(value: void | Promise<void>): value is Promise<void> {
   );
 }
 
-export function StatefulAsyncButton({
+function StatefulAsyncButtonInner({
   idleLabel,
   idleIcon,
   loadingLabel = 'Working...',
@@ -282,7 +284,7 @@ export function StatefulAsyncButton({
       busy: isLoading,
     }),
     baseClassName: cx(
-      'prism-focus-ring inline-flex items-center justify-center gap-2.5 font-medium tracking-[-0.01em] whitespace-nowrap shrink-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed',
+      'prism-focus-ring inline-flex items-center justify-center gap-2.5 font-medium tracking-[-0.01em] whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] duration-200 disabled:opacity-50 disabled:cursor-not-allowed',
       isLoading ? 'cursor-wait' : 'cursor-pointer',
       sizeVisual.buttonClass,
       surfaceVisual.surfaceClass
@@ -310,8 +312,8 @@ export function StatefulAsyncButton({
         <Loader2
           aria-hidden="true"
           data-testid="stateful-async-spinner"
-          className={cx(sizeVisual.iconClass, 'animate-spin shrink-0')}
-          style={{ color: 'var(--prism-primary-main)' }}
+          className={cx(sizeVisual.iconClass, 'animate-spin motion-reduce:animate-none shrink-0')}
+          style={STYLE_PRIMARY_MAIN}
         />
       );
       break;
@@ -373,4 +375,5 @@ export function StatefulAsyncButton({
   );
 }
 
+export const StatefulAsyncButton = memo(StatefulAsyncButtonInner);
 StatefulAsyncButton.displayName = 'StatefulAsyncButton';

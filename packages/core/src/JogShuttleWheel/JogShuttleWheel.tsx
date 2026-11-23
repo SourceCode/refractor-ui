@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -15,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface JogShuttleWheelProps extends BaseProps<HTMLDivElement> {
@@ -171,7 +173,7 @@ const KNURL_TICKS: ReadonlyArray<KnurlTick> = Array.from({ length: 36 }, (_, idx
   };
 });
 
-export function JogShuttleWheel({
+function JogShuttleWheelInner({
   title = DEFAULT_TITLE,
   frame,
   defaultFrame = DEFAULT_FRAME,
@@ -344,7 +346,7 @@ export function JogShuttleWheel({
       };
 
       cleanupJogDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -429,7 +431,7 @@ export function JogShuttleWheel({
       };
 
       cleanupShuttleDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -518,7 +520,7 @@ export function JogShuttleWheel({
           <span
             data-testid="jog-shuttle-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -528,7 +530,7 @@ export function JogShuttleWheel({
           <span
             data-testid="jog-frame-readout"
             className="prism-well px-2.5 py-1 rounded-full font-mono text-xs font-bold tabular-nums"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {frameReadout}
           </span>
@@ -705,7 +707,7 @@ export function JogShuttleWheel({
 
           <span
             className="text-[11px] font-mono tabular-nums text-center"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Jog · {safeMinFrame}–{safeMaxFrame}F
           </span>
@@ -716,7 +718,7 @@ export function JogShuttleWheel({
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span
               className="text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Shuttle Strip
             </span>
@@ -736,7 +738,7 @@ export function JogShuttleWheel({
                 'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed',
                 disabled ? 'opacity-50' : ''
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -780,7 +782,7 @@ export function JogShuttleWheel({
               {/* Base Rail */}
               <div
                 className="w-full h-1.5 rounded-full"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
 
               {/* Bidirectional Active Fill */}
@@ -894,4 +896,5 @@ export function JogShuttleWheel({
   );
 }
 
+export const JogShuttleWheel = memo(JogShuttleWheelInner);
 JogShuttleWheel.displayName = 'JogShuttleWheel';

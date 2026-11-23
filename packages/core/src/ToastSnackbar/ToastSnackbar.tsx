@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -19,7 +21,7 @@ export interface ToastSnackbarProps extends BaseProps<HTMLDivElement> {
   onDismiss?: () => void;
 }
 
-export function ToastSnackbar({
+function ToastSnackbarInner({
   title,
   description,
   tone = 'amber',
@@ -93,4 +95,5 @@ export function ToastSnackbar({
   );
 }
 
+export const ToastSnackbar = memo(ToastSnackbarInner);
 ToastSnackbar.displayName = 'ToastSnackbar';

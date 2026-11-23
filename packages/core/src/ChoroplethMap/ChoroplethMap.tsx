@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ChoroplethTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -276,7 +278,7 @@ function computeFillOpacity(value: number, minVal: number, maxVal: number): numb
   return Number((MIN_FILL_OPACITY + ratio * (MAX_FILL_OPACITY - MIN_FILL_OPACITY)).toFixed(2));
 }
 
-export function ChoroplethMap({
+function ChoroplethMapInner({
   regions,
   title = 'Regional Choropleth Map',
   valueUnit = '',
@@ -522,7 +524,7 @@ export function ChoroplethMap({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -530,7 +532,7 @@ export function ChoroplethMap({
           <span
             data-testid="choropleth-region-count"
             className="prism-crystal px-2.5 py-0.5 rounded-full text-[11px] font-mono tabular-nums font-medium"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {regionCountLabel}
           </span>
@@ -547,7 +549,7 @@ export function ChoroplethMap({
             legendClass,
             'prism-crystal px-3 py-1 rounded-full inline-flex flex-wrap items-center gap-1.5 text-[11px] font-medium'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span>Low</span>
           <span className="inline-flex items-center gap-1" aria-hidden="true">
@@ -573,7 +575,7 @@ export function ChoroplethMap({
             <span
               data-testid="choropleth-legend-range"
               className="font-mono tabular-nums pl-1"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {rangeLabel}
             </span>
@@ -586,7 +588,7 @@ export function ChoroplethMap({
           role="status"
           data-testid="choropleth-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No valid regional data to display.
         </div>
@@ -598,7 +600,7 @@ export function ChoroplethMap({
               canvasClass,
               'prism-well relative w-full rounded-2xl overflow-hidden border'
             )}
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
             onClick={handleClearSelection}
           >
             <svg
@@ -735,7 +737,7 @@ export function ChoroplethMap({
                   onClick={() => handleSelectRegion(region)}
                   onKeyDown={handleRegionKeyDown(region)}
                   className={cx(
-                    'prism-focus-ring inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs cursor-pointer transition-all duration-150 border',
+                    'prism-focus-ring inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150 border',
                     isSelected
                       ? isEmeraldActive
                         ? 'prism-emerald font-semibold'
@@ -789,7 +791,7 @@ export function ChoroplethMap({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeRegion ? (
               <>
@@ -813,7 +815,7 @@ export function ChoroplethMap({
                     <span
                       data-testid="choropleth-readout-detail"
                       className="text-xs"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {activeRegion.detail}
                     </span>
@@ -825,21 +827,21 @@ export function ChoroplethMap({
                   aria-label="Clear selected region"
                   onClick={handleClearSelection}
                   className="prism-focus-ring prism-crystal px-2.5 py-1 rounded-full text-[11px] font-medium cursor-pointer shrink-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Clear
                 </button>
               </>
             ) : (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select any region polygon or pill to inspect share and details. Press Escape to
                   clear.
                 </span>
                 <span
                   data-testid="choropleth-total"
                   className="font-mono font-medium shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`Total: ${formatMetric(totalValue, valueUnit)}`}
                 </span>
@@ -852,4 +854,5 @@ export function ChoroplethMap({
   );
 }
 
+export const ChoroplethMap = memo(ChoroplethMapInner);
 ChoroplethMap.displayName = 'ChoroplethMap';

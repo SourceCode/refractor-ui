@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_FILL_PRIMARY, STYLE_FILL_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type QuadrantZoneId = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
@@ -296,7 +298,7 @@ function projectY(y: number): number {
   return roundTwo(PAD_TOP + ((100 - y) / 100) * PLOT_HEIGHT);
 }
 
-export function QuadrantMatrix({
+function QuadrantMatrixInner({
   items,
   xLabel = 'Implementation Effort',
   yLabel = 'Strategic Impact',
@@ -561,14 +563,14 @@ export function QuadrantMatrix({
             <h4
               id={headingId}
               className="text-sm font-semibold tracking-tight truncate max-w-full"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
             <span
               data-testid="quadrant-total-count"
               className="prism-crystal rounded-full px-2.5 py-0.5 text-[11px] font-mono tabular-nums font-medium shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {totalCountLabel}
             </span>
@@ -587,15 +589,15 @@ export function QuadrantMatrix({
             data-testid="quadrant-filter-all"
             onClick={() => setActiveFilter('all')}
             className={cx(
-              'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all',
+              'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
               activeFilter === 'all' ? 'prism-crystal' : 'prism-well opacity-75 hover:opacity-100'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span>All</span>
             <span
               className="font-mono text-[10px] tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {plottedItems.length}
             </span>
@@ -615,7 +617,7 @@ export function QuadrantMatrix({
                 data-quadrant={zone.id}
                 onClick={() => setActiveFilter(zone.id)}
                 className={cx(
-                  'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all',
+                  'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                   isSelectedFilter ? 'prism-crystal' : 'prism-well opacity-75 hover:opacity-100'
                 )}
                 style={{
@@ -632,7 +634,7 @@ export function QuadrantMatrix({
                 <span
                   data-testid={`quadrant-filter-count-${zone.id}`}
                   className="font-mono text-[10px] tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {count}
                 </span>
@@ -647,7 +649,7 @@ export function QuadrantMatrix({
           role="status"
           data-testid="quadrant-matrix-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No strategic initiatives available to plot in this quadrant matrix.
         </div>
@@ -763,7 +765,7 @@ export function QuadrantMatrix({
                 y={PAD_TOP + PLOT_HEIGHT + 14}
                 textAnchor="start"
                 className="text-[9px] font-mono tabular-nums"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 0
               </text>
@@ -772,7 +774,7 @@ export function QuadrantMatrix({
                 y={PAD_TOP + PLOT_HEIGHT + 14}
                 textAnchor="middle"
                 className="text-[9px] font-mono tabular-nums"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 {formatCoord(safeSplitX)}
               </text>
@@ -781,7 +783,7 @@ export function QuadrantMatrix({
                 y={PAD_TOP + PLOT_HEIGHT + 14}
                 textAnchor="end"
                 className="text-[9px] font-mono tabular-nums"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 100
               </text>
@@ -791,7 +793,7 @@ export function QuadrantMatrix({
                 y={PAD_TOP + PLOT_HEIGHT}
                 textAnchor="end"
                 className="text-[9px] font-mono tabular-nums"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 0
               </text>
@@ -800,7 +802,7 @@ export function QuadrantMatrix({
                 y={splitSvgY + 3}
                 textAnchor="end"
                 className="text-[9px] font-mono tabular-nums"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 {formatCoord(safeSplitY)}
               </text>
@@ -809,7 +811,7 @@ export function QuadrantMatrix({
                 y={PAD_TOP + 8}
                 textAnchor="end"
                 className="text-[9px] font-mono tabular-nums"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 100
               </text>
@@ -820,7 +822,7 @@ export function QuadrantMatrix({
                 y={SVG_HEIGHT - 8}
                 textAnchor="middle"
                 className="text-[11px] font-medium"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 {xLabel}
               </text>
@@ -832,7 +834,7 @@ export function QuadrantMatrix({
                 textAnchor="middle"
                 transform={`rotate(-90 14 ${PAD_TOP + PLOT_HEIGHT / 2})`}
                 className="text-[11px] font-medium"
-                style={{ fill: 'var(--prism-text-secondary)' }}
+                style={STYLE_FILL_SECONDARY}
               >
                 {yLabel}
               </text>
@@ -905,7 +907,7 @@ export function QuadrantMatrix({
                         textAnchor={entry.labelAnchor}
                         pointerEvents="none"
                         className="text-[10px] font-medium"
-                        style={{ fill: 'var(--prism-text-primary)' }}
+                        style={STYLE_FILL_PRIMARY}
                       >
                         {entry.displayLabel}
                       </text>
@@ -935,7 +937,7 @@ export function QuadrantMatrix({
                   <span
                     data-testid="quadrant-inspector-label"
                     className="font-semibold truncate max-w-full"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {selectedItem.label}
                   </span>
@@ -953,7 +955,7 @@ export function QuadrantMatrix({
                   <span
                     data-testid="quadrant-inspector-coords"
                     className="font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {`${xLabel}: ${formatCoord(selectedItem.x)} · ${yLabel}: ${formatCoord(selectedItem.y)}`}
                   </span>
@@ -963,7 +965,7 @@ export function QuadrantMatrix({
                   <p
                     data-testid="quadrant-inspector-summary"
                     className="w-full text-[11px] leading-relaxed min-w-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {selectedItem.summary}
                   </p>
@@ -972,7 +974,7 @@ export function QuadrantMatrix({
             ) : (
               <span
                 data-testid="quadrant-inspector-empty-zone"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {`No initiatives in ${getZoneLabel(activeFilter as QuadrantZoneId, resolvedLabels)}. Select All or another quadrant filter above.`}
               </span>
@@ -984,4 +986,5 @@ export function QuadrantMatrix({
   );
 }
 
+export const QuadrantMatrix = memo(QuadrantMatrixInner);
 QuadrantMatrix.displayName = 'QuadrantMatrix';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, type KeyboardEvent, type ReactNode } from 'react';
+import { memo, useMemo, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import { Check, Inbox } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -55,7 +55,7 @@ function getColumnsGridClass(columns: 1 | 2 | 3): string {
   return 'grid grid-cols-1 sm:grid-cols-2 gap-3';
 }
 
-export function RichSelectionCards({
+function RichSelectionCardsInner({
   options,
   mode = 'single',
   value,
@@ -210,7 +210,7 @@ export function RichSelectionCards({
               onKeyDown={(e) => handleCardKeyDown(e, opt)}
               className={cx(
                 cardClass,
-                'prism-focus-ring relative w-full text-left rounded-2xl p-4 flex items-start gap-3.5 transition-all duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:-translate-y-0.5 enabled:hover:brightness-[1.02]',
+                'prism-focus-ring relative w-full text-left rounded-2xl p-4 flex items-start gap-3.5 transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:-translate-y-0.5 enabled:hover:brightness-[1.02]',
                 isSelected
                   ? 'prism-crystal ring-2 ring-[var(--prism-primary-main)]'
                   : 'prism-slab border border-[var(--prism-divider)]'
@@ -262,7 +262,7 @@ export function RichSelectionCards({
                 data-testid={`rich-card-indicator-${opt.id}`}
                 className={cx(
                   checkClass,
-                  'absolute top-3.5 right-3.5 w-5 h-5 inline-flex items-center justify-center transition-all duration-150',
+                  'absolute top-3.5 right-3.5 w-5 h-5 inline-flex items-center justify-center transition-[color,background-color,border-color,opacity,transform] duration-150',
                   isSingle ? 'rounded-full' : 'rounded-md',
                   isSelected
                     ? 'prism-emerald text-[var(--prism-success-contrast)]'
@@ -281,4 +281,5 @@ export function RichSelectionCards({
   );
 }
 
+export const RichSelectionCards = memo(RichSelectionCardsInner);
 RichSelectionCards.displayName = 'RichSelectionCards';

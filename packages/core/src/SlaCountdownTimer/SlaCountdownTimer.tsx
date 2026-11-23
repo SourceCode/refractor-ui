@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useEffect,
   useId,
   useMemo,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SlaUrgencyState = 'nominal' | 'approaching' | 'critical' | 'breached';
@@ -186,7 +188,7 @@ function formatSlaReadout(remainingSeconds: number): string {
   return clock;
 }
 
-export function SlaCountdownTimer({
+function SlaCountdownTimerInner({
   title = 'SLA Response Countdown',
   ticketId = 'INC-4821',
   policyLabel = 'P1 · First Response',
@@ -399,7 +401,7 @@ export function SlaCountdownTimer({
         <span
           data-testid="sla-timer-ticket"
           className="font-mono text-xs font-medium whitespace-nowrap"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {ticketId}
         </span>
@@ -418,7 +420,7 @@ export function SlaCountdownTimer({
             data-testid="sla-timer-escalate"
             onClick={handleEscalate}
             onKeyDown={(event) => handleButtonKeyDown(event, handleEscalate)}
-            className="prism-focus-ring prism-crystal rounded-full px-2.5 py-0.5 inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="prism-focus-ring prism-crystal rounded-full px-2.5 py-0.5 inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
             style={{
               color: urgencyMeta.colorToken,
               boxShadow: urgencyMeta.ringShadow,
@@ -481,14 +483,14 @@ export function SlaCountdownTimer({
               id={headingId}
               data-testid="sla-timer-title"
               className="text-sm font-semibold tracking-tight truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
             <p
               data-testid="sla-timer-ticket"
               className="font-mono text-xs tabular-nums truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {ticketId}
             </p>
@@ -502,7 +504,7 @@ export function SlaCountdownTimer({
               policyClass,
               'prism-crystal rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {policyLabel}
           </span>
@@ -544,7 +546,7 @@ export function SlaCountdownTimer({
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs min-w-0">
             <span
               className="font-medium truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {urgency === 'breached' ? 'SLA window exhausted' : 'SLA window remaining'}
             </span>
@@ -568,7 +570,7 @@ export function SlaCountdownTimer({
           >
             <div
               data-testid="sla-timer-progress-fill"
-              className="h-full rounded-full transition-all duration-300"
+              className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-300"
               style={{
                 width: `${progressPercent}%`,
                 backgroundColor: urgencyMeta.colorToken,
@@ -588,8 +590,8 @@ export function SlaCountdownTimer({
               data-testid="sla-timer-toggle"
               onClick={handleToggleRunning}
               onKeyDown={(event) => handleButtonKeyDown(event, handleToggleRunning)}
-              className="prism-focus-ring prism-crystal rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-focus-ring prism-crystal rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               {isActiveRunning ? (
                 <>
@@ -610,8 +612,8 @@ export function SlaCountdownTimer({
               data-testid="sla-timer-reset"
               onClick={handleReset}
               onKeyDown={(event) => handleButtonKeyDown(event, handleReset)}
-              className="prism-focus-ring prism-crystal rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-focus-ring prism-crystal rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
               <span>Reset</span>
@@ -626,7 +628,7 @@ export function SlaCountdownTimer({
             onClick={handleEscalate}
             onKeyDown={(event) => handleButtonKeyDown(event, handleEscalate)}
             className={cx(
-              'prism-focus-ring rounded-full px-3.5 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+              'prism-focus-ring rounded-full px-3.5 py-1.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
               isSevere ? 'prism-btn-primary' : 'prism-btn-secondary'
             )}
           >
@@ -662,4 +664,5 @@ export function SlaCountdownTimer({
   );
 }
 
+export const SlaCountdownTimer = memo(SlaCountdownTimerInner);
 SlaCountdownTimer.displayName = 'SlaCountdownTimer';

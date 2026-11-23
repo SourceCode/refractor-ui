@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useMemo } from 'react';
+import { memo, useId, useMemo } from 'react';
 import { AlertTriangle, Layers } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ContextTokenSegmentKind = 'system' | 'files' | 'tools' | 'history';
@@ -101,7 +102,7 @@ function getHealthAccentToken(health: ContextTokenHealth): string {
   }
 }
 
-export function ContextTokenMeter({
+function ContextTokenMeterInner({
   segments,
   maxTokens,
   variant = 'bar',
@@ -213,7 +214,7 @@ export function ContextTokenMeter({
             data-testid={`context-legend-${segment.kind}`}
             data-segment-kind={segment.kind}
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -223,7 +224,7 @@ export function ContextTokenMeter({
             <span className="truncate max-w-[10rem]">{segment.label}</span>
             <span
               className="font-mono tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {formatTokenCount(segment.tokens)}
             </span>
@@ -234,7 +235,7 @@ export function ContextTokenMeter({
       <div
         data-testid="context-token-empty"
         className="prism-well rounded-2xl px-3 py-2 text-xs"
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         No token segments recorded.
       </div>
@@ -258,7 +259,7 @@ export function ContextTokenMeter({
           <span
             id={headingId}
             className="text-xs font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -280,7 +281,7 @@ export function ContextTokenMeter({
         <span
           data-testid="context-token-summary"
           className="font-mono text-xs font-medium tabular-nums whitespace-nowrap shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {usedLabel} / {maxLabel} tokens
         </span>
@@ -310,7 +311,7 @@ export function ContextTokenMeter({
                     key={segment.key}
                     data-testid={`token-segment-${segment.kind}`}
                     data-segment-kind={segment.kind}
-                    className="h-full transition-all duration-200 first:rounded-l-full last:rounded-r-full"
+                    className="h-full transition-[color,background-color,border-color,opacity,transform] duration-200 first:rounded-l-full last:rounded-r-full"
                     style={{
                       width: `${widthPercent}%`,
                       backgroundColor: segment.colorToken,
@@ -382,4 +383,5 @@ export function ContextTokenMeter({
   );
 }
 
+export const ContextTokenMeter = memo(ContextTokenMeterInner);
 ContextTokenMeter.displayName = 'ContextTokenMeter';

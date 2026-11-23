@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type LogSeverity = 'debug' | 'info' | 'warn' | 'error';
@@ -103,7 +105,7 @@ const SEVERITY_META: Record<LogSeverity, SeverityMeta> = {
   },
 };
 
-export function LiveLogStreamer({
+function LiveLogStreamerInner({
   entries,
   title = 'Live Log Stream',
   defaultSeverities,
@@ -270,7 +272,7 @@ export function LiveLogStreamer({
   const entryClass = stableClassName('live-log-streamer', 'entry');
 
   const controlButtonClass =
-    'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
+    'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
 
   return (
     <div
@@ -285,21 +287,21 @@ export function LiveLogStreamer({
           <div className="min-w-0 flex items-center gap-2.5">
             <span
               className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               <Terminal aria-hidden="true" className="w-4 h-4 shrink-0" />
             </span>
             <span
               id={titleId}
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </span>
             <span
               data-testid="live-log-count"
               className="prism-well rounded-full px-2 py-0.5 font-mono text-[11px] tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {filteredEntries.length}/{entries.length}
             </span>
@@ -346,7 +348,7 @@ export function LiveLogStreamer({
                 type="button"
                 onClick={onClear}
                 className={cx(controlButtonClass, 'prism-crystal')}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <Trash2 aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                 <span>Clear</span>
@@ -360,7 +362,7 @@ export function LiveLogStreamer({
             <Search
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <input
               type="text"
@@ -370,7 +372,7 @@ export function LiveLogStreamer({
               placeholder="Filter logs by message, source, or timestamp..."
               aria-label="Filter log entries"
               className="prism-focus-ring bg-transparent border-0 outline-none w-full min-w-0 text-xs font-mono"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
             {query.length > 0 ? (
               <button
@@ -378,7 +380,7 @@ export function LiveLogStreamer({
                 onClick={handleClearQuery}
                 aria-label="Clear log search"
                 className="prism-focus-ring w-5 h-5 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X aria-hidden="true" className="w-3 h-3" />
               </button>
@@ -403,7 +405,7 @@ export function LiveLogStreamer({
                   data-severity={severity}
                   onClick={() => handleToggleSeverity(severity)}
                   className={cx(
-                    'prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap transition-all cursor-pointer enabled:hover:brightness-105',
+                    'prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105',
                     isActive ? 'prism-crystal' : 'prism-well opacity-60'
                   )}
                   style={{
@@ -413,7 +415,7 @@ export function LiveLogStreamer({
                   <span>{meta.label}</span>{' '}
                   <span
                     className="font-mono text-[11px] tabular-nums"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {count}
                   </span>
@@ -441,7 +443,7 @@ export function LiveLogStreamer({
           <p
             data-testid="live-log-empty"
             className="py-8 text-center text-xs"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {emptyMessage}
           </p>
@@ -455,13 +457,13 @@ export function LiveLogStreamer({
                   data-severity={entry.severity}
                   className={cx(
                     entryClass,
-                    'flex items-start gap-2 leading-relaxed py-0.5 border-b last:border-b-0'
+                    'prism-cv-row flex items-start gap-2 leading-relaxed py-0.5 border-b last:border-b-0'
                   )}
-                  style={{ borderColor: 'var(--prism-divider)' }}
+                  style={STYLE_BORDER_DIVIDER}
                 >
                   <time
                     className="tabular-nums shrink-0 select-none"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {entry.timestamp}
                   </time>
@@ -477,14 +479,14 @@ export function LiveLogStreamer({
                   {entry.source ? (
                     <span
                       className="prism-crystal rounded-full px-2 py-0.5 text-[10px] font-medium shrink-0"
-                      style={{ color: 'var(--prism-secondary-dark)' }}
+                      style={STYLE_SECONDARY_DARK}
                     >
                       {entry.source}
                     </span>
                   ) : null}
                   <span
                     className="min-w-0 flex-1 whitespace-pre-wrap break-words"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {entry.message}
                   </span>
@@ -498,4 +500,5 @@ export function LiveLogStreamer({
   );
 }
 
+export const LiveLogStreamer = memo(LiveLogStreamerInner);
 LiveLogStreamer.displayName = 'LiveLogStreamer';

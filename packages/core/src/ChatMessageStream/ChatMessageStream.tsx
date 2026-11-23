@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type ReactNode, type UIEvent } from 'react';
+import { memo, useEffect, useMemo, useRef, useState, type ReactNode, type UIEvent } from 'react';
 import { AlertCircle, ArrowDown, Info, MessageSquare } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ChatMessageRole = 'user' | 'assistant' | 'system';
@@ -97,7 +98,7 @@ function AssistantAvatar({ author, avatarSrc }: AssistantAvatarProps) {
           role="img"
           aria-label={accessibleName}
           className="prism-well w-full h-full rounded-full flex items-center justify-center text-[11px] font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {initials}
         </span>
@@ -114,7 +115,7 @@ function scrollElementToBottom(el: HTMLDivElement, behavior: ScrollBehavior): vo
   }
 }
 
-export function ChatMessageStream({
+function ChatMessageStreamInner({
   messages,
   emptyMessage = 'Start a conversation to see messages here.',
   maxHeightPx = 420,
@@ -198,7 +199,7 @@ export function ChatMessageStream({
         <div
           data-testid="chat-stream-empty"
           className="prism-well rounded-2xl px-4 py-10 flex flex-col items-center justify-center gap-2 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <MessageSquare aria-hidden="true" className="w-5 h-5 opacity-75" />
           <p>{emptyMessage}</p>
@@ -221,12 +222,12 @@ export function ChatMessageStream({
                 >
                   <div
                     className="prism-well rounded-full px-3.5 py-1.5 max-w-[88%] inline-flex items-center gap-2 text-xs text-center"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <Info
                       aria-hidden="true"
                       className="w-3.5 h-3.5 shrink-0"
-                      style={{ color: 'var(--prism-info-main)' }}
+                      style={STYLE_INFO_MAIN}
                     />
                     <span className="break-words">{msg.content}</span>
                     {msg.timestamp ? (
@@ -257,12 +258,12 @@ export function ChatMessageStream({
                   {msg.author || msg.timestamp ? (
                     <div
                       className="flex items-center gap-2 px-1 text-[11px]"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {msg.author ? (
                         <span
                           className="font-medium"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {msg.author}
                         </span>
@@ -288,8 +289,8 @@ export function ChatMessageStream({
                         <span
                           data-testid={`stream-caret-${msg.id}`}
                           aria-hidden="true"
-                          className="inline-block w-1.5 h-4 ml-1 align-middle rounded-xs animate-pulse"
-                          style={{ backgroundColor: 'var(--prism-primary-main)' }}
+                          className="inline-block w-1.5 h-4 ml-1 align-middle rounded-xs animate-pulse motion-reduce:animate-none"
+                          style={STYLE_BG_PRIMARY}
                         />
                       ) : null}
                     </p>
@@ -299,7 +300,7 @@ export function ChatMessageStream({
                     <span
                       data-testid={`message-sending-${msg.id}`}
                       className="px-1 text-[11px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       Sending...
                     </span>
@@ -337,18 +338,18 @@ export function ChatMessageStream({
                 data-role="assistant"
                 data-status={msg.status}
                 data-streaming={isStreaming ? 'true' : undefined}
-                className="flex items-start gap-2.5 max-w-[88%]"
+                className="prism-cv-item flex items-start gap-2.5 max-w-[88%]"
               >
                 <AssistantAvatar author={assistantName} avatarSrc={msg.avatarSrc} />
 
                 <div className="min-w-0 flex-1 space-y-1.5">
                   <div
                     className="flex flex-wrap items-center gap-2 text-[11px]"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <span
                       className="font-semibold"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {assistantName}
                     </span>
@@ -362,7 +363,7 @@ export function ChatMessageStream({
                       >
                         <span
                           aria-hidden="true"
-                          className="w-1.5 h-1.5 rounded-full animate-pulse"
+                          className="w-1.5 h-1.5 rounded-full animate-pulse motion-reduce:animate-none"
                           style={{ backgroundColor: 'var(--prism-success-contrast)' }}
                         />
                         <span>Streaming</span>
@@ -396,8 +397,8 @@ export function ChatMessageStream({
                         <span
                           data-testid={`stream-caret-${msg.id}`}
                           aria-hidden="true"
-                          className="inline-block w-1.5 h-4 ml-1 align-middle rounded-xs animate-pulse"
-                          style={{ backgroundColor: 'var(--prism-primary-main)' }}
+                          className="inline-block w-1.5 h-4 ml-1 align-middle rounded-xs animate-pulse motion-reduce:animate-none"
+                          style={STYLE_BG_PRIMARY}
                         />
                       ) : null}
                     </p>
@@ -420,8 +421,8 @@ export function ChatMessageStream({
           <button
             type="button"
             onClick={handleJumpToLatest}
-            className="pointer-events-auto prism-crystal prism-focus-ring h-8 px-3.5 rounded-full text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="pointer-events-auto prism-crystal prism-focus-ring h-8 px-3.5 rounded-full text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             <ArrowDown aria-hidden="true" className="w-3.5 h-3.5" />
             <span>Jump to latest</span>
@@ -432,4 +433,5 @@ export function ChatMessageStream({
   );
 }
 
+export const ChatMessageStream = memo(ChatMessageStreamInner);
 ChatMessageStream.displayName = 'ChatMessageStream';

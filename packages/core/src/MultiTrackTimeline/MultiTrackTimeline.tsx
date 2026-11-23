@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useMemo,
   useState,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TimelineTrackKind = 'video' | 'audio' | 'effect' | 'subtitle';
@@ -214,7 +216,7 @@ function buildRulerTicks(durationSec: number, zoom: TimelineZoomScale): RulerTic
   return ticks;
 }
 
-export function MultiTrackTimeline({
+function MultiTrackTimelineInner({
   tracks,
   durationSec,
   currentTimeSec,
@@ -514,21 +516,21 @@ export function MultiTrackTimeline({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Layers className="w-4 h-4 shrink-0" />
           </span>
           <div className="min-w-0">
             <h4
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
             <p
               data-testid="timeline-timecode"
               className="text-xs font-mono tabular-nums truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {formatTimecodeSec(activeTimeSec)} / {formatTimecodeSec(safeDurationSec)}
             </p>
@@ -539,7 +541,7 @@ export function MultiTrackTimeline({
           <span
             data-testid="timeline-counts"
             className="prism-crystal px-2.5 py-1 rounded-full text-xs font-mono tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {resolvedTracks.length} {resolvedTracks.length === 1 ? 'track' : 'tracks'} ·{' '}
             {totalClipCount} {totalClipCount === 1 ? 'clip' : 'clips'}
@@ -581,7 +583,7 @@ export function MultiTrackTimeline({
           role="status"
           data-testid="timeline-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No timeline tracks configured. Add video, audio, effect, or subtitle tracks to begin
           sequencing.
@@ -594,7 +596,7 @@ export function MultiTrackTimeline({
           >
             <div
               className={cx(railClass, 'w-32 sm:w-44 shrink-0 border-r')}
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <div
                 className="px-2.5 sm:px-3 flex items-center text-[11px] font-semibold uppercase tracking-wide border-b"
@@ -632,13 +634,13 @@ export function MultiTrackTimeline({
                         <div className="min-w-0 flex-1">
                           <span
                             className="block text-xs font-semibold truncate"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {track.name}
                           </span>
                           <span
                             className="block text-[10px] font-mono uppercase tracking-wide truncate"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {kindVisual.label}
                           </span>
@@ -738,7 +740,7 @@ export function MultiTrackTimeline({
                                 ? '-translate-x-full pr-1.5'
                                 : '-translate-x-1/2'
                           )}
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {tick.label}
                         </span>
@@ -866,7 +868,7 @@ export function MultiTrackTimeline({
                 >
                   <span
                     className="absolute top-0 -translate-x-1/2 w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: 'var(--prism-primary-main)' }}
+                    style={STYLE_BG_PRIMARY}
                   />
                 </div>
               </div>
@@ -880,7 +882,7 @@ export function MultiTrackTimeline({
               inspectorClass,
               'prism-well rounded-2xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {selectedClipEntry ? (
               <div className="flex items-center gap-2 min-w-0">
@@ -893,7 +895,7 @@ export function MultiTrackTimeline({
                 />
                 <span
                   className="font-medium truncate"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {selectedClipEntry.track.name} · {selectedClipEntry.clip.label} ·{' '}
                   {formatSecondsCompact(selectedClipEntry.clip.startSec)}s–
@@ -916,4 +918,5 @@ export function MultiTrackTimeline({
   );
 }
 
+export const MultiTrackTimeline = memo(MultiTrackTimelineInner);
 MultiTrackTimeline.displayName = 'MultiTrackTimeline';

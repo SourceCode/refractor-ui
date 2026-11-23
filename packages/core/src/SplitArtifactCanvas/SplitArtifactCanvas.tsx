@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -120,7 +121,7 @@ function renderLayoutIcon(mode: ArtifactViewMode): ReactNode {
   }
 }
 
-export function SplitArtifactCanvas({
+function SplitArtifactCanvasInner({
   conversationPane,
   artifacts,
   activeArtifactId,
@@ -317,7 +318,7 @@ export function SplitArtifactCanvas({
     uniqueArtifacts.length === 1 ? '1 artifact' : `${uniqueArtifacts.length} artifacts`;
 
   const actionButtonClass =
-    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed';
+    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed';
 
   return (
     <div
@@ -360,7 +361,7 @@ export function SplitArtifactCanvas({
                 data-layout-option={option.mode}
                 onClick={() => handleViewModeSelect(option.mode)}
                 className={cx(
-                  'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                  'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                   active ? 'prism-btn-primary font-semibold' : IDLE_PILL_BUTTON_CLASS
                 )}
               >
@@ -439,7 +440,7 @@ export function SplitArtifactCanvas({
                             onClick={() => selectArtifact(item)}
                             onKeyDown={(e) => handleTabKeyDown(e, idx)}
                             className={cx(
-                              'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                              'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                               isSelected
                                 ? 'prism-crystal text-slate-950 dark:text-white font-semibold'
                                 : IDLE_PILL_BUTTON_CLASS
@@ -498,7 +499,7 @@ export function SplitArtifactCanvas({
                             aria-pressed={activeSurfaceMode === 'preview'}
                             onClick={() => handleSurfaceChange(activeArtifact, 'preview')}
                             className={cx(
-                              'prism-focus-ring h-6 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium whitespace-nowrap transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                              'prism-focus-ring h-6 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                               activeSurfaceMode === 'preview'
                                 ? 'prism-btn-primary font-semibold'
                                 : IDLE_PILL_BUTTON_CLASS
@@ -512,7 +513,7 @@ export function SplitArtifactCanvas({
                             aria-pressed={activeSurfaceMode === 'source'}
                             onClick={() => handleSurfaceChange(activeArtifact, 'source')}
                             className={cx(
-                              'prism-focus-ring h-6 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium whitespace-nowrap transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                              'prism-focus-ring h-6 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                               activeSurfaceMode === 'source'
                                 ? 'prism-btn-primary font-semibold'
                                 : IDLE_PILL_BUTTON_CLASS
@@ -614,4 +615,5 @@ export function SplitArtifactCanvas({
   );
 }
 
+export const SplitArtifactCanvas = memo(SplitArtifactCanvasInner);
 SplitArtifactCanvas.displayName = 'SplitArtifactCanvas';

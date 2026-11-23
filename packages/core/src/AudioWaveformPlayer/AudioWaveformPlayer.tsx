@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useCallback, useMemo, useState, type KeyboardEvent } from 'react';
 import { AudioLines, Pause, Play } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface AudioWaveformPlayerProps extends BaseProps<HTMLDivElement> {
@@ -76,7 +77,7 @@ function formatAudioTime(rawSeconds: number): string {
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
-export function AudioWaveformPlayer({
+function AudioWaveformPlayerInner({
   title = 'Audio Track',
   subtitle,
   peaks,
@@ -234,7 +235,7 @@ export function AudioWaveformPlayer({
               <span
                 data-testid="audio-title"
                 className="text-sm font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {title}
               </span>
@@ -244,7 +245,7 @@ export function AudioWaveformPlayer({
               <p
                 data-testid="audio-subtitle"
                 className="text-xs truncate mt-0.5"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {subtitle}
               </p>
@@ -256,7 +257,7 @@ export function AudioWaveformPlayer({
           <span
             data-testid="audio-time-readout"
             className="prism-well px-2.5 py-1 rounded-full font-mono text-xs font-medium tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {formattedCurrent} / {formattedDuration}
           </span>
@@ -266,8 +267,8 @@ export function AudioWaveformPlayer({
             data-testid="audio-speed-button"
             aria-label={`Playback speed ${speed}x`}
             onClick={handleCycleSpeed}
-            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-full font-mono text-xs font-semibold tabular-nums cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-full font-mono text-xs font-semibold tabular-nums cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             {speed}x
           </button>
@@ -311,7 +312,7 @@ export function AudioWaveformPlayer({
                   : 'var(--prism-secondary-main)',
                 opacity: isPlayed ? 1 : 0.35,
               }}
-              className="flex-1 min-w-[3px] rounded-full cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-110 transition-all duration-150"
+              className="flex-1 min-w-[3px] rounded-full cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-110 transition-[color,background-color,border-color,opacity,transform] duration-150"
             />
           );
         })}
@@ -320,4 +321,5 @@ export function AudioWaveformPlayer({
   );
 }
 
+export const AudioWaveformPlayer = memo(AudioWaveformPlayerInner);
 AudioWaveformPlayer.displayName = 'AudioWaveformPlayer';

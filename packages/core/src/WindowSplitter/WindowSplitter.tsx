@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   Fragment,
   useCallback,
   useEffect,
@@ -194,7 +195,7 @@ function resizeAdjacentPair(
   return next;
 }
 
-export function WindowSplitter({
+function WindowSplitterInner({
   panes,
   orientation = 'horizontal',
   sizes,
@@ -310,7 +311,7 @@ export function WindowSplitter({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -488,14 +489,14 @@ export function WindowSplitter({
                 }
                 className={cx(
                   separatorClass,
-                  'prism-focus-ring group shrink-0 relative flex items-center justify-center select-none touch-none rounded-full transition-all duration-150',
+                  'prism-focus-ring group shrink-0 relative flex items-center justify-center select-none touch-none rounded-full transition-[color,background-color,border-color,opacity,transform] duration-150',
                   isHorizontal ? 'w-3.5 mx-0.5 cursor-col-resize' : 'h-3.5 my-0.5 cursor-row-resize'
                 )}
               >
                 <span
                   aria-hidden="true"
                   className={cx(
-                    'prism-crystal rounded-full flex items-center justify-center gap-1 transition-all duration-150',
+                    'prism-crystal rounded-full flex items-center justify-center gap-1 transition-[color,background-color,border-color,opacity,transform] duration-150',
                     isHorizontal
                       ? 'w-2 h-14 flex-col group-hover:scale-y-110'
                       : 'h-2 w-14 flex-row group-hover:scale-x-110',
@@ -538,4 +539,5 @@ export function WindowSplitter({
   );
 }
 
+export const WindowSplitter = memo(WindowSplitterInner);
 WindowSplitter.displayName = 'WindowSplitter';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -23,6 +24,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MinimizedTrayDisplayMode = 'thumbnails' | 'pills';
@@ -162,7 +164,7 @@ function pluralizeWindows(count: number): string {
   return count === 1 ? 'window' : 'windows';
 }
 
-export function MinimizedWindowTray({
+function MinimizedWindowTrayInner({
   title = DEFAULT_TRAY_TITLE,
   items,
   defaultItems,
@@ -389,9 +391,7 @@ export function MinimizedWindowTray({
           headerClass,
           'prism-crystal relative flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 border-b min-w-0 max-w-full'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-        }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <span
           aria-hidden="true"
@@ -407,7 +407,7 @@ export function MinimizedWindowTray({
           <span
             aria-hidden="true"
             className="prism-well w-6 h-6 rounded-lg inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Minimize2 className="w-3.5 h-3.5" />
           </span>
@@ -416,7 +416,7 @@ export function MinimizedWindowTray({
             id={titleId}
             data-part="title"
             className="text-xs font-semibold tracking-wide truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h2>
@@ -456,7 +456,7 @@ export function MinimizedWindowTray({
               data-mode="thumbnails"
               onClick={() => handleDisplayModeChange('thumbnails')}
               className={cx(
-                'prism-focus-ring inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11px] font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 transition-all',
+                'prism-focus-ring inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11px] font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 transition-[color,background-color,border-color,opacity,transform]',
                 currentDisplayMode === 'thumbnails'
                   ? 'prism-crystal font-semibold'
                   : ''
@@ -479,7 +479,7 @@ export function MinimizedWindowTray({
               data-mode="pills"
               onClick={() => handleDisplayModeChange('pills')}
               className={cx(
-                'prism-focus-ring inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11px] font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 transition-all',
+                'prism-focus-ring inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11px] font-medium whitespace-nowrap cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 transition-[color,background-color,border-color,opacity,transform]',
                 currentDisplayMode === 'pills'
                   ? 'prism-crystal font-semibold'
                   : ''
@@ -536,19 +536,19 @@ export function MinimizedWindowTray({
             <span
               aria-hidden="true"
               className="prism-crystal w-9 h-9 rounded-xl inline-flex items-center justify-center mb-0.5"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <AppWindow className="w-4 h-4" />
             </span>
             <p
               className="text-sm font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               No minimized windows
             </p>
             <p
               className="text-xs max-w-md"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Minimized windows dock here as live optical thumbnails or glass
               pills until restored.
@@ -584,7 +584,7 @@ export function MinimizedWindowTray({
                   data-tone={entry.tone}
                   className={cx(
                     pillClass,
-                    'prism-crystal rounded-full inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 shrink-0 max-w-[280px] border transition-all'
+                    'prism-crystal rounded-full inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 shrink-0 max-w-[280px] border transition-[color,background-color,border-color,opacity,transform]'
                   )}
                   style={{
                     borderColor: `color-mix(in srgb, ${accentVar} 28%, var(--prism-divider))`,
@@ -619,13 +619,13 @@ export function MinimizedWindowTray({
                     />
                     <span
                       className="text-xs font-semibold truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {entry.title}
                     </span>
                     <span
                       className="prism-well rounded-full px-2 py-0.5 text-[10px] font-medium shrink-0 max-w-[96px] truncate"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {entry.appName}
                     </span>
@@ -638,7 +638,7 @@ export function MinimizedWindowTray({
                     data-part="close-window"
                     onClick={() => handleCloseWindow(entry)}
                     className="prism-focus-ring w-5 h-5 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 transition-opacity opacity-75 enabled:hover:opacity-100"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <X aria-hidden="true" className="w-3 h-3" />
                   </button>
@@ -656,7 +656,7 @@ export function MinimizedWindowTray({
                 data-tone={entry.tone}
                 className={cx(
                   thumbnailClass,
-                  'prism-crystal rounded-2xl w-52 sm:w-56 shrink-0 flex flex-col overflow-hidden border transition-all'
+                  'prism-crystal rounded-2xl w-52 sm:w-56 shrink-0 flex flex-col overflow-hidden border transition-[color,background-color,border-color,opacity,transform]'
                 )}
                 style={{
                   borderColor: `color-mix(in srgb, ${accentVar} 26%, var(--prism-divider))`,
@@ -678,20 +678,20 @@ export function MinimizedWindowTray({
                     >
                       <span
                         className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: 'var(--prism-error-main)' }}
+                        style={STYLE_BG_ERROR}
                       />
                       <span
                         className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: 'var(--prism-warning-main)' }}
+                        style={STYLE_BG_WARNING}
                       />
                       <span
                         className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: 'var(--prism-success-main)' }}
+                        style={STYLE_BG_SUCCESS}
                       />
                     </span>
                     <span
                       className="text-[10px] font-semibold uppercase tracking-wider truncate"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {entry.appName}
                     </span>
@@ -704,7 +704,7 @@ export function MinimizedWindowTray({
                     data-part="close-window"
                     onClick={() => handleCloseWindow(entry)}
                     className="prism-focus-ring w-5 h-5 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 transition-opacity opacity-75 enabled:hover:opacity-100"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <X aria-hidden="true" className="w-3 h-3" />
                   </button>
@@ -790,7 +790,7 @@ export function MinimizedWindowTray({
                       />
                       <span
                         className="text-xs font-semibold truncate"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {entry.title}
                       </span>
@@ -799,7 +799,7 @@ export function MinimizedWindowTray({
                     <div className="flex items-center justify-between gap-2 min-w-0 text-[10px]">
                       <span
                         className="font-mono tabular-nums truncate"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {entry.minimizedAt}
                       </span>
@@ -844,4 +844,5 @@ export function MinimizedWindowTray({
   );
 }
 
+export const MinimizedWindowTray = memo(MinimizedWindowTrayInner);
 MinimizedWindowTray.displayName = 'MinimizedWindowTray';

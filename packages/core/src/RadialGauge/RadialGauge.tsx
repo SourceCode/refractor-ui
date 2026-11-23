@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RadialGaugeTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -171,7 +173,7 @@ function normalizeThresholds(
   return bands;
 }
 
-export function RadialGauge({
+function RadialGaugeInner({
   value,
   min = 0,
   max = 100,
@@ -386,7 +388,7 @@ export function RadialGauge({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -566,7 +568,7 @@ export function RadialGauge({
           footerClass,
           'prism-well rounded-xl px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
         )}
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         <span className="inline-flex items-center gap-2 min-w-0">
           <span
@@ -583,7 +585,7 @@ export function RadialGauge({
 
         <span
           className="shrink-0 font-mono font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {targetSummary}
         </span>
@@ -592,4 +594,5 @@ export function RadialGauge({
   );
 }
 
+export const RadialGauge = memo(RadialGaugeInner);
 RadialGauge.displayName = 'RadialGauge';

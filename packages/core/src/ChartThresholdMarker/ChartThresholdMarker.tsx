@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Flag } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ThresholdTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -245,7 +246,7 @@ function computeYDomain(
   };
 }
 
-export function ChartThresholdMarker({
+function ChartThresholdMarkerInner({
   data,
   thresholds = [],
   bands = [],
@@ -595,21 +596,21 @@ export function ChartThresholdMarker({
         <div className="min-w-0 flex flex-wrap items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Flag aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
           <span
             data-testid="threshold-counts-pill"
             className="prism-crystal rounded-full px-2.5 py-0.5 text-[11px] font-mono tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {normalizedThresholds.length} lines · {normalizedEvents.length} events
           </span>
@@ -628,10 +629,10 @@ export function ChartThresholdMarker({
               data-testid="toggle-bands"
               onClick={() => setShowBands((prev) => !prev)}
               className={cx(
-                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all',
+                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                 showBands ? 'prism-crystal' : 'prism-well opacity-55 line-through'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -651,10 +652,10 @@ export function ChartThresholdMarker({
               data-testid="toggle-thresholds"
               onClick={() => setShowThresholds((prev) => !prev)}
               className={cx(
-                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all',
+                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                 showThresholds ? 'prism-crystal' : 'prism-well opacity-55 line-through'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -674,10 +675,10 @@ export function ChartThresholdMarker({
               data-testid="toggle-events"
               onClick={() => setShowEvents((prev) => !prev)}
               className={cx(
-                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all',
+                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                 showEvents ? 'prism-crystal' : 'prism-well opacity-55 line-through'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -699,7 +700,7 @@ export function ChartThresholdMarker({
           role="status"
           data-testid="threshold-chart-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No finite data points available to plot thresholds or event annotations.
         </div>
@@ -738,7 +739,7 @@ export function ChartThresholdMarker({
                     y={tick.y + 3.5}
                     textAnchor="end"
                     className="text-[10px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.label}
                   </text>
@@ -752,7 +753,7 @@ export function ChartThresholdMarker({
                   y={safeHeight - 8}
                   textAnchor="middle"
                   className="text-[10px] font-medium"
-                  style={{ fill: 'var(--prism-text-secondary)' }}
+                  style={STYLE_FILL_SECONDARY}
                 >
                   {pt.point.label}
                 </text>
@@ -977,7 +978,7 @@ export function ChartThresholdMarker({
                   <span
                     data-testid="threshold-inspector-text"
                     className="font-semibold tabular-nums"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {resolvedSelection.item.threshold.label}:{' '}
                     {formatValue(resolvedSelection.item.threshold.value, valueUnit)} ·{' '}
@@ -1005,7 +1006,7 @@ export function ChartThresholdMarker({
                   data-testid="threshold-inspector-clear"
                   onClick={() => setSelection(null)}
                   className="prism-crystal prism-focus-ring rounded-full px-2.5 py-0.5 text-[11px] font-medium cursor-pointer"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Clear
                 </button>
@@ -1021,14 +1022,14 @@ export function ChartThresholdMarker({
                   <span
                     data-testid="threshold-inspector-text"
                     className="font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {resolvedSelection.item.point.point.label} · {resolvedSelection.item.event.label}
                   </span>
                   {resolvedSelection.item.event.detail ? (
                     <span
                       data-testid="threshold-inspector-detail"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {resolvedSelection.item.event.detail}
                     </span>
@@ -1036,7 +1037,7 @@ export function ChartThresholdMarker({
                   <span
                     data-testid="threshold-inspector-value"
                     className="prism-crystal rounded-full px-2 py-0.5 font-mono text-[11px] font-semibold tabular-nums"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatValue(resolvedSelection.item.point.value, valueUnit)}
                   </span>
@@ -1046,7 +1047,7 @@ export function ChartThresholdMarker({
                   data-testid="threshold-inspector-clear"
                   onClick={() => setSelection(null)}
                   className="prism-crystal prism-focus-ring rounded-full px-2.5 py-0.5 text-[11px] font-medium cursor-pointer"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Clear
                 </button>
@@ -1054,7 +1055,7 @@ export function ChartThresholdMarker({
             ) : (
               <span
                 data-testid="threshold-inspector-idle"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Select a threshold badge or event flag to inspect breaches and annotations.
               </span>
@@ -1066,4 +1067,5 @@ export function ChartThresholdMarker({
   );
 }
 
+export const ChartThresholdMarker = memo(ChartThresholdMarkerInner);
 ChartThresholdMarker.displayName = 'ChartThresholdMarker';

@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import { Check, Minus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -23,7 +25,7 @@ export interface CheckboxProps extends CheckboxBaseProps {
   disabled?: boolean;
 }
 
-export function Checkbox({
+function CheckboxInner({
   checked,
   indeterminate = false,
   onChange,
@@ -82,4 +84,5 @@ export function Checkbox({
   );
 }
 
+export const Checkbox = memo(CheckboxInner);
 Checkbox.displayName = 'Checkbox';

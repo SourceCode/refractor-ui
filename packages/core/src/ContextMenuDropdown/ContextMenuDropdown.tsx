@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { memo, useEffect, useId, useRef, useState } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -23,7 +23,7 @@ export interface ContextMenuDropdownProps extends ContextMenuDropdownBaseProps {
   onSelect: (action: ContextMenuAction) => void;
 }
 
-export function ContextMenuDropdown({
+function ContextMenuDropdownInner({
   actions,
   onSelect,
   className,
@@ -40,6 +40,7 @@ export function ContextMenuDropdown({
   const override = useComponentOverride('ContextMenuDropdown');
 
   useEffect(() => {
+    if (!open) return undefined;
     const closeOnOutsideClick = (e: MouseEvent) => {
       if (
         wrapperRef.current &&
@@ -51,7 +52,7 @@ export function ContextMenuDropdown({
     };
     document.addEventListener('mousedown', closeOnOutsideClick);
     return () => document.removeEventListener('mousedown', closeOnOutsideClick);
-  }, []);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -147,4 +148,5 @@ export function ContextMenuDropdown({
   );
 }
 
+export const ContextMenuDropdown = memo(ContextMenuDropdownInner);
 ContextMenuDropdown.displayName = 'ContextMenuDropdown';

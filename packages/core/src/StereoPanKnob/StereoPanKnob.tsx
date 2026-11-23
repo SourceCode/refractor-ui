@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type PanKnobSize = 'sm' | 'md' | 'lg';
@@ -185,7 +187,7 @@ function buildBidirectionalArcPath(pan: number, angleDeg: number): string {
   return `M ${TOP_POINT.x} ${TOP_POINT.y} A ${TRACK_RADIUS} ${TRACK_RADIUS} 0 0 ${sweepFlag} ${end.x} ${end.y}`;
 }
 
-export function StereoPanKnob({
+function StereoPanKnobInner({
   value,
   defaultValue = DEFAULT_PAN,
   onChange,
@@ -307,7 +309,7 @@ export function StereoPanKnob({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -420,7 +422,7 @@ export function StereoPanKnob({
             labelClass,
             'text-xs font-semibold tracking-tight truncate min-w-0'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {displayLabel}
         </span>
@@ -643,7 +645,7 @@ export function StereoPanKnob({
           data-testid="stereo-pan-detent-left"
           onClick={() => commitPan(MIN_PAN)}
           className={cx(
-            'prism-focus-ring rounded-full font-mono font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring rounded-full font-mono font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             sizeConfig.buttonClass,
             isHardLeft ? '' : 'prism-crystal'
           )}
@@ -667,7 +669,7 @@ export function StereoPanKnob({
           data-testid="stereo-pan-detent-center"
           onClick={() => commitPan(0)}
           className={cx(
-            'prism-focus-ring rounded-full font-mono font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring rounded-full font-mono font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             sizeConfig.buttonClass,
             isCentered ? 'prism-emerald' : 'prism-crystal'
           )}
@@ -684,7 +686,7 @@ export function StereoPanKnob({
           data-testid="stereo-pan-detent-right"
           onClick={() => commitPan(MAX_PAN)}
           className={cx(
-            'prism-focus-ring rounded-full font-mono font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring rounded-full font-mono font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             sizeConfig.buttonClass,
             isHardRight ? '' : 'prism-crystal'
           )}
@@ -704,4 +706,5 @@ export function StereoPanKnob({
   );
 }
 
+export const StereoPanKnob = memo(StereoPanKnobInner);
 StereoPanKnob.displayName = 'StereoPanKnob';

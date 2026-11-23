@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
+import { memo, useEffect, useId, useState } from 'react';
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -24,7 +24,7 @@ export interface ContextualPopoverProps extends BaseProps<HTMLDivElement> {
   triggerLabel?: string;
 }
 
-export function ContextualPopover({
+function ContextualPopoverInner({
   title = 'Find files...',
   subtitle = 'Add collaborator',
   ctaLabel = 'Pro plan',
@@ -140,4 +140,5 @@ export function ContextualPopover({
   );
 }
 
+export const ContextualPopover = memo(ContextualPopoverInner);
 ContextualPopover.displayName = 'ContextualPopover';

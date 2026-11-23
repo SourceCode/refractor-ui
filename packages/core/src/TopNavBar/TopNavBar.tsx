@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import { Search } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -26,7 +28,7 @@ export interface TopNavBarProps extends BaseProps<HTMLElement> {
   userInitials?: string;
 }
 
-export function TopNavBar({
+function TopNavBarInner({
   brand,
   links,
   activeLinkId,
@@ -102,4 +104,5 @@ export function TopNavBar({
   );
 }
 
+export const TopNavBar = memo(TopNavBarInner);
 TopNavBar.displayName = 'TopNavBar';

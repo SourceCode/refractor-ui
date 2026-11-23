@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState, type ReactNode } from 'react';
+import { memo, useId, useState, type ReactNode } from 'react';
 import {
   AlertTriangle,
   ChevronDown,
@@ -14,6 +14,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RecoveryRouteKind = 'retry' | 'edit' | 'switch' | 'skip';
@@ -67,7 +68,7 @@ function renderRouteIcon(kind: RecoveryRouteKind | undefined): ReactNode {
   }
 }
 
-export function RecoveryRoutingCard({
+function RecoveryRoutingCardInner({
   title,
   errorMessage,
   errorCode,
@@ -136,7 +137,7 @@ export function RecoveryRoutingCard({
           <div className="flex flex-wrap items-center gap-2">
             <h3
               className="text-sm font-semibold leading-snug break-words"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h3>
@@ -160,7 +161,7 @@ export function RecoveryRoutingCard({
 
           <p
             className="text-xs sm:text-sm leading-relaxed break-words"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {errorMessage}
           </p>
@@ -176,9 +177,9 @@ export function RecoveryRoutingCard({
             onClick={() => setShowTrace((prev) => !prev)}
             className={cx(
               traceToggleClass,
-              'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all'
+              'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {showTrace ? (
               <>
@@ -205,7 +206,7 @@ export function RecoveryRoutingCard({
             >
               <pre
                 className="m-0 font-mono text-[11px] leading-relaxed whitespace-pre-wrap break-words"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <code>{stackTrace}</code>
               </pre>
@@ -237,7 +238,7 @@ export function RecoveryRoutingCard({
                 className={cx(
                   routeClass,
                   isPrimary ? 'prism-btn-primary' : 'prism-crystal',
-                  'prism-focus-ring rounded-2xl px-3.5 py-2.5 text-left inline-flex items-start gap-2.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105'
+                  'prism-focus-ring rounded-2xl px-3.5 py-2.5 text-left inline-flex items-start gap-2.5 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105'
                 )}
               >
                 {icon ? (
@@ -290,4 +291,5 @@ export function RecoveryRoutingCard({
   );
 }
 
+export const RecoveryRoutingCard = memo(RecoveryRoutingCardInner);
 RecoveryRoutingCard.displayName = 'RecoveryRoutingCard';

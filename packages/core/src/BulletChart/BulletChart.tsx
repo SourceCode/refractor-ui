@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BulletTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -232,7 +234,7 @@ function getTelemetryBandAppearance(
   };
 }
 
-export function BulletChart({
+function BulletChartInner({
   items,
   title = 'Target Performance Bullet Chart',
   showVariance = true,
@@ -370,14 +372,14 @@ export function BulletChart({
             <h4
               id={headingId}
               className="text-sm font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h4>
             <span
               data-testid="bullet-count-badge"
               className="prism-crystal px-2.5 py-0.5 rounded-full text-[11px] font-mono font-medium tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {itemCountLabel}
             </span>
@@ -390,7 +392,7 @@ export function BulletChart({
           >
             <span
               className="inline-flex items-center gap-1.5"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span
                 aria-hidden="true"
@@ -401,7 +403,7 @@ export function BulletChart({
             </span>
             <span
               className="inline-flex items-center gap-1.5"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span
                 aria-hidden="true"
@@ -412,7 +414,7 @@ export function BulletChart({
             </span>
             <span
               className="inline-flex items-center gap-1.5"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span
                 aria-hidden="true"
@@ -423,7 +425,7 @@ export function BulletChart({
             </span>
             <span
               className="inline-flex items-center gap-1.5 font-medium"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -441,7 +443,7 @@ export function BulletChart({
           role="status"
           data-testid="bullet-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No bullet chart metrics to display.
         </div>
@@ -465,7 +467,7 @@ export function BulletChart({
                 onClick={() => handleSelectItem(entry)}
                 onKeyDown={handleItemKeyDown(entry)}
                 className={cx(
-                  'prism-focus-ring w-full rounded-2xl p-3 text-left cursor-pointer transition-all duration-150 space-y-2',
+                  'prism-focus-ring w-full rounded-2xl p-3 text-left cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150 space-y-2',
                   isSelected ? 'prism-crystal' : 'prism-well opacity-95 hover:opacity-100'
                 )}
                 style={{
@@ -478,7 +480,7 @@ export function BulletChart({
                   <div className="min-w-0 flex flex-col gap-0.5">
                     <span
                       className="inline-flex items-center gap-2 font-semibold min-w-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       <span
                         aria-hidden="true"
@@ -491,7 +493,7 @@ export function BulletChart({
                       <span
                         data-testid={`bullet-subtitle-${entry.id}`}
                         className="text-[11px] pl-4.5 truncate"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {entry.subtitle}
                       </span>
@@ -502,7 +504,7 @@ export function BulletChart({
                     <span
                       data-testid={`bullet-readout-${entry.id}`}
                       className="font-mono font-semibold tabular-nums"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {`${actualFormatted} / ${targetFormatted}`}
                     </span>
@@ -631,7 +633,7 @@ export function BulletChart({
             telemetryClass,
             'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {selectedItem && selectedBandAppearance ? (
             <>
@@ -661,13 +663,13 @@ export function BulletChart({
               <span
                 data-testid="bullet-telemetry-metrics"
                 className="font-mono font-medium tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {`Actual ${formatMetric(selectedItem.actual, selectedItem.unit)} · Target ${formatMetric(selectedItem.target, selectedItem.unit)} · ${formatNumeric(selectedItem.achievementPct)}% achieved`}
               </span>
             </>
           ) : (
-            <span style={{ color: 'var(--prism-text-secondary)' }}>
+            <span style={STYLE_TEXT_SECONDARY}>
               Select any metric row to inspect qualitative band classification, actual vs. target, and achievement percentage.
             </span>
           )}
@@ -677,4 +679,5 @@ export function BulletChart({
   );
 }
 
+export const BulletChart = memo(BulletChartInner);
 BulletChart.displayName = 'BulletChart';

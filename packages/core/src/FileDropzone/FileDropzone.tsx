@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import { Upload, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -30,7 +30,7 @@ export interface FileDropzoneProps extends BaseProps<HTMLDivElement> {
   disabled?: boolean;
 }
 
-export function FileDropzone({
+function FileDropzoneInner({
   files,
   onUploadFiles,
   onRemoveFile,
@@ -86,7 +86,7 @@ export function FileDropzone({
             handleFileList(e.dataTransfer?.files ?? null);
           }
         }}
-        className={`prism-slab p-6 text-center transition-all border-2 border-dashed ${
+        className={`prism-slab p-6 text-center transition-[color,background-color,border-color,opacity,transform] border-2 border-dashed ${
           disabled
             ? 'opacity-50 border-slate-300/70 dark:border-slate-600/60'
             : dragging
@@ -157,4 +157,5 @@ export function FileDropzone({
   );
 }
 
+export const FileDropzone = memo(FileDropzoneInner);
 FileDropzone.displayName = 'FileDropzone';

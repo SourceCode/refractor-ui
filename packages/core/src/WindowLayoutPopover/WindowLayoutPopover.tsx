@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -14,6 +15,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowLayoutTemplateId =
@@ -173,7 +175,7 @@ const WINDOW_LAYOUT_TEMPLATES: ReadonlyArray<LayoutTemplateConfig> = [
   },
 ];
 
-export function WindowLayoutPopover({
+function WindowLayoutPopoverInner({
   windowTitle = DEFAULT_WINDOW_TITLE,
   open,
   defaultOpen = false,
@@ -418,7 +420,7 @@ export function WindowLayoutPopover({
           headerClass,
           'prism-crystal relative flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-3.5 py-2.5 min-w-0 max-w-full rounded-t-[inherit] border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         {/* Top Specular Edge Sheen */}
         <span
@@ -444,22 +446,22 @@ export function WindowLayoutPopover({
           >
             <span
               className="w-2.5 h-2.5 rounded-full"
-              style={{ backgroundColor: 'var(--prism-error-main)' }}
+              style={STYLE_BG_ERROR}
             />
             <span
               className="w-2.5 h-2.5 rounded-full"
-              style={{ backgroundColor: 'var(--prism-warning-main)' }}
+              style={STYLE_BG_WARNING}
             />
             <span
               className="w-2.5 h-2.5 rounded-full"
-              style={{ backgroundColor: 'var(--prism-success-main)' }}
+              style={STYLE_BG_SUCCESS}
             />
           </span>
 
           <h2
             id={titleId}
             className="text-xs sm:text-sm font-semibold tracking-[-0.01em] truncate min-w-0 max-w-full"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h2>
@@ -558,13 +560,13 @@ export function WindowLayoutPopover({
               <div className="flex items-center justify-between gap-2 min-w-0">
                 <span
                   className="text-[11px] font-semibold uppercase tracking-wider truncate"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Snap Layout Presets
                 </span>
                 <span
                   className="prism-well px-1.5 py-0.5 rounded font-mono text-[10px] font-semibold shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Esc
                 </span>
@@ -698,7 +700,7 @@ export function WindowLayoutPopover({
                 data-part="preview-footer"
                 data-testid="window-layout-preview-footer"
                 className="prism-well rounded-lg px-2.5 py-1.5 flex items-center justify-between gap-2 text-[11px] min-w-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <span className="truncate min-w-0">
                   {popoverFooterSelection
@@ -718,7 +720,7 @@ export function WindowLayoutPopover({
           statusBarClass,
           'px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <div
           role="status"
@@ -748,4 +750,5 @@ export function WindowLayoutPopover({
   );
 }
 
+export const WindowLayoutPopover = memo(WindowLayoutPopoverInner);
 WindowLayoutPopover.displayName = 'WindowLayoutPopover';

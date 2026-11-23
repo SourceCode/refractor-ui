@@ -325,7 +325,7 @@ describe('WindowResizeFrame', () => {
       clientX: 100,
       clientY: 100,
     });
-    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
+    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function), { passive: true });
     expect(addSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
     expect(addSpy).toHaveBeenCalledWith('pointercancel', expect.any(Function));
     expect(addSpy).toHaveBeenCalledWith('keydown', expect.any(Function));

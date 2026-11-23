@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -27,7 +28,7 @@ export interface SecondaryButtonProps
   children?: ReactNode;
 }
 
-export function SecondaryButton({
+function SecondaryButtonInner({
   size = 'md',
   tone = 'crystal',
   leadingIcon,
@@ -70,4 +71,5 @@ export function SecondaryButton({
   );
 }
 
+export const SecondaryButton = memo(SecondaryButtonInner);
 SecondaryButton.displayName = 'SecondaryButton';

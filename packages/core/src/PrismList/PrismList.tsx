@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -22,7 +23,7 @@ export interface PrismListProps extends BaseProps<HTMLUListElement> {
   onItemAction?: (item: PrismListItem) => void;
 }
 
-export function PrismList({
+function PrismListInner({
   items,
   onItemAction,
   className,
@@ -88,4 +89,5 @@ export function PrismList({
   );
 }
 
+export const PrismList = memo(PrismListInner);
 PrismList.displayName = 'PrismList';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BarSeriesTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -146,7 +148,7 @@ function formatMetric(value: number, unit?: string): string {
   return unit ? `${num}${unit}` : num;
 }
 
-export function BarColumnChart({
+function BarColumnChartInner({
   categories,
   series,
   orientation = 'vertical',
@@ -493,7 +495,7 @@ export function BarColumnChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -573,7 +575,7 @@ export function BarColumnChart({
                   'prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer transition-opacity',
                   visible ? 'prism-crystal' : 'prism-well opacity-50 line-through'
                 )}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span
                   aria-hidden="true"
@@ -592,7 +594,7 @@ export function BarColumnChart({
           role="status"
           data-testid="bar-column-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No chart data to display.
         </div>
@@ -601,7 +603,7 @@ export function BarColumnChart({
           role="status"
           data-testid="bar-column-all-hidden"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           All series are hidden. Select a series in the legend to display bars.
         </div>
@@ -693,7 +695,7 @@ export function BarColumnChart({
             readoutClass,
             'prism-well rounded-xl px-3.5 py-2 flex items-center gap-2 text-xs tabular-nums'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {activeSelection ? (
             <>
@@ -707,7 +709,7 @@ export function BarColumnChart({
               </span>
             </>
           ) : (
-            <span style={{ color: 'var(--prism-text-secondary)' }}>
+            <span style={STYLE_TEXT_SECONDARY}>
               Select any bar to inspect exact category and series values.
             </span>
           )}
@@ -717,4 +719,5 @@ export function BarColumnChart({
   );
 }
 
+export const BarColumnChart = memo(BarColumnChartInner);
 BarColumnChart.displayName = 'BarColumnChart';

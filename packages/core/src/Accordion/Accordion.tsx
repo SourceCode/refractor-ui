@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { memo, useCallback, useId, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -20,7 +20,7 @@ export interface AccordionProps extends BaseProps<HTMLDivElement> {
   allowMultiple?: boolean;
 }
 
-export function Accordion({
+function AccordionInner({
   items,
   allowMultiple = false,
   className,
@@ -31,14 +31,28 @@ export function Accordion({
 }: AccordionProps) {
   const override = useComponentOverride('Accordion');
   const baseId = useId();
-  const [openIds, setOpenIds] = useState<string[]>(() => (items[0] ? [items[0].id] : []));
+  const [openSet, setOpenSet] = useState<ReadonlySet<string>>(
+    () => new Set(items[0] ? [items[0].id] : [])
+  );
 
-  const toggle = (id: string) => {
-    setOpenIds((prev) => {
-      if (prev.includes(id)) return prev.filter((item) => item !== id);
-      return allowMultiple ? [...prev, id] : [id];
-    });
-  };
+  const toggle = useCallback(
+    (id: string) => {
+      setOpenSet((prev) => {
+        if (prev.has(id)) {
+          const next = new Set(prev);
+          next.delete(id);
+          return next;
+        }
+        if (allowMultiple) {
+          const next = new Set(prev);
+          next.add(id);
+          return next;
+        }
+        return new Set([id]);
+      });
+    },
+    [allowMultiple]
+  );
 
   const merged = mergeProps({
     themeTarget: themeProps('accordion', { allowMultiple, empty: items.length === 0 }),
@@ -53,7 +67,7 @@ export function Accordion({
   return (
     <div ref={ref} {...rest} {...merged}>
       {items.map((item) => {
-        const expanded = openIds.includes(item.id);
+        const expanded = openSet.has(item.id);
         const triggerId = `${baseId}-trigger-${item.id}`;
         const panelId = `${baseId}-panel-${item.id}`;
 
@@ -94,4 +108,5 @@ export function Accordion({
   );
 }
 
+export const Accordion = memo(AccordionInner);
 Accordion.displayName = 'Accordion';

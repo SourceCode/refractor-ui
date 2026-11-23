@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -23,6 +24,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SnapZonePresetKind = 'halves' | 'thirds' | 'quarters' | 'priority-grid';
@@ -258,7 +260,7 @@ function getNextZoneIndex(
   return (currentIndex - 1 + count) % count;
 }
 
-export function SnapZoneOverlay({
+function SnapZoneOverlayInner({
   windowTitle = DEFAULT_WINDOW_TITLE,
   preset,
   defaultPreset = 'halves',
@@ -535,19 +537,17 @@ export function SnapZoneOverlay({
               'prism-crystal rounded-full px-3 py-1.5 inline-flex items-center gap-1.5 min-w-0 max-w-full border',
               disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-grab active:cursor-grabbing'
             )}
-            style={{
-              borderColor: 'var(--prism-divider)',
-            }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <GripVertical
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <h2
               id={headingId}
               className="text-xs sm:text-sm font-semibold tracking-[-0.01em] truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Dragging: {resolvedWindowTitle}
             </h2>
@@ -616,19 +616,19 @@ export function SnapZoneOverlay({
           <div className="flex items-center gap-1.5 shrink-0">
             <span
               className="w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-error-main)' }}
+              style={STYLE_BG_ERROR}
             />
             <span
               className="w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-warning-main)' }}
+              style={STYLE_BG_WARNING}
             />
             <span
               className="w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-success-main)' }}
+              style={STYLE_BG_SUCCESS}
             />
             <span
               className="ml-1.5 text-[11px] font-semibold tracking-wide uppercase"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {activePresetLabel} Tiling Overlay
             </span>
@@ -719,7 +719,7 @@ export function SnapZoneOverlay({
                 className={cx(
                   zoneClass,
                   slot.gridAreaClass,
-                  'prism-focus-ring relative flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 backdrop-blur-md text-center min-w-0 overflow-hidden transition-all',
+                  'prism-focus-ring relative flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 text-center min-w-0 overflow-hidden transition-[color,background-color,border-color,opacity,transform]',
                   isSnapped ? 'border-solid' : 'border-dashed',
                   disabled ? 'opacity-55 cursor-not-allowed' : 'cursor-pointer'
                 )}
@@ -801,14 +801,14 @@ export function SnapZoneOverlay({
       >
         <span
           className="font-medium min-w-0 break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {announcement || defaultStatusSummary}
         </span>
 
         <span
           className="font-mono text-[11px] shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Arrows: move · Enter/Space: snap · Esc: clear
         </span>
@@ -817,4 +817,5 @@ export function SnapZoneOverlay({
   );
 }
 
+export const SnapZoneOverlay = memo(SnapZoneOverlayInner);
 SnapZoneOverlay.displayName = 'SnapZoneOverlay';

@@ -1,11 +1,12 @@
 'use client';
 
-import { useMemo, type KeyboardEvent } from 'react';
+import { memo, useMemo, type KeyboardEvent } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 type FrameStepperRateSelectorBaseProps = Omit<BaseProps<HTMLDivElement>, 'onRateChange'>;
@@ -111,7 +112,7 @@ function formatRateLabel(rate: number): string {
   return `${rate}\u00D7`;
 }
 
-export function FrameStepperRateSelector({
+function FrameStepperRateSelectorInner({
   frame,
   defaultFrame = 0,
   totalFrames = DEFAULT_TOTAL_FRAMES,
@@ -223,7 +224,7 @@ export function FrameStepperRateSelector({
 
   const stepButtonClass = cx(
     themeProps('frame-stepper-rate-selector', undefined, 'step-button').className,
-    'prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl font-mono text-xs font-semibold tabular-nums inline-flex items-center justify-center whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all'
+    'prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl font-mono text-xs font-semibold tabular-nums inline-flex items-center justify-center whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
   );
 
   const readoutMerged = mergeProps({
@@ -255,7 +256,7 @@ export function FrameStepperRateSelector({
           disabled={!canStepBackward}
           onClick={() => commitFrame(currentFrame - safeJumpStep)}
           className={stepButtonClass}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {`-${safeJumpStep}f`}
         </button>
@@ -266,7 +267,7 @@ export function FrameStepperRateSelector({
           disabled={!canStepBackward}
           onClick={() => commitFrame(currentFrame - 1)}
           className={stepButtonClass}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           -1f
         </button>
@@ -283,13 +284,13 @@ export function FrameStepperRateSelector({
           onKeyDown={handleReadoutKeyDown}
           {...readoutMerged}
         >
-          <span className="font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <span className="font-semibold" style={STYLE_TEXT_PRIMARY}>
             {`F ${paddedFrame} / ${safeTotalFrames}`}
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             {' \u00B7 '}
           </span>
-          <span style={{ color: 'var(--prism-text-secondary)' }}>{timecode}</span>
+          <span style={STYLE_TEXT_SECONDARY}>{timecode}</span>
         </div>
 
         <button
@@ -298,7 +299,7 @@ export function FrameStepperRateSelector({
           disabled={!canStepForward}
           onClick={() => commitFrame(currentFrame + 1)}
           className={stepButtonClass}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           +1f
         </button>
@@ -309,7 +310,7 @@ export function FrameStepperRateSelector({
           disabled={!canStepForward}
           onClick={() => commitFrame(currentFrame + safeJumpStep)}
           className={stepButtonClass}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {`+${safeJumpStep}f`}
         </button>
@@ -325,7 +326,7 @@ export function FrameStepperRateSelector({
               'rate-option'
             ),
             baseClassName: cx(
-              'prism-focus-ring h-7 px-2.5 rounded-full font-mono text-xs tabular-nums inline-flex items-center justify-center whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all',
+              'prism-focus-ring h-7 px-2.5 rounded-full font-mono text-xs tabular-nums inline-flex items-center justify-center whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
               selected
                 ? 'prism-btn-primary font-semibold'
                 : 'font-medium enabled:hover:brightness-105'
@@ -353,4 +354,5 @@ export function FrameStepperRateSelector({
   );
 }
 
+export const FrameStepperRateSelector = memo(FrameStepperRateSelectorInner);
 FrameStepperRateSelector.displayName = 'FrameStepperRateSelector';

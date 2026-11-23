@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useEffect,
   useId,
   useRef,
@@ -14,6 +15,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TerminalLineKind = 'stdout' | 'stderr' | 'command' | 'system';
@@ -231,7 +233,7 @@ function renderAnsiTokens(
   return elements;
 }
 
-export function TerminalEmulator({
+function TerminalEmulatorInner({
   lines,
   defaultLines = EMPTY_LINES,
   onLinesChange,
@@ -410,11 +412,11 @@ export function TerminalEmulator({
           <Terminal
             className="w-4 h-4 shrink-0"
             aria-hidden="true"
-            style={{ color: 'var(--prism-secondary-main)' }}
+            style={STYLE_SECONDARY_MAIN}
           />
           <span
             className="text-xs font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -424,7 +426,7 @@ export function TerminalEmulator({
           <span
             data-testid="terminal-line-count"
             className="prism-well rounded-full px-2.5 py-0.5 text-[11px] font-mono tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {visibleLines.length} {visibleLines.length === 1 ? 'line' : 'lines'}
           </span>
@@ -455,7 +457,7 @@ export function TerminalEmulator({
           <p
             data-testid="terminal-empty-state"
             className="text-xs italic select-none"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {readOnly ? 'No output.' : 'No output yet. Type a command below or run help.'}
           </p>
@@ -473,7 +475,7 @@ export function TerminalEmulator({
                   <span
                     data-testid="terminal-line-timestamp"
                     className="shrink-0 tabular-nums select-none"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     [{line.timestamp}]
                   </span>
@@ -491,7 +493,7 @@ export function TerminalEmulator({
             <label
               htmlFor={inputId}
               className="font-mono text-xs font-semibold shrink-0 select-none"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               {prompt}
             </label>
@@ -510,7 +512,7 @@ export function TerminalEmulator({
               }}
               onKeyDown={handleKeyDown}
               className="w-full min-w-0 bg-transparent font-mono text-xs focus:outline-none"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
 
@@ -530,4 +532,5 @@ export function TerminalEmulator({
   );
 }
 
+export const TerminalEmulator = memo(TerminalEmulatorInner);
 TerminalEmulator.displayName = 'TerminalEmulator';

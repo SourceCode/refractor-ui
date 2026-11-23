@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Brain, Check, Pencil, Plus, Trash2, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MemoryCategory = 'fact' | 'preference' | 'rule';
@@ -105,7 +106,7 @@ function parseMemoryCategory(raw: string): MemoryCategory {
   return 'fact';
 }
 
-export function MemoryPersonaInspector({
+function MemoryPersonaInspectorInner({
   memories,
   defaultMemories = EMPTY_MEMORIES,
   onMemoriesChange,
@@ -253,7 +254,7 @@ export function MemoryPersonaInspector({
     }),
     baseClassName:
       mode === 'drawer'
-        ? 'fixed inset-0 z-50 backdrop-blur-xs flex justify-end'
+        ? 'fixed inset-0 z-50 prism-backdrop-scrim flex justify-end'
         : 'prism-slab w-full flex flex-col overflow-hidden',
     baseStyle: mode === 'drawer' ? { backgroundColor: 'var(--prism-divider)' } : undefined,
     overrideClassName: override?.className,
@@ -267,13 +268,13 @@ export function MemoryPersonaInspector({
     <>
       <div
         className="px-5 py-4 flex items-center justify-between gap-3 border-b"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             aria-hidden="true"
             className="prism-well w-9 h-9 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Brain className="w-4 h-4 shrink-0" aria-hidden="true" />
           </span>
@@ -282,14 +283,14 @@ export function MemoryPersonaInspector({
             <h2
               id={titleId}
               className="text-base font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h2>
             <span
               data-testid="memory-total-count"
               className="prism-well px-2.5 py-0.5 rounded-full text-[11px] font-mono tabular-nums font-medium shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {counts.all}
             </span>
@@ -297,7 +298,7 @@ export function MemoryPersonaInspector({
               <span
                 data-testid="memory-readonly-badge"
                 className="prism-well px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Read-only
               </span>
@@ -311,7 +312,7 @@ export function MemoryPersonaInspector({
             aria-label="Close memory inspector"
             onClick={() => setIsOpen(false)}
             className="prism-focus-ring rounded-lg p-1.5 cursor-pointer enabled:hover:opacity-100 opacity-75 transition-opacity"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -320,7 +321,7 @@ export function MemoryPersonaInspector({
 
       <div
         className="px-5 py-3 border-b flex flex-wrap items-center gap-1.5"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
         role="group"
         aria-label="Filter memories by category"
       >
@@ -337,7 +338,7 @@ export function MemoryPersonaInspector({
               onClick={() => setActiveFilter(filter.key)}
               className={cx(
                 isActive ? 'prism-btn-primary' : 'prism-crystal',
-                'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 transition-all'
+                'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
               )}
               style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
             >
@@ -370,17 +371,17 @@ export function MemoryPersonaInspector({
             <Brain
               aria-hidden="true"
               className="w-6 h-6 opacity-60"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <p
               className="text-sm font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {currentMemories.length === 0 ? 'No memories stored yet' : 'No matching memories'}
             </p>
             <p
               className="text-xs leading-relaxed"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {currentMemories.length === 0
                 ? readOnly
@@ -419,7 +420,7 @@ export function MemoryPersonaInspector({
                         <span
                           data-testid={`memory-updated-${item.id}`}
                           className="text-[11px] font-mono tabular-nums"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {item.updatedAt}
                         </span>
@@ -432,8 +433,8 @@ export function MemoryPersonaInspector({
                           type="button"
                           aria-label={`Edit memory ${item.id}`}
                           onClick={() => startEdit(item)}
-                          className="prism-well prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 transition-all"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          className="prism-well prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           <Pencil className="w-3 h-3 shrink-0" aria-hidden="true" />
                           <span>Edit</span>
@@ -443,8 +444,8 @@ export function MemoryPersonaInspector({
                           type="button"
                           aria-label={`Forget memory ${item.id}`}
                           onClick={() => handleForget(item.id)}
-                          className="prism-well prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 transition-all"
-                          style={{ color: 'var(--prism-error-main)' }}
+                          className="prism-well prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                          style={STYLE_ERROR_MAIN}
                         >
                           <Trash2 className="w-3 h-3 shrink-0" aria-hidden="true" />
                           <span>Forget</span>
@@ -472,7 +473,7 @@ export function MemoryPersonaInspector({
                           }
                         }}
                         className="prism-well prism-focus-ring w-full h-9 px-3 rounded-xl text-xs focus:outline-none"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       />
 
                       <div className="flex items-center justify-end gap-2">
@@ -497,7 +498,7 @@ export function MemoryPersonaInspector({
                     <p
                       data-testid={`memory-content-${item.id}`}
                       className="text-xs sm:text-sm leading-relaxed break-words whitespace-pre-wrap"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {item.content}
                     </p>
@@ -513,7 +514,7 @@ export function MemoryPersonaInspector({
         <div
           data-testid="memory-add-row"
           className="px-5 py-4 border-t flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <select
             id={categorySelectId}
@@ -521,7 +522,7 @@ export function MemoryPersonaInspector({
             value={draftCategory}
             onChange={(e) => setDraftCategory(parseMemoryCategory(e.target.value))}
             className="prism-well prism-focus-ring h-9 px-3 rounded-full text-xs font-semibold cursor-pointer shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <option value="fact">Fact</option>
             <option value="preference">Preference</option>
@@ -542,7 +543,7 @@ export function MemoryPersonaInspector({
               }
             }}
             className="prism-well prism-focus-ring flex-1 min-w-0 h-9 px-3.5 rounded-full text-xs focus:outline-none"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
 
           <button
@@ -594,4 +595,5 @@ export function MemoryPersonaInspector({
   );
 }
 
+export const MemoryPersonaInspector = memo(MemoryPersonaInspectorInner);
 MemoryPersonaInspector.displayName = 'MemoryPersonaInspector';

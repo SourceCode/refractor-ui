@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type GeoFlowTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -241,7 +243,7 @@ function resolveFlowTone(tone: GeoFlowTone | undefined, fallbackTone: GeoFlowTon
   return fallbackTone;
 }
 
-export function GeoFlowArcMap({
+function GeoFlowArcMapInner({
   hubs,
   flows,
   title = 'Global Flow Arc Map',
@@ -559,7 +561,7 @@ export function GeoFlowArcMap({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -569,7 +571,7 @@ export function GeoFlowArcMap({
             <span
               data-testid="geo-flow-summary-pill"
               className="prism-crystal inline-flex items-center px-3 py-1 rounded-full font-medium"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {`${geometry.hubs.length} hubs · ${geometry.flows.length} routes · ${formatValue(geometry.totalVolume, valueUnit)}`}
             </span>
@@ -580,7 +582,7 @@ export function GeoFlowArcMap({
                 data-testid="geo-flow-clear-focus"
                 onClick={handleClearFocus}
                 className="prism-crystal prism-focus-ring inline-flex items-center px-2.5 py-1 rounded-full font-semibold cursor-pointer transition-opacity hover:opacity-90"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Clear Focus
               </button>
@@ -594,7 +596,7 @@ export function GeoFlowArcMap({
           role="status"
           data-testid="geo-flow-arc-map-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Provide at least two valid geographic hubs and one positive flow route to render arcs.
         </div>
@@ -783,7 +785,7 @@ export function GeoFlowArcMap({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeFlow ? (
               <>
@@ -800,7 +802,7 @@ export function GeoFlowArcMap({
                     <span
                       data-testid="geo-flow-readout-label"
                       className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {activeFlow.label}
                     </span>
@@ -824,7 +826,7 @@ export function GeoFlowArcMap({
                   <span className="font-semibold">{activeHub.label}</span>
                   <span
                     className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-mono"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {formatCoordinates(activeHub.lat, activeHub.lng)}
                   </span>
@@ -839,14 +841,14 @@ export function GeoFlowArcMap({
                   <span
                     data-testid="geo-flow-hub-inbound"
                     className="prism-crystal inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {`Inbound: ${formatValue(activeHub.inbound, valueUnit)}`}
                   </span>
                 </div>
               </>
             ) : (
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 Select any flow arc or hub node to inspect route volume and hub throughput.
               </span>
             )}
@@ -857,4 +859,5 @@ export function GeoFlowArcMap({
   );
 }
 
+export const GeoFlowArcMap = memo(GeoFlowArcMapInner);
 GeoFlowArcMap.displayName = 'GeoFlowArcMap';

@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -16,7 +18,7 @@ export interface BadgeStatusProps extends BaseProps<HTMLSpanElement> {
   tone?: BadgeStatusTone;
 }
 
-export function BadgeStatus({
+function BadgeStatusInner({
   label,
   count,
   tone = 'online',
@@ -62,4 +64,5 @@ export function BadgeStatus({
   );
 }
 
+export const BadgeStatus = memo(BadgeStatusInner);
 BadgeStatus.displayName = 'BadgeStatus';

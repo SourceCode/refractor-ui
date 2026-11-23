@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useRef,
@@ -25,6 +26,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CommanderPaneSide = 'left' | 'right';
@@ -329,7 +331,7 @@ function formatCountNoun(count: number): string {
   return `${count} ${count === 1 ? 'item' : 'items'}`;
 }
 
-export function DualPaneCommander({
+function DualPaneCommanderInner({
   title = DEFAULT_TITLE,
   leftPath = DEFAULT_LEFT_PATH,
   rightPath = DEFAULT_RIGHT_PATH,
@@ -674,7 +676,7 @@ export function DualPaneCommander({
                   : undefined
               }
               className="prism-crystal prism-focus-ring rounded-full px-2.5 py-0.5 text-[11px] font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Select All
             </button>
@@ -691,7 +693,7 @@ export function DualPaneCommander({
                   : undefined
               }
               className="prism-crystal prism-focus-ring rounded-full px-2.5 py-0.5 text-[11px] font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Clear
             </button>
@@ -706,11 +708,11 @@ export function DualPaneCommander({
             <FolderOpen
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-warning-main)' }}
+              style={STYLE_WARNING_MAIN}
             />
             <span
               className="font-mono text-[11px] truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {params.pathValue}
             </span>
@@ -718,7 +720,7 @@ export function DualPaneCommander({
           <span
             data-testid={`dual-pane-count-${params.side}`}
             className="font-mono text-[11px] tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {selectedCount > 0 ? `${selectedCount}/${totalCount} selected` : formatCountNoun(totalCount)}
           </span>
@@ -736,12 +738,12 @@ export function DualPaneCommander({
               role="status"
               data-testid={`dual-pane-empty-${params.side}`}
               className="prism-crystal rounded-xl px-3 py-8 flex-1 flex flex-col items-center justify-center text-center gap-1.5 min-w-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <Inbox aria-hidden="true" className="w-5 h-5 opacity-70" />
               <p
                 className="m-0 text-xs font-semibold"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Empty directory
               </p>
@@ -810,13 +812,13 @@ export function DualPaneCommander({
                       <Folder
                         aria-hidden="true"
                         className="w-4 h-4 shrink-0"
-                        style={{ color: 'var(--prism-warning-main)' }}
+                        style={STYLE_WARNING_MAIN}
                       />
                     ) : (
                       <FileText
                         aria-hidden="true"
                         className="w-4 h-4 shrink-0"
-                        style={{ color: 'var(--prism-secondary-dark)' }}
+                        style={STYLE_SECONDARY_DARK}
                       />
                     )}
 
@@ -841,13 +843,13 @@ export function DualPaneCommander({
 
                     <span
                       className="font-mono text-[11px] tabular-nums shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {sizeLabel}
                     </span>
                     <span
                       className="font-mono text-[10px] tabular-nums shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {entry.modifiedLabel}
                     </span>
@@ -883,14 +885,14 @@ export function DualPaneCommander({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Columns2 aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="m-0 text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
@@ -900,7 +902,7 @@ export function DualPaneCommander({
           <span
             data-testid="dual-pane-active-indicator"
             className="prism-well rounded-full px-2.5 py-0.5 text-[11px] font-medium shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             Active: {formatPaneLabel(activePane)}
           </span>
@@ -908,7 +910,7 @@ export function DualPaneCommander({
             <span
               data-testid="dual-pane-compare-indicator"
               className="prism-well rounded-full px-2.5 py-0.5 text-[11px] font-medium shrink-0"
-              style={{ color: 'var(--prism-info-main)' }}
+              style={STYLE_INFO_MAIN}
             >
               Compare Active
             </span>
@@ -987,7 +989,7 @@ export function DualPaneCommander({
             data-testid="dual-pane-action-sync"
             onClick={disabled ? undefined : handleSyncNewer}
             className="prism-crystal prism-focus-ring rounded-full px-3.5 py-2 text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed whitespace-nowrap"
-            style={{ color: 'var(--prism-success-dark)' }}
+            style={STYLE_SUCCESS_DARK}
           >
             <RefreshCw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Sync Newer</span>
@@ -1000,7 +1002,7 @@ export function DualPaneCommander({
             data-testid="dual-pane-action-swap"
             onClick={disabled ? undefined : handleSwapPanes}
             className="prism-crystal prism-focus-ring rounded-full px-3.5 py-2 text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed whitespace-nowrap"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <ArrowLeftRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Swap Panes</span>
@@ -1026,7 +1028,7 @@ export function DualPaneCommander({
           statusClass,
           'prism-well rounded-xl px-3 py-2 text-xs flex flex-wrap items-center gap-2 min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <span
           aria-hidden="true"
@@ -1043,4 +1045,5 @@ export function DualPaneCommander({
   );
 }
 
+export const DualPaneCommander = memo(DualPaneCommanderInner);
 DualPaneCommander.displayName = 'DualPaneCommander';

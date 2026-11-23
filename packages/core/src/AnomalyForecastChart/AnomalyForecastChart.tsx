@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_ERROR, STYLE_BG_PRIMARY, STYLE_BG_WARNING, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AnomalyDirection = 'normal' | 'upper-breach' | 'lower-breach';
@@ -251,7 +253,7 @@ function buildMarkerAriaLabel(pt: PlottedPoint, unit: string): string {
   return `${pt.point.label}: Actual ${formatWithUnit(pt.actual, unit)} vs Expected ${formatWithUnit(pt.expected, unit)}, Confidence Band ${bandText}, Deviation ${formatSignedDelta(pt.deviation, unit)}, Status ${status}`;
 }
 
-export function AnomalyForecastChart({
+function AnomalyForecastChartInner({
   data,
   unit = 'req/s',
   title = 'Anomaly Detection & Forecast',
@@ -550,7 +552,7 @@ export function AnomalyForecastChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0 truncate"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -577,7 +579,7 @@ export function AnomalyForecastChart({
               data-testid="anomaly-forecast-toggle"
               onClick={() => setShowForecast((prev) => !prev)}
               className={cx(
-                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all shrink-0',
+                'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] shrink-0',
                 showForecast ? 'prism-crystal font-semibold' : 'prism-well opacity-75 hover:opacity-100'
               )}
               style={{
@@ -608,19 +610,19 @@ export function AnomalyForecastChart({
         >
           <span
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
               className="w-2.5 h-0.5 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-primary-main)' }}
+              style={STYLE_BG_PRIMARY}
             />
             <span>Actual</span>
           </span>
 
           <span
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <span
               aria-hidden="true"
@@ -632,7 +634,7 @@ export function AnomalyForecastChart({
 
           <span
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium"
-            style={{ color: 'var(--prism-info-main)' }}
+            style={STYLE_INFO_MAIN}
           >
             <span
               aria-hidden="true"
@@ -644,24 +646,24 @@ export function AnomalyForecastChart({
 
           <span
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium"
-            style={{ color: 'var(--prism-error-main)' }}
+            style={STYLE_ERROR_MAIN}
           >
             <span
               aria-hidden="true"
               className="w-2 h-2 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-error-main)' }}
+              style={STYLE_BG_ERROR}
             />
             <span>Upper Breach</span>
           </span>
 
           <span
             className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium"
-            style={{ color: 'var(--prism-warning-main)' }}
+            style={STYLE_WARNING_MAIN}
           >
             <span
               aria-hidden="true"
               className="w-2 h-2 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-warning-main)' }}
+              style={STYLE_BG_WARNING}
             />
             <span>Lower Breach</span>
           </span>
@@ -673,7 +675,7 @@ export function AnomalyForecastChart({
           role="status"
           data-testid="anomaly-empty-state"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No anomaly detection or forecast telemetry available.
         </div>
@@ -682,7 +684,7 @@ export function AnomalyForecastChart({
           role="status"
           data-testid="anomaly-hidden-forecast-state"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Forecast horizon hidden — no historical checkpoints available.
         </div>
@@ -945,7 +947,7 @@ export function AnomalyForecastChart({
                     data-direction={pt.direction}
                     data-forecast={pt.isForecast ? 'true' : 'false'}
                     data-selected={isSelected ? 'true' : 'false'}
-                    className="prism-focus-ring cursor-pointer transition-all duration-150"
+                    className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150"
                     onClick={() => selectPlottedPoint(pt, false)}
                     onKeyDown={handleMarkerKeyDown(pt.visibleIndex)}
                   />
@@ -965,7 +967,7 @@ export function AnomalyForecastChart({
         >
           <span
             className="text-[11px] font-semibold uppercase tracking-wide shrink-0 mr-0.5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Detected Anomalies
           </span>
@@ -982,7 +984,7 @@ export function AnomalyForecastChart({
                 data-direction={item.direction}
                 onClick={() => selectPlottedPoint(item, false)}
                 className={cx(
-                  'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-mono tabular-nums cursor-pointer transition-all shrink-0',
+                  'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-mono tabular-nums cursor-pointer transition-[color,background-color,border-color,opacity,transform] shrink-0',
                   selected ? 'prism-crystal font-semibold' : 'prism-well opacity-85 hover:opacity-100'
                 )}
                 style={{ color: breachColor }}
@@ -1010,53 +1012,53 @@ export function AnomalyForecastChart({
             inspectorClass,
             'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs tabular-nums min-w-0'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <span className="font-semibold font-mono" data-testid="anomaly-inspector-timestamp">
             {activePoint.point.label}
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span data-testid="anomaly-inspector-actual">
             {activePoint.actual !== null ? (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>Actual </span>
+                <span style={STYLE_TEXT_SECONDARY}>Actual </span>
                 <strong className="font-mono font-semibold">
                   {formatWithUnit(activePoint.actual, unit)}
                 </strong>
-                <span style={{ color: 'var(--prism-text-secondary)' }}> vs Expected </span>
+                <span style={STYLE_TEXT_SECONDARY}> vs Expected </span>
                 <strong className="font-mono font-semibold">
                   {formatWithUnit(activePoint.expected, unit)}
                 </strong>
               </>
             ) : (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>Forecast </span>
-                <strong className="font-mono font-semibold" style={{ color: 'var(--prism-info-main)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>Forecast </span>
+                <strong className="font-mono font-semibold" style={STYLE_INFO_MAIN}>
                   —
                 </strong>
-                <span style={{ color: 'var(--prism-text-secondary)' }}> vs Expected </span>
+                <span style={STYLE_TEXT_SECONDARY}> vs Expected </span>
                 <strong className="font-mono font-semibold">
                   {formatWithUnit(activePoint.expected, unit)}
                 </strong>
               </>
             )}
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span data-testid="anomaly-inspector-band">
-            <span style={{ color: 'var(--prism-text-secondary)' }}>Confidence Band </span>
-            <strong className="font-mono font-semibold" style={{ color: 'var(--prism-info-main)' }}>
+            <span style={STYLE_TEXT_SECONDARY}>Confidence Band </span>
+            <strong className="font-mono font-semibold" style={STYLE_INFO_MAIN}>
               {formatBandRange(activePoint.lower, activePoint.upper, unit)}
             </strong>
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span data-testid="anomaly-inspector-deviation">
-            <span style={{ color: 'var(--prism-text-secondary)' }}>Deviation </span>
+            <span style={STYLE_TEXT_SECONDARY}>Deviation </span>
             <strong
               className="font-mono font-semibold"
               style={{ color: getStatusColor(activePoint.direction, activePoint.isForecast) }}
@@ -1066,7 +1068,7 @@ export function AnomalyForecastChart({
                 : formatSignedDelta(activePoint.deviation, unit)}
             </strong>
           </span>
-          <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
             ·
           </span>
           <span
@@ -1083,4 +1085,5 @@ export function AnomalyForecastChart({
   );
 }
 
+export const AnomalyForecastChart = memo(AnomalyForecastChartInner);
 AnomalyForecastChart.displayName = 'AnomalyForecastChart';

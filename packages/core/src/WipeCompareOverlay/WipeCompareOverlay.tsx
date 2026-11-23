@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -26,6 +27,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WipeOrientation = 'vertical' | 'horizontal';
@@ -270,7 +272,7 @@ function DefaultOpticalFrame({ variant, gradientPrefix }: DefaultFrameProps) {
       <span
         aria-hidden="true"
         className="prism-crystal pointer-events-none select-none absolute bottom-3 left-3 px-2 py-0.5 rounded-full font-mono text-[10px] font-medium tracking-tight opacity-85"
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         {isGraded ? 'PRISM LUT · REC.709' : 'LOG-C3 · FLAT GAMMA'}
       </span>
@@ -278,7 +280,7 @@ function DefaultOpticalFrame({ variant, gradientPrefix }: DefaultFrameProps) {
   );
 }
 
-export function WipeCompareOverlay({
+function WipeCompareOverlayInner({
   positionPct,
   defaultPositionPct = DEFAULT_POSITION,
   onPositionChange,
@@ -418,7 +420,7 @@ export function WipeCompareOverlay({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -570,14 +572,14 @@ export function WipeCompareOverlay({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" />
           </span>
           <span
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate max-w-full"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Wipe Compare Overlay
           </span>
@@ -605,7 +607,7 @@ export function WipeCompareOverlay({
               data-testid="wipe-orientation-vertical"
               onClick={() => handleSelectOrientation('vertical')}
               className={cx(
-                'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                 safeOrientation === 'vertical' ? 'prism-btn-primary' : 'prism-btn-secondary'
               )}
             >
@@ -619,7 +621,7 @@ export function WipeCompareOverlay({
               data-testid="wipe-orientation-horizontal"
               onClick={() => handleSelectOrientation('horizontal')}
               className={cx(
-                'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                 safeOrientation === 'horizontal' ? 'prism-btn-primary' : 'prism-btn-secondary'
               )}
             >
@@ -634,7 +636,7 @@ export function WipeCompareOverlay({
             disabled={disabled}
             data-testid="wipe-center-button"
             onClick={handleCenterSplit}
-            className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 font-mono text-xs font-semibold tabular-nums whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 font-mono text-xs font-semibold tabular-nums whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <Crosshair aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>50 / 50</span>
@@ -652,7 +654,7 @@ export function WipeCompareOverlay({
             onKeyUp={handleHoldKeyUp}
             onBlur={stopHoldCompare}
             className={cx(
-              'prism-focus-ring h-8 px-3.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 touch-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+              'prism-focus-ring h-8 px-3.5 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 touch-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
               holdingOriginal ? 'prism-btn-primary' : 'prism-btn-secondary'
             )}
           >
@@ -711,7 +713,7 @@ export function WipeCompareOverlay({
         <span
           data-testid="wipe-before-badge"
           className="prism-crystal pointer-events-none select-none absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full text-xs font-semibold tracking-tight max-w-[45%] truncate"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {beforeLabel}
         </span>
@@ -723,7 +725,7 @@ export function WipeCompareOverlay({
             safeOrientation === 'vertical' ? 'top-3' : 'bottom-3',
             holdingOriginal ? 'opacity-35' : 'opacity-100'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {afterLabel}
         </span>
@@ -747,7 +749,7 @@ export function WipeCompareOverlay({
               'pointer-events-none shadow-sm',
               safeOrientation === 'vertical' ? 'w-0.5 h-full' : 'h-0.5 w-full'
             )}
-            style={{ backgroundColor: 'var(--prism-primary-main)' }}
+            style={STYLE_BG_PRIMARY}
           />
           <div
             role="slider"
@@ -810,7 +812,7 @@ export function WipeCompareOverlay({
 
         <span
           className="font-mono text-[11px] tabular-nums truncate max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {safeOrientation === 'vertical'
             ? 'ArrowLeft / ArrowRight ±2% · Shift ±10%'
@@ -821,4 +823,5 @@ export function WipeCompareOverlay({
   );
 }
 
+export const WipeCompareOverlay = memo(WipeCompareOverlayInner);
 WipeCompareOverlay.displayName = 'WipeCompareOverlay';

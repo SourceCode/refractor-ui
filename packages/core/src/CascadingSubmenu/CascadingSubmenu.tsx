@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface SafeTrianglePoint {
@@ -186,7 +188,7 @@ function pickColumnTarget(
   return enabled[nextIndex] as CascadingMenuItem;
 }
 
-export function CascadingSubmenu({
+function CascadingSubmenuInner({
   title = DEFAULT_TITLE,
   items,
   hoverDelayMs = DEFAULT_HOVER_DELAY_MS,
@@ -636,7 +638,7 @@ export function CascadingSubmenu({
             <span
               data-testid="cascading-submenu-depth-badge"
               className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-medium shrink-0 tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Level {columns.length} · {clampedHoverDelayMs}ms
             </span>
@@ -652,7 +654,7 @@ export function CascadingSubmenu({
             statusClass,
             'prism-well inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium min-w-0 max-w-full'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span
             aria-hidden="true"
@@ -675,11 +677,11 @@ export function CascadingSubmenu({
         >
           <span
             className="text-sm font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             No menu items available
           </span>
-          <span className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Provide one or more menu entries to populate the cascading panes.
           </span>
         </div>
@@ -795,7 +797,7 @@ export function CascadingSubmenu({
                               <Check
                                 data-testid={`cascading-check-${item.id}`}
                                 className="w-3.5 h-3.5"
-                                style={{ color: 'var(--prism-success-main)' }}
+                                style={STYLE_SUCCESS_MAIN}
                               />
                             ) : null}
                           </span>
@@ -840,4 +842,5 @@ export function CascadingSubmenu({
   );
 }
 
+export const CascadingSubmenu = memo(CascadingSubmenuInner);
 CascadingSubmenu.displayName = 'CascadingSubmenu';

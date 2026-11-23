@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ViolinTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -334,7 +336,7 @@ export function computeGaussianKde(
   return { bandwidth, bins, maxDensity };
 }
 
-export function ViolinPlot({
+function ViolinPlotInner({
   series,
   unit = 'ms',
   showBoxOverlay = true,
@@ -581,7 +583,7 @@ export function ViolinPlot({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Activity className="w-4 h-4 shrink-0" />
           </span>
@@ -589,7 +591,7 @@ export function ViolinPlot({
             id={headingId}
             data-testid="violin-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -599,7 +601,7 @@ export function ViolinPlot({
           <span
             data-testid="violin-sample-count"
             className="prism-crystal inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-mono font-medium tabular-nums whitespace-nowrap"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {`N = ${totalSampleCount}`}
           </span>
@@ -611,7 +613,7 @@ export function ViolinPlot({
             data-testid="violin-box-overlay-toggle"
             onClick={handleToggleBoxOverlay}
             className={cx(
-              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
               isBoxOverlayVisible ? 'prism-btn-primary' : 'prism-btn-secondary'
             )}
           >
@@ -630,10 +632,10 @@ export function ViolinPlot({
             'prism-well rounded-2xl px-4 py-8 text-center space-y-1 min-w-0'
           )}
         >
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No distribution data available
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Provide one or more series with finite numeric samples to render KDE violin curves.
           </p>
         </div>
@@ -810,7 +812,7 @@ export function ViolinPlot({
               inspectorClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs tabular-nums min-w-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span className="inline-flex items-center gap-2 font-semibold min-w-0">
               <span
@@ -820,7 +822,7 @@ export function ViolinPlot({
               />
               <span className="truncate">{activeGlyph.summary.label}</span>
             </span>
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               {' · '}
             </span>
             <span className="font-mono text-[11px] min-w-0">
@@ -833,4 +835,5 @@ export function ViolinPlot({
   );
 }
 
+export const ViolinPlot = memo(ViolinPlotInner);
 ViolinPlot.displayName = 'ViolinPlot';

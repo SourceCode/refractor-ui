@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 import { Inbox } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
@@ -21,7 +22,7 @@ export interface EmptyStateProps extends BaseProps<HTMLDivElement> {
   icon?: ReactNode;
 }
 
-export function EmptyState({
+function EmptyStateInner({
   title,
   description,
   actionLabel,
@@ -62,4 +63,5 @@ export function EmptyState({
   );
 }
 
+export const EmptyState = memo(EmptyStateInner);
 EmptyState.displayName = 'EmptyState';

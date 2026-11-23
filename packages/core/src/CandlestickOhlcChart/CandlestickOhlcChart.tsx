@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CandleStyleMode = 'candlestick' | 'ohlc';
@@ -232,7 +234,7 @@ function sanitizeCandles(rawData: ReadonlyArray<OhlcCandlePoint>): SanitizedCand
   });
 }
 
-export function CandlestickOhlcChart({
+function CandlestickOhlcChartInner({
   data,
   mode,
   defaultMode = 'candlestick',
@@ -439,7 +441,7 @@ export function CandlestickOhlcChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -460,7 +462,7 @@ export function CandlestickOhlcChart({
                   data-testid={`candle-mode-${option.id}`}
                   onClick={() => setActiveMode(option.id)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     isModeActive ? 'prism-btn-primary' : 'opacity-80 hover:opacity-100'
                   )}
                   style={isModeActive ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -478,7 +480,7 @@ export function CandlestickOhlcChart({
               className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold tabular-nums min-w-0"
               style={{ color: latestCandle.toneToken }}
             >
-              <span style={{ color: 'var(--prism-text-primary)' }}>
+              <span style={STYLE_TEXT_PRIMARY}>
                 {formatPrice(latestCandle.close, currencyPrefix)}
               </span>
               <span>{formatSignedPct(latestCandle.deltaPct)}</span>
@@ -492,7 +494,7 @@ export function CandlestickOhlcChart({
           role="status"
           data-testid="candlestick-chart-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No market OHLC sessions to display.
         </div>
@@ -697,7 +699,7 @@ export function CandlestickOhlcChart({
               inspectorClass,
               'prism-well rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs tabular-nums min-w-0 max-w-full'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span className="inline-flex items-center gap-1.5 font-semibold min-w-0">
               <span
@@ -710,31 +712,31 @@ export function CandlestickOhlcChart({
 
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] min-w-0">
               <span data-testid="inspector-open">
-                <span style={{ color: 'var(--prism-text-secondary)' }}>O </span>
+                <span style={STYLE_TEXT_SECONDARY}>O </span>
                 {formatPrice(activeCandle.open, currencyPrefix)}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 ·
               </span>
               <span data-testid="inspector-high">
-                <span style={{ color: 'var(--prism-text-secondary)' }}>H </span>
+                <span style={STYLE_TEXT_SECONDARY}>H </span>
                 {formatPrice(activeCandle.high, currencyPrefix)}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 ·
               </span>
               <span data-testid="inspector-low">
-                <span style={{ color: 'var(--prism-text-secondary)' }}>L </span>
+                <span style={STYLE_TEXT_SECONDARY}>L </span>
                 {formatPrice(activeCandle.low, currencyPrefix)}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 ·
               </span>
               <span data-testid="inspector-close">
-                <span style={{ color: 'var(--prism-text-secondary)' }}>C </span>
+                <span style={STYLE_TEXT_SECONDARY}>C </span>
                 {formatPrice(activeCandle.close, currencyPrefix)}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 ·
               </span>
               <span
@@ -744,11 +746,11 @@ export function CandlestickOhlcChart({
               >
                 {`Δ ${formatSignedPct(activeCandle.deltaPct)}`}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
                 ·
               </span>
               <span data-testid="inspector-volume">
-                <span style={{ color: 'var(--prism-text-secondary)' }}>Vol </span>
+                <span style={STYLE_TEXT_SECONDARY}>Vol </span>
                 {formatVolume(activeCandle.volume)}
               </span>
             </div>
@@ -759,4 +761,5 @@ export function CandlestickOhlcChart({
   );
 }
 
+export const CandlestickOhlcChart = memo(CandlestickOhlcChartInner);
 CandlestickOhlcChart.displayName = 'CandlestickOhlcChart';

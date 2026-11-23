@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -71,7 +71,7 @@ function isHoldTriggerKey(key: string): boolean {
   return key === ' ' || key === 'Spacebar' || key === 'Enter';
 }
 
-export function HoldToConfirmButton({
+function HoldToConfirmButtonInner({
   label,
   holdingLabel = 'Hold to confirm...',
   confirmedLabel = 'Confirmed',
@@ -315,4 +315,5 @@ export function HoldToConfirmButton({
   );
 }
 
+export const HoldToConfirmButton = memo(HoldToConfirmButtonInner);
 HoldToConfirmButton.displayName = 'HoldToConfirmButton';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BumpTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose' | 'info';
@@ -229,7 +231,7 @@ function toSelection(series: ComputedSeries, node: ComputedNode): BumpSelection 
   };
 }
 
-export function BumpChart({
+function BumpChartInner({
   periods,
   series,
   title = 'Rank Trajectory Bump Chart',
@@ -567,7 +569,7 @@ export function BumpChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0 break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -576,10 +578,10 @@ export function BumpChart({
           <span
             data-testid="bump-period-pill"
             className="prism-crystal inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span>{computedPeriods.length}</span>
-            <span style={{ color: 'var(--prism-text-secondary)' }}>Periods</span>
+            <span style={STYLE_TEXT_SECONDARY}>Periods</span>
           </span>
         ) : null}
       </div>
@@ -609,7 +611,7 @@ export function BumpChart({
                   'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer transition-opacity duration-150',
                   isChipDimmed ? 'opacity-45' : 'opacity-100'
                 )}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span
                   aria-hidden="true"
@@ -619,7 +621,7 @@ export function BumpChart({
                 <span>{item.label}</span>
                 <span
                   className="font-mono text-[11px] tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`#${item.latestNode.rank}`}
                 </span>
@@ -634,7 +636,7 @@ export function BumpChart({
           role="status"
           data-testid="bump-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Provide at least 2 periods and 1 ranked series to plot trajectories.
         </div>
@@ -830,7 +832,7 @@ export function BumpChart({
               inspectorClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 min-w-0 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {inspectedEntry ? (
               <div className="inline-flex flex-wrap items-center gap-1.5 min-w-0">
@@ -840,20 +842,20 @@ export function BumpChart({
                   style={{ backgroundColor: inspectedEntry.series.color }}
                 />
                 <span className="font-semibold">{inspectedEntry.series.label}</span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
                 <span className="font-mono font-medium">{inspectedEntry.node.periodLabel}</span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
                 <span className="font-mono font-semibold">
                   {`Rank #${inspectedEntry.node.rank}`}
                 </span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>Net Movement</span>
+                <span style={STYLE_TEXT_SECONDARY}>Net Movement</span>
                 <span
                   data-net-change={String(inspectedEntry.series.netChange)}
                   className="font-mono font-semibold"
@@ -864,12 +866,12 @@ export function BumpChart({
               </div>
             ) : (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select or focus any rank node or series chip to inspect trajectory movement.
                 </span>
                 <span
                   className="font-mono font-medium shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`${computedSeries.length} series · ${computedPeriods.length} periods`}
                 </span>
@@ -882,4 +884,5 @@ export function BumpChart({
   );
 }
 
+export const BumpChart = memo(BumpChartInner);
 BumpChart.displayName = 'BumpChart';

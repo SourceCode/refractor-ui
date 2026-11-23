@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useState,
@@ -12,6 +13,7 @@ import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 const DEFAULT_MIN_AMOUNT = 0;
@@ -162,7 +164,7 @@ function deduplicateUnits(
   return [DEFAULT_UNIT_PX, ...DEFAULT_MEASUREMENT_UNITS.slice(1)];
 }
 
-export function MeasurementUnitInput({
+function MeasurementUnitInputInner({
   value,
   defaultValue = DEFAULT_MEASUREMENT_VALUE,
   onChange,
@@ -304,14 +306,14 @@ export function MeasurementUnitInput({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Ruler aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           </span>
           <label
             htmlFor={inputId}
             className="text-xs font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </label>
@@ -329,7 +331,7 @@ export function MeasurementUnitInput({
 
       <div className="flex items-stretch w-full">
         <div
-          className="prism-well flex-1 min-w-0 h-11 px-3.5 rounded-l-2xl rounded-r-none flex items-center transition-all"
+          className="prism-well flex-1 min-w-0 h-11 px-3.5 rounded-l-2xl rounded-r-none flex items-center transition-[color,background-color,border-color,opacity,transform]"
           style={
             isFocused
               ? { boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)' }
@@ -352,7 +354,7 @@ export function MeasurementUnitInput({
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             className="prism-focus-ring w-full min-w-0 bg-transparent font-mono text-sm font-semibold tabular-nums rounded-lg py-1 focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
         </div>
 
@@ -362,7 +364,7 @@ export function MeasurementUnitInput({
           value={activeUnit.id}
           disabled={disabled}
           onChange={handleUnitChange}
-          className="prism-crystal prism-focus-ring h-11 px-3 rounded-r-2xl rounded-l-none text-xs font-mono font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0 focus:outline-none"
+          className="prism-crystal prism-focus-ring h-11 px-3 rounded-r-2xl rounded-l-none text-xs font-mono font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0 focus:outline-none"
           style={{
             color: 'var(--prism-text-primary)',
             borderLeft: '1px solid var(--prism-divider)',
@@ -386,4 +388,5 @@ export function MeasurementUnitInput({
   );
 }
 
+export const MeasurementUnitInput = memo(MeasurementUnitInputInner);
 MeasurementUnitInput.displayName = 'MeasurementUnitInput';

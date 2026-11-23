@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useId, useMemo } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo } from 'react';
 import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ShoppingCartMode = 'drawer' | 'inline';
@@ -99,7 +100,7 @@ function formatMoney(amount: number, currencySymbol: string): string {
   return `${currencySymbol}${amount.toFixed(2)}`;
 }
 
-export function ShoppingCartDrawer({
+function ShoppingCartDrawerInner({
   items,
   defaultItems = EMPTY_ITEMS,
   onItemsChange,
@@ -235,7 +236,7 @@ export function ShoppingCartDrawer({
     }),
     baseClassName:
       mode === 'drawer'
-        ? 'fixed inset-0 z-50 bg-slate-900/35 backdrop-blur-xs flex justify-end'
+        ? 'fixed inset-0 z-50 prism-backdrop-scrim flex justify-end'
         : 'prism-slab w-full flex flex-col overflow-hidden',
     overrideClassName: override?.className,
     userClassName: className,
@@ -248,12 +249,12 @@ export function ShoppingCartDrawer({
     <>
       <div
         className="px-5 py-4 flex items-center justify-between gap-3 border-b"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-9 h-9 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <ShoppingBag className="w-4 h-4 shrink-0" aria-hidden="true" />
           </span>
@@ -261,14 +262,14 @@ export function ShoppingCartDrawer({
             <h2
               id={titleId}
               className="text-base font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h2>
             <span
               data-testid="cart-item-count"
               className="prism-well px-2 py-0.5 rounded-full text-[11px] font-medium tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {totalItemCount} {itemUnit}
             </span>
@@ -281,7 +282,7 @@ export function ShoppingCartDrawer({
             aria-label="Close shopping cart"
             onClick={() => setIsOpen(false)}
             className="prism-focus-ring rounded-lg p-1.5 cursor-pointer enabled:hover:opacity-100 opacity-75 transition-opacity"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -297,15 +298,15 @@ export function ShoppingCartDrawer({
             <ShoppingBag
               className="w-7 h-7 opacity-60"
               aria-hidden="true"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <p
               className="text-sm font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Your cart is empty
             </p>
-            <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
               Add items to review totals and proceed to checkout.
             </p>
           </div>
@@ -334,7 +335,7 @@ export function ShoppingCartDrawer({
                       <ShoppingBag
                         className="w-5 h-5 opacity-60"
                         aria-hidden="true"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       />
                     )}
                   </div>
@@ -344,14 +345,14 @@ export function ShoppingCartDrawer({
                       <div className="min-w-0">
                         <p
                           className="text-sm font-semibold leading-snug break-words"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {item.name}
                         </p>
                         {item.variant ? (
                           <p
                             className="text-xs break-words"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {item.variant}
                           </p>
@@ -362,14 +363,14 @@ export function ShoppingCartDrawer({
                         <p
                           data-testid={`cart-line-total-${item.id}`}
                           className="text-sm font-semibold tabular-nums"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {formatMoney(lineTotal, currencySymbol)}
                         </p>
                         <p
                           data-testid={`cart-unit-price-${item.id}`}
                           className="text-[11px] tabular-nums"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {formatMoney(item.unitPrice, currencySymbol)} each
                         </p>
@@ -382,8 +383,8 @@ export function ShoppingCartDrawer({
                           type="button"
                           aria-label={`Decrease quantity of ${item.name}`}
                           onClick={() => handleDecrement(item.id)}
-                          className="prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer enabled:hover:brightness-105 transition-all"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          className="prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           <Minus className="w-3.5 h-3.5" aria-hidden="true" />
                         </button>
@@ -391,7 +392,7 @@ export function ShoppingCartDrawer({
                           data-testid={`cart-qty-${item.id}`}
                           aria-live="polite"
                           className="min-w-6 text-center text-xs font-semibold tabular-nums"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {item.quantity}
                         </span>
@@ -400,8 +401,8 @@ export function ShoppingCartDrawer({
                           disabled={isAtMax}
                           aria-label={`Increase quantity of ${item.name}`}
                           onClick={() => handleIncrement(item.id)}
-                          className="prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          className="prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           <Plus className="w-3.5 h-3.5" aria-hidden="true" />
                         </button>
@@ -412,7 +413,7 @@ export function ShoppingCartDrawer({
                         aria-label={`Remove ${item.name}`}
                         onClick={() => handleRemove(item.id)}
                         className="prism-focus-ring rounded-lg p-1.5 inline-flex items-center justify-center cursor-pointer opacity-75 enabled:hover:opacity-100 transition-opacity"
-                        style={{ color: 'var(--prism-error-main)' }}
+                        style={STYLE_ERROR_MAIN}
                       >
                         <Trash2 className="w-4 h-4" aria-hidden="true" />
                       </button>
@@ -427,15 +428,15 @@ export function ShoppingCartDrawer({
 
       <div
         className="p-5 space-y-4 border-t"
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <dl className="space-y-1.5 text-sm">
           <div className="flex items-center justify-between gap-2">
-            <dt style={{ color: 'var(--prism-text-secondary)' }}>Subtotal</dt>
+            <dt style={STYLE_TEXT_SECONDARY}>Subtotal</dt>
             <dd
               data-testid="cart-subtotal"
               className="font-medium tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {formatMoney(summary.subtotal, currencySymbol)}
             </dd>
@@ -443,11 +444,11 @@ export function ShoppingCartDrawer({
 
           {summary.discount > 0 ? (
             <div className="flex items-center justify-between gap-2">
-              <dt style={{ color: 'var(--prism-text-secondary)' }}>Discount</dt>
+              <dt style={STYLE_TEXT_SECONDARY}>Discount</dt>
               <dd
                 data-testid="cart-discount"
                 className="font-semibold tabular-nums"
-                style={{ color: 'var(--prism-success-dark)' }}
+                style={STYLE_SUCCESS_DARK}
               >
                 -{formatMoney(summary.discount, currencySymbol)}
               </dd>
@@ -456,13 +457,13 @@ export function ShoppingCartDrawer({
 
           {safeTaxRate > 0 ? (
             <div className="flex items-center justify-between gap-2">
-              <dt style={{ color: 'var(--prism-text-secondary)' }}>
+              <dt style={STYLE_TEXT_SECONDARY}>
                 Estimated Tax ({taxPercentLabel}%)
               </dt>
               <dd
                 data-testid="cart-tax"
                 className="font-medium tabular-nums"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatMoney(summary.tax, currencySymbol)}
               </dd>
@@ -471,15 +472,15 @@ export function ShoppingCartDrawer({
 
           <div
             className="pt-2 mt-2 border-t flex items-center justify-between gap-2"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
-            <dt className="font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+            <dt className="font-semibold" style={STYLE_TEXT_PRIMARY}>
               Total
             </dt>
             <dd
               data-testid="cart-total"
               className="text-base font-bold tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {formatMoney(summary.total, currencySymbol)}
             </dd>
@@ -540,4 +541,5 @@ export function ShoppingCartDrawer({
   );
 }
 
+export const ShoppingCartDrawer = memo(ShoppingCartDrawerInner);
 ShoppingCartDrawer.displayName = 'ShoppingCartDrawer';

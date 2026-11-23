@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -21,6 +22,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_SUCCESS, STYLE_BORDER_DIVIDER, STYLE_SECONDARY_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface WindowUtilityState {
@@ -80,7 +82,7 @@ function resolveUtilityState(
   };
 }
 
-export function WindowUtilityControls({
+function WindowUtilityControlsInner({
   title = DEFAULT_TITLE,
   value,
   defaultValue,
@@ -219,7 +221,7 @@ export function WindowUtilityControls({
       disabled,
     }),
     baseClassName:
-      'prism-slab relative flex flex-col overflow-hidden w-full max-w-full min-w-0 transition-all duration-200 select-none',
+      'prism-slab relative flex flex-col overflow-hidden w-full max-w-full min-w-0 transition-[color,background-color,border-color,opacity,transform] duration-200 select-none',
     overrideClassName: override?.className,
     userClassName: className,
     baseStyle,
@@ -264,7 +266,7 @@ export function WindowUtilityControls({
           'prism-crystal relative flex flex-wrap items-center justify-between gap-x-3 gap-y-2.5 px-3.5 py-2.5 min-w-0 max-w-full',
           isBodyVisible ? 'border-b' : ''
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         {/* Top Optical Specular Edge Highlight */}
         <span
@@ -297,7 +299,7 @@ export function WindowUtilityControls({
           <h2
             id={titleId}
             className="text-xs sm:text-sm font-semibold tracking-[-0.01em] truncate min-w-0 max-w-full"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h2>
@@ -349,7 +351,7 @@ export function WindowUtilityControls({
             <span
               data-testid="window-utility-pill-opacity"
               className="prism-well inline-flex items-center px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {state.opacityPct}%
             </span>
@@ -461,7 +463,7 @@ export function WindowUtilityControls({
             <label
               htmlFor={opacityInputId}
               className="text-[11px] font-semibold tracking-tight whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Opacity
             </label>
@@ -475,7 +477,7 @@ export function WindowUtilityControls({
               <div className="prism-crystal w-full h-2 rounded-full overflow-hidden p-[1px]">
                 <div
                   data-testid="window-utility-opacity-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${opacityTrackPct}%`,
                     backgroundColor: 'var(--prism-primary-main)',
@@ -554,7 +556,7 @@ export function WindowUtilityControls({
                 'prism-crystal prism-focus-ring h-6 px-2 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:cursor-not-allowed transition-opacity',
                 disabled ? 'opacity-50' : ''
               )}
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Reset</span>
@@ -596,7 +598,7 @@ export function WindowUtilityControls({
             >
               <span
                 className="text-[10px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Window Layer
               </span>
@@ -615,18 +617,18 @@ export function WindowUtilityControls({
 
             <div
               className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0 border"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <span
                 className="text-[10px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Surface Opacity
               </span>
               <span
                 data-testid="window-utility-opacity-readout"
                 className="font-mono text-xs font-semibold tabular-nums truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {state.opacityPct}% · α {(state.opacityPct / 100).toFixed(2)}
               </span>
@@ -634,22 +636,22 @@ export function WindowUtilityControls({
 
             <div
               className="prism-well rounded-xl px-3 py-2 flex flex-col gap-0.5 min-w-0 border"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <span
                 className="text-[10px] font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Shade State
               </span>
               <span
                 className="inline-flex items-center gap-1.5 text-xs font-semibold truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span
                   aria-hidden="true"
                   className="w-2 h-2 rounded-full shrink-0"
-                  style={{ backgroundColor: 'var(--prism-success-main)' }}
+                  style={STYLE_BG_SUCCESS}
                 />
                 <span>Expanded Viewport</span>
               </span>
@@ -658,18 +660,18 @@ export function WindowUtilityControls({
 
           <div
             className="prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 min-w-0 border"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <p
               className="text-xs leading-relaxed min-w-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Adjust translucency to inspect underlying workspace layers or roll
               up the window shade into a compact floating glass bar.
             </p>
             <span
               className="font-mono text-[11px] font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-secondary-dark)' }}
+              style={STYLE_SECONDARY_DARK}
             >
               {state.pinned ? 'z-index: top' : 'z-index: auto'}
             </span>
@@ -691,4 +693,5 @@ export function WindowUtilityControls({
   );
 }
 
+export const WindowUtilityControls = memo(WindowUtilityControlsInner);
 WindowUtilityControls.displayName = 'WindowUtilityControls';

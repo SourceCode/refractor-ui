@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type MarimekkoTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -248,7 +250,7 @@ function toSelection(cell: ComputedSegment): MarimekkoSelection {
   };
 }
 
-export function MarimekkoChart({
+function MarimekkoChartInner({
   columns,
   valueUnit = 'M',
   valuePrefix = '$',
@@ -565,7 +567,7 @@ export function MarimekkoChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0 break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -574,9 +576,9 @@ export function MarimekkoChart({
           <span
             data-testid="marimekko-total-pill"
             className="prism-crystal inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
-            <span style={{ color: 'var(--prism-text-secondary)' }}>Total</span>
+            <span style={STYLE_TEXT_SECONDARY}>Total</span>
             <span>{formatValue(grandTotal, valuePrefix, valueUnit)}</span>
           </span>
         ) : null}
@@ -604,7 +606,7 @@ export function MarimekkoChart({
                   'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer transition-opacity duration-150',
                   isLegendDimmed ? 'opacity-50' : 'opacity-100'
                 )}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span
                   aria-hidden="true"
@@ -614,7 +616,7 @@ export function MarimekkoChart({
                 <span>{item.label}</span>
                 <span
                   className="font-mono text-[11px] tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`${formatNumeric(item.sharePct)}%`}
                 </span>
@@ -629,7 +631,7 @@ export function MarimekkoChart({
           role="status"
           data-testid="marimekko-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No positive market share values to display.
         </div>
@@ -800,7 +802,7 @@ export function MarimekkoChart({
               inspectorClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 min-w-0 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {inspectedCell ? (
               <div className="inline-flex flex-wrap items-center gap-1.5 min-w-0">
@@ -810,26 +812,26 @@ export function MarimekkoChart({
                   style={{ backgroundColor: inspectedCell.color }}
                 />
                 <span className="font-semibold">{inspectedCell.columnLabel}</span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
                 <span className="font-medium">{inspectedCell.segmentLabel}</span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
                 <span className="font-mono font-semibold">
                   {formatValue(inspectedCell.value, valuePrefix, valueUnit)}
                 </span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
-                <span className="font-mono" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="font-mono" style={STYLE_TEXT_SECONDARY}>
                   {`${formatNumeric(inspectedCell.columnSharePct)}% Column Share`}
                 </span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
-                <span className="font-mono" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="font-mono" style={STYLE_TEXT_SECONDARY}>
                   {`${formatNumeric(inspectedCell.totalSharePct)}% Global Share`}
                 </span>
               </div>
@@ -841,31 +843,31 @@ export function MarimekkoChart({
                   style={{ backgroundColor: activeLegend.color }}
                 />
                 <span className="font-semibold">All Columns</span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
                 <span className="font-medium">{activeLegend.label}</span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
                 <span className="font-mono font-semibold">
                   {formatValue(activeLegend.totalValue, valuePrefix, valueUnit)}
                 </span>
-                <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                   ·
                 </span>
-                <span className="font-mono" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="font-mono" style={STYLE_TEXT_SECONDARY}>
                   {`${formatNumeric(activeLegend.sharePct)}% Global Share`}
                 </span>
               </div>
             ) : (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select or focus any segment to inspect column share and global share.
                 </span>
                 <span
                   className="font-mono font-medium shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`Total: ${formatValue(grandTotal, valuePrefix, valueUnit)}`}
                 </span>
@@ -878,4 +880,5 @@ export function MarimekkoChart({
   );
 }
 
+export const MarimekkoChart = memo(MarimekkoChartInner);
 MarimekkoChart.displayName = 'MarimekkoChart';

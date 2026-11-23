@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -17,7 +19,7 @@ export interface ProgressAndSpinnerProps extends BaseProps<HTMLDivElement> {
   spinnerLabel?: string;
 }
 
-export function ProgressAndSpinner({
+function ProgressAndSpinnerInner({
   progress,
   label = 'Compiling refractive shader cache',
   indeterminateSpinner = true,
@@ -59,7 +61,7 @@ export function ProgressAndSpinner({
           className="prism-crystal h-4 rounded-full p-0.5 overflow-hidden"
         >
           <div
-            className="prism-btn-primary h-full rounded-full transition-all duration-200"
+            className="prism-btn-primary h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200"
             style={{ width: `${clamped}%` }}
           />
         </div>
@@ -71,7 +73,7 @@ export function ProgressAndSpinner({
             viewBox="0 0 24 24"
             role="status"
             aria-label="Loading"
-            className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-spin"
+            className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-spin motion-reduce:animate-none"
             fill="none"
             stroke="currentColor"
             strokeWidth="2.4"
@@ -88,4 +90,5 @@ export function ProgressAndSpinner({
   );
 }
 
+export const ProgressAndSpinner = memo(ProgressAndSpinnerInner);
 ProgressAndSpinner.displayName = 'ProgressAndSpinner';

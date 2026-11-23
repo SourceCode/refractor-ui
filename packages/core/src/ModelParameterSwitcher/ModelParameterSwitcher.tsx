@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -26,6 +27,7 @@ import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ModelSpeedTier = 'fast' | 'balanced' | 'reasoning';
@@ -176,7 +178,7 @@ function renderCapabilityIcon(key: CapabilityToggleKey) {
   }
 }
 
-export function ModelParameterSwitcher({
+function ModelParameterSwitcherInner({
   models,
   selectedModelId,
   defaultModelId,
@@ -303,14 +305,14 @@ export function ModelParameterSwitcher({
         aria-controls={isOpen ? panelId : undefined}
         data-testid="model-switcher-trigger"
         onClick={() => setOpen((prev) => !prev)}
-        className="prism-crystal prism-focus-ring w-full min-h-12 px-3.5 py-2 rounded-2xl flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-        style={{ color: 'var(--prism-text-primary)' }}
+        className="prism-crystal prism-focus-ring w-full min-h-12 px-3.5 py-2 rounded-2xl flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+        style={STYLE_TEXT_PRIMARY}
       >
         <span className="flex items-center gap-2.5 min-w-0 flex-1">
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Cpu className="w-4 h-4 shrink-0" aria-hidden="true" />
           </span>
@@ -319,7 +321,7 @@ export function ModelParameterSwitcher({
             <span
               data-testid="model-switcher-selected-name"
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {selectedModel
                 ? selectedModel.name
@@ -333,7 +335,7 @@ export function ModelParameterSwitcher({
                 <span
                   data-testid="model-switcher-context-pill"
                   className="prism-well px-2 py-0.5 rounded-full text-[11px] font-mono tabular-nums font-medium shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {selectedModel.contextWindow}
                 </span>
@@ -356,7 +358,7 @@ export function ModelParameterSwitcher({
         <span
           aria-hidden="true"
           className="inline-flex items-center gap-1 shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           {isOpen ? (
@@ -380,13 +382,13 @@ export function ModelParameterSwitcher({
               <span
                 id={listboxLabelId}
                 className="text-xs font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Model
               </span>
               <span
                 className="text-[11px] font-mono tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {models.length} available
               </span>
@@ -401,7 +403,7 @@ export function ModelParameterSwitcher({
               >
                 <p
                   className="text-xs font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   No models configured.
                 </p>
@@ -427,7 +429,7 @@ export function ModelParameterSwitcher({
                       onClick={() => handleSelectModel(model.id)}
                       className={cx(
                         isSelected ? 'prism-crystal' : 'prism-well',
-                        'prism-focus-ring w-full rounded-2xl px-3 py-2.5 flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all'
+                        'prism-focus-ring w-full rounded-2xl px-3 py-2.5 flex items-center justify-between gap-2.5 text-left cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
                       )}
                       style={
                         isSelected
@@ -439,7 +441,7 @@ export function ModelParameterSwitcher({
                         <div className="flex flex-wrap items-center gap-1.5">
                           <span
                             className="text-sm font-semibold truncate"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {model.name}
                           </span>
@@ -447,7 +449,7 @@ export function ModelParameterSwitcher({
                             <span
                               data-testid={`model-badge-${model.id}`}
                               className="prism-well px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap shrink-0"
-                              style={{ color: 'var(--prism-info-main)' }}
+                              style={STYLE_INFO_MAIN}
                             >
                               {model.badge}
                             </span>
@@ -458,14 +460,14 @@ export function ModelParameterSwitcher({
                           {model.provider ? (
                             <span
                               className="text-[11px] font-medium"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               {model.provider}
                             </span>
                           ) : null}
                           <span
                             className="prism-well px-2 py-0.5 rounded-full text-[10px] font-mono tabular-nums font-medium"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {model.contextWindow}
                           </span>
@@ -499,11 +501,11 @@ export function ModelParameterSwitcher({
 
           <div
             className="pt-3 border-t space-y-2"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <span
               className="block text-xs font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Capabilities
             </span>
@@ -531,13 +533,13 @@ export function ModelParameterSwitcher({
                       <div className="min-w-0">
                         <div
                           className="text-xs font-semibold"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {item.label}
                         </div>
                         <p
                           className="text-[11px] leading-snug"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {item.description}
                         </p>
@@ -552,7 +554,7 @@ export function ModelParameterSwitcher({
                       disabled={disabled}
                       onClick={() => handleToggleCapability(item.key)}
                       className={cx(
-                        'prism-focus-ring relative w-11 h-6 rounded-full p-0.5 inline-flex items-center transition-all duration-200 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed shrink-0',
+                        'prism-focus-ring relative w-11 h-6 rounded-full p-0.5 inline-flex items-center transition-[color,background-color,border-color,opacity,transform] duration-200 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed shrink-0',
                         checked ? 'prism-emerald' : 'prism-crystal'
                       )}
                     >
@@ -572,18 +574,18 @@ export function ModelParameterSwitcher({
 
           <div
             className="pt-3 border-t space-y-2"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <div className="flex items-center justify-between gap-2">
               <label
                 htmlFor={temperatureId}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <Thermometer
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-primary-main)' }}
+                  style={STYLE_PRIMARY_MAIN}
                 />
                 <span>Temperature</span>
               </label>
@@ -591,7 +593,7 @@ export function ModelParameterSwitcher({
               <span
                 data-testid="temperature-value"
                 className="prism-well px-2.5 py-0.5 rounded-full text-xs font-mono tabular-nums font-semibold"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {activeCaps.temperature.toFixed(1)}
               </span>
@@ -601,7 +603,7 @@ export function ModelParameterSwitcher({
               <div className="prism-crystal w-full h-3 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="temperature-fill"
-                  className="prism-emerald h-full rounded-full transition-all duration-75"
+                  className="prism-emerald h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{ width: `${temperaturePercent}%` }}
                 />
               </div>
@@ -625,7 +627,7 @@ export function ModelParameterSwitcher({
 
             <div
               className="flex items-center justify-between text-[10px] font-mono tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>0.0 Precise</span>
               <span>1.0 Balanced</span>
@@ -638,4 +640,5 @@ export function ModelParameterSwitcher({
   );
 }
 
+export const ModelParameterSwitcher = memo(ModelParameterSwitcherInner);
 ModelParameterSwitcher.displayName = 'ModelParameterSwitcher';

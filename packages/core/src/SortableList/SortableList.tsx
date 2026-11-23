@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useMemo,
   useState,
   type DragEvent,
@@ -57,7 +58,7 @@ function dedupeItems<T extends SortableListItem>(list: ReadonlyArray<T> | undefi
   return out;
 }
 
-export function SortableList<T extends SortableListItem = SortableListItem>({
+function SortableListInner<T extends SortableListItem = SortableListItem>({
   items,
   defaultItems,
   onReorder,
@@ -240,7 +241,7 @@ export function SortableList<T extends SortableListItem = SortableListItem>({
                 onDragEnd={handleDragEnd}
                 {...mergeProps({
                   themeTarget: rowTarget,
-                  baseClassName: `prism-crystal rounded-2xl px-3 py-2.5 flex items-center gap-3 transition-all ${
+                  baseClassName: `prism-crystal rounded-2xl px-3 py-2.5 flex items-center gap-3 transition-[color,background-color,border-color,opacity,transform] ${
                     isDragging ? 'opacity-60 scale-[0.98]' : ''
                   } ${
                     isDropTarget ? 'ring-2 ring-sky-400/80 dark:ring-sky-400/70 scale-[1.01]' : ''
@@ -331,4 +332,9 @@ export function SortableList<T extends SortableListItem = SortableListItem>({
   );
 }
 
+type SortableListComponent = (<T extends SortableListItem = SortableListItem>(
+  props: SortableListProps<T>
+) => ReactNode) & { displayName?: string };
+
+export const SortableList = memo(SortableListInner) as SortableListComponent;
 SortableList.displayName = 'SortableList';

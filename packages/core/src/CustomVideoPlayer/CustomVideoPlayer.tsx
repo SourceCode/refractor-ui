@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useId, useMemo, useRef, useState } from 'react';
 import {
   Captions,
   Film,
@@ -17,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface VideoChapter {
@@ -95,7 +96,7 @@ function formatMediaTime(rawSeconds: number): string {
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
-export function CustomVideoPlayer({
+function CustomVideoPlayerInner({
   src,
   poster,
   title = 'Optical Media Stream',
@@ -334,7 +335,7 @@ export function CustomVideoPlayer({
               <span
                 data-testid="video-stage-title"
                 className="text-sm font-semibold tracking-tight break-words"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {title}
               </span>
@@ -366,7 +367,7 @@ export function CustomVideoPlayer({
             <span
               data-testid="video-stage-title"
               className="prism-crystal px-3 py-1 rounded-full text-xs font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </span>
@@ -392,7 +393,7 @@ export function CustomVideoPlayer({
             aria-live="polite"
             data-testid="video-captions-overlay"
             className="prism-crystal pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 z-20 max-w-[90%] px-4 py-1.5 rounded-full text-xs font-medium text-center break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {captionsText ?? 'Live optical captions enabled'}
           </div>
@@ -408,7 +409,7 @@ export function CustomVideoPlayer({
             className="prism-well absolute inset-x-0 h-2 rounded-full overflow-hidden pointer-events-none"
           >
             <div
-              className="prism-emerald h-full rounded-full transition-all duration-75"
+              className="prism-emerald h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
               style={{ width: `${progressPct}%` }}
             />
           </div>
@@ -428,7 +429,7 @@ export function CustomVideoPlayer({
 
           <div
             aria-hidden="true"
-            className="prism-thumb pointer-events-none absolute z-10 w-4 h-4 rounded-full -ml-2 transition-all duration-75 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--prism-focus-ring)]"
+            className="prism-thumb pointer-events-none absolute z-10 w-4 h-4 rounded-full -ml-2 transition-[color,background-color,border-color,opacity,transform] duration-75 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--prism-focus-ring)]"
             style={{ left: `${progressPct}%` }}
           />
 
@@ -475,7 +476,7 @@ export function CustomVideoPlayer({
             <span
               data-testid="video-time-readout"
               className="prism-well px-2.5 py-1 rounded-full font-mono text-xs font-medium tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {formattedCurrent} / {formattedDuration}
             </span>
@@ -490,8 +491,8 @@ export function CustomVideoPlayer({
                 aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
                 aria-pressed={isMuted}
                 onClick={handleToggleMute}
-                className="prism-well prism-focus-ring h-8 w-8 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                style={{ color: 'var(--prism-text-primary)' }}
+                className="prism-well prism-focus-ring h-8 w-8 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                style={STYLE_TEXT_PRIMARY}
               >
                 {isMuted || displayedVolume === 0 ? (
                   <VolumeX className="w-3.5 h-3.5" aria-hidden="true" />
@@ -520,8 +521,8 @@ export function CustomVideoPlayer({
               data-testid="video-speed-button"
               aria-label={`Playback speed ${speed}x`}
               onClick={handleCycleSpeed}
-              className="prism-well prism-focus-ring h-8 px-2.5 rounded-full font-mono text-xs font-semibold tabular-nums cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-well prism-focus-ring h-8 px-2.5 rounded-full font-mono text-xs font-semibold tabular-nums cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               {speed}x
             </button>
@@ -534,7 +535,7 @@ export function CustomVideoPlayer({
               aria-pressed={captionsEnabled}
               onClick={handleToggleCaptions}
               className={cx(
-                'prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-semibold cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                'prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-semibold cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                 captionsEnabled ? 'prism-emerald' : 'prism-well'
               )}
               style={captionsEnabled ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -550,8 +551,8 @@ export function CustomVideoPlayer({
               aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
               aria-pressed={isFullscreen}
               onClick={handleToggleFullscreen}
-              className="prism-well prism-focus-ring h-8 w-8 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-well prism-focus-ring h-8 w-8 rounded-full inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_PRIMARY}
             >
               {isFullscreen ? (
                 <Minimize2 className="w-3.5 h-3.5" aria-hidden="true" />
@@ -569,7 +570,7 @@ export function CustomVideoPlayer({
             aria-label="Video chapters"
             data-testid="video-chapter-strip"
             className="flex flex-wrap items-center gap-1.5 pt-2 border-t"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             {normalizedChapters.map((chapter) => {
               const isCurrentChapter = activeChapter?.reactKey === chapter.reactKey;
@@ -581,7 +582,7 @@ export function CustomVideoPlayer({
                   aria-pressed={isCurrentChapter}
                   onClick={() => handleSeek(chapter.timeSeconds)}
                   className={cx(
-                    'prism-focus-ring px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+                    'prism-focus-ring px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
                     isCurrentChapter ? 'prism-emerald' : 'prism-well'
                   )}
                   style={isCurrentChapter ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -600,4 +601,5 @@ export function CustomVideoPlayer({
   );
 }
 
+export const CustomVideoPlayer = memo(CustomVideoPlayerInner);
 CustomVideoPlayer.displayName = 'CustomVideoPlayer';

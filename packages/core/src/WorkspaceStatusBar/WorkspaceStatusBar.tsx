@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -17,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type StatusSyncState = 'synced' | 'syncing' | 'dirty' | 'offline';
@@ -201,7 +202,7 @@ function renderSyncIcon(state: StatusSyncState, colorVar: string) {
         <RefreshCw
           aria-hidden="true"
           data-testid="workspace-status-sync-icon"
-          className="w-3.5 h-3.5 shrink-0 animate-spin"
+          className="w-3.5 h-3.5 shrink-0 animate-spin motion-reduce:animate-none"
           style={style}
         />
       );
@@ -226,7 +227,7 @@ function renderSyncIcon(state: StatusSyncState, colorVar: string) {
   }
 }
 
-export function WorkspaceStatusBar({
+function WorkspaceStatusBarInner({
   branch = DEFAULT_BRANCH,
   syncState = 'synced',
   errorsCount = 0,
@@ -351,7 +352,7 @@ export function WorkspaceStatusBar({
 
   const interactivePillClass = cx(
     segmentBaseClass,
-    'prism-well prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium min-w-0 max-w-full cursor-pointer transition-all hover:brightness-105 active:scale-[0.98]'
+    'prism-well prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium min-w-0 max-w-full cursor-pointer transition-[color,background-color,border-color,opacity,transform] hover:brightness-105 active:scale-[0.98]'
   );
 
   const staticPillClass = cx(
@@ -380,7 +381,7 @@ export function WorkspaceStatusBar({
         {item.value !== null ? (
           <span
             className="font-mono tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {item.value}
           </span>
@@ -452,14 +453,14 @@ export function WorkspaceStatusBar({
           className={cx(
             segmentBaseClass,
             branchClass,
-            'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium min-w-0 max-w-full cursor-pointer transition-all hover:brightness-105 active:scale-[0.98]'
+            'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium min-w-0 max-w-full cursor-pointer transition-[color,background-color,border-color,opacity,transform] hover:brightness-105 active:scale-[0.98]'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <GitBranch
             aria-hidden="true"
             className="w-3.5 h-3.5 shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           />
           <span className="font-mono truncate max-w-[180px] min-w-0">
             {resolvedBranch}
@@ -538,14 +539,14 @@ export function WorkspaceStatusBar({
                 aria-hidden="true"
                 data-testid="workspace-status-task-icon"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-success-main)' }}
+                style={STYLE_SUCCESS_MAIN}
               />
             ) : (
               <Loader2
                 aria-hidden="true"
                 data-testid="workspace-status-task-icon"
-                className="w-3.5 h-3.5 shrink-0 animate-spin"
-                style={{ color: 'var(--prism-info-main)' }}
+                className="w-3.5 h-3.5 shrink-0 animate-spin motion-reduce:animate-none"
+                style={STYLE_INFO_MAIN}
               />
             )}
 
@@ -553,7 +554,7 @@ export function WorkspaceStatusBar({
               <span
                 data-testid="workspace-status-task-label"
                 className="truncate max-w-[200px] min-w-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {resolvedTaskLabel}
               </span>
@@ -576,7 +577,7 @@ export function WorkspaceStatusBar({
                 >
                   <span
                     data-testid="workspace-status-task-progress-fill"
-                    className="block h-full rounded-full transition-all duration-200"
+                    className="block h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200"
                     style={{
                       width: `${safeTaskProgressPct}%`,
                       backgroundColor: isTaskComplete
@@ -588,7 +589,7 @@ export function WorkspaceStatusBar({
                 <span
                   data-testid="workspace-status-task-pct"
                   className="font-mono tabular-nums shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {safeTaskProgressPct}%
                 </span>
@@ -614,7 +615,7 @@ export function WorkspaceStatusBar({
           data-segment-id="cursor"
           onClick={() => handleSelectSegment('cursor')}
           className={cx(cursorClass, interactivePillClass)}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <span className="font-mono tabular-nums shrink-0">
             Ln {safeLine}, Col {safeColumn}
@@ -628,7 +629,7 @@ export function WorkspaceStatusBar({
           data-segment-id="encoding"
           onClick={() => handleSelectSegment('encoding')}
           className={cx(encodingClass, interactivePillClass)}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span className="font-mono shrink-0">{resolvedEncoding}</span>
         </button>
@@ -640,12 +641,12 @@ export function WorkspaceStatusBar({
           data-segment-id="language"
           onClick={() => handleSelectSegment('language')}
           className={cx(languageClass, interactivePillClass)}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <Code2
             aria-hidden="true"
             className="w-3.5 h-3.5 shrink-0"
-            style={{ color: 'var(--prism-secondary-main)' }}
+            style={STYLE_SECONDARY_MAIN}
           />
           <span className="truncate max-w-[160px] min-w-0">
             {resolvedLanguage}
@@ -658,4 +659,5 @@ export function WorkspaceStatusBar({
   );
 }
 
+export const WorkspaceStatusBar = memo(WorkspaceStatusBarInner);
 WorkspaceStatusBar.displayName = 'WorkspaceStatusBar';

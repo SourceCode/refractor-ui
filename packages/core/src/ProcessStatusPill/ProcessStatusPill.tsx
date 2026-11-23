@@ -1,10 +1,13 @@
 'use client';
 
+import { memo } from 'react';
+
 import { Ban, CheckCircle2, Loader2, RotateCw, Square, XCircle } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ProcessStatus = 'running' | 'success' | 'failed' | 'cancelled';
@@ -49,8 +52,8 @@ function renderStatusIcon(status: ProcessStatus, iconClassName: string) {
         <Loader2
           aria-hidden="true"
           data-testid="process-status-icon"
-          className={cx(iconClassName, 'animate-spin')}
-          style={{ color: 'var(--prism-info-main)' }}
+          className={cx(iconClassName, 'animate-spin motion-reduce:animate-none')}
+          style={STYLE_INFO_MAIN}
         />
       );
     case 'success':
@@ -59,7 +62,7 @@ function renderStatusIcon(status: ProcessStatus, iconClassName: string) {
           aria-hidden="true"
           data-testid="process-status-icon"
           className={iconClassName}
-          style={{ color: 'var(--prism-success-main)' }}
+          style={STYLE_SUCCESS_MAIN}
         />
       );
     case 'failed':
@@ -68,7 +71,7 @@ function renderStatusIcon(status: ProcessStatus, iconClassName: string) {
           aria-hidden="true"
           data-testid="process-status-icon"
           className={iconClassName}
-          style={{ color: 'var(--prism-error-main)' }}
+          style={STYLE_ERROR_MAIN}
         />
       );
     case 'cancelled':
@@ -77,13 +80,13 @@ function renderStatusIcon(status: ProcessStatus, iconClassName: string) {
           aria-hidden="true"
           data-testid="process-status-icon"
           className={iconClassName}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         />
       );
   }
 }
 
-export function ProcessStatusPill({
+function ProcessStatusPillInner({
   label,
   status,
   elapsedMs,
@@ -113,7 +116,7 @@ export function ProcessStatusPill({
       hasExitCode,
     }),
     baseClassName: cx(
-      'prism-crystal rounded-full inline-flex items-center whitespace-nowrap transition-all',
+      'prism-crystal rounded-full inline-flex items-center whitespace-nowrap transition-[color,background-color,border-color,opacity,transform]',
       isSmall ? 'h-7 px-2.5 gap-1.5 text-[11px]' : 'h-9 px-3.5 gap-2 text-xs'
     ),
     overrideClassName: override?.className,
@@ -131,7 +134,7 @@ export function ProcessStatusPill({
   const iconClassName = isSmall ? 'w-3.5 h-3.5 shrink-0' : 'w-4 h-4 shrink-0';
   const actionButtonClass = cx(
     actionClass,
-    'prism-well prism-focus-ring rounded-full inline-flex items-center justify-center gap-1 font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105',
+    'prism-well prism-focus-ring rounded-full inline-flex items-center justify-center gap-1 font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105',
     isSmall ? 'h-5 px-2 text-[10px]' : 'h-6 px-2.5 text-[11px]'
   );
 
@@ -141,7 +144,7 @@ export function ProcessStatusPill({
 
       <span
         className={cx(labelClass, 'font-medium truncate max-w-[240px]')}
-        style={{ color: 'var(--prism-text-primary)' }}
+        style={STYLE_TEXT_PRIMARY}
       >
         {label}
       </span>
@@ -150,7 +153,7 @@ export function ProcessStatusPill({
         <span
           data-testid="process-elapsed"
           className={cx(elapsedClass, 'font-mono tabular-nums shrink-0')}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {formattedElapsed}
         </span>
@@ -178,7 +181,7 @@ export function ProcessStatusPill({
           type="button"
           onClick={onStop}
           className={actionButtonClass}
-          style={{ color: 'var(--prism-error-main)' }}
+          style={STYLE_ERROR_MAIN}
         >
           <Square aria-hidden="true" className="w-2.5 h-2.5 shrink-0" />
           <span>Stop</span>
@@ -190,7 +193,7 @@ export function ProcessStatusPill({
           type="button"
           onClick={onRetry}
           className={actionButtonClass}
-          style={{ color: 'var(--prism-primary-main)' }}
+          style={STYLE_PRIMARY_MAIN}
         >
           <RotateCw aria-hidden="true" className="w-3 h-3 shrink-0" />
           <span>Retry</span>
@@ -200,4 +203,5 @@ export function ProcessStatusPill({
   );
 }
 
+export const ProcessStatusPill = memo(ProcessStatusPillInner);
 ProcessStatusPill.displayName = 'ProcessStatusPill';

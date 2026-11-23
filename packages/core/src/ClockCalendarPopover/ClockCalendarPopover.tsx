@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -23,6 +24,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface WorldClockZoneSpec {
@@ -306,7 +308,7 @@ function getAgendaToneToken(tone: ClockAgendaItem['tone']): string {
   }
 }
 
-export function ClockCalendarPopover({
+function ClockCalendarPopoverInner({
   referenceUtcIso = DEFAULT_REFERENCE_UTC_ISO,
   worldClocks = DEFAULT_WORLD_CLOCKS,
   agendaItems = DEFAULT_AGENDA_ITEMS,
@@ -579,7 +581,7 @@ export function ClockCalendarPopover({
           'prism-crystal relative flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-3 min-w-0 max-w-full',
           isOpen ? 'rounded-t-[inherit] border-b' : 'rounded-[inherit]'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <span
           aria-hidden="true"
@@ -595,7 +597,7 @@ export function ClockCalendarPopover({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Calendar className="w-4 h-4 shrink-0" aria-hidden="true" />
           </span>
@@ -604,14 +606,14 @@ export function ClockCalendarPopover({
             <h2
               id={headingId}
               className="text-xs sm:text-sm font-semibold tracking-[-0.01em] truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               System Clock &amp; Calendar
             </h2>
             <span
               data-testid="clock-calendar-selected-summary"
               className="text-[11px] font-mono tabular-nums truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Selected: {activeSelectedIso}
             </span>
@@ -667,7 +669,7 @@ export function ClockCalendarPopover({
           </span>
           <span
             aria-hidden="true"
-            style={{ color: 'var(--prism-text-disabled)' }}
+            style={STYLE_TEXT_DISABLED}
           >
             ·
           </span>
@@ -679,7 +681,7 @@ export function ClockCalendarPopover({
           </span>
           <span
             aria-hidden="true"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {isOpen ? (
               <ChevronUp className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -714,7 +716,7 @@ export function ClockCalendarPopover({
               calendarClass,
               'prism-well rounded-2xl p-3.5 flex flex-col gap-3 min-w-0 border'
             )}
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
               <div className="flex items-center gap-1.5 min-w-0">
@@ -724,7 +726,7 @@ export function ClockCalendarPopover({
                   data-testid="clock-calendar-prev-month"
                   onClick={handlePrevMonth}
                   className="prism-crystal prism-focus-ring h-8 w-8 rounded-xl inline-flex items-center justify-center cursor-pointer transition-colors shrink-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <ChevronLeft
                     aria-hidden="true"
@@ -735,7 +737,7 @@ export function ClockCalendarPopover({
                 <h3
                   data-testid="clock-calendar-month-heading"
                   className="text-sm font-semibold tracking-[-0.01em] px-1 truncate min-w-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {monthHeading}
                 </h3>
@@ -757,7 +759,7 @@ export function ClockCalendarPopover({
                   data-testid="clock-calendar-next-month"
                   onClick={handleNextMonth}
                   className="prism-crystal prism-focus-ring h-8 w-8 rounded-xl inline-flex items-center justify-center cursor-pointer transition-colors shrink-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <ChevronRight
                     aria-hidden="true"
@@ -770,7 +772,7 @@ export function ClockCalendarPopover({
             <div
               aria-hidden="true"
               className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold uppercase tracking-wide"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {GRID_WEEKDAY_LABELS.map((weekday) => (
                 <div key={weekday} className="py-1">
@@ -891,20 +893,20 @@ export function ClockCalendarPopover({
                 agendaClass,
                 'prism-well rounded-2xl p-3.5 flex flex-col gap-2.5 min-w-0 border'
               )}
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 min-w-0">
                   <h3
                     className="text-xs font-semibold uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Agenda
                   </h3>
                   <span
                     data-testid="clock-calendar-agenda-date"
                     className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-mono tabular-nums font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {activeSelectedIso}
                   </span>
@@ -913,7 +915,7 @@ export function ClockCalendarPopover({
                 <span
                   data-testid="clock-calendar-agenda-count"
                   className="text-[11px] font-mono tabular-nums shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {selectedAgendaItems.length}{' '}
                   {selectedAgendaItems.length === 1 ? 'event' : 'events'}
@@ -946,7 +948,7 @@ export function ClockCalendarPopover({
                         key={item.id}
                         data-testid={`clock-calendar-agenda-item-${item.id}`}
                         className="prism-crystal rounded-xl px-3 py-2 flex items-start gap-2.5 min-w-0 border"
-                        style={{ borderColor: 'var(--prism-divider)' }}
+                        style={STYLE_BORDER_DIVIDER}
                       >
                         <span
                           aria-hidden="true"
@@ -962,7 +964,7 @@ export function ClockCalendarPopover({
                           </span>
                           <span
                             className="text-xs font-medium break-words min-w-0"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {item.title}
                           </span>
@@ -982,18 +984,18 @@ export function ClockCalendarPopover({
                 worldClass,
                 'prism-well rounded-2xl p-3.5 flex flex-col gap-2.5 min-w-0 border'
               )}
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
                 <div className="flex items-center gap-1.5 min-w-0">
                   <Globe
                     aria-hidden="true"
                     className="w-3.5 h-3.5 shrink-0"
-                    style={{ color: 'var(--prism-secondary-main)' }}
+                    style={STYLE_SECONDARY_MAIN}
                   />
                   <h3
                     className="text-xs font-semibold uppercase tracking-wider truncate"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     World Clocks
                   </h3>
@@ -1001,7 +1003,7 @@ export function ClockCalendarPopover({
 
                 <span
                   className="text-[11px] font-mono tabular-nums shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Ref {triggerTimeDigits} UTC
                 </span>
@@ -1036,13 +1038,13 @@ export function ClockCalendarPopover({
                         key={zone.id}
                         data-testid={`clock-calendar-zone-${zone.id}`}
                         className="prism-crystal rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 min-w-0 border"
-                        style={{ borderColor: 'var(--prism-divider)' }}
+                        style={STYLE_BORDER_DIVIDER}
                       >
                         <div className="flex flex-col gap-0.5 min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-1.5 min-w-0">
                             <span
                               className="text-xs font-semibold truncate"
-                              style={{ color: 'var(--prism-text-primary)' }}
+                              style={STYLE_TEXT_PRIMARY}
                             >
                               {zone.city}
                             </span>
@@ -1075,14 +1077,14 @@ export function ClockCalendarPopover({
                           <span
                             data-testid={`clock-calendar-zone-offset-${zone.id}`}
                             className="prism-well px-2 py-0.5 rounded-full text-[10px] font-mono tabular-nums font-medium whitespace-nowrap"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {readout.offsetPill}
                           </span>
                           <span
                             data-testid={`clock-calendar-zone-time-${zone.id}`}
                             className="text-sm font-mono tabular-nums font-semibold whitespace-nowrap"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {readout.timeLabel}
                           </span>
@@ -1111,4 +1113,5 @@ export function ClockCalendarPopover({
   );
 }
 
+export const ClockCalendarPopover = memo(ClockCalendarPopoverInner);
 ClockCalendarPopover.displayName = 'ClockCalendarPopover';

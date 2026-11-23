@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useState,
@@ -28,6 +29,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DspEffectCategory = 'dynamics' | 'eq' | 'time' | 'modulation' | 'saturation';
@@ -249,7 +251,7 @@ function createNextInsertEffect(existing: ReadonlyArray<DspEffectModule>): DspEf
   };
 }
 
-export function EffectsRackChain({
+function EffectsRackChainInner({
   effects,
   defaultEffects,
   orientation = 'horizontal',
@@ -418,27 +420,27 @@ export function EffectsRackChain({
           headerClass,
           'flex flex-wrap items-center justify-between gap-2.5 min-w-0 pb-2.5 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center gap-2 min-w-0">
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <AudioLines className="w-3.5 h-3.5 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
           <span
             data-testid="effects-active-counter"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activeCount} / {totalCount} Active
           </span>
@@ -452,7 +454,7 @@ export function EffectsRackChain({
             data-testid="effects-bypass-all"
             data-active={allBypassed ? 'true' : undefined}
             onClick={handleToggleBypassAll}
-            className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
+            className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
             style={
               allBypassed
                 ? {
@@ -488,12 +490,12 @@ export function EffectsRackChain({
           <AudioLines
             aria-hidden="true"
             className="w-5 h-5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             Direct Dry Signal — No inserts loaded
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Add an insert module to shape your optical DSP signal chain.
           </p>
         </div>
@@ -546,7 +548,7 @@ export function EffectsRackChain({
                   {...mergeProps({
                     themeTarget: slotTarget,
                     baseClassName: cx(
-                      'prism-well rounded-2xl p-3 flex flex-col gap-2.5 min-w-0 flex-1 w-full max-w-full transition-all',
+                      'prism-well rounded-2xl p-3 flex flex-col gap-2.5 min-w-0 flex-1 w-full max-w-full transition-[color,background-color,border-color,opacity,transform]',
                       effect.bypassed ? 'opacity-65' : undefined
                     ),
                   })}
@@ -556,7 +558,7 @@ export function EffectsRackChain({
                       <span
                         data-testid={`effect-slot-badge-${effect.id}`}
                         className="prism-crystal px-1.5 py-0.5 rounded-md font-mono text-[10px] font-bold tabular-nums shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {slotNumber}
                       </span>
@@ -582,7 +584,7 @@ export function EffectsRackChain({
                       data-testid={`effect-power-${effect.id}`}
                       data-active={isActive ? 'true' : undefined}
                       onClick={() => handleToggleEffectBypass(effect.id)}
-                      className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold uppercase tracking-wider cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
+                      className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold uppercase tracking-wider cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
                       style={{
                         color: isActive
                           ? 'var(--prism-text-primary)'
@@ -619,7 +621,7 @@ export function EffectsRackChain({
                       <span
                         data-testid={`effect-preset-${effect.id}`}
                         className="font-mono text-[11px] truncate min-w-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {presetText}
                       </span>
@@ -631,7 +633,7 @@ export function EffectsRackChain({
                       <span
                         aria-hidden="true"
                         className="text-[10px] font-semibold uppercase tracking-wider shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         Wet / Dry
                       </span>
@@ -657,7 +659,7 @@ export function EffectsRackChain({
                       <div className="prism-crystal w-full h-2 rounded-full overflow-hidden p-0.5">
                         <div
                           data-testid={`effect-wet-fill-${effect.id}`}
-                          className="h-full rounded-full transition-all duration-75"
+                          className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                           style={{
                             width: `${effect.wetMixPct}%`,
                             backgroundColor: isActive
@@ -693,7 +695,7 @@ export function EffectsRackChain({
 
                   <div
                     className="flex flex-wrap items-center justify-between gap-1.5 pt-1.5 border-t min-w-0"
-                    style={{ borderColor: 'var(--prism-divider)' }}
+                    style={STYLE_BORDER_DIVIDER}
                   >
                     <div className="flex items-center gap-1 shrink-0">
                       <button
@@ -702,8 +704,8 @@ export function EffectsRackChain({
                         aria-label={`Move ${safeName} earlier`}
                         data-testid={`effect-move-earlier-${effect.id}`}
                         onClick={() => handleMoveEffect(index, index - 1)}
-                        className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {isHorizontal ? (
                           <ChevronLeft aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -718,8 +720,8 @@ export function EffectsRackChain({
                         aria-label={`Move ${safeName} later`}
                         data-testid={`effect-move-later-${effect.id}`}
                         onClick={() => handleMoveEffect(index, index + 1)}
-                        className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {isHorizontal ? (
                           <ChevronRight aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -735,7 +737,7 @@ export function EffectsRackChain({
                       aria-label={`Remove ${safeName}`}
                       data-testid={`effect-remove-${effect.id}`}
                       onClick={() => handleRemoveEffect(effect.id)}
-                      className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                      className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                       style={{
                         color: disabled
                           ? 'var(--prism-text-disabled)'
@@ -776,9 +778,9 @@ export function EffectsRackChain({
           summaryClass,
           'prism-well rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
-        <span className="font-mono text-[11px] truncate min-w-0" style={{ color: 'var(--prism-text-primary)' }}>
+        <span className="font-mono text-[11px] truncate min-w-0" style={STYLE_TEXT_PRIMARY}>
           {signalChainSummary}
         </span>
         <span className="font-mono text-[11px] tabular-nums whitespace-nowrap shrink-0">
@@ -791,4 +793,5 @@ export function EffectsRackChain({
   );
 }
 
+export const EffectsRackChain = memo(EffectsRackChainInner);
 EffectsRackChain.displayName = 'EffectsRackChain';

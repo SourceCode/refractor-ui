@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -26,6 +27,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SessionPowerActionId = 'sleep' | 'restart' | 'shutdown' | 'logout';
@@ -158,7 +160,7 @@ function formatActionReopenSuffix(
     : ' (reopen windows disabled).';
 }
 
-export function SessionPowerOverlay({
+function SessionPowerOverlayInner({
   title = DEFAULT_TITLE,
   mode = 'inline',
   open = true,
@@ -530,14 +532,14 @@ export function SessionPowerOverlay({
             <h2
               id={titleId}
               className="text-sm sm:text-base font-semibold tracking-[-0.01em] truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedTitle}
             </h2>
             <p
               id={subtitleId}
               className="text-xs mt-0.5 break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {selectedSpec.summary}
             </p>
@@ -568,7 +570,7 @@ export function SessionPowerOverlay({
               data-testid="session-power-close"
               onClick={() => handleCancel('button')}
               className="prism-crystal prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -610,7 +612,7 @@ export function SessionPowerOverlay({
               onKeyDown={(event) => handleRadioKeyDown(event, index)}
               className={cx(
                 actionCardClass,
-                'prism-focus-ring rounded-2xl p-3 flex flex-col items-center justify-center gap-2 text-center min-w-0 transition-all duration-150 select-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105',
+                'prism-focus-ring rounded-2xl p-3 flex flex-col items-center justify-center gap-2 text-center min-w-0 transition-[color,background-color,border-color,opacity,transform] duration-150 select-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105',
                 isSelected ? 'prism-crystal' : 'prism-well'
               )}
               style={{
@@ -643,7 +645,7 @@ export function SessionPowerOverlay({
               <span className="flex flex-col items-center gap-0.5 min-w-0 max-w-full">
                 <span
                   className="text-xs sm:text-sm font-semibold tracking-[-0.01em] truncate max-w-full"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {spec.label}
                 </span>
@@ -689,7 +691,7 @@ export function SessionPowerOverlay({
           onClick={handleToggleReopenWindows}
           onKeyDown={handleCheckboxKeyDown}
           className={cx(
-            'prism-focus-ring w-5 h-5 mt-0.5 rounded-md inline-flex items-center justify-center shrink-0 transition-all duration-150 cursor-pointer disabled:cursor-not-allowed',
+            'prism-focus-ring w-5 h-5 mt-0.5 rounded-md inline-flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer disabled:cursor-not-allowed',
             effectiveReopenWindows ? '' : 'prism-crystal'
           )}
           style={{
@@ -719,7 +721,7 @@ export function SessionPowerOverlay({
               'block text-xs sm:text-sm font-medium leading-snug select-none',
               checkboxDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Reopen windows when logging back in
           </label>
@@ -727,7 +729,7 @@ export function SessionPowerOverlay({
             id={reopenNoteId}
             data-testid="session-power-reopen-note"
             className="text-[11px] mt-0.5 break-words"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {isReopenApplicable
               ? 'Restore open apps and workspace layout on your next sign-in.'
@@ -743,7 +745,7 @@ export function SessionPowerOverlay({
           footerClass,
           'pt-3 border-t flex flex-col gap-3 min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         {countdownEnabled ? (
           <div
@@ -775,7 +777,7 @@ export function SessionPowerOverlay({
                 />
                 <span
                   className="text-xs font-medium truncate"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {isTimerRunning
                     ? `Auto-${selectedSpec.label} in`
@@ -835,7 +837,7 @@ export function SessionPowerOverlay({
             >
               <div
                 data-testid="session-power-countdown-bar"
-                className="h-full rounded-full transition-all duration-300"
+                className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-300"
                 style={{
                   width: `${progressPct}%`,
                   backgroundColor: selectedSpec.accentVar,
@@ -862,7 +864,7 @@ export function SessionPowerOverlay({
             disabled={disabled}
             data-testid="session-power-confirm"
             onClick={handleConfirm}
-            className="prism-focus-ring h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all duration-150"
+            className="prism-focus-ring h-9 px-4 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] duration-150"
             style={{
               color: selectedSpec.contrastVar,
               background: `linear-gradient(180deg, color-mix(in srgb, ${selectedSpec.accentVar} 84%, var(--prism-slab-top)) 0%, ${selectedSpec.accentVar} 100%)`,
@@ -931,7 +933,7 @@ export function SessionPowerOverlay({
             panelClass,
             'prism-slab relative w-full max-w-2xl min-w-0 p-4 sm:p-5 flex flex-col gap-4 overflow-hidden'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {overlayContent}
         </div>
@@ -957,4 +959,5 @@ export function SessionPowerOverlay({
   );
 }
 
+export const SessionPowerOverlay = memo(SessionPowerOverlayInner);
 SessionPowerOverlay.displayName = 'SessionPowerOverlay';

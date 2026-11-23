@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -23,6 +24,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TerminalSessionStatus = 'running' | 'idle' | 'error';
@@ -115,7 +117,7 @@ function toNumberedLines(
   return entries;
 }
 
-export function TerminalMultiplexer({
+function TerminalMultiplexerInner({
   panes,
   defaultPanes = DEFAULT_PANES,
   onPanesChange,
@@ -297,7 +299,7 @@ export function TerminalMultiplexer({
         onClick={isSplitMode ? () => setActivePaneId(pane.id) : undefined}
         className={cx(
           paneClass,
-          'prism-crystal rounded-2xl border-2 flex flex-col overflow-hidden transition-all',
+          'prism-crystal rounded-2xl border-2 flex flex-col overflow-hidden transition-[color,background-color,border-color,opacity,transform]',
           isSplitMode ? 'cursor-pointer' : 'w-full'
         )}
         style={{
@@ -306,7 +308,7 @@ export function TerminalMultiplexer({
       >
         <div
           className="px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b"
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <div className="min-w-0 flex items-center gap-2">
             <span
@@ -317,13 +319,13 @@ export function TerminalMultiplexer({
             />
             <span
               className="text-xs font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {pane.title}
             </span>
             <span
               className="prism-well rounded-full px-2 py-0.5 text-[10px] font-medium shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {getStatusLabel(status)}
             </span>
@@ -333,7 +335,7 @@ export function TerminalMultiplexer({
             <span
               data-pane-cwd={pane.id}
               className="prism-well rounded-full px-2.5 py-0.5 inline-flex items-center gap-1 text-[11px] font-mono truncate max-w-full"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <Folder className="w-3 h-3 shrink-0" aria-hidden="true" />
               <span className="truncate">{pane.cwd}</span>
@@ -344,10 +346,10 @@ export function TerminalMultiplexer({
         <div
           data-pane-output={pane.id}
           className="prism-well m-3 mb-2 rounded-xl p-3 font-mono text-xs overflow-y-auto max-h-64 min-h-36 space-y-1"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {numberedLines.length === 0 ? (
-            <p className="italic" style={{ color: 'var(--prism-text-disabled)' }}>
+            <p className="italic" style={STYLE_TEXT_DISABLED}>
               No output yet.
             </p>
           ) : (
@@ -370,7 +372,7 @@ export function TerminalMultiplexer({
             <span
               aria-hidden="true"
               className="font-mono text-xs font-bold shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             >
               $
             </span>
@@ -389,7 +391,7 @@ export function TerminalMultiplexer({
                 handleSubmitCommand(pane.id);
               }}
               className="prism-focus-ring w-full bg-transparent text-xs font-mono outline-none"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
 
@@ -398,7 +400,7 @@ export function TerminalMultiplexer({
             disabled={isDraftBlank}
             aria-label={`Run command in ${pane.title}`}
             onClick={() => handleSubmitCommand(pane.id)}
-            className="prism-btn-secondary prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center justify-center gap-1 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
+            className="prism-btn-secondary prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center justify-center gap-1 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
           >
             <CornerDownLeft className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
             <span>Run</span>
@@ -415,12 +417,12 @@ export function TerminalMultiplexer({
           topbarClass,
           'px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2.5 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center gap-1.5 min-w-0 flex-1">
           <span
             className="prism-well w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Terminal className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           </span>
@@ -437,7 +439,7 @@ export function TerminalMultiplexer({
                 <div
                   key={pane.id}
                   className={cx(
-                    'rounded-full inline-flex items-center p-0.5 gap-0.5 transition-all',
+                    'rounded-full inline-flex items-center p-0.5 gap-0.5 transition-[color,background-color,border-color,opacity,transform]',
                     isSelected ? 'prism-crystal' : 'prism-well opacity-80'
                   )}
                 >
@@ -451,7 +453,7 @@ export function TerminalMultiplexer({
                     onClick={() => setActivePaneId(pane.id)}
                     onKeyDown={(event) => handleTabKeyDown(event, idx)}
                     className="prism-focus-ring h-7 pl-2.5 pr-1.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer enabled:hover:opacity-100 transition-opacity"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     <span
                       data-tab-status={status}
@@ -467,7 +469,7 @@ export function TerminalMultiplexer({
                     aria-label={`Close ${pane.title}`}
                     onClick={() => handleClosePane(pane.id)}
                     className="prism-focus-ring w-6 h-6 rounded-full inline-flex items-center justify-center cursor-pointer opacity-70 enabled:hover:opacity-100 transition-opacity"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <X className="w-3 h-3 shrink-0" aria-hidden="true" />
                   </button>
@@ -481,8 +483,8 @@ export function TerminalMultiplexer({
             disabled={isAtMaxPanes}
             aria-label="New session"
             onClick={handleAddPane}
-            className="prism-well prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-well prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
+            style={STYLE_TEXT_PRIMARY}
           >
             <Plus className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           </button>
@@ -498,7 +500,7 @@ export function TerminalMultiplexer({
             aria-pressed={currentLayout === 'tabs'}
             onClick={() => setCurrentLayout('tabs')}
             className={cx(
-              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-all',
+              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
               currentLayout === 'tabs'
                 ? 'prism-btn-primary'
                 : 'opacity-75 enabled:hover:opacity-100'
@@ -514,7 +516,7 @@ export function TerminalMultiplexer({
             aria-pressed={currentLayout === 'split'}
             onClick={() => setCurrentLayout('split')}
             className={cx(
-              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-all',
+              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
               currentLayout === 'split'
                 ? 'prism-btn-primary'
                 : 'opacity-75 enabled:hover:opacity-100'
@@ -536,13 +538,13 @@ export function TerminalMultiplexer({
             <Terminal
               className="w-7 h-7 opacity-65"
               aria-hidden="true"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <div className="space-y-1">
-              <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+              <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
                 No active terminal sessions
               </p>
-              <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+              <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
                 Start a new session to run commands and inspect output streams.
               </p>
             </div>
@@ -570,4 +572,5 @@ export function TerminalMultiplexer({
   );
 }
 
+export const TerminalMultiplexer = memo(TerminalMultiplexerInner);
 TerminalMultiplexer.displayName = 'TerminalMultiplexer';

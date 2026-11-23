@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -24,7 +25,7 @@ export interface IconButtonProps
   children?: ReactNode;
 }
 
-export function IconButton({
+function IconButtonInner({
   size = 'md',
   active = false,
   children,
@@ -63,4 +64,5 @@ export function IconButton({
   );
 }
 
+export const IconButton = memo(IconButtonInner);
 IconButton.displayName = 'IconButton';

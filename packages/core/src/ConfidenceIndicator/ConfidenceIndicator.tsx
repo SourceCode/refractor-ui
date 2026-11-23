@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { memo, useEffect, useId, useRef, useState } from 'react';
 import { AlertTriangle, CheckCircle2, Info, ShieldCheck, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ConfidenceLevel = 'verified' | 'high' | 'moderate' | 'needs-review';
@@ -116,7 +117,7 @@ function ConfidenceIcon({
   }
 }
 
-export function ConfidenceIndicator({
+function ConfidenceIndicatorInner({
   score,
   level,
   verified = false,
@@ -199,7 +200,7 @@ export function ConfidenceIndicator({
         aria-controls={open ? popoverId : undefined}
         data-confidence-level={effectiveLevel}
         onClick={() => setOpen((prev) => !prev)}
-        className={`${visual.pillClass} prism-focus-ring inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all`}
+        className={`${visual.pillClass} prism-focus-ring inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]`}
         style={{
           color: visual.textColorVar,
           ...(visual.borderColorVar ? { borderColor: visual.borderColorVar } : {}),
@@ -240,7 +241,7 @@ export function ConfidenceIndicator({
               <span
                 id={titleId}
                 className="text-xs font-semibold leading-snug break-words"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {visual.popoverHeading}
               </span>
@@ -251,7 +252,7 @@ export function ConfidenceIndicator({
               aria-label="Close confidence rationale"
               onClick={() => setOpen(false)}
               className="prism-focus-ring w-6 h-6 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed enabled:hover:opacity-80 transition-opacity"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -261,7 +262,7 @@ export function ConfidenceIndicator({
             <span
               data-testid="confidence-popover-score"
               className="prism-well rounded-full px-2 py-0.5 font-mono text-[11px] font-semibold tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {roundedScore}% confidence
             </span>
@@ -270,7 +271,7 @@ export function ConfidenceIndicator({
               <span
                 data-testid="confidence-source-count"
                 className="prism-well rounded-full px-2 py-0.5 text-[11px] font-medium tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {safeSourceCount} {safeSourceCount === 1 ? 'source' : 'sources'}
               </span>
@@ -280,7 +281,7 @@ export function ConfidenceIndicator({
           <span
             data-testid="confidence-rationale"
             className="prism-well block rounded-xl px-2.5 py-2 text-xs leading-relaxed break-words"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {resolvedRationale}
           </span>
@@ -288,7 +289,7 @@ export function ConfidenceIndicator({
           {showMarkVerified ? (
             <span
               className="flex items-center justify-end pt-2 border-t"
-              style={{ borderColor: 'var(--prism-divider)' }}
+              style={STYLE_BORDER_DIVIDER}
             >
               <button
                 type="button"
@@ -306,4 +307,5 @@ export function ConfidenceIndicator({
   );
 }
 
+export const ConfidenceIndicator = memo(ConfidenceIndicatorInner);
 ConfidenceIndicator.displayName = 'ConfidenceIndicator';

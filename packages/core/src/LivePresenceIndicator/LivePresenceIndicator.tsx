@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Users, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { getAccessibleContrastText } from '../utils/colorMath';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 
@@ -157,7 +158,7 @@ interface CursorEntry {
   cursor: PresenceCursor;
 }
 
-export function LivePresenceIndicator({
+function LivePresenceIndicatorInner({
   users,
   maxVisible = 4,
   showCursors = false,
@@ -344,7 +345,7 @@ export function LivePresenceIndicator({
         <div
           data-empty="true"
           className="prism-well rounded-full px-3.5 py-1.5 inline-flex items-center gap-2 text-xs font-medium w-fit"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <Users aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           <span>No active collaborators</span>
@@ -385,7 +386,7 @@ export function LivePresenceIndicator({
                       className={cx(
                         'absolute -bottom-0.5 -right-0.5 rounded-full border-2 border-white dark:border-slate-900',
                         sizeClasses.dot,
-                        entry.statusMeta.pulse && 'animate-pulse'
+                        entry.statusMeta.pulse && 'animate-pulse motion-reduce:animate-none'
                       )}
                       style={{ backgroundColor: entry.statusMeta.tokenVar }}
                     />
@@ -408,7 +409,7 @@ export function LivePresenceIndicator({
                     'prism-crystal prism-focus-ring rounded-full inline-flex items-center justify-center font-mono font-semibold tabular-nums cursor-pointer transition-transform enabled:hover:scale-105',
                     sizeClasses.overflow
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   +{overflowUsers.length}
                 </button>
@@ -423,11 +424,11 @@ export function LivePresenceIndicator({
                   >
                     <div
                       className="flex items-center justify-between gap-2 pb-1.5 border-b"
-                      style={{ borderColor: 'var(--prism-divider)' }}
+                      style={STYLE_BORDER_DIVIDER}
                     >
                       <span
                         className="text-xs font-semibold tracking-tight"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {overflowUsers.length} more{' '}
                         {overflowUsers.length === 1 ? 'collaborator' : 'collaborators'}
@@ -437,7 +438,7 @@ export function LivePresenceIndicator({
                         aria-label="Close collaborators list"
                         onClick={() => setOverflowOpen(false)}
                         className="prism-focus-ring rounded-lg p-1 cursor-pointer"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         <X aria-hidden="true" className="w-3.5 h-3.5" />
                       </button>
@@ -473,7 +474,7 @@ export function LivePresenceIndicator({
                               <span className="flex items-center justify-between gap-1.5">
                                 <span
                                   className="text-xs font-semibold truncate"
-                                  style={{ color: 'var(--prism-text-primary)' }}
+                                  style={STYLE_TEXT_PRIMARY}
                                 >
                                   {entry.user.name}
                                 </span>
@@ -487,7 +488,7 @@ export function LivePresenceIndicator({
                               {entry.user.role ? (
                                 <span
                                   className="block text-[11px] truncate"
-                                  style={{ color: 'var(--prism-text-secondary)' }}
+                                  style={STYLE_TEXT_SECONDARY}
                                 >
                                   {entry.user.role}
                                 </span>
@@ -495,7 +496,7 @@ export function LivePresenceIndicator({
                               {entry.user.activity ? (
                                 <span
                                   className="block text-[11px] truncate mt-0.5"
-                                  style={{ color: 'var(--prism-text-secondary)' }}
+                                  style={STYLE_TEXT_SECONDARY}
                                 >
                                   {entry.user.activity}
                                 </span>
@@ -518,7 +519,7 @@ export function LivePresenceIndicator({
             >
               <span
                 className="prism-crystal rounded-full px-2.5 py-1 inline-flex items-center gap-1.5 tabular-nums"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 <span
                   aria-hidden="true"
@@ -559,14 +560,14 @@ export function LivePresenceIndicator({
           <span className="min-w-0 flex flex-wrap items-center gap-x-2 gap-y-0.5">
             <span
               className="font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {selectedEntry.user.name}
             </span>
             {selectedEntry.user.role ? (
               <span
                 className="truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {selectedEntry.user.role}
               </span>
@@ -580,7 +581,7 @@ export function LivePresenceIndicator({
             {selectedEntry.user.activity ? (
               <span
                 className="truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {selectedEntry.user.activity}
               </span>
@@ -591,7 +592,7 @@ export function LivePresenceIndicator({
             aria-label="Close collaborator details"
             onClick={() => setSelectedUserId(null)}
             className="prism-focus-ring rounded-full p-1 cursor-pointer shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <X aria-hidden="true" className="w-3 h-3" />
           </button>
@@ -609,13 +610,13 @@ export function LivePresenceIndicator({
           <div className="flex items-center justify-between gap-2 pointer-events-none">
             <span
               className="text-[11px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {cursorStageLabel}
             </span>
             <span
               className="font-mono text-[11px] tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {cursorEntries.length} {cursorEntries.length === 1 ? 'cursor' : 'cursors'}
             </span>
@@ -624,7 +625,7 @@ export function LivePresenceIndicator({
           {cursorEntries.length === 0 ? (
             <div
               className="absolute inset-0 flex items-center justify-center text-xs pointer-events-none"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               No live cursors active
             </div>
@@ -643,7 +644,7 @@ export function LivePresenceIndicator({
                   data-cursor-x={String(safeX)}
                   data-cursor-y={String(safeY)}
                   className={cx(
-                    'absolute pointer-events-none select-none flex items-start gap-1 transition-all duration-150',
+                    'absolute pointer-events-none select-none flex items-start gap-1 transition-[color,background-color,border-color,opacity,transform] duration-150',
                     flipLeft && 'flex-row-reverse -translate-x-full',
                     flipUp && '-translate-y-full'
                   )}
@@ -686,4 +687,5 @@ export function LivePresenceIndicator({
   );
 }
 
+export const LivePresenceIndicator = memo(LivePresenceIndicatorInner);
 LivePresenceIndicator.displayName = 'LivePresenceIndicator';

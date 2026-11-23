@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, useState } from 'react';
+import { memo, useCallback, useId, useMemo, useState } from 'react';
 import {
   Flag,
   Plus,
@@ -16,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type FeatureFlagEnvId = 'dev' | 'staging' | 'prod';
@@ -248,7 +249,7 @@ function buildSummaryText(
   return `Status: ${statusLabel} · Active envs: ${envSummary} · Prod rollout: ${state.rolloutPct}% · Rules: ${enabledRulesCount}/${state.audienceRules.length} enabled`;
 }
 
-export function FeatureFlagRollout({
+function FeatureFlagRolloutInner({
   flagKey = DEFAULT_FLAG_KEY,
   title = DEFAULT_TITLE,
   description,
@@ -476,7 +477,7 @@ export function FeatureFlagRollout({
             <code
               data-testid="ffr-flag-key"
               className="prism-well inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium max-w-full truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {resolvedFlagKey}
             </code>
@@ -499,7 +500,7 @@ export function FeatureFlagRollout({
           <h3
             id={headingId}
             className="text-sm sm:text-base font-semibold tracking-tight break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h3>
@@ -508,7 +509,7 @@ export function FeatureFlagRollout({
             <p
               data-testid="ffr-description"
               className="text-xs leading-relaxed break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {resolvedDescription}
             </p>
@@ -521,7 +522,7 @@ export function FeatureFlagRollout({
           disabled={disabled}
           data-testid="ffr-kill-switch"
           onClick={handleToggleKillSwitch}
-          className="prism-crystal prism-focus-ring border inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+          className="prism-crystal prism-focus-ring border inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
           style={{
             color: state.killed
               ? 'var(--prism-success-main)'
@@ -571,7 +572,7 @@ export function FeatureFlagRollout({
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
           <span
             className="text-[11px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Environments
           </span>
@@ -598,7 +599,7 @@ export function FeatureFlagRollout({
                 data-env-state={isOn ? 'on' : 'off'}
                 onClick={() => handleToggleEnv(env)}
                 className={cx(
-                  'prism-focus-ring rounded-2xl px-3.5 py-2.5 flex items-center justify-between gap-3 text-left transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 min-w-0',
+                  'prism-focus-ring rounded-2xl px-3.5 py-2.5 flex items-center justify-between gap-3 text-left transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 min-w-0',
                   isOn ? 'prism-crystal' : 'prism-well'
                 )}
               >
@@ -615,7 +616,7 @@ export function FeatureFlagRollout({
                   <span className="flex flex-col min-w-0">
                     <span
                       className="text-xs font-semibold truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {env.label}
                     </span>
@@ -634,7 +635,7 @@ export function FeatureFlagRollout({
                 <span
                   aria-hidden="true"
                   className={cx(
-                    'w-10 h-6 rounded-full p-0.5 inline-flex items-center shrink-0 transition-all',
+                    'w-10 h-6 rounded-full p-0.5 inline-flex items-center shrink-0 transition-[color,background-color,border-color,opacity,transform]',
                     isOn ? 'prism-emerald' : 'prism-well'
                   )}
                 >
@@ -661,12 +662,12 @@ export function FeatureFlagRollout({
           <label
             htmlFor={sliderId}
             className="inline-flex items-center gap-1.5 text-xs font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <SlidersHorizontal
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
             />
             <span>Gradual Percentage Rollout</span>
           </label>
@@ -703,7 +704,7 @@ export function FeatureFlagRollout({
                 className="prism-crystal rounded-full h-full overflow-hidden"
               >
                 <div
-                  className="h-full rounded-full transition-all duration-150"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-150"
                   style={{
                     width: `${fillPct}%`,
                     backgroundColor: 'var(--prism-primary-main)',
@@ -746,7 +747,7 @@ export function FeatureFlagRollout({
                 data-testid={`ffr-preset-${preset}`}
                 onClick={() => handleRolloutChange(preset)}
                 className={cx(
-                  'prism-focus-ring rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold tabular-nums transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105',
+                  'prism-focus-ring rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold tabular-nums transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105',
                   isSelected ? 'prism-btn-primary' : 'prism-crystal'
                 )}
                 style={
@@ -766,7 +767,7 @@ export function FeatureFlagRollout({
         <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
           <span
             className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Users aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Audience Targeting Rules</span>
@@ -775,7 +776,7 @@ export function FeatureFlagRollout({
           <span
             data-testid="ffr-rules-count"
             className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {enabledRulesCount}/{state.audienceRules.length} enabled
           </span>
@@ -785,7 +786,7 @@ export function FeatureFlagRollout({
           <p
             data-testid="ffr-rules-empty"
             className="prism-well rounded-xl px-3 py-2.5 text-xs break-words"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             No audience targeting rules configured. Rollout percentage applies
             globally.
@@ -803,7 +804,7 @@ export function FeatureFlagRollout({
                 data-testid={`ffr-rule-${rule.id}`}
                 data-rule-enabled={rule.enabled ? 'true' : 'false'}
                 className={cx(
-                  'inline-flex items-center gap-1 rounded-full pl-2.5 pr-1.5 py-1 max-w-full transition-all',
+                  'inline-flex items-center gap-1 rounded-full pl-2.5 pr-1.5 py-1 max-w-full transition-[color,background-color,border-color,opacity,transform]',
                   rule.enabled ? 'prism-crystal' : 'prism-well opacity-75'
                 )}
               >
@@ -837,7 +838,7 @@ export function FeatureFlagRollout({
                   aria-label={`Remove rule ${rule.label}`}
                   onClick={() => handleRemoveRule(rule)}
                   className="prism-focus-ring rounded-full p-1 inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:opacity-80 transition-opacity"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   <X aria-hidden="true" className="w-3 h-3" />
                 </button>
@@ -878,7 +879,7 @@ export function FeatureFlagRollout({
                 }
               }}
               className="prism-focus-ring w-full min-w-0 bg-transparent text-xs rounded-md focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
 
@@ -900,7 +901,7 @@ export function FeatureFlagRollout({
             aria-live="polite"
             data-testid="ffr-rule-feedback"
             className="text-xs font-medium px-1 break-words"
-            style={{ color: 'var(--prism-error-main)' }}
+            style={STYLE_ERROR_MAIN}
           >
             {ruleFeedback}
           </p>
@@ -916,7 +917,7 @@ export function FeatureFlagRollout({
           footerClass,
           'prism-well rounded-2xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <span
           data-testid="ffr-summary-text"
@@ -929,7 +930,7 @@ export function FeatureFlagRollout({
           <span
             data-testid="ffr-last-announcement"
             className="text-[11px] font-medium break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {lastAnnouncement}
           </span>
@@ -939,4 +940,5 @@ export function FeatureFlagRollout({
   );
 }
 
+export const FeatureFlagRollout = memo(FeatureFlagRolloutInner);
 FeatureFlagRollout.displayName = 'FeatureFlagRollout';

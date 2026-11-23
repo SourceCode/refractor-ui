@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { BarChart3 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_BG_SUCCESS, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface ComputedHistogramBin {
@@ -150,7 +151,7 @@ export function computeHistogramBins(
   return bins;
 }
 
-export function HistogramChart({
+function HistogramChartInner({
   values,
   binCount = 8,
   title = 'Frequency Histogram',
@@ -346,14 +347,14 @@ export function HistogramChart({
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <BarChart3 aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -367,14 +368,14 @@ export function HistogramChart({
             <span
               data-testid="histogram-stat-n"
               className="prism-crystal inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-mono tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               n = {stats.n}
             </span>
             <span
               data-testid="histogram-stat-mean"
               className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-mono tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -386,12 +387,12 @@ export function HistogramChart({
             <span
               data-testid="histogram-stat-median"
               className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-mono tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-success-main)' }}
+                style={STYLE_BG_SUCCESS}
               />
               Median: {formatValue(stats.median, valueUnit)}
             </span>
@@ -403,7 +404,7 @@ export function HistogramChart({
         <div
           data-testid="histogram-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No finite numeric values available.
         </div>
@@ -435,7 +436,7 @@ export function HistogramChart({
                     y={tick.y + 3.5}
                     textAnchor="end"
                     className="text-[10px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.label}
                   </text>
@@ -450,7 +451,7 @@ export function HistogramChart({
                   y={safeHeight - 10}
                   textAnchor="middle"
                   className="text-[10px] font-mono tabular-nums"
-                  style={{ fill: 'var(--prism-text-secondary)' }}
+                  style={STYLE_FILL_SECONDARY}
                 >
                   {tick.label}
                 </text>
@@ -481,7 +482,7 @@ export function HistogramChart({
                         : 'var(--prism-primary-main)'
                     }
                     strokeWidth={isSelected ? 1.75 : 1}
-                    className="prism-focus-ring cursor-pointer transition-all"
+                    className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
                     onClick={() => handleSelectBin(item.bin)}
                     onKeyDown={(event) => handleBinKeyDown(event, item.bin)}
                   />
@@ -550,12 +551,12 @@ export function HistogramChart({
               <span
                 aria-hidden="true"
                 className="w-2.5 h-2.5 rounded-sm shrink-0"
-                style={{ backgroundColor: 'var(--prism-primary-main)' }}
+                style={STYLE_BG_PRIMARY}
               />
               <span
                 data-testid="histogram-readout-text"
                 className="font-mono font-semibold tabular-nums truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Range [{formatValue(resolvedActiveBin.min, valueUnit)} –{' '}
                 {formatValue(resolvedActiveBin.max, valueUnit)}]: {resolvedActiveBin.count}{' '}
@@ -564,7 +565,7 @@ export function HistogramChart({
             </div>
             <span
               className="font-mono tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {formatNumber((resolvedActiveBin.count / stats.n) * 100)}% of total
             </span>
@@ -575,4 +576,5 @@ export function HistogramChart({
   );
 }
 
+export const HistogramChart = memo(HistogramChartInner);
 HistogramChart.displayName = 'HistogramChart';

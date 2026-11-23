@@ -1,10 +1,11 @@
 'use client';
 
-import { useId, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { memo, useId, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { Minus, TrendingDown, TrendingUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { formatLocaleNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type KpiTrendTone = 'positive' | 'negative' | 'neutral';
@@ -92,11 +93,11 @@ function formatMetricValue(value: string | number): string {
   if (typeof value === 'string') {
     return value;
   }
-  return Number.isFinite(value) ? value.toLocaleString() : '—';
+  return Number.isFinite(value) ? formatLocaleNumber(value) : '—';
 }
 
 function formatPointReadout(value: number, prefix?: string, unit?: string): string {
-  const base = value.toLocaleString();
+  const base = formatLocaleNumber(value);
   const withPrefix = prefix ? `${prefix}${base}` : base;
   return unit ? `${withPrefix} ${unit}` : withPrefix;
 }
@@ -187,7 +188,7 @@ function buildPlottedPoints(
   });
 }
 
-export function KpiMetricCard({
+function KpiMetricCardInner({
   label,
   value,
   unit,
@@ -426,4 +427,5 @@ export function KpiMetricCard({
   );
 }
 
+export const KpiMetricCard = memo(KpiMetricCardInner);
 KpiMetricCard.displayName = 'KpiMetricCard';

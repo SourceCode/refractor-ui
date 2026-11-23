@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -28,6 +29,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type LockScreenDisplayMode = 'inline' | 'fullscreen';
@@ -169,7 +171,7 @@ function getDisplayInitials(user: LockScreenUserAccount): string {
   return nameChars.slice(0, 2).toUpperCase() || 'UA';
 }
 
-export function LockScreenOverlay({
+function LockScreenOverlayInner({
   mode = 'inline',
   locked,
   defaultLocked = true,
@@ -485,7 +487,7 @@ export function LockScreenOverlay({
               <div className="flex flex-wrap items-center gap-2 min-w-0">
                 <span
                   className="text-sm font-semibold tracking-tight truncate"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   Session Unlocked
                 </span>
@@ -504,7 +506,7 @@ export function LockScreenOverlay({
               <span
                 data-testid="lock-screen-unlocked-user"
                 className="text-xs truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {activeSessionName} · {activeSessionRole}
               </span>
@@ -559,12 +561,12 @@ export function LockScreenOverlay({
       >
         <span
           className="prism-well inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <Lock
             aria-hidden="true"
             className="w-3 h-3 shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           />
           <span>Session Locked</span>
         </span>
@@ -572,7 +574,7 @@ export function LockScreenOverlay({
         <div
           data-testid="lock-screen-time"
           className="font-mono text-4xl sm:text-5xl font-bold tracking-tight tabular-nums leading-none break-words max-w-full"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {resolvedTimeLabel}
         </div>
@@ -580,7 +582,7 @@ export function LockScreenOverlay({
         <div
           data-testid="lock-screen-date"
           className="text-xs sm:text-sm font-medium tracking-tight break-words max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {resolvedDateLabel}
         </div>
@@ -627,7 +629,7 @@ export function LockScreenOverlay({
                   onKeyDown={(event) => handleRadioKeyDown(event, index)}
                   className={cx(
                     avatarClass,
-                    'prism-focus-ring group flex flex-col items-center gap-1.5 rounded-2xl px-3 py-2 min-w-0 max-w-[10.5rem] transition-all duration-150 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed'
+                    'prism-focus-ring group flex flex-col items-center gap-1.5 rounded-2xl px-3 py-2 min-w-0 max-w-[10.5rem] transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed'
                   )}
                   style={{
                     backgroundColor: isSelected
@@ -639,7 +641,7 @@ export function LockScreenOverlay({
                     aria-hidden="true"
                     data-part="avatar-halo"
                     className={cx(
-                      'w-12 h-12 rounded-full inline-flex items-center justify-center font-mono text-sm font-bold tracking-tight shrink-0 transition-all duration-150',
+                      'w-12 h-12 rounded-full inline-flex items-center justify-center font-mono text-sm font-bold tracking-tight shrink-0 transition-[color,background-color,border-color,opacity,transform] duration-150',
                       isSelected ? 'prism-crystal' : 'prism-well'
                     )}
                     style={{
@@ -686,14 +688,14 @@ export function LockScreenOverlay({
               <span
                 data-testid="lock-screen-active-user-name"
                 className="text-sm font-semibold tracking-tight break-words max-w-full"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {getDisplayName(selectedUser)}
               </span>
               <span
                 data-testid="lock-screen-active-user-role"
                 className="text-xs break-words max-w-full"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {getDisplayRole(selectedUser)}
               </span>
@@ -729,7 +731,7 @@ export function LockScreenOverlay({
                       onChange={handleCredentialChange}
                       onKeyDown={handlePasswordKeyDown}
                       className="prism-focus-ring min-w-0 flex-1 bg-transparent text-xs sm:text-sm py-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     />
 
                     <button
@@ -738,7 +740,7 @@ export function LockScreenOverlay({
                       aria-pressed={showPassword}
                       onClick={handleTogglePasswordVisibility}
                       className="prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center justify-center gap-1 text-[11px] font-medium whitespace-nowrap shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {showPassword ? (
                         <>
@@ -779,7 +781,7 @@ export function LockScreenOverlay({
                     role="alert"
                     data-testid="lock-screen-error"
                     className="inline-flex items-center gap-1.5 text-xs font-medium break-words min-w-0"
-                    style={{ color: 'var(--prism-error-main)' }}
+                    style={STYLE_ERROR_MAIN}
                   >
                     <ShieldAlert
                       aria-hidden="true"
@@ -810,7 +812,7 @@ export function LockScreenOverlay({
                     role="alert"
                     data-testid="lock-screen-error"
                     className="inline-flex items-center gap-1.5 text-xs font-medium break-words min-w-0"
-                    style={{ color: 'var(--prism-error-main)' }}
+                    style={STYLE_ERROR_MAIN}
                   >
                     <ShieldAlert
                       aria-hidden="true"
@@ -827,7 +829,7 @@ export function LockScreenOverlay({
         <div
           data-testid="lock-screen-no-users"
           className="prism-well rounded-2xl px-4 py-6 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No user accounts available.
         </div>
@@ -840,7 +842,7 @@ export function LockScreenOverlay({
           powerClass,
           'pt-4 border-t flex flex-col items-center gap-3 min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div
           role="group"
@@ -855,7 +857,7 @@ export function LockScreenOverlay({
               data-power-action={item.action}
               onClick={() => handlePowerTrigger(item)}
               className="prism-crystal prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -911,7 +913,7 @@ export function LockScreenOverlay({
             panelClass,
             'prism-slab relative w-full max-w-xl min-w-0 p-5 sm:p-7 flex flex-col gap-5 overflow-hidden'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {lockedScreenBody}
         </div>
@@ -933,4 +935,5 @@ export function LockScreenOverlay({
   );
 }
 
+export const LockScreenOverlay = memo(LockScreenOverlayInner);
 LockScreenOverlay.displayName = 'LockScreenOverlay';

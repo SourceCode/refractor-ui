@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Check, Copy, Eye, EyeOff, KeyRound, RefreshCw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 type SecretKeyFieldBaseProps = Omit<BaseProps<HTMLDivElement>, 'onCopy'>;
@@ -59,7 +60,7 @@ function maskSecretValue(value: string, prefixChars: number, suffixChars: number
   return `${prefix}${'•'.repeat(bulletCount)}${suffix}`;
 }
 
-export function SecretKeyField({
+function SecretKeyFieldInner({
   label = 'API Secret Key',
   value,
   visiblePrefixChars = DEFAULT_PREFIX_CHARS,
@@ -157,7 +158,7 @@ export function SecretKeyField({
   const actionsClass = stableClassName('secret-key-field', 'actions');
 
   const actionButtonClass =
-    'prism-focus-ring h-9 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
+    'prism-focus-ring h-9 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
 
   return (
     <div
@@ -172,14 +173,14 @@ export function SecretKeyField({
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <KeyRound aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <span
             id={labelId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -226,7 +227,7 @@ export function SecretKeyField({
             aria-pressed={effectiveRevealed}
             onClick={handleToggleReveal}
             className={cx(actionButtonClass, 'prism-crystal')}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {effectiveRevealed ? (
               <>
@@ -271,7 +272,7 @@ export function SecretKeyField({
               disabled={disabled}
               onClick={handleRotate}
               className={cx(actionButtonClass, 'prism-crystal')}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <RefreshCw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>Rotate</span>
@@ -284,7 +285,7 @@ export function SecretKeyField({
         <p
           id={helperId}
           className="mt-2.5 text-xs leading-relaxed"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {helperText}
         </p>
@@ -297,4 +298,5 @@ export function SecretKeyField({
   );
 }
 
+export const SecretKeyField = memo(SecretKeyFieldInner);
 SecretKeyField.displayName = 'SecretKeyField';

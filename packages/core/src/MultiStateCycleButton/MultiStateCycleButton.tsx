@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type {
   ButtonHTMLAttributes,
   KeyboardEvent,
@@ -90,7 +91,7 @@ function getToneVisualTokens(tone: CycleButtonTone): ToneVisualTokens {
   }
 }
 
-export function MultiStateCycleButton({
+function MultiStateCycleButtonInner({
   states,
   value,
   defaultValue,
@@ -159,7 +160,7 @@ export function MultiStateCycleButton({
       empty: states.length === 0,
     }),
     baseClassName: cx(
-      'prism-crystal prism-focus-ring rounded-full h-11 px-5 inline-flex items-center justify-center gap-2.5 text-sm font-medium tracking-[-0.01em] whitespace-nowrap shrink-0 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed',
+      'prism-crystal prism-focus-ring rounded-full h-11 px-5 inline-flex items-center justify-center gap-2.5 text-sm font-medium tracking-[-0.01em] whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] duration-150 disabled:opacity-50 disabled:cursor-not-allowed',
       canCycle
         ? 'cursor-pointer enabled:hover:-translate-y-0.5 enabled:hover:brightness-[1.03] enabled:active:scale-[0.99]'
         : 'cursor-default'
@@ -227,7 +228,7 @@ export function MultiStateCycleButton({
                   data-active={isStepActive ? 'true' : undefined}
                   className={cx(
                     dotClass,
-                    'h-1.5 rounded-full transition-all duration-150',
+                    'h-1.5 rounded-full transition-[color,background-color,border-color,opacity,transform] duration-150',
                     isStepActive ? 'w-3' : 'w-1.5 opacity-45'
                   )}
                   style={{
@@ -249,4 +250,5 @@ export function MultiStateCycleButton({
   );
 }
 
+export const MultiStateCycleButton = memo(MultiStateCycleButtonInner);
 MultiStateCycleButton.displayName = 'MultiStateCycleButton';

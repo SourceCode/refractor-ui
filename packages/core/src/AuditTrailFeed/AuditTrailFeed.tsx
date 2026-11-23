@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -29,6 +30,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { isSafeObjectKey, sanitizeCsvCell } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AuditTrailSeverity = 'info' | 'warning' | 'critical';
@@ -403,7 +405,7 @@ function renderSeverityIcon(severity: AuditTrailSeverity): ReactNode {
   }
 }
 
-export function AuditTrailFeed({
+function AuditTrailFeedInner({
   title = 'Audit Trail Feed',
   events,
   defaultExpandedIds,
@@ -532,12 +534,12 @@ export function AuditTrailFeed({
           headerClass,
           'flex flex-wrap items-center justify-between gap-3 pb-4 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex flex-wrap items-center gap-2.5">
           <span
             className="prism-well w-9 h-9 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-info-main)' }}
+            style={STYLE_INFO_MAIN}
           >
             <ShieldCheck aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
@@ -545,7 +547,7 @@ export function AuditTrailFeed({
           <h2
             id={headingId}
             className="text-sm font-semibold tracking-tight break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h2>
@@ -553,7 +555,7 @@ export function AuditTrailFeed({
           <span
             data-testid="audit-trail-count"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Showing {filteredEvents.length} of {resolvedEvents.length} events
           </span>
@@ -563,8 +565,8 @@ export function AuditTrailFeed({
           type="button"
           disabled={disabled || filteredEvents.length === 0}
           onClick={handleExportCsv}
-          className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
+          style={STYLE_TEXT_PRIMARY}
         >
           <Download aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           <span>Export Safe CSV</span>
@@ -577,7 +579,7 @@ export function AuditTrailFeed({
             <Search
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <input
               type="search"
@@ -588,7 +590,7 @@ export function AuditTrailFeed({
               aria-label="Filter audit trail events"
               placeholder="Filter by actor, role, resource, summary, IP, device, or ID..."
               className="prism-focus-ring bg-transparent w-full min-w-0 text-xs outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
 
@@ -597,8 +599,8 @@ export function AuditTrailFeed({
               type="button"
               disabled={disabled}
               onClick={handleClearFilters}
-              className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
+              style={STYLE_TEXT_PRIMARY}
             >
               <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>Clear Filters</span>
@@ -614,7 +616,7 @@ export function AuditTrailFeed({
           >
             <span
               className="text-[11px] font-semibold uppercase tracking-wide mr-1"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Severity
             </span>
@@ -642,7 +644,7 @@ export function AuditTrailFeed({
                   onClick={() => setSeverityFilter(option.value)}
                   className={cx(
                     isSelected ? 'shadow-sm' : 'prism-well',
-                    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed'
+                    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed'
                   )}
                   style={pillStyle}
                 >
@@ -666,7 +668,7 @@ export function AuditTrailFeed({
           >
             <span
               className="text-[11px] font-semibold uppercase tracking-wide mr-1"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Action
             </span>
@@ -689,7 +691,7 @@ export function AuditTrailFeed({
                   onClick={() => setActionFilter(option.value)}
                   className={cx(
                     isSelected ? 'shadow-sm' : 'prism-well',
-                    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed'
+                    'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed'
                   )}
                   style={pillStyle}
                 >
@@ -707,12 +709,12 @@ export function AuditTrailFeed({
           data-testid="audit-trail-empty"
           className={cx(emptyClass, 'prism-well rounded-2xl mt-4 px-4 py-8 text-center')}
         >
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             {resolvedEvents.length === 0
               ? 'No audit trail events recorded'
               : 'No matching audit trail events'}
           </p>
-          <p className="mt-1 text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="mt-1 text-xs" style={STYLE_TEXT_SECONDARY}>
             {resolvedEvents.length === 0
               ? 'Security, identity, and compliance audit entries will appear here.'
               : 'Try adjusting your search query or severity and action filters.'}
@@ -734,7 +736,7 @@ export function AuditTrailFeed({
                 data-event-id={event.id}
                 data-severity={event.severity}
                 data-action={event.action}
-                className={cx(rowClass, 'prism-crystal rounded-2xl p-3.5 sm:p-4 border-l-4')}
+                className={cx(rowClass, 'prism-crystal prism-cv-item rounded-2xl p-3.5 sm:p-4 border-l-4')}
                 style={{ borderLeftColor: severityMeta.main }}
               >
                 <div className="flex flex-wrap items-start justify-between gap-2.5">
@@ -762,13 +764,13 @@ export function AuditTrailFeed({
                     <span className="min-w-0 flex flex-wrap items-baseline gap-1.5">
                       <span
                         className="text-sm font-semibold break-words"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {event.actor}
                       </span>
                       <span
                         className="text-xs break-words"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {event.actorRole}
                       </span>
@@ -778,7 +780,7 @@ export function AuditTrailFeed({
                   <div className="flex flex-wrap items-center gap-2 shrink-0">
                     <span
                       className="inline-flex items-center gap-1 font-mono text-[11px] tabular-nums"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <Clock aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                       <time dateTime={event.timestamp}>{event.timestamp}</time>
@@ -786,7 +788,7 @@ export function AuditTrailFeed({
 
                     <span
                       className="prism-well px-2 py-0.5 rounded-md font-mono text-[10px]"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {event.id}
                     </span>
@@ -795,7 +797,7 @@ export function AuditTrailFeed({
 
                 <p
                   className="mt-2 text-xs sm:text-sm leading-relaxed break-words"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {event.summary}
                 </p>
@@ -805,7 +807,7 @@ export function AuditTrailFeed({
                     <code
                       data-testid={`audit-resource-${event.id}`}
                       className="prism-well px-2 py-0.5 rounded-md font-mono text-[11px] break-all"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {event.resource}
                     </code>
@@ -813,12 +815,12 @@ export function AuditTrailFeed({
                     <span
                       data-testid={`audit-metadata-${event.id}`}
                       className="prism-well px-2.5 py-0.5 rounded-full inline-flex flex-wrap items-center gap-1.5 text-[11px] min-w-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <Globe aria-hidden="true" className="w-3 h-3 shrink-0" />
                       <code
                         className="font-mono tabular-nums"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {event.ipAddress}
                       </code>
@@ -836,8 +838,8 @@ export function AuditTrailFeed({
                       aria-controls={diffPanelId}
                       data-testid={`audit-diff-toggle-${event.id}`}
                       onClick={() => handleToggleDiff(event.id)}
-                      className="prism-well prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      className="prism-well prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed"
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {isExpanded ? (
                         <ChevronDown aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -858,14 +860,14 @@ export function AuditTrailFeed({
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                       <span
                         className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         <GitCompareArrows aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                         <span>Before / After Diff</span>
                       </span>
                       <span
                         className="font-mono text-[11px] tabular-nums"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {diffEntries.length} {diffEntries.length === 1 ? 'field' : 'fields'}
                       </span>
@@ -875,7 +877,7 @@ export function AuditTrailFeed({
                       <p
                         data-testid={`audit-diff-empty-${event.id}`}
                         className="text-xs py-2"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         No safe inspectable payload fields.
                       </p>
@@ -884,33 +886,33 @@ export function AuditTrailFeed({
                         <thead>
                           <tr
                             className="border-b"
-                            style={{ borderColor: 'var(--prism-divider)' }}
+                            style={STYLE_BORDER_DIVIDER}
                           >
                             <th
                               scope="col"
                               className="py-1.5 pr-3 font-semibold"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               Field
                             </th>
                             <th
                               scope="col"
                               className="py-1.5 px-3 font-semibold"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               Change
                             </th>
                             <th
                               scope="col"
                               className="py-1.5 px-3 font-semibold"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               Before
                             </th>
                             <th
                               scope="col"
                               className="py-1.5 pl-3 font-semibold"
-                              style={{ color: 'var(--prism-text-secondary)' }}
+                              style={STYLE_TEXT_SECONDARY}
                             >
                               After
                             </th>
@@ -925,11 +927,11 @@ export function AuditTrailFeed({
                                 data-diff-key={entry.key}
                                 data-diff-status={entry.status}
                                 className="border-b last:border-b-0"
-                                style={{ borderColor: 'var(--prism-divider)' }}
+                                style={STYLE_BORDER_DIVIDER}
                               >
                                 <td
                                   className="py-1.5 pr-3 font-mono font-medium whitespace-nowrap"
-                                  style={{ color: 'var(--prism-text-primary)' }}
+                                  style={STYLE_TEXT_PRIMARY}
                                 >
                                   {entry.key}
                                 </td>
@@ -944,7 +946,7 @@ export function AuditTrailFeed({
                                 </td>
                                 <td
                                   className="py-1.5 px-3 font-mono break-all"
-                                  style={{ color: 'var(--prism-text-secondary)' }}
+                                  style={STYLE_TEXT_SECONDARY}
                                 >
                                   {formatPayloadValue(entry.beforeValue)}
                                 </td>
@@ -986,4 +988,5 @@ export function AuditTrailFeed({
   );
 }
 
+export const AuditTrailFeed = memo(AuditTrailFeedInner);
 AuditTrailFeed.displayName = 'AuditTrailFeed';

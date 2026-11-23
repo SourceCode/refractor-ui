@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, type KeyboardEvent } from 'react';
+import { memo, useCallback, type KeyboardEvent } from 'react';
 import { Circle, Pause, Play, Repeat, SkipBack, SkipForward, Square } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TransportPlaybackState = 'stopped' | 'playing' | 'paused' | 'recording';
@@ -48,7 +49,7 @@ function getPlaybackStateVisualMeta(state: TransportPlaybackState): PlaybackStat
     case 'playing':
       return {
         label: 'PLAYING',
-        dotClass: 'animate-pulse',
+        dotClass: 'animate-pulse motion-reduce:animate-none',
         dotColorVar: 'var(--prism-primary-main)',
         textColorVar: 'var(--prism-primary-main)',
       };
@@ -62,7 +63,7 @@ function getPlaybackStateVisualMeta(state: TransportPlaybackState): PlaybackStat
     case 'recording':
       return {
         label: 'RECORDING',
-        dotClass: 'animate-pulse',
+        dotClass: 'animate-pulse motion-reduce:animate-none',
         dotColorVar: 'var(--prism-error-main)',
         textColorVar: 'var(--prism-error-main)',
       };
@@ -76,7 +77,7 @@ function getPlaybackStateVisualMeta(state: TransportPlaybackState): PlaybackStat
   }
 }
 
-export function TransportControlBar({
+function TransportControlBarInner({
   playbackState,
   defaultPlaybackState = 'stopped',
   onPlaybackStateChange,
@@ -223,8 +224,8 @@ export function TransportControlBar({
           aria-label="Jump to start"
           data-testid="transport-jump-start"
           onClick={onJumpStart}
-          className="prism-crystal prism-focus-ring h-9 w-9 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring h-9 w-9 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_PRIMARY}
         >
           <SkipBack aria-hidden="true" className="w-4 h-4 shrink-0" />
         </button>
@@ -240,7 +241,7 @@ export function TransportControlBar({
             isPlaying
               ? 'prism-btn-primary font-semibold'
               : 'prism-crystal font-medium enabled:hover:brightness-105',
-            'prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all'
+            'prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
           )}
           style={isPlaying ? undefined : { color: 'var(--prism-text-primary)' }}
         >
@@ -263,8 +264,8 @@ export function TransportControlBar({
           aria-label="Stop"
           data-testid="transport-stop"
           onClick={handleStop}
-          className="prism-crystal prism-focus-ring h-9 w-9 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring h-9 w-9 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_PRIMARY}
         >
           <Square aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
         </button>
@@ -278,7 +279,7 @@ export function TransportControlBar({
             data-testid="transport-record"
             data-recording={isRecording ? 'true' : undefined}
             onClick={handleToggleRecord}
-            className="prism-crystal prism-focus-ring h-9 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+            className="prism-crystal prism-focus-ring h-9 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             style={
               isRecording
                 ? {
@@ -291,7 +292,7 @@ export function TransportControlBar({
             <Circle
               aria-hidden="true"
               data-testid="transport-record-indicator"
-              className={cx('w-3 h-3 shrink-0', isRecording && 'animate-pulse')}
+              className={cx('w-3 h-3 shrink-0', isRecording && 'animate-pulse motion-reduce:animate-none')}
               style={{
                 color: 'var(--prism-error-main)',
                 fill: isRecording ? 'var(--prism-error-main)' : 'none',
@@ -312,7 +313,7 @@ export function TransportControlBar({
             isLooping
               ? 'prism-emerald font-semibold'
               : 'prism-crystal font-medium enabled:hover:brightness-105',
-            'prism-focus-ring h-9 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all'
+            'prism-focus-ring h-9 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
           )}
           style={isLooping ? undefined : { color: 'var(--prism-text-primary)' }}
         >
@@ -326,8 +327,8 @@ export function TransportControlBar({
           aria-label="Jump to end"
           data-testid="transport-jump-end"
           onClick={onJumpEnd}
-          className="prism-crystal prism-focus-ring h-9 w-9 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring h-9 w-9 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_PRIMARY}
         >
           <SkipForward aria-hidden="true" className="w-4 h-4 shrink-0" />
         </button>
@@ -385,4 +386,5 @@ export function TransportControlBar({
   );
 }
 
+export const TransportControlBar = memo(TransportControlBarInner);
 TransportControlBar.displayName = 'TransportControlBar';

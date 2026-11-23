@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -17,7 +19,7 @@ export interface BreadcrumbsProps extends BaseProps<HTMLElement> {
   onNavigate: (id: string) => void;
 }
 
-export function Breadcrumbs({
+function BreadcrumbsInner({
   items,
   onNavigate,
   className,
@@ -75,4 +77,5 @@ export function Breadcrumbs({
   );
 }
 
+export const Breadcrumbs = memo(BreadcrumbsInner);
 Breadcrumbs.displayName = 'Breadcrumbs';

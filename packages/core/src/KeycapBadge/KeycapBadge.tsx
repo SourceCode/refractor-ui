@@ -1,10 +1,11 @@
 'use client';
 
-import { Fragment, useMemo } from 'react';
+import { memo, Fragment, useMemo } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type KeycapSize = 'sm' | 'md' | 'lg';
@@ -55,7 +56,7 @@ function getSizeClasses(size: KeycapSize): KeycapSizeClasses {
   }
 }
 
-export function KeycapBadge({
+function KeycapBadgeInner({
   keys,
   size = 'md',
   joiner = '+',
@@ -133,7 +134,7 @@ export function KeycapBadge({
                 sizeClasses.joiner,
                 'font-mono font-medium select-none leading-none'
               )}
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {joiner}
             </span>
@@ -158,4 +159,5 @@ export function KeycapBadge({
   );
 }
 
+export const KeycapBadge = memo(KeycapBadgeInner);
 KeycapBadge.displayName = 'KeycapBadge';

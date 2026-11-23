@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useState,
@@ -31,6 +32,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type FileTransferOpKind = 'copy' | 'move' | 'upload' | 'extract';
@@ -235,7 +237,7 @@ function normalizeJobs(list: ReadonlyArray<FileTransferJob>): FileTransferJob[] 
   return normalized;
 }
 
-export function FileTransferQueue({
+function FileTransferQueueInner({
   title = DEFAULT_TITLE,
   jobs,
   defaultJobs,
@@ -398,7 +400,7 @@ export function FileTransferQueue({
   const statusBarClass = stableClassName('file-transfer-queue', 'status-bar');
 
   const actionBtnClass =
-    'prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all';
+    'prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]';
 
   return (
     <div
@@ -418,20 +420,20 @@ export function FileTransferQueue({
           headerClass,
           'flex flex-wrap items-center justify-between gap-2.5 min-w-0 max-w-full pb-3 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <ArrowLeftRight className="w-4 h-4 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
@@ -439,7 +441,7 @@ export function FileTransferQueue({
             data-testid="transfer-queue-active-count"
             data-active-count={String(activeCount)}
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {`${activeCount} active`}
           </span>
@@ -462,7 +464,7 @@ export function FileTransferQueue({
             disabled={clearCompletedDisabled}
             data-testid="transfer-clear-completed"
             onClick={handleClearCompleted}
-            className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <Trash2 aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Clear Completed</span>
@@ -476,8 +478,8 @@ export function FileTransferQueue({
             aria-label={isCollapsed ? `Expand ${safeTitle}` : `Collapse ${safeTitle}`}
             data-testid="transfer-toggle-collapse"
             onClick={handleToggleCollapsed}
-            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             {isCollapsed ? (
               <>
@@ -509,12 +511,12 @@ export function FileTransferQueue({
               <Layers
                 aria-hidden="true"
                 className="w-5 h-5 shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               />
-              <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+              <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
                 No active file transfers
               </p>
-              <p className="text-xs max-w-md" style={{ color: 'var(--prism-text-secondary)' }}>
+              <p className="text-xs max-w-md" style={STYLE_TEXT_SECONDARY}>
                 Copy, move, upload, or archive extraction jobs will appear here with live
                 throughput and per-job controls.
               </p>
@@ -541,7 +543,7 @@ export function FileTransferQueue({
                     'job'
                   ),
                   baseClassName:
-                    'prism-well rounded-2xl p-3.5 flex flex-col gap-2.5 min-w-0 max-w-full transition-all',
+                    'prism-well rounded-2xl p-3.5 flex flex-col gap-2.5 min-w-0 max-w-full transition-[color,background-color,border-color,opacity,transform]',
                 });
 
                 return (
@@ -567,14 +569,14 @@ export function FileTransferQueue({
                           <span
                             data-testid={`transfer-job-name-${job.id}`}
                             className="text-sm font-semibold tracking-tight truncate min-w-0"
-                            style={{ color: 'var(--prism-text-primary)' }}
+                            style={STYLE_TEXT_PRIMARY}
                           >
                             {job.name}
                           </span>
                           <span
                             data-testid={`transfer-job-size-${job.id}`}
                             className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-medium tabular-nums whitespace-nowrap shrink-0"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {job.sizeLabel}
                           </span>
@@ -583,7 +585,7 @@ export function FileTransferQueue({
                         <div
                           data-testid={`transfer-job-route-${job.id}`}
                           className="flex flex-wrap items-center gap-1 font-mono text-[11px] min-w-0 max-w-full"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           <span
                             data-testid={`transfer-job-source-${job.id}`}
@@ -594,7 +596,7 @@ export function FileTransferQueue({
                           <span
                             aria-hidden="true"
                             className="shrink-0 font-semibold"
-                            style={{ color: 'var(--prism-text-disabled)' }}
+                            style={STYLE_TEXT_DISABLED}
                           >
                             {' -> '}
                           </span>
@@ -639,14 +641,14 @@ export function FileTransferQueue({
                           </span>
                           <span
                             aria-hidden="true"
-                            style={{ color: 'var(--prism-text-disabled)' }}
+                            style={STYLE_TEXT_DISABLED}
                           >
                             {'\u00B7'}
                           </span>
                           <span
                             data-testid={`transfer-job-eta-${job.id}`}
                             className="font-mono truncate min-w-0"
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             {job.etaLabel.trim().length > 0 ? job.etaLabel : statusMeta.label}
                           </span>
@@ -654,7 +656,7 @@ export function FileTransferQueue({
                         <span
                           data-testid={`transfer-job-pct-${job.id}`}
                           className="font-mono font-semibold tabular-nums whitespace-nowrap shrink-0"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {`${job.progressPct}%`}
                         </span>
@@ -672,7 +674,7 @@ export function FileTransferQueue({
                       >
                         <div
                           data-testid={`transfer-job-progress-fill-${job.id}`}
-                          className="h-full rounded-full transition-all duration-200"
+                          className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200"
                           style={{
                             width: `${job.progressPct}%`,
                             backgroundColor: statusMeta.accentToken,
@@ -684,7 +686,7 @@ export function FileTransferQueue({
                     {/* Contextual Per-Job Actions */}
                     <div
                       className="flex flex-wrap items-center justify-end gap-1.5 pt-2 border-t min-w-0"
-                      style={{ borderColor: 'var(--prism-divider)' }}
+                      style={STYLE_BORDER_DIVIDER}
                     >
                       {job.status === 'running' ? (
                         <>
@@ -695,7 +697,7 @@ export function FileTransferQueue({
                             data-testid={`transfer-job-pause-${job.id}`}
                             onClick={() => handlePauseJob(job)}
                             className={actionBtnClass}
-                            style={{ color: 'var(--prism-warning-main)' }}
+                            style={STYLE_WARNING_MAIN}
                           >
                             <Pause aria-hidden="true" className="w-3 h-3 shrink-0" />
                             <span>Pause</span>
@@ -707,7 +709,7 @@ export function FileTransferQueue({
                             data-testid={`transfer-job-cancel-${job.id}`}
                             onClick={() => handleCancelJob(job)}
                             className={actionBtnClass}
-                            style={{ color: 'var(--prism-error-main)' }}
+                            style={STYLE_ERROR_MAIN}
                           >
                             <X aria-hidden="true" className="w-3 h-3 shrink-0" />
                             <span>Cancel</span>
@@ -724,7 +726,7 @@ export function FileTransferQueue({
                             data-testid={`transfer-job-resume-${job.id}`}
                             onClick={() => handleResumeJob(job)}
                             className={actionBtnClass}
-                            style={{ color: 'var(--prism-info-main)' }}
+                            style={STYLE_INFO_MAIN}
                           >
                             <Play aria-hidden="true" className="w-3 h-3 shrink-0" />
                             <span>Resume</span>
@@ -736,7 +738,7 @@ export function FileTransferQueue({
                             data-testid={`transfer-job-cancel-${job.id}`}
                             onClick={() => handleCancelJob(job)}
                             className={actionBtnClass}
-                            style={{ color: 'var(--prism-error-main)' }}
+                            style={STYLE_ERROR_MAIN}
                           >
                             <X aria-hidden="true" className="w-3 h-3 shrink-0" />
                             <span>Cancel</span>
@@ -753,7 +755,7 @@ export function FileTransferQueue({
                             data-testid={`transfer-job-retry-${job.id}`}
                             onClick={() => handleRetryJob(job)}
                             className={actionBtnClass}
-                            style={{ color: 'var(--prism-info-main)' }}
+                            style={STYLE_INFO_MAIN}
                           >
                             <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
                             <span>Retry</span>
@@ -765,7 +767,7 @@ export function FileTransferQueue({
                             data-testid={`transfer-job-dismiss-${job.id}`}
                             onClick={() => handleDismissJob(job)}
                             className={actionBtnClass}
-                            style={{ color: 'var(--prism-text-secondary)' }}
+                            style={STYLE_TEXT_SECONDARY}
                           >
                             <Trash2 aria-hidden="true" className="w-3 h-3 shrink-0" />
                             <span>Dismiss</span>
@@ -781,7 +783,7 @@ export function FileTransferQueue({
                           data-testid={`transfer-job-dismiss-${job.id}`}
                           onClick={() => handleDismissJob(job)}
                           className={actionBtnClass}
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           <Trash2 aria-hidden="true" className="w-3 h-3 shrink-0" />
                           <span>Dismiss</span>
@@ -805,11 +807,11 @@ export function FileTransferQueue({
           statusBarClass,
           'prism-well rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <span
           className="font-mono text-[11px] truncate min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {liveAnnouncement || idleStatusSummary}
         </span>
@@ -824,4 +826,5 @@ export function FileTransferQueue({
   );
 }
 
+export const FileTransferQueue = memo(FileTransferQueueInner);
 FileTransferQueue.displayName = 'FileTransferQueue';

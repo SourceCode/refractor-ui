@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_ERROR, STYLE_BG_PRIMARY, STYLE_BG_SUCCESS, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface TreemapTile {
@@ -180,7 +182,7 @@ function partitionTreemap(
   }
 }
 
-export function TreemapChart({
+function TreemapChartInner({
   tiles,
   title = 'Hierarchical Treemap',
   height = 240,
@@ -322,7 +324,7 @@ export function TreemapChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -330,26 +332,26 @@ export function TreemapChart({
         <div
           aria-hidden="true"
           className="inline-flex flex-wrap items-center gap-3 text-[11px] font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span className="inline-flex items-center gap-1.5">
             <span
               className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: 'var(--prism-success-main)' }}
+              style={STYLE_BG_SUCCESS}
             />
             <span>Positive</span>
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span
               className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: 'var(--prism-primary-main)' }}
+              style={STYLE_BG_PRIMARY}
             />
             <span>Neutral</span>
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span
               className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: 'var(--prism-error-main)' }}
+              style={STYLE_BG_ERROR}
             />
             <span>Negative</span>
           </span>
@@ -361,7 +363,7 @@ export function TreemapChart({
           role="status"
           data-testid="treemap-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No positive treemap values to display.
         </div>
@@ -482,7 +484,7 @@ export function TreemapChart({
               inspectorClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeTile ? (
               <>
@@ -496,7 +498,7 @@ export function TreemapChart({
                   {activeTile.group ? (
                     <span
                       className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-medium"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {activeTile.group}
                     </span>
@@ -507,7 +509,7 @@ export function TreemapChart({
                   <span className="font-semibold">
                     {formatMetric(activeTile.value, valueUnit)}
                   </span>
-                  <span style={{ color: 'var(--prism-text-secondary)' }}>
+                  <span style={STYLE_TEXT_SECONDARY}>
                     {`${formatNumeric(activeTile.sharePct)}% of total`}
                   </span>
                   {activeTile.changePct !== undefined ? (
@@ -523,12 +525,12 @@ export function TreemapChart({
               </>
             ) : (
               <>
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select any tile to inspect value, share, and delta.
                 </span>
                 <span
                   className="font-mono font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`Total: ${formatMetric(totalValue, valueUnit)}`}
                 </span>
@@ -541,4 +543,5 @@ export function TreemapChart({
   );
 }
 
+export const TreemapChart = memo(TreemapChartInner);
 TreemapChart.displayName = 'TreemapChart';

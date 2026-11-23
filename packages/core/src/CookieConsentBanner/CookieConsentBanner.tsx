@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -23,6 +24,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface CookieConsentPreferences {
@@ -120,7 +122,7 @@ function getCategoryValue(
   }
 }
 
-export function CookieConsentBanner({
+function CookieConsentBannerInner({
   open,
   defaultOpen = true,
   onOpenChange,
@@ -261,7 +263,7 @@ export function CookieConsentBanner({
           <span
             aria-hidden="true"
             className="prism-well w-10 h-10 rounded-2xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <ShieldCheck className="w-5 h-5 shrink-0" aria-hidden="true" />
           </span>
@@ -271,14 +273,14 @@ export function CookieConsentBanner({
               <h2
                 id={titleId}
                 className="text-base font-semibold leading-snug break-words"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {title}
               </h2>
               <span
                 aria-hidden="true"
                 className="prism-well w-6 h-6 rounded-full inline-flex items-center justify-center shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <Cookie className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
               </span>
@@ -286,7 +288,7 @@ export function CookieConsentBanner({
 
             <p
               className="text-xs sm:text-sm leading-relaxed break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {description}
             </p>
@@ -298,7 +300,7 @@ export function CookieConsentBanner({
                   target="_blank"
                   rel="noopener noreferrer"
                   className="prism-focus-ring inline-flex items-center gap-1 text-xs font-semibold underline underline-offset-2 rounded-sm hover:opacity-80 transition-opacity"
-                  style={{ color: 'var(--prism-info-main)' }}
+                  style={STYLE_INFO_MAIN}
                 >
                   <span>{policyLabel}</span>
                   <ExternalLink className="w-3 h-3 shrink-0" aria-hidden="true" />
@@ -333,8 +335,8 @@ export function CookieConsentBanner({
             aria-expanded={isExpanded}
             aria-controls={matrixId}
             onClick={() => setIsExpanded((prev) => !prev)}
-            className="prism-crystal prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             <SlidersHorizontal className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
             <span>Customize</span>
@@ -352,7 +354,7 @@ export function CookieConsentBanner({
           id={matrixId}
           data-testid="cookie-preference-matrix"
           className="prism-well rounded-2xl p-4 space-y-3 border"
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <div className="space-y-2.5">
             <div className="prism-crystal rounded-2xl p-3.5 flex items-center justify-between gap-3">
@@ -360,7 +362,7 @@ export function CookieConsentBanner({
                 <div className="flex flex-wrap items-center gap-2">
                   <span
                     className="text-sm font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     Essential Cookies
                   </span>
@@ -374,7 +376,7 @@ export function CookieConsentBanner({
                 </div>
                 <p
                   className="text-xs leading-relaxed"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Strictly necessary for authentication, security protections, and core site
                   reliability.
@@ -406,13 +408,13 @@ export function CookieConsentBanner({
                   <div className="min-w-0 flex-1 space-y-0.5">
                     <div
                       className="text-sm font-semibold"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {category.label}
                     </div>
                     <p
                       className="text-xs leading-relaxed"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {category.description}
                     </p>
@@ -424,7 +426,7 @@ export function CookieConsentBanner({
                     aria-checked={checked}
                     aria-label={category.label}
                     onClick={() => toggleCategory(category.key)}
-                    className={`prism-focus-ring relative w-12 h-7 rounded-full p-1 inline-flex items-center transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 shrink-0 ${
+                    className={`prism-focus-ring relative w-12 h-7 rounded-full p-1 inline-flex items-center transition-[color,background-color,border-color,opacity,transform] duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 shrink-0 ${
                       checked ? 'prism-emerald' : 'prism-crystal'
                     }`}
                   >
@@ -442,9 +444,9 @@ export function CookieConsentBanner({
 
           <div
             className="pt-3 border-t flex flex-wrap items-center justify-between gap-3"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
-            <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
               Essential cookies stay active; optional categories follow your selections above.
             </p>
 
@@ -465,4 +467,5 @@ export function CookieConsentBanner({
   );
 }
 
+export const CookieConsentBanner = memo(CookieConsentBannerInner);
 CookieConsentBanner.displayName = 'CookieConsentBanner';

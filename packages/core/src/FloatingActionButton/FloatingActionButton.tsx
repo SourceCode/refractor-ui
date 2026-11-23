@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
@@ -23,7 +24,7 @@ export interface FloatingActionButtonProps
   tone?: FloatingActionButtonTone;
 }
 
-export function FloatingActionButton({
+function FloatingActionButtonInner({
   label,
   icon,
   tone = 'primary',
@@ -77,4 +78,5 @@ export function FloatingActionButton({
   );
 }
 
+export const FloatingActionButton = memo(FloatingActionButtonInner);
 FloatingActionButton.displayName = 'FloatingActionButton';

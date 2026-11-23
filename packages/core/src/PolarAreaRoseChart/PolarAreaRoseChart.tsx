@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,6 +14,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RoseTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -224,7 +226,7 @@ function buildWedgePath(
   return `M ${center} ${center} L ${start.x} ${start.y} A ${r} ${r} 0 0 1 ${end.x} ${end.y} Z`;
 }
 
-export function PolarAreaRoseChart({
+function PolarAreaRoseChartInner({
   slices,
   scaleMode,
   defaultScaleMode = 'area',
@@ -445,7 +447,7 @@ export function PolarAreaRoseChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight min-w-0 break-words"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -456,14 +458,14 @@ export function PolarAreaRoseChart({
               data-testid="polar-rose-peak-badge"
               data-peak-id={peakSlice.id}
               className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-mono font-semibold tabular-nums shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2 h-2 rounded-full shrink-0"
                 style={{ backgroundColor: peakSlice.color }}
               />
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Peak</span>
+              <span style={STYLE_TEXT_SECONDARY}>Peak</span>
               <span>{`${peakSlice.label} · ${formatMetric(peakSlice.value, unit)}`}</span>
             </span>
           ) : null}
@@ -479,7 +481,7 @@ export function PolarAreaRoseChart({
               data-scale-mode="area"
               onClick={() => setActiveScaleMode('area')}
               className={cx(
-                'prism-focus-ring rounded-full px-2.5 py-1 text-xs cursor-pointer transition-all',
+                'prism-focus-ring rounded-full px-2.5 py-1 text-xs cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                 activeScaleMode === 'area' ? 'prism-crystal font-semibold' : 'font-medium opacity-75'
               )}
               style={{
@@ -497,7 +499,7 @@ export function PolarAreaRoseChart({
               data-scale-mode="radius"
               onClick={() => setActiveScaleMode('radius')}
               className={cx(
-                'prism-focus-ring rounded-full px-2.5 py-1 text-xs cursor-pointer transition-all',
+                'prism-focus-ring rounded-full px-2.5 py-1 text-xs cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                 activeScaleMode === 'radius'
                   ? 'prism-crystal font-semibold'
                   : 'font-medium opacity-75'
@@ -520,7 +522,7 @@ export function PolarAreaRoseChart({
           role="status"
           data-testid="polar-rose-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No positive sector values to display.
         </div>
@@ -625,7 +627,7 @@ export function PolarAreaRoseChart({
                       data-selected={isSelected ? 'true' : 'false'}
                       data-expanded={isExpanded ? 'true' : 'false'}
                       data-dimmed={isDimmed ? 'true' : 'false'}
-                      className="prism-focus-ring cursor-pointer transition-all duration-150"
+                      className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150"
                       onClick={() => handleToggleSlice(slice)}
                       onFocus={() => handleFocusSlice(slice.key)}
                       onBlur={() => handleBlurSlice(slice.key)}
@@ -693,11 +695,11 @@ export function PolarAreaRoseChart({
                   data-tone={slice.tone}
                   onClick={() => handleToggleSlice(slice)}
                   className={cx(
-                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs cursor-pointer transition-all min-w-0 max-w-full',
+                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs cursor-pointer transition-[color,background-color,border-color,opacity,transform] min-w-0 max-w-full',
                     isSelected ? 'prism-well font-semibold' : 'prism-crystal font-medium',
                     isDimmed ? 'opacity-55' : 'opacity-100'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
@@ -707,7 +709,7 @@ export function PolarAreaRoseChart({
                   <span className="truncate">{slice.label}</span>
                   <span
                     className="font-mono text-[11px] tabular-nums shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {formatMetric(slice.value, unit)}
                   </span>
@@ -723,7 +725,7 @@ export function PolarAreaRoseChart({
               inspectorClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums min-w-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {inspectedSlice ? (
               <>
@@ -739,19 +741,19 @@ export function PolarAreaRoseChart({
                 </span>
                 <span
                   className="shrink-0 font-mono font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`Total: ${formatMetric(totalValue, unit)}`}
                 </span>
               </>
             ) : (
               <>
-                <span className="min-w-0 break-words" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="min-w-0 break-words" style={STYLE_TEXT_SECONDARY}>
                   Select or focus any sector wedge to inspect magnitude and share.
                 </span>
                 <span
                   className="shrink-0 font-mono font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`${scaleModeLabel} · Total: ${formatMetric(totalValue, unit)}`}
                 </span>
@@ -764,4 +766,5 @@ export function PolarAreaRoseChart({
   );
 }
 
+export const PolarAreaRoseChart = memo(PolarAreaRoseChartInner);
 PolarAreaRoseChart.displayName = 'PolarAreaRoseChart';

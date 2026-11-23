@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -20,7 +21,7 @@ export interface PrismCardProps extends BaseProps<HTMLElement> {
   specimenSlab?: boolean;
 }
 
-export function PrismCard({
+function PrismCardInner({
   title,
   kicker,
   children,
@@ -94,4 +95,5 @@ export function PrismCard({
   );
 }
 
+export const PrismCard = memo(PrismCardInner);
 PrismCard.displayName = 'PrismCard';

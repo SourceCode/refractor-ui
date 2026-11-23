@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type GradientKind = 'linear' | 'radial' | 'conic';
@@ -348,7 +350,7 @@ function reverseGradientStops(
   return reversed;
 }
 
-export function GradientStopEditor({
+function GradientStopEditorInner({
   value,
   defaultValue,
   onChange,
@@ -529,7 +531,7 @@ export function GradientStopEditor({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handleWindowPointerMove);
+      window.addEventListener('pointermove', handleWindowPointerMove, { passive: true });
       window.addEventListener('pointerup', handleWindowPointerEnd);
       window.addEventListener('pointercancel', handleWindowPointerEnd);
     },
@@ -724,14 +726,14 @@ export function GradientStopEditor({
               id={headingId}
               data-testid="gradient-editor-title"
               className="text-sm font-semibold tracking-tight truncate min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {safeTitle}
             </h4>
             <span
               data-testid="gradient-stop-count"
               className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {currentState.stops.length} stops
             </span>
@@ -754,7 +756,7 @@ export function GradientStopEditor({
                   data-testid={`gradient-kind-${kindMeta.id}`}
                   onClick={() => handleSelectKind(kindMeta.id)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                     isActive
                       ? 'prism-btn-primary'
                       : 'prism-crystal opacity-85 enabled:hover:opacity-100'
@@ -780,7 +782,7 @@ export function GradientStopEditor({
             <span
               aria-hidden="true"
               className="text-[11px] font-semibold uppercase tracking-wider shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Angle
             </span>
@@ -788,7 +790,7 @@ export function GradientStopEditor({
               <div className="prism-crystal w-full h-2.5 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="gradient-angle-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${anglePct}%`,
                     backgroundColor: 'var(--prism-primary-main)',
@@ -820,7 +822,7 @@ export function GradientStopEditor({
             <span
               data-testid="gradient-angle-readout"
               className="prism-crystal px-2 py-0.5 rounded-full font-mono text-xs font-semibold tabular-nums min-w-[48px] text-center shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {isRadial ? '—' : `${currentState.angleDeg}°`}
             </span>
@@ -832,7 +834,7 @@ export function GradientStopEditor({
               disabled={!canAddStop}
               data-testid="gradient-add-stop-button"
               onClick={handleAddStop}
-              className="prism-btn-primary prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+              className="prism-btn-primary prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
             >
               <Plus aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span className="relative z-10">Add Stop</span>
@@ -843,7 +845,7 @@ export function GradientStopEditor({
               disabled={disabled}
               data-testid="gradient-reverse-button"
               onClick={handleReverseStops}
-              className="prism-btn-secondary prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+              className="prism-btn-secondary prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
             >
               <ArrowLeftRight aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Reverse</span>
@@ -889,7 +891,7 @@ export function GradientStopEditor({
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-2.5 h-px"
-            style={{ backgroundColor: 'var(--prism-divider)' }}
+            style={STYLE_BG_DIVIDER}
           />
 
           {currentState.stops.slice(0, -1).map((stop, index) => {
@@ -1040,7 +1042,7 @@ export function GradientStopEditor({
                 data-testid={`gradient-token-${tokenMeta.id}`}
                 onClick={() => handleSelectToken(tokenMeta.id)}
                 className={cx(
-                  'prism-focus-ring rounded-full px-2.5 py-1 inline-flex items-center gap-1.5 text-[11px] font-semibold border cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all',
+                  'prism-focus-ring rounded-full px-2.5 py-1 inline-flex items-center gap-1.5 text-[11px] font-semibold border cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                   isSelectedToken
                     ? 'prism-crystal'
                     : 'prism-well opacity-80 enabled:hover:opacity-100'
@@ -1072,7 +1074,7 @@ export function GradientStopEditor({
           <span
             aria-hidden="true"
             className="text-[11px] font-semibold uppercase tracking-wider shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Pos
           </span>
@@ -1080,7 +1082,7 @@ export function GradientStopEditor({
             <div className="prism-crystal w-full h-2.5 rounded-full overflow-hidden p-0.5">
               <div
                 data-testid="gradient-position-fill"
-                className="h-full rounded-full transition-all duration-75"
+                className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                 style={{
                   width: `${selectedStop.positionPct}%`,
                   backgroundColor: selectedTokenMeta.cssVar,
@@ -1112,7 +1114,7 @@ export function GradientStopEditor({
           <span
             data-testid="gradient-stop-position-readout"
             className="prism-crystal px-2 py-0.5 rounded-full font-mono text-xs font-semibold tabular-nums min-w-[44px] text-center shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {selectedStop.positionPct}%
           </span>
@@ -1127,7 +1129,7 @@ export function GradientStopEditor({
           <span
             aria-hidden="true"
             className="text-[11px] font-semibold uppercase tracking-wider shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Opacity
           </span>
@@ -1135,7 +1137,7 @@ export function GradientStopEditor({
             <div className="prism-crystal w-full h-2.5 rounded-full overflow-hidden p-0.5">
               <div
                 data-testid="gradient-opacity-fill"
-                className="h-full rounded-full transition-all duration-75"
+                className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                 style={{
                   width: `${selectedStop.opacityPct}%`,
                   backgroundColor: selectedTokenMeta.cssVar,
@@ -1167,7 +1169,7 @@ export function GradientStopEditor({
           <span
             data-testid="gradient-stop-opacity-readout"
             className="prism-crystal px-2 py-0.5 rounded-full font-mono text-xs font-semibold tabular-nums min-w-[44px] text-center shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {selectedStop.opacityPct}%
           </span>
@@ -1178,7 +1180,7 @@ export function GradientStopEditor({
           disabled={!canDeleteStop}
           data-testid="gradient-delete-stop-button"
           onClick={() => deleteStop(selectedStop.id)}
-          className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
+          className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
           style={{
             color: canDeleteStop ? 'var(--prism-error-main)' : 'var(--prism-text-disabled)',
           }}
@@ -1195,7 +1197,7 @@ export function GradientStopEditor({
             telemetryClass,
             'prism-crystal rounded-xl px-3 py-2 w-full min-w-0 font-mono text-[11px] leading-relaxed break-all'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {cssValue}
         </div>
@@ -1204,4 +1206,5 @@ export function GradientStopEditor({
   );
 }
 
+export const GradientStopEditor = memo(GradientStopEditorInner);
 GradientStopEditor.displayName = 'GradientStopEditor';

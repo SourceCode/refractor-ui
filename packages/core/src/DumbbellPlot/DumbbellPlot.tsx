@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_PRIMARY, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DumbbellSortMode = 'original' | 'gap-desc' | 'target-desc';
@@ -226,7 +228,7 @@ function buildRowAriaLabel(
   return `${row.label}: ${baselineLabel} ${baselineText} to ${currentLabel} ${currentText}, gap ${gapText} (${pctText} change)`;
 }
 
-export function DumbbellPlot({
+function DumbbellPlotInner({
   items,
   baselineLabel = 'Baseline',
   currentLabel = 'Current',
@@ -444,7 +446,7 @@ export function DumbbellPlot({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight min-w-0 break-words"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -456,7 +458,7 @@ export function DumbbellPlot({
           >
             <span
               className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-medium"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
@@ -468,12 +470,12 @@ export function DumbbellPlot({
 
             <span
               className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-medium"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <span
                 aria-hidden="true"
                 className="w-2.5 h-2.5 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-primary-main)' }}
+                style={STYLE_BG_PRIMARY}
               />
               <span>{currentLabel}</span>
             </span>
@@ -497,7 +499,7 @@ export function DumbbellPlot({
                 data-testid={`dumbbell-sort-${option.mode}`}
                 onClick={() => handleSortClick(option.mode)}
                 className={cx(
-                  'prism-focus-ring inline-flex items-center px-2.5 py-1 rounded-full text-xs cursor-pointer transition-all duration-150 shrink-0',
+                  'prism-focus-ring inline-flex items-center px-2.5 py-1 rounded-full text-xs cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150 shrink-0',
                   isActive
                     ? 'prism-crystal font-semibold'
                     : 'prism-well font-medium opacity-80 hover:opacity-100'
@@ -518,7 +520,7 @@ export function DumbbellPlot({
           role="status"
           data-testid="dumbbell-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No variance comparison items to display.
         </div>
@@ -738,7 +740,7 @@ export function DumbbellPlot({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs tabular-nums min-w-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -748,21 +750,21 @@ export function DumbbellPlot({
             <span data-testid="dumbbell-readout-category" className="font-semibold">
               {readoutRow.label}
             </span>
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               ·
             </span>
             <span data-testid="dumbbell-readout-values" className="font-mono">
-              <span style={{ color: 'var(--prism-info-main)' }}>
+              <span style={STYLE_INFO_MAIN}>
                 {`${baselineLabel} ${formatValue(readoutRow.baseline, unit)}`}
               </span>
-              <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
                 {' → '}
               </span>
-              <span style={{ color: 'var(--prism-primary-main)' }}>
+              <span style={STYLE_PRIMARY_MAIN}>
                 {`${currentLabel} ${formatValue(readoutRow.current, unit)}`}
               </span>
             </span>
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               ·
             </span>
             <span
@@ -772,13 +774,13 @@ export function DumbbellPlot({
             >
               {formatSignedValue(readoutRow.gap, unit)}
             </span>
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_SECONDARY}>
               ·
             </span>
             <span
               data-testid="dumbbell-readout-pct"
               className="font-mono"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {`${formatGapPct(readoutRow.gapPct)} change`}
             </span>
@@ -789,4 +791,5 @@ export function DumbbellPlot({
   );
 }
 
+export const DumbbellPlot = memo(DumbbellPlotInner);
 DumbbellPlot.displayName = 'DumbbellPlot';

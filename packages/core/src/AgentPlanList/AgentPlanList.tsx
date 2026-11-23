@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { memo, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import {
   AlertCircle,
   CheckCircle2,
@@ -16,6 +16,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AgentPlanStepStatus = 'pending' | 'active' | 'done' | 'skipped' | 'failed';
@@ -64,7 +65,7 @@ function getStepStatusVisual(status: AgentPlanStepStatus): PlanStatusVisual {
       };
     case 'active':
       return {
-        icon: <Loader2 aria-hidden="true" className="w-4 h-4 shrink-0 animate-spin" />,
+        icon: <Loader2 aria-hidden="true" className="w-4 h-4 shrink-0 animate-spin motion-reduce:animate-none" />,
         colorToken: 'var(--prism-primary-main)',
         label: 'Active',
       };
@@ -93,7 +94,7 @@ function getNextToggledStatus(status: AgentPlanStepStatus): AgentPlanStepStatus 
   return status === 'done' ? 'pending' : 'done';
 }
 
-export function AgentPlanList({
+function AgentPlanListInner({
   steps,
   defaultSteps = DEFAULT_EMPTY_STEPS,
   onStepsChange,
@@ -195,7 +196,7 @@ export function AgentPlanList({
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
       <div
         className={cx(headerClass, 'px-4 pt-4 pb-3 space-y-3 border-b')}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0 flex items-center gap-2.5">
@@ -210,7 +211,7 @@ export function AgentPlanList({
             <h3
               id={headingId}
               className="text-sm font-semibold truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h3>
@@ -219,7 +220,7 @@ export function AgentPlanList({
           <span
             data-testid="agent-plan-counter"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {doneCount} / {totalCount} complete
           </span>
@@ -237,7 +238,7 @@ export function AgentPlanList({
           <div
             data-testid="agent-plan-progress-fill"
             className={cx(
-              'h-full rounded-full transition-all duration-200',
+              'h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200',
               isComplete ? 'prism-emerald' : 'prism-btn-primary'
             )}
             style={{ width: `${progressPercent}%` }}
@@ -251,7 +252,7 @@ export function AgentPlanList({
             data-testid="agent-plan-empty"
             className="prism-well rounded-2xl py-6 px-4 text-center"
           >
-            <p className="text-xs font-medium" style={{ color: 'var(--prism-text-secondary)' }}>
+            <p className="text-xs font-medium" style={STYLE_TEXT_SECONDARY}>
               {editable
                 ? 'No execution steps yet. Add a step below to start building the plan.'
                 : 'No execution steps in this plan.'}
@@ -291,7 +292,7 @@ export function AgentPlanList({
                   {step.detail ? (
                     <p
                       className="mt-1 text-xs leading-relaxed break-words whitespace-pre-wrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {step.detail}
                     </p>
@@ -351,7 +352,7 @@ export function AgentPlanList({
                       aria-label={`Remove ${step.title}`}
                       onClick={() => handleRemoveStep(step.id)}
                       className="prism-focus-ring mt-0.5 w-6 h-6 rounded-full inline-flex items-center justify-center shrink-0 opacity-60 cursor-pointer disabled:cursor-not-allowed enabled:hover:opacity-100 transition-opacity"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                     </button>
@@ -374,7 +375,7 @@ export function AgentPlanList({
                 placeholder="Add step..."
                 aria-label="Add step"
                 className="prism-focus-ring w-full bg-transparent text-xs focus:outline-none"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
             </div>
 
@@ -382,7 +383,7 @@ export function AgentPlanList({
               type="button"
               disabled={!canAdd}
               onClick={handleAddStep}
-              className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1 shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+              className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1 shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             >
               <Plus aria-hidden="true" className="w-3.5 h-3.5 relative z-10 shrink-0" />
               <span className="relative z-10">Add</span>
@@ -394,4 +395,5 @@ export function AgentPlanList({
   );
 }
 
+export const AgentPlanList = memo(AgentPlanListInner);
 AgentPlanList.displayName = 'AgentPlanList';

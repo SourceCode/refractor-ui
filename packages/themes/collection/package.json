@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/themes",
-  "version": "1.47.1",
+  "version": "1.48.0",
   "description": "Complete 63-theme WebOS-v3 multi-material theme collection plus unified 68-theme catalog for Refractor UI.",
   "license": "Apache-2.0",
   "type": "module",

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -18,6 +19,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_BORDER_PRIMARY, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type CropAspectPreset = 'free' | '16:9' | '4:5' | '1:1' | '2.39:1';
@@ -288,7 +290,7 @@ function formatRotation(deg: number): string {
   return '0.0°';
 }
 
-export function CropStraightenOverlay({
+function CropStraightenOverlayInner({
   value,
   defaultCrop,
   defaultRotationDeg = 0,
@@ -403,7 +405,7 @@ export function CropStraightenOverlay({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -539,13 +541,13 @@ export function CropStraightenOverlay({
         <div className="flex items-center gap-2 min-w-0">
           <span
             className="prism-crystal w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Crop className="w-4 h-4" aria-hidden="true" />
           </span>
           <span
             className="text-xs font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {mediaLabel}
           </span>
@@ -698,11 +700,11 @@ export function CropStraightenOverlay({
           />
           <span
             className="absolute left-0 right-0 top-1/4 h-px"
-            style={{ backgroundColor: 'var(--prism-divider)' }}
+            style={STYLE_BG_DIVIDER}
           />
           <span
             className="absolute left-0 right-0 top-3/4 h-px"
-            style={{ backgroundColor: 'var(--prism-divider)' }}
+            style={STYLE_BG_DIVIDER}
           />
         </div>
 
@@ -785,22 +787,22 @@ export function CropStraightenOverlay({
           {/* Crisp --prism-primary-main Corner Brackets */}
           <span
             aria-hidden="true"
-            style={{ borderColor: 'var(--prism-primary-main)' }}
+            style={STYLE_BORDER_PRIMARY}
             className="absolute -top-0.5 -left-0.5 w-4 h-4 border-t-[3px] border-l-[3px] pointer-events-none"
           />
           <span
             aria-hidden="true"
-            style={{ borderColor: 'var(--prism-primary-main)' }}
+            style={STYLE_BORDER_PRIMARY}
             className="absolute -top-0.5 -right-0.5 w-4 h-4 border-t-[3px] border-r-[3px] pointer-events-none"
           />
           <span
             aria-hidden="true"
-            style={{ borderColor: 'var(--prism-primary-main)' }}
+            style={STYLE_BORDER_PRIMARY}
             className="absolute -bottom-0.5 -left-0.5 w-4 h-4 border-b-[3px] border-l-[3px] pointer-events-none"
           />
           <span
             aria-hidden="true"
-            style={{ borderColor: 'var(--prism-primary-main)' }}
+            style={STYLE_BORDER_PRIMARY}
             className="absolute -bottom-0.5 -right-0.5 w-4 h-4 border-b-[3px] border-r-[3px] pointer-events-none"
           />
 
@@ -840,13 +842,13 @@ export function CropStraightenOverlay({
           <div className="flex items-center gap-1.5 min-w-0">
             <Compass
               className="w-4 h-4 shrink-0"
-              style={{ color: 'var(--prism-secondary-main)' }}
+              style={STYLE_SECONDARY_MAIN}
               aria-hidden="true"
             />
             <label
               htmlFor={straightenId}
               className="text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Straighten
             </label>
@@ -863,7 +865,7 @@ export function CropStraightenOverlay({
                 disabled={disabled}
                 aria-label="Straighten minus 5 degrees"
                 onClick={() => handleRotationUpdate(rotationDeg - QUICK_ROTATE_STEP_DEG)}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
                 className="prism-well prism-focus-ring h-7 px-2.5 rounded-full text-xs font-mono tabular-nums font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 -5°
@@ -894,7 +896,7 @@ export function CropStraightenOverlay({
                 disabled={disabled}
                 aria-label="Straighten plus 5 degrees"
                 onClick={() => handleRotationUpdate(rotationDeg + QUICK_ROTATE_STEP_DEG)}
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
                 className="prism-well prism-focus-ring h-7 px-2.5 rounded-full text-xs font-mono tabular-nums font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 +5°
@@ -968,7 +970,7 @@ export function CropStraightenOverlay({
 
           <div
             aria-hidden="true"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
             className="flex items-center justify-between text-[10px] font-mono tabular-nums px-0.5"
           >
             <span>-45.0°</span>
@@ -983,7 +985,7 @@ export function CropStraightenOverlay({
         role="status"
         aria-live="polite"
         data-testid="crop-telemetry"
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
         className={cx(
           telemetryClass,
           'prism-well rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono tabular-nums min-w-0'
@@ -998,4 +1000,5 @@ export function CropStraightenOverlay({
   );
 }
 
+export const CropStraightenOverlay = memo(CropStraightenOverlayInner);
 CropStraightenOverlay.displayName = 'CropStraightenOverlay';

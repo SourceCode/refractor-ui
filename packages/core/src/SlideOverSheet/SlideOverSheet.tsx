@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, type ReactNode } from 'react';
+import { memo, useEffect, useId, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -25,7 +25,7 @@ export interface SlideOverSheetProps extends BaseProps<HTMLDivElement> {
   onClose: () => void;
 }
 
-export function SlideOverSheet({
+function SlideOverSheetInner({
   open,
   mode = 'right',
   title,
@@ -44,8 +44,9 @@ export function SlideOverSheet({
   const override = useComponentOverride('SlideOverSheet');
 
   useEffect(() => {
+    if (!open) return undefined;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && open) {
+      if (e.key === 'Escape') {
         onClose();
       }
     };
@@ -57,7 +58,7 @@ export function SlideOverSheet({
 
   const merged = mergeProps({
     themeTarget: themeProps('slide-over-sheet', { open, mode }),
-    baseClassName: 'fixed inset-0 z-50 bg-slate-900/35 backdrop-blur-xs flex',
+    baseClassName: 'fixed inset-0 z-50 prism-backdrop-scrim flex',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -122,4 +123,5 @@ export function SlideOverSheet({
   );
 }
 
+export const SlideOverSheet = memo(SlideOverSheetInner);
 SlideOverSheet.displayName = 'SlideOverSheet';

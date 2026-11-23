@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RadialMenuDisplayMode = 'trigger' | 'inline';
@@ -240,7 +242,7 @@ function findNextEnabledIndex(
   return -1;
 }
 
-export function RadialContextMenu({
+function RadialContextMenuInner({
   actions,
   mode = 'trigger',
   open,
@@ -518,14 +520,14 @@ export function RadialContextMenu({
           />
           <span
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Radial Menu
           </span>
           <span
             data-testid="radial-menu-mode-badge"
             className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-medium capitalize shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {mode}
           </span>
@@ -540,7 +542,7 @@ export function RadialContextMenu({
               statusClass,
               'prism-well inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium min-w-0 max-w-full'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <span
               aria-hidden="true"
@@ -555,7 +557,7 @@ export function RadialContextMenu({
               {lastSelected ? (
                 <>
                   Last action:{' '}
-                  <strong style={{ color: 'var(--prism-text-primary)' }}>
+                  <strong style={STYLE_TEXT_PRIMARY}>
                     {lastSelected.action.label}
                   </strong>
                   {lastSelected.action.shortcut ? (
@@ -586,11 +588,11 @@ export function RadialContextMenu({
           >
             <span
               className="text-sm font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               No radial actions available
             </span>
-            <span className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+            <span className="text-xs" style={STYLE_TEXT_SECONDARY}>
               Provide one or more actions to populate the optical wheel.
             </span>
           </div>
@@ -613,20 +615,20 @@ export function RadialContextMenu({
           >
             <span
               className="prism-crystal inline-flex items-center justify-center w-10 h-10 rounded-full shrink-0"
-              style={{ color: 'var(--prism-primary-main)' }}
+              style={STYLE_PRIMARY_MAIN}
               aria-hidden="true"
             >
               <Compass className="w-5 h-5" />
             </span>
             <span
               className="text-sm font-medium max-w-full break-words"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {surfaceLabel}
             </span>
             <span
               className="text-[11px] font-mono"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Right-click · Click · Space / Enter
             </span>
@@ -642,7 +644,7 @@ export function RadialContextMenu({
               <div className="w-full flex flex-wrap items-center justify-between gap-2 min-w-0">
                 <span
                   className="text-xs truncate"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {surfaceLabel}
                 </span>
@@ -652,7 +654,7 @@ export function RadialContextMenu({
                   aria-label="Dismiss radial menu"
                   onClick={handleDismiss}
                   className="prism-crystal prism-focus-ring inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer shrink-0"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   <span>Close</span>
@@ -871,7 +873,7 @@ export function RadialContextMenu({
             {/* Responsive Keyboard Hint Footer */}
             <div
               className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] min-w-0 max-w-full"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>← / → Spin</span>
               <span>·</span>
@@ -886,4 +888,5 @@ export function RadialContextMenu({
   );
 }
 
+export const RadialContextMenu = memo(RadialContextMenuInner);
 RadialContextMenu.displayName = 'RadialContextMenu';

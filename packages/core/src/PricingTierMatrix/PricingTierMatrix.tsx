@@ -1,12 +1,13 @@
 'use client';
 
-import { useId } from 'react';
+import { memo, useId } from 'react';
 import { Check, Minus, Sparkles } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BillingCycle = 'monthly' | 'annual';
@@ -68,7 +69,7 @@ function formatTabularPrice(rawPrice: number, currencySymbol: string): string {
   const clamped = clampNumber(rawPrice, 0, MAX_DISPLAY_PRICE, 0);
   const rounded = Math.round(clamped * 100) / 100;
   const formatted = Number.isInteger(rounded)
-    ? rounded.toLocaleString('en-US')
+    ? formatUsNumber(rounded)
     : rounded.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
@@ -96,7 +97,7 @@ function buildKeyedFeatures(
   return keyed;
 }
 
-export function PricingTierMatrix({
+function PricingTierMatrixInner({
   tiers,
   billingCycle,
   defaultBillingCycle = 'annual',
@@ -154,7 +155,7 @@ export function PricingTierMatrix({
             aria-pressed={activeCycle === 'monthly'}
             data-testid="pricing-cycle-monthly"
             onClick={() => handleCycleChange('monthly')}
-            className={`prism-focus-ring px-4 py-1.5 rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed transition-all ${
+            className={`prism-focus-ring px-4 py-1.5 rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform] ${
               activeCycle === 'monthly'
                 ? 'prism-btn-primary'
                 : 'enabled:hover:brightness-105'
@@ -173,7 +174,7 @@ export function PricingTierMatrix({
             aria-pressed={activeCycle === 'annual'}
             data-testid="pricing-cycle-annual"
             onClick={() => handleCycleChange('annual')}
-            className={`prism-focus-ring inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed transition-all ${
+            className={`prism-focus-ring inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold cursor-pointer disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform] ${
               activeCycle === 'annual'
                 ? 'prism-btn-primary'
                 : 'enabled:hover:brightness-105'
@@ -202,7 +203,7 @@ export function PricingTierMatrix({
           <div
             data-testid="pricing-empty-state"
             className="prism-well rounded-2xl py-8 px-4 text-center text-sm"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             No pricing tiers configured yet.
           </div>
@@ -239,14 +240,14 @@ export function PricingTierMatrix({
                       <h3
                         id={headingId}
                         className="text-lg font-bold tracking-tight break-words"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {tier.name}
                       </h3>
                       {tier.description ? (
                         <p
                           className="mt-1 text-xs leading-relaxed break-words"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           {tier.description}
                         </p>
@@ -281,20 +282,20 @@ export function PricingTierMatrix({
                       <span
                         data-testid={`pricing-tier-price-${tier.id}`}
                         className="text-4xl font-bold tracking-tight tabular-nums"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {formattedPrice}
                       </span>
                       <span
                         className="text-sm font-medium"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         /mo
                       </span>
                     </div>
                     <p
                       className="mt-1 text-xs"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {activeCycle === 'annual' ? 'Billed annually' : 'Billed monthly'}
                     </p>
@@ -311,14 +312,14 @@ export function PricingTierMatrix({
                           <>
                             <span
                               className="mt-0.5 inline-flex items-center justify-center shrink-0"
-                              style={{ color: 'var(--prism-success-main)' }}
+                              style={STYLE_SUCCESS_MAIN}
                             >
                               <Check aria-hidden="true" className="w-4 h-4 shrink-0" />
                               <span className="sr-only">Included:</span>
                             </span>
                             <span
                               className="break-words"
-                              style={{ color: 'var(--prism-text-primary)' }}
+                              style={STYLE_TEXT_PRIMARY}
                             >
                               {feature.text}
                             </span>
@@ -327,14 +328,14 @@ export function PricingTierMatrix({
                           <>
                             <span
                               className="mt-0.5 inline-flex items-center justify-center shrink-0"
-                              style={{ color: 'var(--prism-text-disabled)' }}
+                              style={STYLE_TEXT_DISABLED}
                             >
                               <Minus aria-hidden="true" className="w-4 h-4 shrink-0" />
                               <span className="sr-only">Not included:</span>
                             </span>
                             <span
                               className="line-through break-words"
-                              style={{ color: 'var(--prism-text-disabled)' }}
+                              style={STYLE_TEXT_DISABLED}
                             >
                               {feature.text}
                             </span>
@@ -349,7 +350,7 @@ export function PricingTierMatrix({
                   type="button"
                   data-testid={`pricing-tier-cta-${tier.id}`}
                   onClick={() => onSelectTier?.(tier, activeCycle)}
-                  className={`prism-focus-ring w-full py-2.5 px-4 text-sm font-semibold cursor-pointer disabled:cursor-not-allowed transition-all ${
+                  className={`prism-focus-ring w-full py-2.5 px-4 text-sm font-semibold cursor-pointer disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform] ${
                     isPopular ? 'prism-btn-primary' : 'prism-btn-secondary'
                   }`}
                 >
@@ -364,4 +365,5 @@ export function PricingTierMatrix({
   );
 }
 
+export const PricingTierMatrix = memo(PricingTierMatrixInner);
 PricingTierMatrix.displayName = 'PricingTierMatrix';

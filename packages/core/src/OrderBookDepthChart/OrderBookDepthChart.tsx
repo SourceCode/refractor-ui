@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type OrderBookSide = 'bid' | 'ask';
@@ -240,7 +242,7 @@ function buildStepPaths(
   return { strokePath, areaPath };
 }
 
-export function OrderBookDepthChart({
+function OrderBookDepthChartInner({
   bids = DEFAULT_ORDER_BOOK_BIDS,
   asks = DEFAULT_ORDER_BOOK_ASKS,
   symbol = 'RFR / USD',
@@ -508,21 +510,21 @@ export function OrderBookDepthChart({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Activity className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
           <span
             data-testid="order-book-symbol"
             className="prism-crystal px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold tracking-wide whitespace-nowrap"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {symbol}
           </span>
@@ -534,12 +536,12 @@ export function OrderBookDepthChart({
               data-testid="order-book-mid-price"
               className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs tabular-nums whitespace-nowrap"
             >
-              <span className="font-medium" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span className="font-medium" style={STYLE_TEXT_SECONDARY}>
                 Mid-Price
               </span>
               <span
                 className="font-mono font-semibold"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {formatPrice(geometry.midPrice, currencyPrefix)}
               </span>
@@ -549,7 +551,7 @@ export function OrderBookDepthChart({
               data-testid="order-book-spread"
               className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs tabular-nums whitespace-nowrap"
             >
-              <span className="font-medium" style={{ color: 'var(--prism-text-secondary)' }}>
+              <span className="font-medium" style={STYLE_TEXT_SECONDARY}>
                 Spread
               </span>
               <span
@@ -579,10 +581,10 @@ export function OrderBookDepthChart({
             'prism-well rounded-2xl px-4 py-8 text-center space-y-1 min-w-0'
           )}
         >
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No order book depth available
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Provide bid or ask levels to visualize cumulative market liquidity.
           </p>
         </div>
@@ -596,30 +598,30 @@ export function OrderBookDepthChart({
               <div className="flex flex-wrap items-center gap-3">
                 <span
                   className="inline-flex items-center gap-1.5 font-medium"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
                     className="w-2.5 h-2.5 rounded-full shrink-0"
-                    style={{ backgroundColor: 'var(--prism-success-main)' }}
+                    style={STYLE_BG_SUCCESS}
                   />
                   <span>{`Bids (${geometry.bidCount})`}</span>
                 </span>
                 <span
                   className="inline-flex items-center gap-1.5 font-medium"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
                     className="w-2.5 h-2.5 rounded-full shrink-0"
-                    style={{ backgroundColor: 'var(--prism-error-main)' }}
+                    style={STYLE_BG_ERROR}
                   />
                   <span>{`Asks (${geometry.askCount})`}</span>
                 </span>
               </div>
               <span
                 className="font-mono tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Cumulative Depth
               </span>
@@ -841,19 +843,19 @@ export function OrderBookDepthChart({
             <div className="prism-crystal rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 min-w-0">
               <span
                 className="inline-flex items-center gap-1.5 text-xs font-medium"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <span
                   aria-hidden="true"
                   className="w-2 h-2 rounded-full shrink-0"
-                  style={{ backgroundColor: 'var(--prism-success-main)' }}
+                  style={STYLE_BG_SUCCESS}
                 />
                 <span>Total Bid Depth</span>
               </span>
               <span
                 data-testid="order-book-total-bid"
                 className="font-mono text-xs font-semibold tabular-nums"
-                style={{ color: 'var(--prism-success-main)' }}
+                style={STYLE_SUCCESS_MAIN}
               >
                 {formatSize(geometry.totalBidDepth)}
               </span>
@@ -862,19 +864,19 @@ export function OrderBookDepthChart({
             <div className="prism-crystal rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 min-w-0">
               <span
                 className="inline-flex items-center gap-1.5 text-xs font-medium"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <span
                   aria-hidden="true"
                   className="w-2 h-2 rounded-full shrink-0"
-                  style={{ backgroundColor: 'var(--prism-error-main)' }}
+                  style={STYLE_BG_ERROR}
                 />
                 <span>Total Ask Depth</span>
               </span>
               <span
                 data-testid="order-book-total-ask"
                 className="font-mono text-xs font-semibold tabular-nums"
-                style={{ color: 'var(--prism-error-main)' }}
+                style={STYLE_ERROR_MAIN}
               >
                 {formatSize(geometry.totalAskDepth)}
               </span>
@@ -882,7 +884,7 @@ export function OrderBookDepthChart({
 
             <div className="sm:col-span-2 prism-crystal rounded-xl px-3 py-2 space-y-1.5 min-w-0">
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs min-w-0">
-                <span className="font-medium" style={{ color: 'var(--prism-text-secondary)' }}>
+                <span className="font-medium" style={STYLE_TEXT_SECONDARY}>
                   Imbalance %
                 </span>
                 <span
@@ -920,7 +922,7 @@ export function OrderBookDepthChart({
               inspectorClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs tabular-nums min-w-0'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               data-testid="order-book-inspector-side"
@@ -934,32 +936,32 @@ export function OrderBookDepthChart({
               />
               <span>{getSideLabel(activeMarker.level.side)}</span>
             </span>
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
               ·
             </span>
             <span data-testid="order-book-inspector-price" className="inline-flex items-center gap-1">
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Price</span>
+              <span style={STYLE_TEXT_SECONDARY}>Price</span>
               <span className="font-mono font-semibold">
                 {formatPrice(activeMarker.level.price, currencyPrefix)}
               </span>
             </span>
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
               ·
             </span>
             <span data-testid="order-book-inspector-size" className="inline-flex items-center gap-1">
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Level Size</span>
+              <span style={STYLE_TEXT_SECONDARY}>Level Size</span>
               <span className="font-mono font-semibold">
                 {formatSize(activeMarker.level.size)}
               </span>
             </span>
-            <span aria-hidden="true" style={{ color: 'var(--prism-text-disabled)' }}>
+            <span aria-hidden="true" style={STYLE_TEXT_DISABLED}>
               ·
             </span>
             <span
               data-testid="order-book-inspector-cumulative"
               className="inline-flex items-center gap-1"
             >
-              <span style={{ color: 'var(--prism-text-secondary)' }}>Cumulative Wall</span>
+              <span style={STYLE_TEXT_SECONDARY}>Cumulative Wall</span>
               <span
                 className="font-mono font-semibold"
                 style={{ color: getSideColor(activeMarker.level.side) }}
@@ -974,4 +976,5 @@ export function OrderBookDepthChart({
   );
 }
 
+export const OrderBookDepthChart = memo(OrderBookDepthChartInner);
 OrderBookDepthChart.displayName = 'OrderBookDepthChart';

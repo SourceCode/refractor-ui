@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useState,
@@ -12,6 +13,7 @@ import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 const DEFAULT_MIN_AMOUNT = 0;
@@ -207,7 +209,7 @@ function deduplicateCurrencies(
   return [DEFAULT_CURRENCY_USD, ...DEFAULT_CURRENCIES.slice(1)];
 }
 
-export function CurrencyInput({
+function CurrencyInputInner({
   value,
   defaultValue = DEFAULT_CURRENCY_VALUE,
   onChange,
@@ -346,14 +348,14 @@ export function CurrencyInput({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Banknote aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           </span>
           <label
             htmlFor={inputId}
             className="text-xs font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </label>
@@ -371,7 +373,7 @@ export function CurrencyInput({
 
       <div className="flex items-stretch gap-2">
         <div
-          className="prism-well flex-1 min-w-0 h-11 px-3.5 rounded-2xl flex items-center gap-2 transition-all"
+          className="prism-well flex-1 min-w-0 h-11 px-3.5 rounded-2xl flex items-center gap-2 transition-[color,background-color,border-color,opacity,transform]"
           style={
             isFocused
               ? { boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)' }
@@ -382,7 +384,7 @@ export function CurrencyInput({
             aria-hidden="true"
             data-testid="currency-symbol-prefix"
             className="text-sm font-mono font-semibold select-none shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activeCurrency.symbol}
           </span>
@@ -398,7 +400,7 @@ export function CurrencyInput({
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             className="prism-focus-ring w-full min-w-0 bg-transparent font-mono text-sm font-semibold tabular-nums rounded-lg py-1 focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
         </div>
 
@@ -408,8 +410,8 @@ export function CurrencyInput({
           value={activeCurrency.code}
           disabled={disabled}
           onChange={handleCurrencyChange}
-          className="prism-crystal prism-focus-ring h-11 px-3 rounded-2xl text-xs font-mono font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0 focus:outline-none"
-          style={{ color: 'var(--prism-text-primary)' }}
+          className="prism-crystal prism-focus-ring h-11 px-3 rounded-2xl text-xs font-mono font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0 focus:outline-none"
+          style={STYLE_TEXT_PRIMARY}
         >
           {availableCurrencies.map((option) => (
             <option
@@ -429,4 +431,5 @@ export function CurrencyInput({
   );
 }
 
+export const CurrencyInput = memo(CurrencyInputInner);
 CurrencyInput.displayName = 'CurrencyInput';

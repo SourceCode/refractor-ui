@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { memo, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { ArrowLeft, Search, X } from 'lucide-react';
 import type { BaseProps, OpticalStyleTokens } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -60,7 +60,7 @@ function matchesSearchQuery(item: MasterDetailItem, normalizedQuery: string): bo
   return false;
 }
 
-export function MasterDetailView<T extends MasterDetailItem = MasterDetailItem>({
+function MasterDetailViewInner<T extends MasterDetailItem = MasterDetailItem>({
   items,
   selectedId,
   defaultSelectedId,
@@ -344,4 +344,9 @@ export function MasterDetailView<T extends MasterDetailItem = MasterDetailItem>(
   );
 }
 
+type MasterDetailViewComponent = (<T extends MasterDetailItem = MasterDetailItem>(
+  props: MasterDetailViewProps<T>
+) => ReactNode) & { displayName?: string };
+
+export const MasterDetailView = memo(MasterDetailViewInner) as MasterDetailViewComponent;
 MasterDetailView.displayName = 'MasterDetailView';

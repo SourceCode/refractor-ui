@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +16,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SpreadsheetFormulaFn = 'SUM' | 'AVERAGE' | 'MIN' | 'MAX' | 'COUNT';
@@ -228,7 +230,7 @@ function formatComputedNumber(value: number): string {
   const normalized = Object.is(value, -0) ? 0 : value;
   const rounded = Math.round(normalized * 10000) / 10000;
   if (Number.isInteger(rounded)) {
-    return rounded.toLocaleString('en-US');
+    return formatUsNumber(rounded);
   }
   return rounded.toLocaleString('en-US', {
     minimumFractionDigits: 0,
@@ -626,7 +628,7 @@ export function evaluateSpreadsheetCell(
   };
 }
 
-export function FormulaSpreadsheetGrid({
+function FormulaSpreadsheetGridInner({
   sheets,
   onCellChange,
   title = DEFAULT_TITLE,
@@ -1172,14 +1174,14 @@ export function FormulaSpreadsheetGrid({
           <span
             aria-hidden="true"
             className="prism-well w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <FileSpreadsheet aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="m-0 text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
@@ -1189,7 +1191,7 @@ export function FormulaSpreadsheetGrid({
           <span
             data-testid="spreadsheet-range-badge"
             className="prism-well rounded-full px-2.5 py-0.5 font-mono text-xs font-semibold tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeRangeBadge}
           </span>
@@ -1200,7 +1202,7 @@ export function FormulaSpreadsheetGrid({
             data-testid="spreadsheet-insert-sum"
             onClick={handleInsertSum}
             className="prism-crystal prism-focus-ring rounded-full px-3 py-1 inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Sigma aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Insert =SUM</span>
@@ -1219,7 +1221,7 @@ export function FormulaSpreadsheetGrid({
         <span
           data-testid="spreadsheet-active-cell-badge"
           className="prism-crystal rounded-lg px-2 py-0.5 font-mono text-xs font-semibold tabular-nums shrink-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {activeAddress}
         </span>
@@ -1227,7 +1229,7 @@ export function FormulaSpreadsheetGrid({
         <span
           aria-hidden="true"
           className="font-mono italic text-xs font-bold select-none shrink-0 px-1"
-          style={{ color: 'var(--prism-secondary-dark)' }}
+          style={STYLE_SECONDARY_DARK}
         >
           fx
         </span>
@@ -1246,7 +1248,7 @@ export function FormulaSpreadsheetGrid({
           }}
           onKeyDown={handleFormulaBarKeyDown}
           className="prism-focus-ring flex-1 min-w-0 bg-transparent border-0 text-xs font-mono py-1 px-1.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         />
       </div>
 
@@ -1257,10 +1259,10 @@ export function FormulaSpreadsheetGrid({
           aria-live="polite"
           data-testid="spreadsheet-empty"
           className="prism-well rounded-2xl px-4 py-8 flex flex-col items-center justify-center text-center gap-1.5 min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <Table2 aria-hidden="true" className="w-5 h-5 shrink-0 opacity-75" />
-          <p className="m-0 text-xs font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="m-0 text-xs font-semibold" style={STYLE_TEXT_PRIMARY}>
             No sheets available
           </p>
           <p className="m-0 text-xs">
@@ -1287,7 +1289,7 @@ export function FormulaSpreadsheetGrid({
                   scope="col"
                   aria-label="Row number"
                   className="w-10 px-2 py-2 text-center font-mono text-[11px] font-semibold select-none border-r border-[var(--prism-divider)]"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   #
                 </th>
@@ -1485,7 +1487,7 @@ export function FormulaSpreadsheetGrid({
             data-testid="spreadsheet-add-sheet"
             onClick={handleAddSheet}
             className="prism-crystal prism-focus-ring rounded-xl px-2.5 py-1.5 inline-flex items-center gap-1 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Plus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Add Sheet</span>
@@ -1497,14 +1499,14 @@ export function FormulaSpreadsheetGrid({
           aria-live="polite"
           data-testid="spreadsheet-range-stats"
           className="prism-well rounded-xl px-3 py-1.5 flex flex-wrap items-center gap-3 text-xs font-mono tabular-nums shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span>
             Sum{' '}
             <strong
               data-testid="spreadsheet-stat-sum"
               className="font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {rangeStats.sumDisplay}
             </strong>
@@ -1514,7 +1516,7 @@ export function FormulaSpreadsheetGrid({
             <strong
               data-testid="spreadsheet-stat-avg"
               className="font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {rangeStats.avgDisplay}
             </strong>
@@ -1524,7 +1526,7 @@ export function FormulaSpreadsheetGrid({
             <strong
               data-testid="spreadsheet-stat-count"
               className="font-semibold"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {rangeStats.count}
             </strong>
@@ -1535,4 +1537,5 @@ export function FormulaSpreadsheetGrid({
   );
 }
 
+export const FormulaSpreadsheetGrid = memo(FormulaSpreadsheetGridInner);
 FormulaSpreadsheetGrid.displayName = 'FormulaSpreadsheetGrid';

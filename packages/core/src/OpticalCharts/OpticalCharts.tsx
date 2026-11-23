@@ -1,9 +1,10 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { memo, useId, useState } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { formatLocaleNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type OpticalChartMode = 'bar' | 'line' | 'donut';
@@ -38,7 +39,7 @@ function safeMetricValue(value: number): number {
   return Number.isFinite(value) && value > 0 ? value : 0;
 }
 
-export function OpticalCharts({
+function OpticalChartsInner({
   data,
   defaultMode = 'bar',
   title = 'Component Adoption Telemetry',
@@ -80,7 +81,7 @@ export function OpticalCharts({
           <h4 className="text-sm font-semibold text-slate-900 dark:text-white">{title}</h4>
           <p className="text-xs text-slate-500 dark:text-slate-400 tabular-nums">
             {activePoint
-              ? `Focused metric: ${activePoint.label} · ${safeMetricValue(activePoint.value).toLocaleString()} imports/wk`
+              ? `Focused metric: ${activePoint.label} · ${formatLocaleNumber(safeMetricValue(activePoint.value))} imports/wk`
               : 'No telemetry points available'}
           </p>
         </div>
@@ -134,7 +135,7 @@ export function OpticalCharts({
                 <div className="w-full max-w-[44px] flex-1 flex items-end">
                   <div
                     style={{ height: `${heightPct}%` }}
-                    className={`w-full rounded-t-2xl rounded-b-lg transition-all duration-200 ${
+                    className={`w-full rounded-t-2xl rounded-b-lg transition-[color,background-color,border-color,opacity,transform] duration-200 ${
                       selected
                         ? 'prism-btn-primary'
                         : 'prism-emerald opacity-80 group-hover:opacity-100'
@@ -250,7 +251,7 @@ export function OpticalCharts({
                     strokeWidth={idx === safeActiveIdx ? '18' : '14'}
                     strokeDasharray={`${dash} ${circumference - dash}`}
                     strokeDashoffset={offset}
-                    className="cursor-pointer transition-all"
+                    className="cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
                     onClick={() => setActiveIdx(idx)}
                   />
                 );
@@ -285,4 +286,5 @@ export function OpticalCharts({
   );
 }
 
+export const OpticalCharts = memo(OpticalChartsInner);
 OpticalCharts.displayName = 'OpticalCharts';

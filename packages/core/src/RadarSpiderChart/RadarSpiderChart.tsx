@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type RadarTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -149,7 +151,7 @@ function getAxisBaseline(angleRadians: number): 'auto' | 'central' | 'hanging' {
   return 'central';
 }
 
-export function RadarSpiderChart({
+function RadarSpiderChartInner({
   axes,
   series,
   maxValue = 100,
@@ -339,7 +341,7 @@ export function RadarSpiderChart({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -363,10 +365,10 @@ export function RadarSpiderChart({
                   data-testid={`radar-legend-${item.id}`}
                   onClick={() => handleToggleSeries(item.id)}
                   className={cx(
-                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all',
+                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     isVisible ? 'prism-crystal' : 'prism-well opacity-55 line-through'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
@@ -388,7 +390,7 @@ export function RadarSpiderChart({
           role="status"
           data-testid="radar-spider-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {axes.length < 3
             ? 'Provide at least 3 axes to render the radar chart.'
@@ -532,14 +534,14 @@ export function RadarSpiderChart({
               comparisonClass,
               'prism-well rounded-xl px-3.5 py-2.5 space-y-2 text-xs'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {allHidden ? (
               <div
                 role="status"
                 data-testid="radar-all-hidden"
                 className="font-medium"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 All series hidden — toggle a series pill above to display radar profiles.
               </div>
@@ -549,7 +551,7 @@ export function RadarSpiderChart({
                   <span className="font-semibold truncate">{selectedAxis.label}</span>
                   <span
                     className="shrink-0 font-mono tabular-nums"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {`Scale: 0–${formatNumeric(safeMax)}`}
                   </span>
@@ -577,7 +579,7 @@ export function RadarSpiderChart({
                           <span
                             aria-hidden="true"
                             className="w-20 h-1.5 rounded-full overflow-hidden block"
-                            style={{ backgroundColor: 'var(--prism-divider)' }}
+                            style={STYLE_BG_DIVIDER}
                           >
                             <span
                               className="h-full rounded-full block"
@@ -598,12 +600,12 @@ export function RadarSpiderChart({
               </>
             ) : (
               <div className="flex items-center justify-between gap-2">
-                <span style={{ color: 'var(--prism-text-secondary)' }}>
+                <span style={STYLE_TEXT_SECONDARY}>
                   Select any axis label to compare visible series scores.
                 </span>
                 <span
                   className="shrink-0 font-mono font-medium tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`Max: ${formatNumeric(safeMax)}`}
                 </span>
@@ -616,4 +618,5 @@ export function RadarSpiderChart({
   );
 }
 
+export const RadarSpiderChart = memo(RadarSpiderChartInner);
 RadarSpiderChart.displayName = 'RadarSpiderChart';

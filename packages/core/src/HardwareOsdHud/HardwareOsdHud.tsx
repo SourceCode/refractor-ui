@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useRef,
@@ -23,6 +24,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type HardwareOsdKind = 'volume' | 'brightness' | 'media' | 'caps-lock';
@@ -247,7 +249,7 @@ function renderOsdIcon(payload: NormalizedHardwareOsdPayload): ReactNode {
   }
 }
 
-export function HardwareOsdHud({
+function HardwareOsdHudInner({
   payload,
   defaultPayload = DEFAULT_HARDWARE_OSD_PAYLOAD,
   visible,
@@ -554,7 +556,7 @@ export function HardwareOsdHud({
           />
           <span
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             Hardware OSD
           </span>
@@ -565,7 +567,7 @@ export function HardwareOsdHud({
             <span
               data-testid="hardware-osd-autohide-badge"
               className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Auto-hide {safeAutoHideMs}ms
             </span>
@@ -613,7 +615,7 @@ export function HardwareOsdHud({
           data-muted={isVolumeMuted ? 'true' : undefined}
           className={cx(
             capsuleClass,
-            'prism-crystal pointer-events-none select-none relative z-10 w-full max-w-[17rem] min-w-0 rounded-3xl px-5 py-4 flex flex-col items-center gap-3 text-center transition-all duration-200',
+            'prism-crystal pointer-events-none select-none relative z-10 w-full max-w-[17rem] min-w-0 rounded-3xl px-5 py-4 flex flex-col items-center gap-3 text-center transition-[color,background-color,border-color,opacity,transform] duration-200',
             isVisible
               ? 'opacity-100 scale-100 translate-y-0'
               : 'opacity-0 scale-95 translate-y-1'
@@ -651,7 +653,7 @@ export function HardwareOsdHud({
           <span
             data-testid="hardware-osd-label"
             className="text-sm font-semibold tracking-tight truncate max-w-full"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedPayload.label}
           </span>
@@ -685,7 +687,7 @@ export function HardwareOsdHud({
                       key={segment.id}
                       data-testid={`hardware-osd-segment-${segment.index}`}
                       data-lit={isLit ? 'true' : 'false'}
-                      className="flex-1 h-full rounded-full transition-all duration-100"
+                      className="flex-1 h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-100"
                       style={{
                         backgroundColor: isLit
                           ? activeColor
@@ -762,7 +764,7 @@ export function HardwareOsdHud({
                 data-testid={trigger.testId}
                 onClick={() => handleDemoTrigger(trigger.action)}
                 onKeyDown={handleImeSafeKeyDown}
-                className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                className="prism-crystal prism-focus-ring inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                 style={{
                   color: 'var(--prism-text-primary)',
                   borderWidth: '1px',
@@ -792,4 +794,5 @@ export function HardwareOsdHud({
   );
 }
 
+export const HardwareOsdHud = memo(HardwareOsdHudInner);
 HardwareOsdHud.displayName = 'HardwareOsdHud';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, type ReactNode } from 'react';
+import { memo, useMemo, type ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
@@ -101,9 +101,9 @@ function distributeMasonryItems<T extends MasonryItem>(
   return lanes;
 }
 
-function DefaultMasonryCard<T extends MasonryItem>({ item }: { item: T }) {
+const DefaultMasonryCard = memo(function DefaultMasonryCard<T extends MasonryItem>({ item }: { item: T }) {
   return (
-    <article className="prism-slab relative overflow-hidden p-5 flex flex-col gap-2.5 transition-transform duration-200 hover:-translate-y-0.5">
+    <article className="prism-slab prism-cv-card relative overflow-hidden p-5 flex flex-col gap-2.5 transition-transform duration-200 hover:-translate-y-0.5">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/80 dark:via-white/30 to-transparent"
@@ -129,9 +129,9 @@ function DefaultMasonryCard<T extends MasonryItem>({ item }: { item: T }) {
       ) : null}
     </article>
   );
-}
+});
 
-export function MasonryGrid<T extends MasonryItem = MasonryItem>({
+function MasonryGridInner<T extends MasonryItem = MasonryItem>({
   items,
   columns = DEFAULT_COLUMNS,
   gapPx = DEFAULT_GAP_PX,
@@ -174,6 +174,8 @@ export function MasonryGrid<T extends MasonryItem = MasonryItem>({
     userStyle: style,
   });
 
+  const laneGapStyle = useMemo(() => ({ gap: `${safeGap}px` }), [safeGap]);
+
   return (
     <div
       ref={ref}
@@ -197,14 +199,14 @@ export function MasonryGrid<T extends MasonryItem = MasonryItem>({
             role="none"
             data-masonry-column={String(lane.columnIndex)}
             className="flex flex-col min-w-0"
-            style={{ gap: `${safeGap}px` }}
+            style={laneGapStyle}
           >
             {lane.entries.map(({ item, index }) => (
               <div
                 key={item.id}
                 role="listitem"
                 data-masonry-index={String(index)}
-                className="min-w-0"
+                className="min-w-0 prism-cv-card"
               >
                 {renderItem ? renderItem(item, index) : <DefaultMasonryCard item={item} />}
               </div>
@@ -216,4 +218,9 @@ export function MasonryGrid<T extends MasonryItem = MasonryItem>({
   );
 }
 
+type MasonryGridComponent = (<T extends MasonryItem = MasonryItem>(
+  props: MasonryGridProps<T>
+) => ReactNode) & { displayName?: string };
+
+export const MasonryGrid = memo(MasonryGridInner) as MasonryGridComponent;
 MasonryGrid.displayName = 'MasonryGrid';

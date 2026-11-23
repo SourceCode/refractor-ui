@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -37,6 +38,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN, compareNaturalStrings } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SystemFileDialogMode = 'inline' | 'modal';
@@ -544,7 +546,7 @@ function renderNodeIcon(node: SystemFileNode): ReactNode {
       <Folder
         aria-hidden="true"
         className="w-4 h-4 shrink-0"
-        style={{ color: 'var(--prism-warning-main)' }}
+        style={STYLE_WARNING_MAIN}
       />
     );
   }
@@ -554,7 +556,7 @@ function renderNodeIcon(node: SystemFileNode): ReactNode {
       <FileCode2
         aria-hidden="true"
         className="w-4 h-4 shrink-0"
-        style={{ color: 'var(--prism-info-main)' }}
+        style={STYLE_INFO_MAIN}
       />
     );
   }
@@ -563,7 +565,7 @@ function renderNodeIcon(node: SystemFileNode): ReactNode {
       <Image
         aria-hidden="true"
         className="w-4 h-4 shrink-0"
-        style={{ color: 'var(--prism-success-main)' }}
+        style={STYLE_SUCCESS_MAIN}
       />
     );
   }
@@ -572,7 +574,7 @@ function renderNodeIcon(node: SystemFileNode): ReactNode {
       <FileJson
         aria-hidden="true"
         className="w-4 h-4 shrink-0"
-        style={{ color: 'var(--prism-primary-main)' }}
+        style={STYLE_PRIMARY_MAIN}
       />
     );
   }
@@ -580,12 +582,12 @@ function renderNodeIcon(node: SystemFileNode): ReactNode {
     <FileText
       aria-hidden="true"
       className="w-4 h-4 shrink-0"
-      style={{ color: 'var(--prism-text-secondary)' }}
+      style={STYLE_TEXT_SECONDARY}
     />
   );
 }
 
-export function SystemFileDialog({
+function SystemFileDialogInner({
   mode = 'inline',
   open = true,
   dialogKind,
@@ -706,7 +708,7 @@ export function SystemFileDialog({
       if (a.kind !== b.kind) {
         return a.kind === 'folder' ? -1 : 1;
       }
-      return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      return compareNaturalStrings(a.name, b.name);
     });
     return filtered;
   }, [activeFormat, currentDirectoryEntries, searchQuery]);
@@ -1325,7 +1327,7 @@ export function SystemFileDialog({
           headerClass,
           'flex flex-wrap items-center justify-between gap-2.5 min-w-0 max-w-full pb-2.5 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
           <span
@@ -1347,14 +1349,14 @@ export function SystemFileDialog({
             <h2
               id={titleId}
               className="text-sm sm:text-base font-semibold tracking-[-0.01em] truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {resolvedTitle}
             </h2>
             <p
               id={subtitleId}
               className="text-[11px] font-mono truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {currentPath} · {itemCountLabel}
             </p>
@@ -1376,7 +1378,7 @@ export function SystemFileDialog({
                 data-testid="system-file-dialog-kind-open"
                 onClick={() => handleSwitchKind('open')}
                 className={cx(
-                  'prism-focus-ring h-7 px-3 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                  'prism-focus-ring h-7 px-3 rounded-full text-xs font-semibold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                   activeKind === 'open' ? 'prism-crystal' : ''
                 )}
                 style={{
@@ -1395,7 +1397,7 @@ export function SystemFileDialog({
                 data-testid="system-file-dialog-kind-save"
                 onClick={() => handleSwitchKind('save')}
                 className={cx(
-                  'prism-focus-ring h-7 px-3 rounded-full text-xs font-semibold transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                  'prism-focus-ring h-7 px-3 rounded-full text-xs font-semibold transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                   activeKind === 'save' ? 'prism-crystal' : ''
                 )}
                 style={{
@@ -1417,7 +1419,7 @@ export function SystemFileDialog({
             data-testid="system-file-dialog-close"
             onClick={() => handleCancel('button')}
             className="prism-crystal prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <X aria-hidden="true" className="w-3.5 h-3.5" />
           </button>
@@ -1440,7 +1442,7 @@ export function SystemFileDialog({
             data-testid="system-file-dialog-back"
             onClick={handleGoBack}
             className="prism-crystal prism-focus-ring w-8 h-8 rounded-xl inline-flex items-center justify-center cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <ArrowLeft aria-hidden="true" className="w-4 h-4" />
           </button>
@@ -1451,7 +1453,7 @@ export function SystemFileDialog({
             data-testid="system-file-dialog-up"
             onClick={handleGoUp}
             className="prism-crystal prism-focus-ring w-8 h-8 rounded-xl inline-flex items-center justify-center cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <ArrowUp aria-hidden="true" className="w-4 h-4" />
           </button>
@@ -1474,7 +1476,7 @@ export function SystemFileDialog({
                   <ChevronRight
                     aria-hidden="true"
                     className="w-3 h-3 shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   />
                 ) : null}
                 <button
@@ -1503,7 +1505,7 @@ export function SystemFileDialog({
           <Search
             aria-hidden="true"
             className="w-3.5 h-3.5 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <input
             id={searchInputId}
@@ -1515,7 +1517,7 @@ export function SystemFileDialog({
             data-testid="system-file-dialog-search"
             onChange={(event) => setSearchQuery(event.target.value)}
             className="prism-focus-ring w-full min-w-0 bg-transparent text-xs outline-none disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
           {searchQuery ? (
             <button
@@ -1525,7 +1527,7 @@ export function SystemFileDialog({
               data-testid="system-file-dialog-search-clear"
               onClick={() => setSearchQuery('')}
               className="prism-focus-ring rounded-full p-0.5 inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3 h-3" />
             </button>
@@ -1540,12 +1542,12 @@ export function SystemFileDialog({
           data-testid="system-file-dialog-new-folder-btn"
           onClick={handleToggleCreateFolder}
           className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-opacity"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <FolderPlus
             aria-hidden="true"
             className="w-3.5 h-3.5 shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           />
           <span>New Folder</span>
         </button>
@@ -1568,7 +1570,7 @@ export function SystemFileDialog({
             <FolderPlus
               aria-hidden="true"
               className="w-4 h-4 shrink-0"
-              style={{ color: 'var(--prism-warning-main)' }}
+              style={STYLE_WARNING_MAIN}
             />
             <input
               ref={newFolderInputRef}
@@ -1621,7 +1623,7 @@ export function SystemFileDialog({
               role="alert"
               data-testid="system-file-dialog-new-folder-error"
               className="flex items-center gap-1.5 text-[11px] font-medium"
-              style={{ color: 'var(--prism-error-main)' }}
+              style={STYLE_ERROR_MAIN}
             >
               <AlertCircle aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
               <span>{newFolderError}</span>
@@ -1660,7 +1662,7 @@ export function SystemFileDialog({
                 data-testid={`system-file-dialog-place-${place.id}`}
                 onClick={() => navigateTo(placePath)}
                 className={cx(
-                  'prism-focus-ring flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap sm:w-full text-left transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                  'prism-focus-ring flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap sm:w-full text-left transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                   isActive ? 'prism-crystal font-semibold' : ''
                 )}
                 style={{
@@ -1738,11 +1740,11 @@ export function SystemFileDialog({
                 <FolderOpen
                   aria-hidden="true"
                   className="w-6 h-6"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 />
                 <p
                   className="text-xs font-medium"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {searchQuery.trim()
                     ? 'No items match the current search or format filter.'
@@ -1825,14 +1827,14 @@ export function SystemFileDialog({
 
                     <span
                       className="hidden sm:inline-block w-24 text-right font-mono text-[11px] tabular-nums truncate shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {node.modifiedLabel ?? '—'}
                     </span>
 
                     <span
                       className="w-16 text-right font-mono text-[11px] tabular-nums whitespace-nowrap shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {node.kind === 'folder' ? 'Folder' : (node.sizeLabel ?? '—')}
                     </span>
@@ -1851,7 +1853,7 @@ export function SystemFileDialog({
           footerClass,
           'pt-3 border-t flex flex-col gap-3 min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-col sm:flex-row sm:items-end gap-2.5 min-w-0">
           {activeKind === 'save' ? (
@@ -1860,7 +1862,7 @@ export function SystemFileDialog({
                 <label
                   htmlFor={fileNameInputId}
                   className="text-[11px] font-semibold"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   Save As
                 </label>
@@ -1868,7 +1870,7 @@ export function SystemFileDialog({
                   <span
                     data-testid="system-file-dialog-auto-ext"
                     className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold whitespace-nowrap"
-                    style={{ color: 'var(--prism-primary-main)' }}
+                    style={STYLE_PRIMARY_MAIN}
                   >
                     Auto {autoAppendedExt}
                   </span>
@@ -1900,7 +1902,7 @@ export function SystemFileDialog({
             <div className="flex-1 min-w-0 flex flex-col gap-1">
               <span
                 className="text-[11px] font-semibold"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Selected File
               </span>
@@ -1924,7 +1926,7 @@ export function SystemFileDialog({
             <label
               htmlFor={formatSelectId}
               className="text-[11px] font-semibold"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               File Format
             </label>
@@ -1959,7 +1961,7 @@ export function SystemFileDialog({
             role="alert"
             data-testid="system-file-dialog-filename-error"
             className="flex items-center gap-1.5 text-xs font-medium"
-            style={{ color: 'var(--prism-error-main)' }}
+            style={STYLE_ERROR_MAIN}
           >
             <AlertCircle aria-hidden="true" className="w-4 h-4 shrink-0" />
             <span>{fileNameError}</span>
@@ -1970,7 +1972,7 @@ export function SystemFileDialog({
         <div className="flex flex-wrap items-center justify-between gap-2.5 min-w-0">
           <div
             className="prism-well rounded-xl px-3 py-1.5 flex items-center gap-2 text-[11px] min-w-0 flex-1"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <span
               role="status"
@@ -2037,7 +2039,7 @@ export function SystemFileDialog({
             'prism-slab relative w-full max-w-4xl min-w-0 p-4 sm:p-5 flex flex-col gap-3.5 overflow-hidden',
             disabled ? 'opacity-70' : ''
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {dialogContent}
         </div>
@@ -2063,4 +2065,5 @@ export function SystemFileDialog({
   );
 }
 
+export const SystemFileDialog = memo(SystemFileDialogInner);
 SystemFileDialog.displayName = 'SystemFileDialog';

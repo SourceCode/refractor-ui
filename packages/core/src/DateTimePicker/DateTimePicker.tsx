@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type KeyboardEvent } from 'react';
+import { memo, useState, type KeyboardEvent } from 'react';
 import { Calendar, Clock } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -41,7 +41,7 @@ export interface DateTimePickerProps extends BaseProps<HTMLDivElement> {
   disabled?: boolean;
 }
 
-export function DateTimePicker({
+function DateTimePickerInner({
   dateIso,
   timeSlot,
   onChangeDate,
@@ -165,4 +165,5 @@ export function DateTimePicker({
   );
 }
 
+export const DateTimePicker = memo(DateTimePickerInner);
 DateTimePicker.displayName = 'DateTimePicker';

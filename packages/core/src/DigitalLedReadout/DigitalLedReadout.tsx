@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useId, useMemo, type KeyboardEvent } from 'react';
+import { memo, useCallback, useId, useMemo, type KeyboardEvent } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type LedDisplayStyle = '7-segment' | 'nixie';
@@ -308,7 +309,7 @@ function buildReadoutLayout(
   };
 }
 
-export function DigitalLedReadout({
+function DigitalLedReadoutInner({
   value,
   label,
   unit,
@@ -400,7 +401,7 @@ export function DigitalLedReadout({
       size,
     }),
     baseClassName: cx(
-      'prism-slab relative w-full max-w-full min-w-0 flex flex-col transition-all',
+      'prism-slab relative w-full max-w-full min-w-0 flex flex-col transition-[color,background-color,border-color,opacity,transform]',
       sizeMetrics.rootPadding
     ),
     overrideClassName: override?.className,
@@ -442,7 +443,7 @@ export function DigitalLedReadout({
                   'font-mono font-semibold uppercase tracking-wider truncate min-w-0',
                   sizeMetrics.labelText
                 )}
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {label}
               </span>
@@ -468,7 +469,7 @@ export function DigitalLedReadout({
                 onClick={() => selectDisplayStyle('7-segment')}
                 onKeyDown={handleToggleKeyDown('7-segment')}
                 className={cx(
-                  'prism-focus-ring inline-flex items-center justify-center rounded-full font-mono font-semibold tracking-wide whitespace-nowrap shrink-0 cursor-pointer transition-all',
+                  'prism-focus-ring inline-flex items-center justify-center rounded-full font-mono font-semibold tracking-wide whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                   sizeMetrics.toggleText,
                   activeStyle === '7-segment' ? 'prism-crystal' : ''
                 )}
@@ -492,7 +493,7 @@ export function DigitalLedReadout({
                 onClick={() => selectDisplayStyle('nixie')}
                 onKeyDown={handleToggleKeyDown('nixie')}
                 className={cx(
-                  'prism-focus-ring inline-flex items-center justify-center rounded-full font-mono font-semibold tracking-wide whitespace-nowrap shrink-0 cursor-pointer transition-all',
+                  'prism-focus-ring inline-flex items-center justify-center rounded-full font-mono font-semibold tracking-wide whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                   sizeMetrics.toggleText,
                   activeStyle === 'nixie' ? 'prism-crystal' : ''
                 )}
@@ -822,4 +823,5 @@ export function DigitalLedReadout({
   );
 }
 
+export const DigitalLedReadout = memo(DigitalLedReadoutInner);
 DigitalLedReadout.displayName = 'DigitalLedReadout';

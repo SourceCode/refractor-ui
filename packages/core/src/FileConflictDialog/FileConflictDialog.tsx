@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState, type ChangeEvent } from 'react';
+import { memo, useEffect, useId, useState, type ChangeEvent } from 'react';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -19,6 +19,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type FileConflictResolution = 'replace' | 'skip' | 'keep-both';
@@ -263,7 +264,7 @@ function ConflictVersionCard({
           <h3
             data-testid={`file-conflict-${side}-label`}
             className="text-xs font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {version.label}
           </h3>
@@ -283,7 +284,7 @@ function ConflictVersionCard({
         <div className="flex flex-col gap-0.5 min-w-0">
           <dt
             className="text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Path
           </dt>
@@ -291,7 +292,7 @@ function ConflictVersionCard({
             <code
               data-testid={`file-conflict-${side}-path`}
               className="font-mono text-xs break-all leading-snug block"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {version.path}
             </code>
@@ -301,7 +302,7 @@ function ConflictVersionCard({
         <div className="flex flex-col gap-1 min-w-0">
           <dt
             className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <HardDrive className="w-3 h-3 shrink-0" aria-hidden="true" />
             <span>Size</span>
@@ -310,7 +311,7 @@ function ConflictVersionCard({
             <span
               data-testid={`file-conflict-${side}-size`}
               className="font-mono text-xs font-semibold tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {formatByteSize(sizeBytes)}
             </span>
@@ -334,7 +335,7 @@ function ConflictVersionCard({
         <div className="flex flex-col gap-1 min-w-0">
           <dt
             className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <Clock className="w-3 h-3 shrink-0" aria-hidden="true" />
             <span>Modified</span>
@@ -343,7 +344,7 @@ function ConflictVersionCard({
             <span
               data-testid={`file-conflict-${side}-modified`}
               className="font-mono text-xs tabular-nums break-words"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {version.modifiedAt}
             </span>
@@ -368,7 +369,7 @@ function ConflictVersionCard({
           <div className="flex flex-col gap-1 min-w-0">
             <dt
               className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <Hash className="w-3 h-3 shrink-0" aria-hidden="true" />
               <span>SHA-256</span>
@@ -377,7 +378,7 @@ function ConflictVersionCard({
               <code
                 data-testid={`file-conflict-${side}-checksum`}
                 className="prism-well inline-block max-w-full px-2 py-0.5 rounded-md font-mono text-[11px] tabular-nums break-all"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {trimmedChecksum}
               </code>
@@ -389,7 +390,7 @@ function ConflictVersionCard({
   );
 }
 
-export function FileConflictDialog({
+function FileConflictDialogInner({
   fileName = DEFAULT_FILE_NAME,
   incoming = DEFAULT_INCOMING_VERSION,
   existing = DEFAULT_EXISTING_VERSION,
@@ -527,7 +528,7 @@ export function FileConflictDialog({
           <span
             aria-hidden="true"
             className="prism-well w-9 h-9 rounded-full inline-flex items-center justify-center shrink-0 mt-0.5"
-            style={{ color: 'var(--prism-warning-main)' }}
+            style={STYLE_WARNING_MAIN}
           >
             <AlertTriangle className="w-4 h-4" />
           </span>
@@ -536,20 +537,20 @@ export function FileConflictDialog({
               id={titleId}
               data-testid="file-conflict-title"
               className="text-sm font-semibold tracking-[-0.01em]"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               File Conflict Detected
             </h2>
             <p
               id={descriptionId}
               className="text-xs leading-relaxed mt-0.5 break-words"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               A file named{' '}
               <code
                 data-testid="file-conflict-filename"
                 className="font-mono font-semibold break-all"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {fileName}
               </code>{' '}
@@ -563,7 +564,7 @@ export function FileConflictDialog({
             <span
               data-testid="file-conflict-remaining-badge"
               className="prism-well px-2.5 py-1 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap"
-              style={{ color: 'var(--prism-warning-main)' }}
+              style={STYLE_WARNING_MAIN}
             >
               {safeRemainingConflicts} remaining conflicts
             </span>
@@ -576,7 +577,7 @@ export function FileConflictDialog({
               aria-label="Close conflict dialog"
               data-testid="file-conflict-close"
               onClick={handleCancel}
-              className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="prism-btn-secondary prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
             >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
@@ -624,7 +625,7 @@ export function FileConflictDialog({
                 'inline-flex items-center gap-2 select-none text-xs font-medium',
                 disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <input
                 id={applyAllId}
@@ -648,8 +649,8 @@ export function FileConflictDialog({
               disabled={disabled}
               data-testid="file-conflict-cancel"
               onClick={handleCancel}
-              className="prism-well prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              className="prism-well prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>Cancel</span>
             </button>
@@ -768,4 +769,5 @@ export function FileConflictDialog({
   );
 }
 
+export const FileConflictDialog = memo(FileConflictDialogInner);
 FileConflictDialog.displayName = 'FileConflictDialog';

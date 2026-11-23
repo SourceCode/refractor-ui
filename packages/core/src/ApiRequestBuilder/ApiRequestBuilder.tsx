@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +29,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
+import { STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ApiHttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -396,7 +398,7 @@ function cloneRows(rows?: ReadonlyArray<ApiKeyValueRow>): ApiKeyValueRow[] {
   return rows ? rows.map((row) => ({ ...row })) : [];
 }
 
-export function ApiRequestBuilder({
+function ApiRequestBuilderInner({
   title = 'API Request Builder',
   defaultMethod = 'GET',
   defaultUrl = DEFAULT_URL,
@@ -723,7 +725,7 @@ export function ApiRequestBuilder({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span
             className="text-xs font-semibold"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {isParams ? 'Query Parameters' : 'Request Headers'}
           </span>
@@ -732,7 +734,7 @@ export function ApiRequestBuilder({
             disabled={controlsDisabled}
             onClick={() => handleAddRow(section)}
             className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <Plus aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>{isParams ? 'Add Param' : 'Add Header'}</span>
@@ -742,7 +744,7 @@ export function ApiRequestBuilder({
         {rows.length === 0 ? (
           <div
             className="prism-well rounded-2xl px-3.5 py-3 text-xs"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {isParams
               ? 'No query parameters configured. Click Add Param to append encoded query values.'
@@ -777,7 +779,7 @@ export function ApiRequestBuilder({
                     handleUpdateRow(section, row.id, { key: event.target.value })
                   }
                   className="prism-well prism-focus-ring h-9 px-3 rounded-xl text-xs font-mono flex-1 min-w-[120px] disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 />
 
                 <input
@@ -790,7 +792,7 @@ export function ApiRequestBuilder({
                     handleUpdateRow(section, row.id, { value: event.target.value })
                   }
                   className="prism-well prism-focus-ring h-9 px-3 rounded-xl text-xs font-mono flex-1 min-w-[140px] disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 />
 
                 <button
@@ -799,7 +801,7 @@ export function ApiRequestBuilder({
                   disabled={controlsDisabled}
                   onClick={() => handleRemoveRow(section, row.id)}
                   className="prism-crystal prism-focus-ring h-9 px-2.5 rounded-xl inline-flex items-center gap-1 text-xs font-medium shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ color: 'var(--prism-error-main)' }}
+                  style={STYLE_ERROR_MAIN}
                 >
                   <Trash2 aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   <span>Remove</span>
@@ -826,14 +828,14 @@ export function ApiRequestBuilder({
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Globe aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h2
             id={titleId}
             className="m-0 text-sm sm:text-base font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h2>
@@ -841,7 +843,7 @@ export function ApiRequestBuilder({
 
         <span
           className="text-[11px] font-mono tabular-nums px-2.5 py-1 rounded-full prism-well"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Ctrl/Cmd + Enter to send
         </span>
@@ -875,7 +877,7 @@ export function ApiRequestBuilder({
           placeholder="https://api.example.com/v1/resource"
           onChange={(event) => setUrl(event.target.value)}
           className="prism-well prism-focus-ring h-10 px-3.5 rounded-xl text-xs sm:text-sm font-mono flex-1 min-w-0 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         />
 
         <button
@@ -886,7 +888,7 @@ export function ApiRequestBuilder({
         >
           {isSending ? (
             <>
-              <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin shrink-0" />
+              <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin motion-reduce:animate-none shrink-0" />
               <span>Sending...</span>
             </>
           ) : (
@@ -928,7 +930,7 @@ export function ApiRequestBuilder({
       >
         <span
           className="text-[11px] font-semibold uppercase tracking-wider shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           Resolved URL
         </span>
@@ -976,7 +978,7 @@ export function ApiRequestBuilder({
                 onClick={() => setActiveTab(tab.id)}
                 onKeyDown={(event) => handleTabKeyDown(event, index)}
                 className={cx(
-                  'prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer transition-all',
+                  'prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                   isSelected ? 'prism-crystal font-semibold' : 'font-medium'
                 )}
                 style={{
@@ -988,7 +990,7 @@ export function ApiRequestBuilder({
                   <span
                     aria-hidden="true"
                     className="prism-well px-1.5 py-0.5 rounded-full text-[10px] font-mono tabular-nums leading-none"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {badgeCount}
                   </span>
@@ -1012,7 +1014,7 @@ export function ApiRequestBuilder({
                 <div className="flex flex-wrap items-center gap-2">
                   <span
                     className="text-xs font-semibold"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     JSON Payload
                   </span>
@@ -1044,7 +1046,7 @@ export function ApiRequestBuilder({
                   disabled={controlsDisabled || jsonValidation.status === 'empty'}
                   onClick={handleFormatJson}
                   className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <Braces aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   <span>Format JSON</span>
@@ -1061,14 +1063,14 @@ export function ApiRequestBuilder({
                 placeholder={'{\n  "service": "refractor-edge",\n  "replicas": 3\n}'}
                 onChange={(event) => setBody(event.target.value)}
                 className="prism-well prism-focus-ring w-full rounded-2xl p-3 font-mono text-xs sm:text-sm leading-relaxed resize-y min-h-[120px] disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
 
               {jsonValidation.status === 'invalid' && jsonValidation.errorMessage ? (
                 <p
                   data-testid="api-json-error"
                   className="m-0 text-xs font-mono break-words"
-                  style={{ color: 'var(--prism-error-main)' }}
+                  style={STYLE_ERROR_MAIN}
                 >
                   {jsonValidation.errorMessage}
                 </p>
@@ -1091,7 +1093,7 @@ export function ApiRequestBuilder({
           <div className="flex flex-wrap items-center gap-2">
             <span
               className="text-xs font-semibold uppercase tracking-wider"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Response
             </span>
@@ -1114,7 +1116,7 @@ export function ApiRequestBuilder({
                 <span
                   data-testid="api-response-latency"
                   className="prism-well px-2.5 py-0.5 rounded-full text-xs font-mono tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`${Math.max(0, Math.round(response.latencyMs))} ms`}
                 </span>
@@ -1122,7 +1124,7 @@ export function ApiRequestBuilder({
                 <span
                   data-testid="api-response-size"
                   className="prism-well px-2.5 py-0.5 rounded-full text-xs font-mono tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`${Math.max(0, Math.round(response.sizeBytes))} B`}
                 </span>
@@ -1138,7 +1140,7 @@ export function ApiRequestBuilder({
                 aria-controls={responseHeadersId}
                 onClick={() => setShowResponseHeaders((prev) => !prev)}
                 className="prism-crystal prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {showResponseHeaders ? (
                   <ChevronUp aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -1149,7 +1151,7 @@ export function ApiRequestBuilder({
                 <span
                   aria-hidden="true"
                   className="font-mono text-[11px] tabular-nums"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {`(${response.headers.length})`}
                 </span>
@@ -1193,7 +1195,7 @@ export function ApiRequestBuilder({
                 {keyedResponseHeaders.length === 0 ? (
                   <span
                     className="text-xs"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     No response headers returned.
                   </span>
@@ -1205,13 +1207,13 @@ export function ApiRequestBuilder({
                     >
                       <span
                         className="font-semibold shrink-0"
-                        style={{ color: 'var(--prism-primary-main)' }}
+                        style={STYLE_PRIMARY_MAIN}
                       >
                         {`${header.key}:`}
                       </span>
                       <span
                         className="min-w-0 break-all"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {header.value}
                       </span>
@@ -1224,7 +1226,7 @@ export function ApiRequestBuilder({
             <pre
               data-testid="api-response-body"
               className="prism-well rounded-2xl p-3.5 m-0 min-w-0 w-full overflow-x-auto font-mono text-xs sm:text-sm leading-relaxed whitespace-pre"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {formattedResponseBody}
             </pre>
@@ -1233,7 +1235,7 @@ export function ApiRequestBuilder({
           <div
             data-testid="api-response-empty"
             className="prism-well rounded-2xl px-3.5 py-4 text-xs"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Send a request to inspect status, latency, headers, and formatted payload.
           </div>
@@ -1247,4 +1249,5 @@ export function ApiRequestBuilder({
   );
 }
 
+export const ApiRequestBuilder = memo(ApiRequestBuilderInner);
 ApiRequestBuilder.displayName = 'ApiRequestBuilder';

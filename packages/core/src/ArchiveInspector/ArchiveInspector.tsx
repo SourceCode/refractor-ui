@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useEffect,
   useId,
   useMemo,
@@ -24,6 +25,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_SUCCESS_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ArchiveFormatKind = 'zip' | 'tar' | '7z';
@@ -249,7 +251,7 @@ function formatEntryNoun(count: number): string {
   return `${count} ${count === 1 ? 'entry' : 'entries'}`;
 }
 
-export function ArchiveInspector({
+function ArchiveInspectorInner({
   archiveName = DEFAULT_ARCHIVE_NAME,
   format = 'zip',
   entries,
@@ -519,7 +521,7 @@ export function ArchiveInspector({
           headerClass,
           'flex flex-wrap items-center justify-between gap-3 pb-3 border-b min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center gap-2.5 min-w-0 flex-1">
           <span
@@ -536,7 +538,7 @@ export function ArchiveInspector({
                 id={headingId}
                 data-testid="archive-inspector-name"
                 className="m-0 text-sm font-semibold tracking-tight break-words min-w-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {safeArchiveName}
               </h2>
@@ -556,7 +558,7 @@ export function ArchiveInspector({
               <span
                 data-testid="archive-inspector-ratio"
                 className="prism-well rounded-full px-2.5 py-0.5 font-mono text-[11px] font-semibold tabular-nums shrink-0"
-                style={{ color: 'var(--prism-success-dark)' }}
+                style={STYLE_SUCCESS_DARK}
               >
                 {totalSavingsPercent}% saved
               </span>
@@ -566,14 +568,14 @@ export function ArchiveInspector({
               <span
                 data-testid="archive-inspector-telemetry"
                 className="font-mono text-[11px] tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {formatArchiveBytes(totalUncompressed)} → {formatArchiveBytes(totalCompressed)}
               </span>
 
               <span
                 className="font-mono text-[11px] tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 · {formatEntryNoun(resolvedEntries.length)}
               </span>
@@ -582,7 +584,7 @@ export function ArchiveInspector({
                 <span
                   data-testid="archive-inspector-unsafe-summary"
                   className="inline-flex items-center gap-1 font-mono text-[11px] font-semibold tabular-nums"
-                  style={{ color: 'var(--prism-error-main)' }}
+                  style={STYLE_ERROR_MAIN}
                 >
                   <ShieldAlert aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   <span>{unsafeCount} unsafe blocked</span>
@@ -596,7 +598,7 @@ export function ArchiveInspector({
           <Search
             aria-hidden="true"
             className="w-3.5 h-3.5 absolute left-3 pointer-events-none shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
           <input
             type="search"
@@ -608,7 +610,7 @@ export function ArchiveInspector({
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeyDown}
             className="prism-well prism-focus-ring w-full h-9 pl-8 pr-8 rounded-full text-xs min-w-0 disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
           {searchQuery.length > 0 && !disabled ? (
             <button
@@ -617,7 +619,7 @@ export function ArchiveInspector({
               data-testid="archive-inspector-clear-search"
               onClick={handleClearSearch}
               className="prism-focus-ring absolute right-2 w-5 h-5 rounded-full inline-flex items-center justify-center cursor-pointer"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             </button>
@@ -633,7 +635,7 @@ export function ArchiveInspector({
           className={cx(tableClass, 'w-full border-collapse text-xs')}
         >
           <thead>
-            <tr className="border-b" style={{ borderColor: 'var(--prism-divider)' }}>
+            <tr className="border-b" style={STYLE_BORDER_DIVIDER}>
               <th scope="col" className="w-11 px-3 py-2.5 text-left">
                 <input
                   ref={selectAllRef}
@@ -650,35 +652,35 @@ export function ArchiveInspector({
               <th
                 scope="col"
                 className="px-3 py-2.5 text-left font-semibold uppercase tracking-wider text-[11px] min-w-[220px]"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Entry Path
               </th>
               <th
                 scope="col"
                 className="px-3 py-2.5 text-right font-semibold uppercase tracking-wider text-[11px] whitespace-nowrap"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Uncompressed
               </th>
               <th
                 scope="col"
                 className="px-3 py-2.5 text-right font-semibold uppercase tracking-wider text-[11px] whitespace-nowrap"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Compressed
               </th>
               <th
                 scope="col"
                 className="px-3 py-2.5 text-right font-semibold uppercase tracking-wider text-[11px] whitespace-nowrap"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Ratio
               </th>
               <th
                 scope="col"
                 className="px-3 py-2.5 text-right font-semibold uppercase tracking-wider text-[11px] whitespace-nowrap"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Preview
               </th>
@@ -693,12 +695,12 @@ export function ArchiveInspector({
                     role="status"
                     data-testid="archive-inspector-empty"
                     className="prism-well rounded-2xl px-4 py-7 flex flex-col items-center justify-center text-center gap-2"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <Inbox aria-hidden="true" className="w-5 h-5 opacity-75 shrink-0" />
                     <p
                       className="m-0 text-xs font-semibold"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {resolvedEntries.length === 0
                         ? 'Archive is empty'
@@ -715,7 +717,7 @@ export function ArchiveInspector({
                         data-testid="archive-empty-clear-search"
                         onClick={handleClearSearch}
                         className="prism-crystal prism-focus-ring mt-1 rounded-full px-3 py-1 text-[11px] font-semibold cursor-pointer"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         Clear Search
                       </button>
@@ -770,7 +772,7 @@ export function ArchiveInspector({
                           <Folder
                             aria-hidden="true"
                             className="w-4 h-4 shrink-0"
-                            style={{ color: 'var(--prism-warning-main)' }}
+                            style={STYLE_WARNING_MAIN}
                           />
                         ) : (
                           <FileText
@@ -787,7 +789,7 @@ export function ArchiveInspector({
                         <span
                           data-testid={`archive-path-${entry.id}`}
                           className="font-mono text-xs font-medium break-all min-w-0"
-                          style={{ color: 'var(--prism-text-primary)' }}
+                          style={STYLE_TEXT_PRIMARY}
                         >
                           {entry.path}
                         </span>
@@ -814,7 +816,7 @@ export function ArchiveInspector({
                     <td
                       data-testid={`archive-uncompressed-${entry.id}`}
                       className="px-3 py-2.5 text-right align-middle font-mono tabular-nums whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {formatArchiveBytes(entry.uncompressedBytes, entry.kind)}
                     </td>
@@ -822,7 +824,7 @@ export function ArchiveInspector({
                     <td
                       data-testid={`archive-compressed-${entry.id}`}
                       className="px-3 py-2.5 text-right align-middle font-mono tabular-nums whitespace-nowrap"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {formatArchiveBytes(entry.compressedBytes, entry.kind)}
                     </td>
@@ -830,7 +832,7 @@ export function ArchiveInspector({
                     <td
                       data-testid={`archive-ratio-${entry.id}`}
                       className="px-3 py-2.5 text-right align-middle font-mono tabular-nums whitespace-nowrap"
-                      style={{ color: 'var(--prism-success-dark)' }}
+                      style={STYLE_SUCCESS_DARK}
                     >
                       {isZeroFolder ? '—' : `${savingsPercent}% saved`}
                     </td>
@@ -875,11 +877,11 @@ export function ArchiveInspector({
             <Eye
               aria-hidden="true"
               className="w-3.5 h-3.5 shrink-0"
-              style={{ color: 'var(--prism-info-main)' }}
+              style={STYLE_INFO_MAIN}
             />
             <span
               className="text-xs font-semibold tracking-tight"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Virtual Entry Preview
             </span>
@@ -887,7 +889,7 @@ export function ArchiveInspector({
               <code
                 data-testid="archive-preview-path"
                 className="font-mono text-[11px] px-2 py-0.5 rounded-full prism-crystal break-all min-w-0"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {previewedItem.entry.path}
               </code>
@@ -916,7 +918,7 @@ export function ArchiveInspector({
               data-testid="archive-preview-close"
               onClick={disabled ? undefined : handleClosePreview}
               className="prism-crystal prism-focus-ring inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <X aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Close</span>
@@ -929,7 +931,7 @@ export function ArchiveInspector({
             <div
               data-testid="archive-preview-stats"
               className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span>
                 Uncompressed:{' '}
@@ -970,7 +972,7 @@ export function ArchiveInspector({
           <p
             data-testid="archive-preview-placeholder"
             className="m-0 text-xs"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Select Preview on any row to inspect its virtual path, compression telemetry, and
             literal text contents.
@@ -985,20 +987,20 @@ export function ArchiveInspector({
           footerClass,
           'flex flex-col gap-2.5 pt-3 border-t min-w-0 max-w-full'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center justify-between gap-2.5 min-w-0">
           <div className="flex flex-wrap items-center gap-2 min-w-0">
             <span
               data-testid="archive-inspector-selected-count"
               className="prism-well rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold tabular-nums"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {selectedCount} selected
             </span>
             <span
               className="font-mono text-[11px] tabular-nums"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               {safeEntries.length} safe available
             </span>
@@ -1043,7 +1045,7 @@ export function ArchiveInspector({
             announcementClass,
             'prism-well rounded-xl px-3 py-2 text-xs flex flex-wrap items-center gap-2 min-w-0 max-w-full'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span
             aria-hidden="true"
@@ -1063,4 +1065,5 @@ export function ArchiveInspector({
   );
 }
 
+export const ArchiveInspector = memo(ArchiveInspectorInner);
 ArchiveInspector.displayName = 'ArchiveInspector';

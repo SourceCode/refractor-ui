@@ -1,12 +1,13 @@
 'use client';
 
-import { useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { TrendingUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ChartSeriesTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -197,7 +198,7 @@ function computeYDomain(visibleSeries: ReadonlyArray<NormalizedLineSeries>): {
   return { min: rawMin, max: rawMax };
 }
 
-export function LineMultiSeriesChart({
+function LineMultiSeriesChartInner({
   labels,
   series,
   title = 'Trend Series',
@@ -388,14 +389,14 @@ export function LineMultiSeriesChart({
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <TrendingUp aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -419,10 +420,10 @@ export function LineMultiSeriesChart({
                   data-tone={s.tone}
                   onClick={() => handleToggleSeries(s.id)}
                   className={cx(
-                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all enabled:hover:opacity-100',
+                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] enabled:hover:opacity-100',
                     isVisible ? 'prism-crystal' : 'prism-well opacity-55 line-through'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
@@ -443,7 +444,7 @@ export function LineMultiSeriesChart({
         <div
           data-testid="line-chart-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No trend series data available.
         </div>
@@ -475,7 +476,7 @@ export function LineMultiSeriesChart({
                     y={tick.y + 3.5}
                     textAnchor="end"
                     className="text-[10px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.label}
                   </text>
@@ -489,7 +490,7 @@ export function LineMultiSeriesChart({
                   y={safeHeight - 8}
                   textAnchor="middle"
                   className="text-[10px] font-medium"
-                  style={{ fill: 'var(--prism-text-secondary)' }}
+                  style={STYLE_FILL_SECONDARY}
                 >
                   {lbl.label}
                 </text>
@@ -548,7 +549,7 @@ export function LineMultiSeriesChart({
                               }
                               stroke={ps.series.colorToken}
                               strokeWidth={isSelectedPoint ? 2.5 : 2}
-                              className="prism-focus-ring cursor-pointer transition-all"
+                              className="prism-focus-ring cursor-pointer transition-[color,background-color,border-color,opacity,transform]"
                               onClick={() =>
                                 handleSelectPoint(ps.series.id, pt.index, pt.value)
                               }
@@ -588,18 +589,18 @@ export function LineMultiSeriesChart({
                   />
                   <span
                     className="font-semibold truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {resolvedActive.series.label}
                   </span>
-                  <span style={{ color: 'var(--prism-text-secondary)' }}>
+                  <span style={STYLE_TEXT_SECONDARY}>
                     {resolvedActive.point.label}
                   </span>
                 </div>
                 <span
                   data-testid="line-chart-readout-value"
                   className="font-mono font-semibold tabular-nums"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {formatValue(resolvedActive.point.value, valueUnit)}
                 </span>
@@ -607,7 +608,7 @@ export function LineMultiSeriesChart({
             ) : (
               <span
                 data-testid="line-chart-all-hidden"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 All series hidden — toggle a series pill above to display trends.
               </span>
@@ -619,4 +620,5 @@ export function LineMultiSeriesChart({
   );
 }
 
+export const LineMultiSeriesChart = memo(LineMultiSeriesChartInner);
 LineMultiSeriesChart.displayName = 'LineMultiSeriesChart';

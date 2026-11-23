@@ -1,5 +1,7 @@
 'use client';
 
+import { memo } from 'react';
+
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -15,7 +17,7 @@ export interface PaginationProps extends BaseProps<HTMLElement> {
   onPageChange: (page: number) => void;
 }
 
-export function Pagination({
+function PaginationInner({
   currentPage,
   totalPages,
   onPageChange,
@@ -88,4 +90,5 @@ export function Pagination({
   );
 }
 
+export const Pagination = memo(PaginationInner);
 Pagination.displayName = 'Pagination';

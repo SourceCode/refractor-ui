@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useMemo,
   useRef,
@@ -25,6 +26,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AlignmentActionId =
@@ -302,7 +304,7 @@ function applyAlignmentToBoxes(
   }
 }
 
-export function AlignmentToolbar({
+function AlignmentToolbarInner({
   selectedCount = 3,
   anchorMode,
   defaultAnchorMode = 'selection',
@@ -549,7 +551,7 @@ export function AlignmentToolbar({
               isActive
                 ? 'prism-btn-primary'
                 : 'prism-crystal enabled:hover:brightness-105',
-              'prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all'
+              'prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
             )}
             style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
           >
@@ -583,7 +585,7 @@ export function AlignmentToolbar({
         <span
           aria-hidden="true"
           className="hidden sm:inline-block w-px h-5 shrink-0"
-          style={{ backgroundColor: 'var(--prism-divider)' }}
+          style={STYLE_BG_DIVIDER}
         />
 
         {renderActionGroup('Vertical alignment', VERTICAL_ACTIONS, isAlignDisabled)}
@@ -591,7 +593,7 @@ export function AlignmentToolbar({
         <span
           aria-hidden="true"
           className="hidden sm:inline-block w-px h-5 shrink-0"
-          style={{ backgroundColor: 'var(--prism-divider)' }}
+          style={STYLE_BG_DIVIDER}
         />
 
         {renderActionGroup('Distribution', DISTRIBUTE_ACTIONS, isDistributeDisabled)}
@@ -621,7 +623,7 @@ export function AlignmentToolbar({
               activeAnchorMode === 'selection'
                 ? 'prism-btn-primary font-semibold'
                 : 'prism-btn-secondary font-medium',
-              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all'
+              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
             )}
           >
             <SquareDashedMousePointer
@@ -645,7 +647,7 @@ export function AlignmentToolbar({
               activeAnchorMode === 'artboard'
                 ? 'prism-btn-primary font-semibold'
                 : 'prism-btn-secondary font-medium',
-              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all'
+              'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
             )}
           >
             <Frame aria-hidden="true" className="w-3.5 h-3.5 shrink-0 relative z-10" />
@@ -659,7 +661,7 @@ export function AlignmentToolbar({
             counterClass,
             'prism-crystal px-2.5 h-7 rounded-full inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           <span
             aria-hidden="true"
@@ -687,14 +689,14 @@ export function AlignmentToolbar({
             <div className="flex items-center gap-2 min-w-0">
               <span
                 className="text-[11px] font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 Alignment Stage
               </span>
               <span
                 data-testid="alignment-stage-scope"
                 className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-medium"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {activeAnchorMode === 'artboard' ? 'Artboard Frame' : 'Selection Bounds'}
               </span>
@@ -709,8 +711,8 @@ export function AlignmentToolbar({
               data-testid="alignment-stage-reset"
               onFocus={() => setFocusedControlId('stage-reset')}
               onClick={handleResetStage}
-              className="prism-crystal prism-focus-ring h-6 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              className="prism-crystal prism-focus-ring h-6 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-medium whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+              style={STYLE_TEXT_SECONDARY}
             >
               <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
               <span>Reset</span>
@@ -720,7 +722,7 @@ export function AlignmentToolbar({
           <div
             data-testid="alignment-stage-canvas"
             className="prism-studio-grid relative w-full h-36 rounded-xl overflow-hidden border"
-            style={{ borderColor: 'var(--prism-divider)' }}
+            style={STYLE_BORDER_DIVIDER}
           >
             {/* Artboard Safe Frame Indicator */}
             <div
@@ -805,7 +807,7 @@ export function AlignmentToolbar({
                   data-x={String(box.x)}
                   data-y={String(box.y)}
                   className={cx(
-                    'prism-crystal absolute rounded-lg border flex items-center justify-center font-mono text-[11px] font-bold transition-all duration-200 ease-out',
+                    'prism-crystal absolute rounded-lg border flex items-center justify-center font-mono text-[11px] font-bold transition-[color,background-color,border-color,opacity,transform] duration-200 ease-out',
                     isSelectedBox ? 'opacity-100' : 'opacity-40'
                   )}
                   style={{
@@ -848,7 +850,7 @@ export function AlignmentToolbar({
           <span
             data-testid="alignment-last-action-badge"
             className="prism-well px-2 py-0.5 rounded-full text-[10px] font-semibold whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             {getActionLabel(lastAction)}
           </span>
@@ -858,4 +860,5 @@ export function AlignmentToolbar({
   );
 }
 
+export const AlignmentToolbar = memo(AlignmentToolbarInner);
 AlignmentToolbar.displayName = 'AlignmentToolbar';

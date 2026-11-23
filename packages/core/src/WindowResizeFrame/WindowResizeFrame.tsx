@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowResizeEdge = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
@@ -337,7 +339,7 @@ function computeResizedRect(
   };
 }
 
-export function WindowResizeFrame({
+function WindowResizeFrameInner({
   title = DEFAULT_TITLE,
   rect,
   defaultRect,
@@ -528,7 +530,7 @@ export function WindowResizeFrame({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handleWindowPointerMove);
+      window.addEventListener('pointermove', handleWindowPointerMove, { passive: true });
       window.addEventListener('pointerup', handleWindowPointerUp);
       window.addEventListener('pointercancel', handleWindowPointerCancel);
       window.addEventListener('keydown', handleWindowKeyDown);
@@ -666,7 +668,7 @@ export function WindowResizeFrame({
           <h2
             id={headingId}
             className="text-sm font-semibold tracking-[-0.01em] truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h2>
@@ -779,28 +781,28 @@ export function WindowResizeFrame({
                 <span
                   aria-hidden="true"
                   className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: 'var(--prism-error-main)' }}
+                  style={STYLE_BG_ERROR}
                 />
                 <span
                   aria-hidden="true"
                   className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: 'var(--prism-warning-main)' }}
+                  style={STYLE_BG_WARNING}
                 />
                 <span
                   aria-hidden="true"
                   className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: 'var(--prism-success-main)' }}
+                  style={STYLE_BG_SUCCESS}
                 />
                 <span
                   className="ml-1.5 text-[11px] font-semibold truncate"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {resolvedTitle}
                 </span>
               </div>
               <span
                 className="text-[10px] font-mono tabular-nums shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {committedRect.x}, {committedRect.y}
               </span>
@@ -810,13 +812,13 @@ export function WindowResizeFrame({
             <div className="flex-1 flex flex-col items-center justify-center p-3 text-center gap-1 min-h-0 overflow-hidden">
               <span
                 className="text-sm font-mono font-semibold tabular-nums"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {committedRect.width} × {committedRect.height} px
               </span>
               <span
                 className="text-[11px] font-mono tabular-nums"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Bounds {bounds.minWidth}–{bounds.maxWidth} × {bounds.minHeight}–
                 {bounds.maxHeight}
@@ -906,9 +908,7 @@ export function WindowResizeFrame({
               <span
                 data-testid="resize-ghost-pill"
                 className="prism-crystal px-3 py-1 rounded-full text-xs font-mono font-semibold tabular-nums whitespace-nowrap shadow-sm"
-                style={{
-                  color: 'var(--prism-primary-main)',
-                }}
+                style={STYLE_PRIMARY_MAIN}
               >
                 {ghostState.snapped
                   ? `${ghostState.rect.width} × ${ghostState.rect.height} px · Snapped ${safeSnapGridPx}px`
@@ -929,7 +929,7 @@ export function WindowResizeFrame({
           statusClass,
           'prism-well flex flex-wrap items-center justify-between gap-2 px-3 py-1.5 rounded-xl text-xs min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <span className="inline-flex items-center gap-1.5 min-w-0 max-w-full">
           <span
@@ -953,4 +953,5 @@ export function WindowResizeFrame({
   );
 }
 
+export const WindowResizeFrame = memo(WindowResizeFrameInner);
 WindowResizeFrame.displayName = 'WindowResizeFrame';

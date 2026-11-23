@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BrushPresetId = 'airbrush' | 'hard-round' | 'dodge-soft' | 'detail-pen';
@@ -145,7 +147,7 @@ function computePreviewRadius(sizePx: number, minSizePx: number, maxSizePx: numb
   return roundTwo(PREVIEW_MIN_RADIUS + perceptual * (PREVIEW_MAX_RADIUS - PREVIEW_MIN_RADIUS));
 }
 
-export function BrushHudControl({
+function BrushHudControlInner({
   value,
   defaultValue = DEFAULT_BRUSH_VALUE,
   minSizePx = DEFAULT_MIN_SIZE_PX,
@@ -358,7 +360,7 @@ export function BrushHudControl({
           <span
             data-testid="brush-hud-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -367,22 +369,22 @@ export function BrushHudControl({
         <span
           data-testid="brush-shortcut-hint"
           className="prism-well inline-flex flex-wrap items-center gap-1 px-2.5 py-0.5 rounded-full font-mono text-[11px] tabular-nums shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
-          <kbd className="font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <kbd className="font-semibold" style={STYLE_TEXT_PRIMARY}>
             [
           </kbd>
           <span aria-hidden="true">/</span>
-          <kbd className="font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <kbd className="font-semibold" style={STYLE_TEXT_PRIMARY}>
             ]
           </kbd>
           <span>Size</span>
           <span aria-hidden="true">·</span>
-          <kbd className="font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <kbd className="font-semibold" style={STYLE_TEXT_PRIMARY}>
             {'{'}
           </kbd>
           <span aria-hidden="true">/</span>
-          <kbd className="font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <kbd className="font-semibold" style={STYLE_TEXT_PRIMARY}>
             {'}'}
           </kbd>
           <span>Hard</span>
@@ -533,7 +535,7 @@ export function BrushHudControl({
               <label
                 htmlFor={sizeInputId}
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Size
               </label>
@@ -549,14 +551,14 @@ export function BrushHudControl({
                     'prism-crystal prism-focus-ring w-6 h-6 rounded-full inline-flex items-center justify-center font-mono text-xs font-bold cursor-pointer disabled:cursor-not-allowed',
                     disabled || atMinSize ? 'opacity-45' : ''
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   -
                 </button>
                 <span
                   data-testid="brush-size-pill"
                   className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3.25rem] text-center"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {currentValue.sizePx}px
                 </span>
@@ -570,7 +572,7 @@ export function BrushHudControl({
                     'prism-crystal prism-focus-ring w-6 h-6 rounded-full inline-flex items-center justify-center font-mono text-xs font-bold cursor-pointer disabled:cursor-not-allowed',
                     disabled || atMaxSize ? 'opacity-45' : ''
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   +
                 </button>
@@ -581,7 +583,7 @@ export function BrushHudControl({
               <div className="prism-well w-full h-2.5 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="brush-size-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${sizePct}%`,
                     backgroundColor: 'var(--prism-primary-main)',
@@ -615,7 +617,7 @@ export function BrushHudControl({
               <label
                 htmlFor={hardnessInputId}
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Hardness
               </label>
@@ -623,7 +625,7 @@ export function BrushHudControl({
               <span
                 data-testid="brush-hardness-pill"
                 className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3.25rem] text-center"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {currentValue.hardnessPct}%
               </span>
@@ -633,7 +635,7 @@ export function BrushHudControl({
               <div className="prism-well w-full h-2.5 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="brush-hardness-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${hardnessPctNorm}%`,
                     backgroundColor: 'var(--prism-secondary-main)',
@@ -667,7 +669,7 @@ export function BrushHudControl({
               <label
                 htmlFor={flowInputId}
                 className="text-xs font-semibold tracking-tight"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 Flow
               </label>
@@ -675,7 +677,7 @@ export function BrushHudControl({
               <span
                 data-testid="brush-flow-pill"
                 className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3.25rem] text-center"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {currentValue.flowPct}%
               </span>
@@ -685,7 +687,7 @@ export function BrushHudControl({
               <div className="prism-well w-full h-2.5 rounded-full overflow-hidden p-0.5">
                 <div
                   data-testid="brush-flow-fill"
-                  className="h-full rounded-full transition-all duration-75"
+                  className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                   style={{
                     width: `${flowPctNorm}%`,
                     backgroundColor: 'var(--prism-primary-light)',
@@ -728,7 +730,7 @@ export function BrushHudControl({
           aria-atomic="true"
           data-testid="brush-hud-readout"
           className="font-mono text-xs font-medium tabular-nums truncate min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {readoutText}
         </div>
@@ -747,4 +749,5 @@ export function BrushHudControl({
   );
 }
 
+export const BrushHudControl = memo(BrushHudControlInner);
 BrushHudControl.displayName = 'BrushHudControl';

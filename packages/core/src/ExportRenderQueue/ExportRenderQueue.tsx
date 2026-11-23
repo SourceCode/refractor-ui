@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useRef,
@@ -28,6 +29,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ExportCodec = 'h264' | 'prores-422' | 'av1' | 'wav-24bit';
@@ -330,7 +332,7 @@ function createCollisionSafeJobId(
   return candidate;
 }
 
-export function ExportRenderQueue({
+function ExportRenderQueueInner({
   jobs,
   defaultJobs,
   onJobsChange,
@@ -562,9 +564,9 @@ export function ExportRenderQueue({
   const statusBarClass = stableClassName('export-render-queue', 'status-bar');
 
   const fieldControlClass =
-    'prism-crystal prism-focus-ring h-9 w-full min-w-0 rounded-xl px-2.5 text-xs font-medium disabled:opacity-45 disabled:cursor-not-allowed transition-all';
+    'prism-crystal prism-focus-ring h-9 w-full min-w-0 rounded-xl px-2.5 text-xs font-medium disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]';
   const actionBtnClass =
-    'prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all';
+    'prism-crystal prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1 text-[11px] font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]';
 
   return (
     <div
@@ -581,27 +583,27 @@ export function ExportRenderQueue({
           headerClass,
           'flex flex-wrap items-center justify-between gap-2.5 min-w-0 max-w-full pb-3 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-xl inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Film className="w-4 h-4 shrink-0" />
           </span>
           <h3
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
           <span
             data-testid="export-queue-telemetry"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {telemetrySummary}
           </span>
@@ -612,7 +614,7 @@ export function ExportRenderQueue({
           disabled={clearCompletedDisabled}
           data-testid="export-clear-completed"
           onClick={handleClearCompleted}
-          className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+          className="prism-btn-secondary prism-focus-ring h-8 px-3 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
         >
           <Trash2 aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           <span>Clear Completed</span>
@@ -634,7 +636,7 @@ export function ExportRenderQueue({
           <label
             htmlFor={nameFieldId}
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Output Filename
           </label>
@@ -649,7 +651,7 @@ export function ExportRenderQueue({
             onChange={handleNameChange}
             onKeyDown={handleInputKeyDown}
             className={fieldControlClass}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
         </div>
 
@@ -658,7 +660,7 @@ export function ExportRenderQueue({
           <label
             htmlFor={codecFieldId}
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Codec
           </label>
@@ -670,7 +672,7 @@ export function ExportRenderQueue({
             disabled={disabled}
             onChange={handleCodecChange}
             className={cx(fieldControlClass, 'cursor-pointer')}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {CODEC_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -685,7 +687,7 @@ export function ExportRenderQueue({
           <label
             htmlFor={resolutionFieldId}
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Resolution
           </label>
@@ -697,7 +699,7 @@ export function ExportRenderQueue({
             disabled={disabled}
             onChange={handleResolutionChange}
             className={cx(fieldControlClass, 'cursor-pointer')}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {RESOLUTION_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -713,7 +715,7 @@ export function ExportRenderQueue({
             <label
               htmlFor={bitrateFieldId}
               className="text-[10px] font-semibold uppercase tracking-wider truncate"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               Bitrate
             </label>
@@ -721,7 +723,7 @@ export function ExportRenderQueue({
               <span
                 data-testid="export-bitrate-pcm-badge"
                 className="font-mono text-[10px] font-semibold whitespace-nowrap shrink-0"
-                style={{ color: 'var(--prism-info-main)' }}
+                style={STYLE_INFO_MAIN}
               >
                 Lossless PCM
               </span>
@@ -729,7 +731,7 @@ export function ExportRenderQueue({
               <span
                 data-testid="export-bitrate-readout"
                 className="font-mono text-[10px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {resolvedBitrate} Mbps
               </span>
@@ -750,7 +752,7 @@ export function ExportRenderQueue({
             onBlur={handleBitrateBlur}
             onKeyDown={handleInputKeyDown}
             className={cx(fieldControlClass, 'font-mono tabular-nums')}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           />
         </div>
 
@@ -759,7 +761,7 @@ export function ExportRenderQueue({
           <label
             htmlFor={sampleRateFieldId}
             className="text-[10px] font-semibold uppercase tracking-wider truncate"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Sample Rate
           </label>
@@ -771,7 +773,7 @@ export function ExportRenderQueue({
             disabled={disabled}
             onChange={handleSampleRateChange}
             className={cx(fieldControlClass, 'cursor-pointer font-mono tabular-nums')}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {SAMPLE_RATE_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -784,12 +786,12 @@ export function ExportRenderQueue({
         {/* Preset Summary & Primary Add to Queue Action */}
         <div
           className="sm:col-span-2 lg:col-span-5 flex flex-wrap items-center justify-between gap-2 pt-2 border-t min-w-0 max-w-full"
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
         >
           <span
             data-testid="export-preset-summary"
             className="font-mono text-[11px] truncate min-w-0 max-w-full"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {`${previewName} \u00B7 ${getCodecLabel(codec)} \u00B7 ${getResolutionLabel(resolution)} \u00B7 ${isAudioCodec ? 'Lossless PCM' : `${resolvedBitrate} Mbps`} \u00B7 ${getSampleRateLabel(sampleRate)}`}
           </span>
@@ -798,7 +800,7 @@ export function ExportRenderQueue({
             disabled={disabled}
             data-testid="export-add-to-queue"
             onClick={handleEnqueue}
-            className="prism-btn-primary prism-focus-ring h-9 px-4 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-primary prism-focus-ring h-9 px-4 inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <Plus aria-hidden="true" className="w-3.5 h-3.5 shrink-0 relative z-10" />
             <span className="relative z-10">Add to Queue</span>
@@ -816,12 +818,12 @@ export function ExportRenderQueue({
           <Layers
             aria-hidden="true"
             className="w-5 h-5 shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             Render queue is empty
           </p>
-          <p className="text-xs max-w-md" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs max-w-md" style={STYLE_TEXT_SECONDARY}>
             Configure an export preset above and click Add to Queue to schedule your next render.
           </p>
         </div>
@@ -846,7 +848,7 @@ export function ExportRenderQueue({
                 'job'
               ),
               baseClassName:
-                'prism-well rounded-2xl p-3.5 flex flex-col gap-2.5 min-w-0 max-w-full transition-all',
+                'prism-well rounded-2xl p-3.5 flex flex-col gap-2.5 min-w-0 max-w-full transition-[color,background-color,border-color,opacity,transform]',
             });
 
             return (
@@ -862,7 +864,7 @@ export function ExportRenderQueue({
                     <span
                       data-testid={`render-job-name-${job.id}`}
                       className="text-sm font-semibold tracking-tight truncate min-w-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {job.name}
                     </span>
@@ -871,28 +873,28 @@ export function ExportRenderQueue({
                       <span
                         data-testid={`render-job-codec-${job.id}`}
                         className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-semibold whitespace-nowrap shrink-0"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {getCodecLabel(job.codec)}
                       </span>
                       <span
                         data-testid={`render-job-resolution-${job.id}`}
                         className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-medium whitespace-nowrap shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {getResolutionLabel(job.resolution)}
                       </span>
                       <span
                         data-testid={`render-job-bitrate-${job.id}`}
                         className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-medium tabular-nums whitespace-nowrap shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {isWavJob ? 'Lossless PCM' : `${job.bitrateMbps} Mbps`}
                       </span>
                       <span
                         data-testid={`render-job-sample-rate-${job.id}`}
                         className="prism-crystal px-2 py-0.5 rounded-full font-mono text-[10px] font-medium tabular-nums whitespace-nowrap shrink-0"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {getSampleRateLabel(job.sampleRate)}
                       </span>
@@ -919,14 +921,14 @@ export function ExportRenderQueue({
                     <span
                       data-testid={`render-job-eta-${job.id}`}
                       className="font-mono truncate min-w-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {job.etaLabel ?? statusMeta.label}
                     </span>
                     <span
                       data-testid={`render-job-pct-${job.id}`}
                       className="font-mono font-semibold tabular-nums whitespace-nowrap shrink-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {job.progressPct}%
                     </span>
@@ -944,7 +946,7 @@ export function ExportRenderQueue({
                   >
                     <div
                       data-testid={`render-job-progress-fill-${job.id}`}
-                      className="h-full rounded-full transition-all duration-200"
+                      className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200"
                       style={{
                         width: `${job.progressPct}%`,
                         backgroundColor: statusMeta.progressToken,
@@ -956,7 +958,7 @@ export function ExportRenderQueue({
                 {/* Contextual Job Actions */}
                 <div
                   className="flex flex-wrap items-center justify-end gap-1.5 pt-2 border-t min-w-0"
-                  style={{ borderColor: 'var(--prism-divider)' }}
+                  style={STYLE_BORDER_DIVIDER}
                 >
                   {job.status === 'rendering' ? (
                     <>
@@ -967,7 +969,7 @@ export function ExportRenderQueue({
                         data-testid={`render-job-pause-${job.id}`}
                         onClick={() => handlePauseJob(job)}
                         className={actionBtnClass}
-                        style={{ color: 'var(--prism-warning-main)' }}
+                        style={STYLE_WARNING_MAIN}
                       >
                         <Pause aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>Pause</span>
@@ -979,7 +981,7 @@ export function ExportRenderQueue({
                         data-testid={`render-job-cancel-${job.id}`}
                         onClick={() => handleCancelJob(job)}
                         className={actionBtnClass}
-                        style={{ color: 'var(--prism-error-main)' }}
+                        style={STYLE_ERROR_MAIN}
                       >
                         <X aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>Cancel</span>
@@ -996,7 +998,7 @@ export function ExportRenderQueue({
                         data-testid={`render-job-start-${job.id}`}
                         onClick={() => handleStartOrResumeJob(job)}
                         className={actionBtnClass}
-                        style={{ color: 'var(--prism-primary-main)' }}
+                        style={STYLE_PRIMARY_MAIN}
                       >
                         <Play aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>{job.status === 'paused' ? 'Resume' : 'Start'}</span>
@@ -1008,7 +1010,7 @@ export function ExportRenderQueue({
                         data-testid={`render-job-cancel-${job.id}`}
                         onClick={() => handleCancelJob(job)}
                         className={actionBtnClass}
-                        style={{ color: 'var(--prism-error-main)' }}
+                        style={STYLE_ERROR_MAIN}
                       >
                         <X aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>Cancel</span>
@@ -1025,7 +1027,7 @@ export function ExportRenderQueue({
                         data-testid={`render-job-retry-${job.id}`}
                         onClick={() => handleRetryJob(job)}
                         className={actionBtnClass}
-                        style={{ color: 'var(--prism-info-main)' }}
+                        style={STYLE_INFO_MAIN}
                       >
                         <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>Retry</span>
@@ -1037,7 +1039,7 @@ export function ExportRenderQueue({
                         data-testid={`render-job-remove-${job.id}`}
                         onClick={() => handleRemoveJob(job)}
                         className={actionBtnClass}
-                        style={{ color: 'var(--prism-error-main)' }}
+                        style={STYLE_ERROR_MAIN}
                       >
                         <Trash2 aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>Remove</span>
@@ -1053,7 +1055,7 @@ export function ExportRenderQueue({
                       data-testid={`render-job-remove-${job.id}`}
                       onClick={() => handleRemoveJob(job)}
                       className={actionBtnClass}
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       <Trash2 aria-hidden="true" className="w-3 h-3 shrink-0" />
                       <span>Remove</span>
@@ -1075,11 +1077,11 @@ export function ExportRenderQueue({
           statusBarClass,
           'prism-well rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0 max-w-full'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         <span
           className="font-mono text-[11px] truncate min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {liveAnnouncement || idleStatusSummary}
         </span>
@@ -1091,4 +1093,5 @@ export function ExportRenderQueue({
   );
 }
 
+export const ExportRenderQueue = memo(ExportRenderQueueInner);
 ExportRenderQueue.displayName = 'ExportRenderQueue';

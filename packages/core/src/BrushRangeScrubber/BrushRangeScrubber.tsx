@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BrushTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -187,7 +189,7 @@ function buildSparklineGeometry(
   return { polylinePoints, areaPoints, plotHeight, baselineY };
 }
 
-export function BrushRangeScrubber({
+function BrushRangeScrubberInner({
   data,
   title = 'Timeline Brush Scrubber',
   range,
@@ -338,7 +340,7 @@ export function BrushRangeScrubber({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointermove', onMove, { passive: true });
       window.addEventListener('pointerup', handleEnd);
       window.addEventListener('pointercancel', handleEnd);
     },
@@ -497,7 +499,7 @@ export function BrushRangeScrubber({
           <h4
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -524,7 +526,7 @@ export function BrushRangeScrubber({
                   data-testid={`brush-preset-${preset.id}`}
                   onClick={() => commitRange(preset.range)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-medium cursor-pointer transition-all',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     isActive ? 'prism-emerald font-semibold' : 'opacity-80 hover:opacity-100'
                   )}
                   style={{
@@ -546,7 +548,7 @@ export function BrushRangeScrubber({
           role="status"
           data-testid="brush-scrubber-empty"
           className="prism-well rounded-2xl px-4 py-6 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           At least 2 finite data points are required to scrub a range.
         </div>
@@ -785,7 +787,7 @@ export function BrushRangeScrubber({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2 flex items-center gap-2 text-xs font-mono tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -803,4 +805,5 @@ export function BrushRangeScrubber({
   );
 }
 
+export const BrushRangeScrubber = memo(BrushRangeScrubberInner);
 BrushRangeScrubber.displayName = 'BrushRangeScrubber';

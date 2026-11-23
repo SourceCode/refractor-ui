@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, type TextareaHTMLAttributes } from 'react';
+import { memo, useId, type TextareaHTMLAttributes } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
@@ -40,7 +40,7 @@ export interface TextAreaProps
   onEnter?: (value: string) => void;
 }
 
-export function TextArea({
+function TextAreaInner({
   label,
   helperText,
   errorText,
@@ -94,7 +94,7 @@ export function TextArea({
         </div>
       ) : null}
       <div
-        className={`prism-crystal rounded-[22px] p-1.5 transition-all ${
+        className={`prism-crystal rounded-[22px] p-1.5 transition-[color,background-color,border-color,opacity,transform] ${
           errorText ? 'ring-2 ring-red-500/70' : 'focus-within:ring-2 focus-within:ring-sky-400/70'
         }`}
       >
@@ -136,4 +136,5 @@ export function TextArea({
   );
 }
 
+export const TextArea = memo(TextAreaInner);
 TextArea.displayName = 'TextArea';

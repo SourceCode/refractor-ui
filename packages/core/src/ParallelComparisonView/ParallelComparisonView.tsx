@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Check, Clock, Columns2, Copy, Cpu, Gauge, Hash, Trophy } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface ComparisonCandidate {
@@ -59,7 +60,7 @@ function formatTokens(tokens: number | undefined): string | null {
   if (tokens === undefined || !Number.isFinite(tokens) || tokens < 0) {
     return null;
   }
-  return `${Math.round(tokens).toLocaleString('en-US')} tok`;
+  return `${formatUsNumber(Math.round(tokens))} tok`;
 }
 
 function normalizeScore(score: number | undefined): number | null {
@@ -69,7 +70,7 @@ function normalizeScore(score: number | undefined): number | null {
   return Math.round(clampNumber(score, 0, 100, 0));
 }
 
-export function ParallelComparisonView({
+function ParallelComparisonViewInner({
   candidates,
   winnerId,
   defaultWinnerId,
@@ -194,7 +195,7 @@ export function ParallelComparisonView({
         <div className="min-w-0 flex flex-wrap items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Columns2 aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
@@ -203,7 +204,7 @@ export function ParallelComparisonView({
             <h3
               id={titleId}
               className="m-0 text-sm sm:text-base font-semibold leading-snug break-words"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h3>
@@ -212,7 +213,7 @@ export function ParallelComparisonView({
           <span
             data-testid="comparison-candidate-count"
             className="prism-well rounded-full px-2.5 py-0.5 text-xs font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {countLabel}
           </span>
@@ -235,7 +236,7 @@ export function ParallelComparisonView({
           onClick={activeWinner ? () => handleCopyWinner(activeWinner) : undefined}
           className={cx(
             copyBtnClass,
-            'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
+            'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
             copied ? 'prism-emerald font-semibold' : 'prism-crystal'
           )}
           style={copied ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -265,17 +266,17 @@ export function ParallelComparisonView({
           <Columns2
             aria-hidden="true"
             className="w-6 h-6 shrink-0"
-            style={{ color: 'var(--prism-text-disabled)' }}
+            style={STYLE_TEXT_DISABLED}
           />
           <p
             className="m-0 text-sm font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             No candidates to compare
           </p>
           <p
             className="m-0 text-xs max-w-md leading-relaxed"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Provide two or more parallel candidate outputs to inspect metrics and select a winner.
           </p>
@@ -296,7 +297,7 @@ export function ParallelComparisonView({
                 data-winner={isWinner ? 'true' : undefined}
                 className={cx(
                   cardClass,
-                  'prism-crystal rounded-2xl p-4 flex flex-col gap-3 transition-all',
+                  'prism-crystal rounded-2xl p-4 flex flex-col gap-3 transition-[color,background-color,border-color,opacity,transform]',
                   isWinner ? 'ring-2 ring-[var(--prism-primary-main)]' : ''
                 )}
               >
@@ -305,7 +306,7 @@ export function ParallelComparisonView({
                     <div className="min-w-0 flex flex-wrap items-center gap-2">
                       <h4
                         className="m-0 text-sm font-semibold leading-snug break-words"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {candidate.label}
                       </h4>
@@ -314,7 +315,7 @@ export function ParallelComparisonView({
                         <span
                           data-candidate-model={candidate.model}
                           className="prism-well rounded-full px-2 py-0.5 inline-flex items-center gap-1 font-mono text-[11px] font-medium shrink-0"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           <Cpu aria-hidden="true" className="w-3 h-3 shrink-0" />
                           <span>{candidate.model}</span>
@@ -339,7 +340,7 @@ export function ParallelComparisonView({
                         <span
                           data-metric="latency"
                           className="prism-well rounded-full px-2 py-0.5 inline-flex items-center gap-1 font-mono text-[11px] tabular-nums"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           <Clock aria-hidden="true" className="w-3 h-3 shrink-0" />
                           <span>{latencyLabel}</span>
@@ -350,7 +351,7 @@ export function ParallelComparisonView({
                         <span
                           data-metric="tokens"
                           className="prism-well rounded-full px-2 py-0.5 inline-flex items-center gap-1 font-mono text-[11px] tabular-nums"
-                          style={{ color: 'var(--prism-text-secondary)' }}
+                          style={STYLE_TEXT_SECONDARY}
                         >
                           <Hash aria-hidden="true" className="w-3 h-3 shrink-0" />
                           <span>{tokensLabel}</span>
@@ -361,7 +362,7 @@ export function ParallelComparisonView({
                         <span
                           data-metric="score"
                           className="prism-well rounded-full px-2 py-0.5 inline-flex items-center gap-1 font-mono text-[11px] font-semibold tabular-nums"
-                          style={{ color: 'var(--prism-primary-main)' }}
+                          style={STYLE_PRIMARY_MAIN}
                         >
                           <Gauge aria-hidden="true" className="w-3 h-3 shrink-0" />
                           <span>Score {scoreValue}/100</span>
@@ -380,7 +381,7 @@ export function ParallelComparisonView({
                   <div
                     data-testid={`candidate-output-${candidate.id}`}
                     className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {candidate.output}
                   </div>
@@ -395,7 +396,7 @@ export function ParallelComparisonView({
                     className={cx(
                       selectBtnClass,
                       isWinner ? 'prism-btn-primary font-semibold' : 'prism-btn-secondary font-medium',
-                      'prism-focus-ring w-full h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs transition-all cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105'
+                      'prism-focus-ring w-full h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed enabled:hover:brightness-105'
                     )}
                   >
                     {isWinner ? (
@@ -424,4 +425,5 @@ export function ParallelComparisonView({
   );
 }
 
+export const ParallelComparisonView = memo(ParallelComparisonViewInner);
 ParallelComparisonView.displayName = 'ParallelComparisonView';

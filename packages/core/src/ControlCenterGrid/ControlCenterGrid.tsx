@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -32,6 +33,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ControlCenterThemeChoice = 'light' | 'dark';
@@ -184,7 +186,7 @@ function normalizeDisplayTrack(track: ControlCenterTrack | undefined): ControlCe
   };
 }
 
-export function ControlCenterGrid({
+function ControlCenterGridInner({
   title = DEFAULT_TITLE,
   value,
   defaultValue,
@@ -473,7 +475,7 @@ export function ControlCenterGrid({
           <span
             data-testid="control-center-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </span>
@@ -482,7 +484,7 @@ export function ControlCenterGrid({
         <span
           data-testid="control-center-active-badge"
           className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums shrink-0"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {activeRadioCount} Active
         </span>
@@ -506,7 +508,7 @@ export function ControlCenterGrid({
             onKeyDown={handleImeSafeKeyDown}
             className={cx(
               tileClass,
-              'prism-crystal prism-focus-ring w-full min-w-0 rounded-2xl px-3.5 py-3 flex items-center gap-3 text-left transition-all duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105'
+              'prism-crystal prism-focus-ring w-full min-w-0 rounded-2xl px-3.5 py-3 flex items-center gap-3 text-left transition-[color,background-color,border-color,opacity,transform] duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105'
             )}
             style={{
               borderWidth: '1px',
@@ -541,7 +543,7 @@ export function ControlCenterGrid({
             <span className="min-w-0 flex-1 flex flex-col">
               <span
                 className="text-xs font-semibold tracking-tight truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {tile.label}
               </span>
@@ -574,12 +576,12 @@ export function ControlCenterGrid({
             <label
               htmlFor={brightnessInputId}
               className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-tight min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <Sun
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-warning-main)' }}
+                style={STYLE_WARNING_MAIN}
               />
               <span className="truncate">Display</span>
             </label>
@@ -587,7 +589,7 @@ export function ControlCenterGrid({
             <span
               data-testid="control-center-brightness-pill"
               className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3rem] text-center shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {currentState.brightnessPct}%
             </span>
@@ -602,7 +604,7 @@ export function ControlCenterGrid({
             <div className="prism-well w-full h-3 rounded-full overflow-hidden p-0.5">
               <div
                 data-testid="control-center-brightness-fill"
-                className="h-full rounded-full transition-all duration-75"
+                className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                 style={{
                   width: `${currentState.brightnessPct}%`,
                   backgroundColor: 'var(--prism-warning-main)',
@@ -625,7 +627,7 @@ export function ControlCenterGrid({
             />
             <div
               aria-hidden="true"
-              className="prism-thumb w-5 h-5 rounded-full pointer-events-none absolute -ml-2.5 transition-all duration-75 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--prism-focus-ring)]"
+              className="prism-thumb w-5 h-5 rounded-full pointer-events-none absolute -ml-2.5 transition-[color,background-color,border-color,opacity,transform] duration-75 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--prism-focus-ring)]"
               style={{ left: `${currentState.brightnessPct}%` }}
             />
           </div>
@@ -637,19 +639,19 @@ export function ControlCenterGrid({
             <label
               htmlFor={volumeInputId}
               className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-tight min-w-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {currentState.volumePct === 0 ? (
                 <VolumeX
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 />
               ) : (
                 <Volume2
                   aria-hidden="true"
                   className="w-3.5 h-3.5 shrink-0"
-                  style={{ color: 'var(--prism-primary-main)' }}
+                  style={STYLE_PRIMARY_MAIN}
                 />
               )}
               <span className="truncate">Sound</span>
@@ -658,7 +660,7 @@ export function ControlCenterGrid({
             <span
               data-testid="control-center-volume-pill"
               className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums min-w-[3rem] text-center shrink-0"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {currentState.volumePct}%
             </span>
@@ -673,7 +675,7 @@ export function ControlCenterGrid({
             <div className="prism-well w-full h-3 rounded-full overflow-hidden p-0.5">
               <div
                 data-testid="control-center-volume-fill"
-                className="h-full rounded-full transition-all duration-75"
+                className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                 style={{
                   width: `${currentState.volumePct}%`,
                   backgroundColor: 'var(--prism-primary-main)',
@@ -696,7 +698,7 @@ export function ControlCenterGrid({
             />
             <div
               aria-hidden="true"
-              className="prism-thumb w-5 h-5 rounded-full pointer-events-none absolute -ml-2.5 transition-all duration-75 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--prism-focus-ring)]"
+              className="prism-thumb w-5 h-5 rounded-full pointer-events-none absolute -ml-2.5 transition-[color,background-color,border-color,opacity,transform] duration-75 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--prism-focus-ring)]"
               style={{ left: `${currentState.volumePct}%` }}
             />
           </div>
@@ -744,14 +746,14 @@ export function ControlCenterGrid({
               <div
                 data-testid="control-center-track-title"
                 className="text-xs font-semibold tracking-tight truncate"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {activeTrack.title}
               </div>
               <div
                 data-testid="control-center-track-artist"
                 className="text-[11px] truncate"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 {activeTrack.artist}
               </div>
@@ -761,7 +763,7 @@ export function ControlCenterGrid({
           <span
             data-testid="control-center-track-duration"
             className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {activeTrack.durationLabel}
           </span>
@@ -771,7 +773,7 @@ export function ControlCenterGrid({
           <span
             data-testid="control-center-track-position"
             className="font-mono text-[11px] tabular-nums"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {trackCount === 0
               ? '0 / 0'
@@ -787,7 +789,7 @@ export function ControlCenterGrid({
               onClick={() => handleStepTrack(-1)}
               onKeyDown={handleImeSafeKeyDown}
               className="prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center transition-opacity cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <SkipBack aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -825,7 +827,7 @@ export function ControlCenterGrid({
               onClick={() => handleStepTrack(1)}
               onKeyDown={handleImeSafeKeyDown}
               className="prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center transition-opacity cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <SkipForward aria-hidden="true" className="w-3.5 h-3.5" />
             </button>
@@ -846,7 +848,7 @@ export function ControlCenterGrid({
           aria-atomic="true"
           data-testid="control-center-status"
           className="font-mono text-[11px] font-medium tabular-nums truncate min-w-0"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {announcement || defaultStatusText}
         </div>
@@ -868,4 +870,5 @@ export function ControlCenterGrid({
   );
 }
 
+export const ControlCenterGrid = memo(ControlCenterGridInner);
 ControlCenterGrid.displayName = 'ControlCenterGrid';

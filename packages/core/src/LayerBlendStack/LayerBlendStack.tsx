@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useId,
   useMemo,
   useState,
@@ -29,6 +30,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type LayerKind = 'image' | 'adjustment' | 'text' | 'shape' | 'mask';
@@ -250,7 +252,7 @@ function createNextAdjustmentLayer(existing: ReadonlyArray<BlendLayerItem>): Ble
   };
 }
 
-export function LayerBlendStack({
+function LayerBlendStackInner({
   layers,
   defaultLayers,
   selectedLayerId,
@@ -444,14 +446,14 @@ export function LayerBlendStack({
           <h3
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
           <span
             data-testid="layer-count-pill"
             className="prism-well px-2.5 py-0.5 rounded-full font-mono text-[11px] font-semibold tabular-nums whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {visibleCount} / {totalCount} visible
           </span>
@@ -479,7 +481,7 @@ export function LayerBlendStack({
           <span
             aria-hidden="true"
             className="text-[11px] font-semibold uppercase tracking-wider shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Blend
           </span>
@@ -490,7 +492,7 @@ export function LayerBlendStack({
             disabled={controlsDisabled}
             onChange={handleBlendModeChange}
             className="prism-crystal prism-focus-ring h-8 rounded-xl px-2.5 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed min-w-[124px]"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {BLEND_MODE_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -504,7 +506,7 @@ export function LayerBlendStack({
           <span
             aria-hidden="true"
             className="text-[11px] font-semibold uppercase tracking-wider shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             Opacity
           </span>
@@ -512,7 +514,7 @@ export function LayerBlendStack({
             <div className="prism-crystal w-full h-2.5 rounded-full overflow-hidden p-0.5">
               <div
                 data-testid="active-opacity-fill"
-                className="h-full rounded-full transition-all duration-75"
+                className="h-full rounded-full transition-[color,background-color,border-color,opacity,transform] duration-75"
                 style={{
                   width: `${activeOpacity}%`,
                   backgroundColor: 'var(--prism-primary-main)',
@@ -544,7 +546,7 @@ export function LayerBlendStack({
           <span
             data-testid="active-opacity-readout"
             className="prism-crystal px-2 py-0.5 rounded-full font-mono text-xs font-semibold tabular-nums min-w-[44px] text-center shrink-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeLayer ? `${activeLayer.opacity}%` : '—'}
           </span>
@@ -566,7 +568,7 @@ export function LayerBlendStack({
                     }))
                 : undefined
             }
-            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
+            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
             style={
               isActiveClipped
                 ? {
@@ -596,7 +598,7 @@ export function LayerBlendStack({
                     }))
                 : undefined
             }
-            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all shrink-0"
+            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-xl inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] shrink-0"
             style={
               isActiveLocked
                 ? {
@@ -625,12 +627,12 @@ export function LayerBlendStack({
           <Layers
             aria-hidden="true"
             className="w-5 h-5"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           />
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No layers in stack
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Add an adjustment layer to start compositing and color grading.
           </p>
         </div>
@@ -674,7 +676,7 @@ export function LayerBlendStack({
                 {...mergeProps({
                   themeTarget: rowTarget,
                   baseClassName: cx(
-                    'prism-crystal rounded-2xl px-2.5 py-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 transition-all min-w-0',
+                    'prism-crystal rounded-2xl px-2.5 py-2 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 transition-[color,background-color,border-color,opacity,transform] min-w-0',
                     isClipped ? 'ml-3' : undefined,
                     !layer.visible ? 'opacity-70' : undefined
                   ),
@@ -693,7 +695,7 @@ export function LayerBlendStack({
                   onClick={() => handleRowClick(layer)}
                   onKeyDown={(e) => handleRowKeyDown(e, layer)}
                   className={cx(
-                    'prism-focus-ring flex-1 min-w-0 flex items-center gap-2.5 rounded-xl px-1.5 py-1 text-left transition-all',
+                    'prism-focus-ring flex-1 min-w-0 flex items-center gap-2.5 rounded-xl px-1.5 py-1 text-left transition-[color,background-color,border-color,opacity,transform]',
                     disabled ? 'cursor-not-allowed' : 'cursor-pointer'
                   )}
                 >
@@ -702,7 +704,7 @@ export function LayerBlendStack({
                       aria-hidden="true"
                       data-testid={`layer-clip-glyph-${layer.id}`}
                       className="inline-flex items-center justify-center shrink-0"
-                      style={{ color: 'var(--prism-primary-main)' }}
+                      style={STYLE_PRIMARY_MAIN}
                     >
                       <CornerDownRight className="w-3.5 h-3.5 shrink-0" />
                     </span>
@@ -737,14 +739,14 @@ export function LayerBlendStack({
                           aria-hidden="true"
                           data-testid={`layer-locked-badge-${layer.id}`}
                           className="w-3 h-3 shrink-0"
-                          style={{ color: 'var(--prism-warning-main)' }}
+                          style={STYLE_WARNING_MAIN}
                         />
                       ) : null}
                     </div>
                     <span
                       data-testid={`layer-meta-${layer.id}`}
                       className="font-mono text-[11px] font-medium tabular-nums truncate"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {blendLabel} · {layer.opacity}%
                     </span>
@@ -759,7 +761,7 @@ export function LayerBlendStack({
                     aria-label={`Toggle visibility for ${safeName}`}
                     data-testid={`layer-visibility-${layer.id}`}
                     onClick={() => handleToggleVisibility(layer.id)}
-                    className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                    className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                     style={{
                       color: layer.visible
                         ? 'var(--prism-text-primary)'
@@ -779,8 +781,8 @@ export function LayerBlendStack({
                     aria-label={`Move ${safeName} up`}
                     data-testid={`layer-move-up-${layer.id}`}
                     onClick={() => handleMoveLayer(index, index - 1)}
-                    className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <ChevronUp aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   </button>
@@ -791,8 +793,8 @@ export function LayerBlendStack({
                     aria-label={`Move ${safeName} down`}
                     data-testid={`layer-move-down-${layer.id}`}
                     onClick={() => handleMoveLayer(index, index + 1)}
-                    className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <ChevronDown aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
                   </button>
@@ -803,7 +805,7 @@ export function LayerBlendStack({
                     aria-label={`Delete ${safeName}`}
                     data-testid={`layer-delete-${layer.id}`}
                     onClick={() => handleDeleteLayer(layer.id)}
-                    className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+                    className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
                     style={{
                       color: deleteDisabled
                         ? 'var(--prism-text-disabled)'
@@ -827,13 +829,13 @@ export function LayerBlendStack({
           statusClass,
           'prism-well rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0'
         )}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         {activeLayer ? (
           <>
             <span className="min-w-0 truncate">
               Active:{' '}
-              <strong className="font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+              <strong className="font-semibold" style={STYLE_TEXT_PRIMARY}>
                 {getSafeLayerName(activeLayer.name)}
               </strong>{' '}
               · {getBlendModeLabel(activeLayer.blendMode)} ·{' '}
@@ -856,4 +858,5 @@ export function LayerBlendStack({
   );
 }
 
+export const LayerBlendStack = memo(LayerBlendStackInner);
 LayerBlendStack.displayName = 'LayerBlendStack';

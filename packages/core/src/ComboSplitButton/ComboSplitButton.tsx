@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -89,7 +89,7 @@ function getSizeClasses(size: ComboSplitSize): SizeScaleClasses {
   }
 }
 
-export function ComboSplitButton({
+function ComboSplitButtonInner({
   label,
   icon,
   onPrimaryClick,
@@ -425,4 +425,5 @@ export function ComboSplitButton({
   );
 }
 
+export const ComboSplitButton = memo(ComboSplitButtonInner);
 ComboSplitButton.displayName = 'ComboSplitButton';

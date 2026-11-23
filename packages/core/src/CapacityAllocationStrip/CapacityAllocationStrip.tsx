@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -19,6 +20,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AllocationTone =
@@ -198,7 +200,7 @@ function resolveQuotaTotal(total: number | undefined, usedTotal: number): number
   return total;
 }
 
-export function CapacityAllocationStrip({
+function CapacityAllocationStripInner({
   segments,
   total,
   unit = DEFAULT_UNIT,
@@ -395,7 +397,7 @@ export function CapacityAllocationStrip({
           <h3
             id={headingId}
             className="text-sm font-semibold tracking-tight truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {safeTitle}
           </h3>
@@ -406,7 +408,7 @@ export function CapacityAllocationStrip({
             <span
               data-testid="capacity-usage-badge"
               className="prism-well rounded-full px-2.5 py-1 font-mono text-xs font-medium tabular-nums max-w-full truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {usageSummaryText}
             </span>
@@ -441,10 +443,10 @@ export function CapacityAllocationStrip({
           aria-live="polite"
           data-testid="capacity-allocation-empty"
           className="prism-well rounded-2xl px-4 py-5 flex flex-col items-center justify-center text-center gap-1.5 min-w-0 max-w-full"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <HardDrive aria-hidden="true" className="w-5 h-5 shrink-0 opacity-75" />
-          <p className="text-xs font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-xs font-semibold" style={STYLE_TEXT_PRIMARY}>
             No capacity quota configured
           </p>
           <p className="text-xs">
@@ -464,7 +466,7 @@ export function CapacityAllocationStrip({
               aria-valuetext={usageSummaryText}
               data-testid="capacity-progressbar"
               className="flex flex-wrap items-center justify-between gap-2 text-[11px] min-w-0 max-w-full"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               <span className="font-mono tabular-nums">
                 Allocated {formattedUsagePct} · Free {formatPercent(100 - Math.min(100, usagePct))}
@@ -506,7 +508,7 @@ export function CapacityAllocationStrip({
                     onClick={() => handleSelectSegment(segment)}
                     onKeyDown={handleSegmentKeyDown(segment)}
                     className={cx(
-                      'h-full relative shrink-0 cursor-pointer border-0 p-0 transition-all duration-150 prism-focus-ring first:rounded-l-full',
+                      'h-full relative shrink-0 cursor-pointer border-0 p-0 transition-[color,background-color,border-color,opacity,transform] duration-150 prism-focus-ring first:rounded-l-full',
                       isSelected
                         ? 'z-10 brightness-110'
                         : hasSelection
@@ -575,7 +577,7 @@ export function CapacityAllocationStrip({
                     onClick={() => handleSelectSegment(segment)}
                     onKeyDown={handleSegmentKeyDown(segment)}
                     className={cx(
-                      'prism-crystal inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer transition-all duration-150 prism-focus-ring min-w-0 max-w-full',
+                      'prism-crystal inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] duration-150 prism-focus-ring min-w-0 max-w-full',
                       isSelected
                         ? 'font-semibold'
                         : hasSelection
@@ -601,7 +603,7 @@ export function CapacityAllocationStrip({
                     <span className="truncate max-w-[12rem]">{segment.label}</span>
                     <span
                       className="font-mono tabular-nums shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       {formatAmount(segment.value)} {safeUnit}
                     </span>
@@ -619,7 +621,7 @@ export function CapacityAllocationStrip({
             <div
               data-testid="capacity-no-segments"
               className="prism-well rounded-2xl px-3.5 py-2.5 text-xs min-w-0 max-w-full"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             >
               No allocated categories — {formattedFree} {safeUnit} free space available.
             </div>
@@ -633,26 +635,26 @@ export function CapacityAllocationStrip({
               footerClass,
               'prism-well rounded-2xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0 max-w-full'
             )}
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <div className="flex flex-wrap items-center gap-1.5 font-mono tabular-nums min-w-0 max-w-full">
               <span>
                 Used{' '}
-                <strong style={{ color: 'var(--prism-text-primary)' }}>
+                <strong style={STYLE_TEXT_PRIMARY}>
                   {formattedUsed} {safeUnit}
                 </strong>
               </span>
               <span aria-hidden="true">·</span>
               <span>
                 Free{' '}
-                <strong style={{ color: 'var(--prism-text-primary)' }}>
+                <strong style={STYLE_TEXT_PRIMARY}>
                   {formattedFree} {safeUnit}
                 </strong>
               </span>
               <span aria-hidden="true">·</span>
               <span>
                 Total{' '}
-                <strong style={{ color: 'var(--prism-text-primary)' }}>
+                <strong style={STYLE_TEXT_PRIMARY}>
                   {formattedTotal} {safeUnit}
                 </strong>
               </span>
@@ -672,7 +674,7 @@ export function CapacityAllocationStrip({
                     />
                     <span
                       className="font-semibold truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {activeSelection.label}
                     </span>
@@ -690,7 +692,7 @@ export function CapacityAllocationStrip({
                     data-testid="capacity-clear-selection"
                     onClick={handleClearSelection}
                     className="prism-crystal inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium cursor-pointer prism-focus-ring shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     <X aria-hidden="true" className="w-3 h-3 shrink-0" />
                     <span>Clear</span>
@@ -707,4 +709,5 @@ export function CapacityAllocationStrip({
   );
 }
 
+export const CapacityAllocationStrip = memo(CapacityAllocationStripInner);
 CapacityAllocationStrip.displayName = 'CapacityAllocationStrip';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -689,7 +690,7 @@ function stripAllFormatting(input: string): string {
   return plain;
 }
 
-export function RichTextEditor({
+function RichTextEditorInner({
   value,
   defaultValue = '',
   onChange,
@@ -1423,4 +1424,5 @@ export function RichTextEditor({
   );
 }
 
+export const RichTextEditor = memo(RichTextEditorInner);
 RichTextEditor.displayName = 'RichTextEditor';

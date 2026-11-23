@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -29,6 +30,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type DocBlockKind =
@@ -213,7 +215,7 @@ function getBlockSummaryLabel(block: DocumentBlockItem, index: number): string {
   return `${trimmed.slice(0, 35)}…`;
 }
 
-export function BlockTransformHandle({
+function BlockTransformHandleInner({
   blocks,
   defaultBlocks,
   onChange,
@@ -618,14 +620,14 @@ export function BlockTransformHandle({
           />
           <span
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
           <span
             data-testid="block-transform-count"
             className="prism-crystal px-2 py-0.5 rounded-full text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {blockCountText}
           </span>
@@ -633,7 +635,7 @@ export function BlockTransformHandle({
             <span
               data-testid="block-transform-disabled-badge"
               className="prism-well px-2 py-0.5 rounded-full text-[11px] font-medium shrink-0"
-              style={{ color: 'var(--prism-text-disabled)' }}
+              style={STYLE_TEXT_DISABLED}
             >
               Read-only
             </span>
@@ -648,7 +650,7 @@ export function BlockTransformHandle({
             statusClass,
             'prism-well inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium min-w-0 max-w-full'
           )}
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           <span
             aria-hidden="true"
@@ -677,11 +679,11 @@ export function BlockTransformHandle({
         >
           <span
             className="text-sm font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             No document blocks
           </span>
-          <span className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <span className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Add blocks to transform, duplicate, or reorder content on this canvas.
           </span>
         </div>
@@ -716,7 +718,7 @@ export function BlockTransformHandle({
             const rowMerged = mergeProps({
               themeTarget: rowTarget,
               baseClassName: cx(
-                'prism-crystal rounded-2xl px-3 py-2.5 flex items-start gap-2.5 min-w-0 max-w-full transition-all',
+                'prism-crystal rounded-2xl px-3 py-2.5 flex items-start gap-2.5 min-w-0 max-w-full transition-[color,background-color,border-color,opacity,transform]',
                 isMenuOpen && 'z-30',
                 isDragging && 'opacity-60 scale-[0.99]',
                 disabled && 'opacity-75'
@@ -783,7 +785,7 @@ export function BlockTransformHandle({
                       <div
                         aria-hidden="true"
                         className="px-2.5 pt-1 pb-0.5 text-[10px] font-semibold uppercase tracking-wider select-none"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         Turn Into
                       </div>
@@ -818,7 +820,7 @@ export function BlockTransformHandle({
                               <Check
                                 aria-hidden="true"
                                 className="w-3.5 h-3.5 shrink-0"
-                                style={{ color: 'var(--prism-primary-main)' }}
+                                style={STYLE_PRIMARY_MAIN}
                               />
                             ) : null}
                           </button>
@@ -828,13 +830,13 @@ export function BlockTransformHandle({
                       <div
                         role="separator"
                         className="my-1 mx-2 h-px"
-                        style={{ backgroundColor: 'var(--prism-divider)' }}
+                        style={STYLE_BG_DIVIDER}
                       />
 
                       <div
                         aria-hidden="true"
                         className="px-2.5 pt-0.5 pb-0.5 text-[10px] font-semibold uppercase tracking-wider select-none"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         Reorder &amp; Actions
                       </div>
@@ -880,7 +882,7 @@ export function BlockTransformHandle({
                         role="menuitem"
                         data-testid="block-action-duplicate"
                         onClick={() => handleDuplicate(block, index)}
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                         className="prism-focus-ring w-full px-2.5 py-1.5 rounded-xl flex items-center gap-2 text-xs font-medium cursor-pointer hover:bg-[color-mix(in_srgb,var(--prism-secondary-main)_14%,transparent)] transition-colors"
                       >
                         <Copy aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -890,7 +892,7 @@ export function BlockTransformHandle({
                       <div
                         role="separator"
                         className="my-1 mx-2 h-px"
-                        style={{ backgroundColor: 'var(--prism-divider)' }}
+                        style={STYLE_BG_DIVIDER}
                       />
 
                       <button
@@ -898,7 +900,7 @@ export function BlockTransformHandle({
                         role="menuitem"
                         data-testid="block-action-delete"
                         onClick={() => handleDelete(block, index)}
-                        style={{ color: 'var(--prism-error-main)' }}
+                        style={STYLE_ERROR_MAIN}
                         className="prism-focus-ring w-full px-2.5 py-1.5 rounded-xl flex items-center gap-2 text-xs font-medium cursor-pointer hover:bg-[color-mix(in_srgb,var(--prism-error-main)_12%,transparent)] transition-colors"
                       >
                         <Trash2 aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -922,7 +924,7 @@ export function BlockTransformHandle({
                     <span
                       aria-hidden="true"
                       className="font-mono text-[10px] tabular-nums shrink-0"
-                      style={{ color: 'var(--prism-text-secondary)' }}
+                      style={STYLE_TEXT_SECONDARY}
                     >
                       #{index + 1}
                     </span>
@@ -932,7 +934,7 @@ export function BlockTransformHandle({
                     <h3
                       data-testid={`block-body-${block.id}`}
                       className="text-base sm:text-lg font-bold tracking-tight leading-snug break-words min-w-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {block.text}
                     </h3>
@@ -949,11 +951,11 @@ export function BlockTransformHandle({
                       <Info
                         aria-hidden="true"
                         className="w-4 h-4 shrink-0 mt-0.5"
-                        style={{ color: 'var(--prism-warning-main)' }}
+                        style={STYLE_WARNING_MAIN}
                       />
                       <p
                         className="text-sm leading-relaxed break-words min-w-0 flex-1"
-                        style={{ color: 'var(--prism-text-primary)' }}
+                        style={STYLE_TEXT_PRIMARY}
                       >
                         {block.text}
                       </p>
@@ -1025,7 +1027,7 @@ export function BlockTransformHandle({
                     <p
                       data-testid={`block-body-${block.id}`}
                       className="text-sm leading-relaxed break-words min-w-0"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {block.text}
                     </p>
@@ -1040,4 +1042,5 @@ export function BlockTransformHandle({
   );
 }
 
+export const BlockTransformHandle = memo(BlockTransformHandleInner);
 BlockTransformHandle.displayName = 'BlockTransformHandle';

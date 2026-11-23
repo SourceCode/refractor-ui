@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import {
   Check,
   ChevronLeft,
@@ -77,7 +77,7 @@ function filterPoolItems(
   );
 }
 
-export function TransferList({
+function TransferListInner({
   items,
   selectedIds,
   defaultSelectedIds,
@@ -506,4 +506,5 @@ export function TransferList({
   );
 }
 
+export const TransferList = memo(TransferListInner);
 TransferList.displayName = 'TransferList';

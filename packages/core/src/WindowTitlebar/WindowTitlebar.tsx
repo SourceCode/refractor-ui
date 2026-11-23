@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowChromeStyle = 'macos' | 'windows';
@@ -64,7 +66,7 @@ function isInteractiveEventTarget(target: EventTarget | null): boolean {
   );
 }
 
-export function WindowTitlebar({
+function WindowTitlebarInner({
   title = DEFAULT_WINDOW_TITLE,
   subtitle,
   modified = false,
@@ -222,7 +224,7 @@ export function WindowTitlebar({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handleWindowPointerMove);
+      window.addEventListener('pointermove', handleWindowPointerMove, { passive: true });
       window.addEventListener('pointerup', handleWindowPointerEnd);
       window.addEventListener('pointercancel', handleWindowPointerEnd);
     },
@@ -252,7 +254,7 @@ export function WindowTitlebar({
       dragging: isDragging,
     }),
     baseClassName:
-      'prism-slab relative flex flex-col overflow-hidden w-full max-w-full min-w-0 transition-all duration-200',
+      'prism-slab relative flex flex-col overflow-hidden w-full max-w-full min-w-0 transition-[color,background-color,border-color,opacity,transform] duration-200',
     overrideClassName: override?.className,
     userClassName: className,
     baseStyle,
@@ -560,9 +562,7 @@ export function WindowTitlebar({
               : 'cursor-grab'
             : 'cursor-default'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-        }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <span
           aria-hidden="true"
@@ -608,7 +608,7 @@ export function WindowTitlebar({
             bodyClass,
             'p-4 text-sm min-w-0 max-w-full flex-1 overflow-auto'
           )}
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {children}
         </div>
@@ -626,4 +626,5 @@ export function WindowTitlebar({
   );
 }
 
+export const WindowTitlebar = memo(WindowTitlebarInner);
 WindowTitlebar.displayName = 'WindowTitlebar';

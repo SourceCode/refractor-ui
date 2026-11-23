@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { memo, useCallback, useMemo, useState, type ReactNode } from 'react';
 import { FileCode, Folder, FolderOpen } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
-import { formatFileSize, getChildrenNodes, type TreeNodeItem } from '../utils/dateGrid';
+import { compareLocaleStrings } from '../utils/styles';
+import { formatFileSize, type TreeNodeItem } from '../utils/dateGrid';
 import { mergeProps } from '../utils/mergeProps';
 import { themeProps } from '../utils/themeProps';
 
@@ -26,7 +27,7 @@ export interface TreeViewProps<T extends TreeNodeItem = TreeNodeItem>
   defaultExpandedIds?: ReadonlyArray<string>;
 }
 
-export function TreeView<T extends TreeNodeItem = TreeNodeItem>({
+function TreeViewInner<T extends TreeNodeItem = TreeNodeItem>({
   nodes,
   selectedNodeId,
   onSelectNode,
@@ -38,13 +39,42 @@ export function TreeView<T extends TreeNodeItem = TreeNodeItem>({
   ...rest
 }: TreeViewProps<T>) {
   const override = useComponentOverride('TreeView');
-  const [expandedIds, setExpandedIds] = useState<string[]>(() => [...defaultExpandedIds]);
+  const [expandedSet, setExpandedSet] = useState<ReadonlySet<string>>(
+    () => new Set(defaultExpandedIds)
+  );
 
-  const toggleFolder = (id: string) => {
-    setExpandedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
+  // Pre-index and pre-sort children by parentId once in O(N log N) instead of O(N^2) during recursion
+  const childrenByParent = useMemo(() => {
+    const map = new Map<string | null, T[]>();
+    for (let i = 0; i < nodes.length; i += 1) {
+      const node = nodes[i]!;
+      const bucket = map.get(node.parentId);
+      if (bucket) {
+        bucket.push(node);
+      } else {
+        map.set(node.parentId, [node]);
+      }
+    }
+    for (const bucket of map.values()) {
+      bucket.sort((a, b) => {
+        if (a.type !== b.type) return a.type === 'folder' ? -1 : 1;
+        return compareLocaleStrings(a.name, b.name);
+      });
+    }
+    return map;
+  }, [nodes]);
+
+  const toggleFolder = useCallback((id: string) => {
+    setExpandedSet((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }, []);
 
   const merged = mergeProps({
     themeTarget: themeProps('tree-view', { empty: nodes.length === 0 }),
@@ -61,17 +91,24 @@ export function TreeView<T extends TreeNodeItem = TreeNodeItem>({
     depth: number,
     visited: ReadonlySet<string>
   ): ReactNode => {
-    const children = getChildrenNodes(nodes, parentId).filter((node) => !visited.has(node.id));
+    const rawChildren = childrenByParent.get(parentId);
+    if (!rawChildren || rawChildren.length === 0) return null;
+    const children =
+      visited.size === 0 ? rawChildren : rawChildren.filter((node) => !visited.has(node.id));
     if (children.length === 0) return null;
 
     return (
       <ul role={depth === 0 ? 'tree' : 'group'} className="space-y-0.5">
         {children.map((node) => {
           const isFolder = node.type === 'folder';
-          const isOpen = expandedIds.includes(node.id);
+          const isOpen = isFolder && expandedSet.has(node.id);
           const isSelected = selectedNodeId === node.id;
-          const nextVisited = new Set(visited);
-          nextVisited.add(node.id);
+          let nextVisited: ReadonlySet<string> = visited;
+          if (isOpen) {
+            const copy = new Set(visited);
+            copy.add(node.id);
+            nextVisited = copy;
+          }
 
           return (
             <li
@@ -115,7 +152,7 @@ export function TreeView<T extends TreeNodeItem = TreeNodeItem>({
                   </span>
                 ) : null}
               </button>
-              {isFolder && isOpen ? renderBranch(node.id, depth + 1, nextVisited) : null}
+              {isOpen ? renderBranch(node.id, depth + 1, nextVisited) : null}
             </li>
           );
         })}
@@ -125,9 +162,20 @@ export function TreeView<T extends TreeNodeItem = TreeNodeItem>({
 
   return (
     <div ref={ref} {...rest} {...merged}>
-      {renderBranch(null, 0, new Set())}
+      {nodes.length === 0 ? (
+        <div className="p-4 text-center text-xs text-slate-500 dark:text-slate-400">
+          No nodes in directory.
+        </div>
+      ) : (
+        renderBranch(null, 0, new Set())
+      )}
     </div>
   );
 }
 
+type TreeViewComponent = (<T extends TreeNodeItem = TreeNodeItem>(
+  props: TreeViewProps<T>
+) => ReactNode) & { displayName?: string };
+
+export const TreeView = memo(TreeViewInner) as TreeViewComponent;
 TreeView.displayName = 'TreeView';

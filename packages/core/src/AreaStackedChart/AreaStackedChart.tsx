@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useEffect, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Layers } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_FILL_SECONDARY, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type AreaSeriesTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -185,7 +186,7 @@ function buildAreaPaths(
   };
 }
 
-export function AreaStackedChart({
+function AreaStackedChartInner({
   labels,
   series,
   stacked = true,
@@ -422,14 +423,14 @@ export function AreaStackedChart({
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-secondary-main)' }}
+            style={STYLE_SECONDARY_MAIN}
           >
             <Layers aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <h4
             id={headingId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -447,10 +448,10 @@ export function AreaStackedChart({
               aria-pressed={isStacked}
               onClick={() => setIsStacked(true)}
               className={cx(
-                'prism-focus-ring px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-all enabled:hover:opacity-100',
+                'prism-focus-ring px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] enabled:hover:opacity-100',
                 isStacked ? 'prism-well font-semibold' : 'opacity-75'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Stacked
             </button>
@@ -459,10 +460,10 @@ export function AreaStackedChart({
               aria-pressed={!isStacked}
               onClick={() => setIsStacked(false)}
               className={cx(
-                'prism-focus-ring px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-all enabled:hover:opacity-100',
+                'prism-focus-ring px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] enabled:hover:opacity-100',
                 !isStacked ? 'prism-well font-semibold' : 'opacity-75'
               )}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               Overlay
             </button>
@@ -474,7 +475,7 @@ export function AreaStackedChart({
         <div
           data-testid="area-chart-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No area volume data available.
         </div>
@@ -497,10 +498,10 @@ export function AreaStackedChart({
                   data-tone={s.tone}
                   onClick={() => handleToggleSeries(s.id)}
                   className={cx(
-                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-all enabled:hover:opacity-100',
+                    'prism-focus-ring inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] enabled:hover:opacity-100',
                     isVisible ? 'prism-crystal' : 'prism-well opacity-55 line-through'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <span
                     aria-hidden="true"
@@ -565,7 +566,7 @@ export function AreaStackedChart({
                     y={tick.y + 3.5}
                     textAnchor="end"
                     className="text-[10px] font-mono tabular-nums"
-                    style={{ fill: 'var(--prism-text-secondary)' }}
+                    style={STYLE_FILL_SECONDARY}
                   >
                     {tick.label}
                   </text>
@@ -664,10 +665,10 @@ export function AreaStackedChart({
                   onClick={() => handleSelectSlice(lbl.index)}
                   onKeyDown={(event) => handleSliceKeyDown(event, lbl.index)}
                   className={cx(
-                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-medium cursor-pointer transition-all enabled:hover:opacity-100',
+                    'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-medium cursor-pointer transition-[color,background-color,border-color,opacity,transform] enabled:hover:opacity-100',
                     isSelected ? 'prism-emerald font-semibold' : 'prism-crystal opacity-80'
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {lbl.label}
                 </button>
@@ -683,7 +684,7 @@ export function AreaStackedChart({
             {allHidden ? (
               <span
                 data-testid="area-chart-all-hidden"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 All series hidden — toggle a series pill above to inspect volume.
               </span>
@@ -693,14 +694,14 @@ export function AreaStackedChart({
                   <span
                     data-testid="area-readout-label"
                     className="font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {activeLabel.label}
                   </span>
                   <span
                     data-testid="area-readout-total"
                     className="font-mono font-semibold tabular-nums"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     Total: {formatValue(activeSliceTotal, valueUnit)}
                   </span>
@@ -715,7 +716,7 @@ export function AreaStackedChart({
                       key={s.key}
                       data-testid={`area-readout-item-${s.id}`}
                       className="prism-crystal inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px]"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       <span
                         aria-hidden="true"
@@ -725,7 +726,7 @@ export function AreaStackedChart({
                       <span>{s.label}</span>
                       <span
                         className="font-mono font-medium tabular-nums"
-                        style={{ color: 'var(--prism-text-secondary)' }}
+                        style={STYLE_TEXT_SECONDARY}
                       >
                         {formatValue(s.activeValue, valueUnit)}
                       </span>
@@ -741,4 +742,5 @@ export function AreaStackedChart({
   );
 }
 
+export const AreaStackedChart = memo(AreaStackedChartInner);
 AreaStackedChart.displayName = 'AreaStackedChart';

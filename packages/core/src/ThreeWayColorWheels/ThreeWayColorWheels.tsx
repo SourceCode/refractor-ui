@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ColorWheelZone = 'lift' | 'gamma' | 'gain';
@@ -241,7 +243,7 @@ function formatSignedLuminance(value: number): string {
   return safe > 0 ? `+${safe}` : String(safe);
 }
 
-export function ThreeWayColorWheels({
+function ThreeWayColorWheelsInner({
   value,
   defaultValue,
   onChange,
@@ -375,7 +377,7 @@ export function ThreeWayColorWheels({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -512,7 +514,7 @@ export function ThreeWayColorWheels({
           <span
             data-testid="color-wheels-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </span>
@@ -522,7 +524,7 @@ export function ThreeWayColorWheels({
           <span
             data-testid="color-wheels-active-summary"
             className="prism-well inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-xs font-semibold tabular-nums max-w-full truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <span
               aria-hidden="true"
@@ -546,7 +548,7 @@ export function ThreeWayColorWheels({
               'prism-crystal prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-opacity cursor-pointer disabled:cursor-not-allowed shrink-0',
               disabled || !hasAnyAdjustment ? 'opacity-50' : ''
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             <RotateCcw aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Reset All</span>
@@ -595,13 +597,13 @@ export function ThreeWayColorWheels({
                   />
                   <span
                     className="text-xs font-semibold tracking-tight truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {zone.label}
                   </span>
                   <span
                     className="text-[11px] truncate"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     ({zone.rangeLabel})
                   </span>
@@ -617,7 +619,7 @@ export function ThreeWayColorWheels({
                     'prism-crystal prism-focus-ring inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium transition-opacity cursor-pointer disabled:cursor-not-allowed shrink-0',
                     disabled || zoneNeutral ? 'opacity-45' : ''
                   )}
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
                   <span>Reset</span>
@@ -788,7 +790,7 @@ export function ThreeWayColorWheels({
                   <label
                     htmlFor={luminanceSliderId}
                     className="font-medium truncate"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Luminance
                   </label>
@@ -831,14 +833,14 @@ export function ThreeWayColorWheels({
                 <div className="prism-crystal rounded-xl px-1.5 py-1 flex flex-col items-center min-w-0">
                   <span
                     className="text-[10px] font-medium uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     X
                   </span>
                   <span
                     data-testid={`wheel-readout-x-${zone.id}`}
                     className="font-mono text-[11px] font-semibold tabular-nums truncate max-w-full"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatSignedAxis(zoneValue.x)}
                   </span>
@@ -847,14 +849,14 @@ export function ThreeWayColorWheels({
                 <div className="prism-crystal rounded-xl px-1.5 py-1 flex flex-col items-center min-w-0">
                   <span
                     className="text-[10px] font-medium uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Y
                   </span>
                   <span
                     data-testid={`wheel-readout-y-${zone.id}`}
                     className="font-mono text-[11px] font-semibold tabular-nums truncate max-w-full"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatSignedAxis(zoneValue.y)}
                   </span>
@@ -863,14 +865,14 @@ export function ThreeWayColorWheels({
                 <div className="prism-crystal rounded-xl px-1.5 py-1 flex flex-col items-center min-w-0">
                   <span
                     className="text-[10px] font-medium uppercase tracking-wider"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Lum
                   </span>
                   <span
                     data-testid={`wheel-readout-lum-${zone.id}`}
                     className="font-mono text-[11px] font-semibold tabular-nums truncate max-w-full"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatSignedLuminance(zoneValue.luminance)}
                   </span>
@@ -884,4 +886,5 @@ export function ThreeWayColorWheels({
   );
 }
 
+export const ThreeWayColorWheels = memo(ThreeWayColorWheelsInner);
 ThreeWayColorWheels.displayName = 'ThreeWayColorWheels';

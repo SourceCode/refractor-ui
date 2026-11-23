@@ -456,7 +456,7 @@ describe('WindowTitlebar', () => {
     expect(root).toHaveAttribute('data-dragging', 'true');
     expect(header).toHaveAttribute('data-dragging', 'true');
     expect(header).toHaveClass('cursor-grabbing');
-    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
+    expect(addSpy).toHaveBeenCalledWith('pointermove', expect.any(Function), { passive: true });
     expect(addSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
     expect(addSpy).toHaveBeenCalledWith('pointercancel', expect.any(Function));
 

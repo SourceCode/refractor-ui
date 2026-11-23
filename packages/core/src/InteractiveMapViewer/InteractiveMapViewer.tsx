@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -203,7 +204,7 @@ function resolveRoutes(
   return resolved;
 }
 
-export function InteractiveMapViewer({
+function InteractiveMapViewerInner({
   pins,
   routes,
   selectedPinId,
@@ -349,7 +350,7 @@ export function InteractiveMapViewer({
       };
 
       cleanupPointerRef.current = cleanup;
-      window.addEventListener('pointermove', handlePointerMove);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
       window.addEventListener('pointerup', handlePointerEnd);
       window.addEventListener('pointercancel', handlePointerEnd);
     },
@@ -760,4 +761,5 @@ export function InteractiveMapViewer({
   );
 }
 
+export const InteractiveMapViewer = memo(InteractiveMapViewerInner);
 InteractiveMapViewer.displayName = 'InteractiveMapViewer';

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useRef,
   useState,
@@ -15,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type SwipeActionTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -136,7 +138,7 @@ function resolveReleaseSide(
   return 'none';
 }
 
-export function SwipeableActionRow({
+function SwipeableActionRowInner({
   children,
   leftActions = EMPTY_ACTIONS,
   rightActions = EMPTY_ACTIONS,
@@ -418,8 +420,8 @@ export function SwipeableActionRow({
             data-testid="swipeable-toggle-left"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={() => commitRevealSide(effectiveSide === 'left' ? 'none' : 'left')}
-            style={{ color: 'var(--prism-text-secondary)' }}
-            className="prism-well prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 opacity-75 enabled:hover:opacity-100 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+            style={STYLE_TEXT_SECONDARY}
+            className="prism-well prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 opacity-75 enabled:hover:opacity-100 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <ChevronRight
               className={cx(
@@ -442,8 +444,8 @@ export function SwipeableActionRow({
             data-testid="swipeable-toggle-right"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={() => commitRevealSide(effectiveSide === 'right' ? 'none' : 'right')}
-            style={{ color: 'var(--prism-text-secondary)' }}
-            className="prism-well prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 opacity-75 enabled:hover:opacity-100 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+            style={STYLE_TEXT_SECONDARY}
+            className="prism-well prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 opacity-75 enabled:hover:opacity-100 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <ChevronLeft
               className={cx(
@@ -459,4 +461,5 @@ export function SwipeableActionRow({
   );
 }
 
+export const SwipeableActionRow = memo(SwipeableActionRowInner);
 SwipeableActionRow.displayName = 'SwipeableActionRow';

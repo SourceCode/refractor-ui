@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react';
+import { memo, useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -64,14 +64,14 @@ function getActionToneClass(tone: StickyActionTone): string {
     case 'cobalt':
       return 'prism-btn-cobalt';
     case 'destructive':
-      return 'rounded-full bg-gradient-to-b from-red-600 to-rose-700 text-white shadow-sm ring-1 ring-inset ring-white/30 enabled:hover:brightness-105 enabled:hover:-translate-y-0.5 enabled:active:scale-[0.99] transition-all';
+      return 'rounded-full bg-gradient-to-b from-red-600 to-rose-700 text-white shadow-sm ring-1 ring-inset ring-white/30 enabled:hover:brightness-105 enabled:hover:-translate-y-0.5 enabled:active:scale-[0.99] transition-[color,background-color,border-color,opacity,transform]';
     case 'secondary':
     default:
       return 'prism-btn-secondary';
   }
 }
 
-export function StickyActionBar({
+function StickyActionBarInner({
   selectedCount,
   totalCount,
   alwaysVisible = false,
@@ -237,4 +237,5 @@ export function StickyActionBar({
   );
 }
 
+export const StickyActionBar = memo(StickyActionBarInner);
 StickyActionBar.displayName = 'StickyActionBar';

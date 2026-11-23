@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -16,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type EqBandFilterType = 'low-shelf' | 'bell' | 'high-shelf';
@@ -312,7 +314,7 @@ function buildBandPreviewPath(band: EqBand): string {
   return parts.join(' ');
 }
 
-export function ParametricEqGraph({
+function ParametricEqGraphInner({
   bands,
   defaultBands,
   onChange,
@@ -488,7 +490,7 @@ export function ParametricEqGraph({
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', handleWindowPointerMove);
+      window.addEventListener('pointermove', handleWindowPointerMove, { passive: true });
       window.addEventListener('pointerup', handleWindowPointerEnd);
       window.addEventListener('pointercancel', handleWindowPointerEnd);
     };
@@ -558,7 +560,7 @@ export function ParametricEqGraph({
           <span
             aria-hidden="true"
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <SlidersHorizontal className="w-4 h-4 shrink-0" />
           </span>
@@ -566,7 +568,7 @@ export function ParametricEqGraph({
             id={headingId}
             data-testid="eq-title"
             className="text-sm font-semibold tracking-tight truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {title}
           </h4>
@@ -593,7 +595,7 @@ export function ParametricEqGraph({
                     data-band-enabled={band.enabled ? 'true' : 'false'}
                     onClick={() => setSelectedBandId(band.id)}
                     className={cx(
-                      'prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center text-xs font-semibold tabular-nums cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                      'prism-focus-ring w-7 h-7 rounded-full inline-flex items-center justify-center text-xs font-semibold tabular-nums cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                       isSelected
                         ? 'prism-btn-primary'
                         : 'prism-crystal opacity-85 enabled:hover:opacity-100',
@@ -621,7 +623,7 @@ export function ParametricEqGraph({
             disabled={disabled || isEmpty}
             data-testid="eq-flatten-button"
             onClick={handleFlattenEq}
-            className="prism-btn-secondary prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="prism-btn-secondary prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
           >
             <RotateCcw aria-hidden="true" className="w-3 h-3 shrink-0" />
             <span>Flatten EQ</span>
@@ -638,10 +640,10 @@ export function ParametricEqGraph({
             'prism-well rounded-2xl px-4 py-8 text-center space-y-1 min-w-0'
           )}
         >
-          <p className="text-sm font-semibold" style={{ color: 'var(--prism-text-primary)' }}>
+          <p className="text-sm font-semibold" style={STYLE_TEXT_PRIMARY}>
             No EQ bands configured
           </p>
-          <p className="text-xs" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="text-xs" style={STYLE_TEXT_SECONDARY}>
             Provide one or more parametric bands to sculpt the logarithmic frequency response.
           </p>
         </div>
@@ -885,7 +887,7 @@ export function ParametricEqGraph({
                 data-testid="eq-band-bypass-toggle"
                 onClick={() => updateBand(activeBand.id, { enabled: !activeBand.enabled })}
                 className={cx(
-                  'prism-focus-ring rounded-full h-7 px-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                  'prism-focus-ring rounded-full h-7 px-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                   activeBand.enabled ? 'prism-emerald' : 'prism-crystal opacity-75'
                 )}
                 style={activeBand.enabled ? undefined : { color: 'var(--prism-text-secondary)' }}
@@ -913,7 +915,7 @@ export function ParametricEqGraph({
                       data-testid={`eq-filter-type-${filterType.id}`}
                       onClick={() => updateBand(activeBand.id, { type: filterType.id })}
                       className={cx(
-                        'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all',
+                        'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]',
                         isTypeActive
                           ? 'prism-btn-primary'
                           : 'prism-crystal opacity-85 enabled:hover:opacity-100'
@@ -933,14 +935,14 @@ export function ParametricEqGraph({
                   <label
                     htmlFor={freqSliderId}
                     className="font-semibold"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Freq
                   </label>
                   <span
                     data-testid="eq-inspector-freq-readout"
                     className="font-mono tabular-nums font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatFrequency(activeBand.frequencyHz)}
                   </span>
@@ -981,14 +983,14 @@ export function ParametricEqGraph({
                   <label
                     htmlFor={gainSliderId}
                     className="font-semibold"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Gain
                   </label>
                   <span
                     data-testid="eq-inspector-gain-readout"
                     className="font-mono tabular-nums font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatGainDb(activeBand.gainDb)}
                   </span>
@@ -1025,14 +1027,14 @@ export function ParametricEqGraph({
                   <label
                     htmlFor={qSliderId}
                     className="font-semibold"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     Q
                   </label>
                   <span
                     data-testid="eq-inspector-q-readout"
                     className="font-mono tabular-nums font-semibold"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {formatQ(activeBand.q)}
                   </span>
@@ -1066,4 +1068,5 @@ export function ParametricEqGraph({
   );
 }
 
+export const ParametricEqGraph = memo(ParametricEqGraphInner);
 ParametricEqGraph.displayName = 'ParametricEqGraph';

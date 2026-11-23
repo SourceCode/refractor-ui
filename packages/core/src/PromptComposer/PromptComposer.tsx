@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { memo, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { ArrowUp, Mic, MicOff, Paperclip, Sparkles, Square } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface PromptModelOption {
@@ -71,7 +72,7 @@ function deduplicateModels(
   return unique;
 }
 
-export function PromptComposer({
+function PromptComposerInner({
   value,
   defaultValue = '',
   onChange,
@@ -214,8 +215,8 @@ export function PromptComposer({
                 : 'Attach files'
             }
             onClick={() => onAttachClick?.()}
-            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-            style={{ color: 'var(--prism-text-primary)' }}
+            className="prism-crystal prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+            style={STYLE_TEXT_PRIMARY}
           >
             <Paperclip aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             {safeAttachmentsCount > 0 ? (
@@ -236,7 +237,7 @@ export function PromptComposer({
             onClick={handleVoiceToggle}
             className={`${
               isRecording ? 'prism-emerald' : 'prism-crystal'
-            } prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all`}
+            } prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]`}
             style={isRecording ? undefined : { color: 'var(--prism-text-primary)' }}
           >
             {isRecording ? (
@@ -252,7 +253,7 @@ export function PromptComposer({
               <Sparkles
                 aria-hidden="true"
                 className="w-3.5 h-3.5 shrink-0"
-                style={{ color: 'var(--prism-primary-main)' }}
+                style={STYLE_PRIMARY_MAIN}
               />
               <select
                 id={modelSelectId}
@@ -261,7 +262,7 @@ export function PromptComposer({
                 value={activeModel.id}
                 onChange={(e) => setCurrentModelId(e.target.value)}
                 className="prism-focus-ring bg-transparent text-xs font-medium pr-1 py-0.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed focus:outline-none"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               >
                 {uniqueModels.map((model) => (
                   <option key={model.id} value={model.id}>
@@ -273,7 +274,7 @@ export function PromptComposer({
                 <span
                   data-testid="prompt-model-badge"
                   className="prism-well px-1.5 py-0.5 rounded-full font-mono text-[10px] font-semibold"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {activeModel.badge}
                 </span>
@@ -304,7 +305,7 @@ export function PromptComposer({
               disabled={disabled}
               aria-label="Stop generating"
               onClick={() => onStop?.()}
-              className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+              className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             >
               <Square aria-hidden="true" className="w-3.5 h-3.5 relative z-10" />
               <span className="relative z-10">Stop</span>
@@ -315,7 +316,7 @@ export function PromptComposer({
               disabled={!canSubmit}
               aria-label="Send prompt"
               onClick={handleSubmit}
-              className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+              className="prism-btn-primary prism-focus-ring h-8 px-3.5 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
             >
               <ArrowUp aria-hidden="true" className="w-3.5 h-3.5 relative z-10" />
               <span className="relative z-10">Send</span>
@@ -327,4 +328,5 @@ export function PromptComposer({
   );
 }
 
+export const PromptComposer = memo(PromptComposerInner);
 PromptComposer.displayName = 'PromptComposer';

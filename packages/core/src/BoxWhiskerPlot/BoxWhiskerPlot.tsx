@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -12,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_BG_PRIMARY, STYLE_BORDER_PRIMARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type BoxWhiskerTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -210,7 +212,7 @@ export function computeBoxStats(values: ReadonlyArray<number>): BoxWhiskerStats 
   };
 }
 
-export function BoxWhiskerPlot({
+function BoxWhiskerPlotInner({
   series,
   title = 'Distribution Spread',
   valueUnit,
@@ -392,7 +394,7 @@ export function BoxWhiskerPlot({
         <h4
           id={headingId}
           className="text-sm font-semibold tracking-tight"
-          style={{ color: 'var(--prism-text-primary)' }}
+          style={STYLE_TEXT_PRIMARY}
         >
           {title}
         </h4>
@@ -401,7 +403,7 @@ export function BoxWhiskerPlot({
           <div
             aria-hidden="true"
             className="inline-flex flex-wrap items-center gap-3 text-[11px] font-medium"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <span className="inline-flex items-center gap-1.5">
               <span
@@ -416,14 +418,14 @@ export function BoxWhiskerPlot({
             <span className="inline-flex items-center gap-1.5">
               <span
                 className="w-3 h-0.5 rounded-full"
-                style={{ backgroundColor: 'var(--prism-primary-main)' }}
+                style={STYLE_BG_PRIMARY}
               />
               <span>Median</span>
             </span>
             <span className="inline-flex items-center gap-1.5">
               <span
                 className="w-2 h-2 rounded-full border-2"
-                style={{ borderColor: 'var(--prism-primary-main)' }}
+                style={STYLE_BORDER_PRIMARY}
               />
               <span>Outlier</span>
             </span>
@@ -436,7 +438,7 @@ export function BoxWhiskerPlot({
           role="status"
           data-testid="box-whisker-empty"
           className="prism-well rounded-2xl px-4 py-8 text-center text-xs font-medium"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           No distribution data to display.
         </div>
@@ -604,7 +606,7 @@ export function BoxWhiskerPlot({
               readoutClass,
               'prism-well rounded-xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs tabular-nums'
             )}
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {activeSeries ? (
               <>
@@ -621,7 +623,7 @@ export function BoxWhiskerPlot({
                 </span>
               </>
             ) : (
-              <span style={{ color: 'var(--prism-text-secondary)' }}>
+              <span style={STYLE_TEXT_SECONDARY}>
                 Select any series to inspect Min · Q1 · Median · Q3 · Max · Outliers.
               </span>
             )}
@@ -632,4 +634,5 @@ export function BoxWhiskerPlot({
   );
 }
 
+export const BoxWhiskerPlot = memo(BoxWhiskerPlotInner);
 BoxWhiskerPlot.displayName = 'BoxWhiskerPlot';

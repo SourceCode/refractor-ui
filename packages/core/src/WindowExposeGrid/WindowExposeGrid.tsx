@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useId,
   useMemo,
@@ -20,6 +21,7 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BG_DIVIDER, STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ExposeWindowTone = 'primary' | 'info' | 'emerald' | 'amber' | 'rose';
@@ -247,7 +249,7 @@ function computePreviewBars(id: string): PreviewBarWidths {
   };
 }
 
-export function WindowExposeGrid({
+function WindowExposeGridInner({
   title = DEFAULT_TITLE,
   windows,
   defaultWindows,
@@ -459,7 +461,7 @@ export function WindowExposeGrid({
         data-active={isActive ? 'true' : undefined}
         className={cx(
           cardClass,
-          'prism-crystal rounded-2xl overflow-hidden flex flex-col min-w-0 border transition-all'
+          'prism-crystal rounded-2xl overflow-hidden flex flex-col min-w-0 border transition-[color,background-color,border-color,opacity,transform]'
         )}
         style={{
           borderColor: isActive ? visuals.accent : 'var(--prism-divider)',
@@ -478,17 +480,17 @@ export function WindowExposeGrid({
             <span
               aria-hidden="true"
               className="w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-error-main)' }}
+              style={STYLE_BG_ERROR}
             />
             <span
               aria-hidden="true"
               className="w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-warning-main)' }}
+              style={STYLE_BG_WARNING}
             />
             <span
               aria-hidden="true"
               className="w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ backgroundColor: 'var(--prism-success-main)' }}
+              style={STYLE_BG_SUCCESS}
             />
             {isActive ? (
               <span
@@ -554,11 +556,11 @@ export function WindowExposeGrid({
               />
               <span
                 className="h-1.5 w-4/5 rounded-full"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
               <span
                 className="h-1.5 w-3/5 rounded-full"
-                style={{ backgroundColor: 'var(--prism-divider)' }}
+                style={STYLE_BG_DIVIDER}
               />
             </div>
 
@@ -608,7 +610,7 @@ export function WindowExposeGrid({
           <div className="flex flex-col gap-2 min-w-0 w-full">
             <span
               className="text-sm font-bold leading-snug truncate w-full"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {cardTitle}
             </span>
@@ -628,7 +630,7 @@ export function WindowExposeGrid({
 
               <span
                 className="prism-well inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium max-w-full min-w-0"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <Monitor aria-hidden="true" className="w-3 h-3 shrink-0" />
                 <span className="truncate">{workspaceLabel}</span>
@@ -670,7 +672,7 @@ export function WindowExposeGrid({
           <h2
             id={headingId}
             className="m-0 text-sm font-semibold tracking-[-0.01em] truncate min-w-0"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {resolvedTitle}
           </h2>
@@ -680,7 +682,7 @@ export function WindowExposeGrid({
             data-visible-count={String(filteredWindows.length)}
             data-total-count={String(openWindows.length)}
             className="prism-well px-2.5 py-1 rounded-full font-mono text-[11px] font-medium tabular-nums shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {countLabel}
           </span>
@@ -717,7 +719,7 @@ export function WindowExposeGrid({
             <Search
               aria-hidden="true"
               className="w-4 h-4 shrink-0"
-              style={{ color: 'var(--prism-text-secondary)' }}
+              style={STYLE_TEXT_SECONDARY}
             />
             <label htmlFor={searchInputId} className="sr-only">
               Filter open windows
@@ -732,7 +734,7 @@ export function WindowExposeGrid({
               onChange={(event) => handleSearchChange(event.target.value)}
               onKeyDown={handleSearchKeyDown}
               className="prism-focus-ring w-full min-w-0 bg-transparent text-xs sm:text-sm rounded-lg disabled:cursor-not-allowed disabled:opacity-60"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
             {searchQuery.length > 0 ? (
               <button
@@ -742,7 +744,7 @@ export function WindowExposeGrid({
                 data-testid="window-expose-clear-search"
                 onClick={handleClearSearch}
                 className="prism-focus-ring w-6 h-6 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X aria-hidden="true" className="w-3.5 h-3.5" />
               </button>
@@ -824,17 +826,17 @@ export function WindowExposeGrid({
           <span
             aria-hidden="true"
             className="prism-crystal w-10 h-10 rounded-2xl inline-flex items-center justify-center"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             <LayoutGrid className="w-5 h-5" />
           </span>
           <p
             className="m-0 text-sm font-semibold"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {openWindows.length === 0 ? 'No open windows' : 'No matching windows'}
           </p>
-          <p className="m-0 text-xs max-w-md" style={{ color: 'var(--prism-text-secondary)' }}>
+          <p className="m-0 text-xs max-w-md" style={STYLE_TEXT_SECONDARY}>
             {openWindows.length === 0
               ? 'All application windows have been closed in this workspace overview.'
               : 'No open windows match the active search query or application filter.'}
@@ -870,18 +872,18 @@ export function WindowExposeGrid({
                   <AppWindow
                     aria-hidden="true"
                     className="w-4 h-4 shrink-0"
-                    style={{ color: 'var(--prism-primary-main)' }}
+                    style={STYLE_PRIMARY_MAIN}
                   />
                   <h3
                     className="m-0 text-xs font-semibold uppercase tracking-wide truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {group.appName}
                   </h3>
                 </div>
                 <span
                   className="prism-well px-2 py-0.5 rounded-full font-mono text-[11px] tabular-nums shrink-0"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {group.items.length}
                 </span>
@@ -916,7 +918,7 @@ export function WindowExposeGrid({
         aria-atomic="true"
         data-testid="window-expose-live-status"
         className={cx(statusClass, 'm-0 text-xs truncate min-w-0')}
-        style={{ color: 'var(--prism-text-secondary)' }}
+        style={STYLE_TEXT_SECONDARY}
       >
         {liveStatusText}
       </p>
@@ -924,4 +926,5 @@ export function WindowExposeGrid({
   );
 }
 
+export const WindowExposeGrid = memo(WindowExposeGridInner);
 WindowExposeGrid.displayName = 'WindowExposeGrid';

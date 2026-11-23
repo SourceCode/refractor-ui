@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useCallback,
   useEffect,
   useId,
@@ -97,7 +98,7 @@ function getWcagGrade(ratio: number): string {
   return 'Low';
 }
 
-export function ColorPicker({
+function ColorPickerInner({
   value,
   defaultValue = DEFAULT_HEX,
   alpha,
@@ -235,7 +236,7 @@ export function ColorPicker({
       setIsDraggingSpectrum(false);
     };
 
-    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
     window.addEventListener('pointerup', handlePointerUp);
     window.addEventListener('pointercancel', handlePointerUp);
 
@@ -723,4 +724,5 @@ export function ColorPicker({
   );
 }
 
+export const ColorPicker = memo(ColorPickerInner);
 ColorPicker.displayName = 'ColorPicker';

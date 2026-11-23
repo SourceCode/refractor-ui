@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { memo, useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Calendar, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { buildMonthGrid } from '../utils/dateGrid';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export interface DateRangeValue {
@@ -146,7 +147,7 @@ function formatRangeSummary(range: DateRangeValue): string {
   return 'Select start & end date';
 }
 
-export function DateRangePicker({
+function DateRangePickerInner({
   value,
   defaultValue = DEFAULT_RANGE_VALUE,
   onChange,
@@ -287,7 +288,7 @@ export function DateRangePicker({
   const calendarsClass = stableClassName('date-range-picker', 'calendars');
 
   const navButtonClass =
-    'prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
+    'prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
 
   return (
     <div
@@ -303,19 +304,19 @@ export function DateRangePicker({
           headerClass,
           'flex flex-wrap items-center justify-between gap-2.5 pb-3.5 mb-4 border-b'
         )}
-        style={{ borderColor: 'var(--prism-divider)' }}
+        style={STYLE_BORDER_DIVIDER}
       >
         <div className="min-w-0 flex items-center gap-2.5">
           <span
             className="prism-well w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0"
-            style={{ color: 'var(--prism-primary-main)' }}
+            style={STYLE_PRIMARY_MAIN}
           >
             <Calendar aria-hidden="true" className="w-4 h-4 shrink-0" />
           </span>
           <span
             id={labelId}
             className="text-sm font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -352,7 +353,7 @@ export function DateRangePicker({
             presetsClass,
             'flex flex-row lg:flex-col flex-wrap gap-1.5 lg:w-40 shrink-0 lg:pr-4 lg:border-r'
           )}
-          style={{ borderColor: 'var(--prism-divider)' }}
+          style={STYLE_BORDER_DIVIDER}
           role="group"
           aria-label="Quick date range presets"
         >
@@ -366,7 +367,7 @@ export function DateRangePicker({
                 aria-pressed={isActive}
                 onClick={() => handleSelectPreset(preset)}
                 className={cx(
-                  'prism-focus-ring px-3 py-2 rounded-xl text-left text-xs transition-all cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
+                  'prism-focus-ring px-3 py-2 rounded-xl text-left text-xs transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
                   isActive ? 'prism-emerald font-semibold' : 'prism-well font-medium'
                 )}
                 style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
@@ -385,7 +386,7 @@ export function DateRangePicker({
               disabled={disabled}
               onClick={() => handleNavigateMonth(-1)}
               className={navButtonClass}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <ChevronLeft aria-hidden="true" className="w-4 h-4 shrink-0" />
             </button>
@@ -395,7 +396,7 @@ export function DateRangePicker({
                 <span
                   key={panel.key}
                   className="text-xs font-semibold tracking-tight"
-                  style={{ color: 'var(--prism-text-primary)' }}
+                  style={STYLE_TEXT_PRIMARY}
                 >
                   {panel.heading}
                 </span>
@@ -408,7 +409,7 @@ export function DateRangePicker({
               disabled={disabled}
               onClick={() => handleNavigateMonth(1)}
               className={navButtonClass}
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               <ChevronRight aria-hidden="true" className="w-4 h-4 shrink-0" />
             </button>
@@ -424,7 +425,7 @@ export function DateRangePicker({
               >
                 <div
                   className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold mb-1.5"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   {WEEKDAYS.map((weekday) => (
                     <span key={weekday} className="py-0.5">
@@ -441,7 +442,7 @@ export function DateRangePicker({
                           key={`${panel.key}-${cell.dateIso}`}
                           aria-hidden="true"
                           className="h-8 flex items-center justify-center text-xs tabular-nums opacity-25 select-none"
-                          style={{ color: 'var(--prism-text-disabled)' }}
+                          style={STYLE_TEXT_DISABLED}
                         >
                           {cell.dayOfMonth}
                         </span>
@@ -471,7 +472,7 @@ export function DateRangePicker({
                         disabled={disabled}
                         onClick={() => handleSelectDay(cell.dateIso)}
                         className={cx(
-                          'prism-focus-ring h-8 rounded-xl text-xs tabular-nums transition-all cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
+                          'prism-focus-ring h-8 rounded-xl text-xs tabular-nums transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                           isEndpoint
                             ? 'prism-btn-primary font-semibold'
                             : isInRange
@@ -498,4 +499,5 @@ export function DateRangePicker({
   );
 }
 
+export const DateRangePicker = memo(DateRangePickerInner);
 DateRangePicker.displayName = 'DateRangePicker';

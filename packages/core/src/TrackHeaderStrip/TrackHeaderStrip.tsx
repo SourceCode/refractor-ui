@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  memo,
   useEffect,
   useId,
   useRef,
@@ -27,6 +28,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type TrackLaneType = 'video' | 'audio' | 'effect' | 'subtitle';
@@ -192,7 +194,7 @@ function preventBlurOnMouseDown(event: ReactMouseEvent<HTMLButtonElement>): void
   event.preventDefault();
 }
 
-export function TrackHeaderStrip({
+function TrackHeaderStripInner({
   name,
   trackType = 'video',
   muted,
@@ -358,7 +360,7 @@ export function TrackHeaderStrip({
       disabled,
     }),
     baseClassName: cx(
-      'prism-slab relative overflow-hidden w-full max-w-full flex flex-col pl-4 pr-3 transition-all',
+      'prism-slab relative overflow-hidden w-full max-w-full flex flex-col pl-4 pr-3 transition-[color,background-color,border-color,opacity,transform]',
       isExpanded ? 'py-3 gap-2.5' : 'py-2.5 gap-2',
       disabled ? 'opacity-60' : ''
     ),
@@ -431,7 +433,7 @@ export function TrackHeaderStrip({
                   }
                 }}
                 className="prism-well prism-focus-ring h-7 w-full min-w-0 flex-1 rounded-lg px-2 text-xs font-semibold focus:outline-none disabled:cursor-not-allowed"
-                style={{ color: 'var(--prism-text-primary)' }}
+                style={STYLE_TEXT_PRIMARY}
               />
               <button
                 type="button"
@@ -440,7 +442,7 @@ export function TrackHeaderStrip({
                 data-testid="track-rename-confirm"
                 onMouseDown={preventBlurOnMouseDown}
                 onClick={() => commitRename(true)}
-                className="prism-emerald prism-focus-ring w-6 h-6 rounded-md inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
+                className="prism-emerald prism-focus-ring w-6 h-6 rounded-md inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
               >
                 <Check aria-hidden="true" className="w-3 h-3 shrink-0" />
               </button>
@@ -451,8 +453,8 @@ export function TrackHeaderStrip({
                 data-testid="track-rename-cancel"
                 onMouseDown={preventBlurOnMouseDown}
                 onClick={() => cancelRename(true)}
-                className="prism-crystal prism-focus-ring w-6 h-6 rounded-md inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-all"
-                style={{ color: 'var(--prism-text-secondary)' }}
+                className="prism-crystal prism-focus-ring w-6 h-6 rounded-md inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]"
+                style={STYLE_TEXT_SECONDARY}
               >
                 <X aria-hidden="true" className="w-3 h-3 shrink-0" />
               </button>
@@ -482,8 +484,8 @@ export function TrackHeaderStrip({
                   aria-label={`Rename ${accessibleName}`}
                   data-testid="track-rename-trigger"
                   onClick={startRename}
-                  className="prism-crystal prism-focus-ring w-6 h-6 rounded-md inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-                  style={{ color: 'var(--prism-text-secondary)' }}
+                  className="prism-crystal prism-focus-ring w-6 h-6 rounded-md inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+                  style={STYLE_TEXT_SECONDARY}
                 >
                   <Pencil aria-hidden="true" className="w-3 h-3 shrink-0" />
                 </button>
@@ -500,8 +502,8 @@ export function TrackHeaderStrip({
           aria-label={isExpanded ? `Collapse ${accessibleName}` : `Expand ${accessibleName}`}
           data-testid="track-height-toggle"
           onClick={handleToggleHeight}
-          className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          className="prism-crystal prism-focus-ring w-7 h-7 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
+          style={STYLE_TEXT_SECONDARY}
         >
           {isExpanded ? (
             <ChevronUp aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -525,7 +527,7 @@ export function TrackHeaderStrip({
           data-active={headerState.muted ? 'true' : undefined}
           onClick={handleToggleMuted}
           className={cx(
-            'prism-focus-ring h-7 min-w-7 px-2 rounded-full font-mono text-xs font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring h-7 min-w-7 px-2 rounded-full font-mono text-xs font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             headerState.muted ? '' : 'prism-crystal'
           )}
           style={
@@ -550,7 +552,7 @@ export function TrackHeaderStrip({
           data-active={headerState.solo ? 'true' : undefined}
           onClick={handleToggleSolo}
           className={cx(
-            'prism-focus-ring h-7 min-w-7 px-2 rounded-full font-mono text-xs font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring h-7 min-w-7 px-2 rounded-full font-mono text-xs font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             headerState.solo ? 'prism-emerald' : 'prism-crystal'
           )}
           style={headerState.solo ? undefined : { color: 'var(--prism-text-secondary)' }}
@@ -568,7 +570,7 @@ export function TrackHeaderStrip({
           data-blocked={headerState.locked ? 'true' : undefined}
           onClick={handleToggleArmed}
           className={cx(
-            'prism-focus-ring h-7 min-w-7 px-2 rounded-full font-mono text-xs font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all',
+            'prism-focus-ring h-7 min-w-7 px-2 rounded-full font-mono text-xs font-bold inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]',
             headerState.armed ? '' : 'prism-crystal'
           )}
           style={
@@ -596,7 +598,7 @@ export function TrackHeaderStrip({
           data-testid="track-lock-button"
           data-active={headerState.locked ? 'true' : undefined}
           onClick={handleToggleLocked}
-          className="prism-crystal prism-focus-ring h-7 min-w-7 px-2 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-all"
+          className="prism-crystal prism-focus-ring h-7 min-w-7 px-2 rounded-full inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]"
           style={
             headerState.locked
               ? {
@@ -637,7 +639,7 @@ export function TrackHeaderStrip({
                   aria-hidden="true"
                   className={cx(
                     'w-1.5 h-1.5 rounded-full shrink-0',
-                    badge.pulse ? 'animate-pulse' : ''
+                    badge.pulse ? 'animate-pulse motion-reduce:animate-none' : ''
                   )}
                   style={{ backgroundColor: badge.dotToken }}
                 />
@@ -649,7 +651,7 @@ export function TrackHeaderStrip({
           <span
             data-testid="track-type-label"
             className="font-mono text-[10px] font-medium uppercase tracking-wider whitespace-nowrap shrink-0"
-            style={{ color: 'var(--prism-text-secondary)' }}
+            style={STYLE_TEXT_SECONDARY}
           >
             {laneMeta.typeLabel}
           </span>
@@ -659,4 +661,5 @@ export function TrackHeaderStrip({
   );
 }
 
+export const TrackHeaderStrip = memo(TrackHeaderStripInner);
 TrackHeaderStrip.displayName = 'TrackHeaderStrip';

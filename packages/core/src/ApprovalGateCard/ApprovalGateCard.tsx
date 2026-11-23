@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { memo, useId, useState } from 'react';
 import { CheckCircle2, Shield, ShieldAlert, ShieldCheck, XCircle } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { isSafeObjectKey } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ApprovalRiskLevel = 'low' | 'medium' | 'high' | 'critical';
@@ -92,7 +93,7 @@ function renderRiskIcon(riskLevel: ApprovalRiskLevel, colorVar: string) {
   return <ShieldAlert aria-hidden="true" className="w-4 h-4 shrink-0" style={iconStyle} />;
 }
 
-export function ApprovalGateCard({
+function ApprovalGateCardInner({
   title,
   actionName,
   description,
@@ -186,7 +187,7 @@ export function ApprovalGateCard({
             <h3
               id={titleId}
               className="text-sm font-semibold tracking-[-0.01em] truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {title}
             </h3>
@@ -196,7 +197,7 @@ export function ApprovalGateCard({
             <code
               data-testid="approval-action-name"
               className="prism-well rounded-full px-2.5 py-0.5 text-[11px] font-mono font-medium max-w-full truncate"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             >
               {actionName}
             </code>
@@ -255,7 +256,7 @@ export function ApprovalGateCard({
         <p
           data-testid="approval-description"
           className="text-xs leading-relaxed"
-          style={{ color: 'var(--prism-text-secondary)' }}
+          style={STYLE_TEXT_SECONDARY}
         >
           {description}
         </p>
@@ -282,21 +283,21 @@ export function ApprovalGateCard({
                     <label
                       htmlFor={inputId}
                       className="text-xs font-medium truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {param.label}
                     </label>
                   ) : (
                     <span
                       className="text-xs font-medium truncate"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     >
                       {param.label}
                     </span>
                   )}
                   <code
                     className="text-[11px] font-mono shrink-0"
-                    style={{ color: 'var(--prism-text-secondary)' }}
+                    style={STYLE_TEXT_SECONDARY}
                   >
                     {param.key}
                   </code>
@@ -311,14 +312,14 @@ export function ApprovalGateCard({
                       disabled={disabled || isResolved}
                       onChange={(e) => handleParameterChange(param.key, e.target.value)}
                       className="w-full min-w-0 bg-transparent text-xs font-mono focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-                      style={{ color: 'var(--prism-text-primary)' }}
+                      style={STYLE_TEXT_PRIMARY}
                     />
                   </div>
                 ) : (
                   <code
                     data-testid={`approval-param-value-${param.key}`}
                     className="prism-well rounded-full px-2.5 py-1 text-[11px] font-mono max-w-full sm:max-w-[60%] truncate"
-                    style={{ color: 'var(--prism-text-primary)' }}
+                    style={STYLE_TEXT_PRIMARY}
                   >
                     {param.value}
                   </code>
@@ -353,7 +354,7 @@ export function ApprovalGateCard({
                 }
               }}
               className="w-full min-w-0 bg-transparent text-xs focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed"
-              style={{ color: 'var(--prism-text-primary)' }}
+              style={STYLE_TEXT_PRIMARY}
             />
           </div>
 
@@ -382,4 +383,5 @@ export function ApprovalGateCard({
   );
 }
 
+export const ApprovalGateCard = memo(ApprovalGateCardInner);
 ApprovalGateCard.displayName = 'ApprovalGateCard';

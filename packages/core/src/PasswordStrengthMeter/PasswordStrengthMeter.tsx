@@ -1,11 +1,12 @@
 'use client';
 
-import { useId, useMemo } from 'react';
+import { memo, useId, useMemo } from 'react';
 import { CheckCircle2, Circle, ShieldCheck } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type PasswordStrengthLevel = 'empty' | 'weak' | 'fair' | 'strong' | 'excellent';
@@ -158,7 +159,7 @@ function getStrengthVisual(level: PasswordStrengthLevel): StrengthVisual {
   }
 }
 
-export function PasswordStrengthMeter({
+function PasswordStrengthMeterInner({
   password,
   minLength = 12,
   showChecklist = true,
@@ -207,7 +208,7 @@ export function PasswordStrengthMeter({
           <span
             id={headingId}
             className="text-xs font-semibold truncate"
-            style={{ color: 'var(--prism-text-primary)' }}
+            style={STYLE_TEXT_PRIMARY}
           >
             {label}
           </span>
@@ -248,7 +249,7 @@ export function PasswordStrengthMeter({
               key={segment.id}
               data-testid={segment.id}
               data-filled={filled ? 'true' : 'false'}
-              className={`h-2 flex-1 rounded-full transition-all duration-200 ${
+              className={`h-2 flex-1 rounded-full transition-[color,background-color,border-color,opacity,transform] duration-200 ${
                 filled ? '' : 'prism-well'
               }`}
               style={filled ? { backgroundColor: visual.colorToken } : undefined}
@@ -304,4 +305,5 @@ export function PasswordStrengthMeter({
   );
 }
 
+export const PasswordStrengthMeter = memo(PasswordStrengthMeterInner);
 PasswordStrengthMeter.displayName = 'PasswordStrengthMeter';
