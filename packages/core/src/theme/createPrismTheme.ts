@@ -78,9 +78,9 @@ function defaultMaterialBlurPx(material: ThemeMaterial): number {
     case 'glass':
     case 'mica':
     case 'resin':
-      return 18;
+      return 12;
     case 'chrome':
-      return 14;
+      return 10;
     case 'neon':
       return 4;
     default:
@@ -202,10 +202,10 @@ export function createPrismTheme(
   const defaultBlur = defaultMaterialBlurPx(material);
   const blurPx = clampNumber(options.optics?.blurPx ?? defaultBlur, 0, 48, defaultBlur);
   const slabBlurPx = clampNumber(
-    options.optics?.slabBlurPx ?? (blurPx > 0 ? Math.min(48, blurPx + 4) : 0),
+    options.optics?.slabBlurPx ?? (blurPx > 0 ? Math.min(48, blurPx + 2) : 0),
     0,
     48,
-    blurPx > 0 ? Math.min(48, blurPx + 4) : 0
+    blurPx > 0 ? Math.min(48, blurPx + 2) : 0
   );
   const defaultSpecular =
     material === 'glass' || material === 'mica' || material === 'chrome' || material === 'resin';

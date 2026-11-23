@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface SkeletonLoaderProps extends BaseProps<HTMLDivElement> {
@@ -68,5 +68,4 @@ function SkeletonLoaderInner({
   );
 }
 
-export const SkeletonLoader = memo(SkeletonLoaderInner);
-SkeletonLoader.displayName = 'SkeletonLoader';
+export const SkeletonLoader = /*#__PURE__*/ memoWithDisplayName(SkeletonLoaderInner, 'SkeletonLoader');

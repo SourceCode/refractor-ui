@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useRef,
@@ -17,6 +16,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type PullToRefreshStatus = 'idle' | 'pulling' | 'ready' | 'refreshing';
@@ -54,6 +54,10 @@ const MAX_THRESHOLD = 160;
 const DAMPENING_FACTOR = 0.55;
 const MAX_PULL_MULTIPLIER = 1.5;
 const REFRESHING_DRAWER_MIN_HEIGHT = 56;
+
+const indicatorClass = /*#__PURE__*/ stableClassName('pull-to-refresh', 'indicator');
+const toolbarClass = /*#__PURE__*/ stableClassName('pull-to-refresh', 'toolbar');
+const contentClass = /*#__PURE__*/ stableClassName('pull-to-refresh', 'content');
 
 function PullToRefreshInner({
   children,
@@ -237,9 +241,6 @@ function PullToRefreshInner({
     userStyle: style,
   });
 
-  const indicatorClass = stableClassName('pull-to-refresh', 'indicator');
-  const toolbarClass = stableClassName('pull-to-refresh', 'toolbar');
-  const contentClass = stableClassName('pull-to-refresh', 'content');
 
   const accentColor =
     status === 'ready' || status === 'refreshing'
@@ -360,5 +361,4 @@ function PullToRefreshInner({
   );
 }
 
-export const PullToRefresh = memo(PullToRefreshInner);
-PullToRefresh.displayName = 'PullToRefresh';
+export const PullToRefresh = /*#__PURE__*/ memoWithDisplayName(PullToRefreshInner, 'PullToRefresh');

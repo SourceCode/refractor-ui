@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -24,7 +23,8 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MinimizedTrayDisplayMode = 'thumbnails' | 'pills';
@@ -163,6 +163,16 @@ function normalizeItems(
 function pluralizeWindows(count: number): string {
   return count === 1 ? 'window' : 'windows';
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'header');
+const countClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'count');
+const modeSwitcherClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'mode-switcher');
+const restoreAllClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'restore-all');
+const shelfClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'shelf');
+const thumbnailClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'thumbnail');
+const pillClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'pill');
+const emptyClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'empty');
+const statusBarClass = /*#__PURE__*/ stableClassName('minimized-window-tray', 'status-bar');
 
 function MinimizedWindowTrayInner({
   title = DEFAULT_TRAY_TITLE,
@@ -355,21 +365,6 @@ function MinimizedWindowTrayInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('minimized-window-tray', 'header');
-  const countClass = stableClassName('minimized-window-tray', 'count');
-  const modeSwitcherClass = stableClassName(
-    'minimized-window-tray',
-    'mode-switcher'
-  );
-  const restoreAllClass = stableClassName(
-    'minimized-window-tray',
-    'restore-all'
-  );
-  const shelfClass = stableClassName('minimized-window-tray', 'shelf');
-  const thumbnailClass = stableClassName('minimized-window-tray', 'thumbnail');
-  const pillClass = stableClassName('minimized-window-tray', 'pill');
-  const emptyClass = stableClassName('minimized-window-tray', 'empty');
-  const statusBarClass = stableClassName('minimized-window-tray', 'status-bar');
 
   const idleStatusText = isEmpty
     ? 'All windows restored · Tray empty'
@@ -830,10 +825,7 @@ function MinimizedWindowTrayInner({
           statusBarClass,
           'px-3.5 py-1.5 border-t text-[11px] flex flex-wrap items-center justify-between gap-2 min-w-0 max-w-full'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-          color: 'var(--prism-text-secondary)',
-        }}
+        style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
       >
         <span className="truncate">{announcement || idleStatusText}</span>
         <span className="font-mono text-[10px] shrink-0">
@@ -844,5 +836,4 @@ function MinimizedWindowTrayInner({
   );
 }
 
-export const MinimizedWindowTray = memo(MinimizedWindowTrayInner);
-MinimizedWindowTray.displayName = 'MinimizedWindowTray';
+export const MinimizedWindowTray = /*#__PURE__*/ memoWithDisplayName(MinimizedWindowTrayInner, 'MinimizedWindowTray');

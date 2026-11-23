@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useId, useState, type ReactNode } from 'react';
+import { useId, useState, type ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TooltipPlacement = 'top' | 'bottom';
@@ -80,5 +81,4 @@ function TooltipInner({
   );
 }
 
-export const Tooltip = memo(TooltipInner);
-Tooltip.displayName = 'Tooltip';
+export const Tooltip = /*#__PURE__*/ memoWithDisplayName(TooltipInner, 'Tooltip');

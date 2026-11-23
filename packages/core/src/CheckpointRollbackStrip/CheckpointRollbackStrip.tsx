@@ -1,6 +1,5 @@
 'use client';
 
-import { memo } from 'react';
 
 import { Clock, FileCode2, GitFork, History, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
@@ -9,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface AgentCheckpoint {
@@ -51,6 +51,9 @@ function formatFilesChanged(filesChanged: number): string {
   const safeCount = clampNonNegativeInt(filesChanged);
   return safeCount === 1 ? '1 file' : `${safeCount} files`;
 }
+
+const trackClass = /*#__PURE__*/ stableClassName('checkpoint-rollback-strip', 'track');
+const footerClass = /*#__PURE__*/ stableClassName('checkpoint-rollback-strip', 'footer');
 
 function CheckpointRollbackStripInner({
   checkpoints,
@@ -97,8 +100,6 @@ function CheckpointRollbackStripInner({
     userStyle: style,
   });
 
-  const trackClass = stableClassName('checkpoint-rollback-strip', 'track');
-  const footerClass = stableClassName('checkpoint-rollback-strip', 'footer');
 
   return (
     <div ref={ref} role="region" aria-label="Agent checkpoints" {...rest} {...merged}>
@@ -238,5 +239,4 @@ function CheckpointRollbackStripInner({
   );
 }
 
-export const CheckpointRollbackStrip = memo(CheckpointRollbackStripInner);
-CheckpointRollbackStrip.displayName = 'CheckpointRollbackStrip';
+export const CheckpointRollbackStrip = /*#__PURE__*/ memoWithDisplayName(CheckpointRollbackStripInner, 'CheckpointRollbackStrip');

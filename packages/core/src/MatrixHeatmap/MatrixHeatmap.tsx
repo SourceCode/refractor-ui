@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface HeatmapCell {
@@ -114,6 +114,11 @@ function computeCellOpacity(value: number, minVal: number, maxVal: number): numb
   const ratio = clampNumber((value - minVal) / span, 0, 1, 0);
   return Number((0.1 + ratio * 0.8).toFixed(2));
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('matrix-heatmap', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('matrix-heatmap', 'legend');
+const tableClass = /*#__PURE__*/ stableClassName('matrix-heatmap', 'table');
+const readoutClass = /*#__PURE__*/ stableClassName('matrix-heatmap', 'readout');
 
 function MatrixHeatmapInner({
   rowLabels,
@@ -243,10 +248,6 @@ function MatrixHeatmapInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('matrix-heatmap', 'header');
-  const legendClass = stableClassName('matrix-heatmap', 'legend');
-  const tableClass = stableClassName('matrix-heatmap', 'table');
-  const readoutClass = stableClassName('matrix-heatmap', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -462,5 +463,4 @@ function MatrixHeatmapInner({
   );
 }
 
-export const MatrixHeatmap = memo(MatrixHeatmapInner);
-MatrixHeatmap.displayName = 'MatrixHeatmap';
+export const MatrixHeatmap = /*#__PURE__*/ memoWithDisplayName(MatrixHeatmapInner, 'MatrixHeatmap');

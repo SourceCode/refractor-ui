@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ChordTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -206,6 +206,11 @@ function buildChordRibbonPath(
     'Z',
   ].join(' ');
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('chord-diagram', 'header');
+const svgClass = /*#__PURE__*/ stableClassName('chord-diagram', 'svg');
+const legendClass = /*#__PURE__*/ stableClassName('chord-diagram', 'legend');
+const telemetryClass = /*#__PURE__*/ stableClassName('chord-diagram', 'telemetry');
 
 function ChordDiagramInner({
   entities,
@@ -452,10 +457,6 @@ function ChordDiagramInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('chord-diagram', 'header');
-  const svgClass = stableClassName('chord-diagram', 'svg');
-  const legendClass = stableClassName('chord-diagram', 'legend');
-  const telemetryClass = stableClassName('chord-diagram', 'telemetry');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -504,7 +505,7 @@ function ChordDiagramInner({
                 width={clampedSize}
                 height={clampedSize}
                 style={{ width: `${clampedSize}px`, height: `${clampedSize}px` }}
-                className={cx(svgClass, 'block max-w-full overflow-visible')}
+                className={cx(svgClass, 'block max-w-full overflow-visible', 'prism-contain-leaf')}
               >
                 <circle
                   cx={geometry.center}
@@ -674,5 +675,4 @@ function ChordDiagramInner({
   );
 }
 
-export const ChordDiagram = memo(ChordDiagramInner);
-ChordDiagram.displayName = 'ChordDiagram';
+export const ChordDiagram = /*#__PURE__*/ memoWithDisplayName(ChordDiagramInner, 'ChordDiagram');

@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface ContextMenuAction {
@@ -148,5 +149,4 @@ function ContextMenuDropdownInner({
   );
 }
 
-export const ContextMenuDropdown = memo(ContextMenuDropdownInner);
-ContextMenuDropdown.displayName = 'ContextMenuDropdown';
+export const ContextMenuDropdown = /*#__PURE__*/ memoWithDisplayName(ContextMenuDropdownInner, 'ContextMenuDropdown');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useRef,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type HardwarePortKind = 'rj45' | 'sfp+' | 'usb-c' | 'poe';
@@ -421,7 +421,7 @@ function renderRackEar(side: 'left' | 'right'): ReactNode {
         height={76}
         viewBox="0 0 18 76"
         aria-hidden="true"
-        className="block shrink-0 pointer-events-none"
+        className="block shrink-0 pointer-events-none prism-contain-box"
       >
         <rect
           x={3}
@@ -468,7 +468,7 @@ function renderPortSocketGlyph(
       aria-hidden="true"
       data-testid={`port-glyph-${portId}`}
       data-port-glyph={kind}
-      className="block shrink-0 pointer-events-none"
+      className="block shrink-0 pointer-events-none prism-contain-box"
     >
       {kind === 'rj45' ? (
         <>
@@ -630,6 +630,10 @@ function renderPortSocketGlyph(
     </svg>
   );
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('hardware-port-strip', 'header');
+const faceplateClass = /*#__PURE__*/ stableClassName('hardware-port-strip', 'faceplate');
+const inspectorClass = /*#__PURE__*/ stableClassName('hardware-port-strip', 'inspector');
 
 function HardwarePortStripInner({
   title = DEFAULT_TITLE,
@@ -881,9 +885,6 @@ function HardwarePortStripInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('hardware-port-strip', 'header');
-  const faceplateClass = stableClassName('hardware-port-strip', 'faceplate');
-  const inspectorClass = stableClassName('hardware-port-strip', 'inspector');
 
   const inspectedStatusMeta = inspectedPort
     ? getStatusMeta(inspectedPort.status, inspectedPort.adminEnabled)
@@ -999,7 +1000,7 @@ function HardwarePortStripInner({
                         color: 'var(--prism-primary-main)',
                         boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)',
                       }
-                    : { color: 'var(--prism-text-secondary)' }
+                    : STYLE_TEXT_SECONDARY
                 }
               >
                 {option.label}
@@ -1345,5 +1346,4 @@ function HardwarePortStripInner({
   );
 }
 
-export const HardwarePortStrip = memo(HardwarePortStripInner);
-HardwarePortStrip.displayName = 'HardwarePortStrip';
+export const HardwarePortStrip = /*#__PURE__*/ memoWithDisplayName(HardwarePortStripInner, 'HardwarePortStrip');

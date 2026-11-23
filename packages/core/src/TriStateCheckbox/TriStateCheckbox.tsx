@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { Check, Minus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,7 +8,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_PRIMARY_BORDER_TEXT, STYLE_SUCCESS_CONTRAST, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TriCheckboxState = 'unchecked' | 'checked' | 'indeterminate';
@@ -33,6 +34,11 @@ export interface TriStateCheckboxProps extends TriStateCheckboxBaseProps {
   /** Disables pointer and keyboard toggling. */
   disabled?: boolean;
 }
+
+const boxClass = /*#__PURE__*/ stableClassName('tri-state-checkbox', 'box');
+const labelClass = /*#__PURE__*/ stableClassName('tri-state-checkbox', 'label');
+const descriptionClass = /*#__PURE__*/ stableClassName('tri-state-checkbox', 'description');
+const countClass = /*#__PURE__*/ stableClassName('tri-state-checkbox', 'count');
 
 function TriStateCheckboxInner({
   state,
@@ -106,10 +112,6 @@ function TriStateCheckboxInner({
     userStyle: style,
   });
 
-  const boxClass = stableClassName('tri-state-checkbox', 'box');
-  const labelClass = stableClassName('tri-state-checkbox', 'label');
-  const descriptionClass = stableClassName('tri-state-checkbox', 'description');
-  const countClass = stableClassName('tri-state-checkbox', 'count');
 
   const boxVisualClass = isChecked
     ? 'prism-emerald'
@@ -118,12 +120,9 @@ function TriStateCheckboxInner({
       : 'prism-well';
 
   const boxStyle = isChecked
-    ? { color: 'var(--prism-success-contrast)' }
+    ? STYLE_SUCCESS_CONTRAST
     : isIndeterminate
-      ? {
-          borderColor: 'var(--prism-primary-main)',
-          color: 'var(--prism-primary-main)',
-        }
+      ? STYLE_PRIMARY_BORDER_TEXT
       : undefined;
 
   const countColor = isIndeterminate
@@ -200,5 +199,4 @@ function TriStateCheckboxInner({
   );
 }
 
-export const TriStateCheckbox = memo(TriStateCheckboxInner);
-TriStateCheckbox.displayName = 'TriStateCheckbox';
+export const TriStateCheckbox = /*#__PURE__*/ memoWithDisplayName(TriStateCheckboxInner, 'TriStateCheckbox');

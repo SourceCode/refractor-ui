@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -19,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_DIVIDER, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MotionCurveMode = 'spring' | 'bezier';
@@ -489,6 +489,13 @@ function CurveParameterSlider({
   );
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('spring-easing-picker', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('spring-easing-picker', 'stage');
+const graphClass = /*#__PURE__*/ stableClassName('spring-easing-picker', 'graph');
+const trackClass = /*#__PURE__*/ stableClassName('spring-easing-picker', 'track');
+const controlsClass = /*#__PURE__*/ stableClassName('spring-easing-picker', 'controls');
+const summaryClass = /*#__PURE__*/ stableClassName('spring-easing-picker', 'summary');
+
 function SpringEasingPickerInner({
   value,
   defaultValue,
@@ -735,12 +742,6 @@ function SpringEasingPickerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('spring-easing-picker', 'header');
-  const stageClass = stableClassName('spring-easing-picker', 'stage');
-  const graphClass = stableClassName('spring-easing-picker', 'graph');
-  const trackClass = stableClassName('spring-easing-picker', 'track');
-  const controlsClass = stableClassName('spring-easing-picker', 'controls');
-  const summaryClass = stableClassName('spring-easing-picker', 'summary');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -782,7 +783,7 @@ function SpringEasingPickerInner({
                   ? 'prism-btn-primary'
                   : 'prism-crystal opacity-85 enabled:hover:opacity-100'
               )}
-              style={safeConfig.mode === 'spring' ? undefined : { color: 'var(--prism-text-primary)' }}
+              style={safeConfig.mode === 'spring' ? undefined : STYLE_TEXT_PRIMARY}
             >
               <span className="relative z-10">Spring Physics</span>
             </button>
@@ -798,7 +799,7 @@ function SpringEasingPickerInner({
                   ? 'prism-btn-primary'
                   : 'prism-crystal opacity-85 enabled:hover:opacity-100'
               )}
-              style={safeConfig.mode === 'bezier' ? undefined : { color: 'var(--prism-text-primary)' }}
+              style={safeConfig.mode === 'bezier' ? undefined : STYLE_TEXT_PRIMARY}
             >
               <span className="relative z-10">Cubic Bezier</span>
             </button>
@@ -857,7 +858,7 @@ function SpringEasingPickerInner({
               aria-label={`${title} ${safeConfig.mode === 'spring' ? 'spring physics' : 'cubic-bezier'} curve graph: ${codeSummary}`}
               data-testid="spring-easing-svg"
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className="w-full h-auto select-none block"
+              className="w-full h-auto select-none block prism-contain-box"
             >
               {GRID_Y_TICKS.map((tick) => {
                 const gy = normalizedToSvg(0, tick.value).y;
@@ -1311,5 +1312,4 @@ function SpringEasingPickerInner({
   );
 }
 
-export const SpringEasingPicker = memo(SpringEasingPickerInner);
-SpringEasingPicker.displayName = 'SpringEasingPicker';
+export const SpringEasingPicker = /*#__PURE__*/ memoWithDisplayName(SpringEasingPickerInner, 'SpringEasingPicker');

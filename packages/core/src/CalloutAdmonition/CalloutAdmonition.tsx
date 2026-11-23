@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, type ReactNode } from 'react';
+import { useCallback, useId, type ReactNode } from 'react';
 import {
   AlertTriangle,
   ChevronDown,
@@ -14,7 +14,8 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AdmonitionKind = 'note' | 'tip' | 'warning' | 'danger' | 'abstract';
@@ -93,6 +94,17 @@ function getAdmonitionVisual(kind: AdmonitionKind): AdmonitionVisual {
   }
 }
 
+const stripeClass = /*#__PURE__*/ stableClassName('callout-admonition', 'stripe');
+const headerClass = /*#__PURE__*/ stableClassName('callout-admonition', 'header');
+const toggleClass = /*#__PURE__*/ stableClassName('callout-admonition', 'toggle');
+const iconClass = /*#__PURE__*/ stableClassName('callout-admonition', 'icon');
+const titleClass = /*#__PURE__*/ stableClassName('callout-admonition', 'title');
+const badgeClass = /*#__PURE__*/ stableClassName('callout-admonition', 'badge');
+const chevronClass = /*#__PURE__*/ stableClassName('callout-admonition', 'chevron');
+const actionsClass = /*#__PURE__*/ stableClassName('callout-admonition', 'actions');
+const bodyClass = /*#__PURE__*/ stableClassName('callout-admonition', 'body');
+const contentClass = /*#__PURE__*/ stableClassName('callout-admonition', 'content');
+
 function CalloutAdmonitionInner({
   kind = 'note',
   title,
@@ -138,7 +150,7 @@ function CalloutAdmonitionInner({
       collapsible,
       open: isExpanded,
     }),
-    baseClassName: 'prism-slab relative overflow-hidden w-full max-w-full min-w-0',
+    baseClassName: 'prism-contain-leaf prism-slab relative overflow-hidden w-full max-w-full min-w-0',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -146,16 +158,6 @@ function CalloutAdmonitionInner({
     userStyle: style,
   });
 
-  const stripeClass = stableClassName('callout-admonition', 'stripe');
-  const headerClass = stableClassName('callout-admonition', 'header');
-  const toggleClass = stableClassName('callout-admonition', 'toggle');
-  const iconClass = stableClassName('callout-admonition', 'icon');
-  const titleClass = stableClassName('callout-admonition', 'title');
-  const badgeClass = stableClassName('callout-admonition', 'badge');
-  const chevronClass = stableClassName('callout-admonition', 'chevron');
-  const actionsClass = stableClassName('callout-admonition', 'actions');
-  const bodyClass = stableClassName('callout-admonition', 'body');
-  const contentClass = stableClassName('callout-admonition', 'content');
 
   const headerIdentity = (
     <>
@@ -309,10 +311,7 @@ function CalloutAdmonitionInner({
                     contentClass,
                     'mt-3 pt-3 border-t text-sm leading-relaxed break-words min-w-0 max-w-full'
                   )}
-                  style={{
-                    borderColor: 'var(--prism-divider)',
-                    color: 'var(--prism-text-secondary)',
-                  }}
+                  style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
                 >
                   {children}
                 </div>
@@ -325,5 +324,4 @@ function CalloutAdmonitionInner({
   );
 }
 
-export const CalloutAdmonition = memo(CalloutAdmonitionInner);
-CalloutAdmonition.displayName = 'CalloutAdmonition';
+export const CalloutAdmonition = /*#__PURE__*/ memoWithDisplayName(CalloutAdmonitionInner, 'CalloutAdmonition');

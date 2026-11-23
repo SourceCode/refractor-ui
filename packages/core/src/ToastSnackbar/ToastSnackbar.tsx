@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ToastSnackbarTone = 'amber' | 'emerald' | 'info' | 'critical';
@@ -46,7 +46,7 @@ function ToastSnackbarInner({
   const merged = mergeProps({
     themeTarget: themeProps('toast-snackbar', { tone }),
     baseClassName:
-      'prism-crystal prism-toast min-h-12 px-5 py-2.5 inline-flex items-center justify-between gap-3.5',
+      'prism-contain-leaf prism-crystal prism-toast min-h-12 px-5 py-2.5 inline-flex items-center justify-between gap-3.5',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -57,7 +57,7 @@ function ToastSnackbarInner({
   return (
     <div ref={ref} role="status" aria-live="polite" {...rest} {...merged}>
       <span className="inline-flex items-center gap-3">
-        <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" aria-hidden="true">
+        <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0 prism-contain-box" aria-hidden="true">
           <polygon points="12,2 21,12 12,12" className="fill-orange-300/90" />
           <polygon points="12,2 3,12 12,12" className="fill-slate-300/90" />
           <polygon points="12,22 21,12 12,12" className="fill-orange-400/80" />
@@ -95,5 +95,4 @@ function ToastSnackbarInner({
   );
 }
 
-export const ToastSnackbar = memo(ToastSnackbarInner);
-ToastSnackbar.displayName = 'ToastSnackbar';
+export const ToastSnackbar = /*#__PURE__*/ memoWithDisplayName(ToastSnackbarInner, 'ToastSnackbar');

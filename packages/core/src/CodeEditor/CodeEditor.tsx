@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -18,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface CodeLanguageMap {
@@ -512,6 +512,10 @@ function getLineStartOffset(code: string, targetLine: number): number {
   return offset;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('code-editor', 'header');
+const gutterClass = /*#__PURE__*/ stableClassName('code-editor', 'gutter');
+const canvasClass = /*#__PURE__*/ stableClassName('code-editor', 'canvas');
+
 function CodeEditorInner({
   value,
   defaultValue = '',
@@ -709,9 +713,6 @@ function CodeEditorInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('code-editor', 'header');
-  const gutterClass = stableClassName('code-editor', 'gutter');
-  const canvasClass = stableClassName('code-editor', 'canvas');
 
   const numberedLines = useMemo(
     () => tokenizedLines.map((tokens, idx) => ({ lineNumber: idx + 1, tokens })),
@@ -1013,5 +1014,4 @@ function CodeEditorInner({
   );
 }
 
-export const CodeEditor = memo(CodeEditorInner);
-CodeEditor.displayName = 'CodeEditor';
+export const CodeEditor = /*#__PURE__*/ memoWithDisplayName(CodeEditorInner, 'CodeEditor');

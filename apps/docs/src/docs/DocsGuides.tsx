@@ -452,29 +452,29 @@ export function DocsGuides({ section }: DocsGuidesProps) {
       <div className="prism-slab p-6 space-y-4">
         <h2 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
           <Layers className="w-4 h-4 text-orange-500" aria-hidden="true" />
-          <span>Full-Application Performance Architecture (v1.48.0)</span>
+          <span>Full-Application Performance Architecture (v1.49.0)</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {[
             {
-              title: 'Zero Nested Backdrop-Filter Stalls',
+              title: 'Pure Tree-Shaking & Zero Nested Blur Stalls',
               detail:
-                'Automatic CSS depth-2+ blur elision strips redundant GPU readback passes on nested cards, buttons, table cells, and inline pills while preserving top-level optical slab frosted glass.',
+                'All 314 components use /*#__PURE__*/ memoWithDisplayName and @refractor-ui/themes exposes sideEffects-clean subpath exports; 12px/14px GPU blur kernels plus automatic depth-2+ and [data-refractor-blur-host="true"] elision eliminate redundant GPU readbacks.',
             },
             {
               title: '100% React.memo & Split Override Context',
               detail:
-                'All 314 components are wrapped in React.memo and subscribe to a dedicated ComponentOverridesContext so theme, mode, and refraction changes trigger zero React re-renders.',
+                'All 314 components are memoized, hoist 1,121 stableClassName resolvers to module scope, and subscribe to a dedicated ComponentOverridesContext so theme, mode, and refraction changes trigger zero React re-renders.',
             },
             {
-              title: 'CSS Containment & content-visibility: auto',
+              title: 'SVG Containment, 60fps Drag Coalescing & content-visibility',
               detail:
-                'Data tables, grids, feeds, diff rows, and masonry cards apply overflow-safe CSS containment and content-visibility: auto to skip offscreen layout and paint.',
+                'All 89 SVG components apply overflow-safe CSS containment, all 36 pointer-drag components coalesce 120Hz–1000Hz pointermove streams via requestAnimationFrame, and 16 tabular components skip offscreen row paint automatically.',
             },
             {
               title: 'Zero-Allocation Hot Paths & Three-Tier GPU Profiles',
               detail:
-                'O(1) cached class/attribute resolvers, 2,885 hoisted frozen style singletons, passive drag listeners, hoisted Intl formatters/collators, and balanced/high/max performanceMode.',
+                'Zero-rest-array mergeProps, 3,103+ hoisted frozen style singletons, passive drag listeners, hoisted Intl formatters/collators, and balanced/high/max performanceMode shadow/blur tiers.',
             },
           ].map((perf) => (
             <div key={perf.title} className="prism-well rounded-2xl p-4 space-y-1">

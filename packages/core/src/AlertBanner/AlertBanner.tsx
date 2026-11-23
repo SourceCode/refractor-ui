@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 import type { ReactNode } from 'react';
 import { AlertTriangle, CheckCircle2, Info, X, XCircle } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AlertBannerSeverity = 'info' | 'success' | 'warning' | 'error';
@@ -74,7 +74,7 @@ function AlertBannerInner({
 
   const merged = mergeProps({
     themeTarget: themeProps('alert-banner', { severity }),
-    baseClassName: `prism-slab ${visual.ring} px-4 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full`,
+    baseClassName: `prism-contain-leaf prism-slab ${visual.ring} px-4 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 w-full`,
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -119,5 +119,4 @@ function AlertBannerInner({
   );
 }
 
-export const AlertBanner = memo(AlertBannerInner);
-AlertBanner.displayName = 'AlertBanner';
+export const AlertBanner = /*#__PURE__*/ memoWithDisplayName(AlertBannerInner, 'AlertBanner');

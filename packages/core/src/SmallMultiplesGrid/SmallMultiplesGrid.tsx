@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SmallMultipleChartKind = 'area' | 'bar';
@@ -348,6 +348,13 @@ function resolveDeltaColor(delta: number): string {
   return 'var(--prism-text-secondary)';
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('small-multiples-grid', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('small-multiples-grid', 'controls');
+const gridClass = /*#__PURE__*/ stableClassName('small-multiples-grid', 'grid');
+const facetClass = /*#__PURE__*/ stableClassName('small-multiples-grid', 'facet');
+const svgClass = /*#__PURE__*/ stableClassName('small-multiples-grid', 'svg');
+const summaryClass = /*#__PURE__*/ stableClassName('small-multiples-grid', 'summary');
+
 function SmallMultiplesGridInner({
   labels,
   series,
@@ -644,12 +651,6 @@ function SmallMultiplesGridInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('small-multiples-grid', 'header');
-  const controlsClass = stableClassName('small-multiples-grid', 'controls');
-  const gridClass = stableClassName('small-multiples-grid', 'grid');
-  const facetClass = stableClassName('small-multiples-grid', 'facet');
-  const svgClass = stableClassName('small-multiples-grid', 'svg');
-  const summaryClass = stableClassName('small-multiples-grid', 'summary');
 
   const activePeriodLabel = summaryMetrics?.periodLabel ?? '';
   const globalDomainLabel = `${formatMetric(preparedData.globalMin, unit)}–${formatMetric(preparedData.globalMax, unit)}`;
@@ -850,7 +851,7 @@ function SmallMultiplesGridInner({
                     role="img"
                     aria-label={`${facet.title} ${activeChartKind} mini chart (${activePeriodLabel}: ${formattedValue})`}
                     viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-                    className={cx(svgClass, 'w-full h-auto select-none block')}
+                    className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
                   >
                     <defs>
                       <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -1029,5 +1030,4 @@ function SmallMultiplesGridInner({
   );
 }
 
-export const SmallMultiplesGrid = memo(SmallMultiplesGridInner);
-SmallMultiplesGrid.displayName = 'SmallMultiplesGrid';
+export const SmallMultiplesGrid = /*#__PURE__*/ memoWithDisplayName(SmallMultiplesGridInner, 'SmallMultiplesGrid');

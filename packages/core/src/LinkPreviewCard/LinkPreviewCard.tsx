@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -30,7 +29,8 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
-import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type LinkPreviewPlacement = 'top' | 'bottom';
@@ -123,6 +123,18 @@ function getEntityKindConfig(kind: LinkPreviewEntityKind): EntityKindConfig {
       };
   }
 }
+
+const triggerClass = /*#__PURE__*/ stableClassName('link-preview-card', 'trigger');
+const bridgeClass = /*#__PURE__*/ stableClassName('link-preview-card', 'bridge');
+const cardClass = /*#__PURE__*/ stableClassName('link-preview-card', 'card');
+const thumbnailClass = /*#__PURE__*/ stableClassName('link-preview-card', 'thumbnail');
+const headerClass = /*#__PURE__*/ stableClassName('link-preview-card', 'header');
+const badgeClass = /*#__PURE__*/ stableClassName('link-preview-card', 'badge');
+const titleClass = /*#__PURE__*/ stableClassName('link-preview-card', 'title');
+const summaryClass = /*#__PURE__*/ stableClassName('link-preview-card', 'summary');
+const metaClass = /*#__PURE__*/ stableClassName('link-preview-card', 'meta');
+const tagsClass = /*#__PURE__*/ stableClassName('link-preview-card', 'tags');
+const tagClass = /*#__PURE__*/ stableClassName('link-preview-card', 'tag');
 
 function LinkPreviewCardInner({
   href,
@@ -373,17 +385,6 @@ function LinkPreviewCardInner({
     userStyle: style,
   });
 
-  const triggerClass = stableClassName('link-preview-card', 'trigger');
-  const bridgeClass = stableClassName('link-preview-card', 'bridge');
-  const cardClass = stableClassName('link-preview-card', 'card');
-  const thumbnailClass = stableClassName('link-preview-card', 'thumbnail');
-  const headerClass = stableClassName('link-preview-card', 'header');
-  const badgeClass = stableClassName('link-preview-card', 'badge');
-  const titleClass = stableClassName('link-preview-card', 'title');
-  const summaryClass = stableClassName('link-preview-card', 'summary');
-  const metaClass = stableClassName('link-preview-card', 'meta');
-  const tagsClass = stableClassName('link-preview-card', 'tags');
-  const tagClass = stableClassName('link-preview-card', 'tag');
 
   const triggerClassName = cx(
     triggerClass,
@@ -562,10 +563,7 @@ function LinkPreviewCardInner({
                   metaClass,
                   'flex flex-wrap items-center gap-x-3 gap-y-1 pt-2 border-t text-[11px] max-w-full'
                 )}
-                style={{
-                  borderColor: 'var(--prism-divider)',
-                  color: 'var(--prism-text-secondary)',
-                }}
+                style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
               >
                 {trimmedAuthor.length > 0 ? (
                   <span
@@ -615,5 +613,4 @@ function LinkPreviewCardInner({
   );
 }
 
-export const LinkPreviewCard = memo(LinkPreviewCardInner);
-LinkPreviewCard.displayName = 'LinkPreviewCard';
+export const LinkPreviewCard = /*#__PURE__*/ memoWithDisplayName(LinkPreviewCardInner, 'LinkPreviewCard');

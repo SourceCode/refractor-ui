@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import {
   AlertCircle,
   AlertTriangle,
@@ -17,7 +17,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_PRIMARY, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_ERROR_BORDER_TEXT, STYLE_PRIMARY_BORDER_TEXT, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DistributedTraceSpanStatus = 'ok' | 'slow' | 'error';
@@ -476,6 +477,12 @@ function buildTraceTree(normalizedSpans: ReadonlyArray<NormalizedSpan>): TraceTr
   return rows;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('distributed-trace-waterfall', 'header');
+const viewportClass = /*#__PURE__*/ stableClassName('distributed-trace-waterfall', 'viewport');
+const rulerClass = /*#__PURE__*/ stableClassName('distributed-trace-waterfall', 'ruler');
+const rowClass = /*#__PURE__*/ stableClassName('distributed-trace-waterfall', 'row');
+const inspectorClass = /*#__PURE__*/ stableClassName('distributed-trace-waterfall', 'inspector');
+
 function DistributedTraceWaterfallInner({
   spans,
   traceId = DEFAULT_TRACE_ID,
@@ -651,11 +658,6 @@ function DistributedTraceWaterfallInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('distributed-trace-waterfall', 'header');
-  const viewportClass = stableClassName('distributed-trace-waterfall', 'viewport');
-  const rulerClass = stableClassName('distributed-trace-waterfall', 'ruler');
-  const rowClass = stableClassName('distributed-trace-waterfall', 'row');
-  const inspectorClass = stableClassName('distributed-trace-waterfall', 'inspector');
 
   const spanCountLabel =
     isFiltered && !isEmpty
@@ -767,11 +769,8 @@ function DistributedTraceWaterfallInner({
             )}
             style={
               errorsOnly
-                ? {
-                    color: 'var(--prism-error-main)',
-                    borderColor: 'var(--prism-error-main)',
-                  }
-                : { color: 'var(--prism-text-secondary)' }
+                ? STYLE_ERROR_BORDER_TEXT
+                : STYLE_TEXT_SECONDARY
             }
           >
             <AlertCircle aria-hidden="true" className="w-3 h-3 shrink-0" />
@@ -787,7 +786,7 @@ function DistributedTraceWaterfallInner({
               'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105',
               criticalPathOnly ? 'prism-btn-primary' : 'prism-well'
             )}
-            style={criticalPathOnly ? undefined : { color: 'var(--prism-text-secondary)' }}
+            style={criticalPathOnly ? undefined : STYLE_TEXT_SECONDARY}
           >
             <Flame aria-hidden="true" className="w-3 h-3 shrink-0 relative z-10" />
             <span className="relative z-10">Critical Path</span>
@@ -852,10 +851,7 @@ function DistributedTraceWaterfallInner({
                 rulerClass,
                 'grid grid-cols-[260px_minmax(220px,1fr)_78px] sm:grid-cols-[300px_minmax(220px,1fr)_78px] items-center gap-2 px-2 pb-2 border-b font-mono text-[10px] uppercase tracking-wider tabular-nums'
               )}
-              style={{
-                borderColor: 'var(--prism-divider)',
-                color: 'var(--prism-text-secondary)',
-              }}
+              style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
             >
               <span className="truncate">Service / Operation</span>
               <div className="grid grid-cols-5 items-center">
@@ -979,10 +975,7 @@ function DistributedTraceWaterfallInner({
                           <span
                             data-testid={`trace-span-critical-${span.id}`}
                             className="prism-well rounded-full px-1.5 py-0.5 inline-flex items-center gap-0.5 text-[9px] font-semibold uppercase tracking-wide border shrink-0"
-                            style={{
-                              color: 'var(--prism-primary-main)',
-                              borderColor: 'var(--prism-primary-main)',
-                            }}
+                            style={STYLE_PRIMARY_BORDER_TEXT}
                           >
                             <Flame aria-hidden="true" className="w-2.5 h-2.5 shrink-0" />
                             <span>Crit</span>
@@ -1099,10 +1092,7 @@ function DistributedTraceWaterfallInner({
                 <span
                   data-testid="trace-inspector-critical"
                   className="prism-crystal rounded-full px-2 py-0.5 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide border"
-                  style={{
-                    color: 'var(--prism-primary-main)',
-                    borderColor: 'var(--prism-primary-main)',
-                  }}
+                  style={STYLE_PRIMARY_BORDER_TEXT}
                 >
                   <Flame aria-hidden="true" className="w-3 h-3 shrink-0" />
                   <span>Critical Path</span>
@@ -1211,10 +1201,7 @@ function DistributedTraceWaterfallInner({
                     key={tag.renderKey}
                     data-testid="trace-inspector-tag-chip"
                     className="prism-crystal rounded-full px-2.5 py-0.5 font-mono text-[11px] border break-all"
-                    style={{
-                      color: 'var(--prism-text-primary)',
-                      borderColor: 'var(--prism-divider)',
-                    }}
+                    style={STYLE_BORDER_DIVIDER_TEXT_PRIMARY}
                   >
                     {tag.key}={tag.value}
                   </span>
@@ -1236,5 +1223,4 @@ function DistributedTraceWaterfallInner({
   );
 }
 
-export const DistributedTraceWaterfall = memo(DistributedTraceWaterfallInner);
-DistributedTraceWaterfall.displayName = 'DistributedTraceWaterfall';
+export const DistributedTraceWaterfall = /*#__PURE__*/ memoWithDisplayName(DistributedTraceWaterfallInner, 'DistributedTraceWaterfall');

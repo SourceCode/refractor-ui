@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Command } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface CommandPaletteItem {
@@ -190,5 +191,4 @@ function CommandPaletteInner({
   );
 }
 
-export const CommandPalette = memo(CommandPaletteInner);
-CommandPalette.displayName = 'CommandPalette';
+export const CommandPalette = /*#__PURE__*/ memoWithDisplayName(CommandPaletteInner, 'CommandPalette');

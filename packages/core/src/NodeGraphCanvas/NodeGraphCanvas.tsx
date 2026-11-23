@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -12,10 +11,12 @@ import {
 } from 'react';
 import { GitBranch, Maximize2, Minus, Plus, Trash2, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FlowNodeTone = 'primary' | 'emerald' | 'cobalt' | 'crystal';
@@ -247,6 +248,11 @@ function allocateUniqueId(
   counterRef.current += 1;
   return candidate;
 }
+
+const viewportClass = /*#__PURE__*/ stableClassName('node-graph-canvas', 'viewport');
+const toolbarClass = /*#__PURE__*/ stableClassName('node-graph-canvas', 'toolbar');
+const nodeClass = /*#__PURE__*/ stableClassName('node-graph-canvas', 'node');
+const edgeClass = /*#__PURE__*/ stableClassName('node-graph-canvas', 'edge');
 
 function NodeGraphCanvasInner({
   nodes,
@@ -575,7 +581,7 @@ function NodeGraphCanvasInner({
 
       setDraggingNodeId(draggedId);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const dx = (moveEvent.clientX - startClientX) / activeZoom;
         const dy = (moveEvent.clientY - startClientY) / activeZoom;
         const nextX = roundOne(clampNumber(startNodeX + dx, MIN_COORD, MAX_COORD, startNodeX));
@@ -585,9 +591,10 @@ function NodeGraphCanvasInner({
           item.id === draggedId ? { ...item, x: nextX, y: nextY } : item
         );
         commitNodes(nextNodes);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -620,16 +627,17 @@ function NodeGraphCanvasInner({
 
       setIsPanning(true);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const dx = moveEvent.clientX - startClientX;
         const dy = moveEvent.clientY - startClientY;
         if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
           panMovedRef.current = true;
         }
         updatePan({ x: startPanX + dx, y: startPanY + dy });
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -775,10 +783,6 @@ function NodeGraphCanvasInner({
     userStyle: style,
   });
 
-  const viewportClass = stableClassName('node-graph-canvas', 'viewport');
-  const toolbarClass = stableClassName('node-graph-canvas', 'toolbar');
-  const nodeClass = stableClassName('node-graph-canvas', 'node');
-  const edgeClass = stableClassName('node-graph-canvas', 'edge');
 
   return (
     <div ref={ref} role="region" aria-label="Node graph canvas" {...rest} {...merged}>
@@ -942,7 +946,7 @@ function NodeGraphCanvasInner({
             data-testid="node-graph-edges-svg"
             width={1}
             height={1}
-            className="absolute top-0 left-0 overflow-visible pointer-events-none"
+            className="absolute top-0 left-0 overflow-visible pointer-events-none prism-contain-leaf"
           >
             {edgeRenderItems.map(({ edge, geometry }) => {
               const highlighted =
@@ -1146,5 +1150,4 @@ function NodeGraphCanvasInner({
   );
 }
 
-export const NodeGraphCanvas = memo(NodeGraphCanvasInner);
-NodeGraphCanvas.displayName = 'NodeGraphCanvas';
+export const NodeGraphCanvas = /*#__PURE__*/ memoWithDisplayName(NodeGraphCanvasInner, 'NodeGraphCanvas');

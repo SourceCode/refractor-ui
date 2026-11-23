@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AppMenuItemKind = 'action' | 'checkbox' | 'submenu' | 'separator';
@@ -230,6 +230,13 @@ function makeItemNodeKey(menuId: string, itemId: string): string {
 function makeSubitemNodeKey(menuId: string, submenuId: string, itemId: string): string {
   return `${menuId}\0${submenuId}\0${itemId}`;
 }
+
+const barClass = /*#__PURE__*/ stableClassName('app-menu-bar', 'bar');
+const brandClass = /*#__PURE__*/ stableClassName('app-menu-bar', 'brand');
+const menuClass = /*#__PURE__*/ stableClassName('app-menu-bar', 'menu');
+const submenuClass = /*#__PURE__*/ stableClassName('app-menu-bar', 'submenu');
+const itemClass = /*#__PURE__*/ stableClassName('app-menu-bar', 'item');
+const statusClass = /*#__PURE__*/ stableClassName('app-menu-bar', 'status');
 
 function AppMenuBarInner({
   menus = DEFAULT_APP_MENUS,
@@ -640,12 +647,6 @@ function AppMenuBarInner({
     userStyle: style,
   });
 
-  const barClass = stableClassName('app-menu-bar', 'bar');
-  const brandClass = stableClassName('app-menu-bar', 'brand');
-  const menuClass = stableClassName('app-menu-bar', 'menu');
-  const submenuClass = stableClassName('app-menu-bar', 'submenu');
-  const itemClass = stableClassName('app-menu-bar', 'item');
-  const statusClass = stableClassName('app-menu-bar', 'status');
 
   const trimmedBrand = brandLabel.trim();
 
@@ -731,7 +732,7 @@ function AppMenuBarInner({
                       style={
                         isOpen
                           ? undefined
-                          : { color: 'var(--prism-text-primary)' }
+                          : STYLE_TEXT_PRIMARY
                       }
                       className={cx(
                         'prism-focus-ring px-2.5 py-1 rounded-xl text-xs font-semibold tracking-[-0.01em] whitespace-nowrap cursor-pointer select-none transition-colors',
@@ -1058,5 +1059,4 @@ function AppMenuBarInner({
   );
 }
 
-export const AppMenuBar = memo(AppMenuBarInner);
-AppMenuBar.displayName = 'AppMenuBar';
+export const AppMenuBar = /*#__PURE__*/ memoWithDisplayName(AppMenuBarInner, 'AppMenuBar');

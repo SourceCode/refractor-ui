@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useState,
@@ -21,7 +20,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_PRIMARY, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WifiSecurityKind = 'wpa3' | 'wpa2' | 'open';
@@ -283,6 +283,17 @@ function handleInteractiveKeyDown(
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'header');
+const radioControlsClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'radio-controls');
+const airplaneNoticeClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'airplane-notice');
+const wifiSectionClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'wifi-section');
+const wifiListClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'wifi-list');
+const wifiRowClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'wifi-row');
+const vpnSectionClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'vpn-section');
+const vpnListClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'vpn-list');
+const vpnRowClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'vpn-row');
+const statusBarClass = /*#__PURE__*/ stableClassName('network-vpn-popover', 'status-bar');
+
 function NetworkVpnPopoverInner({
   title = DEFAULT_TITLE,
   networks,
@@ -428,25 +439,6 @@ function NetworkVpnPopoverInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('network-vpn-popover', 'header');
-  const radioControlsClass = stableClassName(
-    'network-vpn-popover',
-    'radio-controls'
-  );
-  const airplaneNoticeClass = stableClassName(
-    'network-vpn-popover',
-    'airplane-notice'
-  );
-  const wifiSectionClass = stableClassName(
-    'network-vpn-popover',
-    'wifi-section'
-  );
-  const wifiListClass = stableClassName('network-vpn-popover', 'wifi-list');
-  const wifiRowClass = stableClassName('network-vpn-popover', 'wifi-row');
-  const vpnSectionClass = stableClassName('network-vpn-popover', 'vpn-section');
-  const vpnListClass = stableClassName('network-vpn-popover', 'vpn-list');
-  const vpnRowClass = stableClassName('network-vpn-popover', 'vpn-row');
-  const statusBarClass = stableClassName('network-vpn-popover', 'status-bar');
 
   const wifiSwitchDisabled = disabled || airplaneMode;
   const vpnSwitchesDisabled = disabled || airplaneMode;
@@ -678,7 +670,7 @@ function NetworkVpnPopoverInner({
                     backgroundColor: 'var(--prism-warning-main)',
                     borderColor: 'var(--prism-warning-main)',
                   }
-                : { borderColor: 'var(--prism-divider)' }
+                : STYLE_BORDER_DIVIDER
             }
           >
             <span
@@ -749,10 +741,7 @@ function NetworkVpnPopoverInner({
                 data-part="empty-wifi"
                 data-testid="network-vpn-empty-wifi"
                 className="prism-well rounded-xl px-3 py-3 text-xs text-center border min-w-0"
-                style={{
-                  borderColor: 'var(--prism-divider)',
-                  color: 'var(--prism-text-secondary)',
-                }}
+                style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
               >
                 No Wi-Fi networks detected in range.
               </div>
@@ -802,7 +791,7 @@ function NetworkVpnPopoverInner({
                           data-signal-bars={String(network.signalBars)}
                           data-signal-token={signalVisual.token}
                           data-testid={`network-vpn-signal-${network.id}`}
-                          className="block shrink-0"
+                          className="block shrink-0 prism-contain-box"
                         >
                           {SIGNAL_BAR_LEVELS.map((barLevel) => {
                             const height = SIGNAL_BAR_HEIGHTS[barLevel];
@@ -884,10 +873,7 @@ function NetworkVpnPopoverInner({
                               data-part="band-pill"
                               data-testid={`network-vpn-band-${network.id}`}
                               className="prism-well px-1.5 py-0.5 rounded-md font-mono text-[10px] font-semibold border shrink-0"
-                              style={{
-                                color: 'var(--prism-text-secondary)',
-                                borderColor: 'var(--prism-divider)',
-                              }}
+                              style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
                             >
                               {network.bandLabel}
                             </span>
@@ -925,10 +911,7 @@ function NetworkVpnPopoverInner({
                                 backgroundColor:
                                   'color-mix(in srgb, var(--prism-primary-main) 14%, transparent)',
                               }
-                            : {
-                                color: 'var(--prism-text-primary)',
-                                borderColor: 'var(--prism-divider)',
-                              }
+                            : STYLE_BORDER_DIVIDER_TEXT_PRIMARY
                         }
                       >
                         {isConnected ? 'Disconnect' : 'Connect'}
@@ -944,10 +927,7 @@ function NetworkVpnPopoverInner({
             data-part="wifi-off-notice"
             data-testid="network-vpn-wifi-off-notice"
             className="prism-well rounded-xl px-3 py-2.5 border flex items-center gap-2 text-xs min-w-0"
-            style={{
-              borderColor: 'var(--prism-divider)',
-              color: 'var(--prism-text-secondary)',
-            }}
+            style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
           >
             <WifiOff aria-hidden="true" className="w-4 h-4 shrink-0" />
             <span className="min-w-0 break-words">
@@ -1007,10 +987,7 @@ function NetworkVpnPopoverInner({
               data-part="empty-vpn"
               data-testid="network-vpn-empty-vpn"
               className="prism-well rounded-xl px-3 py-3 text-xs text-center border min-w-0"
-              style={{
-                borderColor: 'var(--prism-divider)',
-                color: 'var(--prism-text-secondary)',
-              }}
+              style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
             >
               No VPN profiles configured.
             </div>
@@ -1149,10 +1126,7 @@ function NetworkVpnPopoverInner({
           statusBarClass,
           'px-4 py-2.5 border-t flex flex-wrap items-center justify-between gap-2 text-xs min-w-0 max-w-full'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-          color: 'var(--prism-text-secondary)',
-        }}
+        style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
       >
         <div
           role="status"
@@ -1169,5 +1143,4 @@ function NetworkVpnPopoverInner({
   );
 }
 
-export const NetworkVpnPopover = memo(NetworkVpnPopoverInner);
-NetworkVpnPopover.displayName = 'NetworkVpnPopover';
+export const NetworkVpnPopover = /*#__PURE__*/ memoWithDisplayName(NetworkVpnPopoverInner, 'NetworkVpnPopover');

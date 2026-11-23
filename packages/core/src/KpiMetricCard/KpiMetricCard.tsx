@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useId, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { useId, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { Minus, TrendingDown, TrendingUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { formatLocaleNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type KpiTrendTone = 'positive' | 'negative' | 'neutral';
@@ -365,7 +366,7 @@ function KpiMetricCardInner({
               role="img"
               aria-label={`${label} trend sparkline`}
               viewBox={`0 0 ${SPARKLINE_WIDTH} ${SPARKLINE_HEIGHT}`}
-              className="w-full h-16 overflow-visible"
+              className="w-full h-16 overflow-visible prism-contain-leaf"
             >
               <defs>
                 <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -427,5 +428,4 @@ function KpiMetricCardInner({
   );
 }
 
-export const KpiMetricCard = memo(KpiMetricCardInner);
-KpiMetricCard.displayName = 'KpiMetricCard';
+export const KpiMetricCard = /*#__PURE__*/ memoWithDisplayName(KpiMetricCardInner, 'KpiMetricCard');

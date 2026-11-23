@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 
 import { Check, Minus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type CheckboxBaseProps = Omit<BaseProps<HTMLLabelElement>, 'onChange'>;
@@ -42,7 +42,7 @@ function CheckboxInner({
 
   const merged = mergeProps({
     themeTarget: themeProps('checkbox', { checked, indeterminate, disabled }),
-    baseClassName: `inline-flex items-start gap-3 select-none group ${
+    baseClassName: `prism-contain-leaf inline-flex items-start gap-3 select-none group ${
       disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
     }`,
     overrideClassName: override?.className,
@@ -84,5 +84,4 @@ function CheckboxInner({
   );
 }
 
-export const Checkbox = memo(CheckboxInner);
-Checkbox.displayName = 'Checkbox';
+export const Checkbox = /*#__PURE__*/ memoWithDisplayName(CheckboxInner, 'Checkbox');

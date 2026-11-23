@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -30,6 +29,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type EditablePathSuggestionKind = 'folder' | 'mount' | 'recent';
@@ -208,6 +208,11 @@ function renderSuggestionKindIcon(kind: EditablePathSuggestionKind) {
     />
   );
 }
+
+const toolbarClass = /*#__PURE__*/ stableClassName('editable-path-bar', 'toolbar');
+const navGroupClass = /*#__PURE__*/ stableClassName('editable-path-bar', 'nav-group');
+const wellClass = /*#__PURE__*/ stableClassName('editable-path-bar', 'well');
+const listboxClass = /*#__PURE__*/ stableClassName('editable-path-bar', 'listbox');
 
 function EditablePathBarInner({
   path,
@@ -548,10 +553,6 @@ function EditablePathBarInner({
     userStyle: style,
   });
 
-  const toolbarClass = stableClassName('editable-path-bar', 'toolbar');
-  const navGroupClass = stableClassName('editable-path-bar', 'nav-group');
-  const wellClass = stableClassName('editable-path-bar', 'well');
-  const listboxClass = stableClassName('editable-path-bar', 'listbox');
 
   return (
     <div
@@ -839,5 +840,4 @@ function EditablePathBarInner({
   );
 }
 
-export const EditablePathBar = memo(EditablePathBarInner);
-EditablePathBar.displayName = 'EditablePathBar';
+export const EditablePathBar = /*#__PURE__*/ memoWithDisplayName(EditablePathBarInner, 'EditablePathBar');

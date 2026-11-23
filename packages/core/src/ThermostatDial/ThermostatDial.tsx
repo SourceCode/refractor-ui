@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,11 +12,13 @@ import {
 } from 'react';
 import { Flame, Leaf, Minus, Plus, Power, Snowflake, Thermometer } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ThermostatMode = 'cooling' | 'heating' | 'eco' | 'off';
@@ -283,6 +284,11 @@ const DIAL_TICKS: ReadonlyArray<DialTick> = Array.from({ length: 37 }, (_, idx) 
   };
 });
 
+const headerClass = /*#__PURE__*/ stableClassName('thermostat-dial', 'header');
+const dialClass = /*#__PURE__*/ stableClassName('thermostat-dial', 'dial');
+const bezelClass = /*#__PURE__*/ stableClassName('thermostat-dial', 'bezel');
+const footerClass = /*#__PURE__*/ stableClassName('thermostat-dial', 'footer');
+
 function ThermostatDialInner({
   title = DEFAULT_TITLE,
   targetTempF,
@@ -461,7 +467,7 @@ function ThermostatDialInner({
       setIsDragging(true);
       applyFromClientPoint(event.clientX, event.clientY);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (
           activePointerId !== undefined &&
           moveEvent.pointerId !== undefined &&
@@ -470,9 +476,10 @@ function ThermostatDialInner({
           return;
         }
         applyFromClientPoint(moveEvent.clientX, moveEvent.clientY);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -582,10 +589,6 @@ function ThermostatDialInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('thermostat-dial', 'header');
-  const dialClass = stableClassName('thermostat-dial', 'dial');
-  const bezelClass = stableClassName('thermostat-dial', 'bezel');
-  const footerClass = stableClassName('thermostat-dial', 'footer');
 
   return (
     <div
@@ -653,7 +656,7 @@ function ThermostatDialInner({
             viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
             aria-hidden="true"
             data-testid="thermostat-dial-svg"
-            className="block w-full h-full overflow-visible pointer-events-none"
+            className="block w-full h-full overflow-visible pointer-events-none prism-contain-leaf"
           >
             <defs>
               <radialGradient id={thumbGlowId} cx="50%" cy="50%" r="50%">
@@ -978,9 +981,7 @@ function ThermostatDialInner({
                           backgroundColor: option.accentToken,
                           color: option.contrastToken,
                         }
-                      : {
-                          color: 'var(--prism-text-secondary)',
-                        }
+                      : STYLE_TEXT_SECONDARY
                 }
               >
                 <span
@@ -1012,5 +1013,4 @@ function ThermostatDialInner({
   );
 }
 
-export const ThermostatDial = memo(ThermostatDialInner);
-ThermostatDial.displayName = 'ThermostatDial';
+export const ThermostatDial = /*#__PURE__*/ memoWithDisplayName(ThermostatDialInner, 'ThermostatDial');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useState,
@@ -21,6 +20,7 @@ import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CardBrand = 'visa' | 'mastercard' | 'amex' | 'discover' | 'generic';
@@ -577,5 +577,4 @@ function PaymentCardInputInner({
   );
 }
 
-export const PaymentCardInput = memo(PaymentCardInputInner);
-PaymentCardInput.displayName = 'PaymentCardInput';
+export const PaymentCardInput = /*#__PURE__*/ memoWithDisplayName(PaymentCardInputInner, 'PaymentCardInput');

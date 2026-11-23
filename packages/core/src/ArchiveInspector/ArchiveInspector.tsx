@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useEffect,
   useId,
   useMemo,
@@ -26,6 +25,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_SUCCESS_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ArchiveFormatKind = 'zip' | 'tar' | '7z';
@@ -250,6 +250,12 @@ function getFormatMeta(format: ArchiveFormatKind): ArchiveFormatMeta {
 function formatEntryNoun(count: number): string {
   return `${count} ${count === 1 ? 'entry' : 'entries'}`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('archive-inspector', 'header');
+const tableClass = /*#__PURE__*/ stableClassName('archive-inspector', 'table');
+const previewClass = /*#__PURE__*/ stableClassName('archive-inspector', 'preview');
+const footerClass = /*#__PURE__*/ stableClassName('archive-inspector', 'footer');
+const announcementClass = /*#__PURE__*/ stableClassName('archive-inspector', 'announcement');
 
 function ArchiveInspectorInner({
   archiveName = DEFAULT_ARCHIVE_NAME,
@@ -498,11 +504,6 @@ function ArchiveInspectorInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('archive-inspector', 'header');
-  const tableClass = stableClassName('archive-inspector', 'table');
-  const previewClass = stableClassName('archive-inspector', 'preview');
-  const footerClass = stableClassName('archive-inspector', 'footer');
-  const announcementClass = stableClassName('archive-inspector', 'announcement');
 
   return (
     <div
@@ -849,7 +850,7 @@ function ArchiveInspectorInner({
                           isPreviewed ? 'prism-btn-cobalt' : 'prism-crystal',
                           'prism-focus-ring inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed'
                         )}
-                        style={isPreviewed ? undefined : { color: 'var(--prism-text-primary)' }}
+                        style={isPreviewed ? undefined : STYLE_TEXT_PRIMARY}
                       >
                         <Eye aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>Preview</span>
@@ -1065,5 +1066,4 @@ function ArchiveInspectorInner({
   );
 }
 
-export const ArchiveInspector = memo(ArchiveInspectorInner);
-ArchiveInspector.displayName = 'ArchiveInspector';
+export const ArchiveInspector = /*#__PURE__*/ memoWithDisplayName(ArchiveInspectorInner, 'ArchiveInspector');

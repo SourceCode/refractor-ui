@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -22,6 +21,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type UptimeDayState =
@@ -243,6 +243,13 @@ function renderStateIcon(state: UptimeDayState, iconClassName: string) {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('uptime-status-bar', 'header');
+const stripWellClass = /*#__PURE__*/ stableClassName('uptime-status-bar', 'strip-well');
+const barClass = /*#__PURE__*/ stableClassName('uptime-status-bar', 'bar');
+const captionsClass = /*#__PURE__*/ stableClassName('uptime-status-bar', 'captions');
+const readoutClass = /*#__PURE__*/ stableClassName('uptime-status-bar', 'readout');
+const emptyClass = /*#__PURE__*/ stableClassName('uptime-status-bar', 'empty');
+
 function UptimeStatusBarInner({
   serviceName = DEFAULT_SERVICE_NAME,
   days,
@@ -430,7 +437,7 @@ function UptimeStatusBarInner({
       empty: isEmpty,
       days: normalizedDays.length,
     }),
-    baseClassName: 'prism-slab p-5 w-full max-w-full min-w-0 space-y-4',
+    baseClassName: 'prism-contain-leaf prism-slab p-5 w-full max-w-full min-w-0 space-y-4',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -438,12 +445,6 @@ function UptimeStatusBarInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('uptime-status-bar', 'header');
-  const stripWellClass = stableClassName('uptime-status-bar', 'strip-well');
-  const barClass = stableClassName('uptime-status-bar', 'bar');
-  const captionsClass = stableClassName('uptime-status-bar', 'captions');
-  const readoutClass = stableClassName('uptime-status-bar', 'readout');
-  const emptyClass = stableClassName('uptime-status-bar', 'empty');
 
   return (
     <div
@@ -691,5 +692,4 @@ function UptimeStatusBarInner({
   );
 }
 
-export const UptimeStatusBar = memo(UptimeStatusBarInner);
-UptimeStatusBar.displayName = 'UptimeStatusBar';
+export const UptimeStatusBar = /*#__PURE__*/ memoWithDisplayName(UptimeStatusBarInner, 'UptimeStatusBar');

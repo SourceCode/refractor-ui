@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   Fragment,
   useCallback,
   useId,
@@ -29,6 +28,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RichContextQuickActionId = 'cut' | 'copy' | 'paste' | 'rename' | 'delete';
@@ -159,6 +159,18 @@ function resolveRovingItem<T>(
         : (baseIndex + step + items.length) % items.length;
   return items[nextIndex];
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'header');
+const surfaceClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'surface');
+const toggleClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'toggle');
+const panelClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'panel');
+const quickActionsClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'quick-actions');
+const quickActionClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'quick-action');
+const tagsClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'tags');
+const tagDotClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'tag-dot');
+const menuClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'menu');
+const menuItemClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'menu-item');
+const statusClass = /*#__PURE__*/ stableClassName('rich-context-menu', 'status');
 
 function RichContextMenuInner({
   targetLabel = DEFAULT_TARGET_LABEL,
@@ -425,17 +437,6 @@ function RichContextMenuInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('rich-context-menu', 'header');
-  const surfaceClass = stableClassName('rich-context-menu', 'surface');
-  const toggleClass = stableClassName('rich-context-menu', 'toggle');
-  const panelClass = stableClassName('rich-context-menu', 'panel');
-  const quickActionsClass = stableClassName('rich-context-menu', 'quick-actions');
-  const quickActionClass = stableClassName('rich-context-menu', 'quick-action');
-  const tagsClass = stableClassName('rich-context-menu', 'tags');
-  const tagDotClass = stableClassName('rich-context-menu', 'tag-dot');
-  const menuClass = stableClassName('rich-context-menu', 'menu');
-  const menuItemClass = stableClassName('rich-context-menu', 'menu-item');
-  const statusClass = stableClassName('rich-context-menu', 'status');
 
   const activeTagsSummary =
     activeTagConfigs.length > 0 ? activeTagConfigs.map((tag) => tag.label).join(', ') : 'None';
@@ -792,5 +793,4 @@ function RichContextMenuInner({
   );
 }
 
-export const RichContextMenu = memo(RichContextMenuInner);
-RichContextMenu.displayName = 'RichContextMenu';
+export const RichContextMenu = /*#__PURE__*/ memoWithDisplayName(RichContextMenuInner, 'RichContextMenu');

@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Users, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { getAccessibleContrastText } from '../utils/colorMath';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 
@@ -658,7 +659,7 @@ function LivePresenceIndicatorInner({
                     width="16"
                     height="16"
                     viewBox="0 0 16 16"
-                    className="shrink-0 drop-shadow-xs"
+                    className="shrink-0 drop-shadow-xs prism-contain-box"
                   >
                     <path
                       d="M2 1.5L13.5 7.5L8.2 9.1L6.2 14.2L2 1.5Z"
@@ -687,5 +688,4 @@ function LivePresenceIndicatorInner({
   );
 }
 
-export const LivePresenceIndicator = memo(LivePresenceIndicatorInner);
-LivePresenceIndicator.displayName = 'LivePresenceIndicator';
+export const LivePresenceIndicator = /*#__PURE__*/ memoWithDisplayName(LivePresenceIndicatorInner, 'LivePresenceIndicator');

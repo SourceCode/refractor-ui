@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useEffect,
   useId,
   useRef,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TerminalLineKind = 'stdout' | 'stderr' | 'command' | 'system';
@@ -532,5 +532,4 @@ function TerminalEmulatorInner({
   );
 }
 
-export const TerminalEmulator = memo(TerminalEmulatorInner);
-TerminalEmulator.displayName = 'TerminalEmulator';
+export const TerminalEmulator = /*#__PURE__*/ memoWithDisplayName(TerminalEmulatorInner, 'TerminalEmulator');

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useCallback, useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Calendar, ChevronLeft, ChevronRight, Clock, Minus, Plus } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { buildMonthGrid } from '../utils/dateGrid';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DateTimeClockFormat = '12h' | '24h';
@@ -158,6 +159,10 @@ function shiftYearMonth(year: number, month: number, deltaMonths: number): { yea
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('combined-date-time-picker', 'header');
+const calendarClass = /*#__PURE__*/ stableClassName('combined-date-time-picker', 'calendar');
+const timePanelClass = /*#__PURE__*/ stableClassName('combined-date-time-picker', 'time-panel');
+
 function CombinedDateTimePickerInner({
   value,
   defaultValue = DEFAULT_DATE_TIME_ISO,
@@ -288,9 +293,6 @@ function CombinedDateTimePickerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('combined-date-time-picker', 'header');
-  const calendarClass = stableClassName('combined-date-time-picker', 'calendar');
-  const timePanelClass = stableClassName('combined-date-time-picker', 'time-panel');
 
   const iconButtonClass =
     'prism-crystal prism-focus-ring w-8 h-8 rounded-full inline-flex items-center justify-center shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed';
@@ -520,7 +522,7 @@ function CombinedDateTimePickerInner({
                           'prism-focus-ring h-8 px-3 rounded-full text-xs transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
                           active ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
                         )}
-                        style={active ? undefined : { color: 'var(--prism-text-primary)' }}
+                        style={active ? undefined : STYLE_TEXT_PRIMARY}
                       >
                         {meridiem}
                       </button>
@@ -553,7 +555,7 @@ function CombinedDateTimePickerInner({
                       'prism-focus-ring h-8 rounded-full text-xs tabular-nums transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
                       isActive ? 'prism-emerald font-semibold' : 'prism-crystal font-medium'
                     )}
-                    style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                    style={isActive ? undefined : STYLE_TEXT_PRIMARY}
                   >
                     {preset.label}
                   </button>
@@ -571,5 +573,4 @@ function CombinedDateTimePickerInner({
   );
 }
 
-export const CombinedDateTimePicker = memo(CombinedDateTimePickerInner);
-CombinedDateTimePicker.displayName = 'CombinedDateTimePicker';
+export const CombinedDateTimePicker = /*#__PURE__*/ memoWithDisplayName(CombinedDateTimePickerInner, 'CombinedDateTimePicker');

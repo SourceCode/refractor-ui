@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +27,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowAttachedSheetTone = 'info' | 'warning' | 'critical';
@@ -129,6 +129,17 @@ function renderToneIcon(tone: WindowAttachedSheetTone): ReactNode {
       return <ShieldAlert aria-hidden="true" className="w-4 h-4" />;
   }
 }
+
+const gridClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'grid');
+const windowClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'window');
+const titlebarClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'titlebar');
+const stageClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'stage');
+const bodyClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'body');
+const sheetClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'sheet');
+const stripeClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'accent-stripe');
+const customContentClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'custom-content');
+const siblingClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'sibling');
+const statusClass = /*#__PURE__*/ stableClassName('window-attached-sheet', 'status');
 
 function WindowAttachedSheetInner({
   windowTitle = DEFAULT_WINDOW_TITLE,
@@ -272,19 +283,6 @@ function WindowAttachedSheetInner({
     userStyle: style,
   });
 
-  const gridClass = stableClassName('window-attached-sheet', 'grid');
-  const windowClass = stableClassName('window-attached-sheet', 'window');
-  const titlebarClass = stableClassName('window-attached-sheet', 'titlebar');
-  const stageClass = stableClassName('window-attached-sheet', 'stage');
-  const bodyClass = stableClassName('window-attached-sheet', 'body');
-  const sheetClass = stableClassName('window-attached-sheet', 'sheet');
-  const stripeClass = stableClassName('window-attached-sheet', 'accent-stripe');
-  const customContentClass = stableClassName(
-    'window-attached-sheet',
-    'custom-content'
-  );
-  const siblingClass = stableClassName('window-attached-sheet', 'sibling');
-  const statusClass = stableClassName('window-attached-sheet', 'status');
 
   const defaultStatus = isOpen
     ? `Sheet active on ${resolvedWindowTitle}. Target window is blocked while sibling windows remain usable.`
@@ -817,5 +815,4 @@ function WindowAttachedSheetInner({
   );
 }
 
-export const WindowAttachedSheet = memo(WindowAttachedSheetInner);
-WindowAttachedSheet.displayName = 'WindowAttachedSheet';
+export const WindowAttachedSheet = /*#__PURE__*/ memoWithDisplayName(WindowAttachedSheetInner, 'WindowAttachedSheet');

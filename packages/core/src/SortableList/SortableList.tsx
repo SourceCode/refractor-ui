@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useMemo,
   useState,
   type DragEvent,
@@ -12,6 +11,7 @@ import { ChevronDown, ChevronUp, GripVertical, Lock } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface SortableListItem {
@@ -336,5 +336,7 @@ type SortableListComponent = (<T extends SortableListItem = SortableListItem>(
   props: SortableListProps<T>
 ) => ReactNode) & { displayName?: string };
 
-export const SortableList = memo(SortableListInner) as SortableListComponent;
-SortableList.displayName = 'SortableList';
+export const SortableList = /*#__PURE__*/ memoWithDisplayName(
+  SortableListInner,
+  'SortableList'
+) as SortableListComponent;

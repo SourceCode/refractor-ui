@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TocHeadingLevel = 1 | 2 | 3;
@@ -96,6 +96,16 @@ function getHeadingLevelMeta(level: TocHeadingLevel): HeadingLevelVisualMeta {
       };
   }
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'header');
+const titleClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'title');
+const progressPillClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'progress-pill');
+const progressTrackClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'progress-track');
+const railClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'rail');
+const listClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'list');
+const itemClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'item');
+const indicatorClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'indicator');
+const emptyClass = /*#__PURE__*/ stableClassName('floating-table-of-contents', 'empty');
 
 function FloatingTableOfContentsInner({
   headings,
@@ -289,24 +299,6 @@ function FloatingTableOfContentsInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('floating-table-of-contents', 'header');
-  const titleClass = stableClassName('floating-table-of-contents', 'title');
-  const progressPillClass = stableClassName(
-    'floating-table-of-contents',
-    'progress-pill'
-  );
-  const progressTrackClass = stableClassName(
-    'floating-table-of-contents',
-    'progress-track'
-  );
-  const railClass = stableClassName('floating-table-of-contents', 'rail');
-  const listClass = stableClassName('floating-table-of-contents', 'list');
-  const itemClass = stableClassName('floating-table-of-contents', 'item');
-  const indicatorClass = stableClassName(
-    'floating-table-of-contents',
-    'indicator'
-  );
-  const emptyClass = stableClassName('floating-table-of-contents', 'empty');
 
   return (
     <nav ref={ref} aria-label={resolvedTitle} {...rest} {...merged}>
@@ -487,5 +479,4 @@ function FloatingTableOfContentsInner({
   );
 }
 
-export const FloatingTableOfContents = memo(FloatingTableOfContentsInner);
-FloatingTableOfContents.displayName = 'FloatingTableOfContents';
+export const FloatingTableOfContents = /*#__PURE__*/ memoWithDisplayName(FloatingTableOfContentsInner, 'FloatingTableOfContents');

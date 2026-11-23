@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -26,6 +25,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface FloatingPaletteSection {
@@ -139,6 +139,15 @@ function normalizeSections(
     };
   });
 }
+
+const simulatorClass = /*#__PURE__*/ stableClassName('floating-inspector-palette', 'simulator');
+const paletteClass = /*#__PURE__*/ stableClassName('floating-inspector-palette', 'palette');
+const headerClass = /*#__PURE__*/ stableClassName('floating-inspector-palette', 'header');
+const bodyClass = /*#__PURE__*/ stableClassName('floating-inspector-palette', 'body');
+const sectionsClass = /*#__PURE__*/ stableClassName('floating-inspector-palette', 'sections');
+const brushClass = /*#__PURE__*/ stableClassName('floating-inspector-palette', 'brush');
+const hiddenPillClass = /*#__PURE__*/ stableClassName('floating-inspector-palette', 'hidden-pill');
+const closedBarClass = /*#__PURE__*/ stableClassName('floating-inspector-palette', 'closed-bar');
 
 function FloatingInspectorPaletteInner({
   title = DEFAULT_TITLE,
@@ -387,26 +396,6 @@ function FloatingInspectorPaletteInner({
     userStyle: style,
   });
 
-  const simulatorClass = stableClassName(
-    'floating-inspector-palette',
-    'simulator'
-  );
-  const paletteClass = stableClassName('floating-inspector-palette', 'palette');
-  const headerClass = stableClassName('floating-inspector-palette', 'header');
-  const bodyClass = stableClassName('floating-inspector-palette', 'body');
-  const sectionsClass = stableClassName(
-    'floating-inspector-palette',
-    'sections'
-  );
-  const brushClass = stableClassName('floating-inspector-palette', 'brush');
-  const hiddenPillClass = stableClassName(
-    'floating-inspector-palette',
-    'hidden-pill'
-  );
-  const closedBarClass = stableClassName(
-    'floating-inspector-palette',
-    'closed-bar'
-  );
 
   const paletteSurfaceStyle: OpticalStyleTokens | undefined = isUnfocusedPinned
     ? {
@@ -486,7 +475,7 @@ function FloatingInspectorPaletteInner({
               style={
                 isParentFocused
                   ? undefined
-                  : { color: 'var(--prism-text-secondary)' }
+                  : STYLE_TEXT_SECONDARY
               }
             >
               Parent Focused
@@ -510,7 +499,7 @@ function FloatingInspectorPaletteInner({
               style={
                 !isParentFocused
                   ? undefined
-                  : { color: 'var(--prism-text-secondary)' }
+                  : STYLE_TEXT_SECONDARY
               }
             >
               Parent Blurred
@@ -910,5 +899,4 @@ function FloatingInspectorPaletteInner({
   );
 }
 
-export const FloatingInspectorPalette = memo(FloatingInspectorPaletteInner);
-FloatingInspectorPalette.displayName = 'FloatingInspectorPalette';
+export const FloatingInspectorPalette = /*#__PURE__*/ memoWithDisplayName(FloatingInspectorPaletteInner, 'FloatingInspectorPalette');

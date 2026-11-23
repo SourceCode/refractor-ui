@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -13,12 +12,14 @@ import {
 } from 'react';
 import { ChevronsLeftRight, Layers, ShieldAlert } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
-import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { STYLE_BG_SECONDARY, STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface BeforeAfterSliderProps extends BaseProps<HTMLDivElement> {
@@ -127,6 +128,10 @@ function ComparisonLayer({ slot, label, content, safeSrc, isBlocked }: Compariso
   );
 }
 
+const stageClass = /*#__PURE__*/ stableClassName('before-after-slider', 'stage');
+const dividerClass = /*#__PURE__*/ stableClassName('before-after-slider', 'divider');
+const handleClass = /*#__PURE__*/ stableClassName('before-after-slider', 'handle');
+
 function BeforeAfterSliderInner({
   beforeLabel = 'Before',
   afterLabel = 'After',
@@ -209,11 +214,12 @@ function BeforeAfterSliderInner({
       setIsDragging(true);
       updateFromClientX(event.clientX);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         updateFromClientX(moveEvent.clientX);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -267,9 +273,6 @@ function BeforeAfterSliderInner({
     userStyle: style,
   });
 
-  const stageClass = stableClassName('before-after-slider', 'stage');
-  const dividerClass = stableClassName('before-after-slider', 'divider');
-  const handleClass = stableClassName('before-after-slider', 'handle');
 
   return (
     <div
@@ -358,7 +361,7 @@ function BeforeAfterSliderInner({
           <span
             aria-hidden="true"
             className="w-0.5 h-full shadow-sm pointer-events-none"
-            style={{ backgroundColor: 'var(--prism-secondary-main)' }}
+            style={STYLE_BG_SECONDARY}
           />
           <div
             role="slider"
@@ -388,5 +391,4 @@ function BeforeAfterSliderInner({
   );
 }
 
-export const BeforeAfterSlider = memo(BeforeAfterSliderInner);
-BeforeAfterSlider.displayName = 'BeforeAfterSlider';
+export const BeforeAfterSlider = /*#__PURE__*/ memoWithDisplayName(BeforeAfterSliderInner, 'BeforeAfterSlider');

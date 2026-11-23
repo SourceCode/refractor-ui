@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface SegmentOption {
@@ -50,7 +50,7 @@ function SegmentedControlInner({
 
   const merged = mergeProps({
     themeTarget: themeProps('segmented-control', { disabled }),
-    baseClassName: 'prism-crystal inline-flex items-center p-1 rounded-full gap-1 max-w-full overflow-x-auto',
+    baseClassName: 'prism-contain-leaf prism-crystal inline-flex items-center p-1 rounded-full gap-1 max-w-full overflow-x-auto',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -96,5 +96,4 @@ function SegmentedControlInner({
   );
 }
 
-export const SegmentedControl = memo(SegmentedControlInner);
-SegmentedControl.displayName = 'SegmentedControl';
+export const SegmentedControl = /*#__PURE__*/ memoWithDisplayName(SegmentedControlInner, 'SegmentedControl');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,7 +12,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { STYLE_BORDER_WARNING, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BurnChartMode = 'burndown' | 'burnup';
@@ -200,6 +200,12 @@ function buildAreaPath(coords: ReadonlyArray<{ x: number; y: number }>): string 
     .join(' ');
   return `${segments} L ${last.x.toFixed(2)} ${PLOT_BOTTOM.toFixed(2)} L ${first.x.toFixed(2)} ${PLOT_BOTTOM.toFixed(2)} Z`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('burndown-burnup-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('burndown-burnup-chart', 'legend');
+const canvasClass = /*#__PURE__*/ stableClassName('burndown-burnup-chart', 'canvas');
+const svgClass = /*#__PURE__*/ stableClassName('burndown-burnup-chart', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('burndown-burnup-chart', 'inspector');
 
 function BurndownBurnupChartInner({
   data,
@@ -459,11 +465,6 @@ function BurndownBurnupChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('burndown-burnup-chart', 'header');
-  const legendClass = stableClassName('burndown-burnup-chart', 'legend');
-  const canvasClass = stableClassName('burndown-burnup-chart', 'canvas');
-  const svgClass = stableClassName('burndown-burnup-chart', 'svg');
-  const inspectorClass = stableClassName('burndown-burnup-chart', 'inspector');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -562,7 +563,7 @@ function BurndownBurnupChartInner({
               <span
                 aria-hidden="true"
                 className="w-3 border-t-2 border-dashed shrink-0"
-                style={{ borderColor: 'var(--prism-warning-main)' }}
+                style={STYLE_BORDER_WARNING}
               />
               <span>Scope Ceiling</span>
             </span>
@@ -586,7 +587,7 @@ function BurndownBurnupChartInner({
             aria-label={`${title} ${isBurndown ? 'burn-down' : 'burn-up'} chart across ${chartModel.points.length} checkpoints`}
             data-testid="burn-chart-svg"
             viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-            className={cx(svgClass, 'w-full h-auto select-none')}
+            className={cx(svgClass, 'w-full h-auto select-none', 'prism-contain-box')}
           >
             <defs>
               <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -842,5 +843,4 @@ function BurndownBurnupChartInner({
   );
 }
 
-export const BurndownBurnupChart = memo(BurndownBurnupChartInner);
-BurndownBurnupChart.displayName = 'BurndownBurnupChart';
+export const BurndownBurnupChart = /*#__PURE__*/ memoWithDisplayName(BurndownBurnupChartInner, 'BurndownBurnupChart');

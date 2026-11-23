@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Flag } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ThresholdTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -245,6 +246,11 @@ function computeYDomain(
     max: rawMax + padding,
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('chart-threshold-marker', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('chart-threshold-marker', 'controls');
+const canvasClass = /*#__PURE__*/ stableClassName('chart-threshold-marker', 'canvas');
+const inspectorClass = /*#__PURE__*/ stableClassName('chart-threshold-marker', 'inspector');
 
 function ChartThresholdMarkerInner({
   data,
@@ -585,10 +591,6 @@ function ChartThresholdMarkerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('chart-threshold-marker', 'header');
-  const controlsClass = stableClassName('chart-threshold-marker', 'controls');
-  const canvasClass = stableClassName('chart-threshold-marker', 'canvas');
-  const inspectorClass = stableClassName('chart-threshold-marker', 'inspector');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -713,7 +715,7 @@ function ChartThresholdMarkerInner({
               aria-label={`${title} chart with ${normalizedThresholds.length} thresholds and ${normalizedEvents.length} events`}
               data-testid="threshold-chart-svg"
               viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
-              className="w-full overflow-visible block"
+              className="w-full overflow-visible block prism-contain-leaf"
               style={{ height: `${safeHeight}px` }}
             >
               <defs>
@@ -1067,5 +1069,4 @@ function ChartThresholdMarkerInner({
   );
 }
 
-export const ChartThresholdMarker = memo(ChartThresholdMarkerInner);
-ChartThresholdMarker.displayName = 'ChartThresholdMarker';
+export const ChartThresholdMarker = /*#__PURE__*/ memoWithDisplayName(ChartThresholdMarkerInner, 'ChartThresholdMarker');

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Minus, Network, Plus, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_FILL_PRIMARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type NetworkNodeTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -353,6 +354,11 @@ function computeForceLayout(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('network-force-graph', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('network-force-graph', 'filters');
+const canvasClass = /*#__PURE__*/ stableClassName('network-force-graph', 'canvas');
+const inspectorClass = /*#__PURE__*/ stableClassName('network-force-graph', 'inspector');
+
 function NetworkForceGraphInner({
   nodes,
   edges,
@@ -567,10 +573,6 @@ function NetworkForceGraphInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('network-force-graph', 'header');
-  const filtersClass = stableClassName('network-force-graph', 'filters');
-  const canvasClass = stableClassName('network-force-graph', 'canvas');
-  const inspectorClass = stableClassName('network-force-graph', 'inspector');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -707,7 +709,7 @@ function NetworkForceGraphInner({
               data-testid="network-force-svg"
               data-zoom={String(zoom)}
               viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
-              className="w-full block overflow-hidden"
+              className="w-full block overflow-hidden prism-contain-box"
               style={{ height: `${safeHeight}px` }}
             >
               <g
@@ -952,5 +954,4 @@ function NetworkForceGraphInner({
   );
 }
 
-export const NetworkForceGraph = memo(NetworkForceGraphInner);
-NetworkForceGraph.displayName = 'NetworkForceGraph';
+export const NetworkForceGraph = /*#__PURE__*/ memoWithDisplayName(NetworkForceGraphInner, 'NetworkForceGraph');

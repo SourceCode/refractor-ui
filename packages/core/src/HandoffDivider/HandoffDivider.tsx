@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useState, type ReactNode } from 'react';
+import { useId, useState, type ReactNode } from 'react';
 import {
   ArrowRight,
   ChevronDown,
@@ -15,6 +15,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type HandoffArtifactKind = 'file' | 'summary' | 'plan' | 'data';
@@ -72,6 +73,14 @@ function renderArtifactIcon(kind: HandoffArtifactKind): ReactNode {
   }
 }
 
+const ruleClass = /*#__PURE__*/ stableClassName('handoff-divider', 'rule');
+const badgeClass = /*#__PURE__*/ stableClassName('handoff-divider', 'badge');
+const summaryClass = /*#__PURE__*/ stableClassName('handoff-divider', 'summary');
+const artifactsClass = /*#__PURE__*/ stableClassName('handoff-divider', 'artifacts');
+const artifactClass = /*#__PURE__*/ stableClassName('handoff-divider', 'artifact');
+const payloadToggleClass = /*#__PURE__*/ stableClassName('handoff-divider', 'payload-toggle');
+const payloadClass = /*#__PURE__*/ stableClassName('handoff-divider', 'payload');
+
 function HandoffDividerInner({
   fromAgent,
   toAgent,
@@ -105,7 +114,7 @@ function HandoffDividerInner({
       expanded: hasPayload && expanded,
       artifactCount: artifactList ? artifactList.length : 0,
     }),
-    baseClassName: 'w-full py-3 flex flex-col items-center gap-2.5',
+    baseClassName: 'prism-contain-leaf w-full py-3 flex flex-col items-center gap-2.5',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -113,13 +122,6 @@ function HandoffDividerInner({
     userStyle: style,
   });
 
-  const ruleClass = stableClassName('handoff-divider', 'rule');
-  const badgeClass = stableClassName('handoff-divider', 'badge');
-  const summaryClass = stableClassName('handoff-divider', 'summary');
-  const artifactsClass = stableClassName('handoff-divider', 'artifacts');
-  const artifactClass = stableClassName('handoff-divider', 'artifact');
-  const payloadToggleClass = stableClassName('handoff-divider', 'payload-toggle');
-  const payloadClass = stableClassName('handoff-divider', 'payload');
 
   return (
     <div
@@ -287,5 +289,4 @@ function HandoffDividerInner({
   );
 }
 
-export const HandoffDivider = memo(HandoffDividerInner);
-HandoffDivider.displayName = 'HandoffDivider';
+export const HandoffDivider = /*#__PURE__*/ memoWithDisplayName(HandoffDividerInner, 'HandoffDivider');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -22,12 +21,14 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_PRIMARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WipeOrientation = 'vertical' | 'horizontal';
@@ -123,7 +124,7 @@ function DefaultOpticalFrame({ variant, gradientPrefix }: DefaultFrameProps) {
         viewBox="0 0 640 360"
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
-        className="w-full h-full block pointer-events-none"
+        className="w-full h-full block pointer-events-none prism-contain-box"
       >
         <defs>
           <linearGradient id={skyGradId} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -280,6 +281,12 @@ function DefaultOpticalFrame({ variant, gradientPrefix }: DefaultFrameProps) {
   );
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('wipe-compare-overlay', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('wipe-compare-overlay', 'stage');
+const dividerClass = /*#__PURE__*/ stableClassName('wipe-compare-overlay', 'divider');
+const handleClass = /*#__PURE__*/ stableClassName('wipe-compare-overlay', 'handle');
+const statusClass = /*#__PURE__*/ stableClassName('wipe-compare-overlay', 'status');
+
 function WipeCompareOverlayInner({
   positionPct,
   defaultPositionPct = DEFAULT_POSITION,
@@ -403,11 +410,12 @@ function WipeCompareOverlayInner({
       setIsDragging(true);
       updateFromPointer(event.clientX, event.clientY);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         updateFromPointer(moveEvent.clientX, moveEvent.clientY);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -550,11 +558,6 @@ function WipeCompareOverlayInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('wipe-compare-overlay', 'header');
-  const stageClass = stableClassName('wipe-compare-overlay', 'stage');
-  const dividerClass = stableClassName('wipe-compare-overlay', 'divider');
-  const handleClass = stableClassName('wipe-compare-overlay', 'handle');
-  const statusClass = stableClassName('wipe-compare-overlay', 'status');
 
   const hasCustomBefore = beforeContent !== undefined && beforeContent !== null;
   const hasCustomAfter = afterContent !== undefined && afterContent !== null;
@@ -823,5 +826,4 @@ function WipeCompareOverlayInner({
   );
 }
 
-export const WipeCompareOverlay = memo(WipeCompareOverlayInner);
-WipeCompareOverlay.displayName = 'WipeCompareOverlay';
+export const WipeCompareOverlay = /*#__PURE__*/ memoWithDisplayName(WipeCompareOverlayInner, 'WipeCompareOverlay');

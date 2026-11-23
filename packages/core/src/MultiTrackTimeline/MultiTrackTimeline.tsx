@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useMemo,
   useState,
@@ -15,7 +14,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BADGE_PRIMARY, STYLE_BADGE_WARNING, STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TimelineTrackKind = 'video' | 'audio' | 'effect' | 'subtitle';
@@ -215,6 +215,11 @@ function buildRulerTicks(durationSec: number, zoom: TimelineZoomScale): RulerTic
 
   return ticks;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('multi-track-timeline', 'header');
+const railClass = /*#__PURE__*/ stableClassName('multi-track-timeline', 'rail');
+const lanesClass = /*#__PURE__*/ stableClassName('multi-track-timeline', 'lanes');
+const inspectorClass = /*#__PURE__*/ stableClassName('multi-track-timeline', 'inspector');
 
 function MultiTrackTimelineInner({
   tracks,
@@ -504,10 +509,6 @@ function MultiTrackTimelineInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('multi-track-timeline', 'header');
-  const railClass = stableClassName('multi-track-timeline', 'rail');
-  const lanesClass = stableClassName('multi-track-timeline', 'lanes');
-  const inspectorClass = stableClassName('multi-track-timeline', 'inspector');
 
   return (
     <div ref={ref} role="region" aria-label={ariaLabel ?? title} {...rest} {...merged}>
@@ -660,11 +661,8 @@ function MultiTrackTimelineInner({
                           )}
                           style={
                             track.isMuted
-                              ? {
-                                  backgroundColor: 'var(--prism-warning-main)',
-                                  color: 'var(--prism-warning-contrast)',
-                                }
-                              : { color: 'var(--prism-text-secondary)' }
+                              ? STYLE_BADGE_WARNING
+                              : STYLE_TEXT_SECONDARY
                           }
                         >
                           M
@@ -681,11 +679,8 @@ function MultiTrackTimelineInner({
                           )}
                           style={
                             track.isLocked
-                              ? {
-                                  backgroundColor: 'var(--prism-primary-main)',
-                                  color: 'var(--prism-primary-contrast)',
-                                }
-                              : { color: 'var(--prism-text-secondary)' }
+                              ? STYLE_BADGE_PRIMARY
+                              : STYLE_TEXT_SECONDARY
                           }
                         >
                           L
@@ -918,5 +913,4 @@ function MultiTrackTimelineInner({
   );
 }
 
-export const MultiTrackTimeline = memo(MultiTrackTimelineInner);
-MultiTrackTimeline.displayName = 'MultiTrackTimeline';
+export const MultiTrackTimeline = /*#__PURE__*/ memoWithDisplayName(MultiTrackTimelineInner, 'MultiTrackTimeline');

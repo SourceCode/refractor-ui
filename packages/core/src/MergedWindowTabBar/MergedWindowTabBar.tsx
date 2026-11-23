@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -25,7 +24,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_PRIMARY, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface MergedWindowTabItem {
@@ -151,6 +151,16 @@ function createCollisionSafeTab(
     closable: true,
   };
 }
+
+const titlebarClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'titlebar');
+const controlsClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'chrome-controls');
+const tablistClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'tablist');
+const tabClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'tab');
+const addButtonClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'add-button');
+const shelfClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'detached-shelf');
+const previewClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'preview');
+const emptyClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'empty');
+const statusBarClass = /*#__PURE__*/ stableClassName('merged-window-tab-bar', 'status-bar');
 
 function MergedWindowTabBarInner({
   tabs,
@@ -541,18 +551,6 @@ function MergedWindowTabBarInner({
     userStyle: style,
   });
 
-  const titlebarClass = stableClassName('merged-window-tab-bar', 'titlebar');
-  const controlsClass = stableClassName(
-    'merged-window-tab-bar',
-    'chrome-controls'
-  );
-  const tablistClass = stableClassName('merged-window-tab-bar', 'tablist');
-  const tabClass = stableClassName('merged-window-tab-bar', 'tab');
-  const addButtonClass = stableClassName('merged-window-tab-bar', 'add-button');
-  const shelfClass = stableClassName('merged-window-tab-bar', 'detached-shelf');
-  const previewClass = stableClassName('merged-window-tab-bar', 'preview');
-  const emptyClass = stableClassName('merged-window-tab-bar', 'empty');
-  const statusBarClass = stableClassName('merged-window-tab-bar', 'status-bar');
 
   const panelId = `${baseId}-panel`;
   const activeTabButtonId = activeTab
@@ -809,10 +807,7 @@ function MergedWindowTabBarInner({
             addButtonClass,
             'prism-crystal prism-focus-ring inline-flex items-center gap-1 h-8 px-2.5 rounded-xl text-xs font-medium whitespace-nowrap shrink-0 border cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 transition-opacity enabled:hover:opacity-90'
           )}
-          style={{
-            color: 'var(--prism-text-primary)',
-            borderColor: 'var(--prism-divider)',
-          }}
+          style={STYLE_BORDER_DIVIDER_TEXT_PRIMARY}
         >
           <Plus aria-hidden="true" className="w-3.5 h-3.5" />
           <span>New Tab</span>
@@ -1011,10 +1006,7 @@ function MergedWindowTabBarInner({
           statusBarClass,
           'px-3.5 py-1.5 border-t text-[11px] flex flex-wrap items-center justify-between gap-2 min-w-0 max-w-full'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-          color: 'var(--prism-text-secondary)',
-        }}
+        style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
       >
         <span className="truncate">{announcement || idleStatusText}</span>
         <span className="font-mono text-[10px] shrink-0">
@@ -1025,5 +1017,4 @@ function MergedWindowTabBarInner({
   );
 }
 
-export const MergedWindowTabBar = memo(MergedWindowTabBarInner);
-MergedWindowTabBar.displayName = 'MergedWindowTabBar';
+export const MergedWindowTabBar = /*#__PURE__*/ memoWithDisplayName(MergedWindowTabBarInner, 'MergedWindowTabBar');

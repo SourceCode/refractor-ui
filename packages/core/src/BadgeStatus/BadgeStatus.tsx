@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BadgeStatusTone = 'online' | 'warning' | 'offline' | 'counter';
@@ -42,7 +42,7 @@ function BadgeStatusInner({
   const merged = mergeProps({
     themeTarget: themeProps('badge-status', { tone, hasCount: count !== undefined }),
     baseClassName:
-      'prism-crystal rounded-full px-3.5 py-1.5 inline-flex items-center gap-2 text-xs font-medium text-slate-800 dark:text-slate-100 whitespace-nowrap',
+      'prism-contain-leaf prism-crystal rounded-full px-3.5 py-1.5 inline-flex items-center gap-2 text-xs font-medium text-slate-800 dark:text-slate-100 whitespace-nowrap',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -64,5 +64,4 @@ function BadgeStatusInner({
   );
 }
 
-export const BadgeStatus = memo(BadgeStatusInner);
-BadgeStatus.displayName = 'BadgeStatus';
+export const BadgeStatus = /*#__PURE__*/ memoWithDisplayName(BadgeStatusInner, 'BadgeStatus');

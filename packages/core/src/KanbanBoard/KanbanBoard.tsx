@@ -21,6 +21,7 @@ import {
   STYLE_BG_SUCCESS,
   STYLE_BG_WARNING,
 } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type KanbanPriority = 'low' | 'medium' | 'high' | 'critical';
@@ -594,5 +595,4 @@ function KanbanBoardInner({
   );
 }
 
-export const KanbanBoard = memo(KanbanBoardInner);
-KanbanBoard.displayName = 'KanbanBoard';
+export const KanbanBoard = /*#__PURE__*/ memoWithDisplayName(KanbanBoardInner, 'KanbanBoard');

@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useId, useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { useId, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { Clock, Minus, Plus, Timer } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 const SECONDS_PER_MINUTE = 60;
@@ -498,5 +499,4 @@ function DurationInputInner({
   );
 }
 
-export const DurationInput = memo(DurationInputInner);
-DurationInput.displayName = 'DurationInput';
+export const DurationInput = /*#__PURE__*/ memoWithDisplayName(DurationInputInner, 'DurationInput');

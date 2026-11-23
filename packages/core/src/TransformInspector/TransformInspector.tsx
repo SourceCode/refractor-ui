@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -17,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TransformAxis = 'x' | 'y' | 'z';
@@ -266,6 +266,11 @@ function formatTelemetry(state: Transform3DState, unit: string): string {
   return `translate3d(${position.x}${unit}, ${position.y}${unit}, ${position.z}${unit}) rotate3d(${rotation.x}deg, ${rotation.y}deg, ${rotation.z}deg) scale3d(${scale.x}, ${scale.y}, ${scale.z})`;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('transform-inspector', 'header');
+const rowsClass = /*#__PURE__*/ stableClassName('transform-inspector', 'rows');
+const rowClass = /*#__PURE__*/ stableClassName('transform-inspector', 'row');
+const telemetryClass = /*#__PURE__*/ stableClassName('transform-inspector', 'telemetry');
+
 function TransformInspectorInner({
   value,
   defaultValue,
@@ -440,10 +445,6 @@ function TransformInspectorInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('transform-inspector', 'header');
-  const rowsClass = stableClassName('transform-inspector', 'rows');
-  const rowClass = stableClassName('transform-inspector', 'row');
-  const telemetryClass = stableClassName('transform-inspector', 'telemetry');
 
   return (
     <div
@@ -544,7 +545,7 @@ function TransformInspectorInner({
                       style={
                         currentState.scaleLocked
                           ? undefined
-                          : { color: 'var(--prism-text-secondary)' }
+                          : STYLE_TEXT_SECONDARY
                       }
                     >
                       {currentState.scaleLocked ? (
@@ -668,5 +669,4 @@ function TransformInspectorInner({
   );
 }
 
-export const TransformInspector = memo(TransformInspectorInner);
-TransformInspector.displayName = 'TransformInspector';
+export const TransformInspector = /*#__PURE__*/ memoWithDisplayName(TransformInspectorInner, 'TransformInspector');

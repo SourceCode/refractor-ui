@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useEffect,
   useId,
   useMemo,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SlaUrgencyState = 'nominal' | 'approaching' | 'critical' | 'breached';
@@ -187,6 +187,14 @@ function formatSlaReadout(remainingSeconds: number): string {
   }
   return clock;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('sla-countdown-timer', 'header');
+const policyClass = /*#__PURE__*/ stableClassName('sla-countdown-timer', 'policy');
+const readoutClass = /*#__PURE__*/ stableClassName('sla-countdown-timer', 'readout');
+const progressClass = /*#__PURE__*/ stableClassName('sla-countdown-timer', 'progress');
+const controlsClass = /*#__PURE__*/ stableClassName('sla-countdown-timer', 'controls');
+const statusClass = /*#__PURE__*/ stableClassName('sla-countdown-timer', 'status');
+const dotClass = /*#__PURE__*/ stableClassName('sla-countdown-timer', 'dot');
 
 function SlaCountdownTimerInner({
   title = 'SLA Response Countdown',
@@ -373,13 +381,6 @@ function SlaCountdownTimerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('sla-countdown-timer', 'header');
-  const policyClass = stableClassName('sla-countdown-timer', 'policy');
-  const readoutClass = stableClassName('sla-countdown-timer', 'readout');
-  const progressClass = stableClassName('sla-countdown-timer', 'progress');
-  const controlsClass = stableClassName('sla-countdown-timer', 'controls');
-  const statusClass = stableClassName('sla-countdown-timer', 'status');
-  const dotClass = stableClassName('sla-countdown-timer', 'dot');
 
   const isSevere = urgency === 'breached' || urgency === 'critical';
 
@@ -664,5 +665,4 @@ function SlaCountdownTimerInner({
   );
 }
 
-export const SlaCountdownTimer = memo(SlaCountdownTimerInner);
-SlaCountdownTimer.displayName = 'SlaCountdownTimer';
+export const SlaCountdownTimer = /*#__PURE__*/ memoWithDisplayName(SlaCountdownTimerInner, 'SlaCountdownTimer');

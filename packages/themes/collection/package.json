@@ -1,12 +1,23 @@
 {
   "name": "@refractor-ui/themes",
-  "version": "1.48.0",
+  "version": "1.49.0",
   "description": "Complete 63-theme WebOS-v3 multi-material theme collection plus unified 68-theme catalog for Refractor UI.",
   "license": "Apache-2.0",
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": "./src/index.ts",
-    "./themes.css": "./themes.css"
+    "./themes.css": "./themes.css",
+    "./classic-os": "./src/collections/classicOs.ts",
+    "./modern-os": "./src/collections/modernOs.ts",
+    "./cyber-neon": "./src/collections/cyberNeon.ts",
+    "./retro-gaming": "./src/collections/retroGaming.ts",
+    "./tactile-material": "./src/collections/tactileMaterial.ts",
+    "./developer-ide": "./src/collections/developerIde.ts",
+    "./nature-elements": "./src/collections/natureElements.ts",
+    "./seasons": "./src/collections/seasons.ts"
   },
   "peerDependencies": {
     "@refractor-ui/core": "workspace:*"

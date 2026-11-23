@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,11 +12,13 @@ import {
 } from 'react';
 import { Grid3x3, Maximize2, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowResizeEdge = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
@@ -339,6 +340,14 @@ function computeResizedRect(
   };
 }
 
+const telemetryClass = /*#__PURE__*/ stableClassName('window-resize-frame', 'telemetry');
+const scrollerClass = /*#__PURE__*/ stableClassName('window-resize-frame', 'scroller');
+const stageClass = /*#__PURE__*/ stableClassName('window-resize-frame', 'stage');
+const windowClass = /*#__PURE__*/ stableClassName('window-resize-frame', 'window');
+const ghostClass = /*#__PURE__*/ stableClassName('window-resize-frame', 'ghost');
+const handleClass = /*#__PURE__*/ stableClassName('window-resize-frame', 'handle');
+const statusClass = /*#__PURE__*/ stableClassName('window-resize-frame', 'status');
+
 function WindowResizeFrameInner({
   title = DEFAULT_TITLE,
   rect,
@@ -461,6 +470,7 @@ function WindowResizeFrameInner({
       });
 
       const cleanup = () => {
+        handleWindowPointerMove.cancel();
         window.removeEventListener('pointermove', handleWindowPointerMove);
         window.removeEventListener('pointerup', handleWindowPointerUp);
         window.removeEventListener('pointercancel', handleWindowPointerCancel);
@@ -468,7 +478,7 @@ function WindowResizeFrameInner({
         cleanupDragRef.current = null;
       };
 
-      const handleWindowPointerMove = (moveEvent: PointerEvent) => {
+      const handleWindowPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (moveEvent.pointerId !== pointerId) {
           return;
         }
@@ -491,7 +501,7 @@ function WindowResizeFrameInner({
           rect: nextRect,
           snapped: isSnapped,
         });
-      };
+      });
 
       const handleWindowPointerUp = (upEvent: PointerEvent) => {
         if (upEvent.pointerId !== pointerId) {
@@ -623,13 +633,6 @@ function WindowResizeFrameInner({
     userStyle: style,
   });
 
-  const telemetryClass = stableClassName('window-resize-frame', 'telemetry');
-  const scrollerClass = stableClassName('window-resize-frame', 'scroller');
-  const stageClass = stableClassName('window-resize-frame', 'stage');
-  const windowClass = stableClassName('window-resize-frame', 'window');
-  const ghostClass = stableClassName('window-resize-frame', 'ghost');
-  const handleClass = stableClassName('window-resize-frame', 'handle');
-  const statusClass = stableClassName('window-resize-frame', 'status');
 
   const defaultStatusSummary = `Frame ${activeDisplayRect.width} × ${activeDisplayRect.height} px · Origin (${activeDisplayRect.x}, ${activeDisplayRect.y}) · ${
     isSnapActive ? `Snap ${safeSnapGridPx}px` : 'Free alignment'
@@ -953,5 +956,4 @@ function WindowResizeFrameInner({
   );
 }
 
-export const WindowResizeFrame = memo(WindowResizeFrameInner);
-WindowResizeFrame.displayName = 'WindowResizeFrame';
+export const WindowResizeFrame = /*#__PURE__*/ memoWithDisplayName(WindowResizeFrameInner, 'WindowResizeFrame');

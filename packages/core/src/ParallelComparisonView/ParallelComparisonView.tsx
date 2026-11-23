@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Check, Clock, Columns2, Copy, Cpu, Gauge, Hash, Trophy } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface ComparisonCandidate {
@@ -69,6 +70,14 @@ function normalizeScore(score: number | undefined): number | null {
   }
   return Math.round(clampNumber(score, 0, 100, 0));
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('parallel-comparison-view', 'header');
+const gridClass = /*#__PURE__*/ stableClassName('parallel-comparison-view', 'grid');
+const cardClass = /*#__PURE__*/ stableClassName('parallel-comparison-view', 'card');
+const outputClass = /*#__PURE__*/ stableClassName('parallel-comparison-view', 'output');
+const selectBtnClass = /*#__PURE__*/ stableClassName('parallel-comparison-view', 'select-button');
+const copyBtnClass = /*#__PURE__*/ stableClassName('parallel-comparison-view', 'copy-button');
+const emptyClass = /*#__PURE__*/ stableClassName('parallel-comparison-view', 'empty');
 
 function ParallelComparisonViewInner({
   candidates,
@@ -172,13 +181,6 @@ function ParallelComparisonViewInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('parallel-comparison-view', 'header');
-  const gridClass = stableClassName('parallel-comparison-view', 'grid');
-  const cardClass = stableClassName('parallel-comparison-view', 'card');
-  const outputClass = stableClassName('parallel-comparison-view', 'output');
-  const selectBtnClass = stableClassName('parallel-comparison-view', 'select-button');
-  const copyBtnClass = stableClassName('parallel-comparison-view', 'copy-button');
-  const emptyClass = stableClassName('parallel-comparison-view', 'empty');
 
   const countLabel = `${candidates.length} ${candidates.length === 1 ? 'candidate' : 'candidates'}`;
 
@@ -239,7 +241,7 @@ function ParallelComparisonViewInner({
             'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-medium whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer enabled:hover:brightness-105 disabled:opacity-45 disabled:cursor-not-allowed',
             copied ? 'prism-emerald font-semibold' : 'prism-crystal'
           )}
-          style={copied ? undefined : { color: 'var(--prism-text-primary)' }}
+          style={copied ? undefined : STYLE_TEXT_PRIMARY}
         >
           {copied ? (
             <>
@@ -425,5 +427,4 @@ function ParallelComparisonViewInner({
   );
 }
 
-export const ParallelComparisonView = memo(ParallelComparisonViewInner);
-ParallelComparisonView.displayName = 'ParallelComparisonView';
+export const ParallelComparisonView = /*#__PURE__*/ memoWithDisplayName(ParallelComparisonViewInner, 'ParallelComparisonView');

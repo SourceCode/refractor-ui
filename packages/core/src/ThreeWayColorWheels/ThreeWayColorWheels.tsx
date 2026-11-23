@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -14,11 +13,13 @@ import {
 } from 'react';
 import { Palette, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ColorWheelZone = 'lift' | 'gamma' | 'gain';
@@ -243,6 +244,12 @@ function formatSignedLuminance(value: number): string {
   return safe > 0 ? `+${safe}` : String(safe);
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('three-way-color-wheels', 'header');
+const gridClass = /*#__PURE__*/ stableClassName('three-way-color-wheels', 'grid');
+const cardClass = /*#__PURE__*/ stableClassName('three-way-color-wheels', 'card');
+const wheelClass = /*#__PURE__*/ stableClassName('three-way-color-wheels', 'wheel');
+const luminanceClass = /*#__PURE__*/ stableClassName('three-way-color-wheels', 'luminance');
+
 function ThreeWayColorWheelsInner({
   value,
   defaultValue,
@@ -360,11 +367,12 @@ function ThreeWayColorWheelsInner({
 
       applyPoint(event.clientX, event.clientY);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         applyPoint(moveEvent.clientX, moveEvent.clientY);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -490,11 +498,6 @@ function ThreeWayColorWheelsInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('three-way-color-wheels', 'header');
-  const gridClass = stableClassName('three-way-color-wheels', 'grid');
-  const cardClass = stableClassName('three-way-color-wheels', 'card');
-  const wheelClass = stableClassName('three-way-color-wheels', 'wheel');
-  const luminanceClass = stableClassName('three-way-color-wheels', 'luminance');
 
   return (
     <div ref={ref} role="region" aria-label={title} {...rest} {...merged}>
@@ -657,7 +660,7 @@ function ThreeWayColorWheelsInner({
                   viewBox={`0 0 ${WHEEL_VIEWBOX} ${WHEEL_VIEWBOX}`}
                   aria-hidden="true"
                   data-testid={`wheel-svg-${zone.id}`}
-                  className="w-full max-w-[148px] mx-auto select-none block overflow-visible pointer-events-none"
+                  className="w-full max-w-[148px] mx-auto select-none block overflow-visible pointer-events-none prism-contain-leaf"
                 >
                   {/* Outer Optical Crystal Rim */}
                   <circle
@@ -886,5 +889,4 @@ function ThreeWayColorWheelsInner({
   );
 }
 
-export const ThreeWayColorWheels = memo(ThreeWayColorWheelsInner);
-ThreeWayColorWheels.displayName = 'ThreeWayColorWheels';
+export const ThreeWayColorWheels = /*#__PURE__*/ memoWithDisplayName(ThreeWayColorWheelsInner, 'ThreeWayColorWheels');

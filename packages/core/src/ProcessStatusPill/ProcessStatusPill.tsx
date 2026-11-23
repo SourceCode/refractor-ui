@@ -1,6 +1,5 @@
 'use client';
 
-import { memo } from 'react';
 
 import { Ban, CheckCircle2, Loader2, RotateCw, Square, XCircle } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
@@ -8,6 +7,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ProcessStatus = 'running' | 'success' | 'failed' | 'cancelled';
@@ -86,6 +86,11 @@ function renderStatusIcon(status: ProcessStatus, iconClassName: string) {
   }
 }
 
+const labelClass = /*#__PURE__*/ stableClassName('process-status-pill', 'label');
+const elapsedClass = /*#__PURE__*/ stableClassName('process-status-pill', 'elapsed');
+const exitCodeClass = /*#__PURE__*/ stableClassName('process-status-pill', 'exit-code');
+const actionClass = /*#__PURE__*/ stableClassName('process-status-pill', 'action');
+
 function ProcessStatusPillInner({
   label,
   status,
@@ -126,10 +131,6 @@ function ProcessStatusPillInner({
     userStyle: style,
   });
 
-  const labelClass = stableClassName('process-status-pill', 'label');
-  const elapsedClass = stableClassName('process-status-pill', 'elapsed');
-  const exitCodeClass = stableClassName('process-status-pill', 'exit-code');
-  const actionClass = stableClassName('process-status-pill', 'action');
 
   const iconClassName = isSmall ? 'w-3.5 h-3.5 shrink-0' : 'w-4 h-4 shrink-0';
   const actionButtonClass = cx(
@@ -203,5 +204,4 @@ function ProcessStatusPillInner({
   );
 }
 
-export const ProcessStatusPill = memo(ProcessStatusPillInner);
-ProcessStatusPill.displayName = 'ProcessStatusPill';
+export const ProcessStatusPill = /*#__PURE__*/ memoWithDisplayName(ProcessStatusPillInner, 'ProcessStatusPill');

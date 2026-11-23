@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -17,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type OtpCodeInputBaseProps = Omit<BaseProps<HTMLDivElement>, 'onChange'>;
@@ -436,5 +436,4 @@ function OtpCodeInputInner({
   );
 }
 
-export const OtpCodeInput = memo(OtpCodeInputInner);
-OtpCodeInput.displayName = 'OtpCodeInput';
+export const OtpCodeInput = /*#__PURE__*/ memoWithDisplayName(OtpCodeInputInner, 'OtpCodeInput');

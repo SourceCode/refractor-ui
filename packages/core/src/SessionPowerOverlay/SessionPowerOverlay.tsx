@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +27,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SessionPowerActionId = 'sleep' | 'restart' | 'shutdown' | 'logout';
@@ -159,6 +159,15 @@ function formatActionReopenSuffix(
     ? ' (reopen windows enabled).'
     : ' (reopen windows disabled).';
 }
+
+const panelClass = /*#__PURE__*/ stableClassName('session-power-overlay', 'panel');
+const headerClass = /*#__PURE__*/ stableClassName('session-power-overlay', 'header');
+const actionsClass = /*#__PURE__*/ stableClassName('session-power-overlay', 'actions');
+const actionCardClass = /*#__PURE__*/ stableClassName('session-power-overlay', 'action-card');
+const reopenClass = /*#__PURE__*/ stableClassName('session-power-overlay', 'reopen');
+const countdownClass = /*#__PURE__*/ stableClassName('session-power-overlay', 'countdown');
+const footerClass = /*#__PURE__*/ stableClassName('session-power-overlay', 'footer');
+const statusClass = /*#__PURE__*/ stableClassName('session-power-overlay', 'status');
 
 function SessionPowerOverlayInner({
   title = DEFAULT_TITLE,
@@ -482,14 +491,6 @@ function SessionPowerOverlayInner({
     userStyle: style,
   });
 
-  const panelClass = stableClassName('session-power-overlay', 'panel');
-  const headerClass = stableClassName('session-power-overlay', 'header');
-  const actionsClass = stableClassName('session-power-overlay', 'actions');
-  const actionCardClass = stableClassName('session-power-overlay', 'action-card');
-  const reopenClass = stableClassName('session-power-overlay', 'reopen');
-  const countdownClass = stableClassName('session-power-overlay', 'countdown');
-  const footerClass = stableClassName('session-power-overlay', 'footer');
-  const statusClass = stableClassName('session-power-overlay', 'status');
 
   const progressPct = countdownEnabled
     ? Math.max(0, Math.min(100, Math.round((remainingSeconds / sanitizedDuration) * 100)))
@@ -959,5 +960,4 @@ function SessionPowerOverlayInner({
   );
 }
 
-export const SessionPowerOverlay = memo(SessionPowerOverlayInner);
-SessionPowerOverlay.displayName = 'SessionPowerOverlay';
+export const SessionPowerOverlay = /*#__PURE__*/ memoWithDisplayName(SessionPowerOverlayInner, 'SessionPowerOverlay');

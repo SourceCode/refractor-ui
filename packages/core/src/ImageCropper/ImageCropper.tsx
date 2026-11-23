@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,10 +12,12 @@ import {
 } from 'react';
 import { Check, Crop, ImageOff, RefreshCw, RotateCcw, RotateCw, ZoomIn } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CropAspectRatio = 'free' | '1:1' | '16:9' | '4:3';
@@ -197,6 +198,10 @@ function resizeCropRegion(
   };
 }
 
+const viewportClass = /*#__PURE__*/ stableClassName('image-cropper', 'viewport');
+const frameClass = /*#__PURE__*/ stableClassName('image-cropper', 'frame');
+const dockClass = /*#__PURE__*/ stableClassName('image-cropper', 'dock');
+
 function ImageCropperInner({
   src,
   alt = 'Editable media',
@@ -286,7 +291,7 @@ function ImageCropperInner({
       const startRegion = region;
       setDragMode(mode);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const viewport = viewportRef.current;
         if (!viewport) return;
         const rect = viewport.getBoundingClientRect();
@@ -313,9 +318,10 @@ function ImageCropperInner({
             )
           );
         }
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -473,9 +479,6 @@ function ImageCropperInner({
     userStyle: style,
   });
 
-  const viewportClass = stableClassName('image-cropper', 'viewport');
-  const frameClass = stableClassName('image-cropper', 'frame');
-  const dockClass = stableClassName('image-cropper', 'dock');
 
   return (
     <div ref={ref} role="region" aria-label={`Image cropper for ${alt}`} {...rest} {...merged}>
@@ -742,5 +745,4 @@ function ImageCropperInner({
   );
 }
 
-export const ImageCropper = memo(ImageCropperInner);
-ImageCropper.displayName = 'ImageCropper';
+export const ImageCropper = /*#__PURE__*/ memoWithDisplayName(ImageCropperInner, 'ImageCropper');

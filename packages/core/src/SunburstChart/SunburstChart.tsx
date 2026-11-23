@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SunburstTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -265,6 +265,11 @@ function buildAnnularArcPath(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('sunburst-chart', 'header');
+const breadcrumbClass = /*#__PURE__*/ stableClassName('sunburst-chart', 'breadcrumb');
+const svgClass = /*#__PURE__*/ stableClassName('sunburst-chart', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('sunburst-chart', 'readout');
+
 function SunburstChartInner({
   root,
   title = 'Hierarchical Sunburst',
@@ -479,10 +484,6 @@ function SunburstChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('sunburst-chart', 'header');
-  const breadcrumbClass = stableClassName('sunburst-chart', 'breadcrumb');
-  const svgClass = stableClassName('sunburst-chart', 'svg');
-  const readoutClass = stableClassName('sunburst-chart', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -564,7 +565,7 @@ function SunburstChartInner({
             aria-label={`${title} focused on ${activeFocus.label}`}
             viewBox={`0 0 ${clampedSize} ${clampedSize}`}
             style={{ width: `${clampedSize}px`, height: `${clampedSize}px` }}
-            className={cx(svgClass, 'block max-w-full overflow-visible')}
+            className={cx(svgClass, 'block max-w-full overflow-visible', 'prism-contain-leaf')}
           >
             {geometry.arcs.map((arc) => {
               const isHovered = hoveredArc?.key === arc.key;
@@ -685,5 +686,4 @@ function SunburstChartInner({
   );
 }
 
-export const SunburstChart = memo(SunburstChartInner);
-SunburstChart.displayName = 'SunburstChart';
+export const SunburstChart = /*#__PURE__*/ memoWithDisplayName(SunburstChartInner, 'SunburstChart');

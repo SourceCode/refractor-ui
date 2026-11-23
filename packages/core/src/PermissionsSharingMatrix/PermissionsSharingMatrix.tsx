@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -30,6 +29,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type PosixScopeKey = 'owner' | 'group' | 'public';
@@ -452,6 +452,11 @@ async function copyTextWithFallback(text: string): Promise<CopyResult> {
   return 'unavailable';
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('permissions-sharing-matrix', 'header');
+const ownershipClass = /*#__PURE__*/ stableClassName('permissions-sharing-matrix', 'ownership');
+const matrixClass = /*#__PURE__*/ stableClassName('permissions-sharing-matrix', 'matrix');
+const sharingClass = /*#__PURE__*/ stableClassName('permissions-sharing-matrix', 'sharing');
+
 function PermissionsSharingMatrixInner({
   resourceName = DEFAULT_RESOURCE_NAME,
   shareUrl,
@@ -660,10 +665,6 @@ function PermissionsSharingMatrixInner({
 
   const accessMeta = getShareAccessMeta(currentState.shareAccess);
 
-  const headerClass = stableClassName('permissions-sharing-matrix', 'header');
-  const ownershipClass = stableClassName('permissions-sharing-matrix', 'ownership');
-  const matrixClass = stableClassName('permissions-sharing-matrix', 'matrix');
-  const sharingClass = stableClassName('permissions-sharing-matrix', 'sharing');
 
   const merged = mergeProps({
     themeTarget: themeProps('permissions-sharing-matrix', {
@@ -754,7 +755,7 @@ function PermissionsSharingMatrixInner({
                   'prism-focus-ring px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:brightness-105',
                   isActive ? 'prism-btn-cobalt' : 'prism-crystal'
                 )}
-                style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                style={isActive ? undefined : STYLE_TEXT_PRIMARY}
               >
                 {preset.label}
               </button>
@@ -1153,5 +1154,4 @@ function PermissionsSharingMatrixInner({
   );
 }
 
-export const PermissionsSharingMatrix = memo(PermissionsSharingMatrixInner);
-PermissionsSharingMatrix.displayName = 'PermissionsSharingMatrix';
+export const PermissionsSharingMatrix = /*#__PURE__*/ memoWithDisplayName(PermissionsSharingMatrixInner, 'PermissionsSharingMatrix');

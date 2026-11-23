@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useId, useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { AlertCircle, Check, CheckCircle2 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber, isSafeObjectKey, sanitizeUrl } from '../utils/sanitize';
-import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type VariantKind = 'color' | 'size' | 'material';
@@ -298,7 +299,7 @@ function ProductVariantSelectorInner({
               style={
                 isConfigurationAvailable
                   ? undefined
-                  : { color: 'var(--prism-error-main)' }
+                  : STYLE_ERROR_MAIN
               }
             >
               {isConfigurationAvailable ? (
@@ -446,7 +447,7 @@ function ProductVariantSelectorInner({
                           style={
                             isSelected && !isUnavailable
                               ? undefined
-                              : { color: 'var(--prism-text-primary)' }
+                              : STYLE_TEXT_PRIMARY
                           }
                         >
                           <span>{option.label}</span>
@@ -469,5 +470,4 @@ function ProductVariantSelectorInner({
   );
 }
 
-export const ProductVariantSelector = memo(ProductVariantSelectorInner);
-ProductVariantSelector.displayName = 'ProductVariantSelector';
+export const ProductVariantSelector = /*#__PURE__*/ memoWithDisplayName(ProductVariantSelectorInner, 'ProductVariantSelector');

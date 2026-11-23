@@ -87,8 +87,8 @@
   --prism-caustic-warm-rgb: var(--prism-primary-light-rgb);
   --prism-caustic-cool-rgb: var(--prism-secondary-rgb);
   --prism-specular-opacity: 1;
-  --prism-blur-px: 18px;
-  --prism-slab-blur-px: 22px;
+  --prism-blur-px: 12px;
+  --prism-slab-blur-px: 14px;
 
   /* Geometry / Shape */
   --prism-radius-control: 16px;
@@ -302,7 +302,7 @@
   background:
     radial-gradient(92% 50% at 46% 9%, rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.38) 44%, rgba(255, 255, 255, 0) 68%),
     linear-gradient(180deg, rgba(232, 241, 252, 0.9) 0%, rgba(206, 226, 246, 0.8) 64%, rgba(var(--prism-secondary-light-rgb), 0.34) 100%);
-  backdrop-filter: blur(var(--prism-blur-px)) saturate(170%);
+  backdrop-filter: blur(var(--prism-blur-px)) saturate(140%);
   box-shadow:
     0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.34),
     inset 0 2px 1.5px rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))),
@@ -362,7 +362,7 @@
   background:
     radial-gradient(92% 55% at 26% 8%, rgba(255, 255, 255, calc(0.92 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.32) 42%, rgba(255, 255, 255, 0) 68%),
     linear-gradient(180deg, var(--prism-crystal-top) 0%, var(--prism-crystal-mid) 62%, var(--prism-crystal-bottom) 100%);
-  backdrop-filter: blur(var(--prism-blur-px)) saturate(170%);
+  backdrop-filter: blur(var(--prism-blur-px)) saturate(140%);
   box-shadow:
     0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.34),
     inset 0 2px 1.5px rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))),
@@ -447,7 +447,7 @@
   background:
     linear-gradient(128deg, rgba(255, 255, 255, calc(0.84 * var(--prism-specular-opacity))) 0%, rgba(255, 255, 255, 0.32) 32%, rgba(255, 255, 255, 0.08) 46%, rgba(var(--prism-caustic-cool-rgb), 0.18) 82%, rgba(var(--prism-caustic-warm-rgb), 0.24) 100%),
     linear-gradient(180deg, var(--prism-slab-top) 0%, var(--prism-slab-bottom) 100%);
-  backdrop-filter: blur(var(--prism-slab-blur-px)) saturate(175%);
+  backdrop-filter: blur(var(--prism-slab-blur-px)) saturate(145%);
   box-shadow:
     0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.32),
     inset 0 2px 2px rgba(255, 255, 255, calc(0.96 * var(--prism-specular-opacity))),
@@ -1105,9 +1105,10 @@
 
 /* 1. Automatic Nested & Micro-Surface Backdrop-Filter Elision (Depth >= 2) */
 .prism-slab :is(.prism-crystal, .prism-btn-secondary, .prism-slab),
-.prism-crystal :is(.prism-crystal, .prism-btn-secondary),
-.prism-well :is(.prism-crystal, .prism-btn-secondary),
-:root :is(table, tbody, thead, tr, td, th, [role="grid"], [role="table"], [role="row"], [role="list"], [role="listitem"]) :is(.prism-crystal, .prism-btn-secondary),
+.prism-crystal :is(.prism-crystal, .prism-btn-secondary, .prism-slab),
+.prism-well :is(.prism-crystal, .prism-btn-secondary, .prism-slab),
+[data-refractor-blur-host="true"] :is(.prism-slab, .prism-crystal, .prism-btn-secondary),
+:root :is(table, tbody, thead, tr, td, th, [role="grid"], [role="table"], [role="row"], [role="list"], [role="listitem"]) :is(.prism-slab, .prism-crystal, .prism-btn-secondary),
 :root :is(span, kbd, code, small, time).prism-crystal {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -1149,13 +1150,24 @@
   contain-intrinsic-size: auto 180px;
 }
 
-/* Automatic offscreen row paint skipping on Refractor tabular & feed surfaces */
+/* Automatic offscreen row paint skipping on Refractor tabular, matrix & queue surfaces */
 :is(
   .refractor-data-table,
   .refractor-advanced-data-grid,
   .refractor-pivot-table,
   .refractor-formula-spreadsheet-grid,
-  .refractor-task-manager-dialog
+  .refractor-task-manager-dialog,
+  .refractor-order-book-depth-chart,
+  .refractor-permissions-sharing-matrix,
+  .refractor-role-permissions-matrix,
+  .refractor-pricing-tier-matrix,
+  .refractor-csv-column-mapper,
+  .refractor-api-request-builder,
+  .refractor-file-transfer-queue,
+  .refractor-export-render-queue,
+  .refractor-batch-rename-utility,
+  .refractor-active-sessions-list,
+  .refractor-archive-inspector
 ) tbody > tr {
   content-visibility: auto;
   contain-intrinsic-size: auto 44px;
@@ -1163,9 +1175,17 @@
 
 /* 4. Three-Tier GPU Performance Modes ([data-refractor-performance="..."]) */
 [data-refractor-performance="high"] {
-  --prism-blur-px: 8px;
-  --prism-slab-blur-px: 10px;
-  --prism-caustic-opacity: 0.45;
+  --prism-blur-px: 6px;
+  --prism-slab-blur-px: 8px;
+  --prism-caustic-opacity: 0.35;
+}
+
+[data-refractor-performance="high"] .prism-slab {
+  box-shadow: 0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.3), 0 10px 22px -8px rgba(15, 23, 42, 0.22);
+}
+
+[data-refractor-performance="high"] :is(.prism-crystal, .prism-btn-secondary) {
+  box-shadow: 0 0 0 1px rgba(var(--prism-crystal-border-rgb), 0.28), 0 4px 10px -4px rgba(15, 23, 42, 0.18);
 }
 
 [data-refractor-performance="high"] .prism-backdrop-scrim {
@@ -1184,6 +1204,10 @@
 [data-refractor-performance="max"][data-refractor-material] :is(.prism-slab, .prism-crystal, .prism-btn-secondary, .prism-backdrop-scrim) {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+}
+
+[data-refractor-performance="max"] :is(.prism-slab, .prism-crystal, .prism-btn-primary, .prism-btn-secondary, .prism-btn-cobalt) {
+  box-shadow: 0 0 0 1px var(--prism-divider);
 }
 
 [data-refractor-performance="max"] body::before,

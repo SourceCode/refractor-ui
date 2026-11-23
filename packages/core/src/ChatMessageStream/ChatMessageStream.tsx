@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useMemo, useRef, useState, type ReactNode, type UIEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode, type UIEvent } from 'react';
 import { AlertCircle, ArrowDown, Info, MessageSquare } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -8,7 +8,8 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
-import { STYLE_BG_PRIMARY, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BADGE_ERROR, STYLE_BG_PRIMARY, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ChatMessageRole = 'user' | 'assistant' | 'system';
@@ -310,10 +311,7 @@ function ChatMessageStreamInner({
                     <span
                       data-testid={`message-error-${msg.id}`}
                       className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold"
-                      style={{
-                        backgroundColor: 'var(--prism-error-main)',
-                        color: 'var(--prism-error-contrast)',
-                      }}
+                      style={STYLE_BADGE_ERROR}
                     >
                       <AlertCircle aria-hidden="true" className="w-3 h-3 shrink-0" />
                       <span>Delivery failed</span>
@@ -373,10 +371,7 @@ function ChatMessageStreamInner({
                       <span
                         data-testid={`message-error-${msg.id}`}
                         className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold"
-                        style={{
-                          backgroundColor: 'var(--prism-error-main)',
-                          color: 'var(--prism-error-contrast)',
-                        }}
+                        style={STYLE_BADGE_ERROR}
                       >
                         <AlertCircle aria-hidden="true" className="w-3 h-3 shrink-0" />
                         <span>Error</span>
@@ -433,5 +428,4 @@ function ChatMessageStreamInner({
   );
 }
 
-export const ChatMessageStream = memo(ChatMessageStreamInner);
-ChatMessageStream.displayName = 'ChatMessageStream';
+export const ChatMessageStream = /*#__PURE__*/ memoWithDisplayName(ChatMessageStreamInner, 'ChatMessageStream');

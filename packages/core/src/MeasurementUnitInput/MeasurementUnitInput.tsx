@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useState,
@@ -13,7 +12,8 @@ import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
-import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { STYLE_BG_START_TEXT_PRIMARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 const DEFAULT_MIN_AMOUNT = 0;
@@ -374,10 +374,7 @@ function MeasurementUnitInputInner({
             <option
               key={unit.id}
               value={unit.id}
-              style={{
-                color: 'var(--prism-text-primary)',
-                backgroundColor: 'var(--prism-bg-start)',
-              }}
+              style={STYLE_BG_START_TEXT_PRIMARY}
             >
               {unit.label}
             </option>
@@ -388,5 +385,4 @@ function MeasurementUnitInputInner({
   );
 }
 
-export const MeasurementUnitInput = memo(MeasurementUnitInputInner);
-MeasurementUnitInput.displayName = 'MeasurementUnitInput';
+export const MeasurementUnitInput = /*#__PURE__*/ memoWithDisplayName(MeasurementUnitInputInner, 'MeasurementUnitInput');

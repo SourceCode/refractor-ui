@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useState,
@@ -13,7 +12,8 @@ import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
-import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_START_TEXT_PRIMARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 const DEFAULT_MIN_AMOUNT = 0;
@@ -417,10 +417,7 @@ function CurrencyInputInner({
             <option
               key={option.code}
               value={option.code}
-              style={{
-                color: 'var(--prism-text-primary)',
-                backgroundColor: 'var(--prism-bg-start)',
-              }}
+              style={STYLE_BG_START_TEXT_PRIMARY}
             >
               {`${option.code} (${option.symbol})`}
             </option>
@@ -431,5 +428,4 @@ function CurrencyInputInner({
   );
 }
 
-export const CurrencyInput = memo(CurrencyInputInner);
-CurrencyInput.displayName = 'CurrencyInput';
+export const CurrencyInput = /*#__PURE__*/ memoWithDisplayName(CurrencyInputInner, 'CurrencyInput');

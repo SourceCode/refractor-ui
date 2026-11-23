@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,7 +16,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_ERROR_MAIN, STYLE_FILL_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { STYLE_BORDER_ERROR, STYLE_ERROR_MAIN, STYLE_FILL_SECONDARY, STYLE_SUCCESS_CONTRAST, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TelemetryTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -213,6 +213,11 @@ function selectXAxisPoints(
   ]);
   return points.filter((pt) => indices.has(pt.index));
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('live-telemetry-chart', 'header');
+const statsClass = /*#__PURE__*/ stableClassName('live-telemetry-chart', 'stats');
+const canvasClass = /*#__PURE__*/ stableClassName('live-telemetry-chart', 'canvas');
+const inspectorClass = /*#__PURE__*/ stableClassName('live-telemetry-chart', 'inspector');
 
 function LiveTelemetryChartInner({
   samples,
@@ -516,10 +521,6 @@ function LiveTelemetryChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('live-telemetry-chart', 'header');
-  const statsClass = stableClassName('live-telemetry-chart', 'stats');
-  const canvasClass = stableClassName('live-telemetry-chart', 'canvas');
-  const inspectorClass = stableClassName('live-telemetry-chart', 'inspector');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -609,8 +610,8 @@ function LiveTelemetryChartInner({
             )}
             style={
               isPaused
-                ? { color: 'var(--prism-success-contrast)' }
-                : { color: 'var(--prism-text-primary)' }
+                ? STYLE_SUCCESS_CONTRAST
+                : STYLE_TEXT_PRIMARY
             }
           >
             {isPaused ? (
@@ -664,7 +665,7 @@ function LiveTelemetryChartInner({
               )}
               style={
                 isCurrentWarning
-                  ? { borderColor: 'var(--prism-error-main)' }
+                  ? STYLE_BORDER_ERROR
                   : undefined
               }
             >
@@ -748,7 +749,7 @@ function LiveTelemetryChartInner({
               aria-label={`${title} live telemetry chart`}
               data-testid="telemetry-chart-svg"
               viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
-              className="w-full overflow-visible block"
+              className="w-full overflow-visible block prism-contain-leaf"
               style={{ height: `${safeHeight}px` }}
             >
               <defs>
@@ -943,5 +944,4 @@ function LiveTelemetryChartInner({
   );
 }
 
-export const LiveTelemetryChart = memo(LiveTelemetryChartInner);
-LiveTelemetryChart.displayName = 'LiveTelemetryChart';
+export const LiveTelemetryChart = /*#__PURE__*/ memoWithDisplayName(LiveTelemetryChartInner, 'LiveTelemetryChart');

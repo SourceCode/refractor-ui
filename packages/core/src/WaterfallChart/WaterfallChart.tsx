@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WaterfallStepKind = 'start' | 'increase' | 'decrease' | 'total';
@@ -151,6 +151,11 @@ function formatSignedDelta(value: number, prefix: string, suffix: string): strin
   }
   return `${prefix}0${suffix}`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('waterfall-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('waterfall-chart', 'legend');
+const svgClass = /*#__PURE__*/ stableClassName('waterfall-chart', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('waterfall-chart', 'readout');
 
 function WaterfallChartInner({
   steps,
@@ -382,10 +387,6 @@ function WaterfallChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('waterfall-chart', 'header');
-  const legendClass = stableClassName('waterfall-chart', 'legend');
-  const svgClass = stableClassName('waterfall-chart', 'svg');
-  const readoutClass = stableClassName('waterfall-chart', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -459,7 +460,7 @@ function WaterfallChartInner({
             aria-label={`${title} waterfall chart across ${steps.length} steps`}
             viewBox={`0 0 ${SVG_WIDTH} ${clampedHeight}`}
             style={{ height: `${clampedHeight}px` }}
-            className={cx(svgClass, 'w-full block overflow-visible')}
+            className={cx(svgClass, 'w-full block overflow-visible', 'prism-contain-leaf')}
           >
             {geometry.ticks.map((tick) => (
               <g key={tick.key}>
@@ -613,5 +614,4 @@ function WaterfallChartInner({
   );
 }
 
-export const WaterfallChart = memo(WaterfallChartInner);
-WaterfallChart.displayName = 'WaterfallChart';
+export const WaterfallChart = /*#__PURE__*/ memoWithDisplayName(WaterfallChartInner, 'WaterfallChart');

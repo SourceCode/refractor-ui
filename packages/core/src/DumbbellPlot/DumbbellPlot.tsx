@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,7 +12,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BG_PRIMARY, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_INFO, STYLE_BG_PRIMARY, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DumbbellSortMode = 'original' | 'gap-desc' | 'target-desc';
@@ -228,6 +228,13 @@ function buildRowAriaLabel(
   return `${row.label}: ${baselineLabel} ${baselineText} to ${currentLabel} ${currentText}, gap ${gapText} (${pctText} change)`;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('dumbbell-plot', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('dumbbell-plot', 'legend');
+const sortClass = /*#__PURE__*/ stableClassName('dumbbell-plot', 'sort');
+const wellClass = /*#__PURE__*/ stableClassName('dumbbell-plot', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('dumbbell-plot', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('dumbbell-plot', 'readout');
+
 function DumbbellPlotInner({
   items,
   baselineLabel = 'Baseline',
@@ -432,12 +439,6 @@ function DumbbellPlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('dumbbell-plot', 'header');
-  const legendClass = stableClassName('dumbbell-plot', 'legend');
-  const sortClass = stableClassName('dumbbell-plot', 'sort');
-  const wellClass = stableClassName('dumbbell-plot', 'well');
-  const svgClass = stableClassName('dumbbell-plot', 'svg');
-  const readoutClass = stableClassName('dumbbell-plot', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -463,7 +464,7 @@ function DumbbellPlotInner({
               <span
                 aria-hidden="true"
                 className="w-2.5 h-2.5 rounded-full shrink-0"
-                style={{ backgroundColor: 'var(--prism-info-main)' }}
+                style={STYLE_BG_INFO}
               />
               <span>{baselineLabel}</span>
             </span>
@@ -537,7 +538,7 @@ function DumbbellPlotInner({
               aria-label={`${title} comparing ${baselineLabel} and ${currentLabel} across ${plotModel.rows.length} ${plotModel.rows.length === 1 ? 'category' : 'categories'}`}
               data-testid="dumbbell-svg"
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none')}
+              className={cx(svgClass, 'w-full h-auto select-none', 'prism-contain-box')}
             >
               {plotModel.ticks.map((tick) => (
                 <g key={tick.key} data-testid="dumbbell-grid-tick">
@@ -791,5 +792,4 @@ function DumbbellPlotInner({
   );
 }
 
-export const DumbbellPlot = memo(DumbbellPlotInner);
-DumbbellPlot.displayName = 'DumbbellPlot';
+export const DumbbellPlot = /*#__PURE__*/ memoWithDisplayName(DumbbellPlotInner, 'DumbbellPlot');

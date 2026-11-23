@@ -1,13 +1,14 @@
 'use client';
 
-import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Brain, Check, Pencil, Plus, Trash2, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_CONTRAST, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MemoryCategory = 'fact' | 'preference' | 'rule';
@@ -256,7 +257,7 @@ function MemoryPersonaInspectorInner({
       mode === 'drawer'
         ? 'fixed inset-0 z-50 prism-backdrop-scrim flex justify-end'
         : 'prism-slab w-full flex flex-col overflow-hidden',
-    baseStyle: mode === 'drawer' ? { backgroundColor: 'var(--prism-divider)' } : undefined,
+    baseStyle: mode === 'drawer' ? STYLE_BG_DIVIDER : undefined,
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -340,7 +341,7 @@ function MemoryPersonaInspectorInner({
                 isActive ? 'prism-btn-primary' : 'prism-crystal',
                 'prism-focus-ring h-8 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]'
               )}
-              style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+              style={isActive ? undefined : STYLE_TEXT_PRIMARY}
             >
               <span className="relative z-10">{filter.label}</span>
               <span
@@ -351,8 +352,8 @@ function MemoryPersonaInspectorInner({
                 )}
                 style={
                   isActive
-                    ? { color: 'var(--prism-primary-contrast)' }
-                    : { color: 'var(--prism-text-secondary)' }
+                    ? STYLE_PRIMARY_CONTRAST
+                    : STYLE_TEXT_SECONDARY
                 }
               >
                 {count}
@@ -595,5 +596,4 @@ function MemoryPersonaInspectorInner({
   );
 }
 
-export const MemoryPersonaInspector = memo(MemoryPersonaInspectorInner);
-MemoryPersonaInspector.displayName = 'MemoryPersonaInspector';
+export const MemoryPersonaInspector = /*#__PURE__*/ memoWithDisplayName(MemoryPersonaInspectorInner, 'MemoryPersonaInspector');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -13,7 +12,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER_TEXT_PRIMARY, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CohortColorTone = 'primary' | 'emerald' | 'info';
@@ -184,6 +184,12 @@ const LEGEND_STEPS: ReadonlyArray<{ id: string; pct: number; opacity: number }> 
   { id: 'step-100', pct: 100, opacity: computeRetentionOpacity(100) },
 ];
 
+const headerClass = /*#__PURE__*/ stableClassName('cohort-retention-grid', 'header');
+const metricsClass = /*#__PURE__*/ stableClassName('cohort-retention-grid', 'metrics');
+const legendClass = /*#__PURE__*/ stableClassName('cohort-retention-grid', 'legend');
+const tableClass = /*#__PURE__*/ stableClassName('cohort-retention-grid', 'table');
+const readoutClass = /*#__PURE__*/ stableClassName('cohort-retention-grid', 'readout');
+
 function CohortRetentionGridInner({
   cohorts,
   periodPrefix = 'M',
@@ -330,11 +336,6 @@ function CohortRetentionGridInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('cohort-retention-grid', 'header');
-  const metricsClass = stableClassName('cohort-retention-grid', 'metrics');
-  const legendClass = stableClassName('cohort-retention-grid', 'legend');
-  const tableClass = stableClassName('cohort-retention-grid', 'table');
-  const readoutClass = stableClassName('cohort-retention-grid', 'readout');
 
   const m1Label = `${resolvedPrefix}1`;
   const m3Label = `${resolvedPrefix}3`;
@@ -595,19 +596,13 @@ function CohortRetentionGridInner({
                     <th
                       scope="row"
                       className="px-2.5 pt-2.5 pb-1.5 text-left text-[11px] font-semibold whitespace-nowrap border-t"
-                      style={{
-                        borderColor: 'var(--prism-divider)',
-                        color: 'var(--prism-text-primary)',
-                      }}
+                      style={STYLE_BORDER_DIVIDER_TEXT_PRIMARY}
                     >
                       Weighted Avg
                     </th>
                     <td
                       className="px-2.5 pt-2.5 pb-1.5 text-right font-mono text-[11px] font-semibold whitespace-nowrap border-t"
-                      style={{
-                        borderColor: 'var(--prism-divider)',
-                        color: 'var(--prism-text-secondary)',
-                      }}
+                      style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
                     >
                       {formatCount(totalUsers)}
                     </td>
@@ -673,5 +668,4 @@ function CohortRetentionGridInner({
   );
 }
 
-export const CohortRetentionGrid = memo(CohortRetentionGridInner);
-CohortRetentionGrid.displayName = 'CohortRetentionGrid';
+export const CohortRetentionGrid = /*#__PURE__*/ memoWithDisplayName(CohortRetentionGridInner, 'CohortRetentionGrid');

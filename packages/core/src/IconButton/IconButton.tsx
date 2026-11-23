@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type IconButtonSize = 'sm' | 'md' | 'lg';
@@ -64,5 +64,4 @@ function IconButtonInner({
   );
 }
 
-export const IconButton = memo(IconButtonInner);
-IconButton.displayName = 'IconButton';
+export const IconButton = /*#__PURE__*/ memoWithDisplayName(IconButtonInner, 'IconButton');

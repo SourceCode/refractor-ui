@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -32,7 +31,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { splitLiteralHighlight } from '../utils/sanitize';
-import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SlashCommandGroup = 'blocks' | 'media' | 'data' | 'ai';
@@ -396,6 +396,11 @@ function renderCommandIcon(command: SlashCommandOption): ReactNode {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('slash-command-menu', 'header');
+const editorClass = /*#__PURE__*/ stableClassName('slash-command-menu', 'editor');
+const paletteClass = /*#__PURE__*/ stableClassName('slash-command-menu', 'palette');
+const optionClass = /*#__PURE__*/ stableClassName('slash-command-menu', 'option');
+
 function SlashCommandMenuInner({
   commands = DEFAULT_SLASH_COMMANDS,
   defaultValue = '',
@@ -612,10 +617,6 @@ function SlashCommandMenuInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('slash-command-menu', 'header');
-  const editorClass = stableClassName('slash-command-menu', 'editor');
-  const paletteClass = stableClassName('slash-command-menu', 'palette');
-  const optionClass = stableClassName('slash-command-menu', 'option');
 
   return (
     <div
@@ -684,7 +685,7 @@ function SlashCommandMenuInner({
               menuOpen ? 'prism-btn-primary' : 'prism-crystal',
               'prism-focus-ring inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold cursor-pointer shrink-0 transition-opacity'
             )}
-            style={menuOpen ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={menuOpen ? undefined : STYLE_TEXT_PRIMARY}
           >
             <Slash className="w-3 h-3 shrink-0" aria-hidden="true" />
             <span>Commands</span>
@@ -713,10 +714,7 @@ function SlashCommandMenuInner({
 
         <div
           className="pt-2 border-t flex flex-wrap items-center justify-between gap-2 text-[11px] min-w-0"
-          style={{
-            borderColor: 'var(--prism-divider)',
-            color: 'var(--prism-text-secondary)',
-          }}
+          style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
         >
           <span className="font-mono tabular-nums" data-testid="slash-cursor-coords">
             Ln {anchorCoords.line}, Col {anchorCoords.col}
@@ -764,10 +762,7 @@ function SlashCommandMenuInner({
           {/* Palette Header */}
           <div
             className="px-2 py-1 border-b flex flex-wrap items-center justify-between gap-2 text-[11px] select-none"
-            style={{
-              borderColor: 'var(--prism-divider)',
-              color: 'var(--prism-text-secondary)',
-            }}
+            style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
           >
             <span className="inline-flex items-center gap-1.5 font-mono font-semibold min-w-0 truncate">
               <span style={STYLE_PRIMARY_MAIN}>/</span>
@@ -897,10 +892,7 @@ function SlashCommandMenuInner({
           {/* Keyboard Navigation Legend */}
           <div
             className="px-2 pt-1.5 border-t flex flex-wrap items-center justify-between gap-2 text-[11px] select-none"
-            style={{
-              borderColor: 'var(--prism-divider)',
-              color: 'var(--prism-text-secondary)',
-            }}
+            style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
           >
             <span>↑↓ Navigate · ↵ Insert · Esc Close</span>
             <span className="font-mono text-[10px]">Slash Menu</span>
@@ -911,5 +903,4 @@ function SlashCommandMenuInner({
   );
 }
 
-export const SlashCommandMenu = memo(SlashCommandMenuInner);
-SlashCommandMenu.displayName = 'SlashCommandMenu';
+export const SlashCommandMenu = /*#__PURE__*/ memoWithDisplayName(SlashCommandMenuInner, 'SlashCommandMenu');

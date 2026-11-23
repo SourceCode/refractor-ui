@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -23,7 +22,8 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BADGE_ERROR, STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TrashRetentionUrgency = 'normal' | 'warning' | 'critical';
@@ -136,6 +136,13 @@ function buildDefaultStatusText(
   }
   return `${formatItemCount(itemCount)} recoverable · ${selectedCount} selected · ${formatRetentionDays(retentionDays)} remaining`;
 }
+
+const accentClass = /*#__PURE__*/ stableClassName('trash-recovery-banner', 'accent');
+const headerClass = /*#__PURE__*/ stableClassName('trash-recovery-banner', 'header');
+const metricsClass = /*#__PURE__*/ stableClassName('trash-recovery-banner', 'metrics');
+const actionsClass = /*#__PURE__*/ stableClassName('trash-recovery-banner', 'actions');
+const confirmClass = /*#__PURE__*/ stableClassName('trash-recovery-banner', 'confirm');
+const statusClass = /*#__PURE__*/ stableClassName('trash-recovery-banner', 'status');
 
 function TrashRecoveryBannerInner({
   itemCount = DEFAULT_ITEM_COUNT,
@@ -269,12 +276,6 @@ function TrashRecoveryBannerInner({
     userStyle: style,
   });
 
-  const accentClass = stableClassName('trash-recovery-banner', 'accent');
-  const headerClass = stableClassName('trash-recovery-banner', 'header');
-  const metricsClass = stableClassName('trash-recovery-banner', 'metrics');
-  const actionsClass = stableClassName('trash-recovery-banner', 'actions');
-  const confirmClass = stableClassName('trash-recovery-banner', 'confirm');
-  const statusClass = stableClassName('trash-recovery-banner', 'status');
 
   const isElevatedUrgency = urgency === 'warning' || urgency === 'critical';
 
@@ -460,10 +461,7 @@ function TrashRecoveryBannerInner({
               data-testid="trash-confirm-empty-button"
               onClick={handleConfirmEmptyTrash}
               className="prism-focus-ring h-8 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-              style={{
-                backgroundColor: 'var(--prism-error-main)',
-                color: 'var(--prism-error-contrast)',
-              }}
+              style={STYLE_BADGE_ERROR}
             >
               <Trash2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
               <span>Confirm Empty Trash</span>
@@ -512,5 +510,4 @@ function TrashRecoveryBannerInner({
   );
 }
 
-export const TrashRecoveryBanner = memo(TrashRecoveryBannerInner);
-TrashRecoveryBanner.displayName = 'TrashRecoveryBanner';
+export const TrashRecoveryBanner = /*#__PURE__*/ memoWithDisplayName(TrashRecoveryBannerInner, 'TrashRecoveryBanner');

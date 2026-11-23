@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RadialGaugeTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -172,6 +172,11 @@ function normalizeThresholds(
 
   return bands;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('radial-gauge', 'header');
+const badgeClass = /*#__PURE__*/ stableClassName('radial-gauge', 'badge');
+const svgClass = /*#__PURE__*/ stableClassName('radial-gauge', 'svg');
+const footerClass = /*#__PURE__*/ stableClassName('radial-gauge', 'footer');
 
 function RadialGaugeInner({
   value,
@@ -363,10 +368,6 @@ function RadialGaugeInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('radial-gauge', 'header');
-  const badgeClass = stableClassName('radial-gauge', 'badge');
-  const svgClass = stableClassName('radial-gauge', 'svg');
-  const footerClass = stableClassName('radial-gauge', 'footer');
 
   const formattedHeadline = formatMetric(clampedValue, unit);
   const ariaValueText = label
@@ -401,7 +402,7 @@ function RadialGaugeInner({
             'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold',
             isEmeraldStatus ? 'prism-emerald' : 'prism-crystal'
           )}
-          style={isEmeraldStatus ? undefined : { color: 'var(--prism-text-primary)' }}
+          style={isEmeraldStatus ? undefined : STYLE_TEXT_PRIMARY}
         >
           <span
             aria-hidden="true"
@@ -428,7 +429,7 @@ function RadialGaugeInner({
           width={clampedSize}
           height={geometry.svgHeight}
           style={{ width: `${clampedSize}px`, height: `${geometry.svgHeight}px` }}
-          className={cx(svgClass, 'block overflow-visible')}
+          className={cx(svgClass, 'block overflow-visible', 'prism-contain-leaf')}
         >
           <path
             data-testid="radial-gauge-track"
@@ -594,5 +595,4 @@ function RadialGaugeInner({
   );
 }
 
-export const RadialGauge = memo(RadialGaugeInner);
-RadialGauge.displayName = 'RadialGauge';
+export const RadialGauge = /*#__PURE__*/ memoWithDisplayName(RadialGaugeInner, 'RadialGauge');

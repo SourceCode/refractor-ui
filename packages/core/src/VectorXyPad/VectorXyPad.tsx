@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,11 +12,13 @@ import {
 } from 'react';
 import { Crosshair, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type XyPadGridMode = 'cartesian' | 'polar';
@@ -190,6 +191,11 @@ function formatUnsignedMetric(value: number, span: number, unit: string): string
   return unit ? `${formatted}${unit}` : formatted;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('vector-xy-pad', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('vector-xy-pad', 'stage');
+const padClass = /*#__PURE__*/ stableClassName('vector-xy-pad', 'pad');
+const footerClass = /*#__PURE__*/ stableClassName('vector-xy-pad', 'footer');
+
 function VectorXyPadInner({
   value,
   defaultValue = DEFAULT_VECTOR,
@@ -339,11 +345,12 @@ function VectorXyPadInner({
 
       applyPoint(event.clientX, event.clientY);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         applyPoint(moveEvent.clientX, moveEvent.clientY);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -449,10 +456,6 @@ function VectorXyPadInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('vector-xy-pad', 'header');
-  const stageClass = stableClassName('vector-xy-pad', 'stage');
-  const padClass = stableClassName('vector-xy-pad', 'pad');
-  const footerClass = stableClassName('vector-xy-pad', 'footer');
 
   return (
     <div ref={ref} role="region" aria-label={title} {...rest} {...merged}>
@@ -583,7 +586,7 @@ function VectorXyPadInner({
             viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
             aria-hidden="true"
             data-testid="xy-pad-svg"
-            className="w-full max-w-[240px] h-auto mx-auto select-none block overflow-visible pointer-events-none"
+            className="w-full max-w-[240px] h-auto mx-auto select-none block overflow-visible pointer-events-none prism-contain-leaf"
           >
             <defs>
               <linearGradient
@@ -893,5 +896,4 @@ function VectorXyPadInner({
   );
 }
 
-export const VectorXyPad = memo(VectorXyPadInner);
-VectorXyPad.displayName = 'VectorXyPad';
+export const VectorXyPad = /*#__PURE__*/ memoWithDisplayName(VectorXyPadInner, 'VectorXyPad');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_PRIMARY, STYLE_BORDER_PRIMARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BoxWhiskerTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -212,6 +212,10 @@ export function computeBoxStats(values: ReadonlyArray<number>): BoxWhiskerStats 
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('box-whisker-plot', 'header');
+const svgClass = /*#__PURE__*/ stableClassName('box-whisker-plot', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('box-whisker-plot', 'readout');
+
 function BoxWhiskerPlotInner({
   series,
   title = 'Distribution Spread',
@@ -384,9 +388,6 @@ function BoxWhiskerPlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('box-whisker-plot', 'header');
-  const svgClass = stableClassName('box-whisker-plot', 'svg');
-  const readoutClass = stableClassName('box-whisker-plot', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -450,7 +451,7 @@ function BoxWhiskerPlotInner({
               aria-label={`${title} box and whisker plot across ${preparedSeries.length} series`}
               viewBox={`0 0 ${SVG_WIDTH} ${clampedHeight}`}
               style={{ height: `${clampedHeight}px` }}
-              className={cx(svgClass, 'w-full block overflow-visible')}
+              className={cx(svgClass, 'w-full block overflow-visible', 'prism-contain-leaf')}
             >
               {geometry.ticks.map((tick) => (
                 <g key={tick.key}>
@@ -634,5 +635,4 @@ function BoxWhiskerPlotInner({
   );
 }
 
-export const BoxWhiskerPlot = memo(BoxWhiskerPlotInner);
-BoxWhiskerPlot.displayName = 'BoxWhiskerPlot';
+export const BoxWhiskerPlot = /*#__PURE__*/ memoWithDisplayName(BoxWhiskerPlotInner, 'BoxWhiskerPlot');

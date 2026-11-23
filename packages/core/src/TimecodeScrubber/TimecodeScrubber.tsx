@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -14,12 +13,14 @@ import {
 } from 'react';
 import { Check, Film, MoveHorizontal, Music, Pencil, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TimecodeFormat = 'smpte' | 'musical';
@@ -284,6 +285,11 @@ function preventBlurOnMouseDown(e: ReactMouseEvent<HTMLButtonElement>): void {
   e.preventDefault();
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('timecode-scrubber', 'header');
+const wellClass = /*#__PURE__*/ stableClassName('timecode-scrubber', 'well');
+const readoutClass = /*#__PURE__*/ stableClassName('timecode-scrubber', 'readout');
+const badgeClass = /*#__PURE__*/ stableClassName('timecode-scrubber', 'badge');
+
 function TimecodeScrubberInner({
   frame,
   defaultFrame = 0,
@@ -448,7 +454,7 @@ function TimecodeScrubberInner({
     scrubSessionRef.current = session;
     setScrubbing(true);
 
-    const handleWindowPointerMove = (moveEvent: PointerEvent) => {
+    const handleWindowPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
       const activeSession = scrubSessionRef.current;
       if (!activeSession || moveEvent.pointerId !== activeSession.pointerId) return;
 
@@ -477,9 +483,10 @@ function TimecodeScrubberInner({
         activeSession.lastEmitted = nextFrame;
         liveEmit(nextFrame);
       }
-    };
+    });
 
     const cleanup = () => {
+      handleWindowPointerMove.cancel();
       window.removeEventListener('pointermove', handleWindowPointerMove);
       window.removeEventListener('pointerup', handleWindowPointerEnd);
       window.removeEventListener('pointercancel', handleWindowPointerEnd);
@@ -570,10 +577,6 @@ function TimecodeScrubberInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('timecode-scrubber', 'header');
-  const wellClass = stableClassName('timecode-scrubber', 'well');
-  const readoutClass = stableClassName('timecode-scrubber', 'readout');
-  const badgeClass = stableClassName('timecode-scrubber', 'badge');
 
   return (
     <div ref={ref} role="group" aria-labelledby={labelId} {...rest} {...merged}>
@@ -621,7 +624,7 @@ function TimecodeScrubberInner({
               style={
                 activeFormat === 'smpte'
                   ? undefined
-                  : { color: 'var(--prism-text-secondary)' }
+                  : STYLE_TEXT_SECONDARY
               }
             >
               <span className="relative z-10">SMPTE</span>
@@ -642,7 +645,7 @@ function TimecodeScrubberInner({
               style={
                 activeFormat === 'musical'
                   ? undefined
-                  : { color: 'var(--prism-text-secondary)' }
+                  : STYLE_TEXT_SECONDARY
               }
             >
               <span className="relative z-10">BBT</span>
@@ -822,5 +825,4 @@ function TimecodeScrubberInner({
   );
 }
 
-export const TimecodeScrubber = memo(TimecodeScrubberInner);
-TimecodeScrubber.displayName = 'TimecodeScrubber';
+export const TimecodeScrubber = /*#__PURE__*/ memoWithDisplayName(TimecodeScrubberInner, 'TimecodeScrubber');

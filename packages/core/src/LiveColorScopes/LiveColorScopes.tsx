@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -17,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ColorScopeMode = 'histogram' | 'waveform' | 'vectorscope' | 'all';
@@ -406,6 +406,11 @@ function getModeLabel(mode: ColorScopeMode): string {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('live-color-scopes', 'header');
+const switcherClass = /*#__PURE__*/ stableClassName('live-color-scopes', 'switcher');
+const monitorsClass = /*#__PURE__*/ stableClassName('live-color-scopes', 'monitors');
+const telemetryClass = /*#__PURE__*/ stableClassName('live-color-scopes', 'telemetry');
+
 function LiveColorScopesInner({
   mode,
   defaultMode = 'all',
@@ -646,10 +651,6 @@ function LiveColorScopesInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('live-color-scopes', 'header');
-  const switcherClass = stableClassName('live-color-scopes', 'switcher');
-  const monitorsClass = stableClassName('live-color-scopes', 'monitors');
-  const telemetryClass = stableClassName('live-color-scopes', 'telemetry');
 
   const showHistogram = activeMode === 'all' || activeMode === 'histogram';
   const showWaveform = activeMode === 'all' || activeMode === 'waveform';
@@ -856,7 +857,7 @@ function LiveColorScopesInner({
               aria-label={`RGB and Luma histogram across ${histogramData.binCount} tonal bins`}
               data-testid="scope-histogram-svg"
               viewBox={`0 0 ${HISTOGRAM_WIDTH} ${HISTOGRAM_HEIGHT}`}
-              className="w-full h-auto block"
+              className="w-full h-auto block prism-contain-box"
             >
               {HISTOGRAM_ZONES.map((zone) => {
                 const x = roundTwo(HISTOGRAM_PAD_X + (zone.pct / 100) * HISTOGRAM_PLOT_W);
@@ -962,7 +963,7 @@ function LiveColorScopesInner({
               aria-label={`Luma waveform monitor with peak ${formatIre(waveformData.peakIre)} across ${waveformData.sampleCount} samples`}
               data-testid="scope-waveform-svg"
               viewBox={`0 0 ${WAVEFORM_WIDTH} ${WAVEFORM_HEIGHT}`}
-              className="w-full h-auto block"
+              className="w-full h-auto block prism-contain-box"
             >
               {WAVEFORM_IRE_LEVELS.map((ire) => {
                 const y = ireToWaveformY(ire);
@@ -1092,7 +1093,7 @@ function LiveColorScopesInner({
                 aria-label={`Chromaticity vectorscope with ${vectorData.sampleCount} chroma samples and 75 percent broadcast safe ring`}
                 data-testid="scope-vectorscope-svg"
                 viewBox={`0 0 ${VECTORSCOPE_SIZE} ${VECTORSCOPE_SIZE}`}
-                className="w-full h-auto block"
+                className="w-full h-auto block prism-contain-box"
               >
                 <circle
                   cx={VECTORSCOPE_CENTER}
@@ -1261,5 +1262,4 @@ function LiveColorScopesInner({
   );
 }
 
-export const LiveColorScopes = memo(LiveColorScopesInner);
-LiveColorScopes.displayName = 'LiveColorScopes';
+export const LiveColorScopes = /*#__PURE__*/ memoWithDisplayName(LiveColorScopesInner, 'LiveColorScopes');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CandleStyleMode = 'candlestick' | 'ohlc';
@@ -234,6 +234,10 @@ function sanitizeCandles(rawData: ReadonlyArray<OhlcCandlePoint>): SanitizedCand
   });
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('candlestick-ohlc-chart', 'header');
+const svgClass = /*#__PURE__*/ stableClassName('candlestick-ohlc-chart', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('candlestick-ohlc-chart', 'inspector');
+
 function CandlestickOhlcChartInner({
   data,
   mode,
@@ -428,9 +432,6 @@ function CandlestickOhlcChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('candlestick-ohlc-chart', 'header');
-  const svgClass = stableClassName('candlestick-ohlc-chart', 'svg');
-  const inspectorClass = stableClassName('candlestick-ohlc-chart', 'inspector');
 
   const hitAreaBottom = showVolume ? VOL_BOTTOM : geometry.priceBottom;
   const hitAreaHeight = hitAreaBottom - PRICE_TOP;
@@ -465,7 +466,7 @@ function CandlestickOhlcChartInner({
                     'prism-focus-ring rounded-full px-2.5 py-1 text-[11px] font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     isModeActive ? 'prism-btn-primary' : 'opacity-80 hover:opacity-100'
                   )}
-                  style={isModeActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                  style={isModeActive ? undefined : STYLE_TEXT_PRIMARY}
                 >
                   <span className="relative z-10">{option.label}</span>
                 </button>
@@ -505,7 +506,7 @@ function CandlestickOhlcChartInner({
               role="img"
               aria-label={`${title} ${activeMode === 'candlestick' ? 'candlestick' : 'OHLC'} chart across ${geometry.plotted.length} sessions`}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block')}
+              className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
             >
               {geometry.ticks.map((tick) => (
                 <g key={tick.key}>
@@ -761,5 +762,4 @@ function CandlestickOhlcChartInner({
   );
 }
 
-export const CandlestickOhlcChart = memo(CandlestickOhlcChartInner);
-CandlestickOhlcChart.displayName = 'CandlestickOhlcChart';
+export const CandlestickOhlcChart = /*#__PURE__*/ memoWithDisplayName(CandlestickOhlcChartInner, 'CandlestickOhlcChart');

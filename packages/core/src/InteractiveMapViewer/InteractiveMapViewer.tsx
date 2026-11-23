@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -12,10 +11,12 @@ import {
 } from 'react';
 import { Compass, MapPin as MapPinIcon, Maximize2, Minus, Plus, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface MapPin {
@@ -204,6 +205,11 @@ function resolveRoutes(
   return resolved;
 }
 
+const viewportClass = /*#__PURE__*/ stableClassName('interactive-map-viewer', 'viewport');
+const toolbarClass = /*#__PURE__*/ stableClassName('interactive-map-viewer', 'toolbar');
+const pinClass = /*#__PURE__*/ stableClassName('interactive-map-viewer', 'pin');
+const popupClass = /*#__PURE__*/ stableClassName('interactive-map-viewer', 'popup');
+
 function InteractiveMapViewerInner({
   pins,
   routes,
@@ -328,16 +334,17 @@ function InteractiveMapViewerInner({
 
       setIsPanning(true);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const dx = moveEvent.clientX - startClientX;
         const dy = moveEvent.clientY - startClientY;
         if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
           panMovedRef.current = true;
         }
         updatePan({ x: startPanX + dx, y: startPanY + dy });
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -408,10 +415,6 @@ function InteractiveMapViewerInner({
     userStyle: style,
   });
 
-  const viewportClass = stableClassName('interactive-map-viewer', 'viewport');
-  const toolbarClass = stableClassName('interactive-map-viewer', 'toolbar');
-  const pinClass = stableClassName('interactive-map-viewer', 'pin');
-  const popupClass = stableClassName('interactive-map-viewer', 'popup');
 
   return (
     <div ref={ref} role="region" aria-label="Interactive map viewer" {...rest} {...merged}>
@@ -518,7 +521,7 @@ function InteractiveMapViewerInner({
             data-testid="map-topo-svg"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
-            className="absolute inset-0 w-full h-full pointer-events-none"
+            className="absolute inset-0 w-full h-full pointer-events-none prism-contain-box"
           >
             {LATITUDE_LINES.map((line) => (
               <line
@@ -567,7 +570,7 @@ function InteractiveMapViewerInner({
             data-testid="map-routes-svg"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
-            className="absolute inset-0 w-full h-full pointer-events-none"
+            className="absolute inset-0 w-full h-full pointer-events-none prism-contain-box"
           >
             {resolvedRoutes.map(({ route, from, to }) => {
               const highlighted =
@@ -761,5 +764,4 @@ function InteractiveMapViewerInner({
   );
 }
 
-export const InteractiveMapViewer = memo(InteractiveMapViewerInner);
-InteractiveMapViewer.displayName = 'InteractiveMapViewer';
+export const InteractiveMapViewer = /*#__PURE__*/ memoWithDisplayName(InteractiveMapViewerInner, 'InteractiveMapViewer');

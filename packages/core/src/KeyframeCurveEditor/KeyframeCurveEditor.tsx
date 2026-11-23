@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,12 +12,14 @@ import {
 } from 'react';
 import { Plus, Spline, Trash2 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_DIVIDER, STYLE_FILL_PRIMARY, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type EasingPresetId = 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'overshoot';
@@ -225,6 +226,13 @@ function computeInsertedKeyframe(
 
   return { id: newId, timePct: bestTime, value: bestValue, easing: [...DEFAULT_EASING] };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('keyframe-curve-editor', 'header');
+const laneClass = /*#__PURE__*/ stableClassName('keyframe-curve-editor', 'lane');
+const graphClass = /*#__PURE__*/ stableClassName('keyframe-curve-editor', 'graph');
+const handleClass = /*#__PURE__*/ stableClassName('keyframe-curve-editor', 'handle');
+const presetsClass = /*#__PURE__*/ stableClassName('keyframe-curve-editor', 'presets');
+const readoutClass = /*#__PURE__*/ stableClassName('keyframe-curve-editor', 'readout');
 
 function KeyframeCurveEditorInner({
   propertyName = 'Opacity',
@@ -439,7 +447,7 @@ function KeyframeCurveEditorInner({
 
       setActiveDrag(handle);
 
-      const handleWindowPointerMove = (moveEvent: PointerEvent) => {
+      const handleWindowPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (moveEvent.pointerId !== pointerId) return;
         const rect = getSvgRect();
         const liveTarget = latestRef.current.selectedKeyframe;
@@ -451,9 +459,10 @@ function KeyframeCurveEditorInner({
         lastX = x;
         lastY = y;
         latestRef.current.updateHandlePosition(liveTarget, handle, x, y);
-      };
+      });
 
       const cleanup = () => {
+        handleWindowPointerMove.cancel();
         window.removeEventListener('pointermove', handleWindowPointerMove);
         window.removeEventListener('pointerup', handleWindowPointerEnd);
         window.removeEventListener('pointercancel', handleWindowPointerEnd);
@@ -493,12 +502,6 @@ function KeyframeCurveEditorInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('keyframe-curve-editor', 'header');
-  const laneClass = stableClassName('keyframe-curve-editor', 'lane');
-  const graphClass = stableClassName('keyframe-curve-editor', 'graph');
-  const handleClass = stableClassName('keyframe-curve-editor', 'handle');
-  const presetsClass = stableClassName('keyframe-curve-editor', 'presets');
-  const readoutClass = stableClassName('keyframe-curve-editor', 'readout');
 
   const canDelete = !disabled && normalizedKeyframes.length > 1;
 
@@ -691,7 +694,7 @@ function KeyframeCurveEditorInner({
                 aria-label={`${propertyName} cubic-bezier easing curve graph: ${bezierCss}`}
                 data-testid="keyframe-curve-svg"
                 viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-                className="w-full max-w-[300px] h-auto block overflow-visible select-none touch-none"
+                className="w-full max-w-[300px] h-auto block overflow-visible select-none touch-none prism-contain-leaf"
                 style={{ touchAction: 'none' }}
               >
                 <line
@@ -964,7 +967,7 @@ function KeyframeCurveEditorInner({
                             ? 'prism-btn-primary'
                             : 'prism-crystal opacity-85 enabled:hover:opacity-100'
                         )}
-                        style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                        style={isActive ? undefined : STYLE_TEXT_PRIMARY}
                       >
                         <span className="relative z-10">{preset.label}</span>
                       </button>
@@ -1018,5 +1021,4 @@ function KeyframeCurveEditorInner({
   );
 }
 
-export const KeyframeCurveEditor = memo(KeyframeCurveEditorInner);
-KeyframeCurveEditor.displayName = 'KeyframeCurveEditor';
+export const KeyframeCurveEditor = /*#__PURE__*/ memoWithDisplayName(KeyframeCurveEditorInner, 'KeyframeCurveEditor');

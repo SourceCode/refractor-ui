@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,11 +12,13 @@ import {
 } from 'react';
 import { Film, MousePointer2, RotateCcw, Scissors } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ClipTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -284,6 +285,13 @@ function timelineSecToHandleValue(
   return timelineSec;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('clip-trim-handle', 'header');
+const trackClass = /*#__PURE__*/ stableClassName('clip-trim-handle', 'track');
+const bodyClass = /*#__PURE__*/ stableClassName('clip-trim-handle', 'body');
+const handleClass = /*#__PURE__*/ stableClassName('clip-trim-handle', 'handle');
+const fadeHandleClass = /*#__PURE__*/ stableClassName('clip-trim-handle', 'fade-handle');
+const telemetryClass = /*#__PURE__*/ stableClassName('clip-trim-handle', 'telemetry');
+
 function ClipTrimHandleInner({
   label,
   totalDurationSec = DEFAULT_TOTAL_DURATION,
@@ -525,15 +533,16 @@ function ClipTrimHandleInner({
         applyHandleTimelineSec(handle, initialSec);
       }
 
-      const handleWindowPointerMove = (moveEvent: PointerEvent) => {
+      const handleWindowPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (moveEvent.pointerId !== pointerId) return;
         const sec = clientXToSec(moveEvent.clientX);
         if (sec !== null) {
           applyHandleTimelineSec(handle, sec);
         }
-      };
+      });
 
       const cleanup = () => {
+        handleWindowPointerMove.cancel();
         window.removeEventListener('pointermove', handleWindowPointerMove);
         window.removeEventListener('pointerup', handleWindowPointerEnd);
         window.removeEventListener('pointercancel', handleWindowPointerEnd);
@@ -679,12 +688,6 @@ function ClipTrimHandleInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('clip-trim-handle', 'header');
-  const trackClass = stableClassName('clip-trim-handle', 'track');
-  const bodyClass = stableClassName('clip-trim-handle', 'body');
-  const handleClass = stableClassName('clip-trim-handle', 'handle');
-  const fadeHandleClass = stableClassName('clip-trim-handle', 'fade-handle');
-  const telemetryClass = stableClassName('clip-trim-handle', 'telemetry');
 
   return (
     <div ref={ref} role="group" aria-labelledby={labelId} {...rest} {...merged}>
@@ -869,7 +872,7 @@ function ClipTrimHandleInner({
               preserveAspectRatio="none"
               aria-hidden="true"
               data-testid="clip-trim-fade-svg"
-              className="absolute inset-0 w-full h-full pointer-events-none"
+              className="absolute inset-0 w-full h-full pointer-events-none prism-contain-box"
             >
               {fadeInPctOfClip > 0 ? (
                 <g data-testid="clip-trim-fade-in-ramp">
@@ -1230,5 +1233,4 @@ function ClipTrimHandleInner({
   );
 }
 
-export const ClipTrimHandle = memo(ClipTrimHandleInner);
-ClipTrimHandle.displayName = 'ClipTrimHandle';
+export const ClipTrimHandle = /*#__PURE__*/ memoWithDisplayName(ClipTrimHandleInner, 'ClipTrimHandle');

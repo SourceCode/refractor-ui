@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { TrendingUp } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ChartSeriesTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -198,6 +199,11 @@ function computeYDomain(visibleSeries: ReadonlyArray<NormalizedLineSeries>): {
   return { min: rawMin, max: rawMax };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('line-multi-series-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('line-multi-series-chart', 'legend');
+const canvasClass = /*#__PURE__*/ stableClassName('line-multi-series-chart', 'canvas');
+const readoutClass = /*#__PURE__*/ stableClassName('line-multi-series-chart', 'readout');
+
 function LineMultiSeriesChartInner({
   labels,
   series,
@@ -378,10 +384,6 @@ function LineMultiSeriesChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('line-multi-series-chart', 'header');
-  const legendClass = stableClassName('line-multi-series-chart', 'legend');
-  const canvasClass = stableClassName('line-multi-series-chart', 'canvas');
-  const readoutClass = stableClassName('line-multi-series-chart', 'readout');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -457,7 +459,7 @@ function LineMultiSeriesChartInner({
               aria-label={`${title} multi-series line chart`}
               data-testid="line-chart-svg"
               viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
-              className="w-full overflow-visible block"
+              className="w-full overflow-visible block prism-contain-leaf"
               style={{ height: `${safeHeight}px` }}
             >
               {gridTicks.map((tick) => (
@@ -620,5 +622,4 @@ function LineMultiSeriesChartInner({
   );
 }
 
-export const LineMultiSeriesChart = memo(LineMultiSeriesChartInner);
-LineMultiSeriesChart.displayName = 'LineMultiSeriesChart';
+export const LineMultiSeriesChart = /*#__PURE__*/ memoWithDisplayName(LineMultiSeriesChartInner, 'LineMultiSeriesChart');

@@ -7,6 +7,30 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.49.0] - 2026-11-22
+
+### Added
+- **Phase 2 Tree-Shaking, 60fps Drag Coalescing & GPU Compositor Optimization (`880+` additional improvements; `1,750+` combined across `v1.48.0–v1.49.0`, re-profiled live on Pinnacle):**
+  - **Pure Tree-Shakeable Component Factory (`packages/core/src/utils/memo.ts`):** Added `memoWithDisplayName<P>` so every exported component preserves `displayName` inside a single `/*#__PURE__*/` expression with zero top-level side effects.
+  - **60fps `requestAnimationFrame` Pointer-Drag Coalescer (`packages/core/src/hooks/useRafCallback.ts`):** Added `createCoalescedPointerMove(handler)` coalescing trusted 120Hz–1000Hz browser `pointermove` bursts via `requestAnimationFrame` with `.cancel()` cleanup while executing synthetic test events synchronously.
+  - **15 Additional Shared Frozen Style Singletons (`packages/core/src/utils/styles.ts`):** Expanded frozen CSS-token singletons to 37 total (`STYLE_BORDER_DIVIDER_TEXT_SECONDARY`, `STYLE_BADGE_PRIMARY/ERROR/INFO/WARNING/SUCCESS`, etc.) with `/*#__PURE__*/` annotations on frozen style constants and hoisted `Intl.NumberFormat`/`Intl.Collator` instances.
+  - **`@refractor-ui/themes` Subpath Exports & Tree-Shaking (`packages/themes/collection/package.json`):** Added `"sideEffects": ["**/*.css"]`, 8 tree-shakeable collection subpath exports (`./classic-os`, `./modern-os`, `./cyberpunk`, `./retro-gaming`, `./tactile`, `./developer`, `./elements`, `./seasons`), `/*#__PURE__*/` annotations on all 63 WebOS-v3 exports and 5 optical presets, and a precomputed lowercased `SEARCH_INDEX` Map for `listThemes()`.
+  - **Custom App-Shell Blur-Host Opt-In (`[data-refractor-blur-host="true"]`):** Added CSS opt-in attribute in `refractor.css` allowing host application shells (such as split panes and tiled workspaces) to automatically elide nested `.prism-slab`, `.prism-crystal`, and `.prism-btn-secondary` `backdrop-filter` passes inside already-blurred parent panels.
+  - **Phase 2 Audit Ledger & Expanded Performance Regression Benchmarks:** Added [`docs/reviews/performance-audit-v1.49.0.md`](./docs/reviews/performance-audit-v1.49.0.md) and expanded `packages/core/src/__tests__/performance.benchmark.test.tsx` to enforce 314/314 pure `memoWithDisplayName` exports, zero constant in-render `stableClassName(...)` calls, 89/89 contained SVG components, 36/36 rAF-coalesced `pointermove` components, `@refractor-ui/themes` tree-shaking metadata, and 12px/14px GPU blur defaults.
+
+### Changed
+- **314 / 314 Components Converted to Pure Tree-Shakeable `/*#__PURE__*/ memoWithDisplayName(...)`:** Eliminated all 314 top-level `Component.displayName = ...` statements and pruned unused `memo` imports across all 309 non-generic and 5 generic components so Vite/Rollup/esbuild/Webpack can tree-shake unused components cleanly.
+- **1,121 In-Render `stableClassName(...)` Calls Hoisted Across 220 Components:** Hoisted every constant component-part `stableClassName(...)` call to module-level `/*#__PURE__*/` constants, removing repeated per-render function calls and map lookups.
+- **105 Inline `<svg>` Elements Contained Across All 89 / 89 SVG Components:** Added overflow-safe `prism-contain-leaf` (`overflow-visible` SVGs) and `prism-contain-box` (bounded SVGs) CSS containment across all chart, audio DSP, spatial, timeline, and inspector SVGs.
+- **All 39 Window `pointermove` Drag Loops Coalesced to 60fps Across 36 Components:** Wrapped every interactive timeline, knob, color wheel, splitter, trim handle, cropper, and node-canvas drag loop in `createCoalescedPointerMove(...)` with `.cancel()` teardown on `pointerup`/unmount.
+- **218 Additional Direct & Ternary Inline Style Literals Hoisted Across 108 Components:** Brought total eliminated per-render inline style object allocations to **3,103+** across `v1.48.0–v1.49.0`.
+- **GPU Blur Kernel Radius Cut (`~55%` Fewer Shader Texels), Shadow Tiers & Expanded Table `content-visibility: auto` (`refractor.css`, `createPrismTheme.ts`, `catalog.ts`):**
+  - Lowered default `--prism-blur-px` (`18px → 12px`) and `--prism-slab-blur-px` (`22px → 14px`) across `refractor.css`, `createPrismTheme.ts` (`glass`/`mica`/`resin` `18 → 12`, `chrome` `14 → 10`), and all 5 optical presets (`alabaster`, `obsidian`, `amethyst`, `emerald-tide`, `solar-prism`), and toned `saturate(170%–175% → 140%–145%)`.
+  - Extended nested `.prism-slab` `backdrop-filter: none` elision inside `.prism-crystal`/`.prism-well`/lists/grids/tables and `[data-refractor-blur-host="true"]`.
+  - Expanded automatic `tbody > tr` `content-visibility: auto` to **16** Refractor tabular, matrix, and queue components, and added `prism-contain-leaf` to **22** self-contained leaf components.
+  - Upgraded `[data-refractor-performance="high"]` (`6px/8px` blur + single fast `box-shadow`) and `[data-refractor-performance="max"]` (single hairline border shadow + zero blur/FX).
+- **Zero-Rest-Array `mergeProps` & Docs Bundle Code-Splitting:** Replaced rest-array `cx(...)` inside `mergeProps` with zero-allocation `joinClass4()` + `fastTrim()` across all 314 components, and configured Vite 8 Rolldown `codeSplitting` groups (`vendor-react`, `vendor-redux`, `vendor-lucide`, `refractor-themes`) in `apps/docs/vite.config.ts`.
+
 ## [1.48.0] - 2026-11-22
 
 ### Added

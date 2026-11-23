@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useState,
@@ -26,6 +25,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AssetSwatchKind = 'texture' | 'preset' | 'palette' | 'icon';
@@ -351,7 +351,7 @@ function renderOpticalSwatchSvg(item: AssetSwatchItem, rawPrefix: string): React
         data-swatch-kind={item.kind}
         data-swatch-tone={tone}
         data-swatch-variant={String(variant)}
-        className="w-full h-full block"
+        className="w-full h-full block prism-contain-box"
       >
         <defs>
           <linearGradient id={bgGradId} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -410,7 +410,7 @@ function renderOpticalSwatchSvg(item: AssetSwatchItem, rawPrefix: string): React
         data-swatch-kind={item.kind}
         data-swatch-tone={tone}
         data-swatch-variant={String(variant)}
-        className="w-full h-full block"
+        className="w-full h-full block prism-contain-box"
       >
         <defs>
           <radialGradient id={bgGradId} cx="35%" cy="28%" r="68%">
@@ -483,7 +483,7 @@ function renderOpticalSwatchSvg(item: AssetSwatchItem, rawPrefix: string): React
         data-swatch-kind={item.kind}
         data-swatch-tone={tone}
         data-swatch-variant={String(variant)}
-        className="w-full h-full block"
+        className="w-full h-full block prism-contain-box"
       >
         <defs>
           <linearGradient id={sheenGradId} x1="0%" y1="0%" x2="0%" y2="100%">
@@ -535,7 +535,7 @@ function renderOpticalSwatchSvg(item: AssetSwatchItem, rawPrefix: string): React
       data-swatch-kind={item.kind}
       data-swatch-tone={tone}
       data-swatch-variant={String(variant)}
-      className="w-full h-full block"
+      className="w-full h-full block prism-contain-box"
     >
       <rect x="0" y="0" width="96" height="64" rx="8" fill="var(--prism-bg-mid)" />
       <line x1="48" y1="6" x2="48" y2="58" stroke="var(--prism-divider)" strokeWidth="1" />
@@ -595,6 +595,11 @@ function renderOpticalSwatchSvg(item: AssetSwatchItem, rawPrefix: string): React
     </svg>
   );
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('asset-swatch-grid', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('asset-swatch-grid', 'filters');
+const gridClass = /*#__PURE__*/ stableClassName('asset-swatch-grid', 'grid');
+const inspectorClass = /*#__PURE__*/ stableClassName('asset-swatch-grid', 'inspector');
 
 function AssetSwatchGridInner({
   items,
@@ -770,10 +775,6 @@ function AssetSwatchGridInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('asset-swatch-grid', 'header');
-  const filtersClass = stableClassName('asset-swatch-grid', 'filters');
-  const gridClass = stableClassName('asset-swatch-grid', 'grid');
-  const inspectorClass = stableClassName('asset-swatch-grid', 'inspector');
 
   const inspectedTone: AssetSwatchTone = inspectedAsset?.tone ?? 'primary';
   const inspectedTokens = getToneTokens(inspectedTone);
@@ -861,7 +862,7 @@ function AssetSwatchGridInner({
                         color: 'var(--prism-primary-main)',
                         boxShadow: 'inset 0 0 0 1.5px var(--prism-primary-main)',
                       }
-                    : { color: 'var(--prism-text-secondary)' }
+                    : STYLE_TEXT_SECONDARY
                 }
               >
                 <span>{option.label}</span>
@@ -1153,5 +1154,4 @@ function AssetSwatchGridInner({
   );
 }
 
-export const AssetSwatchGrid = memo(AssetSwatchGridInner);
-AssetSwatchGrid.displayName = 'AssetSwatchGrid';
+export const AssetSwatchGrid = /*#__PURE__*/ memoWithDisplayName(AssetSwatchGridInner, 'AssetSwatchGrid');

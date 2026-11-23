@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useMemo,
   useRef,
@@ -26,7 +25,8 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_DIVIDER, STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AlignmentActionId =
@@ -304,6 +304,13 @@ function applyAlignmentToBoxes(
   }
 }
 
+const controlsClass = /*#__PURE__*/ stableClassName('alignment-toolbar', 'controls');
+const groupClass = /*#__PURE__*/ stableClassName('alignment-toolbar', 'group');
+const scopeClass = /*#__PURE__*/ stableClassName('alignment-toolbar', 'scope');
+const counterClass = /*#__PURE__*/ stableClassName('alignment-toolbar', 'counter');
+const statusClass = /*#__PURE__*/ stableClassName('alignment-toolbar', 'status');
+const stageClass = /*#__PURE__*/ stableClassName('alignment-toolbar', 'stage');
+
 function AlignmentToolbarInner({
   selectedCount = 3,
   anchorMode,
@@ -512,12 +519,6 @@ function AlignmentToolbarInner({
     userStyle: style,
   });
 
-  const controlsClass = stableClassName('alignment-toolbar', 'controls');
-  const groupClass = stableClassName('alignment-toolbar', 'group');
-  const scopeClass = stableClassName('alignment-toolbar', 'scope');
-  const counterClass = stableClassName('alignment-toolbar', 'counter');
-  const statusClass = stableClassName('alignment-toolbar', 'status');
-  const stageClass = stableClassName('alignment-toolbar', 'stage');
 
   const renderActionGroup = (
     groupLabel: string,
@@ -553,7 +554,7 @@ function AlignmentToolbarInner({
                 : 'prism-crystal enabled:hover:brightness-105',
               'prism-focus-ring h-8 w-8 rounded-lg inline-flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
             )}
-            style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={isActive ? undefined : STYLE_TEXT_PRIMARY}
           >
             {renderActionIcon(action.id)}
           </button>
@@ -840,10 +841,7 @@ function AlignmentToolbarInner({
           statusClass,
           'w-full basis-full flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t font-mono text-[11px] min-w-0 max-w-full'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-          color: 'var(--prism-text-secondary)',
-        }}
+        style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
       >
         <span className="truncate max-w-full">{liveFeedbackText}</span>
         {lastAction !== null ? (
@@ -860,5 +858,4 @@ function AlignmentToolbarInner({
   );
 }
 
-export const AlignmentToolbar = memo(AlignmentToolbarInner);
-AlignmentToolbar.displayName = 'AlignmentToolbar';
+export const AlignmentToolbar = /*#__PURE__*/ memoWithDisplayName(AlignmentToolbarInner, 'AlignmentToolbar');

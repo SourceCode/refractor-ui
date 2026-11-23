@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type OrderBookSide = 'bid' | 'ask';
@@ -241,6 +241,13 @@ function buildStepPaths(
 
   return { strokePath, areaPath };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('order-book-depth-chart', 'header');
+const canvasClass = /*#__PURE__*/ stableClassName('order-book-depth-chart', 'canvas');
+const svgClass = /*#__PURE__*/ stableClassName('order-book-depth-chart', 'svg');
+const summaryClass = /*#__PURE__*/ stableClassName('order-book-depth-chart', 'summary');
+const inspectorClass = /*#__PURE__*/ stableClassName('order-book-depth-chart', 'inspector');
+const emptyClass = /*#__PURE__*/ stableClassName('order-book-depth-chart', 'empty');
 
 function OrderBookDepthChartInner({
   bids = DEFAULT_ORDER_BOOK_BIDS,
@@ -496,12 +503,6 @@ function OrderBookDepthChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('order-book-depth-chart', 'header');
-  const canvasClass = stableClassName('order-book-depth-chart', 'canvas');
-  const svgClass = stableClassName('order-book-depth-chart', 'svg');
-  const summaryClass = stableClassName('order-book-depth-chart', 'summary');
-  const inspectorClass = stableClassName('order-book-depth-chart', 'inspector');
-  const emptyClass = stableClassName('order-book-depth-chart', 'empty');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -632,7 +633,7 @@ function OrderBookDepthChartInner({
               aria-label={`${title} for ${symbol}: ${geometry.bidCount} bid levels and ${geometry.askCount} ask levels around mid-price ${formatPrice(geometry.midPrice, currencyPrefix)}`}
               data-testid="order-book-depth-svg"
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block overflow-visible')}
+              className={cx(svgClass, 'w-full h-auto select-none block overflow-visible', 'prism-contain-leaf')}
             >
               <defs>
                 <linearGradient id={bidGradId} x1="0" y1="0" x2="0" y2="1">
@@ -976,5 +977,4 @@ function OrderBookDepthChartInner({
   );
 }
 
-export const OrderBookDepthChart = memo(OrderBookDepthChartInner);
-OrderBookDepthChart.displayName = 'OrderBookDepthChart';
+export const OrderBookDepthChart = /*#__PURE__*/ memoWithDisplayName(OrderBookDepthChartInner, 'OrderBookDepthChart');

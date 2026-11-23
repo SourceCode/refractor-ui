@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useId, type ChangeEvent } from 'react';
+import { useId, type ChangeEvent } from 'react';
 import { Calendar, Clock, Minus, Plus, Repeat, Terminal } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RecurrenceFrequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
@@ -519,7 +520,7 @@ function RecurrenceBuilderInner({
                   className={`prism-focus-ring h-9 rounded-xl text-xs font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform] ${
                     selected ? 'prism-emerald' : 'prism-well'
                   }`}
-                  style={selected ? undefined : { color: 'var(--prism-text-primary)' }}
+                  style={selected ? undefined : STYLE_TEXT_PRIMARY}
                 >
                   {day.label}
                 </button>
@@ -677,5 +678,4 @@ function RecurrenceBuilderInner({
   );
 }
 
-export const RecurrenceBuilder = memo(RecurrenceBuilderInner);
-RecurrenceBuilder.displayName = 'RecurrenceBuilder';
+export const RecurrenceBuilder = /*#__PURE__*/ memoWithDisplayName(RecurrenceBuilderInner, 'RecurrenceBuilder');

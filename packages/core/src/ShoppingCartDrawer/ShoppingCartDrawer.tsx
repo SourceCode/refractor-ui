@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useEffect, useId, useMemo } from 'react';
+import { useCallback, useEffect, useId, useMemo } from 'react';
 import { Minus, Plus, ShoppingBag, Trash2, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ShoppingCartMode = 'drawer' | 'inline';
@@ -541,5 +542,4 @@ function ShoppingCartDrawerInner({
   );
 }
 
-export const ShoppingCartDrawer = memo(ShoppingCartDrawerInner);
-ShoppingCartDrawer.displayName = 'ShoppingCartDrawer';
+export const ShoppingCartDrawer = /*#__PURE__*/ memoWithDisplayName(ShoppingCartDrawerInner, 'ShoppingCartDrawer');

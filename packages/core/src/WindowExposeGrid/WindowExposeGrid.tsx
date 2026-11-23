@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -22,6 +21,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_DIVIDER, STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ExposeWindowTone = 'primary' | 'info' | 'emerald' | 'amber' | 'rose';
@@ -249,6 +249,16 @@ function computePreviewBars(id: string): PreviewBarWidths {
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'header');
+const controlsClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'controls');
+const filtersClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'filters');
+const gridClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'grid');
+const groupClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'group');
+const cardClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'card');
+const previewClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'preview');
+const emptyClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'empty');
+const statusClass = /*#__PURE__*/ stableClassName('window-expose-grid', 'status');
+
 function WindowExposeGridInner({
   title = DEFAULT_TITLE,
   windows,
@@ -430,15 +440,6 @@ function WindowExposeGridInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('window-expose-grid', 'header');
-  const controlsClass = stableClassName('window-expose-grid', 'controls');
-  const filtersClass = stableClassName('window-expose-grid', 'filters');
-  const gridClass = stableClassName('window-expose-grid', 'grid');
-  const groupClass = stableClassName('window-expose-grid', 'group');
-  const cardClass = stableClassName('window-expose-grid', 'card');
-  const previewClass = stableClassName('window-expose-grid', 'preview');
-  const emptyClass = stableClassName('window-expose-grid', 'empty');
-  const statusClass = stableClassName('window-expose-grid', 'status');
 
   const countLabel = `Showing ${filteredWindows.length} of ${openWindows.length} windows`;
   const liveStatusText = statusAnnouncement || countLabel;
@@ -926,5 +927,4 @@ function WindowExposeGridInner({
   );
 }
 
-export const WindowExposeGrid = memo(WindowExposeGridInner);
-WindowExposeGrid.displayName = 'WindowExposeGrid';
+export const WindowExposeGrid = /*#__PURE__*/ memoWithDisplayName(WindowExposeGridInner, 'WindowExposeGrid');

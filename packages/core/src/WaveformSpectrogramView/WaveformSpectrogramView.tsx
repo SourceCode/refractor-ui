@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,12 +12,14 @@ import {
 } from 'react';
 import { AudioWaveform, RotateCcw, Scissors, VolumeX } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AudioCanvasMode = 'waveform' | 'spectrogram' | 'split';
@@ -245,6 +246,11 @@ function resolveSelectionSampleBounds(
   return { startIdx, endIdx };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('waveform-spectrogram-view', 'header');
+const toolbarClass = /*#__PURE__*/ stableClassName('waveform-spectrogram-view', 'toolbar');
+const canvasWellClass = /*#__PURE__*/ stableClassName('waveform-spectrogram-view', 'canvas-well');
+const telemetryClass = /*#__PURE__*/ stableClassName('waveform-spectrogram-view', 'telemetry');
+
 function WaveformSpectrogramViewInner({
   samples,
   durationSec = DEFAULT_DURATION_SEC,
@@ -393,8 +399,11 @@ function WaveformSpectrogramViewInner({
       cleanupDragRef.current?.();
       setActiveDrag(kind);
 
+      const coalescedMove = createCoalescedPointerMove(onMove);
+
       const handleEnd = () => {
-        window.removeEventListener('pointermove', onMove);
+        coalescedMove.cancel();
+        window.removeEventListener('pointermove', coalescedMove);
         window.removeEventListener('pointerup', handleEnd);
         window.removeEventListener('pointercancel', handleEnd);
         cleanupDragRef.current = null;
@@ -402,13 +411,14 @@ function WaveformSpectrogramViewInner({
       };
 
       const cleanup = () => {
-        window.removeEventListener('pointermove', onMove);
+        coalescedMove.cancel();
+        window.removeEventListener('pointermove', coalescedMove);
         window.removeEventListener('pointerup', handleEnd);
         window.removeEventListener('pointercancel', handleEnd);
       };
 
       cleanupDragRef.current = cleanup;
-      window.addEventListener('pointermove', onMove, { passive: true });
+      window.addEventListener('pointermove', coalescedMove, { passive: true });
       window.addEventListener('pointerup', handleEnd);
       window.addEventListener('pointercancel', handleEnd);
     },
@@ -665,10 +675,6 @@ function WaveformSpectrogramViewInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('waveform-spectrogram-view', 'header');
-  const toolbarClass = stableClassName('waveform-spectrogram-view', 'toolbar');
-  const canvasWellClass = stableClassName('waveform-spectrogram-view', 'canvas-well');
-  const telemetryClass = stableClassName('waveform-spectrogram-view', 'telemetry');
 
   const handleStartPct = activeSelection ? activeSelection.startPct : 0;
   const handleEndPct = activeSelection ? activeSelection.endPct : 100;
@@ -851,7 +857,7 @@ function WaveformSpectrogramViewInner({
               className={cx(
                 'w-full h-auto select-none block touch-none',
                 disabled ? 'cursor-not-allowed opacity-65' : 'cursor-crosshair'
-              )}
+              , 'prism-contain-box')}
               style={{ touchAction: 'none' }}
             >
               {/* Waveform Band */}
@@ -1159,5 +1165,4 @@ function WaveformSpectrogramViewInner({
   );
 }
 
-export const WaveformSpectrogramView = memo(WaveformSpectrogramViewInner);
-WaveformSpectrogramView.displayName = 'WaveformSpectrogramView';
+export const WaveformSpectrogramView = /*#__PURE__*/ memoWithDisplayName(WaveformSpectrogramViewInner, 'WaveformSpectrogramView');

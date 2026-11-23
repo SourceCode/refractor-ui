@@ -26,80 +26,80 @@ export {
 } from './catalog';
 
 // Classic & Retro OS (10)
-export const adwaitaTheme = getWebOsTheme('adwaita');
-export const amigaTheme = getWebOsTheme('amiga');
-export const beosTheme = getWebOsTheme('beos');
-export const macosTheme = getWebOsTheme('macos');
-export const mintTheme = getWebOsTheme('mint');
-export const solarisTheme = getWebOsTheme('solaris');
-export const ubuntuTheme = getWebOsTheme('ubuntu');
-export const win7Theme = getWebOsTheme('win7');
-export const windows95Theme = getWebOsTheme('windows95');
-export const windowsXpTheme = getWebOsTheme('windowsXP');
+export const adwaitaTheme = /*#__PURE__*/ getWebOsTheme('adwaita');
+export const amigaTheme = /*#__PURE__*/ getWebOsTheme('amiga');
+export const beosTheme = /*#__PURE__*/ getWebOsTheme('beos');
+export const macosTheme = /*#__PURE__*/ getWebOsTheme('macos');
+export const mintTheme = /*#__PURE__*/ getWebOsTheme('mint');
+export const solarisTheme = /*#__PURE__*/ getWebOsTheme('solaris');
+export const ubuntuTheme = /*#__PURE__*/ getWebOsTheme('ubuntu');
+export const win7Theme = /*#__PURE__*/ getWebOsTheme('win7');
+export const windows95Theme = /*#__PURE__*/ getWebOsTheme('windows95');
+export const windowsXpTheme = /*#__PURE__*/ getWebOsTheme('windowsXP');
 
 // Modern OS & Frost (6)
-export const darkmodeTheme = getWebOsTheme('darkmode');
-export const ios17FrostTheme = getWebOsTheme('ios17-frost');
-export const materialTheme = getWebOsTheme('material');
-export const midnightTheme = getWebOsTheme('midnight');
-export const newwesternDarkTheme = getWebOsTheme('newwesternDark');
-export const win11MicaTheme = getWebOsTheme('win11-mica');
+export const darkmodeTheme = /*#__PURE__*/ getWebOsTheme('darkmode');
+export const ios17FrostTheme = /*#__PURE__*/ getWebOsTheme('ios17-frost');
+export const materialTheme = /*#__PURE__*/ getWebOsTheme('material');
+export const midnightTheme = /*#__PURE__*/ getWebOsTheme('midnight');
+export const newwesternDarkTheme = /*#__PURE__*/ getWebOsTheme('newwesternDark');
+export const win11MicaTheme = /*#__PURE__*/ getWebOsTheme('win11-mica');
 
 // Cyberpunk, Neon & CRT (8)
-export const akiraNeoTokyoTheme = getWebOsTheme('akira-neo-tokyo');
-export const bladeRunnerNeonTheme = getWebOsTheme('blade-runner-neon');
-export const cyberpunkTheme = getWebOsTheme('cyberpunk');
-export const hackerTheme = getWebOsTheme('hacker');
-export const neonDreamsTheme = getWebOsTheme('neon-dreams');
-export const outrunTheme = getWebOsTheme('outrun');
-export const synthwaveTheme = getWebOsTheme('synthwave');
-export const vaporwaveTheme = getWebOsTheme('vaporwave');
+export const akiraNeoTokyoTheme = /*#__PURE__*/ getWebOsTheme('akira-neo-tokyo');
+export const bladeRunnerNeonTheme = /*#__PURE__*/ getWebOsTheme('blade-runner-neon');
+export const cyberpunkTheme = /*#__PURE__*/ getWebOsTheme('cyberpunk');
+export const hackerTheme = /*#__PURE__*/ getWebOsTheme('hacker');
+export const neonDreamsTheme = /*#__PURE__*/ getWebOsTheme('neon-dreams');
+export const outrunTheme = /*#__PURE__*/ getWebOsTheme('outrun');
+export const synthwaveTheme = /*#__PURE__*/ getWebOsTheme('synthwave');
+export const vaporwaveTheme = /*#__PURE__*/ getWebOsTheme('vaporwave');
 
 // Retro Console & Gaming (7)
-export const dreamcastSwirlTheme = getWebOsTheme('dreamcast-swirl');
-export const gameboyClassicTheme = getWebOsTheme('gameboy-classic');
-export const gamecubePurpleTheme = getWebOsTheme('gamecube-purple');
-export const ps5OrbitTheme = getWebOsTheme('ps5-orbit');
-export const segaGenesisTheme = getWebOsTheme('sega-genesis');
-export const segaSaturnTheme = getWebOsTheme('sega-saturn');
-export const snesClassicTheme = getWebOsTheme('snes-classic');
+export const dreamcastSwirlTheme = /*#__PURE__*/ getWebOsTheme('dreamcast-swirl');
+export const gameboyClassicTheme = /*#__PURE__*/ getWebOsTheme('gameboy-classic');
+export const gamecubePurpleTheme = /*#__PURE__*/ getWebOsTheme('gamecube-purple');
+export const ps5OrbitTheme = /*#__PURE__*/ getWebOsTheme('ps5-orbit');
+export const segaGenesisTheme = /*#__PURE__*/ getWebOsTheme('sega-genesis');
+export const segaSaturnTheme = /*#__PURE__*/ getWebOsTheme('sega-saturn');
+export const snesClassicTheme = /*#__PURE__*/ getWebOsTheme('snes-classic');
 
 // Tactile, Brutalist & Experimental (13)
-export const brutalistWebTheme = getWebOsTheme('brutalist-web');
-export const eInkNotebookTheme = getWebOsTheme('e-ink-notebook');
-export const glowingResinTheme = getWebOsTheme('glowing-resin');
-export const industrialWarningTheme = getWebOsTheme('industrial-warning');
-export const liquidMetalTheme = getWebOsTheme('liquid-metal');
-export const memphisMilanoTheme = getWebOsTheme('memphis-milano');
-export const mpcBeatMachineTheme = getWebOsTheme('mpc-beat-machine');
-export const neumorphismTheme = getWebOsTheme('neumorphism');
-export const paperCutoutTheme = getWebOsTheme('paper-cutout');
-export const softClayUiTheme = getWebOsTheme('soft-clay-ui');
-export const surrealDreamlogicTheme = getWebOsTheme('surreal-dreamlogic');
-export const translucentSlimeTheme = getWebOsTheme('translucent-slime');
-export const y2kLiquidChromeTheme = getWebOsTheme('y2k-liquid-chrome');
+export const brutalistWebTheme = /*#__PURE__*/ getWebOsTheme('brutalist-web');
+export const eInkNotebookTheme = /*#__PURE__*/ getWebOsTheme('e-ink-notebook');
+export const glowingResinTheme = /*#__PURE__*/ getWebOsTheme('glowing-resin');
+export const industrialWarningTheme = /*#__PURE__*/ getWebOsTheme('industrial-warning');
+export const liquidMetalTheme = /*#__PURE__*/ getWebOsTheme('liquid-metal');
+export const memphisMilanoTheme = /*#__PURE__*/ getWebOsTheme('memphis-milano');
+export const mpcBeatMachineTheme = /*#__PURE__*/ getWebOsTheme('mpc-beat-machine');
+export const neumorphismTheme = /*#__PURE__*/ getWebOsTheme('neumorphism');
+export const paperCutoutTheme = /*#__PURE__*/ getWebOsTheme('paper-cutout');
+export const softClayUiTheme = /*#__PURE__*/ getWebOsTheme('soft-clay-ui');
+export const surrealDreamlogicTheme = /*#__PURE__*/ getWebOsTheme('surreal-dreamlogic');
+export const translucentSlimeTheme = /*#__PURE__*/ getWebOsTheme('translucent-slime');
+export const y2kLiquidChromeTheme = /*#__PURE__*/ getWebOsTheme('y2k-liquid-chrome');
 
 // Developer & IDE Palettes (8)
-export const monokaiTheme = getWebOsTheme('monokai');
-export const nordTheme = getWebOsTheme('nord');
-export const obsidianStoneTheme = getWebOsTheme('obsidian-stone');
-export const oneDarkProTheme = getWebOsTheme('one-dark-pro');
-export const solarizedDarkTheme = getWebOsTheme('solarized-dark');
-export const solarizedLightTheme = getWebOsTheme('solarized-light');
-export const tokyoNightTheme = getWebOsTheme('tokyo-night');
-export const vscodeTheme = getWebOsTheme('vscode');
+export const monokaiTheme = /*#__PURE__*/ getWebOsTheme('monokai');
+export const nordTheme = /*#__PURE__*/ getWebOsTheme('nord');
+export const obsidianStoneTheme = /*#__PURE__*/ getWebOsTheme('obsidian-stone');
+export const oneDarkProTheme = /*#__PURE__*/ getWebOsTheme('one-dark-pro');
+export const solarizedDarkTheme = /*#__PURE__*/ getWebOsTheme('solarized-dark');
+export const solarizedLightTheme = /*#__PURE__*/ getWebOsTheme('solarized-light');
+export const tokyoNightTheme = /*#__PURE__*/ getWebOsTheme('tokyo-night');
+export const vscodeTheme = /*#__PURE__*/ getWebOsTheme('vscode');
 
 // Elemental & Atmospheric (7)
-export const elementAirTheme = getWebOsTheme('element-air');
-export const elementEarthTheme = getWebOsTheme('element-earth');
-export const elementEtherTheme = getWebOsTheme('element-ether');
-export const elementFireTheme = getWebOsTheme('element-fire');
-export const elementWaterTheme = getWebOsTheme('element-water');
-export const oceanTheme = getWebOsTheme('ocean');
-export const zenGardenTheme = getWebOsTheme('zen-garden');
+export const elementAirTheme = /*#__PURE__*/ getWebOsTheme('element-air');
+export const elementEarthTheme = /*#__PURE__*/ getWebOsTheme('element-earth');
+export const elementEtherTheme = /*#__PURE__*/ getWebOsTheme('element-ether');
+export const elementFireTheme = /*#__PURE__*/ getWebOsTheme('element-fire');
+export const elementWaterTheme = /*#__PURE__*/ getWebOsTheme('element-water');
+export const oceanTheme = /*#__PURE__*/ getWebOsTheme('ocean');
+export const zenGardenTheme = /*#__PURE__*/ getWebOsTheme('zen-garden');
 
 // Four Seasons (4)
-export const seasonAutumnTheme = getWebOsTheme('season-autumn');
-export const seasonSpringTheme = getWebOsTheme('season-spring');
-export const seasonSummerTheme = getWebOsTheme('season-summer');
-export const seasonWinterTheme = getWebOsTheme('season-winter');
+export const seasonAutumnTheme = /*#__PURE__*/ getWebOsTheme('season-autumn');
+export const seasonSpringTheme = /*#__PURE__*/ getWebOsTheme('season-spring');
+export const seasonSummerTheme = /*#__PURE__*/ getWebOsTheme('season-summer');
+export const seasonWinterTheme = /*#__PURE__*/ getWebOsTheme('season-winter');

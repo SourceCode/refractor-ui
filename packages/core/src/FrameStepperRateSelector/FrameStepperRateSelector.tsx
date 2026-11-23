@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useMemo, type KeyboardEvent } from 'react';
+import { useMemo, type KeyboardEvent } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type FrameStepperRateSelectorBaseProps = Omit<BaseProps<HTMLDivElement>, 'onRateChange'>;
@@ -354,5 +355,4 @@ function FrameStepperRateSelectorInner({
   );
 }
 
-export const FrameStepperRateSelector = memo(FrameStepperRateSelectorInner);
-FrameStepperRateSelector.displayName = 'FrameStepperRateSelector';
+export const FrameStepperRateSelector = /*#__PURE__*/ memoWithDisplayName(FrameStepperRateSelectorInner, 'FrameStepperRateSelector');

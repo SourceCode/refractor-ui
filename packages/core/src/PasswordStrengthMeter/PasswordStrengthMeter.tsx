@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useId, useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import { CheckCircle2, Circle, ShieldCheck } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type PasswordStrengthLevel = 'empty' | 'weak' | 'fair' | 'strong' | 'excellent';
@@ -187,7 +188,7 @@ function PasswordStrengthMeterInner({
       score: evaluation.score,
       checklist: showChecklist,
     }),
-    baseClassName: 'prism-slab p-4 w-full',
+    baseClassName: 'prism-contain-leaf prism-slab p-4 w-full',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -305,5 +306,4 @@ function PasswordStrengthMeterInner({
   );
 }
 
-export const PasswordStrengthMeter = memo(PasswordStrengthMeterInner);
-PasswordStrengthMeter.displayName = 'PasswordStrengthMeter';
+export const PasswordStrengthMeter = /*#__PURE__*/ memoWithDisplayName(PasswordStrengthMeterInner, 'PasswordStrengthMeter');

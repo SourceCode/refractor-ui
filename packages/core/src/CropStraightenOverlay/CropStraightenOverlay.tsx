@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,11 +14,13 @@ import {
 } from 'react';
 import { Check, Compass, Crop, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_BG_DIVIDER, STYLE_BORDER_PRIMARY, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BADGE_PRIMARY, STYLE_BG_DIVIDER, STYLE_BORDER_PRIMARY, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CropAspectPreset = 'free' | '16:9' | '4:5' | '1:1' | '2.39:1';
@@ -290,6 +291,12 @@ function formatRotation(deg: number): string {
   return '0.0°';
 }
 
+const stageClass = /*#__PURE__*/ stableClassName('crop-straighten-overlay', 'stage');
+const frameClass = /*#__PURE__*/ stableClassName('crop-straighten-overlay', 'frame');
+const handleClass = /*#__PURE__*/ stableClassName('crop-straighten-overlay', 'handle');
+const dialClass = /*#__PURE__*/ stableClassName('crop-straighten-overlay', 'dial');
+const telemetryClass = /*#__PURE__*/ stableClassName('crop-straighten-overlay', 'telemetry');
+
 function CropStraightenOverlayInner({
   value,
   defaultCrop,
@@ -371,7 +378,7 @@ function CropStraightenOverlayInner({
       const startState = liveRef.current.activeState;
       setActiveInteraction(mode);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const rect = stageRef.current?.getBoundingClientRect();
         if (!rect || rect.width <= 0 || rect.height <= 0) {
           return;
@@ -390,9 +397,10 @@ function CropStraightenOverlayInner({
           rotationDeg: startState.rotationDeg,
           aspect: startState.aspect,
         });
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -522,11 +530,6 @@ function CropStraightenOverlayInner({
     userStyle: style,
   });
 
-  const stageClass = stableClassName('crop-straighten-overlay', 'stage');
-  const frameClass = stableClassName('crop-straighten-overlay', 'frame');
-  const handleClass = stableClassName('crop-straighten-overlay', 'handle');
-  const dialClass = stableClassName('crop-straighten-overlay', 'dial');
-  const telemetryClass = stableClassName('crop-straighten-overlay', 'telemetry');
 
   return (
     <div
@@ -570,11 +573,8 @@ function CropStraightenOverlayInner({
                   onClick={() => handleAspectSelect(preset.id)}
                   style={
                     isSelected
-                      ? {
-                          backgroundColor: 'var(--prism-primary-main)',
-                          color: 'var(--prism-primary-contrast)',
-                        }
-                      : { color: 'var(--prism-text-primary)' }
+                      ? STYLE_BADGE_PRIMARY
+                      : STYLE_TEXT_PRIMARY
                   }
                   className={cx(
                     'prism-focus-ring px-2.5 py-1 rounded-full text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
@@ -645,7 +645,7 @@ function CropStraightenOverlayInner({
                 viewBox="0 0 320 180"
                 preserveAspectRatio="none"
                 aria-hidden="true"
-                className="w-full h-full opacity-75"
+                className="w-full h-full opacity-75 prism-contain-box"
               >
                 <line
                   x1="0"
@@ -878,11 +878,8 @@ function CropStraightenOverlayInner({
                 onClick={() => handleRotationUpdate(0)}
                 style={
                   rotationDeg === 0
-                    ? {
-                        backgroundColor: 'var(--prism-primary-main)',
-                        color: 'var(--prism-primary-contrast)',
-                      }
-                    : { color: 'var(--prism-text-primary)' }
+                    ? STYLE_BADGE_PRIMARY
+                    : STYLE_TEXT_PRIMARY
                 }
                 className={cx(
                   'prism-focus-ring h-7 px-2.5 rounded-full text-xs font-mono tabular-nums font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
@@ -1000,5 +997,4 @@ function CropStraightenOverlayInner({
   );
 }
 
-export const CropStraightenOverlay = memo(CropStraightenOverlayInner);
-CropStraightenOverlay.displayName = 'CropStraightenOverlay';
+export const CropStraightenOverlay = /*#__PURE__*/ memoWithDisplayName(CropStraightenOverlayInner, 'CropStraightenOverlay');

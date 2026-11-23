@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useRef,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CrosshairTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -272,6 +272,11 @@ function computeYDomain(seriesList: ReadonlyArray<NormalizedSeries>): {
 
   return { min: rawMin, max: rawMax };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('chart-crosshair-tooltip', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('chart-crosshair-tooltip', 'stage');
+const tooltipClass = /*#__PURE__*/ stableClassName('chart-crosshair-tooltip', 'tooltip');
+const emptyClass = /*#__PURE__*/ stableClassName('chart-crosshair-tooltip', 'empty');
 
 function ChartCrosshairTooltipInner({
   labels,
@@ -618,10 +623,6 @@ function ChartCrosshairTooltipInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('chart-crosshair-tooltip', 'header');
-  const stageClass = stableClassName('chart-crosshair-tooltip', 'stage');
-  const tooltipClass = stableClassName('chart-crosshair-tooltip', 'tooltip');
-  const emptyClass = stableClassName('chart-crosshair-tooltip', 'empty');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -712,7 +713,7 @@ function ChartCrosshairTooltipInner({
             aria-label={`${title} crosshair inspector chart`}
             data-testid="crosshair-svg"
             viewBox={`0 0 ${VIEW_WIDTH} ${safeHeight}`}
-            className="w-full overflow-visible block select-none"
+            className="w-full overflow-visible block select-none prism-contain-leaf"
             style={{ height: `${safeHeight}px` }}
             onPointerMove={handleSvgPointerMove}
             onPointerLeave={handleSvgPointerLeave}
@@ -957,5 +958,4 @@ function ChartCrosshairTooltipInner({
   );
 }
 
-export const ChartCrosshairTooltip = memo(ChartCrosshairTooltipInner);
-ChartCrosshairTooltip.displayName = 'ChartCrosshairTooltip';
+export const ChartCrosshairTooltip = /*#__PURE__*/ memoWithDisplayName(ChartCrosshairTooltipInner, 'ChartCrosshairTooltip');

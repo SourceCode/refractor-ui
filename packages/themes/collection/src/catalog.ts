@@ -92,7 +92,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
     fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif',
     swatches: ['#E75C24', '#38BDF8', '#EAEDF2', '#18202C'],
     wallpaper: 'linear-gradient(145deg, #F3F5F8 0%, #EAEDF2 48%, #E2E6ED 100%)',
-    theme: defineTheme({
+    theme: /*#__PURE__*/ defineTheme({
       name: 'alabaster',
       displayName: 'Alabaster Light',
       description: 'Signature studio alabaster optical glass with warm tangerine capsules and cool sky crystal.',
@@ -105,7 +105,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
         info: { main: '#1D4ED8', light: '#0EA5E9', dark: '#1E3A8A', contrastText: '#FFFFFF' },
         success: { main: '#26BC92', light: '#5CE1B8', dark: '#159673', contrastText: '#FFFFFF' },
       },
-      optics: { refraction: 'standard', blurPx: 18, specularHighlight: true },
+      optics: { refraction: 'standard', blurPx: 12, specularHighlight: true },
     }),
   },
   {
@@ -120,7 +120,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
     fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif',
     swatches: ['#E75C24', '#38BDF8', '#0D121A', '#F1F5F9'],
     wallpaper: 'linear-gradient(145deg, #0D121A 0%, #121924 48%, #0B1017 100%)',
-    theme: defineTheme({
+    theme: /*#__PURE__*/ defineTheme({
       name: 'obsidian',
       displayName: 'Obsidian Dark',
       description: 'Deep nocturnal optical glass with crisp high-luminance specular rims and WCAG AAA ink.',
@@ -133,7 +133,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
         info: { main: '#2563EB', light: '#38BDF8', dark: '#1E3A8A', contrastText: '#FFFFFF' },
         success: { main: '#26BC92', light: '#5CE1B8', dark: '#159673', contrastText: '#FFFFFF' },
       },
-      optics: { refraction: 'standard', blurPx: 20, specularHighlight: true },
+      optics: { refraction: 'standard', blurPx: 12, specularHighlight: true },
     }),
   },
   {
@@ -148,7 +148,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
     fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif',
     swatches: ['#7C3AED', '#06B6D4', '#EAEDF2', '#18202C'],
     wallpaper: 'linear-gradient(145deg, #F5F3FF 0%, #EDE9FE 50%, #E0F2FE 100%)',
-    theme: defineTheme({
+    theme: /*#__PURE__*/ defineTheme({
       name: 'amethyst',
       displayName: 'Amethyst Prism',
       description: 'Violet-indigo refractive primary paired with electric cyan optical edge dispersion.',
@@ -161,7 +161,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
         info: { main: '#4F46E5', light: '#818CF8', dark: '#3730A3', contrastText: '#FFFFFF' },
         success: { main: '#10B981', light: '#6EE7B7', dark: '#047857', contrastText: '#FFFFFF' },
       },
-      optics: { refraction: 'vivid', blurPx: 20, specularHighlight: true },
+      optics: { refraction: 'vivid', blurPx: 12, specularHighlight: true },
     }),
   },
   {
@@ -176,7 +176,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
     fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif',
     swatches: ['#0D9488', '#0EA5E9', '#EAEDF2', '#18202C'],
     wallpaper: 'linear-gradient(145deg, #F0FDFA 0%, #E0F2FE 55%, #ECFEFF 100%)',
-    theme: defineTheme({
+    theme: /*#__PURE__*/ defineTheme({
       name: 'emerald-tide',
       displayName: 'Emerald Tide',
       description: 'Seafoam teal primary glass calibrated for developer telemetry and fintech workspaces.',
@@ -189,7 +189,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
         info: { main: '#0284C7', light: '#38BDF8', dark: '#075985', contrastText: '#FFFFFF' },
         success: { main: '#16A34A', light: '#4ADE80', dark: '#15803D', contrastText: '#FFFFFF' },
       },
-      optics: { refraction: 'standard', blurPx: 18, specularHighlight: true },
+      optics: { refraction: 'standard', blurPx: 12, specularHighlight: true },
     }),
   },
   {
@@ -204,7 +204,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
     fontFamily: '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif',
     swatches: ['#D97706', '#2563EB', '#EAEDF2', '#18202C'],
     wallpaper: 'linear-gradient(145deg, #FFFBEB 0%, #FEF3C7 48%, #EFF6FF 100%)',
-    theme: defineTheme({
+    theme: /*#__PURE__*/ defineTheme({
       name: 'solar-prism',
       displayName: 'Solar Prism',
       description: 'Warm golden amber primary capsules balanced against crisp cobalt accents.',
@@ -217,7 +217,7 @@ const OPTICAL_PRESET_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
         info: { main: '#1D4ED8', light: '#60A5FA', dark: '#1E3A8A', contrastText: '#FFFFFF' },
         success: { main: '#059669', light: '#34D399', dark: '#047857', contrastText: '#FFFFFF' },
       },
-      optics: { refraction: 'vivid', blurPx: 18, specularHighlight: true },
+      optics: { refraction: 'vivid', blurPx: 12, specularHighlight: true },
     }),
   },
 ];
@@ -234,7 +234,7 @@ export const ALL_WEBOS_THEME_SPECS: ReadonlyArray<WebOsThemeRawSpec> = [
 ];
 
 export const WEBOS_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> =
-  ALL_WEBOS_THEME_SPECS.map(buildCatalogEntry);
+  /*#__PURE__*/ ALL_WEBOS_THEME_SPECS.map(buildCatalogEntry);
 
 export const OPTICAL_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = OPTICAL_PRESET_ENTRIES;
 
@@ -244,12 +244,19 @@ export const ALL_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
   ...WEBOS_THEME_ENTRIES,
 ];
 
-const CATALOG_MAP = new Map<string, ThemeCatalogEntry>(
+const CATALOG_MAP = /*#__PURE__*/ new Map<string, ThemeCatalogEntry>(
   ALL_THEME_ENTRIES.map((entry) => [entry.id, entry])
 );
 
-const WEBOS_MAP = new Map<WebOsThemeId, ThemeCatalogEntry>(
+const WEBOS_MAP = /*#__PURE__*/ new Map<WebOsThemeId, ThemeCatalogEntry>(
   WEBOS_THEME_ENTRIES.map((entry) => [entry.id as WebOsThemeId, entry])
+);
+
+const SEARCH_INDEX = /*#__PURE__*/ new Map<string, string>(
+  ALL_THEME_ENTRIES.map((entry) => [
+    entry.id,
+    `${entry.id}\0${entry.name}\0${entry.description}\0${entry.material}\0${entry.category}\0${entry.fontFamily}`.toLowerCase(),
+  ])
 );
 
 export function isRefractorThemeId(candidate: string): candidate is RefractorThemeId {
@@ -300,13 +307,7 @@ export function listThemes(filter?: ListThemesFilter): ReadonlyArray<ThemeCatalo
       return false;
     }
     if (!q) return true;
-    return (
-      entry.id.toLowerCase().includes(q) ||
-      entry.name.toLowerCase().includes(q) ||
-      entry.description.toLowerCase().includes(q) ||
-      entry.material.toLowerCase().includes(q) ||
-      entry.category.toLowerCase().includes(q) ||
-      entry.fontFamily.toLowerCase().includes(q)
-    );
+    const haystack = SEARCH_INDEX.get(entry.id);
+    return haystack !== undefined && haystack.includes(q);
   });
 }

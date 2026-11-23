@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DonutSliceTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -196,6 +196,11 @@ function buildSlicePath(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('donut-pie-chart', 'header');
+const svgClass = /*#__PURE__*/ stableClassName('donut-pie-chart', 'svg');
+const legendClass = /*#__PURE__*/ stableClassName('donut-pie-chart', 'legend');
+const readoutClass = /*#__PURE__*/ stableClassName('donut-pie-chart', 'readout');
+
 function DonutPieChartInner({
   slices,
   variant = 'donut',
@@ -326,10 +331,6 @@ function DonutPieChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('donut-pie-chart', 'header');
-  const svgClass = stableClassName('donut-pie-chart', 'svg');
-  const legendClass = stableClassName('donut-pie-chart', 'legend');
-  const readoutClass = stableClassName('donut-pie-chart', 'readout');
 
   const centerHeadline = activeSelection
     ? `${formatNumeric(activeSelection.sharePct)}%`
@@ -395,7 +396,7 @@ function DonutPieChartInner({
                 width={clampedSize}
                 height={clampedSize}
                 style={{ width: `${clampedSize}px`, height: `${clampedSize}px` }}
-                className={cx(svgClass, 'block overflow-visible')}
+                className={cx(svgClass, 'block overflow-visible', 'prism-contain-leaf')}
               >
                 {computedSlices.map((slice) => {
                   const isSelected = activeSelection?.id === slice.id;
@@ -536,5 +537,4 @@ function DonutPieChartInner({
   );
 }
 
-export const DonutPieChart = memo(DonutPieChartInner);
-DonutPieChart.displayName = 'DonutPieChart';
+export const DonutPieChart = /*#__PURE__*/ memoWithDisplayName(DonutPieChartInner, 'DonutPieChart');

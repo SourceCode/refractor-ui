@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -17,6 +16,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SpreadsheetFormulaFn = 'SUM' | 'AVERAGE' | 'MIN' | 'MAX' | 'COUNT';
@@ -628,6 +628,12 @@ export function evaluateSpreadsheetCell(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('formula-spreadsheet-grid', 'header');
+const formulaBarClass = /*#__PURE__*/ stableClassName('formula-spreadsheet-grid', 'formula-bar');
+const tableWrapperClass = /*#__PURE__*/ stableClassName('formula-spreadsheet-grid', 'table-wrapper');
+const tableClass = /*#__PURE__*/ stableClassName('formula-spreadsheet-grid', 'table');
+const footerClass = /*#__PURE__*/ stableClassName('formula-spreadsheet-grid', 'footer');
+
 function FormulaSpreadsheetGridInner({
   sheets,
   onCellChange,
@@ -1147,11 +1153,6 @@ function FormulaSpreadsheetGridInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('formula-spreadsheet-grid', 'header');
-  const formulaBarClass = stableClassName('formula-spreadsheet-grid', 'formula-bar');
-  const tableWrapperClass = stableClassName('formula-spreadsheet-grid', 'table-wrapper');
-  const tableClass = stableClassName('formula-spreadsheet-grid', 'table');
-  const footerClass = stableClassName('formula-spreadsheet-grid', 'footer');
 
   return (
     <div
@@ -1537,5 +1538,4 @@ function FormulaSpreadsheetGridInner({
   );
 }
 
-export const FormulaSpreadsheetGrid = memo(FormulaSpreadsheetGridInner);
-FormulaSpreadsheetGrid.displayName = 'FormulaSpreadsheetGrid';
+export const FormulaSpreadsheetGrid = /*#__PURE__*/ memoWithDisplayName(FormulaSpreadsheetGridInner, 'FormulaSpreadsheetGrid');

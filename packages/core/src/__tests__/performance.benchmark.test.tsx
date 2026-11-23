@@ -10,6 +10,7 @@ import {
   compareNaturalStrings,
   composeEventHandlers,
   computeLineDiff,
+  createCoalescedPointerMove,
   createPrismTheme,
   cx,
   DataTable,
@@ -127,17 +128,120 @@ describe('Refractor v1.48.0 Performance Architecture & Regression Suite', () => 
     // Universal scrollbar selector de-universalized
     expect(css).not.toMatch(/^\s*\*\s*\{\s*scrollbar-width:/m);
     expect(css).not.toContain('[data-refractor-theme-adaptive="true"] *');
-    // Nested backdrop-filter elision present
+    // Optimized GPU Gaussian blur kernel radii (55% lower fragment shader texel area)
+    expect(css).toContain('--prism-blur-px: 12px;');
+    expect(css).toContain('--prism-slab-blur-px: 14px;');
+    // Nested backdrop-filter elision present (including blur-host ancestor hook)
     expect(css).toContain('.prism-slab :is(.prism-crystal, .prism-btn-secondary, .prism-slab)');
+    expect(css).toContain('[data-refractor-blur-host="true"]');
     expect(css).toContain(':root :is(span, kbd, code, small, time).prism-crystal');
     // Containment & content-visibility utilities present
     expect(css).toContain('.prism-contain-leaf');
     expect(css).toContain('.prism-cv-row');
     expect(css).toContain('content-visibility: auto');
+    expect(css).toContain('.refractor-order-book-depth-chart');
     // Three-tier performance mode rules present
     expect(css).toContain('[data-refractor-performance="high"]');
     expect(css).toContain('[data-refractor-performance="max"]');
     expect(css).toContain('.prism-backdrop-scrim');
+  });
+
+  it('guarantees 100% pure tree-shakeable memoWithDisplayName, zero in-render stableClassName, 100% SVG containment, and 100% rAF pointermove coalescing', () => {
+    const coreSrcDir = path.resolve(process.cwd(), 'packages/core/src');
+    const componentNames = fs
+      .readdirSync(coreSrcDir, { withFileTypes: true })
+      .filter((d) => d.isDirectory() && /^[A-Z][A-Za-z0-9]+$/.test(d.name))
+      .map((d) => d.name)
+      .sort();
+
+    const blockedTreeShake: string[] = [];
+    const unhoistedStableClass: string[] = [];
+    const uncontainedSvg: string[] = [];
+    const uncoalescedPointerMove: string[] = [];
+
+    for (const name of componentNames) {
+      const source = fs.readFileSync(path.join(coreSrcDir, name, `${name}.tsx`), 'utf8');
+      if (new RegExp(`^${name}\\.displayName\\s*=`, 'm').test(source)) {
+        blockedTreeShake.push(name);
+      }
+      if (!source.includes('/*#__PURE__*/ memoWithDisplayName(')) {
+        blockedTreeShake.push(name);
+      }
+      if (/^[ \t]+const [A-Za-z0-9_]+ = stableClassName\(\s*'[^']+'(?:\s*,\s*'[^']+')?\s*\);/m.test(source)) {
+        unhoistedStableClass.push(name);
+      }
+      if (/<svg\b/.test(source) && !/prism-contain-(?:box|leaf)/.test(source)) {
+        uncontainedSvg.push(name);
+      }
+      if (
+        source.includes("addEventListener('pointermove'") &&
+        !source.includes('createCoalescedPointerMove')
+      ) {
+        uncoalescedPointerMove.push(name);
+      }
+    }
+
+    expect(blockedTreeShake).toEqual([]);
+    expect(unhoistedStableClass).toEqual([]);
+    expect(uncontainedSvg).toEqual([]);
+    expect(uncoalescedPointerMove).toEqual([]);
+
+    // Verify @refractor-ui/themes declares sideEffects & pure exports for tree-shaking
+    const themesPkg = JSON.parse(
+      fs.readFileSync(path.resolve(process.cwd(), 'packages/themes/collection/package.json'), 'utf8')
+    ) as { sideEffects?: string[]; exports?: Record<string, string> };
+    expect(themesPkg.sideEffects).toEqual(['**/*.css']);
+    expect(themesPkg.exports?.['./classic-os']).toBe('./src/collections/classicOs.ts');
+  });
+
+  it('coalesces trusted high-frequency pointermove bursts to 60fps rAF while keeping synthetic events synchronous', () => {
+    const queuedFrames: FrameRequestCallback[] = [];
+    const rafSpy = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((cb: FrameRequestCallback) => {
+        queuedFrames.push(cb);
+        return 77;
+      });
+    const cafSpy = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {});
+
+    try {
+      const xs: number[] = [];
+      const listener = createCoalescedPointerMove((evt) => {
+        xs.push(evt.clientX);
+      });
+
+      // Synthetic events (isTrusted = false) execute synchronously
+      listener({ clientX: 10, isTrusted: false } as PointerEvent);
+      listener({ clientX: 20, isTrusted: false } as PointerEvent);
+      expect(xs).toEqual([10, 20]);
+      expect(rafSpy).not.toHaveBeenCalled();
+
+      // Real trusted browser pointer burst (isTrusted = true) executes leading immediately, coalesces 40/50/60 -> 60 on next frame
+      listener({ clientX: 30, isTrusted: true } as PointerEvent);
+      listener({ clientX: 40, isTrusted: true } as PointerEvent);
+      listener({ clientX: 50, isTrusted: true } as PointerEvent);
+      listener({ clientX: 60, isTrusted: true } as PointerEvent);
+      expect(xs).toEqual([10, 20, 30]);
+      expect(rafSpy).toHaveBeenCalledTimes(1);
+
+      queuedFrames.shift()?.(16.7);
+      expect(xs).toEqual([10, 20, 30, 60]);
+
+      // Single trusted event with no trailing burst clears rAF without extra call
+      listener({ clientX: 65, isTrusted: true } as PointerEvent);
+      queuedFrames.shift()?.(33.4);
+      expect(xs).toEqual([10, 20, 30, 60, 65]);
+
+      // Cancel clears pending rAF cleanly (and calling cancel when idle is a safe no-op)
+      listener({ clientX: 70, isTrusted: true } as PointerEvent);
+      listener({ clientX: 80, isTrusted: true } as PointerEvent);
+      listener.cancel();
+      listener.cancel();
+      expect(cafSpy).toHaveBeenCalledWith(77);
+    } finally {
+      rafSpy.mockRestore();
+      cafSpy.mockRestore();
+    }
   });
 
   it('splits ComponentOverridesContext so theme/mode/refraction switches trigger ZERO re-renders in memoized consumers', () => {

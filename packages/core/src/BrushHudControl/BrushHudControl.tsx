@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -17,6 +16,7 @@ import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BrushPresetId = 'airbrush' | 'hard-round' | 'dodge-soft' | 'detail-pen';
@@ -146,6 +146,12 @@ function computePreviewRadius(sizePx: number, minSizePx: number, maxSizePx: numb
   const perceptual = Math.sqrt(ratio);
   return roundTwo(PREVIEW_MIN_RADIUS + perceptual * (PREVIEW_MAX_RADIUS - PREVIEW_MIN_RADIUS));
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('brush-hud-control', 'header');
+const presetsClass = /*#__PURE__*/ stableClassName('brush-hud-control', 'presets');
+const previewClass = /*#__PURE__*/ stableClassName('brush-hud-control', 'preview');
+const controlsClass = /*#__PURE__*/ stableClassName('brush-hud-control', 'controls');
+const readoutClass = /*#__PURE__*/ stableClassName('brush-hud-control', 'readout');
 
 function BrushHudControlInner({
   value,
@@ -327,11 +333,6 @@ function BrushHudControlInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('brush-hud-control', 'header');
-  const presetsClass = stableClassName('brush-hud-control', 'presets');
-  const previewClass = stableClassName('brush-hud-control', 'preview');
-  const controlsClass = stableClassName('brush-hud-control', 'controls');
-  const readoutClass = stableClassName('brush-hud-control', 'readout');
 
   const atMinSize = currentValue.sizePx <= safeMinSizePx;
   const atMaxSize = currentValue.sizePx >= safeMaxSizePx;
@@ -416,7 +417,7 @@ function BrushHudControlInner({
               style={
                 isActive
                   ? undefined
-                  : { color: 'var(--prism-text-primary)' }
+                  : STYLE_TEXT_PRIMARY
               }
             >
               {preset.label}
@@ -438,7 +439,7 @@ function BrushHudControlInner({
         >
           <svg
             viewBox={`0 0 ${PREVIEW_VIEWBOX} ${PREVIEW_VIEWBOX}`}
-            className="w-28 h-28 shrink-0"
+            className="w-28 h-28 shrink-0 prism-contain-box"
             aria-hidden="true"
             data-testid="brush-preview-svg"
           >
@@ -749,5 +750,4 @@ function BrushHudControlInner({
   );
 }
 
-export const BrushHudControl = memo(BrushHudControlInner);
-BrushHudControl.displayName = 'BrushHudControl';
+export const BrushHudControl = /*#__PURE__*/ memoWithDisplayName(BrushHudControlInner, 'BrushHudControl');

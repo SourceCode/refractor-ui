@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -18,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SpeedDialDirection = 'up' | 'down' | 'left' | 'right' | 'radial';
@@ -151,6 +151,13 @@ function getLabelPositionClass(direction: SpeedDialDirection): string {
   return 'bottom-full mb-2 left-1/2 -translate-x-1/2';
 }
 
+const triggerClass = /*#__PURE__*/ stableClassName('speed-dial-button', 'trigger');
+const triggerIconClass = /*#__PURE__*/ stableClassName('speed-dial-button', 'icon');
+const menuClass = /*#__PURE__*/ stableClassName('speed-dial-button', 'menu');
+const itemClass = /*#__PURE__*/ stableClassName('speed-dial-button', 'item');
+const actionClass = /*#__PURE__*/ stableClassName('speed-dial-button', 'action');
+const labelClass = /*#__PURE__*/ stableClassName('speed-dial-button', 'label');
+
 function SpeedDialButtonInner({
   actions,
   open,
@@ -269,12 +276,6 @@ function SpeedDialButtonInner({
     userStyle: style,
   });
 
-  const triggerClass = stableClassName('speed-dial-button', 'trigger');
-  const triggerIconClass = stableClassName('speed-dial-button', 'icon');
-  const menuClass = stableClassName('speed-dial-button', 'menu');
-  const itemClass = stableClassName('speed-dial-button', 'item');
-  const actionClass = stableClassName('speed-dial-button', 'action');
-  const labelClass = stableClassName('speed-dial-button', 'label');
   const labelPositionClass = getLabelPositionClass(direction);
 
   return (
@@ -385,5 +386,4 @@ function SpeedDialButtonInner({
   );
 }
 
-export const SpeedDialButton = memo(SpeedDialButtonInner);
-SpeedDialButton.displayName = 'SpeedDialButton';
+export const SpeedDialButton = /*#__PURE__*/ memoWithDisplayName(SpeedDialButtonInner, 'SpeedDialButton');

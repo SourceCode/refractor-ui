@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -27,6 +26,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SpotlightResultKind = 'app' | 'file' | 'command' | 'calculation';
@@ -663,6 +663,15 @@ function copyTextResiliently(text: string): void {
   fallbackExecCommandCopy(text);
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('system-spotlight-launcher', 'header');
+const searchWellClass = /*#__PURE__*/ stableClassName('system-spotlight-launcher', 'search-well');
+const chipsClass = /*#__PURE__*/ stableClassName('system-spotlight-launcher', 'chips');
+const bodyClass = /*#__PURE__*/ stableClassName('system-spotlight-launcher', 'body');
+const listClass = /*#__PURE__*/ stableClassName('system-spotlight-launcher', 'list');
+const optionClass = /*#__PURE__*/ stableClassName('system-spotlight-launcher', 'option');
+const previewClass = /*#__PURE__*/ stableClassName('system-spotlight-launcher', 'preview');
+const emptyClass = /*#__PURE__*/ stableClassName('system-spotlight-launcher', 'empty');
+
 function SystemSpotlightLauncherInner({
   items,
   defaultQuery = '',
@@ -877,14 +886,6 @@ function SystemSpotlightLauncherInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('system-spotlight-launcher', 'header');
-  const searchWellClass = stableClassName('system-spotlight-launcher', 'search-well');
-  const chipsClass = stableClassName('system-spotlight-launcher', 'chips');
-  const bodyClass = stableClassName('system-spotlight-launcher', 'body');
-  const listClass = stableClassName('system-spotlight-launcher', 'list');
-  const optionClass = stableClassName('system-spotlight-launcher', 'option');
-  const previewClass = stableClassName('system-spotlight-launcher', 'preview');
-  const emptyClass = stableClassName('system-spotlight-launcher', 'empty');
 
   const derivedLiveText = useMemo<string>(() => {
     if (isEmpty) {
@@ -1006,7 +1007,7 @@ function SystemSpotlightLauncherInner({
                   style={
                     isSelectedChip
                       ? undefined
-                      : { color: 'var(--prism-text-primary)' }
+                      : STYLE_TEXT_PRIMARY
                   }
                 >
                   {example}
@@ -1384,5 +1385,4 @@ function SystemSpotlightLauncherInner({
   );
 }
 
-export const SystemSpotlightLauncher = memo(SystemSpotlightLauncherInner);
-SystemSpotlightLauncher.displayName = 'SystemSpotlightLauncher';
+export const SystemSpotlightLauncher = /*#__PURE__*/ memoWithDisplayName(SystemSpotlightLauncherInner, 'SystemSpotlightLauncher');

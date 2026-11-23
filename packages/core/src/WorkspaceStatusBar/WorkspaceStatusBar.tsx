@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -18,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type StatusSyncState = 'synced' | 'syncing' | 'dirty' | 'offline';
@@ -227,6 +228,19 @@ function renderSyncIcon(state: StatusSyncState, colorVar: string) {
   }
 }
 
+const leftZoneClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'left');
+const rightZoneClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'right');
+const segmentBaseClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'segment');
+const branchClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'branch');
+const syncClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'sync');
+const diagnosticsClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'diagnostics');
+const taskClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'task');
+const progressClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'progress');
+const cursorClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'cursor');
+const encodingClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'encoding');
+const languageClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'language');
+const extraItemClass = /*#__PURE__*/ stableClassName('workspace-status-bar', 'item');
+
 function WorkspaceStatusBarInner({
   branch = DEFAULT_BRANCH,
   syncState = 'synced',
@@ -334,21 +348,6 @@ function WorkspaceStatusBarInner({
     userStyle: style,
   });
 
-  const leftZoneClass = stableClassName('workspace-status-bar', 'left');
-  const rightZoneClass = stableClassName('workspace-status-bar', 'right');
-  const segmentBaseClass = stableClassName('workspace-status-bar', 'segment');
-  const branchClass = stableClassName('workspace-status-bar', 'branch');
-  const syncClass = stableClassName('workspace-status-bar', 'sync');
-  const diagnosticsClass = stableClassName(
-    'workspace-status-bar',
-    'diagnostics'
-  );
-  const taskClass = stableClassName('workspace-status-bar', 'task');
-  const progressClass = stableClassName('workspace-status-bar', 'progress');
-  const cursorClass = stableClassName('workspace-status-bar', 'cursor');
-  const encodingClass = stableClassName('workspace-status-bar', 'encoding');
-  const languageClass = stableClassName('workspace-status-bar', 'language');
-  const extraItemClass = stableClassName('workspace-status-bar', 'item');
 
   const interactivePillClass = cx(
     segmentBaseClass,
@@ -659,5 +658,4 @@ function WorkspaceStatusBarInner({
   );
 }
 
-export const WorkspaceStatusBar = memo(WorkspaceStatusBarInner);
-WorkspaceStatusBar.displayName = 'WorkspaceStatusBar';
+export const WorkspaceStatusBar = /*#__PURE__*/ memoWithDisplayName(WorkspaceStatusBarInner, 'WorkspaceStatusBar');

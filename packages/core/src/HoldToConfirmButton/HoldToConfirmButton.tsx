@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -8,6 +8,8 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
+import { STYLE_SUCCESS_CONTRAST } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type HoldToConfirmTone = 'destructive' | 'primary' | 'amber';
@@ -70,6 +72,9 @@ function getToneVisualTokens(tone: HoldToConfirmTone): ToneVisualTokens {
 function isHoldTriggerKey(key: string): boolean {
   return key === ' ' || key === 'Spacebar' || key === 'Enter';
 }
+
+const fillClass = /*#__PURE__*/ stableClassName('hold-to-confirm-button', 'fill');
+const contentClass = /*#__PURE__*/ stableClassName('hold-to-confirm-button', 'content');
 
 function HoldToConfirmButtonInner({
   label,
@@ -261,7 +266,7 @@ function HoldToConfirmButtonInner({
       'prism-focus-ring relative overflow-hidden inline-flex items-center justify-center gap-2 h-11 px-6 rounded-full text-sm font-semibold tracking-[-0.01em] whitespace-nowrap shrink-0 select-none touch-none transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:brightness-105'
     ),
     baseStyle: confirmed
-      ? { color: 'var(--prism-success-contrast)' }
+      ? STYLE_SUCCESS_CONTRAST
       : { color: visual.textColorVar, borderColor: visual.borderColorVar },
     overrideClassName: override?.className,
     userClassName: className,
@@ -270,8 +275,6 @@ function HoldToConfirmButtonInner({
     userStyle: style,
   });
 
-  const fillClass = stableClassName('hold-to-confirm-button', 'fill');
-  const contentClass = stableClassName('hold-to-confirm-button', 'content');
   const displayLabel = confirmed ? confirmedLabel : holding ? holdingLabel : label;
 
   return (
@@ -315,5 +318,4 @@ function HoldToConfirmButtonInner({
   );
 }
 
-export const HoldToConfirmButton = memo(HoldToConfirmButtonInner);
-HoldToConfirmButton.displayName = 'HoldToConfirmButton';
+export const HoldToConfirmButton = /*#__PURE__*/ memoWithDisplayName(HoldToConfirmButtonInner, 'HoldToConfirmButton');

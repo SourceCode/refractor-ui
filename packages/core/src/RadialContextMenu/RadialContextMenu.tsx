@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -19,6 +18,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type RadialMenuDisplayMode = 'trigger' | 'inline';
@@ -241,6 +241,13 @@ function findNextEnabledIndex(
   }
   return -1;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('radial-context-menu', 'header');
+const statusClass = /*#__PURE__*/ stableClassName('radial-context-menu', 'status');
+const stageClass = /*#__PURE__*/ stableClassName('radial-context-menu', 'stage');
+const surfaceClass = /*#__PURE__*/ stableClassName('radial-context-menu', 'surface');
+const wheelClass = /*#__PURE__*/ stableClassName('radial-context-menu', 'wheel');
+const emptyClass = /*#__PURE__*/ stableClassName('radial-context-menu', 'empty');
 
 function RadialContextMenuInner({
   actions,
@@ -497,12 +504,6 @@ function RadialContextMenuInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('radial-context-menu', 'header');
-  const statusClass = stableClassName('radial-context-menu', 'status');
-  const stageClass = stableClassName('radial-context-menu', 'stage');
-  const surfaceClass = stableClassName('radial-context-menu', 'surface');
-  const wheelClass = stableClassName('radial-context-menu', 'wheel');
-  const emptyClass = stableClassName('radial-context-menu', 'empty');
 
   const hasBloomOffset = mode === 'trigger' && (bloomOffset.x !== 0 || bloomOffset.y !== 0);
 
@@ -687,7 +688,7 @@ function RadialContextMenuInner({
               <svg
                 viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
                 data-testid="radial-menu-svg"
-                className="w-full max-w-[280px] h-auto select-none mx-auto"
+                className="w-full max-w-[280px] h-auto select-none mx-auto prism-contain-box"
               >
                 {/* Outer Specular Crystal Bezel */}
                 <circle
@@ -888,5 +889,4 @@ function RadialContextMenuInner({
   );
 }
 
-export const RadialContextMenu = memo(RadialContextMenuInner);
-RadialContextMenu.displayName = 'RadialContextMenu';
+export const RadialContextMenu = /*#__PURE__*/ memoWithDisplayName(RadialContextMenuInner, 'RadialContextMenu');

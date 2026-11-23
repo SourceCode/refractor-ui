@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useId, type KeyboardEvent, type ReactNode } from 'react';
+import { useId, type KeyboardEvent, type ReactNode } from 'react';
 import { ChevronsUpDown } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface TabItem {
@@ -140,5 +141,4 @@ function PrismTabsInner({
   );
 }
 
-export const PrismTabs = memo(PrismTabsInner);
-PrismTabs.displayName = 'PrismTabs';
+export const PrismTabs = /*#__PURE__*/ memoWithDisplayName(PrismTabsInner, 'PrismTabs');

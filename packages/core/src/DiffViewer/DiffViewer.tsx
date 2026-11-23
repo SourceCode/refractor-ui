@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useMemo, type KeyboardEvent } from 'react';
+import { useMemo, type KeyboardEvent } from 'react';
 import { CheckCircle2, FileDiff } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { computeLineDiff, type DiffLine } from '../utils/diffAlgorithm';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DiffViewMode = 'split' | 'unified';
@@ -424,5 +425,4 @@ function DiffViewerInner({
   );
 }
 
-export const DiffViewer = memo(DiffViewerInner);
-DiffViewer.displayName = 'DiffViewer';
+export const DiffViewer = /*#__PURE__*/ memoWithDisplayName(DiffViewerInner, 'DiffViewer');

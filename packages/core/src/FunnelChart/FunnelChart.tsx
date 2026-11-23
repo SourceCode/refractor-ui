@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FunnelTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -129,6 +129,10 @@ function formatDropoffBadge(dropoffPct: number): string {
   }
   return '0% drop';
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('funnel-chart', 'header');
+const stagesClass = /*#__PURE__*/ stableClassName('funnel-chart', 'stages');
+const summaryClass = /*#__PURE__*/ stableClassName('funnel-chart', 'summary');
 
 function FunnelChartInner({
   stages,
@@ -252,9 +256,6 @@ function FunnelChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('funnel-chart', 'header');
-  const stagesClass = stableClassName('funnel-chart', 'stages');
-  const summaryClass = stableClassName('funnel-chart', 'summary');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -412,5 +413,4 @@ function FunnelChartInner({
   );
 }
 
-export const FunnelChart = memo(FunnelChartInner);
-FunnelChart.displayName = 'FunnelChart';
+export const FunnelChart = /*#__PURE__*/ memoWithDisplayName(FunnelChartInner, 'FunnelChart');

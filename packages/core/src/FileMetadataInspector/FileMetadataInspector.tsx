@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -32,6 +31,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_CONTRAST, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FileInspectorKind = 'image' | 'code' | 'audio' | 'document' | 'archive';
@@ -731,7 +731,7 @@ function OpticalPreviewCanvas({ fileName, kind, svgPrefix }: OpticalPreviewCanva
       aria-label={`${fileName} (${kindMeta.label} preview)`}
       data-testid="file-inspector-preview-svg"
       data-preview-kind={kind}
-      className="w-full h-auto block rounded-xl"
+      className="w-full h-auto block rounded-xl prism-contain-box"
     >
       <defs>
         <linearGradient id={bgId} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -766,6 +766,14 @@ function OpticalPreviewCanvas({ fileName, kind, svgPrefix }: OpticalPreviewCanva
     </svg>
   );
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('file-metadata-inspector', 'header');
+const bodyClass = /*#__PURE__*/ stableClassName('file-metadata-inspector', 'body');
+const previewClass = /*#__PURE__*/ stableClassName('file-metadata-inspector', 'preview');
+const metadataClass = /*#__PURE__*/ stableClassName('file-metadata-inspector', 'metadata');
+const exifClass = /*#__PURE__*/ stableClassName('file-metadata-inspector', 'exif');
+const tagsClass = /*#__PURE__*/ stableClassName('file-metadata-inspector', 'tags');
+const emptyClass = /*#__PURE__*/ stableClassName('file-metadata-inspector', 'empty');
 
 function FileMetadataInspectorInner({
   file,
@@ -943,13 +951,6 @@ function FileMetadataInspectorInner({
     return buildKeyedExifEntries(resolvedFile.exifSpecs);
   }, [resolvedFile]);
 
-  const headerClass = stableClassName('file-metadata-inspector', 'header');
-  const bodyClass = stableClassName('file-metadata-inspector', 'body');
-  const previewClass = stableClassName('file-metadata-inspector', 'preview');
-  const metadataClass = stableClassName('file-metadata-inspector', 'metadata');
-  const exifClass = stableClassName('file-metadata-inspector', 'exif');
-  const tagsClass = stableClassName('file-metadata-inspector', 'tags');
-  const emptyClass = stableClassName('file-metadata-inspector', 'empty');
 
   const merged = mergeProps({
     themeTarget: themeProps('file-metadata-inspector', {
@@ -1230,7 +1231,7 @@ function FileMetadataInspectorInner({
                             'prism-focus-ring h-7 px-2.5 rounded-full inline-flex items-center gap-1.5 text-[11px] font-semibold whitespace-nowrap shrink-0 transition-[color,background-color,border-color,opacity,transform] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed',
                             copied ? 'prism-emerald' : 'prism-crystal'
                           )}
-                          style={copied ? undefined : { color: 'var(--prism-text-primary)' }}
+                          style={copied ? undefined : STYLE_TEXT_PRIMARY}
                         >
                           {copied ? (
                             <>
@@ -1455,5 +1456,4 @@ function FileMetadataInspectorInner({
   );
 }
 
-export const FileMetadataInspector = memo(FileMetadataInspectorInner);
-FileMetadataInspector.displayName = 'FileMetadataInspector';
+export const FileMetadataInspector = /*#__PURE__*/ memoWithDisplayName(FileMetadataInspectorInner, 'FileMetadataInspector');

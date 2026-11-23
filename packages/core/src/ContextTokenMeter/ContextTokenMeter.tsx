@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import { AlertTriangle, Layers } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ContextTokenSegmentKind = 'system' | 'files' | 'tools' | 'history';
@@ -102,6 +103,11 @@ function getHealthAccentToken(health: ContextTokenHealth): string {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('context-token-meter', 'header');
+const trackClass = /*#__PURE__*/ stableClassName('context-token-meter', 'track');
+const radialClass = /*#__PURE__*/ stableClassName('context-token-meter', 'radial');
+const legendClass = /*#__PURE__*/ stableClassName('context-token-meter', 'legend');
+
 function ContextTokenMeterInner({
   segments,
   maxTokens,
@@ -188,7 +194,7 @@ function ContextTokenMeterInner({
       health,
       empty: normalizedSegments.length === 0,
     }),
-    baseClassName: 'prism-slab p-4 w-full space-y-3',
+    baseClassName: 'prism-contain-leaf prism-slab p-4 w-full space-y-3',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -196,10 +202,6 @@ function ContextTokenMeterInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('context-token-meter', 'header');
-  const trackClass = stableClassName('context-token-meter', 'track');
-  const radialClass = stableClassName('context-token-meter', 'radial');
-  const legendClass = stableClassName('context-token-meter', 'legend');
 
   const legendContent =
     normalizedSegments.length > 0 ? (
@@ -341,7 +343,7 @@ function ContextTokenMeterInner({
               aria-hidden="true"
               data-testid="context-token-radial-svg"
               viewBox="0 0 80 80"
-              className="w-20 h-20 -rotate-90"
+              className="w-20 h-20 -rotate-90 prism-contain-box"
             >
               <circle
                 cx={40}
@@ -383,5 +385,4 @@ function ContextTokenMeterInner({
   );
 }
 
-export const ContextTokenMeter = memo(ContextTokenMeterInner);
-ContextTokenMeter.displayName = 'ContextTokenMeter';
+export const ContextTokenMeter = /*#__PURE__*/ memoWithDisplayName(ContextTokenMeterInner, 'ContextTokenMeter');

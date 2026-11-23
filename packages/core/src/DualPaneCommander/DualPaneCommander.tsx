@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useRef,
@@ -27,6 +26,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_DARK, STYLE_SUCCESS_DARK, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CommanderPaneSide = 'left' | 'right';
@@ -331,6 +331,11 @@ function formatCountNoun(count: number): string {
   return `${count} ${count === 1 ? 'item' : 'items'}`;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('dual-pane-commander', 'header');
+const paneClass = /*#__PURE__*/ stableClassName('dual-pane-commander', 'pane');
+const actionsClass = /*#__PURE__*/ stableClassName('dual-pane-commander', 'actions');
+const statusClass = /*#__PURE__*/ stableClassName('dual-pane-commander', 'status');
+
 function DualPaneCommanderInner({
   title = DEFAULT_TITLE,
   leftPath = DEFAULT_LEFT_PATH,
@@ -589,10 +594,6 @@ function DualPaneCommanderInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('dual-pane-commander', 'header');
-  const paneClass = stableClassName('dual-pane-commander', 'pane');
-  const actionsClass = stableClassName('dual-pane-commander', 'actions');
-  const statusClass = stableClassName('dual-pane-commander', 'status');
 
   const renderPane = (params: {
     side: CommanderPaneSide;
@@ -976,7 +977,7 @@ function DualPaneCommanderInner({
               compareActive ? 'prism-btn-cobalt' : 'prism-crystal',
               'prism-focus-ring rounded-full px-3.5 py-2 text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed whitespace-nowrap'
             )}
-            style={compareActive ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={compareActive ? undefined : STYLE_TEXT_PRIMARY}
           >
             <GitCompareArrows aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
             <span>Compare</span>
@@ -1045,5 +1046,4 @@ function DualPaneCommanderInner({
   );
 }
 
-export const DualPaneCommander = memo(DualPaneCommanderInner);
-DualPaneCommander.displayName = 'DualPaneCommander';
+export const DualPaneCommander = /*#__PURE__*/ memoWithDisplayName(DualPaneCommanderInner, 'DualPaneCommander');

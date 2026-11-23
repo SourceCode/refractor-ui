@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Check, ChevronDown, ChevronRight } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -10,6 +10,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface CascadeOptionNode {
@@ -80,6 +81,12 @@ function resolvePathNodes(
 
   return resolved;
 }
+
+const triggerClass = /*#__PURE__*/ stableClassName('cascading-select', 'trigger');
+const clearClass = /*#__PURE__*/ stableClassName('cascading-select', 'clear');
+const popoverClass = /*#__PURE__*/ stableClassName('cascading-select', 'popover');
+const columnClass = /*#__PURE__*/ stableClassName('cascading-select', 'column');
+const optionClass = /*#__PURE__*/ stableClassName('cascading-select', 'option');
 
 function CascadingSelectInner({
   options,
@@ -250,11 +257,6 @@ function CascadingSelectInner({
     userStyle: style,
   });
 
-  const triggerClass = stableClassName('cascading-select', 'trigger');
-  const clearClass = stableClassName('cascading-select', 'clear');
-  const popoverClass = stableClassName('cascading-select', 'popover');
-  const columnClass = stableClassName('cascading-select', 'column');
-  const optionClass = stableClassName('cascading-select', 'option');
 
   return (
     <div ref={mergedRef} onKeyDown={handleKeyDown} {...rest} {...merged}>
@@ -422,5 +424,4 @@ function CascadingSelectInner({
   );
 }
 
-export const CascadingSelect = memo(CascadingSelectInner);
-CascadingSelect.displayName = 'CascadingSelect';
+export const CascadingSelect = /*#__PURE__*/ memoWithDisplayName(CascadingSelectInner, 'CascadingSelect');

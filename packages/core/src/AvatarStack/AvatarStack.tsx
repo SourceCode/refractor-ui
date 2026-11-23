@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useEffect,
   useId,
   useMemo,
@@ -17,6 +16,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, sanitizeUrl } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AvatarStackSize = 'sm' | 'md' | 'lg';
@@ -229,6 +229,12 @@ function deriveInitials(name: string): string {
   return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase();
 }
 
+const clusterPartClass = /*#__PURE__*/ stableClassName('avatar-stack', 'cluster');
+const avatarPartClass = /*#__PURE__*/ stableClassName('avatar-stack', 'avatar');
+const counterPartClass = /*#__PURE__*/ stableClassName('avatar-stack', 'counter');
+const popoverPartClass = /*#__PURE__*/ stableClassName('avatar-stack', 'popover');
+const emptyPartClass = /*#__PURE__*/ stableClassName('avatar-stack', 'empty');
+
 function AvatarStackInner({
   users,
   maxVisible = 4,
@@ -357,11 +363,6 @@ function AvatarStackInner({
     triggerRef.current?.focus();
   };
 
-  const clusterPartClass = stableClassName('avatar-stack', 'cluster');
-  const avatarPartClass = stableClassName('avatar-stack', 'avatar');
-  const counterPartClass = stableClassName('avatar-stack', 'counter');
-  const popoverPartClass = stableClassName('avatar-stack', 'popover');
-  const emptyPartClass = stableClassName('avatar-stack', 'empty');
 
   const merged = mergeProps({
     themeTarget: themeProps('avatar-stack', {
@@ -623,5 +624,4 @@ function AvatarStackInner({
   );
 }
 
-export const AvatarStack = memo(AvatarStackInner);
-AvatarStack.displayName = 'AvatarStack';
+export const AvatarStack = /*#__PURE__*/ memoWithDisplayName(AvatarStackInner, 'AvatarStack');

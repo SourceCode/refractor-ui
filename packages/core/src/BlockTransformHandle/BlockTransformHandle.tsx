@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -31,6 +30,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_DIVIDER, STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DocBlockKind =
@@ -214,6 +214,12 @@ function getBlockSummaryLabel(block: DocumentBlockItem, index: number): string {
   }
   return `${trimmed.slice(0, 35)}…`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('block-transform-handle', 'header');
+const listClass = /*#__PURE__*/ stableClassName('block-transform-handle', 'list');
+const menuClass = /*#__PURE__*/ stableClassName('block-transform-handle', 'menu');
+const emptyClass = /*#__PURE__*/ stableClassName('block-transform-handle', 'empty');
+const statusClass = /*#__PURE__*/ stableClassName('block-transform-handle', 'status');
 
 function BlockTransformHandleInner({
   blocks,
@@ -598,11 +604,6 @@ function BlockTransformHandleInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('block-transform-handle', 'header');
-  const listClass = stableClassName('block-transform-handle', 'list');
-  const menuClass = stableClassName('block-transform-handle', 'menu');
-  const emptyClass = stableClassName('block-transform-handle', 'empty');
-  const statusClass = stableClassName('block-transform-handle', 'status');
 
   const blockCountText = `${currentBlocks.length} ${currentBlocks.length === 1 ? 'block' : 'blocks'}`;
 
@@ -1042,5 +1043,4 @@ function BlockTransformHandleInner({
   );
 }
 
-export const BlockTransformHandle = memo(BlockTransformHandleInner);
-BlockTransformHandle.displayName = 'BlockTransformHandle';
+export const BlockTransformHandle = /*#__PURE__*/ memoWithDisplayName(BlockTransformHandleInner, 'BlockTransformHandle');

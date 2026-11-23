@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useRef,
@@ -30,6 +29,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ExportCodec = 'h264' | 'prores-422' | 'av1' | 'wav-24bit';
@@ -332,6 +332,11 @@ function createCollisionSafeJobId(
   return candidate;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('export-render-queue', 'header');
+const formClass = /*#__PURE__*/ stableClassName('export-render-queue', 'preset-form');
+const listClass = /*#__PURE__*/ stableClassName('export-render-queue', 'list');
+const statusBarClass = /*#__PURE__*/ stableClassName('export-render-queue', 'status-bar');
+
 function ExportRenderQueueInner({
   jobs,
   defaultJobs,
@@ -558,10 +563,6 @@ function ExportRenderQueueInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('export-render-queue', 'header');
-  const formClass = stableClassName('export-render-queue', 'preset-form');
-  const listClass = stableClassName('export-render-queue', 'list');
-  const statusBarClass = stableClassName('export-render-queue', 'status-bar');
 
   const fieldControlClass =
     'prism-crystal prism-focus-ring h-9 w-full min-w-0 rounded-xl px-2.5 text-xs font-medium disabled:opacity-45 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]';
@@ -1093,5 +1094,4 @@ function ExportRenderQueueInner({
   );
 }
 
-export const ExportRenderQueue = memo(ExportRenderQueueInner);
-ExportRenderQueue.displayName = 'ExportRenderQueue';
+export const ExportRenderQueue = /*#__PURE__*/ memoWithDisplayName(ExportRenderQueueInner, 'ExportRenderQueue');

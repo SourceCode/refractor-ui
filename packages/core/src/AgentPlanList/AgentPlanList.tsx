@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import {
   AlertCircle,
   CheckCircle2,
@@ -17,6 +17,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AgentPlanStepStatus = 'pending' | 'active' | 'done' | 'skipped' | 'failed';
@@ -93,6 +94,11 @@ function getStepStatusVisual(status: AgentPlanStepStatus): PlanStatusVisual {
 function getNextToggledStatus(status: AgentPlanStepStatus): AgentPlanStepStatus {
   return status === 'done' ? 'pending' : 'done';
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('agent-plan-list', 'header');
+const progressClass = /*#__PURE__*/ stableClassName('agent-plan-list', 'progress');
+const listClass = /*#__PURE__*/ stableClassName('agent-plan-list', 'list');
+const footerClass = /*#__PURE__*/ stableClassName('agent-plan-list', 'footer');
 
 function AgentPlanListInner({
   steps,
@@ -187,10 +193,6 @@ function AgentPlanListInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('agent-plan-list', 'header');
-  const progressClass = stableClassName('agent-plan-list', 'progress');
-  const listClass = stableClassName('agent-plan-list', 'list');
-  const footerClass = stableClassName('agent-plan-list', 'footer');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -395,5 +397,4 @@ function AgentPlanListInner({
   );
 }
 
-export const AgentPlanList = memo(AgentPlanListInner);
-AgentPlanList.displayName = 'AgentPlanList';
+export const AgentPlanList = /*#__PURE__*/ memoWithDisplayName(AgentPlanListInner, 'AgentPlanList');

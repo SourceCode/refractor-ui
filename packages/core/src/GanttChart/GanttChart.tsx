@@ -1,12 +1,14 @@
 'use client';
 
-import { memo, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Users } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
+import { STYLE_BADGE_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type GanttScale = 'days' | 'weeks' | 'months';
@@ -659,7 +661,7 @@ function GanttChartInner({
                     data-dependency-layer="true"
                     width={timelineRange.widthPx}
                     height={totalBodyHeightPx}
-                    className="absolute inset-0 pointer-events-none overflow-visible z-[5]"
+                    className="absolute inset-0 pointer-events-none overflow-visible z-[5] prism-contain-leaf"
                   >
                     {dependencyEdges.map((edge) => (
                       <g key={edge.key}>
@@ -695,10 +697,7 @@ function GanttChartInner({
                     className="absolute top-0 bottom-0 w-0.5 pointer-events-none z-10"
                   >
                     <span
-                      style={{
-                        backgroundColor: 'var(--prism-primary-main)',
-                        color: 'var(--prism-primary-contrast)',
-                      }}
+                      style={STYLE_BADGE_PRIMARY}
                       className="absolute -top-0.5 -translate-x-1/2 px-1.5 py-0.5 rounded-full text-[9px] font-mono font-semibold uppercase tracking-wide whitespace-nowrap"
                     >
                       Today
@@ -769,5 +768,4 @@ function GanttChartInner({
   );
 }
 
-export const GanttChart = memo(GanttChartInner);
-GanttChart.displayName = 'GanttChart';
+export const GanttChart = /*#__PURE__*/ memoWithDisplayName(GanttChartInner, 'GanttChart');

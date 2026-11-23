@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ParallelTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -242,6 +242,12 @@ function truncateLabel(text: string, maxChars: number): string {
   }
   return `${text.slice(0, limit - 1)}…`;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('parallel-coordinates-plot', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('parallel-coordinates-plot', 'filters');
+const wellClass = /*#__PURE__*/ stableClassName('parallel-coordinates-plot', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('parallel-coordinates-plot', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('parallel-coordinates-plot', 'inspector');
 
 function ParallelCoordinatesPlotInner({
   axes,
@@ -563,11 +569,6 @@ function ParallelCoordinatesPlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('parallel-coordinates-plot', 'header');
-  const filtersClass = stableClassName('parallel-coordinates-plot', 'filters');
-  const wellClass = stableClassName('parallel-coordinates-plot', 'well');
-  const svgClass = stableClassName('parallel-coordinates-plot', 'svg');
-  const inspectorClass = stableClassName('parallel-coordinates-plot', 'inspector');
 
   const countBadgeText =
     resolvedActiveGroup !== null
@@ -683,7 +684,7 @@ function ParallelCoordinatesPlotInner({
               role="img"
               aria-label={`${title} parallel coordinates plot across ${computedAxes.length} axes and ${filteredRecords.length} records`}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block')}
+              className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
             >
               <g data-role="axis-rails">
                 {computedAxes.map((axis) => {
@@ -940,5 +941,4 @@ function ParallelCoordinatesPlotInner({
   );
 }
 
-export const ParallelCoordinatesPlot = memo(ParallelCoordinatesPlotInner);
-ParallelCoordinatesPlot.displayName = 'ParallelCoordinatesPlot';
+export const ParallelCoordinatesPlot = /*#__PURE__*/ memoWithDisplayName(ParallelCoordinatesPlotInner, 'ParallelCoordinatesPlot');

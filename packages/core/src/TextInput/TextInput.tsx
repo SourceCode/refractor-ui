@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useId, useState, type InputHTMLAttributes, type ReactNode } from 'react';
+import { useId, useState, type InputHTMLAttributes, type ReactNode } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type TextInputBaseProps = Omit<BaseProps<HTMLInputElement>, 'onChange'>;
@@ -149,5 +150,4 @@ function TextInputInner({
   );
 }
 
-export const TextInput = memo(TextInputInner);
-TextInput.displayName = 'TextInput';
+export const TextInput = /*#__PURE__*/ memoWithDisplayName(TextInputInner, 'TextInput');

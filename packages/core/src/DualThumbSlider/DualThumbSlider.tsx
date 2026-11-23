@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useRef,
   useState,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_PRIMARY, STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface DualThumbRange {
@@ -120,6 +120,12 @@ function normalizeRange(
 function getEventPointerId(event: ReactPointerEvent<HTMLDivElement>): number {
   return typeof event.pointerId === 'number' ? event.pointerId : 0;
 }
+
+const labelClass = /*#__PURE__*/ stableClassName('dual-thumb-slider', 'label');
+const readoutClass = /*#__PURE__*/ stableClassName('dual-thumb-slider', 'readout');
+const trackClass = /*#__PURE__*/ stableClassName('dual-thumb-slider', 'track');
+const fillClass = /*#__PURE__*/ stableClassName('dual-thumb-slider', 'fill');
+const thumbClass = /*#__PURE__*/ stableClassName('dual-thumb-slider', 'thumb');
 
 function DualThumbSliderInner({
   value,
@@ -332,7 +338,7 @@ function DualThumbSliderInner({
       disabled,
       dragging: isDragging,
     }),
-    baseClassName: 'w-full select-none',
+    baseClassName: 'prism-contain-leaf w-full select-none',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -340,11 +346,6 @@ function DualThumbSliderInner({
     userStyle: style,
   });
 
-  const labelClass = stableClassName('dual-thumb-slider', 'label');
-  const readoutClass = stableClassName('dual-thumb-slider', 'readout');
-  const trackClass = stableClassName('dual-thumb-slider', 'track');
-  const fillClass = stableClassName('dual-thumb-slider', 'fill');
-  const thumbClass = stableClassName('dual-thumb-slider', 'thumb');
 
   const minThumbZ =
     activeThumb === 'min' || (low === high && lowPct >= 50) ? 'z-30' : 'z-10';
@@ -482,5 +483,4 @@ function DualThumbSliderInner({
   );
 }
 
-export const DualThumbSlider = memo(DualThumbSliderInner);
-DualThumbSlider.displayName = 'DualThumbSlider';
+export const DualThumbSlider = /*#__PURE__*/ memoWithDisplayName(DualThumbSliderInner, 'DualThumbSlider');

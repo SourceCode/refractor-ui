@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Braces, Code2, Trash2 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, isSafeObjectKey } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type QueryCombinator = 'AND' | 'OR';
@@ -330,6 +331,10 @@ export function formatQueryExpression(
   return formatQueryNode(node, fieldMap, 0);
 }
 
+const groupClass = /*#__PURE__*/ stableClassName('visual-query-builder', 'group');
+const ruleClass = /*#__PURE__*/ stableClassName('visual-query-builder', 'rule');
+const previewClass = /*#__PURE__*/ stableClassName('visual-query-builder', 'preview');
+
 function VisualQueryBuilderInner({
   fields,
   value,
@@ -524,9 +529,6 @@ function VisualQueryBuilderInner({
     userStyle: style,
   });
 
-  const groupClass = stableClassName('visual-query-builder', 'group');
-  const ruleClass = stableClassName('visual-query-builder', 'rule');
-  const previewClass = stableClassName('visual-query-builder', 'preview');
 
   const renderRuleRow = (rule: QueryRuleNode) => {
     const isFieldValid = isSafeObjectKey(rule.field) && fieldMap.has(rule.field);
@@ -823,5 +825,4 @@ function VisualQueryBuilderInner({
   );
 }
 
-export const VisualQueryBuilder = memo(VisualQueryBuilderInner);
-VisualQueryBuilder.displayName = 'VisualQueryBuilder';
+export const VisualQueryBuilder = /*#__PURE__*/ memoWithDisplayName(VisualQueryBuilderInner, 'VisualQueryBuilder');

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_ERROR_MAIN, STYLE_FILL_PRIMARY, STYLE_FILL_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TopologyNodeKind = 'gateway' | 'service' | 'database' | 'queue' | 'cache';
@@ -552,6 +552,10 @@ function buildTopologyLayout(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('service-topology-map', 'header');
+const canvasClass = /*#__PURE__*/ stableClassName('service-topology-map', 'canvas');
+const inspectorClass = /*#__PURE__*/ stableClassName('service-topology-map', 'inspector');
+
 function ServiceTopologyMapInner({
   nodes = DEFAULT_TOPOLOGY_NODES,
   edges = DEFAULT_TOPOLOGY_EDGES,
@@ -686,9 +690,6 @@ function ServiceTopologyMapInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('service-topology-map', 'header');
-  const canvasClass = stableClassName('service-topology-map', 'canvas');
-  const inspectorClass = stableClassName('service-topology-map', 'inspector');
 
   const arrowHealthyId = `${markerPrefix}-arrow-healthy`;
   const arrowDegradedId = `${markerPrefix}-arrow-degraded`;
@@ -809,7 +810,7 @@ function ServiceTopologyMapInner({
               aria-labelledby={headingId}
               data-testid="topology-svg"
               viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
-              className="w-full h-auto select-none block"
+              className="w-full h-auto select-none block prism-contain-box"
             >
               <defs>
                 <marker
@@ -1319,5 +1320,4 @@ function ServiceTopologyMapInner({
   );
 }
 
-export const ServiceTopologyMap = memo(ServiceTopologyMapInner);
-ServiceTopologyMap.displayName = 'ServiceTopologyMap';
+export const ServiceTopologyMap = /*#__PURE__*/ memoWithDisplayName(ServiceTopologyMapInner, 'ServiceTopologyMap');

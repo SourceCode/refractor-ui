@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -22,11 +21,13 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type JoystickControlMode = 'analog' | 'dpad';
@@ -228,6 +229,12 @@ function formatSignedAxis(value: number): string {
   return value > 0 ? `+${value.toFixed(2)}` : value.toFixed(2);
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('virtual-joystick-pad', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('virtual-joystick-pad', 'stage');
+const gimbalClass = /*#__PURE__*/ stableClassName('virtual-joystick-pad', 'gimbal');
+const dpadClass = /*#__PURE__*/ stableClassName('virtual-joystick-pad', 'dpad');
+const footerClass = /*#__PURE__*/ stableClassName('virtual-joystick-pad', 'footer');
+
 function VirtualJoystickPadInner({
   title = DEFAULT_TITLE,
   value,
@@ -389,11 +396,12 @@ function VirtualJoystickPadInner({
 
       applyPoint(event.clientX, event.clientY);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         applyPoint(moveEvent.clientX, moveEvent.clientY);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -556,11 +564,6 @@ function VirtualJoystickPadInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('virtual-joystick-pad', 'header');
-  const stageClass = stableClassName('virtual-joystick-pad', 'stage');
-  const gimbalClass = stableClassName('virtual-joystick-pad', 'gimbal');
-  const dpadClass = stableClassName('virtual-joystick-pad', 'dpad');
-  const footerClass = stableClassName('virtual-joystick-pad', 'footer');
 
   const isDirActive = (dir: JoystickCardinalDirection) =>
     pressedDpadDir === dir || currentVector.direction === dir;
@@ -719,7 +722,7 @@ function VirtualJoystickPadInner({
               viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
               aria-hidden="true"
               data-testid="joystick-svg"
-              className="w-full max-w-[240px] h-auto mx-auto select-none block overflow-visible pointer-events-none"
+              className="w-full max-w-[240px] h-auto mx-auto select-none block overflow-visible pointer-events-none prism-contain-leaf"
             >
               <defs>
                 <radialGradient id={wellGradId} cx="50%" cy="46%" r="54%">
@@ -1191,5 +1194,4 @@ function VirtualJoystickPadInner({
   );
 }
 
-export const VirtualJoystickPad = memo(VirtualJoystickPadInner);
-VirtualJoystickPad.displayName = 'VirtualJoystickPad';
+export const VirtualJoystickPad = /*#__PURE__*/ memoWithDisplayName(VirtualJoystickPadInner, 'VirtualJoystickPad');

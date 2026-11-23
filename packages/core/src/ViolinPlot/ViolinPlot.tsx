@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -16,6 +15,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ViolinTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'info';
@@ -336,6 +336,12 @@ export function computeGaussianKde(
   return { bandwidth, bins, maxDensity };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('violin-plot', 'header');
+const canvasClass = /*#__PURE__*/ stableClassName('violin-plot', 'canvas');
+const svgClass = /*#__PURE__*/ stableClassName('violin-plot', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('violin-plot', 'inspector');
+const emptyClass = /*#__PURE__*/ stableClassName('violin-plot', 'empty');
+
 function ViolinPlotInner({
   series,
   unit = 'ms',
@@ -570,11 +576,6 @@ function ViolinPlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('violin-plot', 'header');
-  const canvasClass = stableClassName('violin-plot', 'canvas');
-  const svgClass = stableClassName('violin-plot', 'svg');
-  const inspectorClass = stableClassName('violin-plot', 'inspector');
-  const emptyClass = stableClassName('violin-plot', 'empty');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -647,7 +648,7 @@ function ViolinPlotInner({
               aria-label={`${title} Gaussian KDE violin plot across ${geometry.glyphs.length} groups`}
               data-testid="violin-svg"
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block overflow-visible')}
+              className={cx(svgClass, 'w-full h-auto select-none block overflow-visible', 'prism-contain-leaf')}
             >
               <defs>
                 {TONE_CYCLE.map((tone) => {
@@ -835,5 +836,4 @@ function ViolinPlotInner({
   );
 }
 
-export const ViolinPlot = memo(ViolinPlotInner);
-ViolinPlot.displayName = 'ViolinPlot';
+export const ViolinPlot = /*#__PURE__*/ memoWithDisplayName(ViolinPlotInner, 'ViolinPlot');

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
@@ -8,6 +8,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
+import { STYLE_TEXT_PRIMARY } from '../utils/styles';
 import { themeProps } from '../utils/themeProps';
 
 export type ComboSplitTone = 'primary' | 'secondary';
@@ -88,6 +90,13 @@ function getSizeClasses(size: ComboSplitSize): SizeScaleClasses {
       };
   }
 }
+
+const groupClass = /*#__PURE__*/ stableClassName('combo-split-button', 'group');
+const primaryClass = /*#__PURE__*/ stableClassName('combo-split-button', 'primary');
+const dividerClass = /*#__PURE__*/ stableClassName('combo-split-button', 'divider');
+const triggerClass = /*#__PURE__*/ stableClassName('combo-split-button', 'trigger');
+const menuClass = /*#__PURE__*/ stableClassName('combo-split-button', 'menu');
+const itemClass = /*#__PURE__*/ stableClassName('combo-split-button', 'item');
 
 function ComboSplitButtonInner({
   label,
@@ -254,12 +263,6 @@ function ComboSplitButtonInner({
     userStyle: style,
   });
 
-  const groupClass = stableClassName('combo-split-button', 'group');
-  const primaryClass = stableClassName('combo-split-button', 'primary');
-  const dividerClass = stableClassName('combo-split-button', 'divider');
-  const triggerClass = stableClassName('combo-split-button', 'trigger');
-  const menuClass = stableClassName('combo-split-button', 'menu');
-  const itemClass = stableClassName('combo-split-button', 'item');
 
   return (
     <div ref={mergedRef} onKeyDown={handleKeyDown} {...rest} {...merged}>
@@ -378,9 +381,7 @@ function ComboSplitButtonInner({
                         color: 'var(--prism-rose-text, var(--prism-error-main))',
                         borderColor: 'var(--prism-rose-border, transparent)',
                       }
-                    : {
-                        color: 'var(--prism-text-primary)',
-                      }
+                    : STYLE_TEXT_PRIMARY
                 }
               >
                 {action.icon ? (
@@ -425,5 +426,4 @@ function ComboSplitButtonInner({
   );
 }
 
-export const ComboSplitButton = memo(ComboSplitButtonInner);
-ComboSplitButton.displayName = 'ComboSplitButton';
+export const ComboSplitButton = /*#__PURE__*/ memoWithDisplayName(ComboSplitButtonInner, 'ComboSplitButton');

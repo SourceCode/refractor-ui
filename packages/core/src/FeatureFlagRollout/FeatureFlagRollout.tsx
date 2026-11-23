@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, useState } from 'react';
+import { useCallback, useId, useMemo, useState } from 'react';
 import {
   Flag,
   Plus,
@@ -16,7 +16,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_ERROR_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_ERROR_BORDER_TEXT, STYLE_ERROR_MAIN, STYLE_PRIMARY_CONTRAST, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type FeatureFlagEnvId = 'dev' | 'staging' | 'prod';
@@ -249,6 +250,13 @@ function buildSummaryText(
   return `Status: ${statusLabel} · Active envs: ${envSummary} · Prod rollout: ${state.rolloutPct}% · Rules: ${enabledRulesCount}/${state.audienceRules.length} enabled`;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('feature-flag-rollout', 'header');
+const killNoticeClass = /*#__PURE__*/ stableClassName('feature-flag-rollout', 'kill-notice');
+const environmentsClass = /*#__PURE__*/ stableClassName('feature-flag-rollout', 'environments');
+const rolloutClass = /*#__PURE__*/ stableClassName('feature-flag-rollout', 'rollout');
+const audienceClass = /*#__PURE__*/ stableClassName('feature-flag-rollout', 'audience');
+const footerClass = /*#__PURE__*/ stableClassName('feature-flag-rollout', 'footer');
+
 function FeatureFlagRolloutInner({
   flagKey = DEFAULT_FLAG_KEY,
   title = DEFAULT_TITLE,
@@ -444,12 +452,6 @@ function FeatureFlagRolloutInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('feature-flag-rollout', 'header');
-  const killNoticeClass = stableClassName('feature-flag-rollout', 'kill-notice');
-  const environmentsClass = stableClassName('feature-flag-rollout', 'environments');
-  const rolloutClass = stableClassName('feature-flag-rollout', 'rollout');
-  const audienceClass = stableClassName('feature-flag-rollout', 'audience');
-  const footerClass = stableClassName('feature-flag-rollout', 'footer');
 
   return (
     <div
@@ -554,10 +556,7 @@ function FeatureFlagRolloutInner({
             killNoticeClass,
             'prism-well rounded-2xl border px-3.5 py-2.5 flex items-start gap-2.5 min-w-0'
           )}
-          style={{
-            borderColor: 'var(--prism-error-main)',
-            color: 'var(--prism-error-main)',
-          }}
+          style={STYLE_ERROR_BORDER_TEXT}
         >
           <ShieldAlert aria-hidden="true" className="w-4 h-4 shrink-0 mt-0.5" />
           <p className="text-xs font-medium leading-relaxed break-words">
@@ -752,8 +751,8 @@ function FeatureFlagRolloutInner({
                 )}
                 style={
                   isSelected
-                    ? { color: 'var(--prism-primary-contrast)' }
-                    : { color: 'var(--prism-text-primary)' }
+                    ? STYLE_PRIMARY_CONTRAST
+                    : STYLE_TEXT_PRIMARY
                 }
               >
                 <span className="relative z-10">{preset}%</span>
@@ -940,5 +939,4 @@ function FeatureFlagRolloutInner({
   );
 }
 
-export const FeatureFlagRollout = memo(FeatureFlagRolloutInner);
-FeatureFlagRollout.displayName = 'FeatureFlagRollout';
+export const FeatureFlagRollout = /*#__PURE__*/ memoWithDisplayName(FeatureFlagRolloutInner, 'FeatureFlagRollout');

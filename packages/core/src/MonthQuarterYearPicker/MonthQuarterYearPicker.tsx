@@ -1,13 +1,14 @@
 'use client';
 
-import { memo, useCallback, useId, useMemo, useState } from 'react';
+import { useCallback, useId, useMemo, useState } from 'react';
 import { CalendarRange, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type PeriodGranularity = 'month' | 'quarter' | 'year';
@@ -368,7 +369,7 @@ function MonthQuarterYearPickerInner({
                     isSelected ? 'prism-btn-primary' : 'prism-crystal',
                     'prism-focus-ring flex-1 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
                   )}
-                  style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
+                  style={isSelected ? undefined : STYLE_TEXT_PRIMARY}
                 >
                   <span className="relative z-10">{getGranularityLabel(granularity)}</span>
                 </button>
@@ -438,7 +439,7 @@ function MonthQuarterYearPickerInner({
                   isSelected ? 'prism-btn-primary' : 'prism-crystal',
                   'prism-focus-ring h-10 rounded-xl text-xs font-semibold cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
                 )}
-                style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
+                style={isSelected ? undefined : STYLE_TEXT_PRIMARY}
               >
                 <span className="relative z-10">{item.label}</span>
               </button>
@@ -470,14 +471,14 @@ function MonthQuarterYearPickerInner({
                   isSelected ? 'prism-btn-primary' : 'prism-crystal',
                   'prism-focus-ring px-3 py-3 rounded-2xl flex flex-col items-center justify-center gap-0.5 cursor-pointer enabled:hover:brightness-105 disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
                 )}
-                style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
+                style={isSelected ? undefined : STYLE_TEXT_PRIMARY}
               >
                 <span className="relative z-10 text-sm font-bold font-mono tabular-nums">
                   {item.code}
                 </span>
                 <span
                   className="relative z-10 text-[11px] font-medium"
-                  style={isSelected ? undefined : { color: 'var(--prism-text-secondary)' }}
+                  style={isSelected ? undefined : STYLE_TEXT_SECONDARY}
                 >
                   {item.range}
                 </span>
@@ -530,5 +531,4 @@ function MonthQuarterYearPickerInner({
   );
 }
 
-export const MonthQuarterYearPicker = memo(MonthQuarterYearPickerInner);
-MonthQuarterYearPicker.displayName = 'MonthQuarterYearPicker';
+export const MonthQuarterYearPicker = /*#__PURE__*/ memoWithDisplayName(MonthQuarterYearPickerInner, 'MonthQuarterYearPicker');

@@ -18,16 +18,51 @@ export type MergedStyleProps = {
   style?: OpticalStyleTokens;
 } & Record<`data-${string}`, string | undefined>;
 
+function fastTrim(value: string): string {
+  const len = value.length;
+  if (len === 0) return '';
+  if (value.charCodeAt(0) > 32 && value.charCodeAt(len - 1) > 32) {
+    return value;
+  }
+  return value.trim();
+}
+
+function joinClass4(
+  a?: string,
+  b?: string,
+  c?: string,
+  d?: string
+): string {
+  let out = '';
+  if (a) {
+    const t = fastTrim(a);
+    if (t) out = t;
+  }
+  if (b) {
+    const t = fastTrim(b);
+    if (t) out = out ? `${out} ${t}` : t;
+  }
+  if (c) {
+    const t = fastTrim(c);
+    if (t) out = out ? `${out} ${t}` : t;
+  }
+  if (d) {
+    const t = fastTrim(d);
+    if (t) out = out ? `${out} ${t}` : t;
+  }
+  return out;
+}
+
 /**
  * Joins CSS class tokens while dropping falsy entries in a single pass
- * without allocating an intermediate array.
+ * without allocating an intermediate array or trimming clean strings.
  */
 export function cx(...tokens: Array<string | false | null | undefined>): string {
   let out = '';
   for (let i = 0; i < tokens.length; i += 1) {
     const token = tokens[i];
     if (!token) continue;
-    const trimmed = token.trim();
+    const trimmed = fastTrim(token);
     if (!trimmed) continue;
     out = out ? `${out} ${trimmed}` : trimmed;
   }
@@ -37,7 +72,8 @@ export function cx(...tokens: Array<string | false | null | undefined>): string 
 /**
  * Merges theme targets, base optical glass classes, theme component overrides,
  * `xstyle`, and consumer `className`/`style` in a single allocation-minimized pass.
- * Preserves referential identity when at most one style object is provided.
+ * Avoids rest-array allocation in class merging and preserves referential identity
+ * when at most one style object is provided.
  */
 export function mergeProps(input: MergePropsInput): MergedStyleProps {
   const {
@@ -51,7 +87,7 @@ export function mergeProps(input: MergePropsInput): MergedStyleProps {
     userStyle,
   } = input;
 
-  const className = cx(
+  const className = joinClass4(
     themeTarget?.className,
     baseClassName,
     overrideClassName,

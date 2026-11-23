@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   Fragment,
   useCallback,
   useEffect,
@@ -13,11 +12,13 @@ import {
   type ReactNode,
 } from 'react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowSplitterOrientation = 'horizontal' | 'vertical';
@@ -195,6 +196,9 @@ function resizeAdjacentPair(
   return next;
 }
 
+const paneClass = /*#__PURE__*/ stableClassName('window-splitter', 'pane');
+const separatorClass = /*#__PURE__*/ stableClassName('window-splitter', 'separator');
+
 function WindowSplitterInner({
   panes,
   orientation = 'horizontal',
@@ -274,7 +278,7 @@ function WindowSplitterInner({
       const startSizes = [...currentSizes];
       setActiveDragIndex(index);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const container = containerRef.current;
         if (!container) return;
         const rect = container.getBoundingClientRect();
@@ -296,9 +300,10 @@ function WindowSplitterInner({
           livePanes.length
         );
         liveCommit(nextSizes);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -425,8 +430,6 @@ function WindowSplitterInner({
     userStyle: style,
   });
 
-  const paneClass = stableClassName('window-splitter', 'pane');
-  const separatorClass = stableClassName('window-splitter', 'separator');
   const paneEntries = panes.map((pane, index) => ({
     pane,
     sizePct: currentSizes[index] ?? 100,
@@ -539,5 +542,4 @@ function WindowSplitterInner({
   );
 }
 
-export const WindowSplitter = memo(WindowSplitterInner);
-WindowSplitter.displayName = 'WindowSplitter';
+export const WindowSplitter = /*#__PURE__*/ memoWithDisplayName(WindowSplitterInner, 'WindowSplitter');

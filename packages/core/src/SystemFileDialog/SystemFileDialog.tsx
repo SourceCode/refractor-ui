@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -38,7 +37,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN, compareNaturalStrings } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN, compareNaturalStrings } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SystemFileDialogMode = 'inline' | 'modal';
@@ -586,6 +586,15 @@ function renderNodeIcon(node: SystemFileNode): ReactNode {
     />
   );
 }
+
+const panelClass = /*#__PURE__*/ stableClassName('system-file-dialog', 'panel');
+const headerClass = /*#__PURE__*/ stableClassName('system-file-dialog', 'header');
+const toolbarClass = /*#__PURE__*/ stableClassName('system-file-dialog', 'toolbar');
+const bodyClass = /*#__PURE__*/ stableClassName('system-file-dialog', 'body');
+const sidebarClass = /*#__PURE__*/ stableClassName('system-file-dialog', 'sidebar');
+const browserClass = /*#__PURE__*/ stableClassName('system-file-dialog', 'browser');
+const footerClass = /*#__PURE__*/ stableClassName('system-file-dialog', 'footer');
+const statusClass = /*#__PURE__*/ stableClassName('system-file-dialog', 'status');
 
 function SystemFileDialogInner({
   mode = 'inline',
@@ -1294,14 +1303,6 @@ function SystemFileDialogInner({
     userStyle: style,
   });
 
-  const panelClass = stableClassName('system-file-dialog', 'panel');
-  const headerClass = stableClassName('system-file-dialog', 'header');
-  const toolbarClass = stableClassName('system-file-dialog', 'toolbar');
-  const bodyClass = stableClassName('system-file-dialog', 'body');
-  const sidebarClass = stableClassName('system-file-dialog', 'sidebar');
-  const browserClass = stableClassName('system-file-dialog', 'browser');
-  const footerClass = stableClassName('system-file-dialog', 'footer');
-  const statusClass = stableClassName('system-file-dialog', 'status');
 
   const itemCountLabel = `${visibleEntries.length} ${
     visibleEntries.length === 1 ? 'item' : 'items'
@@ -1704,10 +1705,7 @@ function SystemFileDialogInner({
           <div
             aria-hidden="true"
             className="flex items-center gap-2 px-3 py-2 text-[10px] font-mono uppercase tracking-wider border-b min-w-0"
-            style={{
-              color: 'var(--prism-text-secondary)',
-              borderColor: 'var(--prism-divider)',
-            }}
+            style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
           >
             <span className="flex-1 min-w-0 truncate">Name</span>
             <span className="hidden sm:inline-block w-24 text-right shrink-0">
@@ -2065,5 +2063,4 @@ function SystemFileDialogInner({
   );
 }
 
-export const SystemFileDialog = memo(SystemFileDialogInner);
-SystemFileDialog.displayName = 'SystemFileDialog';
+export const SystemFileDialog = /*#__PURE__*/ memoWithDisplayName(SystemFileDialogInner, 'SystemFileDialog');

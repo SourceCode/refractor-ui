@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { ArrowUp, Mic, MicOff, Paperclip, Sparkles, Square } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface PromptModelOption {
@@ -238,7 +239,7 @@ function PromptComposerInner({
             className={`${
               isRecording ? 'prism-emerald' : 'prism-crystal'
             } prism-focus-ring h-8 px-2.5 rounded-full inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed enabled:hover:brightness-105 transition-[color,background-color,border-color,opacity,transform]`}
-            style={isRecording ? undefined : { color: 'var(--prism-text-primary)' }}
+            style={isRecording ? undefined : STYLE_TEXT_PRIMARY}
           >
             {isRecording ? (
               <MicOff aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -328,5 +329,4 @@ function PromptComposerInner({
   );
 }
 
-export const PromptComposer = memo(PromptComposerInner);
-PromptComposer.displayName = 'PromptComposer';
+export const PromptComposer = /*#__PURE__*/ memoWithDisplayName(PromptComposerInner, 'PromptComposer');

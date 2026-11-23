@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface PrismCardProps extends BaseProps<HTMLElement> {
@@ -95,5 +95,4 @@ function PrismCardInner({
   );
 }
 
-export const PrismCard = memo(PrismCardInner);
-PrismCard.displayName = 'PrismCard';
+export const PrismCard = /*#__PURE__*/ memoWithDisplayName(PrismCardInner, 'PrismCard');

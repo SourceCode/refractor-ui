@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -14,12 +13,14 @@ import {
 } from 'react';
 import { RotateCcw, Spline } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ToneCurveChannel = 'luma' | 'red' | 'green' | 'blue';
@@ -410,6 +411,13 @@ function buildHistogramBars(rawHistogram: ReadonlyArray<number> | undefined): Hi
   });
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('tone-curve-editor', 'header');
+const channelsClass = /*#__PURE__*/ stableClassName('tone-curve-editor', 'channels');
+const presetsClass = /*#__PURE__*/ stableClassName('tone-curve-editor', 'presets');
+const graphClass = /*#__PURE__*/ stableClassName('tone-curve-editor', 'graph');
+const pointClass = /*#__PURE__*/ stableClassName('tone-curve-editor', 'point');
+const readoutClass = /*#__PURE__*/ stableClassName('tone-curve-editor', 'readout');
+
 function ToneCurveEditorInner({
   curves,
   defaultCurves,
@@ -594,7 +602,7 @@ function ToneCurveEditorInner({
       const pointerId = event.pointerId;
       setDraggingPointId(pointId);
 
-      const handleWindowPointerMove = (moveEvent: PointerEvent) => {
+      const handleWindowPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (moveEvent.pointerId !== pointerId) return;
         const rect = getSvgRect();
         if (!rect) return;
@@ -602,9 +610,10 @@ function ToneCurveEditorInner({
         const svgY = ((moveEvent.clientY - rect.top) / rect.height) * SVG_SIZE;
         const { x, y } = svgToLevel(svgX, svgY);
         latestRef.current.movePoint(pointId, x, y);
-      };
+      });
 
       const cleanup = () => {
+        handleWindowPointerMove.cancel();
         window.removeEventListener('pointermove', handleWindowPointerMove);
         window.removeEventListener('pointerup', handleWindowPointerEnd);
         window.removeEventListener('pointercancel', handleWindowPointerEnd);
@@ -668,12 +677,6 @@ function ToneCurveEditorInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('tone-curve-editor', 'header');
-  const channelsClass = stableClassName('tone-curve-editor', 'channels');
-  const presetsClass = stableClassName('tone-curve-editor', 'presets');
-  const graphClass = stableClassName('tone-curve-editor', 'graph');
-  const pointClass = stableClassName('tone-curve-editor', 'point');
-  const readoutClass = stableClassName('tone-curve-editor', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -760,7 +763,7 @@ function ToneCurveEditorInner({
                       ? 'prism-btn-primary'
                       : 'prism-crystal opacity-85 enabled:hover:opacity-100'
                   )}
-                  style={isActive ? undefined : { color: 'var(--prism-text-primary)' }}
+                  style={isActive ? undefined : STYLE_TEXT_PRIMARY}
                 >
                   <span className="relative z-10">{preset.label}</span>
                 </button>
@@ -796,7 +799,7 @@ function ToneCurveEditorInner({
           viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
           onClick={handleSvgClick}
           className={cx(
-            'w-full h-auto max-w-[300px] block overflow-visible select-none touch-none',
+            'w-full h-auto max-w-[300px] block overflow-visible select-none touch-none prism-contain-leaf',
             disabled || activePoints.length >= MAX_POINTS ? 'cursor-default' : 'cursor-crosshair'
           )}
           style={{ touchAction: 'none' }}
@@ -975,5 +978,4 @@ function ToneCurveEditorInner({
   );
 }
 
-export const ToneCurveEditor = memo(ToneCurveEditorInner);
-ToneCurveEditor.displayName = 'ToneCurveEditor';
+export const ToneCurveEditor = /*#__PURE__*/ memoWithDisplayName(ToneCurveEditorInner, 'ToneCurveEditor');

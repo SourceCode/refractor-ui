@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { formatLocaleNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type OpticalChartMode = 'bar' | 'line' | 'donut';
@@ -157,7 +158,7 @@ function OpticalChartsInner({
             role="img"
             aria-label={`${title} line chart`}
             viewBox="0 0 400 140"
-            className="w-full h-full overflow-visible"
+            className="w-full h-full overflow-visible prism-contain-leaf"
           >
             <defs>
               <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -229,7 +230,7 @@ function OpticalChartsInner({
             role="img"
             aria-label={`${title} donut chart`}
             viewBox="0 0 120 120"
-            className="w-36 h-36 -rotate-90"
+            className="w-36 h-36 -rotate-90 prism-contain-box"
           >
             {(() => {
               let cumulative = 0;
@@ -286,5 +287,4 @@ function OpticalChartsInner({
   );
 }
 
-export const OpticalCharts = memo(OpticalChartsInner);
-OpticalCharts.displayName = 'OpticalCharts';
+export const OpticalCharts = /*#__PURE__*/ memoWithDisplayName(OpticalChartsInner, 'OpticalCharts');

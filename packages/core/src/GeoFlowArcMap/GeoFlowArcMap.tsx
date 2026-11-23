@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type GeoFlowTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -242,6 +242,10 @@ function resolveFlowTone(tone: GeoFlowTone | undefined, fallbackTone: GeoFlowTon
   }
   return fallbackTone;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('geo-flow-arc-map', 'header');
+const svgClass = /*#__PURE__*/ stableClassName('geo-flow-arc-map', 'svg');
+const readoutClass = /*#__PURE__*/ stableClassName('geo-flow-arc-map', 'readout');
 
 function GeoFlowArcMapInner({
   hubs,
@@ -551,9 +555,6 @@ function GeoFlowArcMapInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('geo-flow-arc-map', 'header');
-  const svgClass = stableClassName('geo-flow-arc-map', 'svg');
-  const readoutClass = stableClassName('geo-flow-arc-map', 'readout');
 
   return (
     <div ref={ref} role="region" aria-labelledby={headingId} {...rest} {...merged}>
@@ -609,7 +610,7 @@ function GeoFlowArcMapInner({
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
               preserveAspectRatio="xMidYMid meet"
               style={{ height: `${clampedHeight}px` }}
-              className={cx(svgClass, 'w-full block')}
+              className={cx(svgClass, 'w-full block', 'prism-contain-box')}
             >
               {/* Equirectangular Graticule Grid */}
               <g data-role="geo-flow-graticule" pointerEvents="none">
@@ -859,5 +860,4 @@ function GeoFlowArcMapInner({
   );
 }
 
-export const GeoFlowArcMap = memo(GeoFlowArcMapInner);
-GeoFlowArcMap.displayName = 'GeoFlowArcMap';
+export const GeoFlowArcMap = /*#__PURE__*/ memoWithDisplayName(GeoFlowArcMapInner, 'GeoFlowArcMap');

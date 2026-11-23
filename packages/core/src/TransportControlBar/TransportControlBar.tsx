@@ -1,13 +1,14 @@
 'use client';
 
-import { memo, useCallback, type KeyboardEvent } from 'react';
+import { useCallback, type KeyboardEvent } from 'react';
 import { Circle, Pause, Play, Repeat, SkipBack, SkipForward, Square } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type TransportPlaybackState = 'stopped' | 'playing' | 'paused' | 'recording';
@@ -76,6 +77,9 @@ function getPlaybackStateVisualMeta(state: TransportPlaybackState): PlaybackStat
       };
   }
 }
+
+const controlsGroupClass = /*#__PURE__*/ stableClassName('transport-control-bar', 'controls');
+const statusGroupClass = /*#__PURE__*/ stableClassName('transport-control-bar', 'status');
 
 function TransportControlBarInner({
   playbackState,
@@ -203,8 +207,6 @@ function TransportControlBarInner({
     userStyle: style,
   });
 
-  const controlsGroupClass = stableClassName('transport-control-bar', 'controls');
-  const statusGroupClass = stableClassName('transport-control-bar', 'status');
 
   return (
     <div
@@ -243,7 +245,7 @@ function TransportControlBarInner({
               : 'prism-crystal font-medium enabled:hover:brightness-105',
             'prism-focus-ring h-9 px-3.5 rounded-full inline-flex items-center justify-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
           )}
-          style={isPlaying ? undefined : { color: 'var(--prism-text-primary)' }}
+          style={isPlaying ? undefined : STYLE_TEXT_PRIMARY}
         >
           {isPlaying ? (
             <>
@@ -286,7 +288,7 @@ function TransportControlBarInner({
                     color: 'var(--prism-error-main)',
                     boxShadow: 'inset 0 0 0 1.5px var(--prism-error-main)',
                   }
-                : { color: 'var(--prism-text-primary)' }
+                : STYLE_TEXT_PRIMARY
             }
           >
             <Circle
@@ -315,7 +317,7 @@ function TransportControlBarInner({
               : 'prism-crystal font-medium enabled:hover:brightness-105',
             'prism-focus-ring h-9 px-3 rounded-full inline-flex items-center justify-center gap-1.5 text-xs whitespace-nowrap shrink-0 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-[color,background-color,border-color,opacity,transform]'
           )}
-          style={isLooping ? undefined : { color: 'var(--prism-text-primary)' }}
+          style={isLooping ? undefined : STYLE_TEXT_PRIMARY}
         >
           <Repeat aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
           <span>Loop</span>
@@ -364,10 +366,7 @@ function TransportControlBarInner({
           <span
             data-testid="transport-status-label"
             className="text-xs font-medium truncate max-w-full pl-2 border-l"
-            style={{
-              color: 'var(--prism-text-secondary)',
-              borderColor: 'var(--prism-divider)',
-            }}
+            style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
           >
             {statusLabel}
           </span>
@@ -386,5 +385,4 @@ function TransportControlBarInner({
   );
 }
 
-export const TransportControlBar = memo(TransportControlBarInner);
-TransportControlBar.displayName = 'TransportControlBar';
+export const TransportControlBar = /*#__PURE__*/ memoWithDisplayName(TransportControlBarInner, 'TransportControlBar');

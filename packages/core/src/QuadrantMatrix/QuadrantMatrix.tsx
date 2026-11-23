@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_FILL_PRIMARY, STYLE_FILL_SECONDARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type QuadrantZoneId = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
@@ -298,6 +298,12 @@ function projectY(y: number): number {
   return roundTwo(PAD_TOP + ((100 - y) / 100) * PLOT_HEIGHT);
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('quadrant-matrix', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('quadrant-matrix', 'filters');
+const canvasClass = /*#__PURE__*/ stableClassName('quadrant-matrix', 'canvas');
+const svgClass = /*#__PURE__*/ stableClassName('quadrant-matrix', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('quadrant-matrix', 'inspector');
+
 function QuadrantMatrixInner({
   items,
   xLabel = 'Implementation Effort',
@@ -546,11 +552,6 @@ function QuadrantMatrixInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('quadrant-matrix', 'header');
-  const filtersClass = stableClassName('quadrant-matrix', 'filters');
-  const canvasClass = stableClassName('quadrant-matrix', 'canvas');
-  const svgClass = stableClassName('quadrant-matrix', 'svg');
-  const inspectorClass = stableClassName('quadrant-matrix', 'inspector');
 
   const totalCountLabel =
     plottedItems.length === 1 ? '1 initiative' : `${plottedItems.length} initiatives`;
@@ -666,7 +667,7 @@ function QuadrantMatrixInner({
               aria-label={`${title} plotting ${visibleItems.length} of ${plottedItems.length} initiatives across ${resolvedLabels.topLeft}, ${resolvedLabels.topRight}, ${resolvedLabels.bottomLeft}, and ${resolvedLabels.bottomRight}`}
               data-testid="quadrant-matrix-svg"
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block')}
+              className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
             >
               <defs>
                 <clipPath id={plotClipId}>
@@ -986,5 +987,4 @@ function QuadrantMatrixInner({
   );
 }
 
-export const QuadrantMatrix = memo(QuadrantMatrixInner);
-QuadrantMatrix.displayName = 'QuadrantMatrix';
+export const QuadrantMatrix = /*#__PURE__*/ memoWithDisplayName(QuadrantMatrixInner, 'QuadrantMatrix');

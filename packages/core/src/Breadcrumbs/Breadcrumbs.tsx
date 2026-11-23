@@ -1,10 +1,10 @@
 'use client';
 
-import { memo } from 'react';
 
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface BreadcrumbCrumb {
@@ -77,5 +77,4 @@ function BreadcrumbsInner({
   );
 }
 
-export const Breadcrumbs = memo(BreadcrumbsInner);
-Breadcrumbs.displayName = 'Breadcrumbs';
+export const Breadcrumbs = /*#__PURE__*/ memoWithDisplayName(BreadcrumbsInner, 'Breadcrumbs');

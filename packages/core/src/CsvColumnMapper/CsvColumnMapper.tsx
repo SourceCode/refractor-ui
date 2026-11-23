@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -28,6 +27,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { isSafeObjectKey, sanitizeCsvCell } from '../utils/sanitize';
 import { STYLE_ERROR_MAIN, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type CsvTargetFieldType = 'string' | 'email' | 'number';
@@ -319,6 +319,12 @@ function computeAutoMappings(
 
   return result;
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('csv-column-mapper', 'header');
+const sourceClass = /*#__PURE__*/ stableClassName('csv-column-mapper', 'source');
+const mappingClass = /*#__PURE__*/ stableClassName('csv-column-mapper', 'mapping');
+const previewClass = /*#__PURE__*/ stableClassName('csv-column-mapper', 'preview');
+const footerClass = /*#__PURE__*/ stableClassName('csv-column-mapper', 'footer');
 
 function CsvColumnMapperInner({
   title = DEFAULT_TITLE,
@@ -642,11 +648,6 @@ function CsvColumnMapperInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('csv-column-mapper', 'header');
-  const sourceClass = stableClassName('csv-column-mapper', 'source');
-  const mappingClass = stableClassName('csv-column-mapper', 'mapping');
-  const previewClass = stableClassName('csv-column-mapper', 'preview');
-  const footerClass = stableClassName('csv-column-mapper', 'footer');
 
   return (
     <div
@@ -1253,5 +1254,4 @@ function CsvColumnMapperInner({
   );
 }
 
-export const CsvColumnMapper = memo(CsvColumnMapperInner);
-CsvColumnMapper.displayName = 'CsvColumnMapper';
+export const CsvColumnMapper = /*#__PURE__*/ memoWithDisplayName(CsvColumnMapperInner, 'CsvColumnMapper');

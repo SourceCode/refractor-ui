@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useEffect, useId, type ReactNode } from 'react';
+import { useEffect, useId, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SlideOverSheetMode = 'right' | 'bottom';
@@ -123,5 +124,4 @@ function SlideOverSheetInner({
   );
 }
 
-export const SlideOverSheet = memo(SlideOverSheetInner);
-SlideOverSheet.displayName = 'SlideOverSheet';
+export const SlideOverSheet = /*#__PURE__*/ memoWithDisplayName(SlideOverSheetInner, 'SlideOverSheet');

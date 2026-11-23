@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -15,6 +14,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { isSafeObjectKey } from '../utils/sanitize';
 import { formatUsNumber } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type PivotScalar = string | number | boolean;
@@ -138,6 +138,9 @@ function formatPivotMetric(value: number | null, aggregation: PivotAggregation):
     maximumFractionDigits: 2,
   });
 }
+
+const controlsClass = /*#__PURE__*/ stableClassName('pivot-table', 'controls');
+const tableClass = /*#__PURE__*/ stableClassName('pivot-table', 'table');
 
 function PivotTableInner({
   data,
@@ -349,8 +352,6 @@ function PivotTableInner({
     userStyle: style,
   });
 
-  const controlsClass = stableClassName('pivot-table', 'controls');
-  const tableClass = stableClassName('pivot-table', 'table');
 
   const renderZone = (
     zone: PivotZone,
@@ -624,5 +625,4 @@ function PivotTableInner({
   );
 }
 
-export const PivotTable = memo(PivotTableInner);
-PivotTable.displayName = 'PivotTable';
+export const PivotTable = /*#__PURE__*/ memoWithDisplayName(PivotTableInner, 'PivotTable');

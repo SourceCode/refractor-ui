@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -25,6 +24,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { composeEventHandlers } from '../utils/composeEventHandlers';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type WindowSwitcherMode = 'inline' | 'overlay';
@@ -174,6 +174,15 @@ function getDisplayWorkspace(item: SwitcherWindowItem): string | null {
   const trimmed = item.workspaceLabel?.trim();
   return trimmed ? trimmed : null;
 }
+
+const panelClass = /*#__PURE__*/ stableClassName('window-switcher-overlay', 'panel');
+const headerClass = /*#__PURE__*/ stableClassName('window-switcher-overlay', 'header');
+const stripClass = /*#__PURE__*/ stableClassName('window-switcher-overlay', 'strip');
+const cardClass = /*#__PURE__*/ stableClassName('window-switcher-overlay', 'card');
+const thumbnailClass = /*#__PURE__*/ stableClassName('window-switcher-overlay', 'thumbnail');
+const footerClass = /*#__PURE__*/ stableClassName('window-switcher-overlay', 'footer');
+const emptyClass = /*#__PURE__*/ stableClassName('window-switcher-overlay', 'empty');
+const statusClass = /*#__PURE__*/ stableClassName('window-switcher-overlay', 'status');
 
 function WindowSwitcherOverlayInner({
   windows,
@@ -490,17 +499,6 @@ function WindowSwitcherOverlayInner({
     userStyle: style,
   });
 
-  const panelClass = stableClassName('window-switcher-overlay', 'panel');
-  const headerClass = stableClassName('window-switcher-overlay', 'header');
-  const stripClass = stableClassName('window-switcher-overlay', 'strip');
-  const cardClass = stableClassName('window-switcher-overlay', 'card');
-  const thumbnailClass = stableClassName(
-    'window-switcher-overlay',
-    'thumbnail'
-  );
-  const footerClass = stableClassName('window-switcher-overlay', 'footer');
-  const emptyClass = stableClassName('window-switcher-overlay', 'empty');
-  const statusClass = stableClassName('window-switcher-overlay', 'status');
 
   const activeOptionId =
     highlightedWindow && highlightedIndex >= 0
@@ -1018,5 +1016,4 @@ function WindowSwitcherOverlayInner({
   );
 }
 
-export const WindowSwitcherOverlay = memo(WindowSwitcherOverlayInner);
-WindowSwitcherOverlay.displayName = 'WindowSwitcherOverlay';
+export const WindowSwitcherOverlay = /*#__PURE__*/ memoWithDisplayName(WindowSwitcherOverlayInner, 'WindowSwitcherOverlay');

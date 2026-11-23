@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useRef,
@@ -10,11 +9,13 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { STYLE_BADGE_INFO, STYLE_BADGE_PRIMARY, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type PanKnobSize = 'sm' | 'md' | 'lg';
@@ -187,6 +188,13 @@ function buildBidirectionalArcPath(pan: number, angleDeg: number): string {
   return `M ${TOP_POINT.x} ${TOP_POINT.y} A ${TRACK_RADIUS} ${TRACK_RADIUS} 0 0 ${sweepFlag} ${end.x} ${end.y}`;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('stereo-pan-knob', 'header');
+const labelClass = /*#__PURE__*/ stableClassName('stereo-pan-knob', 'label');
+const readoutClass = /*#__PURE__*/ stableClassName('stereo-pan-knob', 'readout');
+const dialClass = /*#__PURE__*/ stableClassName('stereo-pan-knob', 'dial');
+const faceClass = /*#__PURE__*/ stableClassName('stereo-pan-knob', 'face');
+const detentsClass = /*#__PURE__*/ stableClassName('stereo-pan-knob', 'detents');
+
 function StereoPanKnobInner({
   value,
   defaultValue = DEFAULT_PAN,
@@ -271,7 +279,7 @@ function StereoPanKnobInner({
 
       setIsDragging(true);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         if (moveEvent.pointerId !== activePointerId) return;
 
         const dx = moveEvent.clientX - startX;
@@ -293,9 +301,10 @@ function StereoPanKnobInner({
           }
           emitChange?.(snapped, formatPanReadout(snapped));
         }
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -390,12 +399,6 @@ function StereoPanKnobInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('stereo-pan-knob', 'header');
-  const labelClass = stableClassName('stereo-pan-knob', 'label');
-  const readoutClass = stableClassName('stereo-pan-knob', 'readout');
-  const dialClass = stableClassName('stereo-pan-knob', 'dial');
-  const faceClass = stableClassName('stereo-pan-knob', 'face');
-  const detentsClass = stableClassName('stereo-pan-knob', 'detents');
 
   const isHardLeft = currentPan === MIN_PAN;
   const isHardRight = currentPan === MAX_PAN;
@@ -485,7 +488,7 @@ function StereoPanKnobInner({
           viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
           aria-hidden="true"
           data-testid="stereo-pan-svg"
-          className="block w-full h-full overflow-visible pointer-events-none"
+          className="block w-full h-full overflow-visible pointer-events-none prism-contain-leaf"
         >
           {/* Outer Calibration Scale Ticks */}
           {CALIBRATION_TICKS.map((tick) => (
@@ -585,7 +588,7 @@ function StereoPanKnobInner({
             width={sizeConfig.facePx}
             height={sizeConfig.facePx}
             aria-hidden="true"
-            className="block pointer-events-none"
+            className="block pointer-events-none prism-contain-box"
           >
             <circle
               cx={32}
@@ -651,11 +654,8 @@ function StereoPanKnobInner({
           )}
           style={
             isHardLeft
-              ? {
-                  backgroundColor: 'var(--prism-info-main)',
-                  color: 'var(--prism-info-contrast)',
-                }
-              : { color: 'var(--prism-text-secondary)' }
+              ? STYLE_BADGE_INFO
+              : STYLE_TEXT_SECONDARY
           }
         >
           L
@@ -673,7 +673,7 @@ function StereoPanKnobInner({
             sizeConfig.buttonClass,
             isCentered ? 'prism-emerald' : 'prism-crystal'
           )}
-          style={isCentered ? undefined : { color: 'var(--prism-text-secondary)' }}
+          style={isCentered ? undefined : STYLE_TEXT_SECONDARY}
         >
           C
         </button>
@@ -692,11 +692,8 @@ function StereoPanKnobInner({
           )}
           style={
             isHardRight
-              ? {
-                  backgroundColor: 'var(--prism-primary-main)',
-                  color: 'var(--prism-primary-contrast)',
-                }
-              : { color: 'var(--prism-text-secondary)' }
+              ? STYLE_BADGE_PRIMARY
+              : STYLE_TEXT_SECONDARY
           }
         >
           R
@@ -706,5 +703,4 @@ function StereoPanKnobInner({
   );
 }
 
-export const StereoPanKnob = memo(StereoPanKnobInner);
-StereoPanKnob.displayName = 'StereoPanKnob';
+export const StereoPanKnob = /*#__PURE__*/ memoWithDisplayName(StereoPanKnobInner, 'StereoPanKnob');

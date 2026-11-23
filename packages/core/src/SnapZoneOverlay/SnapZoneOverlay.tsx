@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -25,6 +24,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_BG_ERROR, STYLE_BG_SUCCESS, STYLE_BG_WARNING, STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SnapZonePresetKind = 'halves' | 'thirds' | 'quarters' | 'priority-grid';
@@ -260,6 +260,12 @@ function getNextZoneIndex(
   return (currentIndex - 1 + count) % count;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('snap-zone-overlay', 'header');
+const presetsClass = /*#__PURE__*/ stableClassName('snap-zone-overlay', 'presets');
+const stageClass = /*#__PURE__*/ stableClassName('snap-zone-overlay', 'stage');
+const zoneClass = /*#__PURE__*/ stableClassName('snap-zone-overlay', 'zone');
+const statusClass = /*#__PURE__*/ stableClassName('snap-zone-overlay', 'status');
+
 function SnapZoneOverlayInner({
   windowTitle = DEFAULT_WINDOW_TITLE,
   preset,
@@ -488,11 +494,6 @@ function SnapZoneOverlayInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('snap-zone-overlay', 'header');
-  const presetsClass = stableClassName('snap-zone-overlay', 'presets');
-  const stageClass = stableClassName('snap-zone-overlay', 'stage');
-  const zoneClass = stableClassName('snap-zone-overlay', 'zone');
-  const statusClass = stableClassName('snap-zone-overlay', 'status');
 
   const defaultStatusSummary = activeSlot
     ? `Snapped ${resolvedWindowTitle} to ${activeSlot.label} (${activeSlot.colSpanLabel}) · ${activePresetLabel}`
@@ -817,5 +818,4 @@ function SnapZoneOverlayInner({
   );
 }
 
-export const SnapZoneOverlay = memo(SnapZoneOverlayInner);
-SnapZoneOverlay.displayName = 'SnapZoneOverlay';
+export const SnapZoneOverlay = /*#__PURE__*/ memoWithDisplayName(SnapZoneOverlayInner, 'SnapZoneOverlay');

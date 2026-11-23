@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -28,6 +27,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber, isSafeObjectKey } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SUCCESS_DARK, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type JsonPrimitive = string | number | boolean | null;
@@ -319,6 +319,9 @@ function JsonTreeNode({
   );
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('structured-output-viewer', 'header');
+const bodyClass = /*#__PURE__*/ stableClassName('structured-output-viewer', 'body');
+
 function StructuredOutputViewerInner({
   data,
   mode,
@@ -600,8 +603,6 @@ function StructuredOutputViewerInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('structured-output-viewer', 'header');
-  const bodyClass = stableClassName('structured-output-viewer', 'body');
   const activeTabId = `${baseId}-tab-${currentMode}`;
 
   return (
@@ -652,7 +653,7 @@ function StructuredOutputViewerInner({
                     'prism-focus-ring h-7 px-3 rounded-full inline-flex items-center gap-1.5 text-xs font-semibold cursor-pointer transition-[color,background-color,border-color,opacity,transform]',
                     isSelected ? 'prism-btn-primary' : 'opacity-75 enabled:hover:opacity-100'
                   )}
-                  style={isSelected ? undefined : { color: 'var(--prism-text-primary)' }}
+                  style={isSelected ? undefined : STYLE_TEXT_PRIMARY}
                 >
                   {renderModeIcon(option.mode)}
                   <span className="relative z-10">{option.label}</span>
@@ -722,5 +723,4 @@ function StructuredOutputViewerInner({
   );
 }
 
-export const StructuredOutputViewer = memo(StructuredOutputViewerInner);
-StructuredOutputViewer.displayName = 'StructuredOutputViewer';
+export const StructuredOutputViewer = /*#__PURE__*/ memoWithDisplayName(StructuredOutputViewerInner, 'StructuredOutputViewer');

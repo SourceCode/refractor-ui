@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useMemo, type CSSProperties } from 'react';
+import { useMemo, type CSSProperties } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type SparklineVariant = 'line' | 'bar';
@@ -387,7 +388,7 @@ function SparklineChartInner({
           width={safeWidth}
           height={safeHeight}
           viewBox={`0 0 ${safeWidth} ${safeHeight}`}
-          className="block overflow-visible"
+          className="block overflow-visible prism-contain-leaf"
         >
           {series === null ? (
             <line
@@ -500,5 +501,4 @@ function SparklineChartInner({
   );
 }
 
-export const SparklineChart = memo(SparklineChartInner);
-SparklineChart.displayName = 'SparklineChart';
+export const SparklineChart = /*#__PURE__*/ memoWithDisplayName(SparklineChartInner, 'SparklineChart');

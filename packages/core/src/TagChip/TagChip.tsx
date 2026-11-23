@@ -1,11 +1,11 @@
 'use client';
 
-import { memo } from 'react';
 
 import { X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export interface TagChipProps extends BaseProps<HTMLSpanElement> {
@@ -38,7 +38,7 @@ function TagChipInner({
       selectable: Boolean(onSelect),
       dismissible: Boolean(onDismiss),
     }),
-    baseClassName: `inline-flex items-center gap-1.5 h-8 pl-3.5 ${
+    baseClassName: `prism-contain-leaf inline-flex items-center gap-1.5 h-8 pl-3.5 ${
       onDismiss ? 'pr-2' : 'pr-3.5'
     } rounded-full text-xs font-medium whitespace-nowrap transition-[color,background-color,border-color,opacity,transform] ${
       selected
@@ -80,5 +80,4 @@ function TagChipInner({
   );
 }
 
-export const TagChip = memo(TagChipInner);
-TagChip.displayName = 'TagChip';
+export const TagChip = /*#__PURE__*/ memoWithDisplayName(TagChipInner, 'TagChip');

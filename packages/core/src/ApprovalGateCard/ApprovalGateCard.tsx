@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { CheckCircle2, Shield, ShieldAlert, ShieldCheck, XCircle } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -9,6 +9,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { isSafeObjectKey } from '../utils/sanitize';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ApprovalRiskLevel = 'low' | 'medium' | 'high' | 'critical';
@@ -93,6 +94,10 @@ function renderRiskIcon(riskLevel: ApprovalRiskLevel, colorVar: string) {
   return <ShieldAlert aria-hidden="true" className="w-4 h-4 shrink-0" style={iconStyle} />;
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('approval-gate-card', 'header');
+const paramsClass = /*#__PURE__*/ stableClassName('approval-gate-card', 'parameters');
+const actionsClass = /*#__PURE__*/ stableClassName('approval-gate-card', 'actions');
+
 function ApprovalGateCardInner({
   title,
   actionName,
@@ -174,9 +179,6 @@ function ApprovalGateCardInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('approval-gate-card', 'header');
-  const paramsClass = stableClassName('approval-gate-card', 'parameters');
-  const actionsClass = stableClassName('approval-gate-card', 'actions');
 
   return (
     <div ref={ref} role="region" aria-labelledby={titleId} {...rest} {...merged}>
@@ -383,5 +385,4 @@ function ApprovalGateCardInner({
   );
 }
 
-export const ApprovalGateCard = memo(ApprovalGateCardInner);
-ApprovalGateCard.displayName = 'ApprovalGateCard';
+export const ApprovalGateCard = /*#__PURE__*/ memoWithDisplayName(ApprovalGateCardInner, 'ApprovalGateCard');

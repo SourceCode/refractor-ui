@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, type ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 import {
   AlertCircle,
   CheckCircle2,
@@ -18,7 +18,8 @@ import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BORDER_DIVIDER, STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BORDER_DIVIDER, STYLE_BORDER_ERROR, STYLE_ERROR_BORDER_TEXT, STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ToolCallCategory = 'search' | 'terminal' | 'file' | 'database' | 'api' | 'browser';
@@ -169,10 +170,7 @@ function renderStatusPill(status: ToolCallStatus): ReactNode {
           data-testid="tool-call-status"
           data-status="error"
           className="prism-crystal inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-tight shrink-0 border"
-          style={{
-            color: 'var(--prism-error-main)',
-            borderColor: 'var(--prism-error-main)',
-          }}
+          style={STYLE_ERROR_BORDER_TEXT}
         >
           <AlertCircle aria-hidden="true" className="w-3 h-3 shrink-0" />
           <span>Error</span>
@@ -223,6 +221,9 @@ function PayloadBlock({ heading, fields, testId }: PayloadBlockProps) {
     </div>
   );
 }
+
+const triggerClass = /*#__PURE__*/ stableClassName('tool-call-card', 'trigger');
+const panelClass = /*#__PURE__*/ stableClassName('tool-call-card', 'panel');
 
 function ToolCallCardInner({
   toolName,
@@ -276,8 +277,6 @@ function ToolCallCardInner({
     userStyle: style,
   });
 
-  const triggerClass = stableClassName('tool-call-card', 'trigger');
-  const panelClass = stableClassName('tool-call-card', 'panel');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -380,7 +379,7 @@ function ToolCallCardInner({
                   role="alert"
                   data-testid="tool-call-error"
                   className="prism-well rounded-2xl p-3 border flex items-start gap-2.5"
-                  style={{ borderColor: 'var(--prism-error-main)' }}
+                  style={STYLE_BORDER_ERROR}
                 >
                   <AlertCircle
                     aria-hidden="true"
@@ -411,5 +410,4 @@ function ToolCallCardInner({
   );
 }
 
-export const ToolCallCard = memo(ToolCallCardInner);
-ToolCallCard.displayName = 'ToolCallCard';
+export const ToolCallCard = /*#__PURE__*/ memoWithDisplayName(ToolCallCardInner, 'ToolCallCard');

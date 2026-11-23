@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, Fragment, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type KeycapSize = 'sm' | 'md' | 'lg';
@@ -56,6 +57,9 @@ function getSizeClasses(size: KeycapSize): KeycapSizeClasses {
   }
 }
 
+const keyPartClass = /*#__PURE__*/ stableClassName('keycap-badge', 'key');
+const joinerPartClass = /*#__PURE__*/ stableClassName('keycap-badge', 'joiner');
+
 function KeycapBadgeInner({
   keys,
   size = 'md',
@@ -97,8 +101,6 @@ function KeycapBadgeInner({
       ? `${trimmedDescription}: ${keycapEntries.map((entry) => entry.label).join(' + ')}`
       : keycapEntries.map((entry) => entry.label).join(' + ');
 
-  const keyPartClass = stableClassName('keycap-badge', 'key');
-  const joinerPartClass = stableClassName('keycap-badge', 'joiner');
 
   const merged = mergeProps({
     themeTarget: themeProps('keycap-badge', {
@@ -159,5 +161,4 @@ function KeycapBadgeInner({
   );
 }
 
-export const KeycapBadge = memo(KeycapBadgeInner);
-KeycapBadge.displayName = 'KeycapBadge';
+export const KeycapBadge = /*#__PURE__*/ memoWithDisplayName(KeycapBadgeInner, 'KeycapBadge');

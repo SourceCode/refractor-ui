@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useId,
   useMemo,
   useState,
@@ -30,6 +29,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DspEffectCategory = 'dynamics' | 'eq' | 'time' | 'modulation' | 'saturation';
@@ -251,6 +251,10 @@ function createNextInsertEffect(existing: ReadonlyArray<DspEffectModule>): DspEf
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('effects-rack-chain', 'header');
+const chainClass = /*#__PURE__*/ stableClassName('effects-rack-chain', 'chain');
+const summaryClass = /*#__PURE__*/ stableClassName('effects-rack-chain', 'summary');
+
 function EffectsRackChainInner({
   effects,
   defaultEffects,
@@ -402,9 +406,6 @@ function EffectsRackChainInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('effects-rack-chain', 'header');
-  const chainClass = stableClassName('effects-rack-chain', 'chain');
-  const summaryClass = stableClassName('effects-rack-chain', 'summary');
 
   return (
     <div
@@ -461,7 +462,7 @@ function EffectsRackChainInner({
                     color: 'var(--prism-warning-main)',
                     boxShadow: 'inset 0 0 0 1.5px var(--prism-warning-main)',
                   }
-                : { color: 'var(--prism-text-secondary)' }
+                : STYLE_TEXT_SECONDARY
             }
           >
             <Power aria-hidden="true" className="w-3.5 h-3.5 shrink-0" />
@@ -793,5 +794,4 @@ function EffectsRackChainInner({
   );
 }
 
-export const EffectsRackChain = memo(EffectsRackChainInner);
-EffectsRackChain.displayName = 'EffectsRackChain';
+export const EffectsRackChain = /*#__PURE__*/ memoWithDisplayName(EffectsRackChainInner, 'EffectsRackChain');

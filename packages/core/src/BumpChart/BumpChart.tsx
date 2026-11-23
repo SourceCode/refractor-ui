@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type BumpTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose' | 'info';
@@ -230,6 +230,12 @@ function toSelection(series: ComputedSeries, node: ComputedNode): BumpSelection 
     netChange: series.netChange,
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('bump-chart', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('bump-chart', 'legend');
+const wellClass = /*#__PURE__*/ stableClassName('bump-chart', 'well');
+const svgClass = /*#__PURE__*/ stableClassName('bump-chart', 'svg');
+const inspectorClass = /*#__PURE__*/ stableClassName('bump-chart', 'inspector');
 
 function BumpChartInner({
   periods,
@@ -555,11 +561,6 @@ function BumpChartInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('bump-chart', 'header');
-  const legendClass = stableClassName('bump-chart', 'legend');
-  const wellClass = stableClassName('bump-chart', 'well');
-  const svgClass = stableClassName('bump-chart', 'svg');
-  const inspectorClass = stableClassName('bump-chart', 'inspector');
 
   const highlightedSeries = inspectedEntry?.series ?? null;
 
@@ -652,7 +653,7 @@ function BumpChartInner({
               role="img"
               aria-label={`${title} rank trajectory bump chart across ${computedPeriods.length} periods and ${computedSeries.length} series`}
               viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-              className={cx(svgClass, 'w-full h-auto select-none block')}
+              className={cx(svgClass, 'w-full h-auto select-none block', 'prism-contain-box')}
             >
               {/* Horizontal #1..#N rank rails (#1 at top) */}
               {rankRails.map((rail) => (
@@ -884,5 +885,4 @@ function BumpChartInner({
   );
 }
 
-export const BumpChart = memo(BumpChartInner);
-BumpChart.displayName = 'BumpChart';
+export const BumpChart = /*#__PURE__*/ memoWithDisplayName(BumpChartInner, 'BumpChart');

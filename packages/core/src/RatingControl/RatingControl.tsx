@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import { Star } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type RatingControlBaseProps = Omit<BaseProps<HTMLDivElement>, 'onChange'>;
@@ -46,7 +47,7 @@ function RatingControlInner({
 
   const merged = mergeProps({
     themeTarget: themeProps('rating-control', { value: safeValue, max: safeMax, disabled }),
-    baseClassName: 'inline-flex flex-col gap-1.5',
+    baseClassName: 'prism-contain-leaf inline-flex flex-col gap-1.5',
     overrideClassName: override?.className,
     userClassName: className,
     overrideStyle: override?.style,
@@ -97,5 +98,4 @@ function RatingControlInner({
   );
 }
 
-export const RatingControl = memo(RatingControlInner);
-RatingControl.displayName = 'RatingControl';
+export const RatingControl = /*#__PURE__*/ memoWithDisplayName(RatingControlInner, 'RatingControl');

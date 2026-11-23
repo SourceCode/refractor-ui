@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -23,7 +22,8 @@ import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
-import { STYLE_BG_DIVIDER, STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BG_DIVIDER, STYLE_BG_PRIMARY, STYLE_BORDER_DIVIDER, STYLE_BORDER_DIVIDER_TEXT_PRIMARY, STYLE_BORDER_DIVIDER_TEXT_SECONDARY, STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type VirtualDesktopWindowTone =
@@ -237,6 +237,14 @@ function getWindowToneTokens(
       };
   }
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('virtual-desktop-bar', 'header');
+const tablistClass = /*#__PURE__*/ stableClassName('virtual-desktop-bar', 'tablist');
+const cardClass = /*#__PURE__*/ stableClassName('virtual-desktop-bar', 'space-card');
+const windowPillClass = /*#__PURE__*/ stableClassName('virtual-desktop-bar', 'mini-window');
+const transferClass = /*#__PURE__*/ stableClassName('virtual-desktop-bar', 'transfer-strip');
+const addButtonClass = /*#__PURE__*/ stableClassName('virtual-desktop-bar', 'add-button');
+const statusBarClass = /*#__PURE__*/ stableClassName('virtual-desktop-bar', 'status-bar');
 
 function VirtualDesktopBarInner({
   title = 'Virtual Desktops',
@@ -570,16 +578,6 @@ function VirtualDesktopBarInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('virtual-desktop-bar', 'header');
-  const tablistClass = stableClassName('virtual-desktop-bar', 'tablist');
-  const cardClass = stableClassName('virtual-desktop-bar', 'space-card');
-  const windowPillClass = stableClassName('virtual-desktop-bar', 'mini-window');
-  const transferClass = stableClassName(
-    'virtual-desktop-bar',
-    'transfer-strip'
-  );
-  const addButtonClass = stableClassName('virtual-desktop-bar', 'add-button');
-  const statusBarClass = stableClassName('virtual-desktop-bar', 'status-bar');
 
   const panelId = `${baseId}-panel`;
   const activeSpaceName = activeSpace ? getSpaceName(activeSpace) : '';
@@ -676,10 +674,7 @@ function VirtualDesktopBarInner({
               addButtonClass,
               'prism-crystal prism-focus-ring inline-flex items-center gap-1 h-8 px-2.5 rounded-xl text-xs font-medium whitespace-nowrap shrink-0 border cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 transition-opacity enabled:hover:opacity-90'
             )}
-            style={{
-              color: 'var(--prism-text-primary)',
-              borderColor: 'var(--prism-divider)',
-            }}
+            style={STYLE_BORDER_DIVIDER_TEXT_PRIMARY}
           >
             <Plus aria-hidden="true" className="w-3.5 h-3.5" />
             <span>New Desktop</span>
@@ -986,10 +981,7 @@ function VirtualDesktopBarInner({
                             )
                           }
                           className="prism-crystal prism-focus-ring h-7 max-w-[200px] rounded-lg border px-2 text-xs font-medium cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
-                          style={{
-                            color: 'var(--prism-text-primary)',
-                            borderColor: 'var(--prism-divider)',
-                          }}
+                          style={STYLE_BORDER_DIVIDER_TEXT_PRIMARY}
                         >
                           {currentSpaces.map((target) => {
                             const targetName = getSpaceName(target);
@@ -1038,10 +1030,7 @@ function VirtualDesktopBarInner({
           statusBarClass,
           'px-3.5 py-1.5 border-t text-[11px] flex flex-wrap items-center justify-between gap-2 min-w-0 max-w-full'
         )}
-        style={{
-          borderColor: 'var(--prism-divider)',
-          color: 'var(--prism-text-secondary)',
-        }}
+        style={STYLE_BORDER_DIVIDER_TEXT_SECONDARY}
       >
         <span className="truncate">{announcement || idleStatusText}</span>
         <span className="font-mono text-[10px] shrink-0">
@@ -1052,5 +1041,4 @@ function VirtualDesktopBarInner({
   );
 }
 
-export const VirtualDesktopBar = memo(VirtualDesktopBarInner);
-VirtualDesktopBar.displayName = 'VirtualDesktopBar';
+export const VirtualDesktopBar = /*#__PURE__*/ memoWithDisplayName(VirtualDesktopBarInner, 'VirtualDesktopBar');

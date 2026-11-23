@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -30,7 +29,8 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { isSafeObjectKey, sanitizeCsvCell } from '../utils/sanitize';
-import { STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { STYLE_BADGE_INFO, STYLE_BORDER_DIVIDER, STYLE_INFO_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AuditTrailSeverity = 'info' | 'warning' | 'critical';
@@ -405,6 +405,13 @@ function renderSeverityIcon(severity: AuditTrailSeverity): ReactNode {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('audit-trail-feed', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('audit-trail-feed', 'filters');
+const listClass = /*#__PURE__*/ stableClassName('audit-trail-feed', 'list');
+const rowClass = /*#__PURE__*/ stableClassName('audit-trail-feed', 'row');
+const diffClass = /*#__PURE__*/ stableClassName('audit-trail-feed', 'diff');
+const emptyClass = /*#__PURE__*/ stableClassName('audit-trail-feed', 'empty');
+
 function AuditTrailFeedInner({
   title = 'Audit Trail Feed',
   events,
@@ -513,12 +520,6 @@ function AuditTrailFeedInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('audit-trail-feed', 'header');
-  const filtersClass = stableClassName('audit-trail-feed', 'filters');
-  const listClass = stableClassName('audit-trail-feed', 'list');
-  const rowClass = stableClassName('audit-trail-feed', 'row');
-  const diffClass = stableClassName('audit-trail-feed', 'diff');
-  const emptyClass = stableClassName('audit-trail-feed', 'empty');
 
   return (
     <div
@@ -624,10 +625,7 @@ function AuditTrailFeedInner({
               const isSelected = severityFilter === option.value;
               const pillStyle = isSelected
                 ? option.value === 'all'
-                  ? {
-                      backgroundColor: 'var(--prism-info-main)',
-                      color: 'var(--prism-info-contrast)',
-                    }
+                  ? STYLE_BADGE_INFO
                   : {
                       backgroundColor: SEVERITY_META[option.value].main,
                       color: SEVERITY_META[option.value].contrast,
@@ -675,10 +673,7 @@ function AuditTrailFeedInner({
             {ACTION_OPTIONS.map((option) => {
               const isSelected = actionFilter === option.value;
               const pillStyle = isSelected
-                ? {
-                    backgroundColor: 'var(--prism-info-main)',
-                    color: 'var(--prism-info-contrast)',
-                  }
+                ? STYLE_BADGE_INFO
                 : { color: 'var(--prism-text-secondary)' };
 
               return (
@@ -988,5 +983,4 @@ function AuditTrailFeedInner({
   );
 }
 
-export const AuditTrailFeed = memo(AuditTrailFeedInner);
-AuditTrailFeed.displayName = 'AuditTrailFeed';
+export const AuditTrailFeed = /*#__PURE__*/ memoWithDisplayName(AuditTrailFeedInner, 'AuditTrailFeed');

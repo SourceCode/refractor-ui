@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useRef,
   useState,
   type KeyboardEvent,
@@ -13,6 +12,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 type RotaryDialBaseProps = Omit<BaseProps<HTMLDivElement>, 'onChange'>;
@@ -115,6 +115,11 @@ const CALIBRATION_TICKS: ReadonlyArray<CalibrationTick> = [-135, 0, 135].map((de
   const pt = polarToCartesian(CENTER, CENTER, TICK_RADIUS, deg);
   return { id: `tick-${deg}`, x: pt.x, y: pt.y };
 });
+
+const knobClass = /*#__PURE__*/ stableClassName('rotary-dial', 'knob');
+const faceClass = /*#__PURE__*/ stableClassName('rotary-dial', 'face');
+const labelClass = /*#__PURE__*/ stableClassName('rotary-dial', 'label');
+const valueClass = /*#__PURE__*/ stableClassName('rotary-dial', 'value');
 
 function RotaryDialInner({
   value,
@@ -252,10 +257,6 @@ function RotaryDialInner({
     userStyle: style,
   });
 
-  const knobClass = stableClassName('rotary-dial', 'knob');
-  const faceClass = stableClassName('rotary-dial', 'face');
-  const labelClass = stableClassName('rotary-dial', 'label');
-  const valueClass = stableClassName('rotary-dial', 'value');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -297,7 +298,7 @@ function RotaryDialInner({
           viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
           aria-hidden="true"
           data-testid="rotary-dial-svg"
-          className="block overflow-visible pointer-events-none"
+          className="block overflow-visible pointer-events-none prism-contain-leaf"
         >
           {CALIBRATION_TICKS.map((tick) => (
             <circle
@@ -347,7 +348,7 @@ function RotaryDialInner({
             width={faceSize}
             height={faceSize}
             aria-hidden="true"
-            className="block pointer-events-none"
+            className="block pointer-events-none prism-contain-box"
           >
             <g
               data-testid="rotary-dial-indicator"
@@ -399,5 +400,4 @@ function RotaryDialInner({
   );
 }
 
-export const RotaryDial = memo(RotaryDialInner);
-RotaryDial.displayName = 'RotaryDial';
+export const RotaryDial = /*#__PURE__*/ memoWithDisplayName(RotaryDialInner, 'RotaryDial');

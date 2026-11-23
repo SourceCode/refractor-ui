@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useRef,
@@ -15,6 +14,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_TEXT_PRIMARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ScrollShadowAxis = 'vertical' | 'horizontal' | 'both';
@@ -102,6 +102,14 @@ function computeEdgeState(
       viewport.scrollLeft + viewport.clientWidth < viewport.scrollWidth - EDGE_EPSILON_PX,
   };
 }
+
+const frameClass = /*#__PURE__*/ stableClassName('scroll-shadow-area', 'frame');
+const viewportClass = /*#__PURE__*/ stableClassName('scroll-shadow-area', 'viewport');
+const topShadowClass = /*#__PURE__*/ stableClassName('scroll-shadow-area', 'shadow-top');
+const bottomShadowClass = /*#__PURE__*/ stableClassName('scroll-shadow-area', 'shadow-bottom');
+const leftShadowClass = /*#__PURE__*/ stableClassName('scroll-shadow-area', 'shadow-left');
+const rightShadowClass = /*#__PURE__*/ stableClassName('scroll-shadow-area', 'shadow-right');
+const controlsClass = /*#__PURE__*/ stableClassName('scroll-shadow-area', 'controls');
 
 function ScrollShadowAreaInner({
   axis = 'vertical',
@@ -223,13 +231,6 @@ function ScrollShadowAreaInner({
     userStyle: style,
   });
 
-  const frameClass = stableClassName('scroll-shadow-area', 'frame');
-  const viewportClass = stableClassName('scroll-shadow-area', 'viewport');
-  const topShadowClass = stableClassName('scroll-shadow-area', 'shadow-top');
-  const bottomShadowClass = stableClassName('scroll-shadow-area', 'shadow-bottom');
-  const leftShadowClass = stableClassName('scroll-shadow-area', 'shadow-left');
-  const rightShadowClass = stableClassName('scroll-shadow-area', 'shadow-right');
-  const controlsClass = stableClassName('scroll-shadow-area', 'controls');
 
   const activeControlsViewport =
     showScrollButtons && canScrollVertical && (edges.top || edges.bottom) ? viewportNode : null;
@@ -371,5 +372,4 @@ function ScrollShadowAreaInner({
   );
 }
 
-export const ScrollShadowArea = memo(ScrollShadowAreaInner);
-ScrollShadowArea.displayName = 'ScrollShadowArea';
+export const ScrollShadowArea = /*#__PURE__*/ memoWithDisplayName(ScrollShadowAreaInner, 'ScrollShadowArea');

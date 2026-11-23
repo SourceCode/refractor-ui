@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useId,
   useMemo,
@@ -14,6 +13,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ChoroplethTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -278,6 +278,12 @@ function computeFillOpacity(value: number, minVal: number, maxVal: number): numb
   return Number((MIN_FILL_OPACITY + ratio * (MAX_FILL_OPACITY - MIN_FILL_OPACITY)).toFixed(2));
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('choropleth-map', 'header');
+const legendClass = /*#__PURE__*/ stableClassName('choropleth-map', 'legend');
+const canvasClass = /*#__PURE__*/ stableClassName('choropleth-map', 'canvas');
+const pillsClass = /*#__PURE__*/ stableClassName('choropleth-map', 'pills');
+const readoutClass = /*#__PURE__*/ stableClassName('choropleth-map', 'readout');
+
 function ChoroplethMapInner({
   regions,
   title = 'Regional Choropleth Map',
@@ -500,11 +506,6 @@ function ChoroplethMapInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('choropleth-map', 'header');
-  const legendClass = stableClassName('choropleth-map', 'legend');
-  const canvasClass = stableClassName('choropleth-map', 'canvas');
-  const pillsClass = stableClassName('choropleth-map', 'pills');
-  const readoutClass = stableClassName('choropleth-map', 'readout');
 
   const regionCountLabel =
     resolvedRegions.length === 1 ? '1 region' : `${resolvedRegions.length} regions`;
@@ -614,7 +615,7 @@ function ChoroplethMapInner({
               viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}
               preserveAspectRatio="xMidYMid meet"
               style={{ height: `${clampedHeight}px` }}
-              className="block w-full"
+              className="block w-full prism-contain-box"
             >
               {/* Subtle Latitude & Longitude Graticule */}
               <g data-testid="choropleth-graticule" aria-hidden="true">
@@ -854,5 +855,4 @@ function ChoroplethMapInner({
   );
 }
 
-export const ChoroplethMap = memo(ChoroplethMapInner);
-ChoroplethMap.displayName = 'ChoroplethMap';
+export const ChoroplethMap = /*#__PURE__*/ memoWithDisplayName(ChoroplethMapInner, 'ChoroplethMap');

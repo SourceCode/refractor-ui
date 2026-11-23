@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { useId, useMemo, useState, type KeyboardEvent } from 'react';
 import { Globe, Minus, Plus, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { stableClassName } from '../naming';
@@ -8,6 +8,7 @@ import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ClusterMapTone = 'primary' | 'secondary' | 'emerald' | 'amber' | 'rose';
@@ -208,6 +209,11 @@ function clampFocus(x: number, y: number, zoomLevel: number): MapFocus {
     y: roundTwo(clampNumber(y, halfHeight, VIEW_HEIGHT - halfHeight, CENTER_Y)),
   };
 }
+
+const headerClass = /*#__PURE__*/ stableClassName('point-cluster-map', 'header');
+const filtersClass = /*#__PURE__*/ stableClassName('point-cluster-map', 'filters');
+const canvasClass = /*#__PURE__*/ stableClassName('point-cluster-map', 'canvas');
+const inspectorClass = /*#__PURE__*/ stableClassName('point-cluster-map', 'inspector');
 
 function PointClusterMapInner({
   points,
@@ -497,10 +503,6 @@ function PointClusterMapInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('point-cluster-map', 'header');
-  const filtersClass = stableClassName('point-cluster-map', 'filters');
-  const canvasClass = stableClassName('point-cluster-map', 'canvas');
-  const inspectorClass = stableClassName('point-cluster-map', 'inspector');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -639,7 +641,7 @@ function PointClusterMapInner({
               data-zoom={String(zoom)}
               data-effective-radius={String(roundTwo(effectiveRadius))}
               viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
-              className="w-full block overflow-hidden"
+              className="w-full block overflow-hidden prism-contain-box"
               style={{ height: `${safeHeight}px` }}
             >
               <g
@@ -957,5 +959,4 @@ function PointClusterMapInner({
   );
 }
 
-export const PointClusterMap = memo(PointClusterMapInner);
-PointClusterMap.displayName = 'PointClusterMap';
+export const PointClusterMap = /*#__PURE__*/ memoWithDisplayName(PointClusterMapInner, 'PointClusterMap');

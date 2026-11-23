@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { CornerDownRight, Pause, Play, Square } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useControllableState } from '../hooks/useControllableState';
@@ -8,6 +8,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_ERROR_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AgentRunState = 'idle' | 'running' | 'paused' | 'stopped';
@@ -83,6 +84,10 @@ function getRunStateVisualMeta(state: AgentRunState): RunStateVisualMeta {
   }
 }
 
+const statusGroupClass = /*#__PURE__*/ stableClassName('agent-control-bar', 'status');
+const controlsGroupClass = /*#__PURE__*/ stableClassName('agent-control-bar', 'controls');
+const redirectGroupClass = /*#__PURE__*/ stableClassName('agent-control-bar', 'redirect');
+
 function AgentControlBarInner({
   status,
   defaultStatus = 'running',
@@ -153,9 +158,6 @@ function AgentControlBarInner({
     userStyle: style,
   });
 
-  const statusGroupClass = stableClassName('agent-control-bar', 'status');
-  const controlsGroupClass = stableClassName('agent-control-bar', 'controls');
-  const redirectGroupClass = stableClassName('agent-control-bar', 'redirect');
 
   return (
     <div ref={ref} role="toolbar" aria-label="Agent control bar" {...rest} {...merged}>
@@ -278,5 +280,4 @@ function AgentControlBarInner({
   );
 }
 
-export const AgentControlBar = memo(AgentControlBarInner);
-AgentControlBar.displayName = 'AgentControlBar';
+export const AgentControlBar = /*#__PURE__*/ memoWithDisplayName(AgentControlBarInner, 'AgentControlBar');

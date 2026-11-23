@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useMemo, type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import {
   Code2,
   FileCode,
@@ -18,6 +18,7 @@ import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { STYLE_INFO_MAIN, STYLE_PRIMARY_MAIN, STYLE_SECONDARY_MAIN, STYLE_SUCCESS_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, STYLE_WARNING_MAIN } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type AttachedContextKind = 'file' | 'folder' | 'url' | 'snippet';
@@ -108,6 +109,10 @@ function renderKindIcon(kind: AttachedContextKind): ReactNode {
   }
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('attached-context-bar', 'header');
+const listClass = /*#__PURE__*/ stableClassName('attached-context-bar', 'list');
+const emptyClass = /*#__PURE__*/ stableClassName('attached-context-bar', 'empty');
+
 function AttachedContextBarInner({
   items,
   defaultItems = DEFAULT_EMPTY_ITEMS,
@@ -177,9 +182,6 @@ function AttachedContextBarInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('attached-context-bar', 'header');
-  const listClass = stableClassName('attached-context-bar', 'list');
-  const emptyClass = stableClassName('attached-context-bar', 'empty');
 
   return (
     <div ref={ref} {...rest} {...merged}>
@@ -308,5 +310,4 @@ function AttachedContextBarInner({
   );
 }
 
-export const AttachedContextBar = memo(AttachedContextBarInner);
-AttachedContextBar.displayName = 'AttachedContextBar';
+export const AttachedContextBar = /*#__PURE__*/ memoWithDisplayName(AttachedContextBarInner, 'AttachedContextBar');

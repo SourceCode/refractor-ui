@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useId, type ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 import {
   AlertCircle,
   CheckCircle2,
@@ -15,6 +15,7 @@ import { useControllableState } from '../hooks/useControllableState';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { mergeProps } from '../utils/mergeProps';
 import { STYLE_BORDER_DIVIDER, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type ThinkingStepStatus = 'pending' | 'active' | 'done' | 'error';
@@ -303,5 +304,4 @@ function ThinkingAccordionInner({
   );
 }
 
-export const ThinkingAccordion = memo(ThinkingAccordionInner);
-ThinkingAccordion.displayName = 'ThinkingAccordion';
+export const ThinkingAccordion = /*#__PURE__*/ memoWithDisplayName(ThinkingAccordionInner, 'ThinkingAccordion');

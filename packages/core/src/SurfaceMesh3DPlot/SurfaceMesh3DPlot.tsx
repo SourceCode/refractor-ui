@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -13,12 +12,14 @@ import {
 } from 'react';
 import { Box, Minus, Plus, RotateCcw } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { useControllableState } from '../hooks/useControllableState';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
 import { STYLE_PRIMARY_MAIN, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type MeshRenderStyle = 'shaded' | 'wireframe';
@@ -391,6 +392,10 @@ function buildSurfaceScene(
   };
 }
 
+const headerClass = /*#__PURE__*/ stableClassName('surface-mesh-3d-plot', 'header');
+const stageClass = /*#__PURE__*/ stableClassName('surface-mesh-3d-plot', 'stage');
+const telemetryClass = /*#__PURE__*/ stableClassName('surface-mesh-3d-plot', 'telemetry');
+
 function SurfaceMesh3DPlotInner({
   grid,
   defaultYawDeg = DEFAULT_YAW_DEG,
@@ -496,7 +501,7 @@ function SurfaceMesh3DPlotInner({
       const startPitch = pitchRef.current;
       setIsDragging(true);
 
-      const handlePointerMove = (moveEvent: PointerEvent) => {
+      const handlePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         const dx = moveEvent.clientX - startX;
         const dy = moveEvent.clientY - startY;
         const nextYaw = normalizeZero(
@@ -523,9 +528,10 @@ function SurfaceMesh3DPlotInner({
         pitchRef.current = nextPitch;
         setYawDeg(nextYaw);
         setPitchDeg(nextPitch);
-      };
+      });
 
       const cleanup = () => {
+        handlePointerMove.cancel();
         window.removeEventListener('pointermove', handlePointerMove);
         window.removeEventListener('pointerup', handlePointerEnd);
         window.removeEventListener('pointercancel', handlePointerEnd);
@@ -611,9 +617,6 @@ function SurfaceMesh3DPlotInner({
     userStyle: style,
   });
 
-  const headerClass = stableClassName('surface-mesh-3d-plot', 'header');
-  const stageClass = stableClassName('surface-mesh-3d-plot', 'stage');
-  const telemetryClass = stableClassName('surface-mesh-3d-plot', 'telemetry');
 
   const isMinZoom = zoom <= MIN_ZOOM;
   const isMaxZoom = zoom >= MAX_ZOOM;
@@ -789,7 +792,7 @@ function SurfaceMesh3DPlotInner({
             viewBox="0 0 460 280"
             role="img"
             aria-label={`Projected 3D surface mesh plot with ${scene.facets.length} facets`}
-            className="w-full h-auto select-none"
+            className="w-full h-auto select-none prism-contain-box"
           >
             {/* Base Reference Plane */}
             <polygon
@@ -963,5 +966,4 @@ function SurfaceMesh3DPlotInner({
   );
 }
 
-export const SurfaceMesh3DPlot = memo(SurfaceMesh3DPlotInner);
-SurfaceMesh3DPlot.displayName = 'SurfaceMesh3DPlot';
+export const SurfaceMesh3DPlot = /*#__PURE__*/ memoWithDisplayName(SurfaceMesh3DPlotInner, 'SurfaceMesh3DPlot');

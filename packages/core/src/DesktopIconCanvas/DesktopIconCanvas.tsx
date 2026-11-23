@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  memo,
   useCallback,
   useEffect,
   useId,
@@ -29,11 +28,13 @@ import {
   X,
 } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
+import { createCoalescedPointerMove } from '../hooks/useRafCallback';
 import { stableClassName } from '../naming';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
 import { cx, mergeProps } from '../utils/mergeProps';
 import { clampNumber } from '../utils/sanitize';
-import { STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, compareNaturalStrings } from '../utils/styles';
+import { STYLE_BADGE_ERROR, STYLE_PRIMARY_MAIN, STYLE_TEXT_DISABLED, STYLE_TEXT_PRIMARY, STYLE_TEXT_SECONDARY, compareNaturalStrings } from '../utils/styles';
+import { memoWithDisplayName } from '../utils/memo';
 import { themeProps } from '../utils/themeProps';
 
 export type DesktopWallpaperPreset =
@@ -578,6 +579,12 @@ function findSpatialNeighbor(
   return best;
 }
 
+const toolbarClass = /*#__PURE__*/ stableClassName('desktop-icon-canvas', 'toolbar');
+const stageClass = /*#__PURE__*/ stableClassName('desktop-icon-canvas', 'stage');
+const iconClass = /*#__PURE__*/ stableClassName('desktop-icon-canvas', 'icon');
+const marqueeClass = /*#__PURE__*/ stableClassName('desktop-icon-canvas', 'marquee');
+const footerClass = /*#__PURE__*/ stableClassName('desktop-icon-canvas', 'footer');
+
 function DesktopIconCanvasInner({
   items,
   defaultItems = DEFAULT_DESKTOP_ICONS,
@@ -1027,7 +1034,7 @@ function DesktopIconCanvasInner({
         let lastRawCol = startCol;
         let lastRawRow = startRow;
 
-        const handleIconPointerMove = (moveEvent: PointerEvent) => {
+        const handleIconPointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
           const distance = Math.hypot(
             moveEvent.clientX - startClientX,
             moveEvent.clientY - startClientY
@@ -1067,9 +1074,10 @@ function DesktopIconCanvasInner({
             col: lastRawCol,
             row: lastRawRow,
           });
-        };
+        });
 
         const cleanupIconDrag = () => {
+          handleIconPointerMove.cancel();
           window.removeEventListener('pointermove', handleIconPointerMove);
           window.removeEventListener('pointerup', handleIconPointerUp);
           window.removeEventListener('pointercancel', handleIconPointerCancel);
@@ -1186,7 +1194,7 @@ function DesktopIconCanvasInner({
         height: 0,
       });
 
-      const handleMarqueePointerMove = (moveEvent: PointerEvent) => {
+      const handleMarqueePointerMove = createCoalescedPointerMove((moveEvent: PointerEvent) => {
         didMove = true;
         const stageRect = stageEl.getBoundingClientRect();
         const start = clampPointToStage(startClientX, startClientY, stageRect);
@@ -1226,9 +1234,10 @@ function DesktopIconCanvasInner({
           ? [...baseSelection, ...intersected]
           : intersected;
         applyMarqueeSelection(combined);
-      };
+      });
 
       const cleanupMarquee = () => {
+        handleMarqueePointerMove.cancel();
         window.removeEventListener('pointermove', handleMarqueePointerMove);
         window.removeEventListener('pointerup', handleMarqueePointerUp);
         window.removeEventListener('pointercancel', handleMarqueePointerCancel);
@@ -1437,11 +1446,6 @@ function DesktopIconCanvasInner({
     userStyle: style,
   });
 
-  const toolbarClass = stableClassName('desktop-icon-canvas', 'toolbar');
-  const stageClass = stableClassName('desktop-icon-canvas', 'stage');
-  const iconClass = stableClassName('desktop-icon-canvas', 'icon');
-  const marqueeClass = stableClassName('desktop-icon-canvas', 'marquee');
-  const footerClass = stableClassName('desktop-icon-canvas', 'footer');
 
   const stageMinWidthPx = safeCols * 96;
   const stageMinHeightPx = safeRows * 96;
@@ -1867,10 +1871,7 @@ function DesktopIconCanvasInner({
                             role="alert"
                             data-testid="desktop-rename-error"
                             className="text-[10px] font-semibold leading-tight px-1 rounded"
-                            style={{
-                              color: 'var(--prism-error-contrast)',
-                              backgroundColor: 'var(--prism-error-main)',
-                            }}
+                            style={STYLE_BADGE_ERROR}
                           >
                             {renameError}
                           </span>
@@ -1944,5 +1945,4 @@ function DesktopIconCanvasInner({
   );
 }
 
-export const DesktopIconCanvas = memo(DesktopIconCanvasInner);
-DesktopIconCanvas.displayName = 'DesktopIconCanvas';
+export const DesktopIconCanvas = /*#__PURE__*/ memoWithDisplayName(DesktopIconCanvasInner, 'DesktopIconCanvas');
