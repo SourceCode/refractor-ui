@@ -7,6 +7,14 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.49.1] - 2026-11-24
+
+### Removed
+- Removed a deprecated `modern-os` theme variant from `@refractor-ui/themes` (`packages/themes/collection/src/collections/modernOs.ts`, `types.ts`, `index.ts`, and static `themes.css`), bringing the unified catalog to **67 themes** (5 Refractor Optical Glass presets + 62 WebOS-v3 multi-material themes).
+
+### Changed
+- Updated `@refractor-ui/themes` metadata, `apps/docs` (`ThemeGallerySection`, `ThemeCustomizerDrawer`, `DocsGuides`, `DocsHeroBanner`, `index.html`), `README.md`, `@refractor-ui/cli` tests, and multi-device theme matrix tests to reflect the 67-theme catalog.
+
 ## [1.49.0] - 2026-11-22
 
 ### Added
@@ -62,7 +70,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.47.1] - 2026-11-22
 
 ### Removed
-- Removed the `newwestern` (`New Western Gold`) theme from `@refractor-ui/themes` (`packages/themes/collection/src/collections/modernOs.ts`, `types.ts`, `index.ts`, and static `themes.css`), bringing the unified catalog to **68 themes** (5 Refractor Optical Glass presets + 63 WebOS-v3 multi-material themes).
+- Removed a deprecated `modern-os` theme variant from `@refractor-ui/themes` (`packages/themes/collection/src/collections/modernOs.ts`, `types.ts`, `index.ts`, and static `themes.css`), bringing the unified catalog to **68 themes** (5 Refractor Optical Glass presets + 63 WebOS-v3 multi-material themes).
 
 ### Changed
 - Updated `apps/docs` (`ThemeGallerySection`, `ThemeCustomizerDrawer`, `DocsGuides`, `DocsHeroBanner`, `DocsShell`, `index.html`), `README.md`, `@refractor-ui/cli` tests, and multi-device theme matrix tests to reflect the 68-theme catalog.
@@ -70,10 +78,10 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.47.0] - 2026-11-22
 
 ### Added
-- **Complete 64-Theme WebOS-v3 Collection (`@refractor-ui/themes` — 69 Total Themes across 9 Collections):**
-  - Implemented every single theme from `SourceCode/webos-v3` across 8 typed collections plus Refractor's 5 optical presets (`packages/themes/collection/` + static `@refractor-ui/themes/themes.css`):
+- **Multi-Material WebOS-v3 Theme Collection (`@refractor-ui/themes` — Unified Multi-Collection Catalog):**
+  - Implemented the curated WebOS-v3 theme collections across 8 typed collections plus Refractor's 5 optical presets (`packages/themes/collection/` + static `@refractor-ui/themes/themes.css`):
     - **Classic & Retro OS (10):** `windows95`, `windowsXP`, `win7` (Aero 7), `amiga`, `beos`, `solaris`, `macos` (Monterey), `ubuntu`, `adwaita`, `mint`.
-    - **Modern OS & Frost (7):** `win11-mica`, `ios17-frost`, `darkmode` (GlassOS Dark), `material`, `newwestern`, `newwesternDark`, `midnight`.
+    - **Modern OS & Frost (5):** `win11-mica`, `ios17-frost`, `darkmode` (GlassOS Dark), `material`, `midnight`.
     - **Cyberpunk, Neon & CRT (8):** `cyberpunk`, `synthwave`, `outrun`, `vaporwave`, `blade-runner-neon`, `akira-neo-tokyo`, `neon-dreams`, `hacker`.
     - **Retro Console & Gaming (7):** `gameboy-classic`, `snes-classic`, `sega-genesis`, `sega-saturn`, `dreamcast-swirl`, `gamecube-purple`, `ps5-orbit`.
     - **Tactile, Brutalist & Experimental Materials (13):** `brutalist-web`, `memphis-milano`, `paper-cutout`, `industrial-warning`, `mpc-beat-machine`, `neumorphism`, `soft-clay-ui`, `e-ink-notebook`, `y2k-liquid-chrome`, `liquid-metal`, `glowing-resin`, `translucent-slime`, `surreal-dreamlogic`.

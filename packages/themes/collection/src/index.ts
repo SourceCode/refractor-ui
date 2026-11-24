@@ -37,12 +37,11 @@ export const win7Theme = /*#__PURE__*/ getWebOsTheme('win7');
 export const windows95Theme = /*#__PURE__*/ getWebOsTheme('windows95');
 export const windowsXpTheme = /*#__PURE__*/ getWebOsTheme('windowsXP');
 
-// Modern OS & Frost (6)
+// Modern OS & Frost (5)
 export const darkmodeTheme = /*#__PURE__*/ getWebOsTheme('darkmode');
 export const ios17FrostTheme = /*#__PURE__*/ getWebOsTheme('ios17-frost');
 export const materialTheme = /*#__PURE__*/ getWebOsTheme('material');
 export const midnightTheme = /*#__PURE__*/ getWebOsTheme('midnight');
-export const newwesternDarkTheme = /*#__PURE__*/ getWebOsTheme('newwesternDark');
 export const win11MicaTheme = /*#__PURE__*/ getWebOsTheme('win11-mica');
 
 // Cyberpunk, Neon & CRT (8)
