@@ -101,7 +101,7 @@ const theme = createPrismTheme({
       open={customizerOpen}
       mode="right"
       title="Multi-Material Theme Studio"
-      subtitle={`${ALL_THEME_ENTRIES.length} full-transformation themes (Optical Glass + 63 WebOS-v3)`}
+      subtitle={`${ALL_THEME_ENTRIES.length} full-transformation themes (Optical Glass + 62 WebOS-v3)`}
       onClose={() => dispatch(setCustomizerOpen(false))}
     >
       <div className="space-y-6">
@@ -122,10 +122,10 @@ const theme = createPrismTheme({
             <Search className="w-3.5 h-3.5 text-slate-500 shrink-0" aria-hidden="true" />
             <input
               type="search"
-              aria-label="Filter 68 themes"
+              aria-label="Filter 67 themes"
               value={themeQuery}
               onChange={(e) => setThemeQuery(e.target.value)}
-              placeholder="Search 68 themes (Win95, Mica, Nord)..."
+              placeholder="Search 67 themes (Win95, Mica, Nord)..."
               className="w-full min-w-0 bg-transparent text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-500 focus:outline-none"
             />
           </div>

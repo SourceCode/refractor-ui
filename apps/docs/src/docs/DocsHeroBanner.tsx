@@ -33,7 +33,7 @@ const INSTALL_COMMANDS: Record<PackageManager, string> = {
 const TELEMETRY_PILLS = [
   { label: 'Components', value: `${COMPONENT_REGISTRY.length}` },
   { label: 'Categories', value: `${DOC_CATEGORIES.length}` },
-  { label: 'Themes', value: '68' },
+  { label: 'Themes', value: '67' },
   { label: 'V8 Coverage', value: '99.8%' },
   { label: 'any / unknown', value: '0' },
   { label: 'High CVEs', value: '0' },

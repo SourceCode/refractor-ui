@@ -1,5 +1,5 @@
 /*
- * @refractor-ui/themes — Static Cascade CSS for all 63 WebOS-v3 Multi-Material Themes
+ * @refractor-ui/themes — Static Cascade CSS for all 62 WebOS-v3 Multi-Material Themes
  * Pair with @refractor-ui/core/refractor.css and apply data-refractor-theme="<id>",
  * data-refractor-material="<material>", and data-refractor-theme-adaptive="true".
  */
@@ -548,45 +548,6 @@
   --prism-well-start: #0f172a;
   --prism-well-end: #0f172a;
   --prism-well-border: #1e293b;
-}
-
-[data-refractor-theme="newwesternDark"] {
-  color-scheme: dark;
-  --prism-font-sans: "Inter", sans-serif;
-  --prism-primary-main: #c0985c;
-  --prism-primary-light: #cfb183;
-  --prism-primary-dark: #987a4d;
-  --prism-primary-contrast: #0f0f0f;
-  --prism-primary-rgb: 192, 152, 92;
-  --prism-secondary-main: #e0c089;
-  --prism-secondary-rgb: 224, 192, 137;
-  --prism-glow-color: #e0c089;
-  --prism-glow-rgb: 224, 192, 137;
-  --prism-text-primary: #f5f5f5;
-  --prism-text-secondary: rgba(245, 245, 245, 0.55);
-  --prism-divider: rgba(192, 152, 92, 0.25);
-  --prism-wallpaper: radial-gradient(at 0% 0%, hsla(40,30%,12%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(30,40%,18%,1) 0, transparent 55%), linear-gradient(135deg, #0f0f0f 0%, #171614 45%, #1f1d18 100%);
-  --prism-window-bg: rgba(18, 18, 18, 0.88);
-  --prism-surface-bg: rgba(255, 255, 255, 0.04);
-  --prism-surface-highlight: rgba(255, 255, 255, 0.08);
-  --prism-window-border: rgba(192, 152, 92, 0.25);
-  --prism-chrome-bg: rgba(255, 255, 255, 0.04);
-  --prism-chrome-text: rgba(255, 255, 255, 0.9);
-  --prism-window-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
-  --prism-border-width: 1px;
-  --prism-blur-px: 14px;
-  --prism-slab-blur-px: 14px;
-  --prism-radius-control: 14px;
-  --prism-radius-btn: 11px;
-  --prism-radius-slab: 14px;
-  --prism-slab-top: rgba(18, 18, 18, 0.88);
-  --prism-slab-bottom: rgba(18, 18, 18, 0.88);
-  --prism-crystal-top: rgba(255, 255, 255, 0.04);
-  --prism-crystal-mid: rgba(255, 255, 255, 0.04);
-  --prism-crystal-bottom: rgba(255, 255, 255, 0.08);
-  --prism-well-start: rgba(255, 255, 255, 0.04);
-  --prism-well-end: rgba(255, 255, 255, 0.04);
-  --prism-well-border: rgba(192, 152, 92, 0.25);
 }
 
 [data-refractor-theme="win11-mica"] {

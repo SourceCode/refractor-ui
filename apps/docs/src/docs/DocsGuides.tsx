@@ -313,7 +313,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
               <Palette className="w-4 h-4" aria-hidden="true" />
-              <span>68 Multi-Material Themes · 13 Material Archetypes · 9 FX Overlays</span>
+              <span>67 Multi-Material Themes · 13 Material Archetypes · 9 FX Overlays</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-950 dark:text-white">
               Theming, Materials, Fonts &amp; Visual FX
@@ -321,8 +321,8 @@ export function DocsGuides({ section }: DocsGuidesProps) {
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               Every primitive reads from <code className="font-mono">--prism-*</code> tokens and{' '}
               <code className="font-mono">[data-refractor-material]</code> /{' '}
-              <code className="font-mono">[data-refractor-fx]</code> cascades. Click any of the 68
-              themes below (5 Optical Glass presets + 63 WebOS-v3 themes) to transform all 314
+              <code className="font-mono">[data-refractor-fx]</code> cascades. Click any of the 67
+              themes below (5 Optical Glass presets + 62 WebOS-v3 themes) to transform all 314
               components live with on-demand Google Fonts and GPU-friendly FX.
             </p>
           </div>
@@ -340,7 +340,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
         <CodeBlockCard
           title="Full-Transformation Multi-Material Themes (@refractor-ui/themes)"
           filename="src/App.tsx"
-          code={`import { PrismThemeProvider } from '@refractor-ui/core';\nimport { cyberpunkTheme, getThemeById, windows95Theme } from '@refractor-ui/themes';\n\n// Activate any of the 68 built-in themes with on-demand Google Fonts & FX\nexport function App() {\n  return (\n    <PrismThemeProvider theme={getThemeById('win11-mica') ?? windows95Theme} loadFonts>\n      {/* All 314 components adapt materials, corners, shadows, fonts & wallpapers */}\n    </PrismThemeProvider>\n  );\n}`}
+          code={`import { PrismThemeProvider } from '@refractor-ui/core';\nimport { cyberpunkTheme, getThemeById, windows95Theme } from '@refractor-ui/themes';\n\n// Activate any of the 67 built-in themes with on-demand Google Fonts & FX\nexport function App() {\n  return (\n    <PrismThemeProvider theme={getThemeById('win11-mica') ?? windows95Theme} loadFonts>\n      {/* All 314 components adapt materials, corners, shadows, fonts & wallpapers */}\n    </PrismThemeProvider>\n  );\n}`}
         />
 
         <CodeBlockCard

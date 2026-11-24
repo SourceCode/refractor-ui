@@ -71,7 +71,6 @@ const ALL_EXPECTED_WEBOS_SOURCE_IDS: ReadonlyArray<string> = [
   'mpc-beat-machine',
   'neon-dreams',
   'neumorphism',
-  'newwesternDark',
   'nord',
   'obsidian',
   'ocean',
@@ -105,17 +104,16 @@ const ALL_EXPECTED_WEBOS_SOURCE_IDS: ReadonlyArray<string> = [
   'zen-garden',
 ];
 
-describe('@refractor-ui/themes — Complete 63-Theme WebOS-v3 Collection & 68-Theme Catalog', () => {
-  it('implements all 63 curated WebOS-v3 themes plus 5 Refractor optical presets (68 total) with New Western Gold removed', () => {
+describe('@refractor-ui/themes — Complete 62-Theme WebOS-v3 Collection & 67-Theme Catalog', () => {
+  it('implements all 62 curated WebOS-v3 themes plus 5 Refractor optical presets (67 total)', () => {
     expect(OPTICAL_THEME_ENTRIES).toHaveLength(5);
-    expect(WEBOS_THEME_ENTRIES).toHaveLength(63);
-    expect(ALL_WEBOS_THEME_SPECS).toHaveLength(63);
-    expect(ALL_THEME_ENTRIES).toHaveLength(68);
+    expect(WEBOS_THEME_ENTRIES).toHaveLength(62);
+    expect(ALL_WEBOS_THEME_SPECS).toHaveLength(62);
+    expect(ALL_THEME_ENTRIES).toHaveLength(67);
     expect(THEME_CATEGORIES).toHaveLength(9);
-    expect(getThemeById('newwestern')).toBeUndefined();
 
     const uniqueIds = new Set(ALL_THEME_ENTRIES.map((e) => e.id));
-    expect(uniqueIds.size).toBe(68);
+    expect(uniqueIds.size).toBe(67);
 
     const sourceIds = new Set(WEBOS_THEME_ENTRIES.map((e) => e.sourceId));
     for (const expectedSourceId of ALL_EXPECTED_WEBOS_SOURCE_IDS) {
@@ -124,7 +122,7 @@ describe('@refractor-ui/themes — Complete 63-Theme WebOS-v3 Collection & 68-Th
       );
     }
 
-    // Verify all 13 UI material archetypes are represented across the 69-theme catalog
+    // Verify all 13 UI material archetypes are represented across the 67-theme catalog
     const representedMaterials = new Set(ALL_THEME_ENTRIES.map((e) => e.material));
     expect(representedMaterials.size).toBe(13);
 
@@ -143,13 +141,13 @@ describe('@refractor-ui/themes — Complete 63-Theme WebOS-v3 Collection & 68-Th
     expect(tokyoNightTheme.name).toBe('tokyo-night');
   });
 
-  it('enforces strict WCAG 2.2 AA contrast (>= 4.5:1), valid tokens, and allowlisted Google Fonts across ALL 69 themes', () => {
+  it('enforces strict WCAG 2.2 AA contrast (>= 4.5:1), valid tokens, and allowlisted Google Fonts across ALL 67 themes', () => {
     for (const entry of ALL_THEME_ENTRIES) {
       expect(isDefinedPrismTheme(entry.theme)).toBe(true);
       const resolved = resolveDefinedTheme(entry.theme, entry.mode);
       const vars = themeToCssVariables(resolved);
 
-      // Primary button text contrast: strict WCAG 2.2 AA (>= 4.5:1) for all 64 WebOS-v3 themes,
+      // Primary button text contrast: strict WCAG 2.2 AA (>= 4.5:1) for all 62 WebOS-v3 themes,
       // and >= 3.0:1 (WCAG AA UI/large + >= 4.5:1 gradient dark stop) for legacy optical glass presets
       const primaryBtnContrast = getContrastRatio(
         resolved.palette.primary.main,
@@ -208,7 +206,7 @@ describe('@refractor-ui/themes — Complete 63-Theme WebOS-v3 Collection & 68-Th
     }
   });
 
-  it('resolves all 69 themes under performance budget (< 5ms average per theme switch)', () => {
+  it('resolves all 67 themes under performance budget (< 5ms average per theme switch)', () => {
     const start = performance.now();
     for (const entry of ALL_THEME_ENTRIES) {
       const resolved = resolveDefinedTheme(entry.theme, entry.mode);
@@ -231,7 +229,7 @@ describe('@refractor-ui/themes — Complete 63-Theme WebOS-v3 Collection & 68-Th
 
     expect(() => getWebOsTheme('nonexistent' as WebOsThemeId)).toThrow(/Unknown WebOS theme id/);
 
-    expect(listThemes()).toHaveLength(68);
+    expect(listThemes()).toHaveLength(67);
     expect(listThemes({ category: 'classic-os' })).toHaveLength(10);
     expect(listThemes({ category: 'cyber-neon', mode: 'dark' })).toHaveLength(8);
     expect(listThemes({ material: 'bevel' }).length).toBeGreaterThanOrEqual(5);
