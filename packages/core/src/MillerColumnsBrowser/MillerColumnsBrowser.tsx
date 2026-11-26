@@ -178,7 +178,7 @@ const DEFAULT_ROOTS: ReadonlyArray<MillerFileNode> = [
             sizeLabel: '6.1 KB',
             modifiedAt: 'Yesterday',
             previewText:
-              'Refractor Optical Glass UI Kit aligns every component with React 19 ref props, Astryx themeProps composition, and strictly token-driven --prism-* optical surfaces.',
+              'Refractor Optical Glass UI Kit aligns every component with React 19 ref props, Refractor themeProps composition, and strictly token-driven --prism-* optical surfaces.',
           },
         ],
       },

@@ -129,7 +129,7 @@ const DEFAULT_DOCUMENT_PAGES: ReadonlyArray<DocumentViewerPage> = [
   {
     pageNumber: 3,
     section: 'Section 3.0 · Component Contracts',
-    title: 'Astryx Open-Internals & Keyboard Ergonomics',
+    title: 'Open-Internals & Keyboard Ergonomics',
     paragraphs: [
       'Every Refractor component adopts React 19 direct ref props, extends BaseProps, reflects live state through themeProps data attributes, and composes consumer className and xstyle tokens via mergeProps.',
       'Text inputs and page jump controls guard Enter key commits against active IME composition sessions so CJK and diacritic candidates are never interrupted prematurely.',
@@ -143,7 +143,7 @@ const DEFAULT_DOCUMENT_PAGES: ReadonlyArray<DocumentViewerPage> = [
     paragraphs: [
       'In-document search tokenizes page headings and body paragraphs with linear-time literal substring matching, avoiding dynamic regular expressions and preventing ReDoS payloads or HTML injection.',
       'Matched terms render strictly as React <mark> elements styled with semantic optical warning and primary tokens so highlighted passages remain legible in every cascade theme.',
-      'Continuous integration enforces strict zero-any TypeScript checks, custom Astryx ESLint invariants, and high branch coverage across positive, negative, and adversarial user flows.',
+      'Continuous integration enforces strict zero-any TypeScript checks, custom Refractor ESLint invariants, and high branch coverage across positive, negative, and adversarial user flows.',
     ],
   },
 ];

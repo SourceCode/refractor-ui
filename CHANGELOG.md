@@ -59,7 +59,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.49.1] - 2026-11-24
 
 ### Removed
-- Removed a deprecated `modern-os` theme variant from `@refractor-ui/themes` (`packages/themes/collection/src/collections/modernOs.ts`, `types.ts`, `index.ts`, and static `themes.css`), bringing the unified catalog to **67 themes** (5 Refractor Optical Glass presets + 62 WebOS-v3 multi-material themes).
+- Removed a deprecated `modern-os` theme variant from `@refractor-ui/themes` (`packages/themes/collection/src/collections/modernOs.ts`, `types.ts`, `index.ts`, and static `themes.css`), bringing the unified catalog to **67 themes** (5 Refractor Optical Glass presets + 62 multi-material themes).
 
 ### Changed
 - Updated `@refractor-ui/themes` metadata, `apps/docs` (`ThemeGallerySection`, `ThemeCustomizerDrawer`, `DocsGuides`, `DocsHeroBanner`, `index.html`), `README.md`, `@refractor-ui/cli` tests, and multi-device theme matrix tests to reflect the 67-theme catalog.
@@ -71,7 +71,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
   - **Pure Tree-Shakeable Component Factory (`packages/core/src/utils/memo.ts`):** Added `memoWithDisplayName<P>` so every exported component preserves `displayName` inside a single `/*#__PURE__*/` expression with zero top-level side effects.
   - **60fps `requestAnimationFrame` Pointer-Drag Coalescer (`packages/core/src/hooks/useRafCallback.ts`):** Added `createCoalescedPointerMove(handler)` coalescing trusted 120Hz–1000Hz browser `pointermove` bursts via `requestAnimationFrame` with `.cancel()` cleanup while executing synthetic test events synchronously.
   - **15 Additional Shared Frozen Style Singletons (`packages/core/src/utils/styles.ts`):** Expanded frozen CSS-token singletons to 37 total (`STYLE_BORDER_DIVIDER_TEXT_SECONDARY`, `STYLE_BADGE_PRIMARY/ERROR/INFO/WARNING/SUCCESS`, etc.) with `/*#__PURE__*/` annotations on frozen style constants and hoisted `Intl.NumberFormat`/`Intl.Collator` instances.
-  - **`@refractor-ui/themes` Subpath Exports & Tree-Shaking (`packages/themes/collection/package.json`):** Added `"sideEffects": ["**/*.css"]`, 8 tree-shakeable collection subpath exports (`./classic-os`, `./modern-os`, `./cyberpunk`, `./retro-gaming`, `./tactile`, `./developer`, `./elements`, `./seasons`), `/*#__PURE__*/` annotations on all 63 WebOS-v3 exports and 5 optical presets, and a precomputed lowercased `SEARCH_INDEX` Map for `listThemes()`.
+  - **`@refractor-ui/themes` Subpath Exports & Tree-Shaking (`packages/themes/collection/package.json`):** Added `"sideEffects": ["**/*.css"]`, 8 tree-shakeable collection subpath exports (`./classic-os`, `./modern-os`, `./cyberpunk`, `./retro-gaming`, `./tactile`, `./developer`, `./elements`, `./seasons`), `/*#__PURE__*/` annotations on all 63 multi-material theme exports and 5 optical presets, and a precomputed lowercased `SEARCH_INDEX` Map for `listThemes()`.
   - **Custom App-Shell Blur-Host Opt-In (`[data-refractor-blur-host="true"]`):** Added CSS opt-in attribute in `refractor.css` allowing host application shells (such as split panes and tiled workspaces) to automatically elide nested `.prism-slab`, `.prism-crystal`, and `.prism-btn-secondary` `backdrop-filter` passes inside already-blurred parent panels.
   - **Phase 2 Audit Ledger & Expanded Performance Regression Benchmarks:** Added [`docs/reviews/performance-audit-v1.49.0.md`](./docs/reviews/performance-audit-v1.49.0.md) and expanded `packages/core/src/__tests__/performance.benchmark.test.tsx` to enforce 314/314 pure `memoWithDisplayName` exports, zero constant in-render `stableClassName(...)` calls, 89/89 contained SVG components, 36/36 rAF-coalesced `pointermove` components, `@refractor-ui/themes` tree-shaking metadata, and 12px/14px GPU blur defaults.
 
@@ -119,7 +119,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.47.1] - 2026-11-22
 
 ### Removed
-- Removed a deprecated `modern-os` theme variant from `@refractor-ui/themes` (`packages/themes/collection/src/collections/modernOs.ts`, `types.ts`, `index.ts`, and static `themes.css`), bringing the unified catalog to **68 themes** (5 Refractor Optical Glass presets + 63 WebOS-v3 multi-material themes).
+- Removed a deprecated `modern-os` theme variant from `@refractor-ui/themes` (`packages/themes/collection/src/collections/modernOs.ts`, `types.ts`, `index.ts`, and static `themes.css`), bringing the unified catalog to **68 themes** (5 Refractor Optical Glass presets + 63 multi-material themes).
 
 ### Changed
 - Updated `apps/docs` (`ThemeGallerySection`, `ThemeCustomizerDrawer`, `DocsGuides`, `DocsHeroBanner`, `DocsShell`, `index.html`), `README.md`, `@refractor-ui/cli` tests, and multi-device theme matrix tests to reflect the 68-theme catalog.
@@ -127,8 +127,8 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.47.0] - 2026-11-22
 
 ### Added
-- **Multi-Material WebOS-v3 Theme Collection (`@refractor-ui/themes` — Unified Multi-Collection Catalog):**
-  - Implemented the curated WebOS-v3 theme collections across 8 typed collections plus Refractor's 5 optical presets (`packages/themes/collection/` + static `@refractor-ui/themes/themes.css`):
+- **Multi-Material Theme Collection (`@refractor-ui/themes` — Unified Multi-Collection Catalog):**
+  - Implemented the curated multi-material theme collections across 8 typed collections plus Refractor's 5 optical presets (`packages/themes/collection/` + static `@refractor-ui/themes/themes.css`):
     - **Classic & Retro OS (10):** `windows95`, `windowsXP`, `win7` (Aero 7), `amiga`, `beos`, `solaris`, `macos` (Monterey), `ubuntu`, `adwaita`, `mint`.
     - **Modern OS & Frost (5):** `win11-mica`, `ios17-frost`, `darkmode` (GlassOS Dark), `material`, `midnight`.
     - **Cyberpunk, Neon & CRT (8):** `cyberpunk`, `synthwave`, `outrun`, `vaporwave`, `blade-runner-neon`, `akira-neo-tokyo`, `neon-dreams`, `hacker`.
@@ -137,11 +137,11 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
     - **Developer & IDE Palettes (8):** `vscode`, `monokai`, `one-dark-pro`, `nord`, `tokyo-night`, `solarized-dark`, `solarized-light`, `obsidian-stone` (alias `webos-obsidian`).
     - **Elements & Atmospheric (7):** `element-air`, `element-earth`, `element-ether`, `element-fire`, `element-water`, `ocean`, `zen-garden`.
     - **Four Seasons (4):** `season-spring`, `season-summer`, `season-autumn`, `season-winter`.
-  - Every WebOS-v3 theme is mathematically verified for strict WCAG 2.2 AA contrast (`>= 4.5:1` on primary actions and body surfaces), `< 0.1ms` JS resolution speed, allowlisted on-demand Google Fonts, and authentic material/FX styling.
+  - Every multi-material theme is mathematically verified for strict WCAG 2.2 AA contrast (`>= 4.5:1` on primary actions and body surfaces), `< 0.1ms` JS resolution speed, allowlisted on-demand Google Fonts, and authentic material/FX styling.
 - **Interactive 69-Theme Gallery, Live Theme Studio & CLI Discovery:**
   - Upgraded `apps/docs` (`ThemeGallerySection`, `ThemeCustomizerDrawer`, `DocsGuides`, `DocsShell` Command Palette) with live search, category/mode filters, wallpaper + swatch cards, instant transformation specimen preview, and copyable TSX snippets.
   - Upgraded `@refractor-ui/cli` (`refractor theme list` & `refractor theme inspect <id>`) to enumerate and inspect all 69 themes.
-- **Multi-Device Theme Validation & Live Chromium Visual Audit (`docs/reviews/webos-v3-themes-audit.md`):**
+- **Multi-Device Theme Validation & Live Chromium Visual Audit (`docs/reviews/multi-material-themes-audit.md`):**
   - Added automated 69-theme Web, Tablet (`iPad Pro 11"`), and Mobile (`Google Pixel 10`, `iPhone 17`, `Samsung Galaxy S25`) matrix tests (`apps/docs/src/docs/themes.matrix.test.tsx`) and live Chromium visual audit certifying `>= 9.8/10` accuracy, performance, and quality across all 13 material archetypes.
 
 ## [1.46.0] - 2026-11-22
@@ -588,7 +588,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.9.0] - 2026-11-21
 
 ### Added
-- **Multi-Agent & Orchestration (4 new Astryx-standard optical-glass components — 126 total across 21 categories):**
+- **Multi-Agent & Orchestration (4 new open-internals optical-glass components — 126 total across 21 categories):**
   - `AgentRosterRail`: Horizontal strip or vertical sidebar rail listing specialized sub-agents with live status badges (`idle`/`thinking`/`tool`/`waiting`/`done`), current task, and keyboard arrow navigation.
   - `AgentExecutionTrace`: Optical waterfall timeline mapping LLM, tool, handoff, and retrieval spans with proportional latency bars, token totals, kind filters, and span detail inspector.
   - `HandoffDivider`: Optical conversation separator framing `fromAgent → toAgent` delegation badges, summary text, clickable artifact chips, and expandable literal payload inspection.
@@ -599,7 +599,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.8.0] - 2026-11-21
 
 ### Added
-- **AI Context, Memory & Configuration (6 new Astryx-standard optical-glass components — 122 total across 20 categories):**
+- **AI Context, Memory & Configuration (6 new open-internals optical-glass components — 122 total across 20 categories):**
   - `ContextTokenMeter`: Segmented optical progress bar & SVG radial ring gauge tracking system/files/tools/history tokens against warning and critical thresholds.
   - `AttachedContextBar`: Horizontal removable context chip strip for files, folders, URLs, and snippets with token readouts and pin toggles.
   - `ModelParameterSwitcher`: Compact optical popover combining model selection with Web Search, Code Execution, Extended Thinking, and Temperature controls.
@@ -611,7 +611,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.7.0] - 2026-11-21
 
 ### Added
-- **AI Agent Execution & Control (7 new Astryx-standard optical-glass components — 116 total across 19 categories):**
+- **AI Agent Execution & Control (7 new open-internals optical-glass components — 116 total across 19 categories):**
   - `AgentPlanList`: Editable step-by-step agent roadmap with 5 lifecycle statuses (`pending`/`active`/`done`/`skipped`/`failed`) and refractive progress telemetry.
   - `ToolCallCard`: Collapsible tool execution card with category icon, status badge, elapsed duration, and structured key/value inputs & outputs.
   - `ApprovalGateCard`: Blocking Human-in-the-Loop confirmation card with semantic risk severity badge, editable parameters, and Approve / Edit & Approve / Reject actions.
@@ -624,7 +624,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.6.0] - 2026-11-21
 
 ### Added
-- **CLI & Terminal Surfaces (7 new Astryx-standard optical-glass components — 109 total across 18 categories):**
+- **CLI & Terminal Surfaces (7 new open-internals optical-glass components — 109 total across 18 categories):**
   - `TerminalEmulator`: Pure-React ANSI SGR tokenized shell emulator with Up/Down history, `Ctrl+L` clear, and zero `dangerouslySetInnerHTML`.
   - `CommandInputBar`: Monospace prompt input bar with Tab/ArrowRight inline ghost-text autocomplete and Up/Down command history.
   - `LiveLogStreamer`: Searchable live log feed with Debug/Info/Warn/Error severity filters, Follow/Pause toggle, and Jump-to-Bottom lock.
@@ -637,7 +637,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.5.0] - 2026-11-21
 
 ### Added
-- **Mobile, Touch & System Utilities (5 new Astryx-standard optical-glass components — 102 total across 17 categories):**
+- **Mobile, Touch & System Utilities (5 new open-internals optical-glass components — 102 total across 17 categories):**
   - `BottomNavigationBar`: Thumb-friendly horizontal destination bar with active indicator pill, clamped unread badge counters, keyboard arrow navigation, and `fixed`/`inline` modes.
   - `SwipeableActionRow`: Pointer/touch swipeable list row revealing semantic left/right quick-action trays with accessible keyboard reveal toggles.
   - `PullToRefresh`: Rubber-band top pull container with optical progress & spinner status plus accessible desktop Refresh button for sync/async reloads.
@@ -648,7 +648,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.4.0] - 2026-11-21
 
 ### Added
-- **Commerce, Billing & Conversion (5 new Astryx-standard optical-glass components — 97 total across 16 categories):**
+- **Commerce, Billing & Conversion (5 new open-internals optical-glass components — 97 total across 16 categories):**
   - `PricingTierMatrix`: Multi-column optical pricing grid with Monthly/Annual billing toggle, savings pill, feature checklists, and highlighted Most Popular card.
   - `ProductVariantSelector`: Token-driven color swatches, size pills, and material chips with out-of-stock guards and live price calculation.
   - `ShoppingCartDrawer`: Slide-over & inline optical cart panel with quantity steppers, item removal, subtotal/discount/tax/total summary, and checkout CTA.
@@ -659,7 +659,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.3.0] - 2026-11-21
 
 ### Added
-- **Security, Auth & Account Management (5 new Astryx-standard optical-glass components — 92 total across 15 categories):**
+- **Security, Auth & Account Management (5 new open-internals optical-glass components — 92 total across 15 categories):**
   - `OtpCodeInput`: Individual 4–8 character verification wells with auto-advance, Backspace rewind, Arrow navigation, and multi-digit paste distribution.
   - `PasswordStrengthMeter`: Linear-time O(n) segmented optical progress bar and real-time complexity checklist.
   - `SecretKeyField`: Masked monospace credential display with Reveal/Hide toggle, clipboard copy confirmation, and optional Rotate action.
@@ -670,7 +670,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.2.0] - 2026-11-21
 
 ### Added
-- **Media, Audio & Spatial Controls (6 new Astryx-standard optical-glass components — 87 total across 14 categories):**
+- **Media, Audio & Spatial Controls (6 new open-internals optical-glass components — 87 total across 14 categories):**
   - `CustomVideoPlayer`: Media container with timeline scrubber, clickable chapter markers, playback speed selector, volume/mute controls, live optical captions overlay, and fullscreen toggle.
   - `AudioWaveformPlayer`: Interactive sound-bar waveform player supporting click & keyboard scrubbing, play/pause, tabular time readout, and playback speed selector.
   - `MediaLightbox`: Fullscreen dark overlay & inline gallery viewer with zoom, drag-to-pan, filmstrip thumbnails, keyboard navigation, and strict URL allowlisting.
@@ -682,7 +682,7 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 ## [1.1.0] - 2026-11-21
 
 ### Added
-- **AI & Conversational Interfaces (6 new Astryx-standard optical-glass components — 81 total across 13 categories):**
+- **AI & Conversational Interfaces (6 new open-internals optical-glass components — 81 total across 13 categories):**
   - `ChatMessageStream`: Scrollable optical conversation log distinguishing user, assistant, and system turns with sanitized avatars, timestamps, streaming caret indicators, and Jump-to-Latest control.
   - `PromptComposer`: Expandable multi-line prompt input bar with attachment trigger, voice-to-text toggle, inline model selector, IME-safe Enter submission, and Stop generation toggle.
   - `ThinkingAccordion`: Collapsible optical reasoning trace displaying step statuses, tool names, elapsed durations, and live streaming indicator.
@@ -696,14 +696,14 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 Initial public General Availability release of **Refractor Optical Glass UI Kit** (`@refractor-ui/*`).
 
 ### Added
-- **Astryx-Aligned Monorepo & Open-Internals Architecture:**
+- **Monorepo & Open-Internals Architecture:**
   - Modular `pnpm` monorepo (`packages/core`, `packages/themes/*`, `packages/cli`, `apps/docs`, `internal/eslint-plugin-refractor`, `scripts/`, `docs/adr/`, `docs/reviews/`).
   - Core primitives infrastructure: `BaseProps`, `naming` (`refractor-*` stable class namespace), `themeProps()` (`data-*` state reflection), `mergeProps()` (non-clobbering class/style composition), `composeEventHandlers`, `useMergedRefs`, `useControllableState`, `colorMath`, `sanitize`, `diffAlgorithm`, `dateGrid`, `@layer base` `reset.css`, and `@layer components` `refractor.css`.
-- **Dual MUI + Astryx Optical Theme Engine & 5 Official Theme Presets:**
+- **Dual-Mode Optical Theme Engine & 5 Official Theme Presets:**
   - `createPrismTheme()` auto-deriving `light`, `dark`, WCAG `>= 4.5:1` `contrastText`, and RGB caustic channels from single hex colors.
   - `defineTheme()` supporting `extends`, `[light, dark]` token tuples, and `components` style overrides.
   - Official theme packages: `@refractor-ui/theme-alabaster`, `@refractor-ui/theme-obsidian`, `@refractor-ui/theme-amethyst`, `@refractor-ui/theme-emerald-tide`, and `@refractor-ui/theme-solar-prism`.
-- **75 Accessible Astryx-Standard React 19 Components Across 12 Categories:**
+- **75 Accessible Open-Internals React 19 Components Across 12 Categories:**
   - **Buttons & Actions (6):** `PrimaryButton`, `SecondaryButton`, `IconButton`, `SegmentedControl`, `SplitButton`, `FloatingActionButton`.
   - **Form Inputs & Selection Controls (11):** `TextInput`, `TextArea`, `SearchWithSuggestions`, `DropdownSelect`, `Checkbox`, `RadioGroup`, `ToggleSwitch`, `RangeSlider`, `DateTimePicker`, `FileDropzone`, `RatingControl`.
   - **Navigation (7):** `TopNavBar`, `SidebarDrawer`, `PrismTabs`, `Breadcrumbs`, `Pagination`, `Stepper`, `CommandPalette`.
@@ -719,9 +719,9 @@ Initial public General Availability release of **Refractor Optical Glass UI Kit*
 - **Agent-Ready CLI (`@refractor-ui/cli`):**
   - Supports `help`, `docs [principles|tokens|theme|architecture|--list] [--dense]`, `component --list`, `component <Name> [--dense | --detail full]`, `theme list`, `theme inspect <preset>`, path-traversal-hardened `swizzle <Name> --out <dir>`, and `check --strict`.
 - **Full GitHub Pages Documentation Portal (`apps/docs`):**
-  - Interactive landing hero, Getting Started guide, Theming & Colors guide with live preset switching, CLI & Swizzle guide, Architecture & Security guide, Reference Specimen Board, Live MUI+Astryx Optical Theme Studio, hash-routed deep links, and interactive playgrounds for all 75 components.
-- **Two-Tier Astryx ESLint Plugin & Quality / Security Certification:**
-  - 17 custom AST rules enforcing Astryx contracts and strict zero `any` / zero `unknown` TypeScript governance (`internal/eslint-plugin-refractor`, 16/16 plugin tests).
+  - Interactive landing hero, Getting Started guide, Theming & Colors guide with live preset switching, CLI & Swizzle guide, Architecture & Security guide, Reference Specimen Board, Live Token & Cascade Optical Theme Studio, hash-routed deep links, and interactive playgrounds for all 75 components.
+- **Two-Tier Refractor ESLint Plugin & Quality / Security Certification:**
+  - 17 custom AST rules enforcing Open-Internals contracts and strict zero `any` / zero `unknown` TypeScript governance (`internal/eslint-plugin-refractor`, 16/16 plugin tests).
   - Cross-component OWASP security & adversarial test suite (`packages/core/src/__tests__/security.adversarial.test.tsx`), `>= 93%` V8 coverage gate (`99.4%` statements, `97.5%+` branches, `99.9%` functions, `99.8%` lines), and `0` high/critical vulnerabilities.
   - Six directive ADRs (`docs/adr/ADR-0001`–`ADR-0006`) and Creative UX/UI Director live browser audit certifying all 75 components `>= 9.8/10` (`9.92/10` mean) in `docs/reviews/ux-ui-director-audit.md`.
 

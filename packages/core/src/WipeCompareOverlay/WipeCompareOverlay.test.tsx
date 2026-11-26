@@ -29,7 +29,7 @@ function mockStageRect(
 }
 
 describe('WipeCompareOverlay', () => {
-  it('renders Astryx contracts, default optical placeholders, corner badges, status bar, theme overrides, and React 19 ref', () => {
+  it('renders Open-Internals contracts, default optical placeholders, corner badges, status bar, theme overrides, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
     const orientationMapCheck: WipeOrientationMap = { vertical: true, horizontal: true };
     expect(orientationMapCheck.vertical && orientationMapCheck.horizontal).toBe(true);

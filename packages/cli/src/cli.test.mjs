@@ -47,7 +47,7 @@ describe('@refractor-ui/cli', () => {
 
     const defaultRes = await runCli(['docs']);
     expect(defaultRes.exitCode).toBe(0);
-    expect(defaultRes.stdout).toContain('Astryx Architectural Parity');
+    expect(defaultRes.stdout).toContain('Open-Internals Architectural Parity');
 
     const denseRes = await runCli(['docs', 'theme', '--dense']);
     expect(denseRes.exitCode).toBe(0);
@@ -164,7 +164,7 @@ describe('@refractor-ui/cli', () => {
     expect(unknownTotal.stderr).toContain('Unknown component');
   });
 
-  it('lists and inspects all 5 official optical theme presets plus all 62 WebOS-v3 collection themes and rejects invalid theme queries', async () => {
+  it('lists and inspects all 5 official optical theme presets plus all 62 Multi-Material collection themes and rejects invalid theme queries', async () => {
     const listRes = await runCli(['theme', 'list']);
     expect(listRes.exitCode).toBe(0);
     expect(listRes.stdout).toContain('Refractor Official Optical Theme Presets (5):');

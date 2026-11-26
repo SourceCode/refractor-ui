@@ -9,7 +9,7 @@ import {
 } from './index';
 
 describe('CapacityAllocationStrip', () => {
-  it('renders Astryx contracts, default 5 cluster storage segments, theme overrides, and React 19 ref', () => {
+  it('renders Open-Internals contracts, default 5 cluster storage segments, theme overrides, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
     const toneMapCheck: AllocationToneMap = {
       primary: true,

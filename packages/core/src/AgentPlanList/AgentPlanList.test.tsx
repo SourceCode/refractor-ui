@@ -12,7 +12,7 @@ const INITIAL_STEPS: AgentPlanStep[] = [
   {
     id: 'step-1',
     title: 'Inspect repository architecture',
-    detail: 'Confirm Astryx BaseProps and theme token contracts.',
+    detail: 'Confirm Open-Internals BaseProps and theme token contracts.',
     status: 'done',
   },
   {
@@ -98,7 +98,7 @@ describe('AgentPlanList', () => {
     expect(screen.getByText('Skipped')).toBeInTheDocument();
     expect(screen.getByText('Failed')).toBeInTheDocument();
     expect(
-      screen.getByText('Confirm Astryx BaseProps and theme token contracts.')
+      screen.getByText('Confirm Open-Internals BaseProps and theme token contracts.')
     ).toBeInTheDocument();
   });
 

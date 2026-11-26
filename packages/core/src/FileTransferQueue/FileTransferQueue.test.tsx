@@ -24,7 +24,7 @@ function dispatchKeyDownWithComposition(
 }
 
 describe('FileTransferQueue', () => {
-  it('renders Astryx contracts, default 4 concurrent jobs across all 4 ops, theme overrides, xstyle, and React 19 ref', () => {
+  it('renders Open-Internals contracts, default 4 concurrent jobs across all 4 ops, theme overrides, xstyle, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
     const opMapCheck: FileTransferOpKindMap = {
       copy: true,

@@ -71,7 +71,7 @@ for (const rel of requiredFiles) {
   }
 }
 
-// 3. Verify Astryx component folder structure & subpath export parity
+// 3. Verify Refractor component folder structure & subpath export parity
 const corePkg = JSON.parse(fs.readFileSync(path.join(CORE_DIR, 'package.json'), 'utf8'));
 const coreIndex = fs.existsSync(path.join(CORE_SRC, 'index.ts'))
   ? fs.readFileSync(path.join(CORE_SRC, 'index.ts'), 'utf8')
@@ -88,7 +88,7 @@ for (const comp of componentDirs) {
   const expected = [`${comp}.tsx`, `${comp}.doc.mjs`, `${comp}.test.tsx`, 'index.ts'];
   for (const file of expected) {
     if (!fs.existsSync(path.join(dir, file))) {
-      errors.push(`Astryx structure drift: packages/core/src/${comp}/ missing ${file}`);
+      errors.push(`Refractor structure drift: packages/core/src/${comp}/ missing ${file}`);
     }
   }
   const exportKey = `./${comp}`;
@@ -156,5 +156,5 @@ if (errors.length > 0) {
 }
 
 console.log(
-  `[check:repo] PASSED: SemVer v${rootPkg.version}, ${componentDirs.length} Astryx component directories, ${tsFiles.length} TypeScript files checked (zero any/unknown).`
+  `[check:repo] PASSED: SemVer v${rootPkg.version}, ${componentDirs.length} Refractor component directories, ${tsFiles.length} TypeScript files checked (zero any/unknown).`
 );

@@ -49,7 +49,7 @@ const TEAM_USERS: ReadonlyArray<AvatarStackUser> = [
 ];
 
 describe('AvatarStack', () => {
-  it('renders 7 realistic default product team members, Astryx overrides, React 19 ref, and +3 counter pill when users is omitted', () => {
+  it('renders 7 realistic default product team members, Open-Internals overrides, React 19 ref, and +3 counter pill when users is omitted', () => {
     const ref = createRef<HTMLDivElement>();
 
     render(

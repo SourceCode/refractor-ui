@@ -1,8 +1,8 @@
-# Refractor UI v1.47.0 — 64-Theme WebOS-v3 Collection & Multi-Material Engine Audit
+# Refractor UI v1.47.0 — 64-Theme Multi-Material Collection & Multi-Material Engine Audit
 
 **Date:** 2026-11-22  
 **Release:** `v1.47.0` (`@refractor-ui/core`, `@refractor-ui/themes`, `@refractor-ui/cli`, `@refractor-ui/docs`)  
-**Scope:** All **64 themes** ported from `SourceCode/webos-v3` + **5 Refractor Optical Glass presets** (**69 total themes**) across **13 UI material archetypes**, **9 GPU-friendly FX overlays**, **24 allowlisted on-demand Google Font families**, and **Web, Tablet, and Mobile** viewports.
+**Scope:** All **64 themes** ported from `SourceCode/multi-material` + **5 Refractor Optical Glass presets** (**69 total themes**) across **13 UI material archetypes**, **9 GPU-friendly FX overlays**, **24 allowlisted on-demand Google Font families**, and **Web, Tablet, and Mobile** viewports.
 
 ---
 
@@ -12,7 +12,7 @@
 | --- | :---: | :---: | :---: |
 | **Theme Fidelity & Accuracy** | >= 9.8/10 | **9.91 / 10** mean | **PASS** |
 | **Runtime & Bundle Performance** | >= 9.8/10 | **9.87 / 10** mean (`0.043 ms` avg JS switch, lazy font loading `1 → 9` tags, `+2.7 kB` gzip CSS) | **PASS** |
-| **Visual, Contrast & Responsive Quality** | >= 9.8/10 | **9.89 / 10** mean (`>= 4.5:1` WCAG 2.2 AA across all 64 WebOS-v3 themes on primary CTA, body & muted text; `0px` horizontal overflow across Desktop, Tablet & Mobile) | **PASS** |
+| **Visual, Contrast & Responsive Quality** | >= 9.8/10 | **9.89 / 10** mean (`>= 4.5:1` WCAG 2.2 AA across all 64 multi-material themes on primary CTA, body & muted text; `0px` horizontal overflow across Desktop, Tablet & Mobile) | **PASS** |
 | **Console & Runtime Errors** | 0 | **0** across all 3 live Chromium audit rounds | **PASS** |
 
 ---
@@ -53,7 +53,7 @@
 
 1. **Header & Sidebar Contrast on Saturated Wallpapers (`brutalist-web`, `cyberpunk`, `windows95`, `synthwave`):** Bound adaptive header and desktop/mobile sidebar surfaces to `var(--prism-window-bg)` with `var(--prism-text-primary)` (mathematically guaranteed `>= 4.5:1` AA), eliminating invisible headers on `brutalist-web` and cyan-on-yellow sidebar legibility loss on `cyberpunk`.
 2. **Primary/Emerald Active Ink Override (`hacker`, `cyberpunk`, `mint`):** Added `@layer utilities` adaptive contrast enforcement for `.prism-btn-primary`, `.prism-btn-cobalt`, `.prism-emerald`, and active Theme Studio mini-cards so `var(--prism-primary-contrast)` (`#000000` on bright phosphor green/cyan) always beats utility `text-white`.
-3. **Strict Muted/Secondary Text WCAG AA (`windows95` & all 64 WebOS-v3 themes):** Added `resolveAccessibleMutedText()` in `packages/themes/collection/src/builder.ts` and locked a `>= 4.5:1` test assertion across all 64 themes.
+3. **Strict Muted/Secondary Text WCAG AA (`windows95` & all 64 multi-material themes):** Added `resolveAccessibleMutedText()` in `packages/themes/collection/src/builder.ts` and locked a `>= 4.5:1` test assertion across all 64 themes.
 4. **FX Overlay Stacking Context (`synthwave` `cyber-grid` across all routes):** Anchored the full-page FX overlay strictly to `body::before` at `z-index: -1` and scoped `.prism-studio-surface::before` to `position: absolute` inside isolated preview cards, ensuring grid/scanline overlays NEVER draw across navbar, sidebar, cards, headings, or toasts.
 5. **Sharp Corner Parity (`windows95`, `brutalist-web`, `cyberpunk`, `hacker`):** Extended `[data-refractor-sharp="true"]` to clamp `.rounded-full` buttons, tabs, segmented controls, and status pills to `var(--prism-radius-control)` while keeping circular swatch dots round.
 6. **Zero Mid-Switch Paint Washout & Toast Non-Collision:** Replaced broad `transition-all` with GPU-only `transition-transform duration-150` on all 69 gallery/drawer cards, deduplicated `"Activated ..."` toasts, docked toasts bottom-left (`z-30`) away from the right-hand Theme Studio drawer, widened the specimen `TextInput`, and switched the Theme Studio mini-grid to 1-column on `< 380px` mobile devices.

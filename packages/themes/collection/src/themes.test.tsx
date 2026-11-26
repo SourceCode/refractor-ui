@@ -104,8 +104,8 @@ const ALL_EXPECTED_WEBOS_SOURCE_IDS: ReadonlyArray<string> = [
   'zen-garden',
 ];
 
-describe('@refractor-ui/themes — Complete 62-Theme WebOS-v3 Collection & 67-Theme Catalog', () => {
-  it('implements all 62 curated WebOS-v3 themes plus 5 Refractor optical presets (67 total)', () => {
+describe('@refractor-ui/themes — Complete 62-Theme Multi-Material Collection & 67-Theme Catalog', () => {
+  it('implements all 62 curated multi-material themes plus 5 Refractor optical presets (67 total)', () => {
     expect(OPTICAL_THEME_ENTRIES).toHaveLength(5);
     expect(WEBOS_THEME_ENTRIES).toHaveLength(62);
     expect(ALL_WEBOS_THEME_SPECS).toHaveLength(62);
@@ -117,7 +117,7 @@ describe('@refractor-ui/themes — Complete 62-Theme WebOS-v3 Collection & 67-Th
 
     const sourceIds = new Set(WEBOS_THEME_ENTRIES.map((e) => e.sourceId));
     for (const expectedSourceId of ALL_EXPECTED_WEBOS_SOURCE_IDS) {
-      expect(sourceIds.has(expectedSourceId), `Missing webos-v3 theme: ${expectedSourceId}`).toBe(
+      expect(sourceIds.has(expectedSourceId), `Missing multi-material theme: ${expectedSourceId}`).toBe(
         true
       );
     }
@@ -147,7 +147,7 @@ describe('@refractor-ui/themes — Complete 62-Theme WebOS-v3 Collection & 67-Th
       const resolved = resolveDefinedTheme(entry.theme, entry.mode);
       const vars = themeToCssVariables(resolved);
 
-      // Primary button text contrast: strict WCAG 2.2 AA (>= 4.5:1) for all 62 WebOS-v3 themes,
+      // Primary button text contrast: strict WCAG 2.2 AA (>= 4.5:1) for all 62 multi-material themes,
       // and >= 3.0:1 (WCAG AA UI/large + >= 4.5:1 gradient dark stop) for legacy optical glass presets
       const primaryBtnContrast = getContrastRatio(
         resolved.palette.primary.main,
@@ -239,7 +239,7 @@ describe('@refractor-ui/themes — Complete 62-Theme WebOS-v3 Collection & 67-Th
     expect(listThemes({ query: '(.*)+[a-z]{1,99}$' })).toEqual([]);
   });
 
-  it('renders Refractor UI primitives inside local scoped WebOS-v3 themes with accurate material & FX attributes', () => {
+  it('renders Refractor UI primitives inside local scoped multi-material themes with accurate material & FX attributes', () => {
     const { container } = render(
       <div>
         <PrismThemeProvider theme={windows95Theme} scope="local" loadFonts={false}>

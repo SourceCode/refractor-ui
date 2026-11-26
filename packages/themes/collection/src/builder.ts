@@ -90,7 +90,7 @@ function deriveBackgroundStops(spec: WebOsThemeRawSpec): {
 }
 
 /**
- * Compiles a faithful WebOS-v3 theme specification into a Refractor DefinedPrismTheme
+ * Compiles a faithful multi-material theme specification into a Refractor DefinedPrismTheme
  * with guaranteed WCAG 2.2 AA contrast, authentic material physics, FX overlays, and font stacks.
  */
 export function buildWebOsTheme(spec: WebOsThemeRawSpec): DefinedPrismTheme {

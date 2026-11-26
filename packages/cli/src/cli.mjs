@@ -72,7 +72,7 @@ const DOC_TOPICS = {
     title: 'Refractor Optical Glass Design Principles',
     dense: [
       '- Refractive Clarity: Every surface separates foreground content with >= 4.5:1 WCAG AA contrast.',
-      '- Astryx Component Contracts: React 19 ref-as-prop, BaseProps<Element>, themeProps(), mergeProps(), displayName.',
+      '- Open-Internals Component Contracts: React 19 ref-as-prop, BaseProps<Element>, themeProps(), mergeProps(), displayName.',
       '- Open Internals Escalation: Props -> Theme Tokens -> Theme Overrides -> refractor-* classes/xstyle -> Swizzle.',
       '- Strict Soundness: Zero any, zero unknown, zero raw color literals in JSX, zero dangerouslySetInnerHTML.',
     ].join('\n'),
@@ -82,7 +82,7 @@ const DOC_TOPICS = {
       '   - Secondary actions and floating slabs use cool frosted crystal glass with top specular meniscus highlights.',
       '   - Recessed frosted input wells (.prism-well) guarantee crisp typing contrast in both Alabaster and Obsidian modes.',
       '',
-      '2. Astryx Architectural Parity (ADR-0001)',
+      '2. Open-Internals Architectural Parity (ADR-0001)',
       '   - Every component resides in packages/core/src/<Name>/{<Name>.tsx,<Name>.doc.mjs,<Name>.test.tsx,index.ts}.',
       '   - Every component forwards React 19 ref directly via props (no forwardRef) and sets displayName.',
       '   - Every interactive control uses keyboard-only focus rings (.prism-focus-ring) and IME-safe Enter handlers.',
@@ -111,15 +111,15 @@ const DOC_TOPICS = {
     ].join('\n'),
   },
   theme: {
-    title: 'Dual MUI + Astryx Optical Theme Engine (ADR-0003)',
+    title: 'Dual-Mode Optical Theme Engine (ADR-0003)',
     dense: [
       '- MUI Ergonomics: createPrismTheme({ palette: { mode, primary: { main }, secondary: { main } }, shape, optics })',
-      '- Astryx Cascade: defineTheme({ name, extends, palette, tokens: { "--prism-x": [light, dark] }, components })',
+      '- Open-Internals Cascade: defineTheme({ name, extends, palette, tokens: { "--prism-x": [light, dark] }, components })',
       '- Provider: <PrismThemeProvider theme={theme} mode="light|dark" refraction="subtle|standard|vivid" scope="root|local" />',
       '- 5 Official Presets: alabaster, obsidian, amethyst, emerald-tide, solar-prism.',
     ].join('\n'),
     full: [
-      'Refractor unifies MUI palette ergonomics with Astryx CSS cascade theming:',
+      'Refractor unifies MUI palette ergonomics with Open-Internals CSS cascade theming:',
       '',
       '  import { createPrismTheme, PrismThemeProvider } from "@refractor-ui/core";',
       '  const theme = createPrismTheme({',
@@ -138,17 +138,17 @@ const DOC_TOPICS = {
       '- packages/core (@refractor-ui/core): 270 React 19 components, theme engine, utils, refractor.css, reset.css.',
       '- packages/themes/*: alabaster, obsidian, amethyst, emerald-tide, solar-prism.',
       '- packages/cli (@refractor-ui/cli): docs, component, theme, swizzle, check.',
-      '- internal/eslint-plugin-refractor: 17 two-tier Astryx + zero-any/unknown rules.',
+      '- internal/eslint-plugin-refractor: 17 two-tier Open-Internals + zero-any/unknown rules.',
       '- ADRs: docs/adr/ADR-0001 through ADR-0006.',
     ].join('\n'),
     full: [
       'Monorepo Workspace Layout:',
-      '  - packages/core       : 270 Astryx-standard components across 47 categories with subpath exports',
+      '  - packages/core       : 270 open-internals components across 47 categories with subpath exports',
       '  - packages/themes/*   : 5 official optical theme presets',
       '  - packages/cli        : Agent-ready CLI (@refractor-ui/cli)',
-      '  - apps/docs           : Interactive Optical Workbench & MUI+Astryx Theme Studio',
+      '  - apps/docs           : Interactive Optical Workbench & Token & Cascade Theme Studio',
       '  - internal/eslint-plugin-refractor : Custom 17-rule AST ESLint governance plugin',
-      '  - docs/adr/           : ADR-0001 (Astryx layout) through ADR-0006 (Security & A11y)',
+      '  - docs/adr/           : ADR-0001 (Open-Internals layout) through ADR-0006 (Security & A11y)',
     ].join('\n'),
   },
 };
@@ -474,7 +474,7 @@ export async function runCli(argv, options = {}) {
       }
       if (collectionThemes.length > 0) {
         out('');
-        out(`Refractor Multi-Material WebOS-v3 Collection (@refractor-ui/themes — ${collectionThemes.length} themes, ${themes.length + collectionThemes.length} total):`);
+        out(`Refractor Multi-Material Multi-Material Collection (@refractor-ui/themes — ${collectionThemes.length} themes, ${themes.length + collectionThemes.length} total):`);
         for (const theme of collectionThemes) {
           out(`  - ${theme.id} [${theme.material}/${theme.mode}] (${theme.category}): ${theme.description}`);
         }

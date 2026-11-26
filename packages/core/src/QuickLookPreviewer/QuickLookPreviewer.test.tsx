@@ -12,7 +12,7 @@ const SAFE_DATA_PNG =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 describe('QuickLookPreviewer', () => {
-  it('satisfies Astryx contracts, forwards React 19 ref, applies theme overrides, and renders 4 default sample files', () => {
+  it('satisfies Open-Internals contracts, forwards React 19 ref, applies theme overrides, and renders 4 default sample files', () => {
     const ref = createRef<HTMLDivElement>();
     const kindMapCheck: QuickLookMediaKindMap = {
       image: true,

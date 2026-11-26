@@ -22,7 +22,7 @@ function mockTrackRect(element: Element, left = 0, width = 500, height = 44) {
 }
 
 describe('TimelineZoomNavigator', () => {
-  it('renders Astryx optical slab, ref/className/xstyle/theme override, default activity peaks, and compact tabular footer', () => {
+  it('renders Refractor optical slab, ref/className/xstyle/theme override, default activity peaks, and compact tabular footer', () => {
     const ref = createRef<HTMLDivElement>();
 
     render(

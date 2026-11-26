@@ -46,7 +46,7 @@ export function MediaSpatialDemos({ componentId }: MediaSpatialDemosProps) {
             captionsText="Calibrated specular rim highlights adapt live across Alabaster and Obsidian themes."
             chapters={[
               { id: 'c1', title: 'Intro & Specular Rims', timeSeconds: 0 },
-              { id: 'c2', title: 'MUI + Astryx Cascade', timeSeconds: 75 },
+              { id: 'c2', title: 'Token & Cascade Theming', timeSeconds: 75 },
               { id: 'c3', title: 'Dark Mode Optics', timeSeconds: 165 },
             ]}
           />

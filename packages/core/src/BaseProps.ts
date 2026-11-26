@@ -9,7 +9,7 @@ export type OpticalStyleTokens = React.CSSProperties & {
 /**
  * BaseProps — Shared base interface for all Refractor Optical Glass UI components.
  *
- * Mirrors Meta Astryx's BaseProps architecture:
+ * Implements Refractor's Open-Internals BaseProps architecture:
  * - Preserves event handlers, aria-*, role, tabIndex, hidden, draggable, inert, dir,
  *   className, style, id, ref (React 19 standard prop), xstyle, and data-* attributes.
  * - Omits footgun, deprecated, or non-standard HTML attributes (dangerouslySetInnerHTML,

@@ -103,7 +103,7 @@ describe('PermissionsSharingMatrix', () => {
     expect(calculatePosixSymbolic(mode0777)).toBe('rwxrwxrwx');
   });
 
-  it('satisfies Astryx contracts, forwards React 19 ref, applies theme overrides, renders default 0754/rwxr-xr--, and wraps <table> directly inside overflow-x-auto', () => {
+  it('satisfies Open-Internals contracts, forwards React 19 ref, applies theme overrides, renders default 0754/rwxr-xr--, and wraps <table> directly inside overflow-x-auto', () => {
     const ref = createRef<HTMLDivElement>();
     const scopeMap: PosixScopeKeyMap = { owner: true, group: true, public: true };
     const bitMap: PosixBitKeyMap = { read: true, write: true, execute: true };

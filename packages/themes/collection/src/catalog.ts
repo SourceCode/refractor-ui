@@ -238,7 +238,7 @@ export const WEBOS_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> =
 
 export const OPTICAL_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = OPTICAL_PRESET_ENTRIES;
 
-/** Complete unified 67-theme catalog (5 Refractor Optical Glass + 62 WebOS-v3 themes). */
+/** Complete unified 67-theme catalog (5 Refractor Optical Glass + 62 multi-material themes). */
 export const ALL_THEME_ENTRIES: ReadonlyArray<ThemeCatalogEntry> = [
   ...OPTICAL_THEME_ENTRIES,
   ...WEBOS_THEME_ENTRIES,

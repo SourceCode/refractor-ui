@@ -123,7 +123,7 @@ export function App() {
   );
 }`;
 
-const SUBPATH_IMPORT_SNIPPET = `// Astryx-aligned tree-shakeable subpath imports for zero bundle bloat
+const SUBPATH_IMPORT_SNIPPET = `// open-internals tree-shakeable subpath imports for zero bundle bloat
 import { PrimaryButton } from '@refractor-ui/core/PrimaryButton';
 import { AdvancedDataGrid } from '@refractor-ui/core/AdvancedDataGrid';
 import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
@@ -151,7 +151,7 @@ export const brandTheme = createPrismTheme({
   },
 });`;
 
-const ASTRYX_CASCADE_SNIPPET = `import { defineTheme, PrismThemeProvider } from '@refractor-ui/core';
+const THEME_CASCADE_SNIPPET = `import { defineTheme, PrismThemeProvider } from '@refractor-ui/core';
 import { alabasterTheme } from '@refractor-ui/theme-alabaster';
 
 // Inherit an official preset and override tokens with [light, dark] tuples
@@ -181,7 +181,7 @@ npx @refractor-ui/cli theme list
 # Step 5 Open Internals: eject source into your repo with clean @refractor-ui/core imports
 npx @refractor-ui/cli swizzle PrimaryButton --out src/components/ui
 
-# Verify Astryx directory structure, SemVer lockstep, and zero any/unknown
+# Verify Open-Internals directory structure, SemVer lockstep, and zero any/unknown
 npx @refractor-ui/cli check --strict`;
 
 const TOKEN_ROWS = [
@@ -202,9 +202,9 @@ const ESCALATION_STEPS = [
 ] as const;
 
 const ADRS = [
-  { id: 'ADR-0001', title: 'Monorepo Hierarchy & Component Architecture', file: 'ADR-0001-monorepo-and-astryx-component-architecture.md', summary: 'Per-component directories, React 19 ref-as-prop, BaseProps, themeProps, mergeProps, and subpath exports.' },
+  { id: 'ADR-0001', title: 'Monorepo Hierarchy & Component Architecture', file: 'ADR-0001-monorepo-and-open-internals-component-architecture.md', summary: 'Per-component directories, React 19 ref-as-prop, BaseProps, themeProps, mergeProps, and subpath exports.' },
   { id: 'ADR-0002', title: 'Zero any/unknown TypeScript & Two-Tier ESLint', file: 'ADR-0002-strict-typescript-zero-any-unknown-and-lint-governance.md', summary: '17 custom AST rules enforcing component contracts and eliminating wildcard escape hatches.' },
-  { id: 'ADR-0003', title: 'Optical Theme Engine & CSS Token Cascade', file: 'ADR-0003-dual-mui-astryx-optical-theming-and-token-cascade.md', summary: 'Single-hex color derivation unified with CSS custom property cascades inside @layer components.' },
+  { id: 'ADR-0003', title: 'Optical Theme Engine & CSS Token Cascade', file: 'ADR-0003-dual-theme-engine-and-token-cascade.md', summary: 'Single-hex color derivation unified with CSS custom property cascades inside @layer components.' },
   { id: 'ADR-0004', title: 'Semantic Versioning 2.0.0 & Release Governance', file: 'ADR-0004-semantic-versioning-and-release-workflow.md', summary: 'Lockstep SemVer 2.0.0 manifests, Keep a Changelog 1.1.0, annotated tags, and automated drift checks.' },
   { id: 'ADR-0005', title: '93%+ Coverage & Adversarial Security Validation', file: 'ADR-0005-testing-adversarial-coverage-and-security-verification.md', summary: 'Mandatory >= 93% V8 coverage across all 4 metrics with positive, negative, and OWASP adversarial suites.' },
   { id: 'ADR-0006', title: 'Accessibility & 9.8/10+ Optical Glass Standard', file: 'ADR-0006-accessibility-and-optical-glass-design-standards.md', summary: 'WCAG AA/AAA contrast, keyboard-only :focus-visible, IME safety, and live Creative UX/UI Director sign-off.' },
@@ -282,7 +282,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
               Ready to tailor Refractor to your brand palette?
             </h2>
             <p className="text-xs text-slate-600 dark:text-slate-300">
-              Explore single-hex MUI color derivation, Astryx cascade overrides, or jump straight into
+              Explore single-hex MUI color derivation, Open-Internals cascade overrides, or jump straight into
               the 339-component catalog.
             </p>
           </div>
@@ -322,7 +322,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
               Every primitive reads from <code className="font-mono">--prism-*</code> tokens and{' '}
               <code className="font-mono">[data-refractor-material]</code> /{' '}
               <code className="font-mono">[data-refractor-fx]</code> cascades. Click any of the 67
-              themes below (5 Optical Glass presets + 62 WebOS-v3 themes) to transform all 339
+              themes below (5 Optical Glass presets + 62 multi-material themes) to transform all 339
               components live with on-demand Google Fonts and GPU-friendly FX.
             </p>
           </div>
@@ -352,7 +352,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
         <CodeBlockCard
           title="Cascade Theme Inheritance (defineTheme)"
           filename="src/studioTheme.ts"
-          code={ASTRYX_CASCADE_SNIPPET}
+          code={THEME_CASCADE_SNIPPET}
         />
 
         <div className="prism-slab p-6 space-y-4 overflow-x-auto">
@@ -407,7 +407,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
         <div className="prism-slab p-6 space-y-4">
           <h2 className="text-base font-semibold text-slate-900 dark:text-white flex items-center gap-2">
             <Layers className="w-4 h-4 text-orange-600 dark:text-orange-400" aria-hidden="true" />
-            <span>5-Step Astryx Open Internals Escalation Path</span>
+            <span>5-Step Open-Internals Open Internals Escalation Path</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
             {ESCALATION_STEPS.map((item) => (

@@ -271,7 +271,7 @@ function simulateIdeCommand(command: string): { output: string; nextStatus: Proc
   }
   if (normalized.includes('lint')) {
     return {
-      output: '✓ ESLint strict mode (17 Astryx rules): 0 errors, 0 warnings.',
+      output: '✓ ESLint strict mode (17 Open-Internals rules): 0 errors, 0 warnings.',
       nextStatus: 'success',
     };
   }

@@ -82,7 +82,7 @@ afterEach(() => {
 });
 
 describe('FileMetadataInspector', () => {
-  it('satisfies Astryx contracts, forwards React 19 ref, applies theme overrides, and renders default optical metadata and EXIF specs', () => {
+  it('satisfies Open-Internals contracts, forwards React 19 ref, applies theme overrides, and renders default optical metadata and EXIF specs', () => {
     const ref = createRef<HTMLDivElement>();
     const kindMap: FileInspectorKindMap = {
       image: true,

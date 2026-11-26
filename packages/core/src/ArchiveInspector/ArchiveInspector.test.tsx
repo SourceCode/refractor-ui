@@ -100,7 +100,7 @@ describe('isSafeArchiveEntryPath', () => {
 });
 
 describe('ArchiveInspector', () => {
-  it('satisfies Astryx contracts, forwards React 19 ref, applies theme overrides, renders default .zip archive, and wraps table directly in overflow-x-auto', () => {
+  it('satisfies Open-Internals contracts, forwards React 19 ref, applies theme overrides, renders default .zip archive, and wraps table directly in overflow-x-auto', () => {
     const ref = createRef<HTMLDivElement>();
     const formatMap: ArchiveFormatKindMap = {
       zip: true,

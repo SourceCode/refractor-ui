@@ -9,7 +9,7 @@ import {
 } from './index';
 
 describe('CanvasZoomSafeAreaBar', () => {
-  it('renders Astryx contracts, default optical frame, broadcast overlays, live status bar, theme overrides, and React 19 ref', () => {
+  it('renders Open-Internals contracts, default optical frame, broadcast overlays, live status bar, theme overrides, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
     const maskMapCheck: AspectMaskPresetMap = {
       none: true,

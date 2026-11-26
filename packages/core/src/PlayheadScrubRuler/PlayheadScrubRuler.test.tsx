@@ -23,7 +23,7 @@ function mockTrackRect(element: Element, left = 0, width = 600, height = 48) {
 }
 
 describe('PlayheadScrubRuler', () => {
-  it('renders Astryx optical slab, ref/className/xstyle/theme override, timecode header, calibrated ticks, and children stage', () => {
+  it('renders Refractor optical slab, ref/className/xstyle/theme override, timecode header, calibrated ticks, and children stage', () => {
     const ref = createRef<HTMLDivElement>();
 
     render(

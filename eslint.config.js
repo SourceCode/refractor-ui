@@ -7,7 +7,7 @@ import eslintReact from '@eslint-react/eslint-plugin';
 import refractorPlugin from './internal/eslint-plugin-refractor/index.js';
 
 /**
- * Refractor Optical Glass UI Kit — Two-Tier Astryx-Aligned ESLint Configuration
+ * Refractor Optical Glass UI Kit — Two-Tier Open-Internals ESLint Configuration
  *
  * - Humans (local default): `pnpm lint` (recommended mode — advisory warnings, hard soundness/security errors)
  * - Agents & CI: `pnpm lint:strict` or `CI=true` / `REFRACTOR_STRICT_LINT=1` (strict mode — all errors)

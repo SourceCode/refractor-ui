@@ -34,7 +34,7 @@ function mockSvgRect(svg: Element, width = 600, height = 240, left = 0): void {
 }
 
 describe('ChartCrosshairTooltip', () => {
-  it('renders Astryx optical slab, forwards ref, composes theme overrides, clamps height, and cycles all 5 tones', () => {
+  it('renders Refractor optical slab, forwards ref, composes theme overrides, clamps height, and cycles all 5 tones', () => {
     const ref = createRef<HTMLDivElement>();
     const fiveUntoned: CrosshairSeries[] = [
       { id: 's1', label: 'Primary', values: [10, 20] },

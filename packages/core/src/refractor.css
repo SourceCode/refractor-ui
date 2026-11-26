@@ -2,7 +2,7 @@
  * Refractor Multi-Material & Optical Glass UI Kit — Token-Driven Theme Physics Stylesheet
  *
  * Every surface reads from --prism-* CSS custom properties and [data-refractor-material] /
- * [data-refractor-fx] attributes so both Optical Glass presets and all 64 diverse WebOS-v3
+ * [data-refractor-fx] attributes so both Optical Glass presets and all 62 diverse multi-material
  * themes (Win95 Bevel, Brutalist, Cyberpunk Neon, Hacker CRT, Game Boy Pixel, Neumorphism,
  * Soft Clay, E-Ink Paper, Windows 11 Mica, Y2K Liquid Chrome, Glowing Resin, IDE Flat, etc.)
  * fully transform all 339 components with WCAG contrast, 60fps GPU-friendly FX, and zero

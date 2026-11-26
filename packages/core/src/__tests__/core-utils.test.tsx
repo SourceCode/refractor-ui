@@ -154,7 +154,7 @@ describe('sanitize security primitives (XSS, URL, CSV injection, prototype pollu
   });
 
   it('enforces strict URL protocol allowlisting', () => {
-    expect(sanitizeUrl('https://astryx.atmeta.com')).toBe('https://astryx.atmeta.com');
+    expect(sanitizeUrl('https://sourcecode.github.io/refractor-ui')).toBe('https://sourcecode.github.io/refractor-ui');
     expect(sanitizeUrl('/docs/button')).toBe('/docs/button');
     expect(sanitizeUrl('#section')).toBe('#section');
     expect(sanitizeUrl('mailto:team@refractor.dev')).toBe('mailto:team@refractor.dev');

@@ -36,7 +36,7 @@ export function ReferenceSpecimenBoard() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Interactive Optical Glass Specimen · {COMPONENT_REGISTRY.length} Astryx-Standard Components
+            Interactive Optical Glass Specimen · {COMPONENT_REGISTRY.length} Open-Internals Components
           </p>
           <h1
             id="specimen-heading"
