@@ -7,6 +7,55 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.52.0] - 2026-11-25
+
+### Added
+- **Loaders, Skeletons & Data Transitions Suite (9 new optical-glass components — 339 total across 58 categories):**
+  - `RefractiveSkeleton`: Layout-matching frosted glass skeleton placeholder across `card`, `profile`, `article`, `media`, and `metrics` presets swept by an angled prismatic light wave.
+  - `OrbitalRingSpinner`: Variable-stroke circular SVG loader (`prism-contain-box`) with a trailing multi-hue optical token gradient tail and luminous leading orbital bead.
+  - `AiThinkingOrb`: Smooth organic WebGL/CSS liquid morphing sphere that pulses, stretches, and shifts semantic hue across `idle`, `listening`, `thinking`, `generating`, and `complete` agent states.
+  - `SegmentedGlassProgress`: Recessed glass pill track filling with a glowing internal liquid gradient across discrete (`1–20`) or continuous segments with specular top highlights, optional percentage readout, and indeterminate sweep mode.
+  - `StreamingTokenReveal`: Progressive token/typewriter reveal wrapper fading in newly streamed words with a soft leading spectrum caret edge, tab-visibility pause, instant `skipAnimation` / `prefers-reduced-motion` reveal, and completion callbacks.
+  - `DataGridRowShimmer`: Table-specific optical skeleton animating rows in a staggered top-to-bottom prismatic wave inside a mobile-safe `overflow-x-auto` wrapper (with automatic `content-visibility: auto` on `tbody > tr`) and cross-fading cleanly into real cells once loaded.
+  - `AcousticActivityBar`: Compact row of animated vertical glass equalizer bars bouncing smoothly for voice input, audio DSP, or live streaming telemetry with optional normalized `levels` binding.
+  - `PipelinePulseLoader`: Connected node-and-track multi-stage loader where a glowing optical light packet travels from stage to stage tracking multi-step API calls, builds, or background jobs.
+  - `ScanlineRadarSweep`: Thin luminous optical beam sweeping across preview canvases, images, or code blocks in `vertical`, `horizontal`, or `radar` modes to signal active analysis, indexing, or security scanning.
+- **Deep Performance Benchmark Suite & Certification (`docs/reviews/performance-audit-v1.52.0.md`):**
+  - Added `packages/core/src/__tests__/fx.performance.deep.test.tsx`, `packages/core/src/__tests__/webglShader.test.tsx`, and expanded `performance.benchmark.test.tsx` to verify all **339 / 339** pure `/*#__PURE__*/ memoWithDisplayName` components, zero React re-renders during 200x high-frequency pointermove bursts across cursor-reactive FX surfaces, zero WebGL resource leaks across all 10 GLSL shaders, and zero regressions across existing flagship components.
+
+### Changed
+- Upgraded `apps/docs` Optical Workbench (`GradientAiGlowFxDemos`, `ShaderOpticalFxDemos`, `LoadersSkeletonsTransitionsDemos`, `ComponentDemos`, `registry`, `DocsGuides`, `index.html`), `@refractor-ui/cli` canonical groups (`58` categories), `responsive.matrix.test.tsx`, and `README.md` to showcase and verify all **339 components**.
+
+## [1.51.0] - 2026-11-25
+
+### Added
+- **Shared DPR-Capped WebGL/GLSL Optical Fragment Shader Engine (`packages/core/src/utils/webglShader.ts`):**
+  - Added `useOpticalShader`, `mountOpticalShaderCanvas`, `compileShaderProgram`, and 10 precision-bounded `mediump float` GLSL fragment shaders with automatic DPR capping (`<= 1.5`), dimension clamping (`<= 768px`), `IntersectionObserver` offscreen pause, `isDocumentVisible()` hidden-tab pause, `webglcontextlost` cleanup, and seamless CSS/SVG fallback in headless/reduced-motion/`performanceMode="max"` environments.
+- **Shader & Optical FX Suite (8 new WebGL/GLSL + CSS/SVG optical components):**
+  - `RefractiveLensContainer`: WebGL/GLSL-backed optical acrylic/liquid glass distortion container with configurable IOR (`1.0–2.4`), focal lens radius, subtle magnification, and Fresnel specular rim.
+  - `ChromaticDispersionEdge`: Fragment-shader perimeter layer splitting light along curved borders into subtle RGB rainbow caustics.
+  - `CausticLightLayer`: Animated underwater-style light-refraction filament projection overlay for cards, headers, and hero surfaces.
+  - `FrostedGrainOverlay`: Procedural micro-grain shader and SVG `feTurbulence` overlay preventing gradient banding and adding a matte-etched tactile finish.
+  - `LiquidRippleTrigger`: Interactive click- and IME-safe keyboard-originated displacement shockwave shader with bounded concurrent waves (`maxRipples`) and automatic timer cleanup.
+  - `HolographicFoilSheen`: Angle-reactive iridescent dichroic shader with pearlescent metallic highlights and gentle perspective tilt across `dichroic`, `pearl`, `titanium`, and `prism-gold` presets.
+  - `MetaballFluidBackdrop`: GPU-accelerated WebGL SDF metaball fluid surface where glowing optical orbs organically merge and separate behind frosted glass controls.
+  - `OpticalDepthVignette`: Focus-management depth-of-field shader progressively blurring and dimming background layers around a focal aperture with guarded Escape/veil dismissal.
+
+## [1.50.0] - 2026-11-25
+
+### Added
+- **Dynamic Gradient & AI-Glow FX Suite (8 new GPU-composited optical components):**
+  - `PrismaticCursorHalo`: Cursor-tracking radial spotlight illuminating underlying glass borders and surfaces via rAF-coalesced CSS custom properties with zero React re-renders.
+  - `AiFocusRing`: Rotating conic-gradient perimeter wrapping active prompt fields, agent cards, or panels with accelerated multi-hue processing glow.
+  - `FluidMeshCanvas`: Live morphing multi-point WebGL/CSS color mesh ambient backdrop reacting to pointer hover, typing cadence, and system mood.
+  - `GradientTextSelection`: Custom-styled spectrum blinking caret and gradient text-selection highlight supporting IME-safe editable inputs and selectable optical prose.
+  - `AmbientAuraBleed`: Soft floating antigravity light bloom anchored beneath elevated optical cards or AI controls.
+  - `ReactiveInputShimmer`: Directional optical light sweep traveling across a text field or prompt bar on focus, IME-safe submission, autocomplete acceptance, or imperative trigger.
+  - `IridescentRimSurface`: Dynamic border-lighting optical surface shifting color temperature and specular angle based on cursor proximity or passive device tilt.
+  - `StatefulEnergyRibbon`: Slim animated gradient hairline anchored to top, bottom, or inline edges reflecting `idle`, `listening`, `thinking`, `streaming`, `success`, and `error` states.
+- **Compositor-Only Optical FX Keyframes & Performance Guards (`packages/core/src/refractor.css`):**
+  - Added pure `transform`/`opacity` keyframes for all new FX, shader fallback, and loader animations with automatic pauses under `@media (prefers-reduced-motion: reduce)` and `[data-refractor-performance="max"]`.
+
 ## [1.49.1] - 2026-11-24
 
 ### Removed

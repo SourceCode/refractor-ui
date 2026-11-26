@@ -97,7 +97,7 @@ export interface ThemeFxConfig {
   /** Clamped window titlebar height in px [24..48]. */
   titleBarHeightPx: number;
   /**
-   * Enables adaptive Tailwind ink/surface cascade bridging so all 314 components
+   * Enables adaptive Tailwind ink/surface cascade bridging so all 339 components
    * inherit non-glass palettes cleanly while keeping default optical glass pixel-identical.
    */
   adaptiveInk: boolean;

@@ -2,9 +2,9 @@
 
 # Refractor Optical Glass UI Kit
 
-**A tactile, multi-material & optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, 67 full-transformation themes (5 Optical Glass + 62 WebOS-v3 themes), and 314 accessible components across 55 categories.**
+**A tactile, multi-material & optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, 67 full-transformation themes (5 Optical Glass + 62 WebOS-v3 themes), and 339 accessible components across 58 categories.**
 
-[![Release v1.49.1](https://img.shields.io/badge/release-v1.49.1-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.49.1)
+[![Release v1.52.0](https://img.shields.io/badge/release-v1.52.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.52.0)
 [![Live Docs](https://img.shields.io/badge/docs-GitHub%20Pages-38BDF8?style=flat-square)](https://sourcecode.github.io/refractor-ui/)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=000)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20(Zero%20any%2Funknown)-3178C6?style=flat-square&logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
@@ -25,13 +25,13 @@
 
 ## Why Refractor UI?
 
-- **314 Production Components Across 55 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, token-driven optical SVG charting/financial/scientific/observability/geospatial/storytelling suites, foundational micro-utilities, desktop OS windowing metaphors, knowledge & formula spreadsheet tools, 3D/shader inspectors, enterprise data ops & API consoles, hardware/IoT tactile surfaces, and full desktop OS file explorer, window management, launcher, system tray, hardware HUD, and native system dialog suites.
+- **339 Production Components Across 58 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, token-driven optical SVG charting/financial/scientific/observability/geospatial/storytelling suites, foundational micro-utilities, desktop OS windowing metaphors, knowledge & formula spreadsheet tools, 3D/shader inspectors, enterprise data ops & API consoles, hardware/IoT tactile surfaces, desktop OS file explorer/windowing/launcher/system-tray/HUD/dialog suites, **Dynamic Gradient & AI-Glow FX**, **WebGL/GLSL Shader & Optical FX**, and **Loaders, Skeletons & Data Transitions**.
 - **Astryx-Aligned Open-Internals Architecture:** Every primitive lives in `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts` — using React 19 `ref`-as-prop (never `forwardRef`), `BaseProps<Element>`, `themeProps()`, `mergeProps()`, and tree-shakeable subpath exports.
 - **67 Full-Transformation Multi-Material Themes (`@refractor-ui/themes`):**
-  - **13 Material Archetypes & 9 GPU-Friendly FX Overlays:** Transform all 314 components across `glass`, `mica`, `bevel` (Windows 95/XP/Amiga/BeOS/Solaris), `brutalist` (Brutalist Web/Memphis/Paper Cutout/Industrial), `neon` (Cyberpunk/Synthwave/Outrun/Vaporwave/Blade Runner/Akira), `crt` (Hacker Terminal), `pixel` (Game Boy/SNES/Sega Genesis & Saturn), `neumorphic`, `clay` (Soft Clay), `paper` (E-Ink/Zen Garden), `chrome` (Y2K Liquid Chrome/Liquid Metal/PS5), `resin` (Glowing Resin/Slime/Dream Logic), and `flat` (VS Code/Monokai/One Dark Pro/Nord/Tokyo Night/Solarized/Material/Adwaita/Ubuntu/Mint) — plus all Elemental and Four Seasons themes and on-demand allowlisted Google Font loading. Certified **9.89/10 mean** across Web, Tablet, and Mobile in [`docs/reviews/webos-v3-themes-audit.md`](./docs/reviews/webos-v3-themes-audit.md).
+  - **13 Material Archetypes & 9 GPU-Friendly FX Overlays:** Transform all 339 components across `glass`, `mica`, `bevel` (Windows 95/XP/Amiga/BeOS/Solaris), `brutalist` (Brutalist Web/Memphis/Paper Cutout/Industrial), `neon` (Cyberpunk/Synthwave/Outrun/Vaporwave/Blade Runner/Akira), `crt` (Hacker Terminal), `pixel` (Game Boy/SNES/Sega Genesis & Saturn), `neumorphic`, `clay` (Soft Clay), `paper` (E-Ink/Zen Garden), `chrome` (Y2K Liquid Chrome/Liquid Metal/PS5), `resin` (Glowing Resin/Slime/Dream Logic), and `flat` (VS Code/Monokai/One Dark Pro/Nord/Tokyo Night/Solarized/Material/Adwaita/Ubuntu/Mint) — plus all Elemental and Four Seasons themes and on-demand allowlisted Google Font loading. Certified **9.89/10 mean** across Web, Tablet, and Mobile in [`docs/reviews/webos-v3-themes-audit.md`](./docs/reviews/webos-v3-themes-audit.md).
   - **Single-Hex Color Derivation & Cascade Overrides:** Pass a single hex color to `createPrismTheme({ palette: { primary: { main: '#7C3AED' } } })` or compose cascading overrides with `defineTheme({ name, extends, material, fx, tokens, components })` inside CSS `@layer components` for seamless Tailwind CSS v4 interoperability.
 - **Zero `any` and Zero `unknown` Strictness:** Enforced by `@typescript-eslint/no-explicit-any`, custom `@refractor/no-unknown-type`, and a 17-rule two-tier ESLint plugin (`internal/eslint-plugin-refractor`).
-- **60fps Full-Application Performance Architecture (`v1.48.0–v1.49.0`, `1,750+` Improvements):** 314/314 pure `/*#__PURE__*/ memoWithDisplayName` tree-shakeable components + tree-shakeable `@refractor-ui/themes` subpath exports, 1,121 module-hoisted `stableClassName` resolvers, split `ComponentOverridesContext` (zero re-renders on theme/mode switches), 12px/14px GPU blur kernels + automatic nested & `[data-refractor-blur-host="true"]` blur elision, 100% inline `<svg>` & 16-table `content-visibility: auto` containment, 60fps `requestAnimationFrame` pointer-drag coalescing across all 36 drag components, three-tier GPU `performanceMode` (`balanced` / `high` / `max`), 3,103+ hoisted frozen style singletons, zero `transition-all`, and zero-allocation `mergeProps` hot paths — see [`docs/reviews/performance-audit-v1.49.0.md`](./docs/reviews/performance-audit-v1.49.0.md) and [`docs/reviews/performance-audit-v1.48.0.md`](./docs/reviews/performance-audit-v1.48.0.md).
+- **60fps Full-Application Performance Architecture (`v1.48.0–v1.52.0`):** 339/339 pure `/*#__PURE__*/ memoWithDisplayName` tree-shakeable components + tree-shakeable `@refractor-ui/themes` subpath exports, DPR-capped visibility-aware WebGL optical shader engine with CSS/SVG fallbacks, zero-rerender rAF-coalesced cursor lighting, module-hoisted `stableClassName` resolvers, split `ComponentOverridesContext` (zero re-renders on theme/mode switches), 12px/14px GPU blur kernels + automatic nested & `[data-refractor-blur-host="true"]` blur elision, 100% inline `<svg>` & 17-table `content-visibility: auto` containment, three-tier GPU `performanceMode` (`balanced` / `high` / `max`), 3,103+ hoisted frozen style singletons, zero `transition-all`, and zero-allocation `mergeProps` hot paths — see [`docs/reviews/performance-audit-v1.52.0.md`](./docs/reviews/performance-audit-v1.52.0.md) and [`docs/reviews/performance-audit-v1.49.0.md`](./docs/reviews/performance-audit-v1.49.0.md).
 - **Defense-in-Depth Security & 99.8%+ V8 Coverage:** Built-in XSS allowlist sanitization, URL protocol allowlisting, OWASP CSV formula neutralization, prototype-pollution-safe `Map` aggregations, ReDoS protection, path-traversal-hardened CLI swizzling, and `0` high/critical vulnerabilities.
 - **30 Interactive Full-Code Example Screens (Web, Tablet & Mobile):** Explore live application templates for login, onboarding, MFA, executive analytics, financial reports, SRE telemetry, AI chat, autonomous agent workflows, cloud code IDEs, PR diff reviews, product catalogs, 360° product pages, new product forms, mobile banking, and tablet dispatch at [`#/examples`](https://sourcecode.github.io/refractor-ui/#/examples) — certified `9.85/10` mean in [`docs/reviews/example-screens-ux-audit.md`](./docs/reviews/example-screens-ux-audit.md).
 - **Multi-Device Responsive Certified (Desktop, Tablet & Mobile):** Verified across 15 modern device viewports — including **Google Pixel 10 (`412×924`)**, Pixel 10 Pro / Pro XL, **Samsung Galaxy S25 (`360×780`)**, Galaxy Z Fold7 Cover (`344×882`), **iPhone 17 / 16 / Pro / Pro Max (`393×852`–`440×956`)**, **iPad mini / Pro 11" / Pro 13"**, and **Google Pixel Tablet** — backed by automated multi-device Vitest matrix validation (`apps/docs/src/docs/responsive.matrix.test.tsx`).
@@ -107,7 +107,7 @@ import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
 
 ---
 
-## Complete 314-Component Catalog (55 Categories)
+## Complete 339-Component Catalog (58 Categories)
 
 | Category | Count | Components |
 | --- | :---: | --- |
@@ -166,6 +166,9 @@ import { NodeGraphCanvas } from '@refractor-ui/core/NodeGraphCanvas';
 | **System Tray & Control Center** | 5 | `SystemTrayCluster`, `ControlCenterGrid`, `PerAppAudioMixer`, `NetworkVpnPopover`, `ClockCalendarPopover` |
 | **Hardware HUDs & System Overlays** | 5 | `HardwareOsdHud`, `LockScreenOverlay`, `SessionPowerOverlay`, `TaskManagerDialog`, `ScreenCaptureHud` |
 | **Desktop Surfaces & Native System Dialogs** | 5 | `DesktopIconCanvas`, `DesktopWidgetFrame`, `SystemPreferencesShell`, `SystemFileDialog`, `SystemAboutCard` |
+| **Dynamic Gradient & AI-Glow FX** | 8 | `PrismaticCursorHalo`, `AiFocusRing`, `FluidMeshCanvas`, `GradientTextSelection`, `AmbientAuraBleed`, `ReactiveInputShimmer`, `IridescentRimSurface`, `StatefulEnergyRibbon` |
+| **Shader & Optical FX** | 8 | `RefractiveLensContainer`, `ChromaticDispersionEdge`, `CausticLightLayer`, `FrostedGrainOverlay`, `LiquidRippleTrigger`, `HolographicFoilSheen`, `MetaballFluidBackdrop`, `OpticalDepthVignette` |
+| **Loaders, Skeletons & Data Transitions** | 9 | `RefractiveSkeleton`, `OrbitalRingSpinner`, `AiThinkingOrb`, `SegmentedGlassProgress`, `StreamingTokenReveal`, `DataGridRowShimmer`, `AcousticActivityBar`, `PipelinePulseLoader`, `ScanlineRadarSweep` |
 
 ---
 
@@ -195,7 +198,7 @@ node packages/cli/bin/refractor.mjs check --strict
 ├── internal/
 │   └── eslint-plugin-refractor/  # Custom 17-rule two-tier Astryx + zero any/unknown ESLint plugin
 ├── packages/
-│   ├── core/                     # @refractor-ui/core — 314 React 19 components, theme engine, CSS tokens
+│   ├── core/                     # @refractor-ui/core — 339 React 19 components, WebGL optical shaders, theme engine, CSS tokens
 │   ├── themes/                   # alabaster, obsidian, amethyst, emerald-tide, solar-prism
 │   └── cli/                      # @refractor-ui/cli — docs, component, theme, swizzle, check
 ├── apps/
@@ -210,7 +213,7 @@ pnpm check:repo       # Verify Astryx structure, SemVer lockstep & zero any/unkn
 pnpm lint:plugin      # Run 16 unit tests for internal/eslint-plugin-refractor
 pnpm lint:strict      # Run two-tier ESLint in CI/agent strict mode
 pnpm typecheck        # Run strict TypeScript checks across core & docs
-pnpm test:coverage    # Run 2,277+ Vitest unit & adversarial tests (>= 93% gate)
+pnpm test:coverage    # Run 2,364+ Vitest unit, benchmark & adversarial tests (>= 93% gate)
 pnpm build            # Build packages/core and apps/docs
 pnpm build:pages      # Build production GitHub Pages bundle (/refractor-ui/)
 ```

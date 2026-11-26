@@ -164,7 +164,7 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
   it.each(MATRIX_VIEWPORTS)(
     'renders ALL registered components with valid responsive DOM invariants on $name ($width×$height)',
     (viewport) => {
-      expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(314);
+      expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(339);
       expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(55);
 
       applyViewportToWindow(viewport);
@@ -247,11 +247,11 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
       expect(mainText.toLowerCase()).not.toContain('astryx');
       expect(/\bmui\b/i.test(mainText)).toBe(false);
 
-      // Verify Getting Started guide displays updated 314-component count cleanly
+      // Verify Getting Started guide displays updated 339-component count cleanly
       fireEvent.click(sidebarToggle);
       const gettingStartedBtns = screen.getAllByRole('button', { name: /Getting Started/i });
       fireEvent.click(gettingStartedBtns[gettingStartedBtns.length - 1]!);
-      expect(screen.getByText(/Browse 314 Components/i)).toBeInTheDocument();
+      expect(screen.getByText(/Browse 339 Components/i)).toBeInTheDocument();
 
       // Open focused single-component view with long title & verify wrapping Breadcrumbs + Prev/Next
       act(() => {
@@ -288,11 +288,11 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
     }
   );
 
-  it('enforces static responsive guardrails across all 314 core component source files', () => {
+  it('enforces static responsive guardrails across all 339 core component source files', () => {
     const testDir = path.dirname(fileURLToPath(import.meta.url));
     const coreSrcDir = path.resolve(testDir, '../../../../packages/core/src');
     const componentFiles = collectCoreComponentTsxFiles(coreSrcDir);
-    expect(componentFiles.length).toBeGreaterThanOrEqual(314);
+    expect(componentFiles.length).toBeGreaterThanOrEqual(339);
 
     const violations: string[] = [];
 

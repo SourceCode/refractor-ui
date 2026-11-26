@@ -76,7 +76,10 @@ export type DocsCategoryFilter =
   | 'menus-launchers'
   | 'system-tray-control-center'
   | 'hardware-huds-overlays'
-  | 'desktop-surfaces-dialogs';
+  | 'desktop-surfaces-dialogs'
+  | 'gradient-ai-glow-fx'
+  | 'shader-optical-fx'
+  | 'loaders-skeletons-transitions';
 
 export type DocsPageSection =
   | 'catalog'

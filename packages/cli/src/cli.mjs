@@ -62,6 +62,9 @@ const CANONICAL_CATEGORY_ORDER = [
   'System Tray & Control Center',
   'Hardware HUDs & System Overlays',
   'Desktop Surfaces & Native System Dialogs',
+  'Dynamic Gradient & AI-Glow FX',
+  'Shader & Optical FX',
+  'Loaders, Skeletons & Data Transitions',
 ];
 
 const DOC_TOPICS = {

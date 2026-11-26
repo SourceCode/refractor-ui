@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.49.1",
+  "version": "1.52.0",
   "description": "Refractor Optical Glass UI Kit — Astryx-aligned React 19 accessible optical-glass components and dual MUI+Astryx cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",
@@ -17,11 +17,6 @@
     },
     "./reset.css": "./src/reset.css",
     "./refractor.css": "./src/refractor.css",
-    "./BaseProps": {
-      "source": "./src/BaseProps.ts",
-      "types": "./dist/BaseProps.d.ts",
-      "default": "./dist/BaseProps.js"
-    },
     "./naming": {
       "source": "./src/naming.ts",
       "types": "./dist/naming.d.ts",
@@ -33,1574 +28,1360 @@
       "default": "./dist/theme/index.js"
     },
     "./Accordion": {
-      "source": "./src/Accordion/index.ts",
       "types": "./dist/Accordion/index.d.ts",
-      "default": "./dist/Accordion/index.js"
+      "import": "./dist/Accordion/index.js"
+    },
+    "./AcousticActivityBar": {
+      "types": "./dist/AcousticActivityBar/index.d.ts",
+      "import": "./dist/AcousticActivityBar/index.js"
     },
     "./ActiveSessionsList": {
-      "source": "./src/ActiveSessionsList/index.ts",
       "types": "./dist/ActiveSessionsList/index.d.ts",
-      "default": "./dist/ActiveSessionsList/index.js"
+      "import": "./dist/ActiveSessionsList/index.js"
     },
     "./AdvancedDataGrid": {
-      "source": "./src/AdvancedDataGrid/index.ts",
       "types": "./dist/AdvancedDataGrid/index.d.ts",
-      "default": "./dist/AdvancedDataGrid/index.js"
+      "import": "./dist/AdvancedDataGrid/index.js"
     },
     "./AgentControlBar": {
-      "source": "./src/AgentControlBar/index.ts",
       "types": "./dist/AgentControlBar/index.d.ts",
-      "default": "./dist/AgentControlBar/index.js"
+      "import": "./dist/AgentControlBar/index.js"
     },
     "./AgentExecutionTrace": {
-      "source": "./src/AgentExecutionTrace/index.ts",
       "types": "./dist/AgentExecutionTrace/index.d.ts",
-      "default": "./dist/AgentExecutionTrace/index.js"
+      "import": "./dist/AgentExecutionTrace/index.js"
     },
     "./AgentPlanList": {
-      "source": "./src/AgentPlanList/index.ts",
       "types": "./dist/AgentPlanList/index.d.ts",
-      "default": "./dist/AgentPlanList/index.js"
+      "import": "./dist/AgentPlanList/index.js"
     },
     "./AgentRosterRail": {
-      "source": "./src/AgentRosterRail/index.ts",
       "types": "./dist/AgentRosterRail/index.d.ts",
-      "default": "./dist/AgentRosterRail/index.js"
+      "import": "./dist/AgentRosterRail/index.js"
+    },
+    "./AiFocusRing": {
+      "types": "./dist/AiFocusRing/index.d.ts",
+      "import": "./dist/AiFocusRing/index.js"
+    },
+    "./AiThinkingOrb": {
+      "types": "./dist/AiThinkingOrb/index.d.ts",
+      "import": "./dist/AiThinkingOrb/index.js"
     },
     "./AlertBanner": {
-      "source": "./src/AlertBanner/index.ts",
       "types": "./dist/AlertBanner/index.d.ts",
-      "default": "./dist/AlertBanner/index.js"
+      "import": "./dist/AlertBanner/index.js"
     },
     "./AlignmentToolbar": {
-      "source": "./src/AlignmentToolbar/index.ts",
       "types": "./dist/AlignmentToolbar/index.d.ts",
-      "default": "./dist/AlignmentToolbar/index.js"
+      "import": "./dist/AlignmentToolbar/index.js"
+    },
+    "./AmbientAuraBleed": {
+      "types": "./dist/AmbientAuraBleed/index.d.ts",
+      "import": "./dist/AmbientAuraBleed/index.js"
     },
     "./AnomalyForecastChart": {
-      "source": "./src/AnomalyForecastChart/index.ts",
       "types": "./dist/AnomalyForecastChart/index.d.ts",
-      "default": "./dist/AnomalyForecastChart/index.js"
+      "import": "./dist/AnomalyForecastChart/index.js"
     },
     "./ApiRequestBuilder": {
-      "source": "./src/ApiRequestBuilder/index.ts",
       "types": "./dist/ApiRequestBuilder/index.d.ts",
-      "default": "./dist/ApiRequestBuilder/index.js"
+      "import": "./dist/ApiRequestBuilder/index.js"
     },
     "./AppDockBar": {
-      "source": "./src/AppDockBar/index.ts",
       "types": "./dist/AppDockBar/index.d.ts",
-      "default": "./dist/AppDockBar/index.js"
+      "import": "./dist/AppDockBar/index.js"
     },
     "./AppLauncherMenu": {
-      "source": "./src/AppLauncherMenu/index.ts",
       "types": "./dist/AppLauncherMenu/index.d.ts",
-      "default": "./dist/AppLauncherMenu/index.js"
+      "import": "./dist/AppLauncherMenu/index.js"
     },
     "./AppMenuBar": {
-      "source": "./src/AppMenuBar/index.ts",
       "types": "./dist/AppMenuBar/index.d.ts",
-      "default": "./dist/AppMenuBar/index.js"
+      "import": "./dist/AppMenuBar/index.js"
     },
     "./ApprovalChainStrip": {
-      "source": "./src/ApprovalChainStrip/index.ts",
       "types": "./dist/ApprovalChainStrip/index.d.ts",
-      "default": "./dist/ApprovalChainStrip/index.js"
+      "import": "./dist/ApprovalChainStrip/index.js"
     },
     "./ApprovalGateCard": {
-      "source": "./src/ApprovalGateCard/index.ts",
       "types": "./dist/ApprovalGateCard/index.d.ts",
-      "default": "./dist/ApprovalGateCard/index.js"
+      "import": "./dist/ApprovalGateCard/index.js"
     },
     "./ArchiveInspector": {
-      "source": "./src/ArchiveInspector/index.ts",
       "types": "./dist/ArchiveInspector/index.d.ts",
-      "default": "./dist/ArchiveInspector/index.js"
+      "import": "./dist/ArchiveInspector/index.js"
     },
     "./AreaStackedChart": {
-      "source": "./src/AreaStackedChart/index.ts",
       "types": "./dist/AreaStackedChart/index.d.ts",
-      "default": "./dist/AreaStackedChart/index.js"
+      "import": "./dist/AreaStackedChart/index.js"
     },
     "./AssetSwatchGrid": {
-      "source": "./src/AssetSwatchGrid/index.ts",
       "types": "./dist/AssetSwatchGrid/index.d.ts",
-      "default": "./dist/AssetSwatchGrid/index.js"
+      "import": "./dist/AssetSwatchGrid/index.js"
     },
     "./AttachedContextBar": {
-      "source": "./src/AttachedContextBar/index.ts",
       "types": "./dist/AttachedContextBar/index.d.ts",
-      "default": "./dist/AttachedContextBar/index.js"
+      "import": "./dist/AttachedContextBar/index.js"
     },
     "./AudioWaveformPlayer": {
-      "source": "./src/AudioWaveformPlayer/index.ts",
       "types": "./dist/AudioWaveformPlayer/index.d.ts",
-      "default": "./dist/AudioWaveformPlayer/index.js"
+      "import": "./dist/AudioWaveformPlayer/index.js"
     },
     "./AuditTrailFeed": {
-      "source": "./src/AuditTrailFeed/index.ts",
       "types": "./dist/AuditTrailFeed/index.d.ts",
-      "default": "./dist/AuditTrailFeed/index.js"
+      "import": "./dist/AuditTrailFeed/index.js"
     },
     "./Avatar": {
-      "source": "./src/Avatar/index.ts",
       "types": "./dist/Avatar/index.d.ts",
-      "default": "./dist/Avatar/index.js"
+      "import": "./dist/Avatar/index.js"
     },
     "./AvatarStack": {
-      "source": "./src/AvatarStack/index.ts",
       "types": "./dist/AvatarStack/index.d.ts",
-      "default": "./dist/AvatarStack/index.js"
+      "import": "./dist/AvatarStack/index.js"
     },
     "./BadgeStatus": {
-      "source": "./src/BadgeStatus/index.ts",
       "types": "./dist/BadgeStatus/index.d.ts",
-      "default": "./dist/BadgeStatus/index.js"
+      "import": "./dist/BadgeStatus/index.js"
     },
     "./BarColumnChart": {
-      "source": "./src/BarColumnChart/index.ts",
       "types": "./dist/BarColumnChart/index.d.ts",
-      "default": "./dist/BarColumnChart/index.js"
+      "import": "./dist/BarColumnChart/index.js"
     },
     "./BatchRenameUtility": {
-      "source": "./src/BatchRenameUtility/index.ts",
       "types": "./dist/BatchRenameUtility/index.d.ts",
-      "default": "./dist/BatchRenameUtility/index.js"
+      "import": "./dist/BatchRenameUtility/index.js"
     },
     "./BeforeAfterSlider": {
-      "source": "./src/BeforeAfterSlider/index.ts",
       "types": "./dist/BeforeAfterSlider/index.d.ts",
-      "default": "./dist/BeforeAfterSlider/index.js"
+      "import": "./dist/BeforeAfterSlider/index.js"
     },
     "./BlockTransformHandle": {
-      "source": "./src/BlockTransformHandle/index.ts",
       "types": "./dist/BlockTransformHandle/index.d.ts",
-      "default": "./dist/BlockTransformHandle/index.js"
+      "import": "./dist/BlockTransformHandle/index.js"
     },
     "./BottomNavigationBar": {
-      "source": "./src/BottomNavigationBar/index.ts",
       "types": "./dist/BottomNavigationBar/index.d.ts",
-      "default": "./dist/BottomNavigationBar/index.js"
+      "import": "./dist/BottomNavigationBar/index.js"
     },
     "./BoxWhiskerPlot": {
-      "source": "./src/BoxWhiskerPlot/index.ts",
       "types": "./dist/BoxWhiskerPlot/index.d.ts",
-      "default": "./dist/BoxWhiskerPlot/index.js"
+      "import": "./dist/BoxWhiskerPlot/index.js"
     },
     "./Breadcrumbs": {
-      "source": "./src/Breadcrumbs/index.ts",
       "types": "./dist/Breadcrumbs/index.d.ts",
-      "default": "./dist/Breadcrumbs/index.js"
+      "import": "./dist/Breadcrumbs/index.js"
     },
     "./BrushHudControl": {
-      "source": "./src/BrushHudControl/index.ts",
       "types": "./dist/BrushHudControl/index.d.ts",
-      "default": "./dist/BrushHudControl/index.js"
+      "import": "./dist/BrushHudControl/index.js"
     },
     "./BrushRangeScrubber": {
-      "source": "./src/BrushRangeScrubber/index.ts",
       "types": "./dist/BrushRangeScrubber/index.d.ts",
-      "default": "./dist/BrushRangeScrubber/index.js"
+      "import": "./dist/BrushRangeScrubber/index.js"
     },
     "./BulletChart": {
-      "source": "./src/BulletChart/index.ts",
       "types": "./dist/BulletChart/index.d.ts",
-      "default": "./dist/BulletChart/index.js"
+      "import": "./dist/BulletChart/index.js"
     },
     "./BumpChart": {
-      "source": "./src/BumpChart/index.ts",
       "types": "./dist/BumpChart/index.d.ts",
-      "default": "./dist/BumpChart/index.js"
+      "import": "./dist/BumpChart/index.js"
     },
     "./BurndownBurnupChart": {
-      "source": "./src/BurndownBurnupChart/index.ts",
       "types": "./dist/BurndownBurnupChart/index.d.ts",
-      "default": "./dist/BurndownBurnupChart/index.js"
+      "import": "./dist/BurndownBurnupChart/index.js"
     },
     "./CalendarHeatmap": {
-      "source": "./src/CalendarHeatmap/index.ts",
       "types": "./dist/CalendarHeatmap/index.d.ts",
-      "default": "./dist/CalendarHeatmap/index.js"
+      "import": "./dist/CalendarHeatmap/index.js"
     },
     "./CalendarView": {
-      "source": "./src/CalendarView/index.ts",
       "types": "./dist/CalendarView/index.d.ts",
-      "default": "./dist/CalendarView/index.js"
+      "import": "./dist/CalendarView/index.js"
     },
     "./CalloutAdmonition": {
-      "source": "./src/CalloutAdmonition/index.ts",
       "types": "./dist/CalloutAdmonition/index.d.ts",
-      "default": "./dist/CalloutAdmonition/index.js"
+      "import": "./dist/CalloutAdmonition/index.js"
     },
     "./CandlestickOhlcChart": {
-      "source": "./src/CandlestickOhlcChart/index.ts",
       "types": "./dist/CandlestickOhlcChart/index.d.ts",
-      "default": "./dist/CandlestickOhlcChart/index.js"
+      "import": "./dist/CandlestickOhlcChart/index.js"
     },
     "./CanvasZoomSafeAreaBar": {
-      "source": "./src/CanvasZoomSafeAreaBar/index.ts",
       "types": "./dist/CanvasZoomSafeAreaBar/index.d.ts",
-      "default": "./dist/CanvasZoomSafeAreaBar/index.js"
+      "import": "./dist/CanvasZoomSafeAreaBar/index.js"
     },
     "./CapacityAllocationStrip": {
-      "source": "./src/CapacityAllocationStrip/index.ts",
       "types": "./dist/CapacityAllocationStrip/index.d.ts",
-      "default": "./dist/CapacityAllocationStrip/index.js"
+      "import": "./dist/CapacityAllocationStrip/index.js"
     },
     "./CarouselSlider": {
-      "source": "./src/CarouselSlider/index.ts",
       "types": "./dist/CarouselSlider/index.d.ts",
-      "default": "./dist/CarouselSlider/index.js"
+      "import": "./dist/CarouselSlider/index.js"
     },
     "./CascadingSelect": {
-      "source": "./src/CascadingSelect/index.ts",
       "types": "./dist/CascadingSelect/index.d.ts",
-      "default": "./dist/CascadingSelect/index.js"
+      "import": "./dist/CascadingSelect/index.js"
     },
     "./CascadingSubmenu": {
-      "source": "./src/CascadingSubmenu/index.ts",
       "types": "./dist/CascadingSubmenu/index.d.ts",
-      "default": "./dist/CascadingSubmenu/index.js"
+      "import": "./dist/CascadingSubmenu/index.js"
+    },
+    "./CausticLightLayer": {
+      "types": "./dist/CausticLightLayer/index.d.ts",
+      "import": "./dist/CausticLightLayer/index.js"
     },
     "./ChannelStripFader": {
-      "source": "./src/ChannelStripFader/index.ts",
       "types": "./dist/ChannelStripFader/index.d.ts",
-      "default": "./dist/ChannelStripFader/index.js"
+      "import": "./dist/ChannelStripFader/index.js"
     },
     "./ChartCrosshairTooltip": {
-      "source": "./src/ChartCrosshairTooltip/index.ts",
       "types": "./dist/ChartCrosshairTooltip/index.d.ts",
-      "default": "./dist/ChartCrosshairTooltip/index.js"
+      "import": "./dist/ChartCrosshairTooltip/index.js"
     },
     "./ChartThresholdMarker": {
-      "source": "./src/ChartThresholdMarker/index.ts",
       "types": "./dist/ChartThresholdMarker/index.d.ts",
-      "default": "./dist/ChartThresholdMarker/index.js"
+      "import": "./dist/ChartThresholdMarker/index.js"
     },
     "./ChatMessageStream": {
-      "source": "./src/ChatMessageStream/index.ts",
       "types": "./dist/ChatMessageStream/index.d.ts",
-      "default": "./dist/ChatMessageStream/index.js"
+      "import": "./dist/ChatMessageStream/index.js"
     },
     "./Checkbox": {
-      "source": "./src/Checkbox/index.ts",
       "types": "./dist/Checkbox/index.d.ts",
-      "default": "./dist/Checkbox/index.js"
+      "import": "./dist/Checkbox/index.js"
     },
     "./CheckpointRollbackStrip": {
-      "source": "./src/CheckpointRollbackStrip/index.ts",
       "types": "./dist/CheckpointRollbackStrip/index.d.ts",
-      "default": "./dist/CheckpointRollbackStrip/index.js"
+      "import": "./dist/CheckpointRollbackStrip/index.js"
     },
     "./ChordDiagram": {
-      "source": "./src/ChordDiagram/index.ts",
       "types": "./dist/ChordDiagram/index.d.ts",
-      "default": "./dist/ChordDiagram/index.js"
+      "import": "./dist/ChordDiagram/index.js"
     },
     "./ChoroplethMap": {
-      "source": "./src/ChoroplethMap/index.ts",
       "types": "./dist/ChoroplethMap/index.d.ts",
-      "default": "./dist/ChoroplethMap/index.js"
+      "import": "./dist/ChoroplethMap/index.js"
+    },
+    "./ChromaticDispersionEdge": {
+      "types": "./dist/ChromaticDispersionEdge/index.d.ts",
+      "import": "./dist/ChromaticDispersionEdge/index.js"
     },
     "./CitationChip": {
-      "source": "./src/CitationChip/index.ts",
       "types": "./dist/CitationChip/index.d.ts",
-      "default": "./dist/CitationChip/index.js"
+      "import": "./dist/CitationChip/index.js"
     },
     "./ClipTrimHandle": {
-      "source": "./src/ClipTrimHandle/index.ts",
       "types": "./dist/ClipTrimHandle/index.d.ts",
-      "default": "./dist/ClipTrimHandle/index.js"
+      "import": "./dist/ClipTrimHandle/index.js"
     },
     "./ClockCalendarPopover": {
-      "source": "./src/ClockCalendarPopover/index.ts",
       "types": "./dist/ClockCalendarPopover/index.d.ts",
-      "default": "./dist/ClockCalendarPopover/index.js"
+      "import": "./dist/ClockCalendarPopover/index.js"
     },
     "./CodeEditor": {
-      "source": "./src/CodeEditor/index.ts",
       "types": "./dist/CodeEditor/index.d.ts",
-      "default": "./dist/CodeEditor/index.js"
+      "import": "./dist/CodeEditor/index.js"
     },
     "./CohortRetentionGrid": {
-      "source": "./src/CohortRetentionGrid/index.ts",
       "types": "./dist/CohortRetentionGrid/index.d.ts",
-      "default": "./dist/CohortRetentionGrid/index.js"
+      "import": "./dist/CohortRetentionGrid/index.js"
     },
     "./ColorPicker": {
-      "source": "./src/ColorPicker/index.ts",
       "types": "./dist/ColorPicker/index.d.ts",
-      "default": "./dist/ColorPicker/index.js"
+      "import": "./dist/ColorPicker/index.js"
     },
     "./CombinedDateTimePicker": {
-      "source": "./src/CombinedDateTimePicker/index.ts",
       "types": "./dist/CombinedDateTimePicker/index.d.ts",
-      "default": "./dist/CombinedDateTimePicker/index.js"
+      "import": "./dist/CombinedDateTimePicker/index.js"
     },
     "./ComboDualAxisChart": {
-      "source": "./src/ComboDualAxisChart/index.ts",
       "types": "./dist/ComboDualAxisChart/index.d.ts",
-      "default": "./dist/ComboDualAxisChart/index.js"
+      "import": "./dist/ComboDualAxisChart/index.js"
     },
     "./ComboSplitButton": {
-      "source": "./src/ComboSplitButton/index.ts",
       "types": "./dist/ComboSplitButton/index.d.ts",
-      "default": "./dist/ComboSplitButton/index.js"
+      "import": "./dist/ComboSplitButton/index.js"
     },
     "./CommandInputBar": {
-      "source": "./src/CommandInputBar/index.ts",
       "types": "./dist/CommandInputBar/index.d.ts",
-      "default": "./dist/CommandInputBar/index.js"
+      "import": "./dist/CommandInputBar/index.js"
     },
     "./CommandPalette": {
-      "source": "./src/CommandPalette/index.ts",
       "types": "./dist/CommandPalette/index.d.ts",
-      "default": "./dist/CommandPalette/index.js"
+      "import": "./dist/CommandPalette/index.js"
     },
     "./CommentThread": {
-      "source": "./src/CommentThread/index.ts",
       "types": "./dist/CommentThread/index.d.ts",
-      "default": "./dist/CommentThread/index.js"
+      "import": "./dist/CommentThread/index.js"
     },
     "./ConfidenceIndicator": {
-      "source": "./src/ConfidenceIndicator/index.ts",
       "types": "./dist/ConfidenceIndicator/index.d.ts",
-      "default": "./dist/ConfidenceIndicator/index.js"
+      "import": "./dist/ConfidenceIndicator/index.js"
     },
     "./ConnectedToolsDrawer": {
-      "source": "./src/ConnectedToolsDrawer/index.ts",
       "types": "./dist/ConnectedToolsDrawer/index.d.ts",
-      "default": "./dist/ConnectedToolsDrawer/index.js"
+      "import": "./dist/ConnectedToolsDrawer/index.js"
     },
     "./ContextMenuDropdown": {
-      "source": "./src/ContextMenuDropdown/index.ts",
       "types": "./dist/ContextMenuDropdown/index.d.ts",
-      "default": "./dist/ContextMenuDropdown/index.js"
+      "import": "./dist/ContextMenuDropdown/index.js"
     },
     "./ContextTokenMeter": {
-      "source": "./src/ContextTokenMeter/index.ts",
       "types": "./dist/ContextTokenMeter/index.d.ts",
-      "default": "./dist/ContextTokenMeter/index.js"
+      "import": "./dist/ContextTokenMeter/index.js"
     },
     "./ContextualPopover": {
-      "source": "./src/ContextualPopover/index.ts",
       "types": "./dist/ContextualPopover/index.d.ts",
-      "default": "./dist/ContextualPopover/index.js"
+      "import": "./dist/ContextualPopover/index.js"
     },
     "./ContourDensityPlot": {
-      "source": "./src/ContourDensityPlot/index.ts",
       "types": "./dist/ContourDensityPlot/index.d.ts",
-      "default": "./dist/ContourDensityPlot/index.js"
+      "import": "./dist/ContourDensityPlot/index.js"
     },
     "./ControlCenterGrid": {
-      "source": "./src/ControlCenterGrid/index.ts",
       "types": "./dist/ControlCenterGrid/index.d.ts",
-      "default": "./dist/ControlCenterGrid/index.js"
+      "import": "./dist/ControlCenterGrid/index.js"
     },
     "./CookieConsentBanner": {
-      "source": "./src/CookieConsentBanner/index.ts",
       "types": "./dist/CookieConsentBanner/index.d.ts",
-      "default": "./dist/CookieConsentBanner/index.js"
+      "import": "./dist/CookieConsentBanner/index.js"
     },
     "./CopyableCommandBlock": {
-      "source": "./src/CopyableCommandBlock/index.ts",
       "types": "./dist/CopyableCommandBlock/index.d.ts",
-      "default": "./dist/CopyableCommandBlock/index.js"
+      "import": "./dist/CopyableCommandBlock/index.js"
     },
     "./CreatableCombobox": {
-      "source": "./src/CreatableCombobox/index.ts",
       "types": "./dist/CreatableCombobox/index.d.ts",
-      "default": "./dist/CreatableCombobox/index.js"
+      "import": "./dist/CreatableCombobox/index.js"
     },
     "./CropStraightenOverlay": {
-      "source": "./src/CropStraightenOverlay/index.ts",
       "types": "./dist/CropStraightenOverlay/index.d.ts",
-      "default": "./dist/CropStraightenOverlay/index.js"
+      "import": "./dist/CropStraightenOverlay/index.js"
     },
     "./CsvColumnMapper": {
-      "source": "./src/CsvColumnMapper/index.ts",
       "types": "./dist/CsvColumnMapper/index.d.ts",
-      "default": "./dist/CsvColumnMapper/index.js"
+      "import": "./dist/CsvColumnMapper/index.js"
     },
     "./CurrencyInput": {
-      "source": "./src/CurrencyInput/index.ts",
       "types": "./dist/CurrencyInput/index.d.ts",
-      "default": "./dist/CurrencyInput/index.js"
+      "import": "./dist/CurrencyInput/index.js"
     },
     "./CustomVideoPlayer": {
-      "source": "./src/CustomVideoPlayer/index.ts",
       "types": "./dist/CustomVideoPlayer/index.d.ts",
-      "default": "./dist/CustomVideoPlayer/index.js"
+      "import": "./dist/CustomVideoPlayer/index.js"
+    },
+    "./DataGridRowShimmer": {
+      "types": "./dist/DataGridRowShimmer/index.d.ts",
+      "import": "./dist/DataGridRowShimmer/index.js"
     },
     "./DataTable": {
-      "source": "./src/DataTable/index.ts",
       "types": "./dist/DataTable/index.d.ts",
-      "default": "./dist/DataTable/index.js"
+      "import": "./dist/DataTable/index.js"
     },
     "./DateRangePicker": {
-      "source": "./src/DateRangePicker/index.ts",
       "types": "./dist/DateRangePicker/index.d.ts",
-      "default": "./dist/DateRangePicker/index.js"
+      "import": "./dist/DateRangePicker/index.js"
     },
     "./DateTimePicker": {
-      "source": "./src/DateTimePicker/index.ts",
       "types": "./dist/DateTimePicker/index.d.ts",
-      "default": "./dist/DateTimePicker/index.js"
+      "import": "./dist/DateTimePicker/index.js"
     },
     "./DesktopIconCanvas": {
-      "source": "./src/DesktopIconCanvas/index.ts",
       "types": "./dist/DesktopIconCanvas/index.d.ts",
-      "default": "./dist/DesktopIconCanvas/index.js"
+      "import": "./dist/DesktopIconCanvas/index.js"
     },
     "./DesktopWidgetFrame": {
-      "source": "./src/DesktopWidgetFrame/index.ts",
       "types": "./dist/DesktopWidgetFrame/index.d.ts",
-      "default": "./dist/DesktopWidgetFrame/index.js"
+      "import": "./dist/DesktopWidgetFrame/index.js"
     },
     "./DiffViewer": {
-      "source": "./src/DiffViewer/index.ts",
       "types": "./dist/DiffViewer/index.d.ts",
-      "default": "./dist/DiffViewer/index.js"
+      "import": "./dist/DiffViewer/index.js"
     },
     "./DigitalLedReadout": {
-      "source": "./src/DigitalLedReadout/index.ts",
       "types": "./dist/DigitalLedReadout/index.d.ts",
-      "default": "./dist/DigitalLedReadout/index.js"
+      "import": "./dist/DigitalLedReadout/index.js"
     },
     "./DirectoryFilterBar": {
-      "source": "./src/DirectoryFilterBar/index.ts",
       "types": "./dist/DirectoryFilterBar/index.d.ts",
-      "default": "./dist/DirectoryFilterBar/index.js"
+      "import": "./dist/DirectoryFilterBar/index.js"
     },
     "./DistributedTraceWaterfall": {
-      "source": "./src/DistributedTraceWaterfall/index.ts",
       "types": "./dist/DistributedTraceWaterfall/index.d.ts",
-      "default": "./dist/DistributedTraceWaterfall/index.js"
+      "import": "./dist/DistributedTraceWaterfall/index.js"
     },
     "./DockablePanel": {
-      "source": "./src/DockablePanel/index.ts",
       "types": "./dist/DockablePanel/index.d.ts",
-      "default": "./dist/DockablePanel/index.js"
+      "import": "./dist/DockablePanel/index.js"
     },
     "./DocumentPageViewer": {
-      "source": "./src/DocumentPageViewer/index.ts",
       "types": "./dist/DocumentPageViewer/index.d.ts",
-      "default": "./dist/DocumentPageViewer/index.js"
+      "import": "./dist/DocumentPageViewer/index.js"
     },
     "./DonutPieChart": {
-      "source": "./src/DonutPieChart/index.ts",
       "types": "./dist/DonutPieChart/index.d.ts",
-      "default": "./dist/DonutPieChart/index.js"
+      "import": "./dist/DonutPieChart/index.js"
     },
     "./DropdownSelect": {
-      "source": "./src/DropdownSelect/index.ts",
       "types": "./dist/DropdownSelect/index.d.ts",
-      "default": "./dist/DropdownSelect/index.js"
+      "import": "./dist/DropdownSelect/index.js"
     },
     "./DualPaneCommander": {
-      "source": "./src/DualPaneCommander/index.ts",
       "types": "./dist/DualPaneCommander/index.d.ts",
-      "default": "./dist/DualPaneCommander/index.js"
+      "import": "./dist/DualPaneCommander/index.js"
     },
     "./DualThumbSlider": {
-      "source": "./src/DualThumbSlider/index.ts",
       "types": "./dist/DualThumbSlider/index.d.ts",
-      "default": "./dist/DualThumbSlider/index.js"
+      "import": "./dist/DualThumbSlider/index.js"
     },
     "./DumbbellPlot": {
-      "source": "./src/DumbbellPlot/index.ts",
       "types": "./dist/DumbbellPlot/index.d.ts",
-      "default": "./dist/DumbbellPlot/index.js"
+      "import": "./dist/DumbbellPlot/index.js"
     },
     "./DurationInput": {
-      "source": "./src/DurationInput/index.ts",
       "types": "./dist/DurationInput/index.d.ts",
-      "default": "./dist/DurationInput/index.js"
+      "import": "./dist/DurationInput/index.js"
     },
     "./EditablePathBar": {
-      "source": "./src/EditablePathBar/index.ts",
       "types": "./dist/EditablePathBar/index.d.ts",
-      "default": "./dist/EditablePathBar/index.js"
+      "import": "./dist/EditablePathBar/index.js"
     },
     "./EffectsRackChain": {
-      "source": "./src/EffectsRackChain/index.ts",
       "types": "./dist/EffectsRackChain/index.d.ts",
-      "default": "./dist/EffectsRackChain/index.js"
+      "import": "./dist/EffectsRackChain/index.js"
     },
     "./EmptyState": {
-      "source": "./src/EmptyState/index.ts",
       "types": "./dist/EmptyState/index.d.ts",
-      "default": "./dist/EmptyState/index.js"
+      "import": "./dist/EmptyState/index.js"
     },
     "./ExpandableTextClamp": {
-      "source": "./src/ExpandableTextClamp/index.ts",
       "types": "./dist/ExpandableTextClamp/index.d.ts",
-      "default": "./dist/ExpandableTextClamp/index.js"
+      "import": "./dist/ExpandableTextClamp/index.js"
     },
     "./ExportRenderQueue": {
-      "source": "./src/ExportRenderQueue/index.ts",
       "types": "./dist/ExportRenderQueue/index.d.ts",
-      "default": "./dist/ExportRenderQueue/index.js"
+      "import": "./dist/ExportRenderQueue/index.js"
     },
     "./EyedropperPixelLoupe": {
-      "source": "./src/EyedropperPixelLoupe/index.ts",
       "types": "./dist/EyedropperPixelLoupe/index.d.ts",
-      "default": "./dist/EyedropperPixelLoupe/index.js"
+      "import": "./dist/EyedropperPixelLoupe/index.js"
     },
     "./FacetedFilterBar": {
-      "source": "./src/FacetedFilterBar/index.ts",
       "types": "./dist/FacetedFilterBar/index.d.ts",
-      "default": "./dist/FacetedFilterBar/index.js"
+      "import": "./dist/FacetedFilterBar/index.js"
     },
     "./FeatureFlagRollout": {
-      "source": "./src/FeatureFlagRollout/index.ts",
       "types": "./dist/FeatureFlagRollout/index.d.ts",
-      "default": "./dist/FeatureFlagRollout/index.js"
+      "import": "./dist/FeatureFlagRollout/index.js"
     },
     "./FileConflictDialog": {
-      "source": "./src/FileConflictDialog/index.ts",
       "types": "./dist/FileConflictDialog/index.d.ts",
-      "default": "./dist/FileConflictDialog/index.js"
+      "import": "./dist/FileConflictDialog/index.js"
     },
     "./FileDropzone": {
-      "source": "./src/FileDropzone/index.ts",
       "types": "./dist/FileDropzone/index.d.ts",
-      "default": "./dist/FileDropzone/index.js"
+      "import": "./dist/FileDropzone/index.js"
     },
     "./FileMetadataInspector": {
-      "source": "./src/FileMetadataInspector/index.ts",
       "types": "./dist/FileMetadataInspector/index.d.ts",
-      "default": "./dist/FileMetadataInspector/index.js"
+      "import": "./dist/FileMetadataInspector/index.js"
     },
     "./FileTransferQueue": {
-      "source": "./src/FileTransferQueue/index.ts",
       "types": "./dist/FileTransferQueue/index.d.ts",
-      "default": "./dist/FileTransferQueue/index.js"
+      "import": "./dist/FileTransferQueue/index.js"
     },
     "./FileViewModeBar": {
-      "source": "./src/FileViewModeBar/index.ts",
       "types": "./dist/FileViewModeBar/index.d.ts",
-      "default": "./dist/FileViewModeBar/index.js"
+      "import": "./dist/FileViewModeBar/index.js"
     },
     "./FlameGraphChart": {
-      "source": "./src/FlameGraphChart/index.ts",
       "types": "./dist/FlameGraphChart/index.d.ts",
-      "default": "./dist/FlameGraphChart/index.js"
+      "import": "./dist/FlameGraphChart/index.js"
     },
     "./FloatingActionButton": {
-      "source": "./src/FloatingActionButton/index.ts",
       "types": "./dist/FloatingActionButton/index.d.ts",
-      "default": "./dist/FloatingActionButton/index.js"
+      "import": "./dist/FloatingActionButton/index.js"
     },
     "./FloatingInspectorPalette": {
-      "source": "./src/FloatingInspectorPalette/index.ts",
       "types": "./dist/FloatingInspectorPalette/index.d.ts",
-      "default": "./dist/FloatingInspectorPalette/index.js"
+      "import": "./dist/FloatingInspectorPalette/index.js"
     },
     "./FloatingTableOfContents": {
-      "source": "./src/FloatingTableOfContents/index.ts",
       "types": "./dist/FloatingTableOfContents/index.d.ts",
-      "default": "./dist/FloatingTableOfContents/index.js"
+      "import": "./dist/FloatingTableOfContents/index.js"
+    },
+    "./FluidMeshCanvas": {
+      "types": "./dist/FluidMeshCanvas/index.d.ts",
+      "import": "./dist/FluidMeshCanvas/index.js"
     },
     "./FormulaSpreadsheetGrid": {
-      "source": "./src/FormulaSpreadsheetGrid/index.ts",
       "types": "./dist/FormulaSpreadsheetGrid/index.d.ts",
-      "default": "./dist/FormulaSpreadsheetGrid/index.js"
+      "import": "./dist/FormulaSpreadsheetGrid/index.js"
     },
     "./FrameStepperRateSelector": {
-      "source": "./src/FrameStepperRateSelector/index.ts",
       "types": "./dist/FrameStepperRateSelector/index.d.ts",
-      "default": "./dist/FrameStepperRateSelector/index.js"
+      "import": "./dist/FrameStepperRateSelector/index.js"
+    },
+    "./FrostedGrainOverlay": {
+      "types": "./dist/FrostedGrainOverlay/index.d.ts",
+      "import": "./dist/FrostedGrainOverlay/index.js"
     },
     "./FunnelChart": {
-      "source": "./src/FunnelChart/index.ts",
       "types": "./dist/FunnelChart/index.d.ts",
-      "default": "./dist/FunnelChart/index.js"
+      "import": "./dist/FunnelChart/index.js"
     },
     "./GanttChart": {
-      "source": "./src/GanttChart/index.ts",
       "types": "./dist/GanttChart/index.d.ts",
-      "default": "./dist/GanttChart/index.js"
+      "import": "./dist/GanttChart/index.js"
     },
     "./GeoFlowArcMap": {
-      "source": "./src/GeoFlowArcMap/index.ts",
       "types": "./dist/GeoFlowArcMap/index.d.ts",
-      "default": "./dist/GeoFlowArcMap/index.js"
+      "import": "./dist/GeoFlowArcMap/index.js"
     },
     "./GlobalSearchModal": {
-      "source": "./src/GlobalSearchModal/index.ts",
       "types": "./dist/GlobalSearchModal/index.d.ts",
-      "default": "./dist/GlobalSearchModal/index.js"
+      "import": "./dist/GlobalSearchModal/index.js"
     },
     "./GradientStopEditor": {
-      "source": "./src/GradientStopEditor/index.ts",
       "types": "./dist/GradientStopEditor/index.d.ts",
-      "default": "./dist/GradientStopEditor/index.js"
+      "import": "./dist/GradientStopEditor/index.js"
+    },
+    "./GradientTextSelection": {
+      "types": "./dist/GradientTextSelection/index.d.ts",
+      "import": "./dist/GradientTextSelection/index.js"
     },
     "./HandoffDivider": {
-      "source": "./src/HandoffDivider/index.ts",
       "types": "./dist/HandoffDivider/index.d.ts",
-      "default": "./dist/HandoffDivider/index.js"
+      "import": "./dist/HandoffDivider/index.js"
     },
     "./HardwareOsdHud": {
-      "source": "./src/HardwareOsdHud/index.ts",
       "types": "./dist/HardwareOsdHud/index.d.ts",
-      "default": "./dist/HardwareOsdHud/index.js"
+      "import": "./dist/HardwareOsdHud/index.js"
     },
     "./HardwarePortStrip": {
-      "source": "./src/HardwarePortStrip/index.ts",
       "types": "./dist/HardwarePortStrip/index.d.ts",
-      "default": "./dist/HardwarePortStrip/index.js"
+      "import": "./dist/HardwarePortStrip/index.js"
     },
     "./HexbinDensityPlot": {
-      "source": "./src/HexbinDensityPlot/index.ts",
       "types": "./dist/HexbinDensityPlot/index.d.ts",
-      "default": "./dist/HexbinDensityPlot/index.js"
+      "import": "./dist/HexbinDensityPlot/index.js"
     },
     "./HistogramChart": {
-      "source": "./src/HistogramChart/index.ts",
       "types": "./dist/HistogramChart/index.d.ts",
-      "default": "./dist/HistogramChart/index.js"
+      "import": "./dist/HistogramChart/index.js"
     },
     "./HistogramRangeSlider": {
-      "source": "./src/HistogramRangeSlider/index.ts",
       "types": "./dist/HistogramRangeSlider/index.d.ts",
-      "default": "./dist/HistogramRangeSlider/index.js"
+      "import": "./dist/HistogramRangeSlider/index.js"
     },
     "./HoldToConfirmButton": {
-      "source": "./src/HoldToConfirmButton/index.ts",
       "types": "./dist/HoldToConfirmButton/index.d.ts",
-      "default": "./dist/HoldToConfirmButton/index.js"
+      "import": "./dist/HoldToConfirmButton/index.js"
+    },
+    "./HolographicFoilSheen": {
+      "types": "./dist/HolographicFoilSheen/index.d.ts",
+      "import": "./dist/HolographicFoilSheen/index.js"
     },
     "./IconButton": {
-      "source": "./src/IconButton/index.ts",
       "types": "./dist/IconButton/index.d.ts",
-      "default": "./dist/IconButton/index.js"
+      "import": "./dist/IconButton/index.js"
     },
     "./ImageCropper": {
-      "source": "./src/ImageCropper/index.ts",
       "types": "./dist/ImageCropper/index.d.ts",
-      "default": "./dist/ImageCropper/index.js"
+      "import": "./dist/ImageCropper/index.js"
     },
     "./InlineCopyTrigger": {
-      "source": "./src/InlineCopyTrigger/index.ts",
       "types": "./dist/InlineCopyTrigger/index.d.ts",
-      "default": "./dist/InlineCopyTrigger/index.js"
+      "import": "./dist/InlineCopyTrigger/index.js"
     },
     "./InlineDiffReviewer": {
-      "source": "./src/InlineDiffReviewer/index.ts",
       "types": "./dist/InlineDiffReviewer/index.d.ts",
-      "default": "./dist/InlineDiffReviewer/index.js"
+      "import": "./dist/InlineDiffReviewer/index.js"
     },
     "./InlineEditableField": {
-      "source": "./src/InlineEditableField/index.ts",
       "types": "./dist/InlineEditableField/index.d.ts",
-      "default": "./dist/InlineEditableField/index.js"
+      "import": "./dist/InlineEditableField/index.js"
     },
     "./InteractiveLegend": {
-      "source": "./src/InteractiveLegend/index.ts",
       "types": "./dist/InteractiveLegend/index.d.ts",
-      "default": "./dist/InteractiveLegend/index.js"
+      "import": "./dist/InteractiveLegend/index.js"
     },
     "./InteractiveMapViewer": {
-      "source": "./src/InteractiveMapViewer/index.ts",
       "types": "./dist/InteractiveMapViewer/index.d.ts",
-      "default": "./dist/InteractiveMapViewer/index.js"
+      "import": "./dist/InteractiveMapViewer/index.js"
     },
     "./InternationalPhoneInput": {
-      "source": "./src/InternationalPhoneInput/index.ts",
       "types": "./dist/InternationalPhoneInput/index.d.ts",
-      "default": "./dist/InternationalPhoneInput/index.js"
+      "import": "./dist/InternationalPhoneInput/index.js"
+    },
+    "./IridescentRimSurface": {
+      "types": "./dist/IridescentRimSurface/index.d.ts",
+      "import": "./dist/IridescentRimSurface/index.js"
     },
     "./JogShuttleWheel": {
-      "source": "./src/JogShuttleWheel/index.ts",
       "types": "./dist/JogShuttleWheel/index.d.ts",
-      "default": "./dist/JogShuttleWheel/index.js"
+      "import": "./dist/JogShuttleWheel/index.js"
     },
     "./KanbanBoard": {
-      "source": "./src/KanbanBoard/index.ts",
       "types": "./dist/KanbanBoard/index.d.ts",
-      "default": "./dist/KanbanBoard/index.js"
+      "import": "./dist/KanbanBoard/index.js"
     },
     "./KeycapBadge": {
-      "source": "./src/KeycapBadge/index.ts",
       "types": "./dist/KeycapBadge/index.d.ts",
-      "default": "./dist/KeycapBadge/index.js"
+      "import": "./dist/KeycapBadge/index.js"
     },
     "./KeyframeCurveEditor": {
-      "source": "./src/KeyframeCurveEditor/index.ts",
       "types": "./dist/KeyframeCurveEditor/index.d.ts",
-      "default": "./dist/KeyframeCurveEditor/index.js"
+      "import": "./dist/KeyframeCurveEditor/index.js"
     },
     "./KpiMetricCard": {
-      "source": "./src/KpiMetricCard/index.ts",
       "types": "./dist/KpiMetricCard/index.d.ts",
-      "default": "./dist/KpiMetricCard/index.js"
+      "import": "./dist/KpiMetricCard/index.js"
     },
     "./LayerBlendStack": {
-      "source": "./src/LayerBlendStack/index.ts",
       "types": "./dist/LayerBlendStack/index.d.ts",
-      "default": "./dist/LayerBlendStack/index.js"
+      "import": "./dist/LayerBlendStack/index.js"
     },
     "./LineMultiSeriesChart": {
-      "source": "./src/LineMultiSeriesChart/index.ts",
       "types": "./dist/LineMultiSeriesChart/index.d.ts",
-      "default": "./dist/LineMultiSeriesChart/index.js"
+      "import": "./dist/LineMultiSeriesChart/index.js"
     },
     "./LinkPreviewCard": {
-      "source": "./src/LinkPreviewCard/index.ts",
       "types": "./dist/LinkPreviewCard/index.d.ts",
-      "default": "./dist/LinkPreviewCard/index.js"
+      "import": "./dist/LinkPreviewCard/index.js"
+    },
+    "./LiquidRippleTrigger": {
+      "types": "./dist/LiquidRippleTrigger/index.d.ts",
+      "import": "./dist/LiquidRippleTrigger/index.js"
     },
     "./LiveColorScopes": {
-      "source": "./src/LiveColorScopes/index.ts",
       "types": "./dist/LiveColorScopes/index.d.ts",
-      "default": "./dist/LiveColorScopes/index.js"
+      "import": "./dist/LiveColorScopes/index.js"
     },
     "./LiveLogStreamer": {
-      "source": "./src/LiveLogStreamer/index.ts",
       "types": "./dist/LiveLogStreamer/index.d.ts",
-      "default": "./dist/LiveLogStreamer/index.js"
+      "import": "./dist/LiveLogStreamer/index.js"
     },
     "./LivePresenceIndicator": {
-      "source": "./src/LivePresenceIndicator/index.ts",
       "types": "./dist/LivePresenceIndicator/index.d.ts",
-      "default": "./dist/LivePresenceIndicator/index.js"
+      "import": "./dist/LivePresenceIndicator/index.js"
     },
     "./LiveTelemetryChart": {
-      "source": "./src/LiveTelemetryChart/index.ts",
       "types": "./dist/LiveTelemetryChart/index.d.ts",
-      "default": "./dist/LiveTelemetryChart/index.js"
+      "import": "./dist/LiveTelemetryChart/index.js"
     },
     "./LockScreenOverlay": {
-      "source": "./src/LockScreenOverlay/index.ts",
       "types": "./dist/LockScreenOverlay/index.d.ts",
-      "default": "./dist/LockScreenOverlay/index.js"
+      "import": "./dist/LockScreenOverlay/index.js"
     },
     "./LollipopChart": {
-      "source": "./src/LollipopChart/index.ts",
       "types": "./dist/LollipopChart/index.d.ts",
-      "default": "./dist/LollipopChart/index.js"
+      "import": "./dist/LollipopChart/index.js"
     },
     "./MarimekkoChart": {
-      "source": "./src/MarimekkoChart/index.ts",
       "types": "./dist/MarimekkoChart/index.d.ts",
-      "default": "./dist/MarimekkoChart/index.js"
+      "import": "./dist/MarimekkoChart/index.js"
     },
     "./MarqueeSelectionBox": {
-      "source": "./src/MarqueeSelectionBox/index.ts",
       "types": "./dist/MarqueeSelectionBox/index.d.ts",
-      "default": "./dist/MarqueeSelectionBox/index.js"
+      "import": "./dist/MarqueeSelectionBox/index.js"
     },
     "./MarqueeTicker": {
-      "source": "./src/MarqueeTicker/index.ts",
       "types": "./dist/MarqueeTicker/index.d.ts",
-      "default": "./dist/MarqueeTicker/index.js"
+      "import": "./dist/MarqueeTicker/index.js"
     },
     "./MaskedPatternInput": {
-      "source": "./src/MaskedPatternInput/index.ts",
       "types": "./dist/MaskedPatternInput/index.d.ts",
-      "default": "./dist/MaskedPatternInput/index.js"
+      "import": "./dist/MaskedPatternInput/index.js"
     },
     "./MasonryGrid": {
-      "source": "./src/MasonryGrid/index.ts",
       "types": "./dist/MasonryGrid/index.d.ts",
-      "default": "./dist/MasonryGrid/index.js"
+      "import": "./dist/MasonryGrid/index.js"
     },
     "./MasterDetailView": {
-      "source": "./src/MasterDetailView/index.ts",
       "types": "./dist/MasterDetailView/index.d.ts",
-      "default": "./dist/MasterDetailView/index.js"
+      "import": "./dist/MasterDetailView/index.js"
     },
     "./MatrixHeatmap": {
-      "source": "./src/MatrixHeatmap/index.ts",
       "types": "./dist/MatrixHeatmap/index.d.ts",
-      "default": "./dist/MatrixHeatmap/index.js"
+      "import": "./dist/MatrixHeatmap/index.js"
     },
     "./MeasurementUnitInput": {
-      "source": "./src/MeasurementUnitInput/index.ts",
       "types": "./dist/MeasurementUnitInput/index.d.ts",
-      "default": "./dist/MeasurementUnitInput/index.js"
+      "import": "./dist/MeasurementUnitInput/index.js"
     },
     "./MediaLightbox": {
-      "source": "./src/MediaLightbox/index.ts",
       "types": "./dist/MediaLightbox/index.d.ts",
-      "default": "./dist/MediaLightbox/index.js"
+      "import": "./dist/MediaLightbox/index.js"
     },
     "./MemoryPersonaInspector": {
-      "source": "./src/MemoryPersonaInspector/index.ts",
       "types": "./dist/MemoryPersonaInspector/index.d.ts",
-      "default": "./dist/MemoryPersonaInspector/index.js"
+      "import": "./dist/MemoryPersonaInspector/index.js"
     },
     "./MergedWindowTabBar": {
-      "source": "./src/MergedWindowTabBar/index.ts",
       "types": "./dist/MergedWindowTabBar/index.d.ts",
-      "default": "./dist/MergedWindowTabBar/index.js"
+      "import": "./dist/MergedWindowTabBar/index.js"
+    },
+    "./MetaballFluidBackdrop": {
+      "types": "./dist/MetaballFluidBackdrop/index.d.ts",
+      "import": "./dist/MetaballFluidBackdrop/index.js"
     },
     "./MillerColumnsBrowser": {
-      "source": "./src/MillerColumnsBrowser/index.ts",
       "types": "./dist/MillerColumnsBrowser/index.d.ts",
-      "default": "./dist/MillerColumnsBrowser/index.js"
+      "import": "./dist/MillerColumnsBrowser/index.js"
     },
     "./MinimizedWindowTray": {
-      "source": "./src/MinimizedWindowTray/index.ts",
       "types": "./dist/MinimizedWindowTray/index.d.ts",
-      "default": "./dist/MinimizedWindowTray/index.js"
+      "import": "./dist/MinimizedWindowTray/index.js"
     },
     "./ModalDialog": {
-      "source": "./src/ModalDialog/index.ts",
       "types": "./dist/ModalDialog/index.d.ts",
-      "default": "./dist/ModalDialog/index.js"
+      "import": "./dist/ModalDialog/index.js"
     },
     "./ModelParameterSwitcher": {
-      "source": "./src/ModelParameterSwitcher/index.ts",
       "types": "./dist/ModelParameterSwitcher/index.d.ts",
-      "default": "./dist/ModelParameterSwitcher/index.js"
+      "import": "./dist/ModelParameterSwitcher/index.js"
     },
     "./MonthQuarterYearPicker": {
-      "source": "./src/MonthQuarterYearPicker/index.ts",
       "types": "./dist/MonthQuarterYearPicker/index.d.ts",
-      "default": "./dist/MonthQuarterYearPicker/index.js"
+      "import": "./dist/MonthQuarterYearPicker/index.js"
     },
     "./MountedVolumesSidebar": {
-      "source": "./src/MountedVolumesSidebar/index.ts",
       "types": "./dist/MountedVolumesSidebar/index.d.ts",
-      "default": "./dist/MountedVolumesSidebar/index.js"
+      "import": "./dist/MountedVolumesSidebar/index.js"
     },
     "./MultiSelectCombobox": {
-      "source": "./src/MultiSelectCombobox/index.ts",
       "types": "./dist/MultiSelectCombobox/index.d.ts",
-      "default": "./dist/MultiSelectCombobox/index.js"
+      "import": "./dist/MultiSelectCombobox/index.js"
     },
     "./MultiStateCycleButton": {
-      "source": "./src/MultiStateCycleButton/index.ts",
       "types": "./dist/MultiStateCycleButton/index.d.ts",
-      "default": "./dist/MultiStateCycleButton/index.js"
+      "import": "./dist/MultiStateCycleButton/index.js"
     },
     "./MultiTrackTimeline": {
-      "source": "./src/MultiTrackTimeline/index.ts",
       "types": "./dist/MultiTrackTimeline/index.d.ts",
-      "default": "./dist/MultiTrackTimeline/index.js"
+      "import": "./dist/MultiTrackTimeline/index.js"
     },
     "./NetworkForceGraph": {
-      "source": "./src/NetworkForceGraph/index.ts",
       "types": "./dist/NetworkForceGraph/index.d.ts",
-      "default": "./dist/NetworkForceGraph/index.js"
+      "import": "./dist/NetworkForceGraph/index.js"
     },
     "./NetworkVpnPopover": {
-      "source": "./src/NetworkVpnPopover/index.ts",
       "types": "./dist/NetworkVpnPopover/index.d.ts",
-      "default": "./dist/NetworkVpnPopover/index.js"
+      "import": "./dist/NetworkVpnPopover/index.js"
     },
     "./NodeGraphCanvas": {
-      "source": "./src/NodeGraphCanvas/index.ts",
       "types": "./dist/NodeGraphCanvas/index.d.ts",
-      "default": "./dist/NodeGraphCanvas/index.js"
+      "import": "./dist/NodeGraphCanvas/index.js"
     },
     "./NotificationCenter": {
-      "source": "./src/NotificationCenter/index.ts",
       "types": "./dist/NotificationCenter/index.d.ts",
-      "default": "./dist/NotificationCenter/index.js"
+      "import": "./dist/NotificationCenter/index.js"
     },
     "./NumericStepper": {
-      "source": "./src/NumericStepper/index.ts",
       "types": "./dist/NumericStepper/index.d.ts",
-      "default": "./dist/NumericStepper/index.js"
+      "import": "./dist/NumericStepper/index.js"
     },
     "./OpticalCharts": {
-      "source": "./src/OpticalCharts/index.ts",
       "types": "./dist/OpticalCharts/index.d.ts",
-      "default": "./dist/OpticalCharts/index.js"
+      "import": "./dist/OpticalCharts/index.js"
+    },
+    "./OpticalDepthVignette": {
+      "types": "./dist/OpticalDepthVignette/index.d.ts",
+      "import": "./dist/OpticalDepthVignette/index.js"
     },
     "./OpticalDivider": {
-      "source": "./src/OpticalDivider/index.ts",
       "types": "./dist/OpticalDivider/index.d.ts",
-      "default": "./dist/OpticalDivider/index.js"
+      "import": "./dist/OpticalDivider/index.js"
     },
     "./OpticalMaterialInspector": {
-      "source": "./src/OpticalMaterialInspector/index.ts",
       "types": "./dist/OpticalMaterialInspector/index.d.ts",
-      "default": "./dist/OpticalMaterialInspector/index.js"
+      "import": "./dist/OpticalMaterialInspector/index.js"
+    },
+    "./OrbitalRingSpinner": {
+      "types": "./dist/OrbitalRingSpinner/index.d.ts",
+      "import": "./dist/OrbitalRingSpinner/index.js"
     },
     "./OrderBookDepthChart": {
-      "source": "./src/OrderBookDepthChart/index.ts",
       "types": "./dist/OrderBookDepthChart/index.d.ts",
-      "default": "./dist/OrderBookDepthChart/index.js"
+      "import": "./dist/OrderBookDepthChart/index.js"
     },
     "./OtpCodeInput": {
-      "source": "./src/OtpCodeInput/index.ts",
       "types": "./dist/OtpCodeInput/index.d.ts",
-      "default": "./dist/OtpCodeInput/index.js"
+      "import": "./dist/OtpCodeInput/index.js"
     },
     "./Pagination": {
-      "source": "./src/Pagination/index.ts",
       "types": "./dist/Pagination/index.d.ts",
-      "default": "./dist/Pagination/index.js"
+      "import": "./dist/Pagination/index.js"
     },
     "./ParallelComparisonView": {
-      "source": "./src/ParallelComparisonView/index.ts",
       "types": "./dist/ParallelComparisonView/index.d.ts",
-      "default": "./dist/ParallelComparisonView/index.js"
+      "import": "./dist/ParallelComparisonView/index.js"
     },
     "./ParallelCoordinatesPlot": {
-      "source": "./src/ParallelCoordinatesPlot/index.ts",
       "types": "./dist/ParallelCoordinatesPlot/index.d.ts",
-      "default": "./dist/ParallelCoordinatesPlot/index.js"
+      "import": "./dist/ParallelCoordinatesPlot/index.js"
     },
     "./ParametricEqGraph": {
-      "source": "./src/ParametricEqGraph/index.ts",
       "types": "./dist/ParametricEqGraph/index.d.ts",
-      "default": "./dist/ParametricEqGraph/index.js"
+      "import": "./dist/ParametricEqGraph/index.js"
     },
     "./PasswordStrengthMeter": {
-      "source": "./src/PasswordStrengthMeter/index.ts",
       "types": "./dist/PasswordStrengthMeter/index.d.ts",
-      "default": "./dist/PasswordStrengthMeter/index.js"
+      "import": "./dist/PasswordStrengthMeter/index.js"
     },
     "./PaymentCardInput": {
-      "source": "./src/PaymentCardInput/index.ts",
       "types": "./dist/PaymentCardInput/index.d.ts",
-      "default": "./dist/PaymentCardInput/index.js"
+      "import": "./dist/PaymentCardInput/index.js"
     },
     "./PerAppAudioMixer": {
-      "source": "./src/PerAppAudioMixer/index.ts",
       "types": "./dist/PerAppAudioMixer/index.d.ts",
-      "default": "./dist/PerAppAudioMixer/index.js"
+      "import": "./dist/PerAppAudioMixer/index.js"
     },
     "./PermissionsSharingMatrix": {
-      "source": "./src/PermissionsSharingMatrix/index.ts",
       "types": "./dist/PermissionsSharingMatrix/index.d.ts",
-      "default": "./dist/PermissionsSharingMatrix/index.js"
+      "import": "./dist/PermissionsSharingMatrix/index.js"
+    },
+    "./PipelinePulseLoader": {
+      "types": "./dist/PipelinePulseLoader/index.d.ts",
+      "import": "./dist/PipelinePulseLoader/index.js"
     },
     "./PivotTable": {
-      "source": "./src/PivotTable/index.ts",
       "types": "./dist/PivotTable/index.d.ts",
-      "default": "./dist/PivotTable/index.js"
+      "import": "./dist/PivotTable/index.js"
     },
     "./PlayheadScrubRuler": {
-      "source": "./src/PlayheadScrubRuler/index.ts",
       "types": "./dist/PlayheadScrubRuler/index.d.ts",
-      "default": "./dist/PlayheadScrubRuler/index.js"
+      "import": "./dist/PlayheadScrubRuler/index.js"
     },
     "./PointClusterMap": {
-      "source": "./src/PointClusterMap/index.ts",
       "types": "./dist/PointClusterMap/index.d.ts",
-      "default": "./dist/PointClusterMap/index.js"
+      "import": "./dist/PointClusterMap/index.js"
     },
     "./PolarAreaRoseChart": {
-      "source": "./src/PolarAreaRoseChart/index.ts",
       "types": "./dist/PolarAreaRoseChart/index.d.ts",
-      "default": "./dist/PolarAreaRoseChart/index.js"
+      "import": "./dist/PolarAreaRoseChart/index.js"
     },
     "./PricingTierMatrix": {
-      "source": "./src/PricingTierMatrix/index.ts",
       "types": "./dist/PricingTierMatrix/index.d.ts",
-      "default": "./dist/PricingTierMatrix/index.js"
+      "import": "./dist/PricingTierMatrix/index.js"
     },
     "./PrimaryButton": {
-      "source": "./src/PrimaryButton/index.ts",
       "types": "./dist/PrimaryButton/index.d.ts",
-      "default": "./dist/PrimaryButton/index.js"
+      "import": "./dist/PrimaryButton/index.js"
     },
     "./PrismCard": {
-      "source": "./src/PrismCard/index.ts",
       "types": "./dist/PrismCard/index.d.ts",
-      "default": "./dist/PrismCard/index.js"
+      "import": "./dist/PrismCard/index.js"
     },
     "./PrismList": {
-      "source": "./src/PrismList/index.ts",
       "types": "./dist/PrismList/index.d.ts",
-      "default": "./dist/PrismList/index.js"
+      "import": "./dist/PrismList/index.js"
     },
     "./PrismTabs": {
-      "source": "./src/PrismTabs/index.ts",
       "types": "./dist/PrismTabs/index.d.ts",
-      "default": "./dist/PrismTabs/index.js"
+      "import": "./dist/PrismTabs/index.js"
+    },
+    "./PrismaticCursorHalo": {
+      "types": "./dist/PrismaticCursorHalo/index.d.ts",
+      "import": "./dist/PrismaticCursorHalo/index.js"
     },
     "./ProcessStatusPill": {
-      "source": "./src/ProcessStatusPill/index.ts",
       "types": "./dist/ProcessStatusPill/index.d.ts",
-      "default": "./dist/ProcessStatusPill/index.js"
+      "import": "./dist/ProcessStatusPill/index.js"
     },
     "./Product360Viewer": {
-      "source": "./src/Product360Viewer/index.ts",
       "types": "./dist/Product360Viewer/index.d.ts",
-      "default": "./dist/Product360Viewer/index.js"
+      "import": "./dist/Product360Viewer/index.js"
     },
     "./ProductTour": {
-      "source": "./src/ProductTour/index.ts",
       "types": "./dist/ProductTour/index.d.ts",
-      "default": "./dist/ProductTour/index.js"
+      "import": "./dist/ProductTour/index.js"
     },
     "./ProductVariantSelector": {
-      "source": "./src/ProductVariantSelector/index.ts",
       "types": "./dist/ProductVariantSelector/index.d.ts",
-      "default": "./dist/ProductVariantSelector/index.js"
+      "import": "./dist/ProductVariantSelector/index.js"
     },
     "./ProgressAndSpinner": {
-      "source": "./src/ProgressAndSpinner/index.ts",
       "types": "./dist/ProgressAndSpinner/index.d.ts",
-      "default": "./dist/ProgressAndSpinner/index.js"
+      "import": "./dist/ProgressAndSpinner/index.js"
     },
     "./PromoCouponInput": {
-      "source": "./src/PromoCouponInput/index.ts",
       "types": "./dist/PromoCouponInput/index.d.ts",
-      "default": "./dist/PromoCouponInput/index.js"
+      "import": "./dist/PromoCouponInput/index.js"
     },
     "./PromptComposer": {
-      "source": "./src/PromptComposer/index.ts",
       "types": "./dist/PromptComposer/index.d.ts",
-      "default": "./dist/PromptComposer/index.js"
+      "import": "./dist/PromptComposer/index.js"
     },
     "./PropertyGrid": {
-      "source": "./src/PropertyGrid/index.ts",
       "types": "./dist/PropertyGrid/index.d.ts",
-      "default": "./dist/PropertyGrid/index.js"
+      "import": "./dist/PropertyGrid/index.js"
     },
     "./PullToRefresh": {
-      "source": "./src/PullToRefresh/index.ts",
       "types": "./dist/PullToRefresh/index.d.ts",
-      "default": "./dist/PullToRefresh/index.js"
+      "import": "./dist/PullToRefresh/index.js"
     },
     "./QuadrantMatrix": {
-      "source": "./src/QuadrantMatrix/index.ts",
       "types": "./dist/QuadrantMatrix/index.d.ts",
-      "default": "./dist/QuadrantMatrix/index.js"
+      "import": "./dist/QuadrantMatrix/index.js"
     },
     "./QuickLookPreviewer": {
-      "source": "./src/QuickLookPreviewer/index.ts",
       "types": "./dist/QuickLookPreviewer/index.d.ts",
-      "default": "./dist/QuickLookPreviewer/index.js"
+      "import": "./dist/QuickLookPreviewer/index.js"
     },
     "./RadarSpiderChart": {
-      "source": "./src/RadarSpiderChart/index.ts",
       "types": "./dist/RadarSpiderChart/index.d.ts",
-      "default": "./dist/RadarSpiderChart/index.js"
+      "import": "./dist/RadarSpiderChart/index.js"
     },
     "./RadialContextMenu": {
-      "source": "./src/RadialContextMenu/index.ts",
       "types": "./dist/RadialContextMenu/index.d.ts",
-      "default": "./dist/RadialContextMenu/index.js"
+      "import": "./dist/RadialContextMenu/index.js"
     },
     "./RadialGauge": {
-      "source": "./src/RadialGauge/index.ts",
       "types": "./dist/RadialGauge/index.d.ts",
-      "default": "./dist/RadialGauge/index.js"
+      "import": "./dist/RadialGauge/index.js"
     },
     "./RadioGroup": {
-      "source": "./src/RadioGroup/index.ts",
       "types": "./dist/RadioGroup/index.d.ts",
-      "default": "./dist/RadioGroup/index.js"
+      "import": "./dist/RadioGroup/index.js"
     },
     "./RangeSlider": {
-      "source": "./src/RangeSlider/index.ts",
       "types": "./dist/RangeSlider/index.d.ts",
-      "default": "./dist/RangeSlider/index.js"
+      "import": "./dist/RangeSlider/index.js"
     },
     "./RatingControl": {
-      "source": "./src/RatingControl/index.ts",
       "types": "./dist/RatingControl/index.d.ts",
-      "default": "./dist/RatingControl/index.js"
+      "import": "./dist/RatingControl/index.js"
+    },
+    "./ReactiveInputShimmer": {
+      "types": "./dist/ReactiveInputShimmer/index.d.ts",
+      "import": "./dist/ReactiveInputShimmer/index.js"
     },
     "./RecoveryRoutingCard": {
-      "source": "./src/RecoveryRoutingCard/index.ts",
       "types": "./dist/RecoveryRoutingCard/index.d.ts",
-      "default": "./dist/RecoveryRoutingCard/index.js"
+      "import": "./dist/RecoveryRoutingCard/index.js"
     },
     "./RecurrenceBuilder": {
-      "source": "./src/RecurrenceBuilder/index.ts",
       "types": "./dist/RecurrenceBuilder/index.d.ts",
-      "default": "./dist/RecurrenceBuilder/index.js"
+      "import": "./dist/RecurrenceBuilder/index.js"
+    },
+    "./RefractiveLensContainer": {
+      "types": "./dist/RefractiveLensContainer/index.d.ts",
+      "import": "./dist/RefractiveLensContainer/index.js"
+    },
+    "./RefractiveSkeleton": {
+      "types": "./dist/RefractiveSkeleton/index.d.ts",
+      "import": "./dist/RefractiveSkeleton/index.js"
     },
     "./ResponseActionBar": {
-      "source": "./src/ResponseActionBar/index.ts",
       "types": "./dist/ResponseActionBar/index.d.ts",
-      "default": "./dist/ResponseActionBar/index.js"
+      "import": "./dist/ResponseActionBar/index.js"
     },
     "./RichContextMenu": {
-      "source": "./src/RichContextMenu/index.ts",
       "types": "./dist/RichContextMenu/index.d.ts",
-      "default": "./dist/RichContextMenu/index.js"
+      "import": "./dist/RichContextMenu/index.js"
     },
     "./RichSelectionCards": {
-      "source": "./src/RichSelectionCards/index.ts",
       "types": "./dist/RichSelectionCards/index.d.ts",
-      "default": "./dist/RichSelectionCards/index.js"
+      "import": "./dist/RichSelectionCards/index.js"
     },
     "./RichTextEditor": {
-      "source": "./src/RichTextEditor/index.ts",
       "types": "./dist/RichTextEditor/index.d.ts",
-      "default": "./dist/RichTextEditor/index.js"
+      "import": "./dist/RichTextEditor/index.js"
     },
     "./RidgelinePlot": {
-      "source": "./src/RidgelinePlot/index.ts",
       "types": "./dist/RidgelinePlot/index.d.ts",
-      "default": "./dist/RidgelinePlot/index.js"
+      "import": "./dist/RidgelinePlot/index.js"
     },
     "./RolePermissionsMatrix": {
-      "source": "./src/RolePermissionsMatrix/index.ts",
       "types": "./dist/RolePermissionsMatrix/index.d.ts",
-      "default": "./dist/RolePermissionsMatrix/index.js"
+      "import": "./dist/RolePermissionsMatrix/index.js"
     },
     "./RotaryDial": {
-      "source": "./src/RotaryDial/index.ts",
       "types": "./dist/RotaryDial/index.d.ts",
-      "default": "./dist/RotaryDial/index.js"
+      "import": "./dist/RotaryDial/index.js"
     },
     "./SankeyDiagram": {
-      "source": "./src/SankeyDiagram/index.ts",
       "types": "./dist/SankeyDiagram/index.d.ts",
-      "default": "./dist/SankeyDiagram/index.js"
+      "import": "./dist/SankeyDiagram/index.js"
+    },
+    "./ScanlineRadarSweep": {
+      "types": "./dist/ScanlineRadarSweep/index.d.ts",
+      "import": "./dist/ScanlineRadarSweep/index.js"
     },
     "./ScatterBubblePlot": {
-      "source": "./src/ScatterBubblePlot/index.ts",
       "types": "./dist/ScatterBubblePlot/index.d.ts",
-      "default": "./dist/ScatterBubblePlot/index.js"
+      "import": "./dist/ScatterBubblePlot/index.js"
     },
     "./ScreenCaptureHud": {
-      "source": "./src/ScreenCaptureHud/index.ts",
       "types": "./dist/ScreenCaptureHud/index.d.ts",
-      "default": "./dist/ScreenCaptureHud/index.js"
+      "import": "./dist/ScreenCaptureHud/index.js"
     },
     "./ScrollShadowArea": {
-      "source": "./src/ScrollShadowArea/index.ts",
       "types": "./dist/ScrollShadowArea/index.d.ts",
-      "default": "./dist/ScrollShadowArea/index.js"
+      "import": "./dist/ScrollShadowArea/index.js"
     },
     "./ScrubbableNumberField": {
-      "source": "./src/ScrubbableNumberField/index.ts",
       "types": "./dist/ScrubbableNumberField/index.d.ts",
-      "default": "./dist/ScrubbableNumberField/index.js"
+      "import": "./dist/ScrubbableNumberField/index.js"
     },
     "./SearchWithSuggestions": {
-      "source": "./src/SearchWithSuggestions/index.ts",
       "types": "./dist/SearchWithSuggestions/index.d.ts",
-      "default": "./dist/SearchWithSuggestions/index.js"
+      "import": "./dist/SearchWithSuggestions/index.js"
     },
     "./SecondaryButton": {
-      "source": "./src/SecondaryButton/index.ts",
       "types": "./dist/SecondaryButton/index.d.ts",
-      "default": "./dist/SecondaryButton/index.js"
+      "import": "./dist/SecondaryButton/index.js"
     },
     "./SecretKeyField": {
-      "source": "./src/SecretKeyField/index.ts",
       "types": "./dist/SecretKeyField/index.d.ts",
-      "default": "./dist/SecretKeyField/index.js"
+      "import": "./dist/SecretKeyField/index.js"
     },
     "./SegmentedControl": {
-      "source": "./src/SegmentedControl/index.ts",
       "types": "./dist/SegmentedControl/index.d.ts",
-      "default": "./dist/SegmentedControl/index.js"
+      "import": "./dist/SegmentedControl/index.js"
+    },
+    "./SegmentedGlassProgress": {
+      "types": "./dist/SegmentedGlassProgress/index.d.ts",
+      "import": "./dist/SegmentedGlassProgress/index.js"
     },
     "./ServiceTopologyMap": {
-      "source": "./src/ServiceTopologyMap/index.ts",
       "types": "./dist/ServiceTopologyMap/index.d.ts",
-      "default": "./dist/ServiceTopologyMap/index.js"
+      "import": "./dist/ServiceTopologyMap/index.js"
     },
     "./SessionPowerOverlay": {
-      "source": "./src/SessionPowerOverlay/index.ts",
       "types": "./dist/SessionPowerOverlay/index.d.ts",
-      "default": "./dist/SessionPowerOverlay/index.js"
+      "import": "./dist/SessionPowerOverlay/index.js"
     },
     "./ShoppingCartDrawer": {
-      "source": "./src/ShoppingCartDrawer/index.ts",
       "types": "./dist/ShoppingCartDrawer/index.d.ts",
-      "default": "./dist/ShoppingCartDrawer/index.js"
+      "import": "./dist/ShoppingCartDrawer/index.js"
     },
     "./ShortcutCheatSheet": {
-      "source": "./src/ShortcutCheatSheet/index.ts",
       "types": "./dist/ShortcutCheatSheet/index.d.ts",
-      "default": "./dist/ShortcutCheatSheet/index.js"
+      "import": "./dist/ShortcutCheatSheet/index.js"
     },
     "./SidebarDrawer": {
-      "source": "./src/SidebarDrawer/index.ts",
       "types": "./dist/SidebarDrawer/index.d.ts",
-      "default": "./dist/SidebarDrawer/index.js"
+      "import": "./dist/SidebarDrawer/index.js"
     },
     "./SignaturePad": {
-      "source": "./src/SignaturePad/index.ts",
       "types": "./dist/SignaturePad/index.d.ts",
-      "default": "./dist/SignaturePad/index.js"
+      "import": "./dist/SignaturePad/index.js"
     },
     "./SkeletonLoader": {
-      "source": "./src/SkeletonLoader/index.ts",
       "types": "./dist/SkeletonLoader/index.d.ts",
-      "default": "./dist/SkeletonLoader/index.js"
+      "import": "./dist/SkeletonLoader/index.js"
     },
     "./SlaCountdownTimer": {
-      "source": "./src/SlaCountdownTimer/index.ts",
       "types": "./dist/SlaCountdownTimer/index.d.ts",
-      "default": "./dist/SlaCountdownTimer/index.js"
+      "import": "./dist/SlaCountdownTimer/index.js"
     },
     "./SlashCommandMenu": {
-      "source": "./src/SlashCommandMenu/index.ts",
       "types": "./dist/SlashCommandMenu/index.d.ts",
-      "default": "./dist/SlashCommandMenu/index.js"
+      "import": "./dist/SlashCommandMenu/index.js"
     },
     "./SlideOverSheet": {
-      "source": "./src/SlideOverSheet/index.ts",
       "types": "./dist/SlideOverSheet/index.d.ts",
-      "default": "./dist/SlideOverSheet/index.js"
+      "import": "./dist/SlideOverSheet/index.js"
     },
     "./SlopegraphChart": {
-      "source": "./src/SlopegraphChart/index.ts",
       "types": "./dist/SlopegraphChart/index.d.ts",
-      "default": "./dist/SlopegraphChart/index.js"
+      "import": "./dist/SlopegraphChart/index.js"
     },
     "./SmallMultiplesGrid": {
-      "source": "./src/SmallMultiplesGrid/index.ts",
       "types": "./dist/SmallMultiplesGrid/index.d.ts",
-      "default": "./dist/SmallMultiplesGrid/index.js"
+      "import": "./dist/SmallMultiplesGrid/index.js"
     },
     "./SnapZoneOverlay": {
-      "source": "./src/SnapZoneOverlay/index.ts",
       "types": "./dist/SnapZoneOverlay/index.d.ts",
-      "default": "./dist/SnapZoneOverlay/index.js"
+      "import": "./dist/SnapZoneOverlay/index.js"
     },
     "./SortableList": {
-      "source": "./src/SortableList/index.ts",
       "types": "./dist/SortableList/index.d.ts",
-      "default": "./dist/SortableList/index.js"
+      "import": "./dist/SortableList/index.js"
     },
     "./SparklineChart": {
-      "source": "./src/SparklineChart/index.ts",
       "types": "./dist/SparklineChart/index.d.ts",
-      "default": "./dist/SparklineChart/index.js"
+      "import": "./dist/SparklineChart/index.js"
     },
     "./SpeedDialButton": {
-      "source": "./src/SpeedDialButton/index.ts",
       "types": "./dist/SpeedDialButton/index.d.ts",
-      "default": "./dist/SpeedDialButton/index.js"
+      "import": "./dist/SpeedDialButton/index.js"
     },
     "./SplitArtifactCanvas": {
-      "source": "./src/SplitArtifactCanvas/index.ts",
       "types": "./dist/SplitArtifactCanvas/index.d.ts",
-      "default": "./dist/SplitArtifactCanvas/index.js"
+      "import": "./dist/SplitArtifactCanvas/index.js"
     },
     "./SplitButton": {
-      "source": "./src/SplitButton/index.ts",
       "types": "./dist/SplitButton/index.d.ts",
-      "default": "./dist/SplitButton/index.js"
+      "import": "./dist/SplitButton/index.js"
     },
     "./SpringEasingPicker": {
-      "source": "./src/SpringEasingPicker/index.ts",
       "types": "./dist/SpringEasingPicker/index.d.ts",
-      "default": "./dist/SpringEasingPicker/index.js"
+      "import": "./dist/SpringEasingPicker/index.js"
     },
     "./StatefulAsyncButton": {
-      "source": "./src/StatefulAsyncButton/index.ts",
       "types": "./dist/StatefulAsyncButton/index.d.ts",
-      "default": "./dist/StatefulAsyncButton/index.js"
+      "import": "./dist/StatefulAsyncButton/index.js"
+    },
+    "./StatefulEnergyRibbon": {
+      "types": "./dist/StatefulEnergyRibbon/index.d.ts",
+      "import": "./dist/StatefulEnergyRibbon/index.js"
     },
     "./StepSequencerMatrix": {
-      "source": "./src/StepSequencerMatrix/index.ts",
       "types": "./dist/StepSequencerMatrix/index.d.ts",
-      "default": "./dist/StepSequencerMatrix/index.js"
+      "import": "./dist/StepSequencerMatrix/index.js"
     },
     "./Stepper": {
-      "source": "./src/Stepper/index.ts",
       "types": "./dist/Stepper/index.d.ts",
-      "default": "./dist/Stepper/index.js"
+      "import": "./dist/Stepper/index.js"
     },
     "./StereoPanKnob": {
-      "source": "./src/StereoPanKnob/index.ts",
       "types": "./dist/StereoPanKnob/index.d.ts",
-      "default": "./dist/StereoPanKnob/index.js"
+      "import": "./dist/StereoPanKnob/index.js"
     },
     "./StickyActionBar": {
-      "source": "./src/StickyActionBar/index.ts",
       "types": "./dist/StickyActionBar/index.d.ts",
-      "default": "./dist/StickyActionBar/index.js"
+      "import": "./dist/StickyActionBar/index.js"
+    },
+    "./StreamingTokenReveal": {
+      "types": "./dist/StreamingTokenReveal/index.d.ts",
+      "import": "./dist/StreamingTokenReveal/index.js"
     },
     "./StructuredOutputViewer": {
-      "source": "./src/StructuredOutputViewer/index.ts",
       "types": "./dist/StructuredOutputViewer/index.d.ts",
-      "default": "./dist/StructuredOutputViewer/index.js"
+      "import": "./dist/StructuredOutputViewer/index.js"
     },
     "./SunburstChart": {
-      "source": "./src/SunburstChart/index.ts",
       "types": "./dist/SunburstChart/index.d.ts",
-      "default": "./dist/SunburstChart/index.js"
+      "import": "./dist/SunburstChart/index.js"
     },
     "./SurfaceMesh3DPlot": {
-      "source": "./src/SurfaceMesh3DPlot/index.ts",
       "types": "./dist/SurfaceMesh3DPlot/index.d.ts",
-      "default": "./dist/SurfaceMesh3DPlot/index.js"
+      "import": "./dist/SurfaceMesh3DPlot/index.js"
     },
     "./SwipeableActionRow": {
-      "source": "./src/SwipeableActionRow/index.ts",
       "types": "./dist/SwipeableActionRow/index.d.ts",
-      "default": "./dist/SwipeableActionRow/index.js"
+      "import": "./dist/SwipeableActionRow/index.js"
     },
     "./SystemAboutCard": {
-      "source": "./src/SystemAboutCard/index.ts",
       "types": "./dist/SystemAboutCard/index.d.ts",
-      "default": "./dist/SystemAboutCard/index.js"
+      "import": "./dist/SystemAboutCard/index.js"
     },
     "./SystemFileDialog": {
-      "source": "./src/SystemFileDialog/index.ts",
       "types": "./dist/SystemFileDialog/index.d.ts",
-      "default": "./dist/SystemFileDialog/index.js"
+      "import": "./dist/SystemFileDialog/index.js"
     },
     "./SystemPreferencesShell": {
-      "source": "./src/SystemPreferencesShell/index.ts",
       "types": "./dist/SystemPreferencesShell/index.d.ts",
-      "default": "./dist/SystemPreferencesShell/index.js"
+      "import": "./dist/SystemPreferencesShell/index.js"
     },
     "./SystemSpotlightLauncher": {
-      "source": "./src/SystemSpotlightLauncher/index.ts",
       "types": "./dist/SystemSpotlightLauncher/index.d.ts",
-      "default": "./dist/SystemSpotlightLauncher/index.js"
+      "import": "./dist/SystemSpotlightLauncher/index.js"
     },
     "./SystemTrayCluster": {
-      "source": "./src/SystemTrayCluster/index.ts",
       "types": "./dist/SystemTrayCluster/index.d.ts",
-      "default": "./dist/SystemTrayCluster/index.js"
+      "import": "./dist/SystemTrayCluster/index.js"
     },
     "./TagChip": {
-      "source": "./src/TagChip/index.ts",
       "types": "./dist/TagChip/index.d.ts",
-      "default": "./dist/TagChip/index.js"
+      "import": "./dist/TagChip/index.js"
     },
     "./TaskManagerDialog": {
-      "source": "./src/TaskManagerDialog/index.ts",
       "types": "./dist/TaskManagerDialog/index.d.ts",
-      "default": "./dist/TaskManagerDialog/index.js"
+      "import": "./dist/TaskManagerDialog/index.js"
     },
     "./TearOffMenu": {
-      "source": "./src/TearOffMenu/index.ts",
       "types": "./dist/TearOffMenu/index.d.ts",
-      "default": "./dist/TearOffMenu/index.js"
+      "import": "./dist/TearOffMenu/index.js"
     },
     "./TerminalEmulator": {
-      "source": "./src/TerminalEmulator/index.ts",
       "types": "./dist/TerminalEmulator/index.d.ts",
-      "default": "./dist/TerminalEmulator/index.js"
+      "import": "./dist/TerminalEmulator/index.js"
     },
     "./TerminalMultiplexer": {
-      "source": "./src/TerminalMultiplexer/index.ts",
       "types": "./dist/TerminalMultiplexer/index.d.ts",
-      "default": "./dist/TerminalMultiplexer/index.js"
+      "import": "./dist/TerminalMultiplexer/index.js"
     },
     "./TextArea": {
-      "source": "./src/TextArea/index.ts",
       "types": "./dist/TextArea/index.d.ts",
-      "default": "./dist/TextArea/index.js"
+      "import": "./dist/TextArea/index.js"
     },
     "./TextInput": {
-      "source": "./src/TextInput/index.ts",
       "types": "./dist/TextInput/index.d.ts",
-      "default": "./dist/TextInput/index.js"
+      "import": "./dist/TextInput/index.js"
     },
     "./ThermostatDial": {
-      "source": "./src/ThermostatDial/index.ts",
       "types": "./dist/ThermostatDial/index.d.ts",
-      "default": "./dist/ThermostatDial/index.js"
+      "import": "./dist/ThermostatDial/index.js"
     },
     "./ThinkingAccordion": {
-      "source": "./src/ThinkingAccordion/index.ts",
       "types": "./dist/ThinkingAccordion/index.d.ts",
-      "default": "./dist/ThinkingAccordion/index.js"
+      "import": "./dist/ThinkingAccordion/index.js"
     },
     "./ThreeWayColorWheels": {
-      "source": "./src/ThreeWayColorWheels/index.ts",
       "types": "./dist/ThreeWayColorWheels/index.d.ts",
-      "default": "./dist/ThreeWayColorWheels/index.js"
+      "import": "./dist/ThreeWayColorWheels/index.js"
     },
     "./TimecodeScrubber": {
-      "source": "./src/TimecodeScrubber/index.ts",
       "types": "./dist/TimecodeScrubber/index.d.ts",
-      "default": "./dist/TimecodeScrubber/index.js"
+      "import": "./dist/TimecodeScrubber/index.js"
     },
     "./Timeline": {
-      "source": "./src/Timeline/index.ts",
       "types": "./dist/Timeline/index.d.ts",
-      "default": "./dist/Timeline/index.js"
+      "import": "./dist/Timeline/index.js"
     },
     "./TimelineZoomNavigator": {
-      "source": "./src/TimelineZoomNavigator/index.ts",
       "types": "./dist/TimelineZoomNavigator/index.d.ts",
-      "default": "./dist/TimelineZoomNavigator/index.js"
+      "import": "./dist/TimelineZoomNavigator/index.js"
     },
     "./TimezoneSelector": {
-      "source": "./src/TimezoneSelector/index.ts",
       "types": "./dist/TimezoneSelector/index.d.ts",
-      "default": "./dist/TimezoneSelector/index.js"
+      "import": "./dist/TimezoneSelector/index.js"
     },
     "./ToastSnackbar": {
-      "source": "./src/ToastSnackbar/index.ts",
       "types": "./dist/ToastSnackbar/index.d.ts",
-      "default": "./dist/ToastSnackbar/index.js"
+      "import": "./dist/ToastSnackbar/index.js"
     },
     "./ToggleSwitch": {
-      "source": "./src/ToggleSwitch/index.ts",
       "types": "./dist/ToggleSwitch/index.d.ts",
-      "default": "./dist/ToggleSwitch/index.js"
+      "import": "./dist/ToggleSwitch/index.js"
     },
     "./ToneCurveEditor": {
-      "source": "./src/ToneCurveEditor/index.ts",
       "types": "./dist/ToneCurveEditor/index.d.ts",
-      "default": "./dist/ToneCurveEditor/index.js"
+      "import": "./dist/ToneCurveEditor/index.js"
     },
     "./ToolCallCard": {
-      "source": "./src/ToolCallCard/index.ts",
       "types": "./dist/ToolCallCard/index.d.ts",
-      "default": "./dist/ToolCallCard/index.js"
+      "import": "./dist/ToolCallCard/index.js"
     },
     "./Tooltip": {
-      "source": "./src/Tooltip/index.ts",
       "types": "./dist/Tooltip/index.d.ts",
-      "default": "./dist/Tooltip/index.js"
+      "import": "./dist/Tooltip/index.js"
     },
     "./TopNavBar": {
-      "source": "./src/TopNavBar/index.ts",
       "types": "./dist/TopNavBar/index.d.ts",
-      "default": "./dist/TopNavBar/index.js"
+      "import": "./dist/TopNavBar/index.js"
     },
     "./TrackHeaderStrip": {
-      "source": "./src/TrackHeaderStrip/index.ts",
       "types": "./dist/TrackHeaderStrip/index.d.ts",
-      "default": "./dist/TrackHeaderStrip/index.js"
+      "import": "./dist/TrackHeaderStrip/index.js"
     },
     "./TransferList": {
-      "source": "./src/TransferList/index.ts",
       "types": "./dist/TransferList/index.d.ts",
-      "default": "./dist/TransferList/index.js"
+      "import": "./dist/TransferList/index.js"
     },
     "./TransformInspector": {
-      "source": "./src/TransformInspector/index.ts",
       "types": "./dist/TransformInspector/index.d.ts",
-      "default": "./dist/TransformInspector/index.js"
+      "import": "./dist/TransformInspector/index.js"
     },
     "./TransportControlBar": {
-      "source": "./src/TransportControlBar/index.ts",
       "types": "./dist/TransportControlBar/index.d.ts",
-      "default": "./dist/TransportControlBar/index.js"
+      "import": "./dist/TransportControlBar/index.js"
     },
     "./TrashRecoveryBanner": {
-      "source": "./src/TrashRecoveryBanner/index.ts",
       "types": "./dist/TrashRecoveryBanner/index.d.ts",
-      "default": "./dist/TrashRecoveryBanner/index.js"
+      "import": "./dist/TrashRecoveryBanner/index.js"
     },
     "./TreeView": {
-      "source": "./src/TreeView/index.ts",
       "types": "./dist/TreeView/index.d.ts",
-      "default": "./dist/TreeView/index.js"
+      "import": "./dist/TreeView/index.js"
     },
     "./TreemapChart": {
-      "source": "./src/TreemapChart/index.ts",
       "types": "./dist/TreemapChart/index.d.ts",
-      "default": "./dist/TreemapChart/index.js"
+      "import": "./dist/TreemapChart/index.js"
     },
     "./TriStateCheckbox": {
-      "source": "./src/TriStateCheckbox/index.ts",
       "types": "./dist/TriStateCheckbox/index.d.ts",
-      "default": "./dist/TriStateCheckbox/index.js"
+      "import": "./dist/TriStateCheckbox/index.js"
     },
     "./UptimeStatusBar": {
-      "source": "./src/UptimeStatusBar/index.ts",
       "types": "./dist/UptimeStatusBar/index.d.ts",
-      "default": "./dist/UptimeStatusBar/index.js"
+      "import": "./dist/UptimeStatusBar/index.js"
     },
     "./VectorXyPad": {
-      "source": "./src/VectorXyPad/index.ts",
       "types": "./dist/VectorXyPad/index.d.ts",
-      "default": "./dist/VectorXyPad/index.js"
+      "import": "./dist/VectorXyPad/index.js"
     },
     "./ViolinPlot": {
-      "source": "./src/ViolinPlot/index.ts",
       "types": "./dist/ViolinPlot/index.d.ts",
-      "default": "./dist/ViolinPlot/index.js"
+      "import": "./dist/ViolinPlot/index.js"
     },
     "./VirtualDesktopBar": {
-      "source": "./src/VirtualDesktopBar/index.ts",
       "types": "./dist/VirtualDesktopBar/index.d.ts",
-      "default": "./dist/VirtualDesktopBar/index.js"
+      "import": "./dist/VirtualDesktopBar/index.js"
     },
     "./VirtualJoystickPad": {
-      "source": "./src/VirtualJoystickPad/index.ts",
       "types": "./dist/VirtualJoystickPad/index.d.ts",
-      "default": "./dist/VirtualJoystickPad/index.js"
+      "import": "./dist/VirtualJoystickPad/index.js"
     },
     "./VirtualizedList": {
-      "source": "./src/VirtualizedList/index.ts",
       "types": "./dist/VirtualizedList/index.d.ts",
-      "default": "./dist/VirtualizedList/index.js"
+      "import": "./dist/VirtualizedList/index.js"
     },
     "./VisualQueryBuilder": {
-      "source": "./src/VisualQueryBuilder/index.ts",
       "types": "./dist/VisualQueryBuilder/index.d.ts",
-      "default": "./dist/VisualQueryBuilder/index.js"
+      "import": "./dist/VisualQueryBuilder/index.js"
     },
     "./VuPeakLevelMeter": {
-      "source": "./src/VuPeakLevelMeter/index.ts",
       "types": "./dist/VuPeakLevelMeter/index.d.ts",
-      "default": "./dist/VuPeakLevelMeter/index.js"
+      "import": "./dist/VuPeakLevelMeter/index.js"
     },
     "./WaffleUnitGrid": {
-      "source": "./src/WaffleUnitGrid/index.ts",
       "types": "./dist/WaffleUnitGrid/index.d.ts",
-      "default": "./dist/WaffleUnitGrid/index.js"
+      "import": "./dist/WaffleUnitGrid/index.js"
     },
     "./WaterfallChart": {
-      "source": "./src/WaterfallChart/index.ts",
       "types": "./dist/WaterfallChart/index.d.ts",
-      "default": "./dist/WaterfallChart/index.js"
+      "import": "./dist/WaterfallChart/index.js"
     },
     "./WaveformSpectrogramView": {
-      "source": "./src/WaveformSpectrogramView/index.ts",
       "types": "./dist/WaveformSpectrogramView/index.d.ts",
-      "default": "./dist/WaveformSpectrogramView/index.js"
+      "import": "./dist/WaveformSpectrogramView/index.js"
     },
     "./WindowAttachedSheet": {
-      "source": "./src/WindowAttachedSheet/index.ts",
       "types": "./dist/WindowAttachedSheet/index.d.ts",
-      "default": "./dist/WindowAttachedSheet/index.js"
+      "import": "./dist/WindowAttachedSheet/index.js"
     },
     "./WindowExposeGrid": {
-      "source": "./src/WindowExposeGrid/index.ts",
       "types": "./dist/WindowExposeGrid/index.d.ts",
-      "default": "./dist/WindowExposeGrid/index.js"
+      "import": "./dist/WindowExposeGrid/index.js"
     },
     "./WindowLayoutPopover": {
-      "source": "./src/WindowLayoutPopover/index.ts",
       "types": "./dist/WindowLayoutPopover/index.d.ts",
-      "default": "./dist/WindowLayoutPopover/index.js"
+      "import": "./dist/WindowLayoutPopover/index.js"
     },
     "./WindowResizeFrame": {
-      "source": "./src/WindowResizeFrame/index.ts",
       "types": "./dist/WindowResizeFrame/index.d.ts",
-      "default": "./dist/WindowResizeFrame/index.js"
+      "import": "./dist/WindowResizeFrame/index.js"
     },
     "./WindowSplitter": {
-      "source": "./src/WindowSplitter/index.ts",
       "types": "./dist/WindowSplitter/index.d.ts",
-      "default": "./dist/WindowSplitter/index.js"
+      "import": "./dist/WindowSplitter/index.js"
     },
     "./WindowSwitcherOverlay": {
-      "source": "./src/WindowSwitcherOverlay/index.ts",
       "types": "./dist/WindowSwitcherOverlay/index.d.ts",
-      "default": "./dist/WindowSwitcherOverlay/index.js"
+      "import": "./dist/WindowSwitcherOverlay/index.js"
     },
     "./WindowTitlebar": {
-      "source": "./src/WindowTitlebar/index.ts",
       "types": "./dist/WindowTitlebar/index.d.ts",
-      "default": "./dist/WindowTitlebar/index.js"
+      "import": "./dist/WindowTitlebar/index.js"
     },
     "./WindowUtilityControls": {
-      "source": "./src/WindowUtilityControls/index.ts",
       "types": "./dist/WindowUtilityControls/index.d.ts",
-      "default": "./dist/WindowUtilityControls/index.js"
+      "import": "./dist/WindowUtilityControls/index.js"
     },
     "./WipeCompareOverlay": {
-      "source": "./src/WipeCompareOverlay/index.ts",
       "types": "./dist/WipeCompareOverlay/index.d.ts",
-      "default": "./dist/WipeCompareOverlay/index.js"
+      "import": "./dist/WipeCompareOverlay/index.js"
     },
     "./WorkspaceStatusBar": {
-      "source": "./src/WorkspaceStatusBar/index.ts",
       "types": "./dist/WorkspaceStatusBar/index.d.ts",
-      "default": "./dist/WorkspaceStatusBar/index.js"
+      "import": "./dist/WorkspaceStatusBar/index.js"
     }
   },
   "scripts": {

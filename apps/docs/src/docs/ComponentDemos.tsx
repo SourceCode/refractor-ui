@@ -24,10 +24,12 @@ import { FileManagementOperationsDemos } from './demos/FileManagementOperationsD
 import { FinancialMarketChartsDemos } from './demos/FinancialMarketChartsDemos';
 import { FoundationalMicroUtilitiesDemos } from './demos/FoundationalMicroUtilitiesDemos';
 import { GeospatialChartsDemos } from './demos/GeospatialChartsDemos';
+import { GradientAiGlowFxDemos } from './demos/GradientAiGlowFxDemos';
 import { HardwareHudsOverlaysDemos } from './demos/HardwareHudsOverlaysDemos';
 import { HardwareIotTactileDemos } from './demos/HardwareIotTactileDemos';
 import { KpiTelemetryChartsDemos } from './demos/KpiTelemetryChartsDemos';
 import { LayoutDemos } from './demos/LayoutDemos';
+import { LoadersSkeletonsTransitionsDemos } from './demos/LoadersSkeletonsTransitionsDemos';
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MenusLaunchersDemos } from './demos/MenusLaunchersDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
@@ -41,6 +43,7 @@ import { RichInputDemos } from './demos/RichInputDemos';
 import { ScientificChartsDemos } from './demos/ScientificChartsDemos';
 import { SearchDemos } from './demos/SearchDemos';
 import { SecurityAuthDemos } from './demos/SecurityAuthDemos';
+import { ShaderOpticalFxDemos } from './demos/ShaderOpticalFxDemos';
 import { StatisticalChartsDemos } from './demos/StatisticalChartsDemos';
 import { SystemTrayControlCenterDemos } from './demos/SystemTrayControlCenterDemos';
 import { TimelineSequencingDemos } from './demos/TimelineSequencingDemos';
@@ -468,6 +471,40 @@ const DESKTOP_SURFACES_DIALOGS_IDS = new Set([
   'system-about-card',
 ]);
 
+const GRADIENT_AI_GLOW_FX_IDS = new Set([
+  'prismatic-cursor-halo',
+  'ai-focus-ring',
+  'fluid-mesh-canvas',
+  'gradient-text-selection',
+  'ambient-aura-bleed',
+  'reactive-input-shimmer',
+  'iridescent-rim-surface',
+  'stateful-energy-ribbon',
+]);
+
+const SHADER_OPTICAL_FX_IDS = new Set([
+  'refractive-lens-container',
+  'chromatic-dispersion-edge',
+  'caustic-light-layer',
+  'frosted-grain-overlay',
+  'liquid-ripple-trigger',
+  'holographic-foil-sheen',
+  'metaball-fluid-backdrop',
+  'optical-depth-vignette',
+]);
+
+const LOADERS_SKELETONS_TRANSITIONS_IDS = new Set([
+  'refractive-skeleton',
+  'orbital-ring-spinner',
+  'ai-thinking-orb',
+  'segmented-glass-progress',
+  'streaming-token-reveal',
+  'data-grid-row-shimmer',
+  'acoustic-activity-bar',
+  'pipeline-pulse-loader',
+  'scanline-radar-sweep',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -615,6 +652,15 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (DESKTOP_SURFACES_DIALOGS_IDS.has(componentId)) {
     return <DesktopSurfacesDialogsDemos componentId={componentId} />;
+  }
+  if (GRADIENT_AI_GLOW_FX_IDS.has(componentId)) {
+    return <GradientAiGlowFxDemos componentId={componentId} />;
+  }
+  if (SHADER_OPTICAL_FX_IDS.has(componentId)) {
+    return <ShaderOpticalFxDemos componentId={componentId} />;
+  }
+  if (LOADERS_SKELETONS_TRANSITIONS_IDS.has(componentId)) {
+    return <LoadersSkeletonsTransitionsDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

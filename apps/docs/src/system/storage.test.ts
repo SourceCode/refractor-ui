@@ -17,7 +17,7 @@ import {
 describe('Docs storage & component registry', () => {
   it('registers all core and expansion components across unique categories', () => {
     expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(55);
-    expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(314);
+    expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(339);
 
     const counts = getCategoryCounts(COMPONENT_REGISTRY);
     expect(counts['buttons-actions']).toBe(6);

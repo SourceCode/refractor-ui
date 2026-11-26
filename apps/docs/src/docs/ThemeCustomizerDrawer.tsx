@@ -63,7 +63,7 @@ const theme = getThemeById('${activeEntry.id}');
 export function App() {
   return (
     <PrismThemeProvider theme={theme} loadFonts>
-      {/* All 314 components transform to ${activeEntry.name} (${activeEntry.material}) */}
+      {/* All 339 components transform to ${activeEntry.name} (${activeEntry.material}) */}
     </PrismThemeProvider>
   );
 }`
