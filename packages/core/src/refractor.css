@@ -5,7 +5,7 @@
  * [data-refractor-fx] attributes so both Optical Glass presets and all 64 diverse WebOS-v3
  * themes (Win95 Bevel, Brutalist, Cyberpunk Neon, Hacker CRT, Game Boy Pixel, Neumorphism,
  * Soft Clay, E-Ink Paper, Windows 11 Mica, Y2K Liquid Chrome, Glowing Resin, IDE Flat, etc.)
- * fully transform all 314 components with WCAG contrast, 60fps GPU-friendly FX, and zero
+ * fully transform all 339 components with WCAG contrast, 60fps GPU-friendly FX, and zero
  * Tailwind v4 cascade collisions.
  */
 
@@ -1167,10 +1167,347 @@
   .refractor-export-render-queue,
   .refractor-batch-rename-utility,
   .refractor-active-sessions-list,
-  .refractor-archive-inspector
+  .refractor-archive-inspector,
+  .refractor-data-grid-row-shimmer
 ) tbody > tr {
   content-visibility: auto;
   contain-intrinsic-size: auto 44px;
+}
+
+/* ============================================================================
+ * 3.5 DYNAMIC GRADIENT, AI-GLOW, SHADER & LOADER OPTICAL FX (v1.50.0–v1.52.0)
+ * Pure GPU-composited transform/opacity keyframes with prefers-reduced-motion
+ * and [data-refractor-performance="max"] zero-overhead guards.
+ * ============================================================================ */
+@keyframes prism-fx-orbit {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes prism-fx-shimmer-sweep {
+  0% {
+    transform: translate3d(-120%, 0, 0) skewX(-18deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(220%, 0, 0) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes prism-fx-aura-breathe {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(0.96);
+    opacity: 0.58;
+  }
+  50% {
+    transform: translate3d(0, -6px, 0) scale(1.05);
+    opacity: 0.92;
+  }
+}
+
+@keyframes prism-fx-ribbon-flow {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+@keyframes prism-fx-caret-pulse {
+  0%, 49% {
+    opacity: 1;
+    filter: hue-rotate(0deg);
+  }
+  50%, 100% {
+    opacity: 0.18;
+    filter: hue-rotate(110deg);
+  }
+}
+
+@keyframes prism-fx-ripple-wave {
+  0% {
+    transform: translate(-50%, -50%) scale(0.08);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes prism-fx-caustic-drift {
+  0%, 100% {
+    transform: translate3d(-4%, -2%, 0) scale(1.04);
+  }
+  50% {
+    transform: translate3d(4%, 3%, 0) scale(1.09);
+  }
+}
+
+@keyframes prism-fx-metaball-drift-a {
+  0%, 100% {
+    transform: translate3d(0%, 0%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(28%, 18%, 0) scale(1.14);
+  }
+}
+
+@keyframes prism-fx-metaball-drift-b {
+  0%, 100% {
+    transform: translate3d(0%, 0%, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-24%, -16%, 0) scale(0.92);
+  }
+}
+
+@keyframes prism-fx-orbital-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes prism-fx-acoustic-bounce {
+  0%, 100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes prism-fx-packet-travel {
+  0% {
+    transform: translate3d(-15%, -50%, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(105%, -50%, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes prism-fx-scan-x {
+  0% {
+    transform: translate3d(-10%, 0, 0);
+  }
+  100% {
+    transform: translate3d(110%, 0, 0);
+  }
+}
+
+@keyframes prism-fx-scan-y {
+  0% {
+    transform: translate3d(0, -10%, 0);
+  }
+  100% {
+    transform: translate3d(0, 110%, 0);
+  }
+}
+
+@keyframes prism-fx-token-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 3px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.prism-fx-orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220%;
+  height: 220%;
+  background: conic-gradient(
+    from 0deg,
+    var(--prism-secondary-main),
+    var(--prism-info-main),
+    var(--prism-primary-main),
+    var(--prism-warning-main),
+    var(--prism-secondary-main)
+  );
+  animation: prism-fx-orbit var(--prism-fx-duration, 3.6s) linear infinite;
+  will-change: transform;
+}
+
+.prism-fx-shimmer-wave {
+  background: linear-gradient(
+    108deg,
+    transparent 15%,
+    rgba(var(--prism-secondary-rgb), 0.24) 42%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(var(--prism-primary-rgb), 0.24) 58%,
+    transparent 85%
+  );
+  animation: prism-fx-shimmer-sweep var(--prism-fx-duration, 1.8s) cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  will-change: transform, opacity;
+}
+
+.prism-fx-shimmer-once {
+  animation: prism-fx-shimmer-sweep var(--prism-fx-duration, 0.9s) cubic-bezier(0.22, 1, 0.36, 1) 1 forwards;
+}
+
+.prism-fx-aura-layer {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(var(--prism-primary-rgb), 0.42) 0%,
+    rgba(var(--prism-secondary-rgb), 0.32) 48%,
+    transparent 74%
+  );
+  filter: blur(22px);
+  animation: prism-fx-aura-breathe var(--prism-fx-duration, 5.2s) ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.prism-fx-ribbon-track {
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--prism-secondary-main),
+    var(--prism-info-main),
+    var(--prism-primary-main),
+    var(--prism-warning-main),
+    var(--prism-secondary-main),
+    var(--prism-info-main),
+    var(--prism-primary-main)
+  );
+  animation: prism-fx-ribbon-flow var(--prism-fx-duration, 3.2s) linear infinite;
+  will-change: transform;
+}
+
+.prism-fx-gradient-selection ::selection,
+.prism-fx-gradient-selection::selection {
+  background: rgba(var(--prism-secondary-rgb), 0.28);
+  color: var(--prism-text-primary);
+}
+
+.prism-fx-gradient-caret {
+  background: linear-gradient(
+    180deg,
+    var(--prism-secondary-main),
+    var(--prism-info-main),
+    var(--prism-primary-main)
+  );
+  animation: prism-fx-caret-pulse 1.15s ease-in-out infinite;
+}
+
+.prism-fx-caustic-overlay {
+  background:
+    radial-gradient(65% 45% at 24% 28%, rgba(var(--prism-secondary-rgb), 0.32) 0%, transparent 64%),
+    radial-gradient(55% 40% at 74% 66%, rgba(var(--prism-primary-rgb), 0.26) 0%, transparent 62%),
+    repeating-linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0) 0px,
+      rgba(255, 255, 255, 0.18) 12px,
+      rgba(255, 255, 255, 0) 34px
+    );
+  animation: prism-fx-caustic-drift var(--prism-fx-duration, 9s) ease-in-out infinite;
+  will-change: transform;
+}
+
+.prism-fx-dispersion-ring {
+  box-shadow:
+    inset 1.5px 0 0 rgba(var(--prism-primary-rgb), 0.65),
+    inset -1.5px 0 0 rgba(var(--prism-secondary-rgb), 0.65),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -1.5px 0 rgba(var(--prism-glow-rgb), 0.55);
+}
+
+.prism-fx-ripple-ring {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  border: 2px solid rgba(var(--prism-secondary-rgb), 0.75);
+  box-shadow:
+    0 0 18px rgba(var(--prism-primary-rgb), 0.45),
+    inset 0 0 12px rgba(255, 255, 255, 0.55);
+  animation: prism-fx-ripple-wave var(--prism-fx-duration, 0.75s) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.prism-fx-metaball-a {
+  animation: prism-fx-metaball-drift-a var(--prism-fx-duration, 9s) ease-in-out infinite;
+  will-change: transform;
+}
+
+.prism-fx-metaball-b {
+  animation: prism-fx-metaball-drift-b var(--prism-fx-duration, 11s) ease-in-out infinite;
+  will-change: transform;
+}
+
+.prism-fx-orbital-spin {
+  animation: prism-fx-orbital-spin var(--prism-fx-duration, 1.15s) linear infinite;
+  will-change: transform;
+}
+
+.prism-fx-acoustic-bar {
+  transform-origin: bottom center;
+  animation: prism-fx-acoustic-bounce var(--prism-fx-duration, 1.1s) ease-in-out infinite;
+  will-change: transform;
+}
+
+.prism-fx-packet {
+  animation: prism-fx-packet-travel var(--prism-fx-duration, 1.6s) linear infinite;
+  will-change: transform, opacity;
+}
+
+.prism-fx-scan-x {
+  animation: prism-fx-scan-x var(--prism-fx-duration, 2.2s) linear infinite;
+  will-change: transform;
+}
+
+.prism-fx-scan-y {
+  animation: prism-fx-scan-y var(--prism-fx-duration, 2.2s) linear infinite;
+  will-change: transform;
+}
+
+.prism-fx-token-word {
+  display: inline;
+  animation: prism-fx-token-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Pause continuous FX animations cleanly in performanceMode="max" and prefers-reduced-motion */
+[data-refractor-performance="max"] :is(
+  .prism-fx-orbit-ring,
+  .prism-fx-shimmer-wave,
+  .prism-fx-aura-layer,
+  .prism-fx-ribbon-track,
+  .prism-fx-gradient-caret,
+  .prism-fx-caustic-overlay,
+  .prism-fx-metaball-a,
+  .prism-fx-metaball-b,
+  .prism-fx-orbital-spin,
+  .prism-fx-acoustic-bar,
+  .prism-fx-packet,
+  .prism-fx-scan-x,
+  .prism-fx-scan-y
+) {
+  animation: none !important;
+  will-change: auto;
 }
 
 /* 4. Three-Tier GPU Performance Modes ([data-refractor-performance="..."]) */
@@ -1228,6 +1565,26 @@
   .prism-btn-secondary,
   .prism-btn-cobalt {
     transition: none;
+  }
+
+  .prism-fx-orbit-ring,
+  .prism-fx-shimmer-wave,
+  .prism-fx-shimmer-once,
+  .prism-fx-aura-layer,
+  .prism-fx-ribbon-track,
+  .prism-fx-gradient-caret,
+  .prism-fx-caustic-overlay,
+  .prism-fx-ripple-ring,
+  .prism-fx-metaball-a,
+  .prism-fx-metaball-b,
+  .prism-fx-orbital-spin,
+  .prism-fx-acoustic-bar,
+  .prism-fx-packet,
+  .prism-fx-scan-x,
+  .prism-fx-scan-y,
+  .prism-fx-token-word {
+    animation: none;
+    will-change: auto;
   }
 }
 

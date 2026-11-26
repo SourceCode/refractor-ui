@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 
 /**
  * Shared frozen CSS token style singletons eliminating 3,100+ per-render object
- * allocations across all 314 components and allowing React to bail out of
+ * allocations across all 339 components and allowing React to bail out of
  * DOM style diffing via Object.is reference equality.
  */
 export const STYLE_TEXT_PRIMARY: Readonly<CSSProperties> = /*#__PURE__*/ Object.freeze({

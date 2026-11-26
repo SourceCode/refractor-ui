@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/docs",
-  "version": "1.49.1",
+  "version": "1.52.0",
   "private": true,
   "description": "Refractor Optical Workbench — Interactive documentation playground & live MUI+Astryx Theme Customizer.",
   "license": "Apache-2.0",

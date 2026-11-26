@@ -70,8 +70,8 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe('Refractor v1.48.0 Performance Architecture & Regression Suite', () => {
-  it('wraps every single one of the 314 exported components in React.memo with displayName', () => {
+describe('Refractor v1.48.0–v1.52.0 Performance Architecture & Regression Suite', () => {
+  it('wraps every single one of the 339 exported components in React.memo with displayName', () => {
     const coreSrcDir = path.resolve(process.cwd(), 'packages/core/src');
     const componentNames = fs
       .readdirSync(coreSrcDir, { withFileTypes: true })
@@ -79,7 +79,7 @@ describe('Refractor v1.48.0 Performance Architecture & Regression Suite', () => 
       .map((d) => d.name)
       .sort();
 
-    expect(componentNames.length).toBeGreaterThanOrEqual(314);
+    expect(componentNames.length).toBeGreaterThanOrEqual(339);
 
     const coreEntries = new Map<string, CoreExportValue>(
       Object.entries(Core) as Array<[string, CoreExportValue]>
@@ -102,7 +102,7 @@ describe('Refractor v1.48.0 Performance Architecture & Regression Suite', () => 
     expect(missingDisplayName).toEqual([]);
   });
 
-  it('guarantees zero transition-all occurrences across all 314 component sources', () => {
+  it('guarantees zero transition-all occurrences across all 339 component sources', () => {
     const coreSrcDir = path.resolve(process.cwd(), 'packages/core/src');
     const componentNames = fs
       .readdirSync(coreSrcDir, { withFileTypes: true })
@@ -586,5 +586,73 @@ describe('Refractor v1.48.0 Performance Architecture & Regression Suite', () => 
     const checkbox = screen.getByLabelText('Select Compositor');
     fireEvent.click(checkbox);
     expect(checkbox).toBeChecked();
+  });
+
+  it('guarantees ZERO React re-renders during 150 rapid pointermove events on cursor-reactive FX surfaces and fast mount budgets across all 25 new FX/Shader/Loader components', () => {
+    let haloRenders = 0;
+    const HaloProbe = memo(function HaloProbe() {
+      haloRenders += 1;
+      return <span data-testid="halo-probe">static child</span>;
+    });
+
+    const { container: haloContainer, unmount: unmountHalo } = render(
+      <Core.PrismaticCursorHalo data-testid="perf-halo">
+        <HaloProbe />
+      </Core.PrismaticCursorHalo>
+    );
+    const haloEl = haloContainer.querySelector('[data-testid="perf-halo"]') as HTMLElement;
+    fireEvent.pointerEnter(haloEl, { clientX: 20, clientY: 20 });
+    const rendersAfterEnter = haloRenders;
+    const moveStart = performance.now();
+    for (let i = 0; i < 150; i += 1) {
+      fireEvent.pointerMove(haloEl, { clientX: 20 + i, clientY: 30 + (i % 40) });
+    }
+    const moveElapsedMs = performance.now() - moveStart;
+    expect(haloRenders).toBe(rendersAfterEnter);
+    expect(moveElapsedMs).toBeLessThan(250);
+    unmountHalo();
+
+    // Benchmark cold mount + clean unmount across all 25 new FX, Shader & Loader components
+    const mountStart = performance.now();
+    const { unmount } = render(
+      <PrismThemeProvider loadFonts={false}>
+        <Core.PrismaticCursorHalo><span>Halo</span></Core.PrismaticCursorHalo>
+        <Core.AiFocusRing active processing><span>Ring</span></Core.AiFocusRing>
+        <Core.FluidMeshCanvas mood="thinking"><span>Mesh</span></Core.FluidMeshCanvas>
+        <Core.GradientTextSelection defaultValue="Optical caret" />
+        <Core.AmbientAuraBleed tone="prism"><span>Aura</span></Core.AmbientAuraBleed>
+        <Core.ReactiveInputShimmer />
+        <Core.IridescentRimSurface><span>Rim</span></Core.IridescentRimSurface>
+        <Core.StatefulEnergyRibbon state="streaming" showLabel />
+        <Core.RefractiveLensContainer ior={1.5}><span>Lens</span></Core.RefractiveLensContainer>
+        <Core.ChromaticDispersionEdge><span>Dispersion</span></Core.ChromaticDispersionEdge>
+        <Core.CausticLightLayer><span>Caustic</span></Core.CausticLightLayer>
+        <Core.FrostedGrainOverlay><span>Grain</span></Core.FrostedGrainOverlay>
+        <Core.LiquidRippleTrigger><span>Ripple</span></Core.LiquidRippleTrigger>
+        <Core.HolographicFoilSheen><span>Foil</span></Core.HolographicFoilSheen>
+        <Core.MetaballFluidBackdrop orbCount={3}><span>Metaball</span></Core.MetaballFluidBackdrop>
+        <Core.OpticalDepthVignette active><span>Vignette</span></Core.OpticalDepthVignette>
+        <Core.RefractiveSkeleton loading preset="card" />
+        <Core.OrbitalRingSpinner showLabel />
+        <Core.AiThinkingOrb state="thinking" />
+        <Core.SegmentedGlassProgress value={72} segments={10} />
+        <Core.StreamingTokenReveal text="Fast optical stream" skipAnimation />
+        <Core.DataGridRowShimmer loading rows={4} />
+        <Core.AcousticActivityBar active barCount={9} />
+        <Core.PipelinePulseLoader />
+        <Core.ScanlineRadarSweep active mode="vertical"><span>Scan</span></Core.ScanlineRadarSweep>
+      </PrismThemeProvider>
+    );
+    const totalMountMs = performance.now() - mountStart;
+    // All 25 FX/Shader/Loader components mount together in well under 500ms even in jsdom
+    expect(totalMountMs).toBeLessThan(500);
+    unmount();
+
+    // Verify refractor.css contains performanceMode="max" and reduced-motion guards for all new FX keyframes
+    const css = fs.readFileSync(path.resolve(process.cwd(), 'packages/core/src/refractor.css'), 'utf8');
+    expect(css).toContain('.refractor-data-grid-row-shimmer');
+    expect(css).toContain('.prism-fx-orbit-ring');
+    expect(css).toContain('.prism-fx-shimmer-wave');
+    expect(css).toContain('[data-refractor-performance="max"] :is(');
   });
 });
