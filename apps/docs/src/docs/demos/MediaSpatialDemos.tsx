@@ -91,8 +91,8 @@ export function MediaSpatialDemos({ componentId }: MediaSpatialDemosProps) {
               {
                 id: 'img-3',
                 title: 'Optical Glass Design Specimen',
-                caption: 'Canonical Refractor UI visual benchmark.',
-                src: assetUrl('assets/aistudio/image_5a598908.png'),
+                caption: 'Canonical Refractor UI rendered component specimen.',
+                src: assetUrl('assets/refractor-specimen.png'),
               },
             ]}
           />

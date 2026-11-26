@@ -20,7 +20,7 @@
 ---
 
 <p align="center">
-  <img src="./apps/docs/public/assets/aistudio/image_5a598908.png" alt="Refractor Optical Glass UI Kit Reference Specimen" width="840" />
+  <img src="./apps/docs/public/assets/refractor-specimen.png" alt="Refractor Optical Glass UI Kit Rendered Component Specimen" width="840" />
 </p>
 
 ## Why Refractor UI?

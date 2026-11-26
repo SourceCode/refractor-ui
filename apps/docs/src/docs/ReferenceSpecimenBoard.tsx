@@ -254,13 +254,13 @@ export function ReferenceSpecimenBoard() {
         {showReferenceImage && (
           <figure className="prism-slab p-4 space-y-2.5">
             <img
-              src={assetUrl('assets/aistudio/image_5a598908.png')}
-              alt="Original optical glass UI reference specification"
+              src={assetUrl('assets/refractor-specimen.png')}
+              alt="Refractor Optical Glass UI Kit rendered component specimen"
               referrerPolicy="no-referrer"
               className="w-full rounded-[20px] object-contain max-h-[620px] mx-auto"
             />
             <figcaption className="text-xs text-slate-500 dark:text-slate-400 text-center">
-              Original Optical Design Specification Specimen
+              Rendered Refractor UI Optical Glass Specimen
             </figcaption>
           </figure>
         )}

@@ -26,7 +26,7 @@ const requiredArtifacts = [
   '404.html',
   '.nojekyll',
   'favicon.svg',
-  path.join('assets', 'aistudio', 'image_5a598908.png'),
+  path.join('assets', 'refractor-specimen.png'),
   path.join('src', 'assets', 'images', 'avatar_product_lead_1795197572008.jpg'),
 ];
 
