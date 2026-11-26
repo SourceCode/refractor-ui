@@ -15,7 +15,7 @@ export interface SearchDemosProps {
 
 const GLOBAL_ITEMS = [
   { id: 'f1', title: 'refractor.css', subtitle: 'packages/core/src/refractor.css', type: 'Files', meta: '11 KB' },
-  { id: 'f2', title: 'ADR-0003-dual-mui-astryx-optical-theming.md', subtitle: 'docs/adr/', type: 'Files', meta: 'ADR' },
+  { id: 'f2', title: 'ADR-0003-dual-mui-open-internals-optical-theming.md', subtitle: 'docs/adr/', type: 'Files', meta: 'ADR' },
   { id: 'p1', title: 'Clara Vance', subtitle: 'Principal UX/UI Director', type: 'People', meta: 'Online' },
   { id: 'p2', title: 'Marcus Chen', subtitle: 'Optical Systems Architect', type: 'People', meta: 'Editing' },
   { id: 's1', title: 'Optical Theme Studio', subtitle: 'Customize palette & caustic intensity', type: 'Settings', shortcut: '⌘,' },
@@ -87,7 +87,7 @@ export function SearchDemos({ componentId }: SearchDemosProps) {
             options={[
               { value: 'optics', label: 'Optical Glass', category: 'Visual' },
               { value: 'react19', label: 'React 19 Ref', category: 'Architecture' },
-              { value: 'astryx', label: 'Astryx Standard', category: 'Architecture' },
+              { value: 'open-internals', label: 'Open-Internals Standard', category: 'Architecture' },
               { value: 'mui-theme', label: 'MUI Palette Sync', category: 'Theming' },
               { value: 'wcag-aa', label: 'WCAG 2.2 AA', category: 'Accessibility' },
               { value: 'owasp', label: 'OWASP Sanitized', category: 'Security' },

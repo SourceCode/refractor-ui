@@ -14,7 +14,7 @@ interface CustomPriorityItem extends SortableListItem {
 const BASE_ITEMS: ReadonlyArray<SortableListItem> = [
   { id: 'tokens', title: 'Optical Tokens', subtitle: 'Refractive CSS variables', badge: 'P0' },
   { id: 'focus', title: 'Focus Rings', subtitle: 'Keyboard-only outlines', badge: 'P1' },
-  { id: 'theme', title: 'Theme Cascade', subtitle: 'MUI + Astryx sync' },
+  { id: 'theme', title: 'Theme Cascade', subtitle: 'Token & Cascade sync' },
   { id: 'kernel', title: 'Kernel Baseline', subtitle: 'Pinned foundation', locked: true },
 ];
 

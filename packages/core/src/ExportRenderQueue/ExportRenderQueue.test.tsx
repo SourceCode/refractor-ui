@@ -10,7 +10,7 @@ import {
 } from './index';
 
 describe('ExportRenderQueue', () => {
-  it('renders Astryx contracts, default 3 realistic jobs, theme overrides, and React 19 ref', () => {
+  it('renders Open-Internals contracts, default 3 realistic jobs, theme overrides, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
     const codecMapCheck: ExportCodecMap = {
       h264: true,

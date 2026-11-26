@@ -1,7 +1,7 @@
 /**
  * @refractor-ui/eslint-plugin-refractor
  *
- * Two-tier Astryx-aligned ESLint plugin enforcing Refractor Optical Glass UI Kit
+ * Two-tier open-internals ESLint plugin enforcing Refractor Optical Glass UI Kit
  * architecture invariants, accessibility rules, security boundaries, and zero any/unknown types.
  *
  * Tiers:
@@ -78,7 +78,7 @@ const rules = {
       schema: [],
       messages: {
         missingBaseProps:
-          'Component props interface "{{name}}" must extend BaseProps (or an interface extending it) for Astryx parity.',
+          'Component props interface "{{name}}" must extend BaseProps (or an interface extending it) for Open-Internals parity.',
       },
     },
     create(context) {

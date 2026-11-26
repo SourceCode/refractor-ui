@@ -24,7 +24,7 @@ const ALL_DISTRIBUTE_ACTIONS: ReadonlyArray<AlignmentActionId> = [
 ];
 
 describe('AlignmentToolbar', () => {
-  it('renders Astryx contracts, toolbar groups, selection counter, theme overrides, and React 19 ref', () => {
+  it('renders Open-Internals contracts, toolbar groups, selection counter, theme overrides, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
     const actionMapCheck: AlignmentActionMap = {
       'align-left': true,

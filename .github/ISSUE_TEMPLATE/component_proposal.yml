@@ -1,5 +1,5 @@
 name: Component Proposal
-description: Propose a new Astryx-standard optical-glass component for @refractor-ui/core
+description: Propose a new open-internals optical-glass component for @refractor-ui/core
 title: "[Component]: "
 labels: ["enhancement", "component-proposal"]
 body:

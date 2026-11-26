@@ -139,7 +139,7 @@ const DEFAULT_QUICK_LOOK_FILES: ReadonlyArray<QuickLookFileItem> = [
       '1. Cascade Optical Token System',
       'Every refractive slab, recessed well, and crystal bezel derives exclusively from --prism-* custom properties.',
       'Dual warm/cool caustic shadows and specular rim highlights adapt seamlessly across light and dark modes.',
-      '2. Astryx Open-Internals Component Contract',
+      '2. Open-Internals Component Contract',
       'Components accept React 19 ref props, extend BaseProps, emit stable refractor-* classes, and preserve consumer overrides.',
     ].join('\n'),
   },

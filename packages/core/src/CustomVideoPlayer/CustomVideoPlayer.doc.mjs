@@ -121,6 +121,6 @@ export const docs = {
     },
   ],
   examples: [
-    `<CustomVideoPlayer\n  title="Refractor Optical Keynote"\n  durationSeconds={240}\n  captionsText="Introducing dual MUI and Astryx optical cascades."\n  defaultCaptionsEnabled\n  chapters={[\n    { id: 'intro', title: 'Opening', timeSeconds: 0 },\n    { id: 'optics', title: 'Caustic Physics', timeSeconds: 75 },\n    { id: 'demo', title: 'Live Studio', timeSeconds: 165 },\n  ]}\n/>`,
+    `<CustomVideoPlayer\n  title="Refractor Optical Keynote"\n  durationSeconds={240}\n  captionsText="Introducing dual MUI and Open-Internals optical cascades."\n  defaultCaptionsEnabled\n  chapters={[\n    { id: 'intro', title: 'Opening', timeSeconds: 0 },\n    { id: 'optics', title: 'Caustic Physics', timeSeconds: 75 },\n    { id: 'demo', title: 'Live Studio', timeSeconds: 165 },\n  ]}\n/>`,
   ],
 };

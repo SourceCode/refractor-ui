@@ -1,7 +1,7 @@
 # Creative UX/UI Director Visual & Ergonomic Audit Report
 
 **Design System:** Refractor Optical Glass UI Kit (`@refractor-ui/core` v1.37.0)  
-**Scope:** All **270 Astryx-Standard Components** across **47 Categories**, Reference Specimen Board, Alabaster Light Mode, Obsidian Dark Mode, Subtle/Standard/Vivid Refraction Intensities, Live MUI + Astryx Optical Theme Studio, **30 Interactive Full-Code Example Screens**, and **15-Device Mobile, Tablet & Desktop Responsive Matrix**  
+**Scope:** All **270 Open-Internals Components** across **47 Categories**, Reference Specimen Board, Alabaster Light Mode, Obsidian Dark Mode, Subtle/Standard/Vivid Refraction Intensities, Live Token & Cascade Optical Theme Studio, **30 Interactive Full-Code Example Screens**, and **15-Device Mobile, Tablet & Desktop Responsive Matrix**  
 **Audit Environment:** Live Chromium Desktop Viewport (`1440×900`) on `apps/docs` and live GitHub Pages (`https://sourcecode.github.io/refractor-ui/`)  
 **Benchmark Reference:** `apps/docs/public/assets/aistudio/image_5a598908.png` (Refractor Optical Glass Aesthetic Specimen)  
 **Target Bar:** **>= 9.8 / 10** composite score on **every single component**

@@ -1,6 +1,6 @@
 # `@refractor-ui/core`
 
-Tactile optical-glass **React 19 & TypeScript** component library with **270 accessible components across 47 categories**, **MUI-simple color & optical theming**, **Astryx Open-Internals architecture**, and **zero `any`/`unknown` types**.
+Tactile optical-glass **React 19 & TypeScript** component library with **270 accessible components across 47 categories**, **MUI-simple color & optical theming**, **Open-Internals architecture**, and **zero `any`/`unknown` types**.
 
 - **Live Interactive Docs & Theme Studio:** https://sourcecode.github.io/refractor-ui/
 - **Repository:** https://github.com/SourceCode/refractor-ui

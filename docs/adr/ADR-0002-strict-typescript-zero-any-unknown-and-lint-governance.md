@@ -1,4 +1,4 @@
-# ADR-0002: Strict TypeScript (Zero `any`/`unknown`) & Two-Tier Astryx Lint Governance
+# ADR-0002: Strict TypeScript (Zero `any`/`unknown`) & Two-Tier Open-Internals Lint Governance
 
 - **Status:** Accepted
 - **Date:** 2026-11-20
@@ -18,10 +18,10 @@ Weak TypeScript escape hatches (`any` and `unknown`) erode static type predictab
    - The TypeScript `unknown` type is **strictly forbidden** (`@refractor/no-unknown-type: 'error'`).
    - Developers and AI agents MUST model concrete interfaces, discriminated unions, or bounded generic constraints (`<T extends Record<string, string | number | boolean>>`, explicit payload unions, typed JSON value unions) rather than top-level wildcard types.
    - `tsconfig.json` enforces `"strict": true`, `"noUncheckedIndexedAccess": true`, `"noImplicitOverride": true`, and `"noFallthroughCasesInSwitch": true`.
-2. **Two-Tier Astryx Linting Philosophy (`eslint.config.js`):**
+2. **Two-Tier Open-Internals Linting Philosophy (`eslint.config.js`):**
    - **Recommended Mode (default local `pnpm lint`):** Surfaces advisory rules as warnings for ergonomic local iteration while keeping critical soundness/security/type rules as hard errors.
    - **Strict Mode (`REFRACTOR_STRICT_LINT=1` or `CI=true` via `pnpm lint:strict`):** Elevates every rule to `'error'`. AI coding agents and CI pipelines **MUST** pass `pnpm lint:strict` with 0 errors and 0 warnings.
-3. **Custom Astryx-Equivalent Rule Set (`internal/eslint-plugin-refractor`):**
+3. **Custom Open-Internals-Equivalent Rule Set (`internal/eslint-plugin-refractor`):**
    - `@refractor/no-unknown-type`: Disallows `TSUnknownKeyword`.
    - `@refractor/require-base-props`: Public component props interfaces in `packages/core/src/*/` must extend `BaseProps`.
    - `@refractor/require-ref-prop`: Public components accept React 19 `ref` prop; forbids `React.forwardRef`.

@@ -28,16 +28,16 @@ const MASTER_ITEMS = [
   },
   {
     id: 'spec-theme',
-    title: 'Dual MUI + Astryx Theme Engine',
+    title: 'Dual-Mode Theme Engine',
     subtitle: 'packages/core/src/theme/',
     badge: 'Core',
     meta: '5 presets',
     summary:
-      'Auto-derives light, dark, WCAG 4.5:1 contrastText, and RGB channel triplets from a single hex input while supporting Astryx defineTheme cascade inheritance.',
+      'Auto-derives light, dark, WCAG 4.5:1 contrastText, and RGB channel triplets from a single hex input while supporting Open-Internals defineTheme cascade inheritance.',
   },
   {
     id: 'spec-eslint',
-    title: 'Astryx Two-Tier ESLint Plugin',
+    title: 'Open-Internals Two-Tier ESLint Plugin',
     subtitle: 'internal/eslint-plugin-refractor/',
     badge: '17 rules',
     meta: 'Strict',

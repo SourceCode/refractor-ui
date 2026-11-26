@@ -133,7 +133,7 @@ const CORE_CITATIONS: ReadonlyArray<ResearchCitation> = [
     id: 'cit-adr3',
     index: 1,
     label: 'ADR-0003',
-    title: 'Dual MUI + Astryx Optical Glass Theme Engine',
+    title: 'Dual-Mode Optical Glass Theme Engine',
     domain: 'docs/adr/ADR-0003',
     snippet:
       'Passing a single hex color to createPrismTheme() derives light, dark, WCAG >= 4.5:1 contrastText, and caustic RGB channels.',

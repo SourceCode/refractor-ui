@@ -37,7 +37,7 @@ function mockSvgRect(element: Element, left = 0, width = 600, height = 96) {
 }
 
 describe('BrushRangeScrubber', () => {
-  it('renders Astryx optical card, ref/className/xstyle/theme override, SVG overview, presets, and live readout', () => {
+  it('renders Open-Internals optical card, ref/className/xstyle/theme override, SVG overview, presets, and live readout', () => {
     const ref = createRef<HTMLDivElement>();
     const onRangeChange = vi.fn();
 

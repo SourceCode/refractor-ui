@@ -9,7 +9,7 @@ import {
 } from './index';
 
 describe('DocumentPageViewer', () => {
-  it('satisfies Astryx contracts, forwards React 19 ref, applies theme overrides, and renders 4 default optical spec pages', () => {
+  it('satisfies Open-Internals contracts, forwards React 19 ref, applies theme overrides, and renders 4 default optical spec pages', () => {
     const ref = createRef<HTMLDivElement>();
     const zoomMapCheck: DocumentZoomPresetMap = {
       75: true,
@@ -101,7 +101,7 @@ describe('DocumentPageViewer', () => {
     expect(onPageChange).toHaveBeenLastCalledWith(3);
     expect(screen.getByTestId('document-viewer-thumb-3')).toHaveAttribute('aria-current', 'page');
     expect(screen.getByTestId('document-viewer-page-heading')).toHaveTextContent(
-      'Astryx Open-Internals & Keyboard Ergonomics'
+      'Open-Internals & Keyboard Ergonomics'
     );
 
     // Clicking already-active Page 3 thumbnail does not fire redundant callback

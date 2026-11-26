@@ -45,7 +45,7 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
   {
     id: 'n3',
     title: 'CI Coverage Threshold Exceeded',
-    message: 'Vitest V8 coverage verified at 99.6% statements across 75 Astryx components.',
+    message: 'Vitest V8 coverage verified at 99.6% statements across 75 Open-Internals components.',
     timestamp: '1h ago',
     category: 'system',
     tone: 'info',
@@ -133,7 +133,7 @@ const PRESENCE_USERS: PresenceUser[] = [
 const TOUR_STEPS: TourStep[] = [
   {
     id: 'step-tokens',
-    title: 'Dual MUI + Astryx Theme Engine',
+    title: 'Dual-Mode Theme Engine',
     description:
       'Switch presets or tune primary/secondary hex colors in Theme Studio — caustic halos and WCAG contrast tokens recompute automatically.',
     badge: 'Step 1 of 3 · Theming',

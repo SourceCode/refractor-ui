@@ -101,7 +101,7 @@ const theme = createPrismTheme({
       open={customizerOpen}
       mode="right"
       title="Multi-Material Theme Studio"
-      subtitle={`${ALL_THEME_ENTRIES.length} full-transformation themes (Optical Glass + 62 WebOS-v3)`}
+      subtitle={`${ALL_THEME_ENTRIES.length} full-transformation themes (Optical Glass + 62 Multi-Material)`}
       onClose={() => dispatch(setCustomizerOpen(false))}
     >
       <div className="space-y-6">

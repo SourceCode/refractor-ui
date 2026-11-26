@@ -2,16 +2,16 @@
 
 This `AGENTS.md` is the canonical, tool-agnostic instruction surface for AI coding agents and human contributors working in **Refractor Optical Glass UI Kit** (`@refractor-ui/*`).
 
-## Architectural Blueprint (Astryx-Aligned)
+## Architectural Blueprint (Open-Internals)
 
-Refractor adopts the exact component architecture and engineering discipline of Meta's Astryx design system (`https://astryx.atmeta.com/`):
+Refractor adopts the exact component architecture and engineering discipline of Refractor's Open-Internals design system:
 
 - **Monorepo Layout:**
-  - `packages/core` (`@refractor-ui/core`): Production React 19 optical-glass component library, `BaseProps`, `themeProps`, `mergeProps`, `naming`, dual MUI+Astryx theme engine, and `@layer`-scoped `reset.css` & `refractor.css` stylesheets.
+  - `packages/core` (`@refractor-ui/core`): Production React 19 optical-glass component library, `BaseProps`, `themeProps`, `mergeProps`, `naming`, dual-mode theme engine, and `@layer`-scoped `reset.css` & `refractor.css` stylesheets.
   - `packages/themes/*`: Pre-built cascade optical themes (`alabaster`, `obsidian`, `amethyst`, `emerald-tide`, `solar-prism`).
   - `packages/cli` (`@refractor-ui/cli`): Agent-ready CLI (`docs`, `component`, `theme`, `swizzle`, `check`).
-  - `apps/docs` (`@refractor-ui/docs`): Public GitHub Pages Documentation Portal, Interactive Optical Workbench, & Live MUI+Astryx Theme Studio.
-  - `internal/eslint-plugin-refractor`: Custom AST ESLint rules enforcing Astryx contracts and zero `any`/`unknown`.
+  - `apps/docs` (`@refractor-ui/docs`): Public GitHub Pages Documentation Portal, Interactive Optical Workbench, & Live Token & Cascade Theme Studio.
+  - `internal/eslint-plugin-refractor`: Custom AST ESLint rules enforcing Open-Internals contracts and zero `any`/`unknown`.
   - `docs/adr/`: Authoritative Architecture Decision Records (`ADR-0001` through `ADR-0006`).
 
 ## Non-Negotiable Coding Rules

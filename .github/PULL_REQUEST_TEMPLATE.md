@@ -6,7 +6,7 @@
 - **SemVer Impact:** `PATCH` / `MINOR` / `MAJOR`
 - **Primary Intent:** Feature / Bugfix / Architecture / Docs
 
-## Architectural & Astryx Contract Checklist
+## Architectural & Open-Internals Contract Checklist
 
 - [ ] Every new or updated component lives under `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts`.
 - [ ] Component extends `BaseProps<Element>`, accepts React 19 `ref` as a standard prop (no `forwardRef`), emits stable `refractor-*` classes via `themeProps()`, and merges caller `className`/`style` via `mergeProps()`.

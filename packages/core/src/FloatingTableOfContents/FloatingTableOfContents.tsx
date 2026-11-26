@@ -69,7 +69,7 @@ const DEFAULT_TOC_HEADINGS: ReadonlyArray<TocHeadingEntry> = [
   { id: 'optical-overview', title: 'Optical Architecture Overview', level: 1 },
   { id: 'refraction-tokens', title: 'Refraction & Dispersion Tokens', level: 2 },
   { id: 'surface-layers', title: 'Crystal & Slab Surface Layers', level: 3 },
-  { id: 'theme-cascade', title: 'Dual MUI & Astryx Theme Cascade', level: 2 },
+  { id: 'theme-cascade', title: 'Dual-Mode Theme Cascade', level: 2 },
   { id: 'accessibility-contracts', title: 'Keyboard & Focus Contracts', level: 3 },
   { id: 'migration-guide', title: 'Production Migration Guide', level: 1 },
 ];

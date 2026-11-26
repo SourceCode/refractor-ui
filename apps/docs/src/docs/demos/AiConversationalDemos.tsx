@@ -172,10 +172,10 @@ export function AiConversationalDemos({ componentId }: AiConversationalDemosProp
           <CitationChip
             index={1}
             label="ADR-0003"
-            title="Dual MUI + Astryx Optical Glass Theme Engine"
+            title="Dual-Mode Optical Glass Theme Engine"
             domain="github.com/SourceCode/refractor-ui"
             snippet="Passing a single hex color to createPrismTheme() computes light, dark, WCAG >= 4.5:1 contrastText, and RGB caustic dispersion channels."
-            href="https://github.com/SourceCode/refractor-ui/blob/main/docs/adr/ADR-0003-dual-mui-astryx-optical-theming-and-token-cascade.md"
+            href="https://github.com/SourceCode/refractor-ui/blob/main/docs/adr/ADR-0003-dual-theme-engine-and-token-cascade.md"
             onInspect={() =>
               dispatch(pushToast({ title: 'Opened ADR-0003 citation inspector', tone: 'info' }))
             }
@@ -187,7 +187,7 @@ export function AiConversationalDemos({ componentId }: AiConversationalDemosProp
             label="ADR-0002"
             title="Strict TypeScript & Two-Tier ESLint Governance"
             domain="github.com/SourceCode/refractor-ui"
-            snippet="17 custom AST rules enforce Astryx component contracts and prevent wildcard TypeScript escape hatches."
+            snippet="17 custom AST rules enforce Open-Internals component contracts and prevent wildcard TypeScript escape hatches."
             href="https://github.com/SourceCode/refractor-ui/blob/main/docs/adr/ADR-0002-strict-typescript-zero-any-unknown-and-lint-governance.md"
           />
           .

@@ -43,7 +43,7 @@ const INITIAL_KANBAN: KanbanCardItem[] = [
 
 const GANTT_TASKS = [
   { id: 't1', title: 'Token Architecture & CSS Cascade', assignee: 'Clara Vance', startDate: '2026-11-01', endDate: '2026-11-06', progress: 100, tone: 'emerald' as const },
-  { id: 't2', title: 'Core 75 Astryx Components', assignee: 'Marcus Chen', startDate: '2026-11-05', endDate: '2026-11-12', progress: 100, dependencies: ['t1'], tone: 'cobalt' as const },
+  { id: 't2', title: 'Core 75 Open-Internals Components', assignee: 'Marcus Chen', startDate: '2026-11-05', endDate: '2026-11-12', progress: 100, dependencies: ['t1'], tone: 'cobalt' as const },
   { id: 't3', title: 'Enterprise Data Viz Suite', assignee: 'Elena Rostova', startDate: '2026-11-11', endDate: '2026-11-19', progress: 82, dependencies: ['t2'], tone: 'primary' as const },
   { id: 't4', title: 'UX/UI Director 9.8+ Polish', assignee: 'Clara Vance', startDate: '2026-11-18', endDate: '2026-11-24', progress: 45, dependencies: ['t3'], tone: 'emerald' as const },
 ];

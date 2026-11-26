@@ -74,7 +74,7 @@ afterEach(() => {
 });
 
 describe('SystemAboutCard', () => {
-  it('satisfies Astryx contracts, forwards React 19 ref, applies theme overrides, renders default Workstation profile, and emits zero raw colors', () => {
+  it('satisfies Open-Internals contracts, forwards React 19 ref, applies theme overrides, renders default Workstation profile, and emits zero raw colors', () => {
     const ref = createRef<HTMLDivElement>();
     const modeMap: SystemAboutModeMap = { inline: true, modal: true };
     expect(modeMap.inline && modeMap.modal).toBe(true);

@@ -11,7 +11,7 @@ import {
 } from './index';
 
 describe('ApprovalChainStrip', () => {
-  it('renders Astryx contracts, default 4-stage enterprise release chain, theme overrides, xstyle, and React 19 ref', () => {
+  it('renders Open-Internals contracts, default 4-stage enterprise release chain, theme overrides, xstyle, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
 
     const statusMapCheck: ApprovalChainStatusMap = {

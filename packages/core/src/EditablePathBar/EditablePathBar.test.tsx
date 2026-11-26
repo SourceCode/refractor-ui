@@ -54,7 +54,7 @@ describe('normalizeEditablePath', () => {
 });
 
 describe('EditablePathBar', () => {
-  it('renders Astryx contracts, default path breadcrumbs, theme overrides, xstyle, and React 19 ref', () => {
+  it('renders Open-Internals contracts, default path breadcrumbs, theme overrides, xstyle, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
     const kindMap: EditablePathSuggestionKindMap = {
       folder: true,

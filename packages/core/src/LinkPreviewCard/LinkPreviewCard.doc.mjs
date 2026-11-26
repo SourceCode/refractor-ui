@@ -129,7 +129,7 @@ export const docs = {
   ],
   examples: [
     `<p>\n  Review the{' '}\n  <LinkPreviewCard\n    href="/docs/adr-0003"\n    label="ADR-0003 Optical Cascade"\n    preview={{\n      title: 'ADR-0003: Optical Token Cascade Contract',\n      summary: 'Defines the strict --prism-* CSS custom property surface contract shared by all glass components.',\n      kind: 'doc',\n      author: 'Elena Vance',\n      updatedAt: 'Updated 2h ago',\n      tags: ['architecture', 'tokens', 'glass'],\n    }}\n  />{' '}\n  before introducing new surface utilities.\n</p>`,
-    `<LinkPreviewCard\n  href="https://github.com/refractor-ui/core"\n  label="refractor-ui/core"\n  external\n  placement="top"\n  preview={{\n    title: 'refractor-ui/core',\n    summary: 'React 19 optical-glass component kit with Astryx contracts and dual MUI+Astryx theming.',\n    kind: 'repo',\n    author: 'Refractor Team',\n    updatedAt: 'v1.34.0',\n    tags: ['react-19', 'typescript'],\n  }}\n/>`,
+    `<LinkPreviewCard\n  href="https://github.com/refractor-ui/core"\n  label="refractor-ui/core"\n  external\n  placement="top"\n  preview={{\n    title: 'refractor-ui/core',\n    summary: 'React 19 optical-glass component kit with Open-Internals contracts and dual-mode theming.',\n    kind: 'repo',\n    author: 'Refractor Team',\n    updatedAt: 'v1.34.0',\n    tags: ['react-19', 'typescript'],\n  }}\n/>`,
   ],
 };
 

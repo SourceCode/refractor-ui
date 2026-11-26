@@ -22,7 +22,7 @@ const TRANSFER_ITEMS = [
 
 const INITIAL_SORTABLE: SortableListItem[] = [
   { id: 's1', title: '1. Enforce Strict Zero any/unknown Types', subtitle: 'ADR-0002 · Core Compiler Gate', badge: 'P1' },
-  { id: 's2', title: '2. Calibrate Specular & Caustic Tokens', subtitle: 'ADR-0003 · Dual MUI+Astryx Theme', badge: 'P1' },
+  { id: 's2', title: '2. Calibrate Specular & Caustic Tokens', subtitle: 'ADR-0003 · Dual-Mode Theme', badge: 'P1' },
   { id: 's3', title: '3. Verify >= 93% V8 Adversarial Coverage', subtitle: 'ADR-0005 · Security & Fuzz Suite', badge: 'P1' },
   { id: 's4', title: '4. Publish SemVer 2.0.0 Tag & Changelog', subtitle: 'ADR-0004 · SemVer Release Gate', badge: 'P2' },
 ];

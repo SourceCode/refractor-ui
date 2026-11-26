@@ -1,4 +1,4 @@
-# ADR-0001: Monorepo Hierarchy & Astryx-Aligned Component Architecture
+# ADR-0001: Monorepo Hierarchy & Open-Internals Component Architecture
 
 - **Status:** Accepted
 - **Date:** 2026-11-20
@@ -11,7 +11,7 @@
 
 The initial prototype placed all 46 components into six monolithic barrel files (`src/os/components/{buttons,inputs,navigation,dataDisplay,feedback,overlays}.tsx`) coupled directly to application storage types (`src/system/storage.ts`). That flat layout prevented tree-shakeable subpath imports, independent component swizzling, per-component documentation metadata, automated drift checking, and clean separation between the publishable UI library and the interactive documentation playground.
 
-Meta's open-source design system **Astryx** (`https://astryx.atmeta.com/`) establishes the gold standard for modern React 19, agent-ready, open-internals component libraries.
+**Refractor UI** establishes the gold standard for modern React 19, agent-ready, open-internals component libraries.
 
 ## 2. Directives (Mandatory Invariants)
 
@@ -28,7 +28,7 @@ Meta's open-source design system **Astryx** (`https://astryx.atmeta.com/`) estab
    - `<ComponentName>.test.tsx` — Positive, negative, and adversarial Vitest + Testing Library tests.
    - `index.ts` — Component export barrel + extensible variant map interface where applicable.
 3. **Open Internals Escalation Path:**
-   Every component MUST support all five Astryx customization tiers:
+   Every component MUST support all five Open-Internals customization tiers:
    1. Typed Props
    2. Theme Tokens (`createPrismTheme` / `defineTheme`)
    3. Theme Component Overrides (`theme.components`)
@@ -44,5 +44,5 @@ Meta's open-source design system **Astryx** (`https://astryx.atmeta.com/`) estab
 
 ## 4. Consequences
 
-- Consumers get full tree-shaking, predictable React 19 `ref` forwarding, zero styling lock-in, and Astryx-grade agent discoverability.
+- Consumers get full tree-shaking, predictable React 19 `ref` forwarding, zero styling lock-in, and Open-Internals-grade agent discoverability.
 - Adding a new component requires authoring its `.doc.mjs` and `.test.tsx` atomically alongside `.tsx`, preventing undocumented or untested components from ever landing.

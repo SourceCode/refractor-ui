@@ -2,7 +2,7 @@
 
 # Refractor Optical Glass UI Kit
 
-**A tactile, multi-material & optical-glass React 19 & TypeScript component library with Astryx Open-Internals architecture, 67 full-transformation themes (5 Optical Glass + 62 WebOS-v3 themes), and 339 accessible components across 58 categories.**
+**A tactile, multi-material & optical-glass React 19 & TypeScript component library with Open-Internals architecture, 67 full-transformation themes (5 Optical Glass + 62 multi-material themes), and 339 accessible components across 58 categories.**
 
 [![Release v1.52.0](https://img.shields.io/badge/release-v1.52.0-E75C24?style=flat-square)](https://github.com/SourceCode/refractor-ui/releases/tag/v1.52.0)
 [![Live Docs](https://img.shields.io/badge/docs-GitHub%20Pages-38BDF8?style=flat-square)](https://sourcecode.github.io/refractor-ui/)
@@ -26,9 +26,9 @@
 ## Why Refractor UI?
 
 - **339 Production Components Across 58 Categories:** Spanning core optical controls, enterprise data grids & schedulers, rich content creation, AI chat & agent control surfaces, CLI & terminal multiplexers, media & 360° spatial viewers, security & auth, commerce & billing, mobile touch utilities, multi-agent orchestration, scheduling & formatted inputs, complex action controls, pro NLE/DAW transport, timeline, photo color grading, audio mixing/DSP, viewport/export tools, token-driven optical SVG charting/financial/scientific/observability/geospatial/storytelling suites, foundational micro-utilities, desktop OS windowing metaphors, knowledge & formula spreadsheet tools, 3D/shader inspectors, enterprise data ops & API consoles, hardware/IoT tactile surfaces, desktop OS file explorer/windowing/launcher/system-tray/HUD/dialog suites, **Dynamic Gradient & AI-Glow FX**, **WebGL/GLSL Shader & Optical FX**, and **Loaders, Skeletons & Data Transitions**.
-- **Astryx-Aligned Open-Internals Architecture:** Every primitive lives in `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts` — using React 19 `ref`-as-prop (never `forwardRef`), `BaseProps<Element>`, `themeProps()`, `mergeProps()`, and tree-shakeable subpath exports.
+- **Open-Internals Architecture:** Every primitive lives in `packages/core/src/<ComponentName>/` with `<Name>.tsx`, `<Name>.doc.mjs`, `<Name>.test.tsx`, and `index.ts` — using React 19 `ref`-as-prop (never `forwardRef`), `BaseProps<Element>`, `themeProps()`, `mergeProps()`, and tree-shakeable subpath exports.
 - **67 Full-Transformation Multi-Material Themes (`@refractor-ui/themes`):**
-  - **13 Material Archetypes & 9 GPU-Friendly FX Overlays:** Transform all 339 components across `glass`, `mica`, `bevel` (Windows 95/XP/Amiga/BeOS/Solaris), `brutalist` (Brutalist Web/Memphis/Paper Cutout/Industrial), `neon` (Cyberpunk/Synthwave/Outrun/Vaporwave/Blade Runner/Akira), `crt` (Hacker Terminal), `pixel` (Game Boy/SNES/Sega Genesis & Saturn), `neumorphic`, `clay` (Soft Clay), `paper` (E-Ink/Zen Garden), `chrome` (Y2K Liquid Chrome/Liquid Metal/PS5), `resin` (Glowing Resin/Slime/Dream Logic), and `flat` (VS Code/Monokai/One Dark Pro/Nord/Tokyo Night/Solarized/Material/Adwaita/Ubuntu/Mint) — plus all Elemental and Four Seasons themes and on-demand allowlisted Google Font loading. Certified **9.89/10 mean** across Web, Tablet, and Mobile in [`docs/reviews/webos-v3-themes-audit.md`](./docs/reviews/webos-v3-themes-audit.md).
+  - **13 Material Archetypes & 9 GPU-Friendly FX Overlays:** Transform all 339 components across `glass`, `mica`, `bevel` (Windows 95/XP/Amiga/BeOS/Solaris), `brutalist` (Brutalist Web/Memphis/Paper Cutout/Industrial), `neon` (Cyberpunk/Synthwave/Outrun/Vaporwave/Blade Runner/Akira), `crt` (Hacker Terminal), `pixel` (Game Boy/SNES/Sega Genesis & Saturn), `neumorphic`, `clay` (Soft Clay), `paper` (E-Ink/Zen Garden), `chrome` (Y2K Liquid Chrome/Liquid Metal/PS5), `resin` (Glowing Resin/Slime/Dream Logic), and `flat` (VS Code/Monokai/One Dark Pro/Nord/Tokyo Night/Solarized/Material/Adwaita/Ubuntu/Mint) — plus all Elemental and Four Seasons themes and on-demand allowlisted Google Font loading. Certified **9.89/10 mean** across Web, Tablet, and Mobile in [`docs/reviews/multi-material-themes-audit.md`](./docs/reviews/multi-material-themes-audit.md).
   - **Single-Hex Color Derivation & Cascade Overrides:** Pass a single hex color to `createPrismTheme({ palette: { primary: { main: '#7C3AED' } } })` or compose cascading overrides with `defineTheme({ name, extends, material, fx, tokens, components })` inside CSS `@layer components` for seamless Tailwind CSS v4 interoperability.
 - **Zero `any` and Zero `unknown` Strictness:** Enforced by `@typescript-eslint/no-explicit-any`, custom `@refractor/no-unknown-type`, and a 17-rule two-tier ESLint plugin (`internal/eslint-plugin-refractor`).
 - **60fps Full-Application Performance Architecture (`v1.48.0–v1.52.0`):** 339/339 pure `/*#__PURE__*/ memoWithDisplayName` tree-shakeable components + tree-shakeable `@refractor-ui/themes` subpath exports, DPR-capped visibility-aware WebGL optical shader engine with CSS/SVG fallbacks, zero-rerender rAF-coalesced cursor lighting, module-hoisted `stableClassName` resolvers, split `ComponentOverridesContext` (zero re-renders on theme/mode switches), 12px/14px GPU blur kernels + automatic nested & `[data-refractor-blur-host="true"]` blur elision, 100% inline `<svg>` & 17-table `content-visibility: auto` containment, three-tier GPU `performanceMode` (`balanced` / `high` / `max`), 3,103+ hoisted frozen style singletons, zero `transition-all`, and zero-allocation `mergeProps` hot paths — see [`docs/reviews/performance-audit-v1.52.0.md`](./docs/reviews/performance-audit-v1.52.0.md) and [`docs/reviews/performance-audit-v1.49.0.md`](./docs/reviews/performance-audit-v1.49.0.md).
@@ -86,7 +86,7 @@ const brandTheme = createPrismTheme({
 export function App() {
   return (
     <PrismThemeProvider theme={brandTheme}>
-      <PrismCard title="Custom Prismatic Brand" kicker="MUI + Astryx Cascade">
+      <PrismCard title="Custom Prismatic Brand" kicker="Token & Cascade">
         <div className="flex gap-3 pt-2">
           <PrimaryButton size="md">Launch Studio</PrimaryButton>
           <SecondaryButton size="md">Explore Docs</SecondaryButton>
@@ -196,7 +196,7 @@ node packages/cli/bin/refractor.mjs check --strict
 │   ├── adr/                      # Six authoritative Architecture Decision Records (ADR-0001..0006)
 │   └── reviews/                  # Creative UX/UI Director visual audit (9.96/10 mean)
 ├── internal/
-│   └── eslint-plugin-refractor/  # Custom 17-rule two-tier Astryx + zero any/unknown ESLint plugin
+│   └── eslint-plugin-refractor/  # Custom 17-rule two-tier Open-Internals + zero any/unknown ESLint plugin
 ├── packages/
 │   ├── core/                     # @refractor-ui/core — 339 React 19 components, WebGL optical shaders, theme engine, CSS tokens
 │   ├── themes/                   # alabaster, obsidian, amethyst, emerald-tide, solar-prism
@@ -209,7 +209,7 @@ node packages/cli/bin/refractor.mjs check --strict
 ```bash
 pnpm install
 pnpm dev              # Launch Optical Workbench & Docs locally (http://localhost:3000)
-pnpm check:repo       # Verify Astryx structure, SemVer lockstep & zero any/unknown
+pnpm check:repo       # Verify Refractor structure, SemVer lockstep & zero any/unknown
 pnpm lint:plugin      # Run 16 unit tests for internal/eslint-plugin-refractor
 pnpm lint:strict      # Run two-tier ESLint in CI/agent strict mode
 pnpm typecheck        # Run strict TypeScript checks across core & docs

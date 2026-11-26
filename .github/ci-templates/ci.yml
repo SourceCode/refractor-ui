@@ -38,7 +38,7 @@ jobs:
       - name: Structural drift & repo contract check
         run: pnpm check:repo
 
-      - name: Strict Astryx-aligned ESLint (zero any/unknown)
+      - name: Strict open-internals ESLint (zero any/unknown)
         env:
           CI: 'true'
           REFRACTOR_STRICT_LINT: '1'

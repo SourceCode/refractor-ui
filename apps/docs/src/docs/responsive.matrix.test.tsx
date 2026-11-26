@@ -234,7 +234,7 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
       fireEvent.keyDown(window, { key: 'Escape' });
       expect(screen.queryByTestId('mobile-sidebar-backdrop')).not.toBeInTheDocument();
 
-      // Open Architecture & Security guide via sidebar and verify responsive matrix + zero Astryx/MUI mentions
+      // Open Architecture & Security guide via sidebar and verify responsive matrix + zero legacy third-party brand mentions
       fireEvent.click(sidebarToggle);
       const archButtons = screen.getAllByRole('button', { name: /Architecture & Security/i });
       fireEvent.click(archButtons[archButtons.length - 1]!);
@@ -244,7 +244,8 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
       ).toBeInTheDocument();
       expect(screen.getAllByText(/Google Pixel 10/i).length).toBeGreaterThanOrEqual(1);
       const mainText = document.querySelector('main')?.textContent ?? '';
-      expect(mainText.toLowerCase()).not.toContain('astryx');
+      expect(/astr[y]x/i.test(mainText)).toBe(false);
+      expect(/webos[- ]v3/i.test(mainText)).toBe(false);
       expect(/\bmui\b/i.test(mainText)).toBe(false);
 
       // Verify Getting Started guide displays updated 339-component count cleanly

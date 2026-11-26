@@ -15,7 +15,7 @@ afterEach(() => {
 });
 
 describe('FileConflictDialog', () => {
-  it('satisfies Astryx contracts, forwards React 19 ref, applies theme overrides, renders default side-by-side cards, and emits zero raw colors', () => {
+  it('satisfies Open-Internals contracts, forwards React 19 ref, applies theme overrides, renders default side-by-side cards, and emits zero raw colors', () => {
     const ref = createRef<HTMLDivElement>();
     const resolutionMap: FileConflictResolutionMap = {
       replace: true,

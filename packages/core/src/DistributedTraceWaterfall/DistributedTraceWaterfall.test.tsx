@@ -9,7 +9,7 @@ import {
 } from './index';
 
 describe('DistributedTraceWaterfall', () => {
-  it('renders Astryx contracts, default 8-span 420.0 ms OpenTelemetry checkout trace, theme overrides, and React 19 ref', () => {
+  it('renders Open-Internals contracts, default 8-span 420.0 ms OpenTelemetry checkout trace, theme overrides, and React 19 ref', () => {
     const ref = createRef<HTMLDivElement>();
     const statusMapCheck: DistributedTraceSpanStatusMap = {
       ok: true,

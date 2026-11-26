@@ -97,7 +97,7 @@ export function DocsHeroBanner() {
           </h1>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
             <strong>Refractor UI</strong> delivers {COMPONENT_REGISTRY.length} accessible React 19
-            components across {DOC_CATEGORIES.length} categories with Meta Astryx Open-Internals
+            components across {DOC_CATEGORIES.length} categories with Open-Internals
             architecture, MUI-simple color theming, an agent-ready CLI, and calibrated refractive
             glass physics in both Alabaster Light and Obsidian Dark modes.
           </p>

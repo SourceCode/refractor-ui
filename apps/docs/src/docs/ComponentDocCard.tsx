@@ -126,7 +126,7 @@ export function ComponentDocCard({
             <span>
               import &#123; {entry.exportName} &#125; from &apos;@refractor-ui/core/{entry.exportName}&apos;;
             </span>
-            <span>Astryx Subpath Import</span>
+            <span>Open-Internals Subpath Import</span>
           </div>
           <pre className="text-xs font-mono leading-relaxed text-sky-200">
             <code>{entry.codeSnippet}</code>
