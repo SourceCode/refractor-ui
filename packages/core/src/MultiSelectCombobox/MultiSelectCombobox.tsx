@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
-import { Check, ChevronDown, Plus } from 'lucide-react';
+import { Check, ChevronDown, Plus, X } from 'lucide-react';
 import type { BaseProps } from '../BaseProps';
 import { useMergedRefs } from '../hooks/useMergedRefs';
 import { useComponentOverride } from '../theme/PrismThemeProvider';
@@ -336,9 +336,10 @@ function MultiSelectComboboxInner({
               return (
                 <span
                   key={tokenValue}
-                  className="prism-emerald inline-flex items-center gap-1.5 h-7 pl-3 pr-1.5 rounded-full text-xs font-medium text-white max-w-full"
+                  data-slot="token-chip"
+                  className="prism-emerald inline-flex items-center gap-1.5 h-7 pl-3 pr-1.5 rounded-full text-xs font-medium leading-none text-white max-w-full"
                 >
-                  <span className="truncate">{tokenLabel}</span>
+                  <span className="truncate leading-none">{tokenLabel}</span>
                   <button
                     type="button"
                     disabled={disabled}
@@ -347,11 +348,13 @@ function MultiSelectComboboxInner({
                       e.stopPropagation();
                       removeToken(tokenValue);
                     }}
-                    className="prism-focus-ring w-4 h-4 rounded-full inline-flex items-center justify-center text-white/95 enabled:hover:bg-black/15 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                    className="prism-focus-ring w-4 h-4 p-0 rounded-full inline-flex items-center justify-center text-white/95 enabled:hover:bg-black/15 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                   >
-                    <span aria-hidden="true" className="leading-none text-sm">
-                      ×
-                    </span>
+                    <X
+                      aria-hidden="true"
+                      className="w-3 h-3 block shrink-0 prism-contain-box"
+                      strokeWidth={2.5}
+                    />
                   </button>
                 </span>
               );

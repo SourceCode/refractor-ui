@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/eslint-plugin-refractor",
-  "version": "1.55.1",
+  "version": "1.55.2",
   "private": true,
   "description": "Internal open-internals ESLint plugin enforcing Refractor design system contracts and zero any/unknown types.",
   "license": "Apache-2.0",

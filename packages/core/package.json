@@ -1,6 +1,6 @@
 {
   "name": "@refractor-ui/core",
-  "version": "1.55.1",
+  "version": "1.55.2",
   "description": "Refractor Optical Glass UI Kit — open-internals React 19 accessible optical-glass components and dual-mode cascade theme engine.",
   "license": "Apache-2.0",
   "type": "module",

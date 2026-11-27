@@ -7,6 +7,11 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.55.2] - 2026-11-27
+
+### Fixed
+- **`MultiSelectCombobox` Token Chip Close-Icon Alignment (`REF-5521`–`REF-5525`):** Replaced the font-metric-skewed Unicode `×` text glyph inside selected emerald token chips with a symmetric `lucide-react` `<X />` SVG icon (`w-3 h-3 block shrink-0 prism-contain-box`, `strokeWidth={2.5}`) inside a `p-0 inline-flex items-center justify-center` button paired with `leading-none` on the pill and label span so the dismiss icon and chip text share the exact same horizontal centerline. Added alignment regression tests in `MultiSelectCombobox.test.tsx`, updated docs/registry, and authored the `v1.55.2` backlog in `docs/roadmap/v1.55.2-multiselect-chip-alignment-backlog.md`.
+
 ## [1.55.1] - 2026-11-27
 
 ### Changed

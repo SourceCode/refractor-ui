@@ -1196,7 +1196,7 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     exportName: 'MultiSelectCombobox',
     category: 'search-filtering',
     categoryTitle: 'Advanced Search & Filtering',
-    summary: 'Frosted combobox input that searches, selects, and stacks multiple items as removable emerald pill tags directly inside the input chamber.',
+    summary: 'Frosted combobox input that searches, selects, and stacks multiple items as removable emerald pill tags with optically centered dismiss icons directly inside the input chamber.',
     codeSnippet: `<MultiSelectCombobox\n  options={options}\n  value={selected}\n  onChange={setSelected}\n  creatable\n/>`,
     props: [
       { name: 'options', type: 'ComboboxOption[]', defaultValue: 'required', description: 'Searchable candidate tokens.' },

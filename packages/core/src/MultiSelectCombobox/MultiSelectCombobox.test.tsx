@@ -352,4 +352,28 @@ describe('MultiSelectCombobox', () => {
     fireEvent.change(input, { target: { value: 'constructor' } });
     expect(screen.getByRole('option', { name: 'constructor' })).toBeInTheDocument();
   });
+
+  it('renders centered SVG X icons with equal horizontal/vertical alignment inside token chips', () => {
+    render(
+      <MultiSelectCombobox
+        label="Component Capabilities & Tags"
+        options={SAMPLE_OPTIONS}
+        defaultValue={['crystal', 'emerald']}
+      />
+    );
+
+    const removeBtn = screen.getByRole('button', { name: 'Remove Crystal Glass' });
+    const chip = removeBtn.closest('[data-slot="token-chip"]');
+    expect(chip).not.toBeNull();
+    expect(chip).toHaveClass('inline-flex', 'items-center', 'h-7', 'leading-none');
+    expect(removeBtn).toHaveClass('inline-flex', 'items-center', 'justify-center', 'p-0', 'w-4', 'h-4');
+
+    const labelSpan = chip?.querySelector('span');
+    expect(labelSpan).toHaveClass('truncate', 'leading-none');
+
+    const svg = removeBtn.querySelector('svg');
+    expect(svg).not.toBeNull();
+    expect(svg).toHaveClass('w-3', 'h-3', 'block', 'shrink-0', 'prism-contain-box');
+    expect(removeBtn.textContent).toBe('');
+  });
 });

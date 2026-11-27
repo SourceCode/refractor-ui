@@ -6,7 +6,7 @@ export const docs = {
   keywords: ['combobox', 'multi-select', 'token', 'tags', 'autocomplete', 'creatable', 'pills'],
   usage: {
     description:
-      'An optical crystal combobox housing a recessed flex-wrap token well where selected values appear as glossy emerald removable pills alongside a live searchable input and floating slab listbox.',
+      'An optical crystal combobox housing a recessed flex-wrap token well where selected values appear as glossy emerald removable pills with optically centered SVG dismiss icons alongside a live searchable input and floating slab listbox.',
     bestPractices: [
       {
         guidance: true,
