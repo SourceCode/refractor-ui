@@ -526,11 +526,12 @@ export const COMPONENT_REGISTRY: ComponentDocEntry[] = [
     exportName: 'DropdownSelect',
     category: 'form-inputs',
     categoryTitle: 'Form Inputs & Selection Controls',
-    summary: 'Compact crystal capsule featuring an optical C-ring emblem and recessed emerald checkmark tray that opens an option list.',
-    codeSnippet: `<DropdownSelect\n  value={role}\n  onChange={setRole}\n  options={[\n    { value: 'architect', label: 'Systems Architect' },\n    { value: 'designer', label: 'Principal Designer' },\n  ]}\n/>`,
+    summary: 'Compact crystal capsule featuring a recessed emerald checkmark tray, floating prism listbox, and an optional optical C-ring loading spinner.',
+    codeSnippet: `<DropdownSelect\n  value={role}\n  onChange={setRole}\n  loading={isLoading}\n  options={[\n    { value: 'architect', label: 'Systems Architect' },\n    { value: 'designer', label: 'Principal Designer' },\n  ]}\n/>`,
     props: [
       { name: 'options', type: 'SelectOption[]', defaultValue: 'required', description: 'Selectable options list.' },
       { name: 'value', type: 'string', defaultValue: 'required', description: 'Selected option value.' },
+      { name: 'loading', type: 'boolean', defaultValue: 'false', description: 'Displays an optional C-ring loader while async options are fetching.' },
     ],
   },
   {

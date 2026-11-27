@@ -86,6 +86,7 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
 
   // Local interactive states for playgrounds
   const [clickCount, setClickCount] = useState(0);
+  const [selectLoading, setSelectLoading] = useState(false);
   const [powerState, setPowerState] = useState(true);
   const [segment, setSegment] = useState('design');
   const [email, setEmail] = useState('clara.vance@refractor.io');
@@ -346,11 +347,12 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
 
     case 'dropdown-select-menu':
       return (
-        <div className="w-full max-w-xs">
+        <div className="w-full max-w-xs space-y-3">
           <DropdownSelect
             label="Workspace Role"
             value={selectRole}
             onChange={setSelectRole}
+            loading={selectLoading}
             options={[
               { value: 'architect', label: 'Principal UI Architect' },
               { value: 'optics', label: 'Optical Shader Engineer' },
@@ -358,6 +360,9 @@ export function CoreDemos({ componentId }: CoreDemosProps) {
               { value: 'qa', label: 'Accessibility Auditor' },
             ]}
           />
+          <SecondaryButton size="sm" onClick={() => setSelectLoading((prev) => !prev)}>
+            {selectLoading ? 'Stop loading state' : 'Preview optional loading state'}
+          </SecondaryButton>
         </div>
       );
 

@@ -6,7 +6,7 @@ export const docs = {
   keywords: ['select', 'dropdown', 'listbox', 'menu', 'picker', 'options'],
   usage: {
     description:
-      'A signature optical crystal pill select control featuring the 3/4 C-ring emblem, recessed emerald glass confirmation tray, and a floating prism slab listbox.',
+      'A signature optical crystal pill select control featuring a recessed emerald glass confirmation tray, floating prism slab listbox, and an optional C-ring loading spinner via `loading`.',
     bestPractices: [
       { guidance: true, description: 'Supply a clear label prop so screen readers announce what setting the dropdown controls.' },
       { guidance: true, description: 'Use DropdownSelect when choosing one value from 4 to 15 options; use SegmentedControl for 2–4 compact choices.' },
@@ -34,6 +34,7 @@ export const docs = {
     { name: 'label', type: 'string', defaultValue: 'undefined', description: 'Optional visible label rendered above the control.' },
     { name: 'placeholder', type: 'string', defaultValue: "'Select'", description: 'Fallback text when value does not match any option.' },
     { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables opening the dropdown menu.' },
+    { name: 'loading', type: 'boolean', defaultValue: 'false', description: 'Displays an optional optical C-ring loading spinner inside the trigger while options load.' },
     { name: 'xstyle', type: 'OpticalStyleTokens', defaultValue: 'undefined', description: 'Typed CSS custom properties and style overrides.' },
   ],
   examples: [

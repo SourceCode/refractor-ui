@@ -7,6 +7,11 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.55.1] - 2026-11-27
+
+### Changed
+- **`DropdownSelect` Optional C-Ring Loader (`loading` prop):** Removed the permanently rendered 3/4 optical C-ring SVG from the default `DropdownSelect` trigger and made it an opt-in animated loader (`loading?: boolean`, default `false`) with `animate-spin motion-reduce:animate-none`, `aria-busy`, and `data-loading="true"`. Updated `DropdownSelect.doc.mjs`, `DropdownSelect.test.tsx`, `apps/docs` registry, and the live `dropdown-select-menu` demo with an interactive loading-state preview toggle.
+
 ## [1.55.0] - 2026-11-27
 
 ### Added

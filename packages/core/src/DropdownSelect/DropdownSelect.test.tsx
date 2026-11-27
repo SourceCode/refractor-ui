@@ -154,4 +154,40 @@ describe('DropdownSelect', () => {
     expect(screen.getByRole('option')).toHaveTextContent(payload);
     expect(document.querySelector('script')).toBeNull();
   });
+
+  it('omits the C-ring loader by default and renders it only when loading={true}', () => {
+    const { rerender } = render(
+      <DropdownSelect
+        label="Async Role"
+        options={OPTIONS}
+        value="alabaster"
+        onChange={vi.fn()}
+        data-testid="async-select"
+      />
+    );
+
+    const root = screen.getByTestId('async-select');
+    const trigger = screen.getByRole('button', { name: 'Async Role' });
+    expect(screen.queryByTestId('dropdown-select-loader')).not.toBeInTheDocument();
+    expect(root).not.toHaveAttribute('data-loading');
+    expect(trigger).not.toHaveAttribute('aria-busy');
+
+    rerender(
+      <DropdownSelect
+        label="Async Role"
+        options={OPTIONS}
+        value="alabaster"
+        onChange={vi.fn()}
+        loading
+        data-testid="async-select"
+      />
+    );
+
+    const loader = screen.getByTestId('dropdown-select-loader');
+    expect(loader).toBeInTheDocument();
+    expect(loader).toHaveClass('animate-spin', 'motion-reduce:animate-none');
+    expect(root).toHaveAttribute('data-loading', 'true');
+    expect(trigger).toHaveAttribute('aria-busy', 'true');
+    expect(trigger).toBeDisabled();
+  });
 });

@@ -34,6 +34,8 @@ export interface DropdownSelectProps extends DropdownSelectBaseProps {
   placeholder?: string;
   /** Disables opening the dropdown and selecting options. */
   disabled?: boolean;
+  /** Displays the optional optical C-ring spinner inside the select trigger while options are loading. */
+  loading?: boolean;
 }
 
 function DropdownSelectInner({
@@ -43,6 +45,7 @@ function DropdownSelectInner({
   label,
   placeholder = 'Select',
   disabled = false,
+  loading = false,
   className,
   style,
   xstyle,
@@ -59,7 +62,7 @@ function DropdownSelectInner({
 
   const selectedOption = options.find((o) => o.value === value);
   const hasOptions = options.length > 0;
-  const isOpen = open && !disabled && hasOptions;
+  const isOpen = open && !disabled && !loading && hasOptions;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -73,7 +76,7 @@ function DropdownSelectInner({
   }, [isOpen]);
 
   const merged = mergeProps({
-    themeTarget: themeProps('dropdown-select', { open: isOpen, disabled }),
+    themeTarget: themeProps('dropdown-select', { open: isOpen, disabled, loading }),
     baseClassName: 'relative w-full',
     overrideClassName: override?.className,
     userClassName: className,
@@ -100,7 +103,8 @@ function DropdownSelectInner({
       ) : null}
       <button
         type="button"
-        disabled={disabled || !hasOptions}
+        disabled={disabled || loading || !hasOptions}
+        aria-busy={loading || undefined}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={isOpen ? listboxId : undefined}
@@ -109,18 +113,20 @@ function DropdownSelectInner({
         className="prism-crystal prism-focus-ring w-full h-14 rounded-full pl-5 pr-2.5 flex items-center justify-between gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <span className="flex items-center gap-3 min-w-0">
-          {/* Iconic 3/4 optical C-ring */}
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            className="w-5 h-5 text-slate-800 dark:text-slate-100 shrink-0 prism-contain-box"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-          >
-            <path d="M18.36 6.64A9 9 0 1 0 18.36 17.36" />
-          </svg>
+          {loading ? (
+            <svg
+              aria-hidden="true"
+              data-testid="dropdown-select-loader"
+              viewBox="0 0 24 24"
+              className="w-5 h-5 text-slate-800 dark:text-slate-100 shrink-0 prism-contain-box animate-spin motion-reduce:animate-none"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+            >
+              <path d="M18.36 6.64A9 9 0 1 0 18.36 17.36" />
+            </svg>
+          ) : null}
           <span className="text-[15px] font-medium text-slate-800 dark:text-slate-100 truncate">
             {selectedOption ? selectedOption.label : placeholder}
           </span>
