@@ -1687,4 +1687,109 @@
 [data-refractor-sharp="true"] :is(button, a, [role="tab"], [role="tablist"], [role="group"], .prism-crystal, .prism-well, .prism-toast, .prism-emerald).rounded-full {
   border-radius: var(--prism-radius-control);
 }
+
+/* ==========================================================================
+   v1.53.0–v1.55.0: Optical Material Tiers, Density Modes, Prismatic Focus & A11y
+   ========================================================================== */
+
+/* Optical Material Presets (Wafer, Lens, Prism) */
+.prism-material-wafer {
+  background: rgba(var(--prism-surface-rgb, 255, 255, 255), var(--prism-material-tint-opacity, 0.56));
+  backdrop-filter: blur(var(--prism-material-blur, 8px)) saturate(130%);
+  -webkit-backdrop-filter: blur(var(--prism-material-blur, 8px)) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.prism-material-lens {
+  background: rgba(var(--prism-surface-rgb, 255, 255, 255), var(--prism-material-tint-opacity, 0.68));
+  backdrop-filter: blur(var(--prism-material-blur, 14px)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--prism-material-blur, 14px)) saturate(150%);
+  border: 1.5px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.14), inset 0 1.5px 0 rgba(255, 255, 255, 0.55);
+}
+
+.prism-material-prism {
+  background: rgba(var(--prism-surface-rgb, 255, 255, 255), var(--prism-material-tint-opacity, 0.78));
+  backdrop-filter: blur(var(--prism-material-blur, 20px)) saturate(175%);
+  -webkit-backdrop-filter: blur(var(--prism-material-blur, 20px)) saturate(175%);
+  border: 2px solid rgba(255, 255, 255, 0.58);
+  box-shadow:
+    0 16px 40px rgba(15, 23, 42, 0.2),
+    -1px 0 0 rgba(var(--prism-primary-rgb, 232, 93, 4), 0.32),
+    1px 0 0 rgba(var(--prism-secondary-rgb, 56, 189, 248), 0.32),
+    inset 0 2px 0 rgba(255, 255, 255, 0.72);
+}
+
+/* Global Density & Scale Modes */
+[data-refractor-density="compact"] {
+  --prism-density-scale: 0.85;
+  --prism-hit-target-min: 30px;
+  --prism-space-unit: 6px;
+  --prism-radius-scale: 0.85;
+  --prism-border-thickness: 1px;
+}
+
+[data-refractor-density="comfortable"] {
+  --prism-density-scale: 1;
+  --prism-hit-target-min: 38px;
+  --prism-space-unit: 8px;
+  --prism-radius-scale: 1;
+  --prism-border-thickness: 1.5px;
+}
+
+[data-refractor-density="touch"] {
+  --prism-density-scale: 1.2;
+  --prism-hit-target-min: 48px;
+  --prism-space-unit: 12px;
+  --prism-radius-scale: 1.15;
+  --prism-border-thickness: 2px;
+}
+
+/* High-Contrast Double-Ring Prismatic Keyboard Focus Indicator */
+.prism-focus-prismatic:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(15, 23, 42, 0.92),
+    0 0 0 4.5px rgba(var(--prism-primary-rgb, 232, 93, 4), 0.95),
+    0 0 14px rgba(var(--prism-secondary-rgb, 56, 189, 248), 0.65);
+}
+
+/* Calm Reduced-Motion Spatial Suppression */
+[data-refractor-motion="calm"] :is(.refractor-spatial-depth-deck, .refractor-morphing-media-gallery) {
+  scroll-behavior: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .refractor-spatial-depth-deck,
+  .refractor-morphing-media-gallery {
+    scroll-behavior: auto;
+  }
+}
+
+/* Reduced-Transparency & High-Contrast Accessibility Overrides */
+[data-refractor-reduced-transparency="true"] :is(.prism-slab, .prism-crystal, .prism-material-wafer, .prism-material-lens, .prism-material-prism) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: var(--prism-bg-paper, #ffffff) !important;
+}
+
+[data-refractor-high-contrast="true"] :is(.prism-slab, .prism-crystal, .prism-well, .prism-material-wafer, .prism-material-lens, .prism-material-prism) {
+  border-width: 2px !important;
+  border-color: currentColor !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :is(.prism-slab, .prism-crystal, .prism-material-wafer, .prism-material-lens, .prism-material-prism) {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :is(.prism-slab, .prism-crystal, .prism-well, .prism-material-wafer, .prism-material-lens, .prism-material-prism) {
+    border-width: 2px;
+  }
+}
 }

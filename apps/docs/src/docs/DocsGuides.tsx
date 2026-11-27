@@ -167,7 +167,7 @@ export const studioTheme = defineTheme({
   },
 });`;
 
-const CLI_SNIPPET = `# List all 339 components grouped across 58 canonical categories
+const CLI_SNIPPET = `# List all 359 components grouped across 61 canonical categories
 npx @refractor-ui/cli component --list
 
 # Inspect props, accessibility & examples (compact --dense mode for AI agents)
@@ -211,7 +211,7 @@ const ADRS = [
 ] as const;
 
 const SECURITY_INVARIANTS = [
-  { title: 'Zero Unsafe HTML Injection', detail: 'Enforced by @refractor/no-dangerous-html and verified statically across all 339 components. RichTextEditor uses an allowlist AST sanitizer.' },
+  { title: 'Zero Unsafe HTML Injection', detail: 'Enforced by @refractor/no-dangerous-html and verified statically across all 359 components. RichTextEditor uses an allowlist AST sanitizer.' },
   { title: 'Strict URL & Color Allowlisting', detail: 'sanitizeUrl() blocks javascript:, vbscript:, data:text/html, and control-char obfuscation across avatars, croppers, and editors.' },
   { title: 'OWASP CSV Formula Neutralization', detail: 'AdvancedDataGrid prefixes =, +, -, @, tab, and carriage return cells with a single quote via sanitizeCsvCell() before export.' },
   { title: 'Prototype Pollution Immunity', detail: 'PivotTable, AdvancedDataGrid, VisualQueryBuilder, and GlobalSearchModal isolate dynamic keys inside ES Maps (__proto__/constructor safe).' },
@@ -283,7 +283,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
             </h2>
             <p className="text-xs text-slate-600 dark:text-slate-300">
               Explore single-hex MUI color derivation, Open-Internals cascade overrides, or jump straight into
-              the 339-component catalog.
+              the 359-component catalog.
             </p>
           </div>
           <div className="flex flex-wrap gap-2.5">
@@ -298,7 +298,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
               size="sm"
               onClick={() => dispatch(setActiveCategory('overview'))}
             >
-              Browse 339 Components
+              Browse 359 Components
             </SecondaryButton>
           </div>
         </div>
@@ -322,7 +322,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
               Every primitive reads from <code className="font-mono">--prism-*</code> tokens and{' '}
               <code className="font-mono">[data-refractor-material]</code> /{' '}
               <code className="font-mono">[data-refractor-fx]</code> cascades. Click any of the 67
-              themes below (5 Optical Glass presets + 62 multi-material themes) to transform all 339
+              themes below (5 Optical Glass presets + 62 multi-material themes) to transform all 359
               components live with on-demand Google Fonts and GPU-friendly FX.
             </p>
           </div>
@@ -340,7 +340,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
         <CodeBlockCard
           title="Full-Transformation Multi-Material Themes (@refractor-ui/themes)"
           filename="src/App.tsx"
-          code={`import { PrismThemeProvider } from '@refractor-ui/core';\nimport { cyberpunkTheme, getThemeById, windows95Theme } from '@refractor-ui/themes';\n\n// Activate any of the 67 built-in themes with on-demand Google Fonts & FX\nexport function App() {\n  return (\n    <PrismThemeProvider theme={getThemeById('win11-mica') ?? windows95Theme} loadFonts>\n      {/* All 339 components adapt materials, corners, shadows, fonts & wallpapers */}\n    </PrismThemeProvider>\n  );\n}`}
+          code={`import { PrismThemeProvider } from '@refractor-ui/core';\nimport { cyberpunkTheme, getThemeById, windows95Theme } from '@refractor-ui/themes';\n\n// Activate any of the 67 built-in themes with on-demand Google Fonts & FX\nexport function App() {\n  return (\n    <PrismThemeProvider theme={getThemeById('win11-mica') ?? windows95Theme} loadFonts>\n      {/* All 359 components adapt materials, corners, shadows, fonts & wallpapers */}\n    </PrismThemeProvider>\n  );\n}`}
         />
 
         <CodeBlockCard
@@ -444,7 +444,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
         <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
           Refractor enforces strict component engineering contracts at compile time, lint time, and test time —
           achieving <strong>99.7%+ statement coverage</strong>, <strong>0 high/critical CVEs</strong>,
-          <strong> 100% React.memo coverage across all 339 components</strong>, and automatic nested GPU
+          <strong> 100% React.memo coverage across all 359 components</strong>, and automatic nested GPU
           blur elision for sustained 60fps enterprise application workloads.
         </p>
       </div>
@@ -459,12 +459,12 @@ export function DocsGuides({ section }: DocsGuidesProps) {
             {
               title: 'Pure Tree-Shaking & Zero Nested Blur Stalls',
               detail:
-                'All 339 components use /*#__PURE__*/ memoWithDisplayName and @refractor-ui/themes exposes sideEffects-clean subpath exports; 12px/14px GPU blur kernels plus automatic depth-2+ and [data-refractor-blur-host="true"] elision eliminate redundant GPU readbacks.',
+                'All 359 components use /*#__PURE__*/ memoWithDisplayName and @refractor-ui/themes exposes sideEffects-clean subpath exports; 12px/14px GPU blur kernels plus automatic depth-2+ and [data-refractor-blur-host="true"] elision eliminate redundant GPU readbacks.',
             },
             {
               title: '100% React.memo & Split Override Context',
               detail:
-                'All 339 components are memoized, hoist stableClassName resolvers to module scope, and subscribe to a dedicated ComponentOverridesContext so theme, mode, and refraction changes trigger zero React re-renders.',
+                'All 359 components are memoized, hoist stableClassName resolvers to module scope, and subscribe to a dedicated ComponentOverridesContext so theme, mode, and refraction changes trigger zero React re-renders.',
             },
             {
               title: 'SVG Containment, 60fps Drag Coalescing & content-visibility',
@@ -546,7 +546,7 @@ export function DocsGuides({ section }: DocsGuidesProps) {
           <span>Multi-Device Responsive Verification Matrix (Desktop, Tablet &amp; Mobile)</span>
         </h2>
         <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-          All 339 components and documentation views are validated across modern iOS, Android (including
+          All 359 components and documentation views are validated across modern iOS, Android (including
           Google Pixel 10), tablet, and desktop aspect ratios with automated Vitest viewport matrix checks
           and live Chromium overflow inspection.
         </p>

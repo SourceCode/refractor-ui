@@ -9,6 +9,7 @@ export type {
   RefractionIntensity,
   ThemeCollectionCategory,
   ThemeControlsLayout,
+  ThemeDensityMode,
   ThemeEditorColors,
   ThemeFxConfig,
   ThemeMaterial,

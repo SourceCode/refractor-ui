@@ -79,7 +79,10 @@ export type DocsCategoryFilter =
   | 'desktop-surfaces-dialogs'
   | 'gradient-ai-glow-fx'
   | 'shader-optical-fx'
-  | 'loaders-skeletons-transitions';
+  | 'loaders-skeletons-transitions'
+  | 'motion-gestures-scroll'
+  | 'animated-media-tooling'
+  | 'optical-material-a11y-dx';
 
 export type DocsPageSection =
   | 'catalog'

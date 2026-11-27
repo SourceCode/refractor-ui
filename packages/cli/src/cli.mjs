@@ -65,6 +65,9 @@ const CANONICAL_CATEGORY_ORDER = [
   'Dynamic Gradient & AI-Glow FX',
   'Shader & Optical FX',
   'Loaders, Skeletons & Data Transitions',
+  'Motion, Gestures & Scroll',
+  'Animated Media & Motion Tooling',
+  'Optical Material, A11y & Composition',
 ];
 
 const DOC_TOPICS = {

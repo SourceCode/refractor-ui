@@ -7,6 +7,67 @@ and this project adheres strictly to [Semantic Versioning 2.0.0](https://semver.
 
 ## [Unreleased]
 
+## [1.55.0] - 2026-11-27
+
+### Added
+- **Accessibility (A11y) & Resilience Suite (`REF-5501`–`REF-5504`):**
+  - `PrismThemeProvider` & `useA11yPreferences`: Added explicit `reducedTransparency` and `highContrast` props (`data-refractor-reduced-transparency`, `data-refractor-high-contrast`) plus automatic OS `@media (prefers-reduced-transparency: reduce)` and `@media (prefers-contrast: more)` CSS rules swapping translucent frosted surfaces for solid high-contrast surfaces and crisp 2px borders.
+  - `useRovingTabIndex`: Built-in arrow-key (`horizontal`/`vertical`/`both`), `Home`/`End`, timed typeahead search, `Escape`, wrap-around, and disabled-item skipping focus manager for menus, toolbars, tabs, trees, and window switchers.
+  - `FocusPrismaticRing` & `.prism-focus-prismatic`: High-contrast double-ring keyboard `:focus-visible` indicator (2px inner dark keyline + 4.5px outer luminous prismatic halo) visible over both bright and dark glass surfaces.
+  - `LiveAnnouncerProvider`, `useLiveAnnouncer` & `LiveAnnouncerRegion`: Dedicated `polite` and `assertive` ARIA live-region channels with duplicate-message nudging for streaming AI tokens, toasts, file transfers, and validation errors.
+- **Open-Internals Architecture & DX Suite (`REF-5505`–`REF-5508`):**
+  - Headless Behavioral Primitives (`packages/core/src/headless/`): `useHeadlessButton`, `useHeadlessDisclosure`, `useHeadlessTabs`, and `useHeadlessMenu` separating state, keyboard navigation, and ARIA attributes from the optical glass visual skin.
+  - `Slot`: Polymorphic `asChild` composition component merging refs, event handlers, `className`, `style`, and `xstyle` directly onto custom elements without wrapper `<div>` soup.
+  - `OpticalCard`: Structured compound component API (`OpticalCard.Root`, `OpticalCard.PrismEdge`, `OpticalCard.Header`, `OpticalCard.Body`, `OpticalCard.Footer`) sharing material tier and density context.
+  - Strict TypeScript Contracts (`packages/core/src/utils/strictContracts.ts`): Discriminated union prop contracts (`AccessibleIconActionProps` enforcing `aria-label` or `aria-labelledby` for `iconOnly: true`) and literal token unions (`OpticalMaterialTier`, `MotionTokenName`, `ThemeDensityMode`, `SemanticColorToken`).
+- **Sensory & Tactile Feedback Suite (`REF-5509`–`REF-5510`):**
+  - Synthesized Micro-Audio Engine (`packages/core/src/sensory/microAudio.ts`): Opt-in Web Audio API procedural sound layer (`useMicroAudio`, `synthesizeMicroSound`) generating glass clicks, hover ticks, detent ticks, chimes, and error thuds with zero external audio assets.
+  - Haptic Feedback Hooks (`packages/core/src/sensory/haptics.ts`): `triggerHaptic` and `useHaptics` (`light`, `medium`, `rigid`, `selection`, `success`, `error`) via `navigator.vibrate` with graceful fallback.
+- **Epics, Releases & Tickets Roadmap (`docs/roadmap/v1.53.0-v1.55.0-epics-releases-tickets.md`):**
+  - Added full 3-release, 9-epic, 35-ticket engineering specification (`REF-5301`–`REF-5513`).
+
+### Changed
+- Expanded `@refractor-ui/core` catalog from **339 → 359 components** across **61 canonical categories** (`Motion, Gestures & Scroll`, `Animated Media & Motion Tooling`, `Optical Material, A11y & Composition`), updated `apps/docs` interactive Workbench (`MotionGesturesScrollDemos`, `AnimatedMediaToolingDemos`, `OpticalMaterialA11yDxDemos`, `registry.ts`, `ComponentDemos.tsx`, `DocsGuides.tsx`, `index.html`), `@refractor-ui/cli`, and `README.md`.
+- Verified **99.46% lines / 99.12% statements / 99.41% functions / 98.19% branches** global test coverage, zero `any`/`unknown` across 1,231 TypeScript files, strict ESLint clean, and GitHub Pages bundle verified (`pnpm build:pages`).
+
+## [1.54.0] - 2026-11-27
+
+### Added
+- **Optical Material & Dynamic Theming Engine (`REF-5401`–`REF-5404`):**
+  - `AdaptiveContrastGlass` & `resolveAdaptiveInkMode` (`packages/core/src/utils/opticalMaterial.ts`): Computes WCAG 2.1 sRGB relative luminance of backdrop colors and flips foreground text, icons, and inner bevels between `dark-ink` and `light-ink` modes.
+  - `OpticalMaterialSurface` & `OPTICAL_MATERIAL_PRESETS`: Standardized physical glass grades (`wafer`, `lens`, `prism`) with centralized IOR, blur, thickness, and dispersion tokens plus `.prism-material-wafer/.lens/.prism` CSS classes.
+  - `AmbientAccentExtractor`, `extractDominantAccents` & `sampleRgbaPixelsToAccents`: Saturation-ranked primary & secondary accent extraction from wallpaper swatches or RGBA pixel buffers to tint `--prism-primary-rgb`/`--prism-secondary-rgb` rim glows in real time.
+  - Global Density & Scale Modes (`ThemeDensityMode = 'compact' | 'comfortable' | 'touch'`): Added `density` prop on `PrismThemeProvider` emitting `data-refractor-density` and proportional spacing, hit-target, corner-radius, and border-thickness tokens.
+- **GPU & Shader Performance Guardrails (`REF-5405`–`REF-5408`):**
+  - Single-Context WebGL Shader Pool (`packages/core/src/utils/shaderPool.ts`): `OpticalShaderPool`, `getSharedShaderPool`, and `usePooledOpticalShader` routing multiple refractive panels through one shared offscreen WebGL context.
+  - Automatic Tiered Fallbacks (`packages/core/src/utils/gpuGuardrails.ts`): `detectGpuCapabilityTier`, `stepDownGpuTier`, and `useGpuPerformanceGuardrail` degrading `'webgl-refraction'` → `'css-backdrop'` → `'flat-opaque'` on low-power devices, battery saver, or consecutive slow frames.
+  - Viewport & Focus Shader Pausing (`useViewportVisibilityPause`): Combines `IntersectionObserver`, Page Visibility, and window focus listeners to pause off-screen or background-tab shader loops.
+  - Sub-Pixel & DPR Scaling (`useDprMetrics`, `snapToDevicePixel`, `getHairlineWidthPx`): Locks glass borders, hairlines, and shader uniforms to `window.devicePixelRatio`.
+
+## [1.53.0] - 2026-11-27
+
+### Added
+- **Core Motion Engine & Layout Primitives (`REF-5301`–`REF-5305`):**
+  - Physics-Driven Spring Solver & CSS `linear()` Compiler (`packages/core/src/motion/springPhysics.ts`): `simulateSpring`, `evaluateSpringAt`, `compileSpringToCssLinear`, `computeScaleCorrectedRadius`, and `computeScaleCorrectedShadow`.
+  - Hardware-Accelerated Hybrid Engine (`packages/core/src/motion/hybridEngine.ts`): `animateHybrid`, `supportsWaapi`, `supportsScrollTimeline`, and `isCompositorProperty` offloading eligible transforms/opacity to WAAPI and `ScrollTimeline`.
+  - `LayoutMotionBox`: Scale-corrected FLIP layout animations preventing border-radius and box-shadow distortion on thick glass pills and cards.
+  - `SharedLayoutProvider` & `SharedElementTransition`: `layoutId`-keyed shared element morphing across tabs, cards, modals, and command palettes.
+  - `AnimatePresence`, `usePresence` & `useIsPresent`: Exit-retaining DOM presence coordinator (`sync`, `wait`, `popLayout`) with `onExitComplete`.
+- **Native Gestures, Cursors & Scroll Mechanics (`REF-5306`–`REF-5309`):**
+  - `useGestures`, `computeMomentumTarget` & `GestureSurface`: Touch-safe hover, pointer + IME-safe keyboard tap, focus, and momentum-throwing drag.
+  - `MagneticCursor`: Zero-rerender rAF-coalesced cursor reticle snapping magnetically toward `[data-magnetic-target]` elements and morphing to match target bounds.
+  - `useScrollProgress`, `scrollProgress`, `mapScrollRange` & `ScrollLinkedStage`: Scroll-linked blur intensity, reading progress bars, and parallax layers with sticky pinning.
+  - `SpatialDepthDeck`: GPU-accelerated 3D perspective & spatial layering (`depth-deck`, `spin-blur`, `deeper-elements`).
+- **Animated Text, Numbers, Media & Motion Tooling (`REF-5310`–`REF-5317`):**
+  - `AnimateNumber`: Tabular-nums spring-interpolated numeric readout for KPIs, audio dB meters, and token counters.
+  - `SplitTextReveal`: `words`/`chars`/`lines` masked typography sweeps adapting via `ResizeObserver`.
+  - `SvgPathAnimator`: SVG stroke-path drawing (`pathLength`) and `viewBox` animation presets (`checkmark`, `ring`, `sparkline`, `prism-loader`).
+  - `MorphingMediaGallery`: 2D/3D transitioning media container (`grid-2d`, `carousel-3d`, `coverflow-3d`, `detail`).
+  - Semantic Motion Theme (`motion.theme.ts`): `MOTION_THEME` and `createMotionTheme` standardizing `snap`, `ui`, `gentle`, `lively`, and `ambient` tokens.
+  - Calm Reduced-Motion Mode (`MotionConfigProvider` / `useMotionConfig`): `reducedMotion="calm"` disabling spatial transforms while preserving subtle opacity fades.
+  - `MotionStudio`: Live visual spring/curve editor with SVG graph and compiled CSS `linear()` code export.
+  - `MotionPerformanceDoctor`, `auditMotionSource`, `evaluateFrameTimings` & `computeMotionScore`: Static & runtime compositor profiler grading animation cost (A–F, 0–100).
+
 ## [1.52.0] - 2026-11-25
 
 ### Added

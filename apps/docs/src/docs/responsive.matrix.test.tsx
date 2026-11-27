@@ -164,7 +164,7 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
   it.each(MATRIX_VIEWPORTS)(
     'renders ALL registered components with valid responsive DOM invariants on $name ($width×$height)',
     (viewport) => {
-      expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(339);
+      expect(COMPONENT_REGISTRY.length).toBeGreaterThanOrEqual(359);
       expect(DOC_CATEGORIES.length).toBeGreaterThanOrEqual(55);
 
       applyViewportToWindow(viewport);
@@ -248,11 +248,11 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
       expect(/webos[- ]v3/i.test(mainText)).toBe(false);
       expect(/\bmui\b/i.test(mainText)).toBe(false);
 
-      // Verify Getting Started guide displays updated 339-component count cleanly
+      // Verify Getting Started guide displays updated 359-component count cleanly
       fireEvent.click(sidebarToggle);
       const gettingStartedBtns = screen.getAllByRole('button', { name: /Getting Started/i });
       fireEvent.click(gettingStartedBtns[gettingStartedBtns.length - 1]!);
-      expect(screen.getByText(/Browse 339 Components/i)).toBeInTheDocument();
+      expect(screen.getByText(/Browse 359 Components/i)).toBeInTheDocument();
 
       // Open focused single-component view with long title & verify wrapping Breadcrumbs + Prev/Next
       act(() => {
@@ -289,11 +289,11 @@ describe('Multi-Device Responsive Matrix (Mobile, Tablet & Desktop)', () => {
     }
   );
 
-  it('enforces static responsive guardrails across all 339 core component source files', () => {
+  it('enforces static responsive guardrails across all 359 core component source files', () => {
     const testDir = path.dirname(fileURLToPath(import.meta.url));
     const coreSrcDir = path.resolve(testDir, '../../../../packages/core/src');
     const componentFiles = collectCoreComponentTsxFiles(coreSrcDir);
-    expect(componentFiles.length).toBeGreaterThanOrEqual(339);
+    expect(componentFiles.length).toBeGreaterThanOrEqual(359);
 
     const violations: string[] = [];
 

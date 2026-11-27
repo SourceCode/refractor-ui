@@ -1,6 +1,7 @@
 import { AiAgentControlDemos } from './demos/AiAgentControlDemos';
 import { AiContextMemoryDemos } from './demos/AiContextMemoryDemos';
 import { AiConversationalDemos } from './demos/AiConversationalDemos';
+import { AnimatedMediaToolingDemos } from './demos/AnimatedMediaToolingDemos';
 import { AudioMixingDemos } from './demos/AudioMixingDemos';
 import { ChartChromeDemos } from './demos/ChartChromeDemos';
 import { CliTerminalDemos } from './demos/CliTerminalDemos';
@@ -33,9 +34,11 @@ import { LoadersSkeletonsTransitionsDemos } from './demos/LoadersSkeletonsTransi
 import { MediaSpatialDemos } from './demos/MediaSpatialDemos';
 import { MenusLaunchersDemos } from './demos/MenusLaunchersDemos';
 import { MobileUtilitiesDemos } from './demos/MobileUtilitiesDemos';
+import { MotionGesturesScrollDemos } from './demos/MotionGesturesScrollDemos';
 import { MultiAgentDemos } from './demos/MultiAgentDemos';
 import { NumberCurrencyDemos } from './demos/NumberCurrencyDemos';
 import { ObservabilityWidgetsDemos } from './demos/ObservabilityWidgetsDemos';
+import { OpticalMaterialA11yDxDemos } from './demos/OpticalMaterialA11yDxDemos';
 import { PartToWholeChartsDemos } from './demos/PartToWholeChartsDemos';
 import { PhotoColorGradingDemos } from './demos/PhotoColorGradingDemos';
 import { RelationalFlowChartsDemos } from './demos/RelationalFlowChartsDemos';
@@ -505,6 +508,35 @@ const LOADERS_SKELETONS_TRANSITIONS_IDS = new Set([
   'scanline-radar-sweep',
 ]);
 
+const MOTION_GESTURES_SCROLL_IDS = new Set([
+  'layout-motion-box',
+  'shared-element-transition',
+  'animate-presence',
+  'gesture-surface',
+  'magnetic-cursor',
+  'scroll-linked-stage',
+  'spatial-depth-deck',
+]);
+
+const ANIMATED_MEDIA_TOOLING_IDS = new Set([
+  'animate-number',
+  'split-text-reveal',
+  'svg-path-animator',
+  'morphing-media-gallery',
+  'motion-studio',
+  'motion-performance-doctor',
+]);
+
+const OPTICAL_MATERIAL_A11Y_DX_IDS = new Set([
+  'adaptive-contrast-glass',
+  'optical-material-surface',
+  'ambient-accent-extractor',
+  'focus-prismatic-ring',
+  'live-announcer-region',
+  'slot-polymorphic',
+  'optical-card-compound',
+]);
+
 export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   if (LAYOUT_IDS.has(componentId)) {
     return <LayoutDemos componentId={componentId} />;
@@ -661,6 +693,15 @@ export function ComponentLiveDemo({ componentId }: ComponentLiveDemoProps) {
   }
   if (LOADERS_SKELETONS_TRANSITIONS_IDS.has(componentId)) {
     return <LoadersSkeletonsTransitionsDemos componentId={componentId} />;
+  }
+  if (MOTION_GESTURES_SCROLL_IDS.has(componentId)) {
+    return <MotionGesturesScrollDemos componentId={componentId} />;
+  }
+  if (ANIMATED_MEDIA_TOOLING_IDS.has(componentId)) {
+    return <AnimatedMediaToolingDemos componentId={componentId} />;
+  }
+  if (OPTICAL_MATERIAL_A11Y_DX_IDS.has(componentId)) {
+    return <OpticalMaterialA11yDxDemos componentId={componentId} />;
   }
   return <CoreDemos componentId={componentId} />;
 }

@@ -12,6 +12,7 @@ import type {
   PrismTheme,
   PrismThemeOptions,
   RefractionIntensity,
+  ThemeDensityMode,
   ThemeMode,
   ThemePerformanceMode,
 } from './types';
@@ -79,6 +80,18 @@ export interface PrismThemeProviderProps {
    */
   performanceMode?: ThemePerformanceMode;
   /**
+   * Global layout density & hit-target scale mode (`'compact' | 'comfortable' | 'touch'`).
+   */
+  density?: ThemeDensityMode;
+  /**
+   * Explicit reduced-transparency override (automatically honors OS `prefers-reduced-transparency: reduce` when omitted).
+   */
+  reducedTransparency?: boolean;
+  /**
+   * Explicit high-contrast override (automatically honors OS `prefers-contrast: more` when omitted).
+   */
+  highContrast?: boolean;
+  /**
    * 'root' injects CSS custom properties & material/FX data attributes onto document.documentElement (default).
    * 'local' wraps children in a scoped container with cascade tokens (supports nested themes).
    */
@@ -97,6 +110,9 @@ export function PrismThemeProvider({
   mode,
   refraction,
   performanceMode = 'balanced',
+  density = 'comfortable',
+  reducedTransparency = false,
+  highContrast = false,
   scope = 'root',
   loadFonts = true,
   className,
@@ -196,6 +212,9 @@ export function PrismThemeProvider({
       ['data-refractor-theme-adaptive', resolvedTheme.fx.adaptiveInk ? 'true' : 'false'],
       ['data-refractor-sharp', resolvedTheme.fx.sharpCorners ? 'true' : 'false'],
       ['data-refractor-performance', performanceMode],
+      ['data-refractor-density', density],
+      ['data-refractor-reduced-transparency', reducedTransparency ? 'true' : 'false'],
+      ['data-refractor-high-contrast', highContrast ? 'true' : 'false'],
     ];
 
     for (let i = 0; i < attrs.length; i += 1) {
@@ -222,7 +241,7 @@ export function PrismThemeProvider({
       }
     }
     previousRootVarsRef.current = nextMap;
-  }, [cssVars, performanceMode, resolvedTheme, scope]);
+  }, [cssVars, density, highContrast, performanceMode, reducedTransparency, resolvedTheme, scope]);
 
   const localStyle = useMemo<OpticalStyleTokens>(
     () => ({
@@ -253,6 +272,9 @@ export function PrismThemeProvider({
             data-refractor-theme-adaptive={resolvedTheme.fx.adaptiveInk ? 'true' : 'false'}
             data-refractor-sharp={resolvedTheme.fx.sharpCorners ? 'true' : 'false'}
             data-refractor-performance={performanceMode}
+            data-refractor-density={density}
+            data-refractor-reduced-transparency={reducedTransparency ? 'true' : 'false'}
+            data-refractor-high-contrast={highContrast ? 'true' : 'false'}
             className={localClassName}
             style={localStyle}
           >
