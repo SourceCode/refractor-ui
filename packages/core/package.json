@@ -1393,7 +1393,7 @@
     "react-dom": ">=19.0.0"
   },
   "dependencies": {
-    "lucide-react": "^0.546.0"
+    "lucide-react": "^1.80.0"
   },
   "homepage": "https://sourcecode.github.io/refractor-ui/",
   "repository": {

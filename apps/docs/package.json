@@ -20,7 +20,7 @@
     "@refractor-ui/theme-solar-prism": "workspace:*",
     "@refractor-ui/themes": "workspace:*",
     "@reduxjs/toolkit": "^2.15.0",
-    "lucide-react": "^0.546.0",
+    "lucide-react": "^1.80.0",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "react-redux": "^9.3.1"
